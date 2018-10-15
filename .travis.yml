@@ -11,7 +11,10 @@ services:
 - docker
 
 before_install:
-- docker run -it opensuse bash -c "sudo zypper update"
+- docker pull opensuse
+- docker ps -a
+- docker run -it opensuse bash -c "uname -a"
+- docker run -it opensuse uname -a
 
 install:
 - docker run -it opensuse bash -c "git clone git://anongit.kde.org/extra-cmake-modules"
