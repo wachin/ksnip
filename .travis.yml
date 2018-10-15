@@ -10,41 +10,11 @@ git:
 services:
 - docker
 
-
 before_install:
 - docker pull opensuse
 
-
-install:
-- docker run -it opensuse bash
-- zypper --non-interactive in git cmake extra-cmake-modules patterns-openSUSE-devel_C_C++ libqt5-linguist-devel libqt5-qtdeclarative-devel
-- git clone git://github.com/DamirPorobic/kColorPicker
-- cd kColorPicker
-- mkdir build && cd build
-- cmake ..
-- make && make install
-- ldconfig
-- cd ../..
-- git clone git://github.com/DamirPorobic/kImageAnnotator
-- cd kImageAnnotator
-- mkdir build && cd build
-- cmake ..
-- make && sudo make install
-- sudo ldconfig
-- cd ../..
-
-
 script:
-- export VERSION=$(git rev-list --count HEAD)-$(git rev-parse --short HEAD) # required for version sufix
-- cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DVERSION_SUFIX=$VERSION
-- make -j$(nproc)
-- make DESTDIR=appdir -j$(nproc) install ; find appdir/
-- mkdir appdir/usr/bin ; mv appdir/bin/ksnip ./appdir/usr/bin/ ; rm -r ./appdir/bin
-- wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-- chmod a+x linuxdeployqt-continuous-x86_64.AppImage
-- unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-- ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs
-- ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -appimage
+- docker run -v `pwd`:`pwd` -w `pwd` -it opensuse bash -c "./scripts/build_appImage.sh"
 
 after_success:
 #  - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
