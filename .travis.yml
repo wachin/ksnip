@@ -13,10 +13,10 @@ services:
 
 before_install:
 - docker pull opensuse
-- docker run -it opensuse bash
 
 
 install:
+- docker run -it opensuse bash
 - zypper --non-interactive in git cmake extra-cmake-modules patterns-openSUSE-devel_C_C++ libqt5-linguist-devel libqt5-qtdeclarative-devel
 - git clone git://github.com/DamirPorobic/kColorPicker
 - cd kColorPicker
