@@ -8,19 +8,19 @@ git:
   depth: false
 
 services:
-- docker
+  - docker
 
 before_install:
-- docker pull opensuse
-- docker ps -a
-- docker run -it opensuse bash -c "uname -a"
-- docker run -it opensuse uname -a
+  - docker pull opensuse:42.3
+  - docker ps -a
+  - docker run -it opensuse bash -c "uname -a"
+  - docker run -it opensuse uname -a
 
 install:
-- docker run -it opensuse bash -c "git clone git://anongit.kde.org/extra-cmake-modules"
-- docker run -it opensuse bash -c "cd extra-cmake-modules"
-- docker run -it opensuse bash -c "mkdir build && cd build"
-- docker run -it opensuse bash -c "cmake .. && make && sudo make install"
+#- docker run -it opensuse bash -c "git clone git://anongit.kde.org/extra-cmake-modules"
+#- docker run -it opensuse bash -c "cd extra-cmake-modules"
+#- docker run -it opensuse bash -c "mkdir build && cd build"
+#- docker run -it opensuse bash -c "cmake .. && make && sudo make install"
 #  - sudo apt-get -y install qt56base qt56x11extras qt56tools
 #  - source /opt/qt*/bin/qt*-env.sh
 #  - git clone git://anongit.kde.org/extra-cmake-modules
