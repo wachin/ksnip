@@ -21,3 +21,5 @@ cd ../..
 export VERSION=$(git rev-list --count HEAD)-$(git rev-parse --short HEAD) # required for version sufix
 cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DVERSION_SUFIX=$VERSION
 make -j$(nproc)
+make DESTDIR=appdir -j$(nproc) install ; find appdir/
+mkdir appdir/usr/bin ; mv appdir/bin/ksnip ./appdir/usr/bin/ ; rm -r ./appdir/bin
