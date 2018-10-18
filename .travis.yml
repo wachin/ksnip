@@ -15,7 +15,7 @@ before_install:
 
 script:
 - docker run -v `pwd`:`pwd` -w `pwd` -it opensuse bash -c "./scripts/build_appImage.sh"
-- pwd && ls && ls appdir && ls appdir/usr/ && ls appdir/usr/share/ && ls appdir/usr/share/applications/
+- cp appdir/usr/share/applications/*.desktop appdir/
 - wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
 - chmod a+x linuxdeployqt-continuous-x86_64.AppImage
 - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
