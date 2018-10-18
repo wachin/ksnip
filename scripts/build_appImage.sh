@@ -14,8 +14,8 @@ git clone git://github.com/DamirPorobic/kImageAnnotator
 cd kImageAnnotator
 mkdir build && cd build
 cmake ..
-make && sudo make install
-sudo ldconfig
+make && make install
+ldconfig
 cd ../..
 
 export VERSION=$(git rev-list --count HEAD)-$(git rev-parse --short HEAD) # required for version sufix
