@@ -1,7 +1,6 @@
 #!/bin/bash
 
-zypper --non-interactive install git cmake extra-cmake-modules patterns-openSUSE-devel_C_C++ libqt5-linguist-devel libqt5-qtx11extras-devel libqt5-qtdeclarative-devel libqt5-qtbase-devel fuse
-usermod -a -G trusted `whoami`
+zypper --non-interactive install git cmake extra-cmake-modules patterns-openSUSE-devel_C_C++ libqt5-linguist-devel libqt5-qtx11extras-devel libqt5-qtdeclarative-devel libqt5-qtbase-devel libfuse2 fuse
 
 git clone git://github.com/DamirPorobic/kColorPicker
 cd kColorPicker
