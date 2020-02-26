@@ -20,12 +20,6 @@
 
 #include "KsnipConfig.h"
 
-KsnipConfig* KsnipConfig::instance()
-{
-    static KsnipConfig instance;
-    return &instance;
-}
-
 // Application
 
 bool KsnipConfig::savePosition() const
@@ -249,6 +243,19 @@ void KsnipConfig::setCloseToTray(bool enabled)
 	saveValue(KsnipConfigOptions::closeToTrayString(), enabled);
 }
 
+bool KsnipConfig::startMinimizedToTray() const
+{
+	return loadValue(KsnipConfigOptions::startMinimizedToTray(), false).toBool();
+}
+
+void KsnipConfig::setStartMinimizedToTray(bool enabled)
+{
+	if (startMinimizedToTray() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::startMinimizedToTray(), enabled);
+}
+
 // Annotator
 
 bool KsnipConfig::textBold() const
@@ -405,6 +412,11 @@ void KsnipConfig::setRotateWatermarkEnabled(bool enabled)
 
 // Image Grabber
 
+bool KsnipConfig::isFreezeImageWhileSnippingEnabledReadOnly() const
+{
+	return false;
+}
+
 bool KsnipConfig::freezeImageWhileSnippingEnabled() const
 {
 	return loadValue(KsnipConfigOptions::freezeImageWhileSnippingEnabledString(), true).toBool();
@@ -455,6 +467,11 @@ void KsnipConfig::setSnippingAreaPositionAndSizeInfoEnabled(bool enabled)
         return;
     }
 	saveValue(KsnipConfigOptions::snippingAreaPositionAndSizeInfoEnabledString(), enabled);
+}
+
+bool KsnipConfig::isSnippingAreaMagnifyingGlassEnabledReadOnly() const
+{
+	return false;
 }
 
 bool KsnipConfig::snippingAreaMagnifyingGlassEnabled() const
@@ -608,17 +625,17 @@ void KsnipConfig::setImgurForceAnonymous(bool  enabled)
 	saveValue(KsnipConfigOptions::imgurForceAnonymousString(), enabled);
 }
 
-bool KsnipConfig::imgurOpenLinkDirectlyToImage() const
+bool KsnipConfig::imgurLinkDirectlyToImage() const
 {
-	return loadValue(KsnipConfigOptions::imgurOpenLinkDirectlyToImageString(), false).toBool();
+	return loadValue(KsnipConfigOptions::imgurLinkDirectlyToImageString(), false).toBool();
 }
 
-void KsnipConfig::setImgurOpenLinkDirectlyToImage(bool  enabled)
+void KsnipConfig::setImgurLinkDirectlyToImage(bool  enabled)
 {
-    if (imgurOpenLinkDirectlyToImage() == enabled) {
+    if (imgurLinkDirectlyToImage() == enabled) {
         return;
     }
-	saveValue(KsnipConfigOptions::imgurOpenLinkDirectlyToImageString(), enabled);
+	saveValue(KsnipConfigOptions::imgurLinkDirectlyToImageString(), enabled);
 }
 
 bool KsnipConfig::imgurAlwaysCopyToClipboard() const
@@ -661,6 +678,11 @@ void KsnipConfig::setImgurOpenLinkInBrowser(bool enabled)
 }
 
 // HotKeys
+
+bool KsnipConfig::isGlobalHotKeysEnabledReadOnly() const
+{
+	return false;
+}
 
 bool KsnipConfig::globalHotKeysEnabled() const
 {

@@ -30,7 +30,8 @@
 #include <QStyleFactory>
 #include <QFileDialog>
 
-#include "backend/config/KsnipConfig.h"
+#include "src/backend/config/KsnipConfig.h"
+#include "src/common/provider/ScaledSizeProvider.h"
 
 class ApplicationSettings : public QGroupBox
 {
@@ -50,6 +51,7 @@ private:
 	QCheckBox *mUseTrayIconCheckBox;
 	QCheckBox *mMinimizeToTrayCheckBox;
 	QCheckBox *mCloseToTrayCheckBox;
+	QCheckBox *mStartMinimizedToTrayCheckBox;
 	QLabel *mApplicationStyleLabel;
 	QComboBox *mApplicationStyleCombobox;
 	QLabel *mSaveLocationLabel;

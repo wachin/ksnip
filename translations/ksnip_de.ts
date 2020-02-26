@@ -24,16 +24,19 @@
         <translation>Schließen</translation>
     </message>
     <message>
+        <source>Donate</source>
+        <translation>Spenden</translation>
+    </message>
+</context>
+<context>
+    <name>AboutTab</name>
+    <message>
         <source>Screenshot Tool</source>
-        <translation>Screenshot-Werkzeug</translation>
+        <translation>Schnappschuss-Werkzeug</translation>
     </message>
     <message>
         <source>License: </source>
         <translation>Lizenz: </translation>
-    </message>
-    <message>
-        <source>Using:</source>
-        <translation>Verwendet:</translation>
     </message>
     <message>
         <source>Please use </source>
@@ -42,43 +45,6 @@
     <message>
         <source> to report bugs.</source>
         <translation> um Fehler zu melden.</translation>
-    </message>
-    <message>
-        <source>The Author:</source>
-        <translation>Der Autor:</translation>
-    </message>
-    <message>
-        <source>Contributors:</source>
-        <translation>Mitwirkende:</translation>
-    </message>
-    <message>
-        <source>Spanish Translation</source>
-        <translatorcomment>Spanische Übersetzung</translatorcomment>
-        <translation>Spanische Übersetzung</translation>
-    </message>
-    <message>
-        <source>Build</source>
-        <translation>Build</translation>
-    </message>
-    <message>
-        <source>Dutch Translation</source>
-        <translation>Niederländische Übersetzung</translation>
-    </message>
-    <message>
-        <source>Russian Translation</source>
-        <translation>Russische Übersetzung</translation>
-    </message>
-    <message>
-        <source>Norwegian Bokmål Translation</source>
-        <translation>Norwegische Übersetzung</translation>
-    </message>
-    <message>
-        <source>French Translation</source>
-        <translation>Französische Übersetzung</translation>
-    </message>
-    <message>
-        <source>Polish Translation</source>
-        <translation>Polnische Übersetzung</translation>
     </message>
 </context>
 <context>
@@ -237,20 +203,60 @@ Eine Änderung benötigt einen Neustart von ksnip, um wirksam zu werden.</transl
     </message>
     <message>
         <source>Use Tray Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Tray Icon verwenden</translation>
     </message>
     <message>
         <source>When enabled will add a Tray Icon to the TaskBar if the OS Window Manager supports it.
 Change requires restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Aktivierung wird ein Tray Icon in der Taskbar hinzugefügt, sofern das Betriebssystem dies unterstützt.
+Diese Änderung erfordert einen Neustart.</translation>
     </message>
     <message>
         <source>Minimize to Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Zum Tray minimieren</translation>
     </message>
     <message>
         <source>Close to Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Zum Tray schließen</translation>
+    </message>
+    <message>
+        <source>Start Minimized to Tray.</source>
+        <translation>Beim System-Start zum Tray minimieren.</translation>
+    </message>
+</context>
+<context>
+    <name>AuthorTab</name>
+    <message>
+        <source>The Author:</source>
+        <translation type="unfinished">Der Autor:</translation>
+    </message>
+    <message>
+        <source>Contributors:</source>
+        <translation type="unfinished">Mitwirkende:</translation>
+    </message>
+    <message>
+        <source>Spanish Translation</source>
+        <translation>Spanische Übersetzung</translation>
+    </message>
+    <message>
+        <source>Dutch Translation</source>
+        <translation>Niederländische Übersetzung</translation>
+    </message>
+    <message>
+        <source>Russian Translation</source>
+        <translation>Russische Übersetzung</translation>
+    </message>
+    <message>
+        <source>Norwegian Bokmål Translation</source>
+        <translation>Norwegische Übersetzung</translation>
+    </message>
+    <message>
+        <source>French Translation</source>
+        <translation>Französische Übersetzung</translation>
+    </message>
+    <message>
+        <source>Polish Translation</source>
+        <translation>Polnische Übersetzung</translation>
     </message>
 </context>
 <context>
@@ -314,11 +320,11 @@ Möchten Sie sie speichern?</translation>
     </message>
     <message>
         <source>Last Rectangular Area</source>
-        <translation type="unfinished"></translation>
+        <translation>Letzter Rechteckiger Bereich</translation>
     </message>
     <message>
         <source>Capture a screenshot of the last selected rectangular area</source>
-        <translation type="unfinished"></translation>
+        <translation>Einen Screenshot des zuletzt ausgewählten rechteckigen Bereichs aufnehmen</translation>
     </message>
 </context>
 <context>
@@ -337,14 +343,41 @@ Möchten Sie sie speichern?</translation>
     </message>
 </context>
 <context>
+    <name>DonateTab</name>
+    <message>
+        <source>Donate a Beer?</source>
+        <translation>Spendieren Sie mir ein Bier?</translation>
+    </message>
+    <message>
+        <source>Sure, you can do that</source>
+        <translation>Sicher können Sie das machen</translation>
+    </message>
+    <message>
+        <source>here</source>
+        <translation>hier</translation>
+    </message>
+    <message>
+        <source>Become a Sponsor</source>
+        <translation>Sponsor werden</translation>
+    </message>
+    <message>
+        <source>Also possible, </source>
+        <translation>Auch möglich, </translation>
+    </message>
+    <message>
+        <source>Donations are always welcome</source>
+        <translation>Spenden sind immer willkommen</translation>
+    </message>
+</context>
+<context>
     <name>HandleUploadResponseOperation</name>
     <message>
         <source>Upload Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Erfolgreich hochgeladen</translation>
     </message>
     <message>
         <source>Uploaded to</source>
-        <translation type="unfinished"></translation>
+        <translation>Hochgeladen zu</translation>
     </message>
 </context>
 <context>
@@ -383,7 +416,7 @@ Möchten Sie sie speichern?</translation>
     </message>
     <message>
         <source>Capture Last Rect Area</source>
-        <translation type="unfinished"></translation>
+        <translation>Letzten rechteckigen Bereich aufnehmen</translation>
     </message>
 </context>
 <context>
@@ -401,25 +434,6 @@ Screenshots sichtbar sein soll.</translation>
     <message>
         <source>Freeze Image while snipping</source>
         <translation>Bild während der Aufnahme einfrieren</translation>
-    </message>
-    <message>
-        <source>When enabled will freeze the background while
-selecting a rectangular region. It also changes
-the behavior of delayed screenshots, with this
-option enabled the delay happens before the
-snipping area is show and with the option disabled
-the delay happens after the snipping area is shown.
-This feature doesn&apos;t work for Wayland and is always
-used for MacOs.</source>
-        <translation>Wenn aktiviert, wird der Hintergrund eingefroren,
-während ein rechteckiger Bereich für die Bildschirmaufnahme
-ausgewählt wird. Es ändert sich auch das Verhalten von 
-verzögerten Bildschirmaufnahmen. Wenn diese Option aktiviert 
-ist, erfolgt die Verzögerung vor dem Anzeigen des 
-Ausschnittbereichs. Wenn diese Option deaktiviert ist, erfolgt 
-die Verzögerung, nachdem der Ausschnittsbereich angezeigt wurde.
-Diese Option funktioniert nicht für Wayland und ist für macOS
-immer aktiv.</translation>
     </message>
     <message>
         <source>Show magnifying glass on snipping area</source>
@@ -485,6 +499,17 @@ Neustart von ksnip, um wirksam zu werden.</translation>
         <source>Image Grabber</source>
         <translation type="unfinished">Bildgrabber</translation>
     </message>
+    <message>
+        <source>When enabled will freeze the background while
+selecting a rectangular region. It also changes
+the behavior of delayed screenshots, with this
+option enabled the delay happens before the
+snipping area is show and with the option disabled
+the delay happens after the snipping area is shown.
+This feature is always disabled for Wayland and always
+enabled for MacOs.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgurHistoryDialog</name>
@@ -514,10 +539,6 @@ Neustart von ksnip, um wirksam zu werden.</translation>
     <message>
         <source>Force anonymous upload</source>
         <translation>Anonymen Upload erzwingen</translation>
-    </message>
-    <message>
-        <source>Open link directly to image</source>
-        <translation>Link zum Bild sofort öffnen</translation>
     </message>
     <message>
         <source>Always copy Imgur link to clipboard</source>
@@ -582,6 +603,10 @@ Neustart von ksnip, um wirksam zu werden.</translation>
     <message>
         <source>After uploading open Imgur link in default browser</source>
         <translation>Nach dem Upload Imgur-Link im Standardbrowser öffnen</translation>
+    </message>
+    <message>
+        <source>Link directly to image</source>
+        <translation>Direkt zum Bild verlinken</translation>
     </message>
 </context>
 <context>
@@ -726,11 +751,11 @@ und der Aufnahme.</translation>
     </message>
     <message>
         <source>Unable to show image</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild kann nicht angezeigt werden</translation>
     </message>
     <message>
         <source>No image provided to but one was expected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es wurde kein Bild zur Verfügung gestellt, obwohl eines erwartet wurde.</translation>
     </message>
 </context>
 <context>
@@ -749,19 +774,19 @@ und der Aufnahme.</translation>
     </message>
     <message>
         <source>Image Saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild gespeichert</translation>
     </message>
     <message>
         <source>Saving Image Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern des Bildes fehlgeschlagen</translation>
     </message>
     <message>
         <source>Saved to</source>
-        <translation type="unfinished"></translation>
+        <translation>Gespeichert unter</translation>
     </message>
     <message>
         <source>Failed to save image to</source>
-        <translation type="unfinished"></translation>
+        <translation>Speicherung fehlgeschlagen unter</translation>
     </message>
 </context>
 <context>
@@ -803,7 +828,7 @@ und der Aufnahme.</translation>
     <name>TrayIcon</name>
     <message>
         <source>Show Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor Anzeigen</translation>
     </message>
 </context>
 <context>
@@ -830,6 +855,21 @@ und der Aufnahme.</translation>
     <message>
         <source>You are about to upload the screenshot to a imgur.com, do you want to proceed?</source>
         <translation>Sie sind im Begriff, den Screenshot zu imgur.com hochzuladen, möchten Sie fortfahren?</translation>
+    </message>
+</context>
+<context>
+    <name>VersionTab</name>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>Build</source>
+        <translation>Build</translation>
+    </message>
+    <message>
+        <source>Using:</source>
+        <translation type="unfinished">Verwendet:</translation>
     </message>
 </context>
 </TS>

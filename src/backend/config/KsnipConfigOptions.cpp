@@ -99,6 +99,11 @@ QString KsnipConfigOptions::closeToTrayString()
 	return applicationSectionString() + QStringLiteral("CloseToTray");
 }
 
+QString KsnipConfigOptions::startMinimizedToTray()
+{
+	return applicationSectionString() + QStringLiteral("StartMinimizedToTray");
+}
+
 QString KsnipConfigOptions::textFontString()
 {
 	return annotatorSectionString() + QStringLiteral("TextFont");
@@ -199,7 +204,7 @@ QString KsnipConfigOptions::imgurForceAnonymousString()
 	return imgurSectionString() + QStringLiteral("ForceAnonymous");
 }
 
-QString KsnipConfigOptions::imgurOpenLinkDirectlyToImageString()
+QString KsnipConfigOptions::imgurLinkDirectlyToImageString()
 {
 	return imgurSectionString() + QStringLiteral("OpenLinkDirectlyToImage");
 }

@@ -27,12 +27,12 @@
 
 #include <kImageAnnotator/KImageAnnotator.h>
 
-#include "AboutDialog.h"
+#include "gui/aboutDialog/AboutDialog.h"
 #include "src/gui/settingsDialog/SettingsDialog.h"
 #include "src/widgets/CustomToolButton.h"
 #include "src/widgets/MainToolBar.h"
 #include "src/backend/imageGrabber/AbstractImageGrabber.h"
-#include "src/backend/config/KsnipConfig.h"
+#include "src/backend/config/KsnipConfigProvider.h"
 #include "src/backend/uploader/CaptureUploader.h"
 #include "src/backend/CapturePrinter.h"
 #include "src/common/loader/IconLoader.h"
@@ -52,21 +52,20 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit MainWindow(AbstractImageGrabber *imageGrabber, RunMode mode = RunMode::GUI);
-    ~MainWindow();
+    ~MainWindow() override;
     void showEmpty();
     void show();
     void captureScreenshot(CaptureModes captureMode, bool captureCursor, int delay);
 
 public slots:
     void showCapture(const CaptureDto &capture);
-    void triggerNewDefaultCapture();
 	void triggerNewCapture(CaptureModes captureMode);
 	void quit();
 
 protected:
     void moveEvent(QMoveEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
-	void changeEvent(QEvent *event) override ;
+	void changeEvent(QEvent *event) override;
     QMenu *createPopupMenu() override;
     QSize sizeHint() const override;
 
@@ -75,6 +74,8 @@ private:
     RunMode mMode;
     bool mIsUnsaved;
     bool mHidden;
+    Qt::WindowState mSelectedWindowState;
+    bool mWindowStateChangeLock;
     QAction *mUploadToImgurAction;
     QAction *mPrintAction;
     QAction *mPrintPreviewAction;
@@ -122,6 +123,8 @@ private slots:
     void showSettingsDialog();
     void showAboutDialog();
     void showScaleDialog();
+	void setPosition(const QPoint &lastPosition);
+	void handleGuiStartup();
 };
 
 #endif // KSNIP_MAINWINDOW_H

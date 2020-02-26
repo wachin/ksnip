@@ -24,12 +24,19 @@
         <translation>Sluiten</translation>
     </message>
     <message>
+        <source>Donate</source>
+        <translation>Doneren</translation>
+    </message>
+</context>
+<context>
+    <name>AboutTab</name>
+    <message>
         <source>Screenshot Tool</source>
-        <translation>Hulpmiddel bij schermafdrukken</translation>
+        <translation>Schermfotohulpmiddel</translation>
     </message>
     <message>
         <source>License: </source>
-        <translation>Licentie </translation>
+        <translation>Licentie: </translation>
     </message>
     <message>
         <source>Please use </source>
@@ -38,46 +45,6 @@
     <message>
         <source> to report bugs.</source>
         <translation> om bugs te melden.</translation>
-    </message>
-    <message>
-        <source>Using:</source>
-        <translation>Gebruikmakend van:</translation>
-    </message>
-    <message>
-        <source>The Author:</source>
-        <translation>Auteur:</translation>
-    </message>
-    <message>
-        <source>Contributors:</source>
-        <translation>Bijdragers:</translation>
-    </message>
-    <message>
-        <source>Spanish Translation</source>
-        <translation>Spaanse vertaling</translation>
-    </message>
-    <message>
-        <source>Build</source>
-        <translation>Bouwsel</translation>
-    </message>
-    <message>
-        <source>Dutch Translation</source>
-        <translation>Nederlandse vertaling</translation>
-    </message>
-    <message>
-        <source>Russian Translation</source>
-        <translation>Russische vertaling</translation>
-    </message>
-    <message>
-        <source>Norwegian Bokmål Translation</source>
-        <translation>Noorse (Bokmål) vertaling</translation>
-    </message>
-    <message>
-        <source>French Translation</source>
-        <translation>Franse vertaling</translation>
-    </message>
-    <message>
-        <source>Polish Translation</source>
-        <translation>Poolse vertaling</translation>
     </message>
 </context>
 <context>
@@ -176,7 +143,7 @@ gladder.</translation>
     <name>ApplicationSettings</name>
     <message>
         <source>Always copy capture to clipboard</source>
-        <translation>Schermafdruk altijd kopiëren naar klembord</translation>
+        <translation>Schermfoto altijd kopiëren naar klembord</translation>
     </message>
     <message>
         <source>Prompt to save before discarding unsaved changes</source>
@@ -192,16 +159,16 @@ gladder.</translation>
     </message>
     <message>
         <source>Capture screenshot at startup with default mode</source>
-        <translation>Schermafdruk vastleggen met standaardmodus bij opstarten</translation>
+        <translation>Schermfoto vastleggen met standaardmodus bij opstarten</translation>
     </message>
     <message>
         <source>Instant save to default location without &apos;Save as&apos; dialog</source>
-        <translation>Schermafdruk altijd direct opslaan in standaardmap</translation>
+        <translation>Schermfoto altijd direct opslaan in standaardmap</translation>
     </message>
     <message>
         <source>When enabled, will not ask where to save a screenshot
 when saving, but will save instantly to default location.</source>
-        <translation>Schakel dit in om niet te worden gevraagd waar een schermafdruk moet
+        <translation>Schakel dit in om niet te worden gevraagd waar een schermfoto moet
 worden opgeslagen, maar deze direct op te slaan in de standaardmap.</translation>
     </message>
     <message>
@@ -252,6 +219,45 @@ Herstart om de wijziging toe te passen.</translation>
         <source>Close to Tray</source>
         <translation>Sluiten naar systeemvak</translation>
     </message>
+    <message>
+        <source>Start Minimized to Tray.</source>
+        <translation>Geminimaliseerd opstarten.</translation>
+    </message>
+</context>
+<context>
+    <name>AuthorTab</name>
+    <message>
+        <source>The Author:</source>
+        <translation>Maker:</translation>
+    </message>
+    <message>
+        <source>Contributors:</source>
+        <translation>Bijdragers:</translation>
+    </message>
+    <message>
+        <source>Spanish Translation</source>
+        <translation>Spaanse vertaling</translation>
+    </message>
+    <message>
+        <source>Dutch Translation</source>
+        <translation>Nederlandse vertaling</translation>
+    </message>
+    <message>
+        <source>Russian Translation</source>
+        <translation>Russische vertaling</translation>
+    </message>
+    <message>
+        <source>Norwegian Bokmål Translation</source>
+        <translation>Noorse (Bokmål) vertaling</translation>
+    </message>
+    <message>
+        <source>French Translation</source>
+        <translation>Franse vertaling</translation>
+    </message>
+    <message>
+        <source>Polish Translation</source>
+        <translation>Poolse vertaling</translation>
+    </message>
 </context>
 <context>
     <name>CanDiscardOperation</name>
@@ -262,7 +268,7 @@ Herstart om de wijziging toe te passen.</translation>
     <message>
         <source>The capture has been modified.
 Do you want to save it?</source>
-        <translation>De schermafdruk is aangepast.
+        <translation>De schermfoto is aangepast.
 Wil je deze opslaan?</translation>
     </message>
 </context>
@@ -294,7 +300,7 @@ Wil je deze opslaan?</translation>
     </message>
     <message>
         <source>Capture screen where the mouse is located</source>
-        <translation>Maak een schermafdruk van het scherm waarop de cursor is</translation>
+        <translation>Maak een schermfoto van het scherm waarop de cursor is</translation>
     </message>
     <message>
         <source>Active Window</source>
@@ -302,7 +308,7 @@ Wil je deze opslaan?</translation>
     </message>
     <message>
         <source>Capture window that currently has focus</source>
-        <translation>Maak een schermafdruk van het momenteel gefocuste venster</translation>
+        <translation>Maak een schermfoto van het momenteel gefocuste venster</translation>
     </message>
     <message>
         <source>Window Under Cursor</source>
@@ -310,7 +316,7 @@ Wil je deze opslaan?</translation>
     </message>
     <message>
         <source>Capture that is currently under the mouse cursor</source>
-        <translation>Maak een schermafdruk van het venster onder de cursor</translation>
+        <translation>Maak een schermfoto van het venster onder de cursor</translation>
     </message>
     <message>
         <source>Last Rectangular Area</source>
@@ -318,7 +324,7 @@ Wil je deze opslaan?</translation>
     </message>
     <message>
         <source>Capture a screenshot of the last selected rectangular area</source>
-        <translation>Maak een schermafdruk van het laatst geselecteerde rechthoekige gebied</translation>
+        <translation>Maak een schermfoto van het laatst geselecteerde rechthoekige gebied</translation>
     </message>
 </context>
 <context>
@@ -334,6 +340,33 @@ Wil je deze opslaan?</translation>
     <message>
         <source>Imgur token has expired, requesting new token…</source>
         <translation>Imgur-toegangssleutel verlopen; bezig met aanvragen van nieuwe…</translation>
+    </message>
+</context>
+<context>
+    <name>DonateTab</name>
+    <message>
+        <source>Donate a Beer?</source>
+        <translation>Wil je me trakteren op een biertje?</translation>
+    </message>
+    <message>
+        <source>Sure, you can do that</source>
+        <translation>Ja, dat kan</translation>
+    </message>
+    <message>
+        <source>here</source>
+        <translation>hier</translation>
+    </message>
+    <message>
+        <source>Become a Sponsor</source>
+        <translation>Sponsor worden</translation>
+    </message>
+    <message>
+        <source>Also possible, </source>
+        <translation>Je kunt ook </translation>
+    </message>
+    <message>
+        <source>Donations are always welcome</source>
+        <translation>Donaties zijn altijd welkom</translation>
     </message>
 </context>
 <context>
@@ -390,34 +423,17 @@ Wil je deze opslaan?</translation>
     <name>ImageGrabberSettings</name>
     <message>
         <source>Capture mouse cursor on screenshot</source>
-        <translation>Cursor vastleggen bij maken van schermafdruk</translation>
+        <translation>Cursor vastleggen bij maken van schermfoto</translation>
     </message>
     <message>
         <source>Should mouse cursor be visible on
 screenshots.</source>
         <translation>Of de cursor zichtbaar moet zijn op
-schermafdrukken.</translation>
+schermfoto&apos;s.</translation>
     </message>
     <message>
         <source>Freeze Image while snipping</source>
         <translation>Afbeelding bevriezen tijdens vastleggen</translation>
-    </message>
-    <message>
-        <source>When enabled will freeze the background while
-selecting a rectangular region. It also changes
-the behavior of delayed screenshots, with this
-option enabled the delay happens before the
-snipping area is show and with the option disabled
-the delay happens after the snipping area is shown.
-This feature doesn&apos;t work for Wayland and is always
-used for MacOs.</source>
-        <translation>Gebruik deze optie om de achtergrond te bevriezen
-tijdens het selecteren van een rechthoekig gebied.
-Dit past tevens het gedrag van vertraagde schermafdrukken
-aan: de vertraging treedt op vóórdat het vastgelegde gebied
-wordt getoond, terwijl de vertraging normaliter pas optreedt
-nádat het vastgelegde gebied is getoond. Deze optie werkt
-niet op Wayland, en is standaard ingeschakeld op macOS.</translation>
     </message>
     <message>
         <source>Show magnifying glass on snipping area</source>
@@ -483,6 +499,23 @@ toe te passen.</translation>
         <source>Image Grabber</source>
         <translation>Vastleggen</translation>
     </message>
+    <message>
+        <source>When enabled will freeze the background while
+selecting a rectangular region. It also changes
+the behavior of delayed screenshots, with this
+option enabled the delay happens before the
+snipping area is show and with the option disabled
+the delay happens after the snipping area is shown.
+This feature is always disabled for Wayland and always
+enabled for MacOs.</source>
+        <translation>Met deze optie bevries je de achtergrond tijdens het
+selecteren van een rechthoekig gebied. Dit past tevens
+het gedrag aan van vertraagde schermfoto&apos;s: de vertraging
+wordt toegepast voordat het selectiegebied wordt getoond
+in plaats van erna.
+Deze functie is standaard uitgeschakeld op Wayland en
+standaard ingeschakeld op macOS.</translation>
+    </message>
 </context>
 <context>
     <name>ImgurHistoryDialog</name>
@@ -512,10 +545,6 @@ toe te passen.</translation>
     <message>
         <source>Force anonymous upload</source>
         <translation>Anoniem uploaden</translation>
-    </message>
-    <message>
-        <source>Open link directly to image</source>
-        <translation>Directe link naar afbeelding openen</translation>
     </message>
     <message>
         <source>Always copy Imgur link to clipboard</source>
@@ -581,6 +610,10 @@ toe te passen.</translation>
         <source>After uploading open Imgur link in default browser</source>
         <translation>Imgur-link na uploaden openen in standaardbrowser</translation>
     </message>
+    <message>
+        <source>Link directly to image</source>
+        <translation>Directe link naar afbeelding</translation>
+    </message>
 </context>
 <context>
     <name>MainToolBar</name>
@@ -592,7 +625,7 @@ toe te passen.</translation>
         <source>Delay in seconds between triggering
 and capturing screenshot.</source>
         <translation>Vertraging tussen triggeren en vastleggen
-van schermafdruk, in seconden.</translation>
+van schermfoto, in seconden.</translation>
     </message>
     <message>
         <source>s</source>
@@ -604,7 +637,7 @@ van schermafdruk, in seconden.</translation>
     </message>
     <message>
         <source>Save Screen Capture to file system</source>
-        <translation>Schermafdruk opslaan op bestandssysteem</translation>
+        <translation>Schermfoto lokaal opslaan</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -612,7 +645,7 @@ van schermafdruk, in seconden.</translation>
     </message>
     <message>
         <source>Copy Screen Capture to clipboard</source>
-        <translation>Schermafdruk kopiëren naar klembord</translation>
+        <translation>Schermfoto kopiëren naar klembord</translation>
     </message>
     <message>
         <source>Tools</source>
@@ -632,7 +665,7 @@ van schermafdruk, in seconden.</translation>
     </message>
     <message>
         <source>Crop Screen Capture</source>
-        <translation>Schermafdruk bijsnijden</translation>
+        <translation>Schermfoto bijsnijden</translation>
     </message>
 </context>
 <context>
@@ -647,7 +680,7 @@ van schermafdruk, in seconden.</translation>
     </message>
     <message>
         <source>Upload capture image to imgur.com</source>
-        <translation>Schermafdruk uploaden naar imgur.com</translation>
+        <translation>Schermfoto uploaden naar imgur.com</translation>
     </message>
     <message>
         <source>Print</source>
@@ -671,7 +704,7 @@ van schermafdruk, in seconden.</translation>
     </message>
     <message>
         <source>Scale Screen Capture</source>
-        <translation>Grootte van schermafdruk aanpassen</translation>
+        <translation>Grootte van schermfoto aanpassen</translation>
     </message>
     <message>
         <source>Quit</source>
@@ -715,7 +748,7 @@ van schermafdruk, in seconden.</translation>
     </message>
     <message>
         <source>Add Watermark to captured image. Multiple watermarks can be added.</source>
-        <translation>Voorzie de schermafdruk van een watermerk. Je kunt meerdere watermerken toevoegen.</translation>
+        <translation>Voorzie de schermfoto van een watermerk. Je kunt meerdere watermerken toevoegen.</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -827,6 +860,21 @@ van schermafdruk, in seconden.</translation>
     <message>
         <source>You are about to upload the screenshot to a imgur.com, do you want to proceed?</source>
         <translation>Je staat op het punt om de schermafbeelding te uploaden naar imgur.com. Wil je doorgaan?</translation>
+    </message>
+</context>
+<context>
+    <name>VersionTab</name>
+    <message>
+        <source>Version</source>
+        <translation>Versie</translation>
+    </message>
+    <message>
+        <source>Build</source>
+        <translation>Bouwsel</translation>
+    </message>
+    <message>
+        <source>Using:</source>
+        <translation>Gebruikmakend van:</translation>
     </message>
 </context>
 </TS>

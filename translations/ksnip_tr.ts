@@ -24,60 +24,27 @@
         <translation>Kapat</translation>
     </message>
     <message>
+        <source>Donate</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AboutTab</name>
+    <message>
         <source>Screenshot Tool</source>
-        <translation>Ekran Görüntüsü Aracı</translation>
+        <translation type="unfinished">Ekran Görüntüsü Aracı</translation>
     </message>
     <message>
         <source>License: </source>
-        <translation>Lisans: </translation>
+        <translation type="unfinished">Lisans: </translation>
     </message>
     <message>
         <source>Please use </source>
-        <translation>Hata raporlaması için lütfen </translation>
+        <translation type="unfinished">Hata raporlaması için lütfen </translation>
     </message>
     <message>
         <source> to report bugs.</source>
-        <translation> sayfasını kullanın.</translation>
-    </message>
-    <message>
-        <source>Build</source>
-        <translation>İnşa</translation>
-    </message>
-    <message>
-        <source>Using:</source>
-        <translation>Kullanım:</translation>
-    </message>
-    <message>
-        <source>The Author:</source>
-        <translation>Yazar:</translation>
-    </message>
-    <message>
-        <source>Contributors:</source>
-        <translation>Katkıcılar:</translation>
-    </message>
-    <message>
-        <source>Spanish Translation</source>
-        <translation>İspanyolca Çeviriler</translation>
-    </message>
-    <message>
-        <source>Dutch Translation</source>
-        <translation>Hollandaca Çeviriler</translation>
-    </message>
-    <message>
-        <source>Russian Translation</source>
-        <translation>Rusça Çeviriler</translation>
-    </message>
-    <message>
-        <source>Norwegian Bokmål Translation</source>
-        <translation>Norveççe Bokmål Çeviriler</translation>
-    </message>
-    <message>
-        <source>French Translation</source>
-        <translation>Fransızca Çeviriler</translation>
-    </message>
-    <message>
-        <source>Polish Translation</source>
-        <translation>Polanyaca Çeviriler</translation>
+        <translation type="unfinished"> sayfasını kullanın.</translation>
     </message>
 </context>
 <context>
@@ -251,6 +218,45 @@ Change requires restart.</source>
         <source>Close to Tray</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Start Minimized to Tray.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AuthorTab</name>
+    <message>
+        <source>The Author:</source>
+        <translation type="unfinished">Yazar:</translation>
+    </message>
+    <message>
+        <source>Contributors:</source>
+        <translation type="unfinished">Katkıcılar:</translation>
+    </message>
+    <message>
+        <source>Spanish Translation</source>
+        <translation type="unfinished">İspanyolca Çeviriler</translation>
+    </message>
+    <message>
+        <source>Dutch Translation</source>
+        <translation type="unfinished">Hollandaca Çeviriler</translation>
+    </message>
+    <message>
+        <source>Russian Translation</source>
+        <translation type="unfinished">Rusça Çeviriler</translation>
+    </message>
+    <message>
+        <source>Norwegian Bokmål Translation</source>
+        <translation type="unfinished">Norveççe Bokmål Çeviriler</translation>
+    </message>
+    <message>
+        <source>French Translation</source>
+        <translation type="unfinished">Fransızca Çeviriler</translation>
+    </message>
+    <message>
+        <source>Polish Translation</source>
+        <translation type="unfinished">Polanyaca Çeviriler</translation>
+    </message>
 </context>
 <context>
     <name>CanDiscardOperation</name>
@@ -336,6 +342,33 @@ Kaydetmek ister misiniz?</translation>
     </message>
 </context>
 <context>
+    <name>DonateTab</name>
+    <message>
+        <source>Donate a Beer?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sure, you can do that</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Become a Sponsor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Also possible, </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donations are always welcome</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>HandleUploadResponseOperation</name>
     <message>
         <source>Upload Successful</source>
@@ -402,23 +435,6 @@ gözükür.</translation>
         <translation type="unfinished">Seçim yaparken arka alanı dondur</translation>
     </message>
     <message>
-        <source>When enabled will freeze the background while
-selecting a rectangular region. It also changes
-the behavior of delayed screenshots, with this
-option enabled the delay happens before the
-snipping area is show and with the option disabled
-the delay happens after the snipping area is shown.
-This feature doesn&apos;t work for Wayland and is always
-used for MacOs.</source>
-        <translation type="unfinished">Etkinleştirildiğinde, bir bölge dikdörtgen ile seçilirken 
-arka planı dondurur. Bu gecikmeli ekran görüntülerinin 
-davranışını da değiştirir. Bu seçenek etkin durumdayken, 
-seçim alanı gösterilmeden önce gecikme gerçekleşir. 
-Bu seçenek devre dışı bırakılırsa, seçim alanı gösterildikten 
-sonra gecikme gerçekleşir. Bu özellik Wayland için 
-çalışmaz ve MacOs için her zaman kullanılır.</translation>
-    </message>
-    <message>
         <source>Show magnifying glass on snipping area</source>
         <translation type="unfinished">Seçim alanında büyüteç göster</translation>
     </message>
@@ -482,6 +498,17 @@ yeniden başlatılması gerekir.</translation>
         <source>Image Grabber</source>
         <translation type="unfinished">Görüntü Yakalayıcı</translation>
     </message>
+    <message>
+        <source>When enabled will freeze the background while
+selecting a rectangular region. It also changes
+the behavior of delayed screenshots, with this
+option enabled the delay happens before the
+snipping area is show and with the option disabled
+the delay happens after the snipping area is shown.
+This feature is always disabled for Wayland and always
+enabled for MacOs.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgurHistoryDialog</name>
@@ -511,10 +538,6 @@ yeniden başlatılması gerekir.</translation>
     <message>
         <source>Force anonymous upload</source>
         <translation type="unfinished">Anonim yüklemeyi zorla</translation>
-    </message>
-    <message>
-        <source>Open link directly to image</source>
-        <translation type="unfinished">Resim için doğrudan bağlantıyı aç</translation>
     </message>
     <message>
         <source>Always copy Imgur link to clipboard</source>
@@ -578,6 +601,10 @@ yeniden başlatılması gerekir.</translation>
     </message>
     <message>
         <source>After uploading open Imgur link in default browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Link directly to image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -826,6 +853,21 @@ ve ekran görüntüsünü yakalanır.</translation>
     <message>
         <source>You are about to upload the screenshot to a imgur.com, do you want to proceed?</source>
         <translation type="unfinished">Ekran görüntüsünü imgur.com sitesine yüklemek üzeresiniz, devam etmek ister misiniz?</translation>
+    </message>
+</context>
+<context>
+    <name>VersionTab</name>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished">Sürüm</translation>
+    </message>
+    <message>
+        <source>Build</source>
+        <translation type="unfinished">İnşa</translation>
+    </message>
+    <message>
+        <source>Using:</source>
+        <translation type="unfinished">Kullanım:</translation>
     </message>
 </context>
 </TS>

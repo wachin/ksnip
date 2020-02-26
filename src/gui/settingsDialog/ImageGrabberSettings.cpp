@@ -79,8 +79,8 @@ void ImageGrabberSettings::initGui()
 	                                                 "option enabled the delay happens before the\n"
 	                                                 "snipping area is show and with the option disabled\n"
 	                                                 "the delay happens after the snipping area is shown.\n"
-	                                                 "This feature doesn't work for Wayland and is always\n"
-	                                                 "used for MacOs."));
+	                                                 "This feature is always disabled for Wayland and always\n"
+	                                                 "enabled for MacOs."));
 	connect(mFreezeImageWhileSnippingCheckbox, &QCheckBox::stateChanged, [this]()
 	{
 		mSnippingAreaMagnifyingGlassCheckbox->setEnabled(mFreezeImageWhileSnippingCheckbox->isChecked());
@@ -112,17 +112,17 @@ void ImageGrabberSettings::initGui()
 	mSnippingCursorSizeCombobox->setToolTip(mSnippingCursorSizeLabel->toolTip());
 
 	mLayout->setAlignment(Qt::AlignTop);
-	mLayout->setColumnStretch(1, 1);
-	mLayout->addWidget(mCaptureCursorCheckbox, 0, 0, 1, 2);
-	mLayout->addWidget(mFreezeImageWhileSnippingCheckbox, 1, 0, 1, 2);
-	mLayout->addWidget(mSnippingAreaMagnifyingGlassCheckbox, 2, 0, 1, 2);
-	mLayout->addWidget(mSnippingAreaRulersCheckbox, 3, 0, 1, 2);
-	mLayout->addWidget(mSnippingAreaPositionAndSizeInfoCheckbox, 4, 0, 1, 2);
+	mLayout->setColumnMinimumWidth(0,ScaledSizeProvider::getScaledWidth(10));
+	mLayout->addWidget(mCaptureCursorCheckbox, 0, 0, 1, 3);
+	mLayout->addWidget(mFreezeImageWhileSnippingCheckbox, 1, 0, 1, 3);
+	mLayout->addWidget(mSnippingAreaMagnifyingGlassCheckbox, 2, 1, 1, 3);
+	mLayout->addWidget(mSnippingAreaRulersCheckbox, 3, 0, 1, 3);
+	mLayout->addWidget(mSnippingAreaPositionAndSizeInfoCheckbox, 4, 0, 1, 3);
 	mLayout->setRowMinimumHeight(5, 15);
-	mLayout->addWidget(mSnippingCursorColorLabel, 6, 0);
-	mLayout->addWidget(mSnippingCursorColorButton, 6, 1, Qt::AlignLeft);
-	mLayout->addWidget(mSnippingCursorSizeLabel, 7, 0);
-	mLayout->addWidget(mSnippingCursorSizeCombobox, 7, 1, Qt::AlignLeft);
+	mLayout->addWidget(mSnippingCursorColorLabel, 6, 0, 1, 2);
+	mLayout->addWidget(mSnippingCursorColorButton, 6, 2, Qt::AlignLeft);
+	mLayout->addWidget(mSnippingCursorSizeLabel, 7, 0, 1, 2);
+	mLayout->addWidget(mSnippingCursorSizeCombobox, 7, 2, Qt::AlignLeft);
 
 	setTitle(tr("Image Grabber"));
 	setLayout(mLayout);
@@ -131,7 +131,9 @@ void ImageGrabberSettings::initGui()
 void ImageGrabberSettings::loadConfig()
 {
 	mFreezeImageWhileSnippingCheckbox->setChecked(mConfig->freezeImageWhileSnippingEnabled());
+	mFreezeImageWhileSnippingCheckbox->setEnabled(!mConfig->isFreezeImageWhileSnippingEnabledReadOnly());
 	mSnippingAreaMagnifyingGlassCheckbox->setChecked(mConfig->snippingAreaMagnifyingGlassEnabled());
+	mSnippingAreaMagnifyingGlassCheckbox->setEnabled(!mConfig->isSnippingAreaMagnifyingGlassEnabledReadOnly());
 	mCaptureCursorCheckbox->setChecked(mConfig->captureCursor());
 	mSnippingAreaRulersCheckbox->setChecked(mConfig->snippingAreaRulersEnabled());
 	mSnippingAreaPositionAndSizeInfoCheckbox->setChecked(mConfig->snippingAreaPositionAndSizeInfoEnabled());

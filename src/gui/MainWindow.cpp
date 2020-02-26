@@ -21,63 +21,82 @@
 #include "MainWindow.h"
 
 MainWindow::MainWindow(AbstractImageGrabber *imageGrabber, RunMode mode) :
-	QMainWindow(),
-	mImageGrabber(imageGrabber),
-	mMode(mode),
-	mKImageAnnotator(new KImageAnnotator),
-	mUploadToImgurAction(new QAction(this)),
-	mPrintAction(new QAction(this)),
-	mPrintPreviewAction(new QAction(this)),
-	mQuitAction(new QAction(this)),
-	mSettingsDialogAction(new QAction(this)),
-	mAboutAction(new QAction(this)),
-	mOpenImageAction(new QAction(this)),
-	mScaleAction(new QAction(this)),
-	mAddWatermarkAction(new QAction(this)),
-	mClipboard(QApplication::clipboard()),
-	mConfig(KsnipConfig::instance()),
-	mCapturePrinter(new CapturePrinter),
-	mCaptureUploader(new CaptureUploader()),
-	mGlobalHotKeyHandler(new GlobalHotKeyHandler(mImageGrabber->supportedCaptureModes())),
-	mTrayIcon(new TrayIcon(this))
+		QMainWindow(),
+		mImageGrabber(imageGrabber),
+		mMode(mode),
+		mKImageAnnotator(new KImageAnnotator),
+		mUploadToImgurAction(new QAction(this)),
+		mPrintAction(new QAction(this)),
+		mPrintPreviewAction(new QAction(this)),
+		mQuitAction(new QAction(this)),
+		mSettingsDialogAction(new QAction(this)),
+		mAboutAction(new QAction(this)),
+		mOpenImageAction(new QAction(this)),
+		mScaleAction(new QAction(this)),
+		mAddWatermarkAction(new QAction(this)),
+		mClipboard(QApplication::clipboard()),
+		mConfig(KsnipConfigProvider::instance()),
+		mCapturePrinter(new CapturePrinter),
+		mCaptureUploader(new CaptureUploader()),
+		mGlobalHotKeyHandler(new GlobalHotKeyHandler(mImageGrabber->supportedCaptureModes())),
+		mTrayIcon(new TrayIcon(this)),
+		mSelectedWindowState(Qt::WindowActive),
+		mWindowStateChangeLock(false)
 {
-    // When we run in CLI only mode we don't need to setup gui, but only need
-    // to connect imagegrabber signals to mainwindow slots to handle the
-    // feedback.
-    if (mMode == RunMode::CLI) {
-        connect(mImageGrabber, &AbstractImageGrabber::finished, this, &MainWindow::processInstantCapture);
-        connect(mImageGrabber, &AbstractImageGrabber::canceled, this, &MainWindow::close);
-        return;
-    }
+	// When we run in CLI only mode we don't need to setup gui, but only need
+	// to connect imagegrabber signals to mainwindow slots to handle the
+	// feedback.
+	if (mMode == RunMode::CLI) {
+		connect(mImageGrabber, &AbstractImageGrabber::finished, this, &MainWindow::processInstantCapture);
+		connect(mImageGrabber, &AbstractImageGrabber::canceled, this, &MainWindow::close);
+		return;
+	}
 
-    initGui();
+	initGui();
 
 	setWindowIcon(QIcon(QStringLiteral(":/icons/ksnip.svg")));
-    move(mConfig->windowPosition());
+	setPosition(mConfig->windowPosition());
 
 	connect(mConfig, &KsnipConfig::toolConfigChanged, this, &MainWindow::setupImageAnnotator);
 
 	connect(mKImageAnnotator, &KImageAnnotator::imageChanged, this, &MainWindow::screenshotChanged);
 
-    connect(mImageGrabber, &AbstractImageGrabber::finished, this, &MainWindow::showCapture);
-    connect(mImageGrabber, &AbstractImageGrabber::canceled, [this]() { setHidden(false); });
+	connect(mImageGrabber, &AbstractImageGrabber::finished, this, &MainWindow::showCapture);
+	connect(mImageGrabber, &AbstractImageGrabber::canceled, [this]()
+	{ setHidden(false); });
 
-    connect(mCaptureUploader, &CaptureUploader::finished, this, &MainWindow::uploadFinished);
+	connect(mCaptureUploader, &CaptureUploader::finished, this, &MainWindow::uploadFinished);
 
-    connect(mGlobalHotKeyHandler, &GlobalHotKeyHandler::newCaptureTriggered, this, &MainWindow::triggerNewCapture);
+	connect(mGlobalHotKeyHandler, &GlobalHotKeyHandler::newCaptureTriggered, this, &MainWindow::triggerNewCapture);
 
-    loadSettings();
-
-    if (mMode == RunMode::GUI) {
-        if (mConfig->captureOnStartup()) {
-            capture(mConfig->captureMode());
-        } else {
-            showEmpty();
-        }
-    }
-
+	loadSettings();
+	handleGuiStartup();
 	setupImageAnnotator();
 	QWidget::resize(minimumSize());
+}
+
+void MainWindow::handleGuiStartup()
+{
+	if (mMode == RunMode::GUI) {
+		if (mConfig->captureOnStartup()) {
+			capture(mConfig->captureMode());
+		} else if (mConfig->startMinimizedToTray() && mConfig->useTrayIcon()) {
+			hide();
+		} else {
+			showEmpty();
+		}
+	}
+}
+
+void MainWindow::setPosition(const QPoint &lastPosition)
+{
+	auto position = lastPosition;
+	auto screenGeometry = QApplication::desktop()->screenGeometry();
+	if(!screenGeometry.contains(lastPosition)) {
+		auto screenCenter = screenGeometry.center();
+		position = QPoint(screenCenter.x() - size().width(), screenCenter.y() - size().height());
+	}
+	move(position);
 }
 
 MainWindow::~MainWindow()
@@ -134,12 +153,12 @@ void MainWindow::quit()
 
 void MainWindow::showCapture(const CaptureDto &capture)
 {
-    if (!capture.isValid()) {
-    	NotifyOperation operation(mTrayIcon, tr("Unable to show image"), tr("No image provided to but one was expected."), NotificationTypes::Critical);
-    	operation.execute();
-        showEmpty();
-        return;
-    }
+	if (!capture.isValid()) {
+		NotifyOperation operation(mTrayIcon, tr("Unable to show image"), tr("No image provided to but one was expected."), NotificationTypes::Critical);
+		operation.execute();
+		showEmpty();
+		return;
+	}
 
 	loadCapture(capture);
 
@@ -148,11 +167,11 @@ void MainWindow::showCapture(const CaptureDto &capture)
 	}
 
 	setHidden(false);
-    setSaveable(true);
-    setEnablements(true);
+	setSaveable(true);
+	setEnablements(true);
 
-    adjustSize();
-    QMainWindow::show();
+	adjustSize();
+	MainWindow::show();
 }
 
 void MainWindow::loadCapture(const CaptureDto &capture)
@@ -175,14 +194,8 @@ void MainWindow::show()
 {
 	activateWindow();
 	raise();
-	QWidget::show();
-	setWindowState(Qt::WindowActive);
-}
-
-
-void MainWindow::triggerNewDefaultCapture()
-{
-    triggerNewCapture(mConfig->captureMode());
+	QMainWindow::show();
+	setWindowState(mSelectedWindowState);
 }
 
 QMenu* MainWindow::createPopupMenu()
@@ -217,18 +230,18 @@ void MainWindow::moveEvent(QMoveEvent* event)
 void MainWindow::closeEvent(QCloseEvent* event)
 {
 	event->ignore();
-	if(mTrayIcon->isVisible() && mConfig->closeToTray()) {
-		hide();
-	} else{
-		quit();
-	}
+	mTrayIcon->isVisible() && mConfig->closeToTray() ? hide() : quit();
 }
 
 void MainWindow::changeEvent(QEvent *event)
 {
-	if (event->type() == QEvent::WindowStateChange && isMinimized() && mTrayIcon->isVisible() && mConfig->minimizeToTray()) {
-		event->ignore();
-		hide();
+	if (event->type() == QEvent::WindowStateChange) {
+		if(isMinimized() && mTrayIcon->isVisible() && mConfig->minimizeToTray()) {
+			event->ignore();
+			hide();
+		} else if (!mWindowStateChangeLock)  {
+			mSelectedWindowState = isMaximized() ? Qt::WindowMaximized : Qt::WindowActive;
+		}
 	}
 	QWidget::changeEvent(event);
 }
@@ -277,8 +290,9 @@ void MainWindow::setHidden(bool isHidden)
         showMinimized();
     } else {
         setWindowOpacity(1.0);
-        setWindowState(Qt::WindowActive);
+		setWindowState(Qt::WindowActive);
     }
+	mWindowStateChangeLock = isHidden;
 }
 
 bool MainWindow::hidden() const
@@ -349,7 +363,7 @@ void MainWindow::initGui()
 	connect(mSettingsDialogAction, &QAction::triggered, this, &MainWindow::showSettingsDialog);
 
     mAboutAction->setText(tr("&About"));
-	mAboutAction->setIcon(QIcon(QStringLiteral(":/ksnip")));
+	mAboutAction->setIcon(QIcon(QStringLiteral(":/icons//ksnip")));
 	connect(mAboutAction, &QAction::triggered, this, &MainWindow::showAboutDialog);
 
     mOpenImageAction->setText(tr("Open"));

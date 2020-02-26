@@ -24,60 +24,27 @@
         <translation>Закрити</translation>
     </message>
     <message>
+        <source>Donate</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AboutTab</name>
+    <message>
         <source>Screenshot Tool</source>
-        <translation>— інструмент для знятків екрана</translation>
+        <translation type="unfinished">— інструмент для знятків екрана</translation>
     </message>
     <message>
         <source>License: </source>
-        <translation>Ліцензія: </translation>
+        <translation type="unfinished">Ліцензія: </translation>
     </message>
     <message>
         <source>Please use </source>
-        <translation>Будь ласка, використовуйте </translation>
+        <translation type="unfinished">Будь ласка, використовуйте </translation>
     </message>
     <message>
         <source> to report bugs.</source>
-        <translation> , щоб повідомити про проблеми.</translation>
-    </message>
-    <message>
-        <source>Build</source>
-        <translation>Збірка</translation>
-    </message>
-    <message>
-        <source>Using:</source>
-        <translation>Програма використовує:</translation>
-    </message>
-    <message>
-        <source>The Author:</source>
-        <translation>Розробник:</translation>
-    </message>
-    <message>
-        <source>Contributors:</source>
-        <translation>Подяка:</translation>
-    </message>
-    <message>
-        <source>Spanish Translation</source>
-        <translation>переклад іспанською</translation>
-    </message>
-    <message>
-        <source>Dutch Translation</source>
-        <translation>переклад нідерландською</translation>
-    </message>
-    <message>
-        <source>Russian Translation</source>
-        <translation>переклад російською</translation>
-    </message>
-    <message>
-        <source>Norwegian Bokmål Translation</source>
-        <translation>переклад норвезьким букмолом</translation>
-    </message>
-    <message>
-        <source>French Translation</source>
-        <translation>переклад французькою</translation>
-    </message>
-    <message>
-        <source>Polish Translation</source>
-        <translation>переклад польською</translation>
+        <translation type="unfinished"> , щоб повідомити про проблеми.</translation>
     </message>
 </context>
 <context>
@@ -251,6 +218,45 @@ Change requires restart.</source>
         <source>Close to Tray</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Start Minimized to Tray.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AuthorTab</name>
+    <message>
+        <source>The Author:</source>
+        <translation type="unfinished">Розробник:</translation>
+    </message>
+    <message>
+        <source>Contributors:</source>
+        <translation type="unfinished">Подяка:</translation>
+    </message>
+    <message>
+        <source>Spanish Translation</source>
+        <translation type="unfinished">переклад іспанською</translation>
+    </message>
+    <message>
+        <source>Dutch Translation</source>
+        <translation type="unfinished">переклад нідерландською</translation>
+    </message>
+    <message>
+        <source>Russian Translation</source>
+        <translation type="unfinished">переклад російською</translation>
+    </message>
+    <message>
+        <source>Norwegian Bokmål Translation</source>
+        <translation type="unfinished">переклад норвезьким букмолом</translation>
+    </message>
+    <message>
+        <source>French Translation</source>
+        <translation type="unfinished">переклад французькою</translation>
+    </message>
+    <message>
+        <source>Polish Translation</source>
+        <translation type="unfinished">переклад польською</translation>
+    </message>
 </context>
 <context>
     <name>CanDiscardOperation</name>
@@ -336,6 +342,33 @@ Do you want to save it?</source>
     </message>
 </context>
 <context>
+    <name>DonateTab</name>
+    <message>
+        <source>Donate a Beer?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sure, you can do that</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Become a Sponsor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Also possible, </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donations are always welcome</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>HandleUploadResponseOperation</name>
     <message>
         <source>Upload Successful</source>
@@ -399,21 +432,6 @@ screenshots.</source>
     <message>
         <source>Freeze Image while snipping</source>
         <translation type="unfinished">Заморозити зображення у момент зйомки знятка</translation>
-    </message>
-    <message>
-        <source>When enabled will freeze the background while
-selecting a rectangular region. It also changes
-the behavior of delayed screenshots, with this
-option enabled the delay happens before the
-snipping area is show and with the option disabled
-the delay happens after the snipping area is shown.
-This feature doesn&apos;t work for Wayland and is always
-used for MacOs.</source>
-        <translation type="unfinished">Зупиняти усе, що коїться на екрані, під час виділення
-прямокутної області. Ця функція також змінує роботу
-затримки зйомки: відлік часу починається не після,
-а до виділення прямокутної області. Функція не працює
-з Wayland і завжди використовується на macOS.</translation>
     </message>
     <message>
         <source>Show magnifying glass on snipping area</source>
@@ -480,6 +498,17 @@ take effect.</source>
         <source>Image Grabber</source>
         <translation type="unfinished">Зйомка знятка</translation>
     </message>
+    <message>
+        <source>When enabled will freeze the background while
+selecting a rectangular region. It also changes
+the behavior of delayed screenshots, with this
+option enabled the delay happens before the
+snipping area is show and with the option disabled
+the delay happens after the snipping area is shown.
+This feature is always disabled for Wayland and always
+enabled for MacOs.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgurHistoryDialog</name>
@@ -509,10 +538,6 @@ take effect.</source>
     <message>
         <source>Force anonymous upload</source>
         <translation type="unfinished">Завантажити анонімно</translation>
-    </message>
-    <message>
-        <source>Open link directly to image</source>
-        <translation type="unfinished">Відкрити пряме посилання на зображення</translation>
     </message>
     <message>
         <source>Always copy Imgur link to clipboard</source>
@@ -576,6 +601,10 @@ take effect.</source>
     </message>
     <message>
         <source>After uploading open Imgur link in default browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Link directly to image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -824,6 +853,21 @@ and capturing screenshot.</source>
     <message>
         <source>You are about to upload the screenshot to a imgur.com, do you want to proceed?</source>
         <translation type="unfinished">Ви збираєтеся завантажити зняток на imgur.com. Почати завантаження?</translation>
+    </message>
+</context>
+<context>
+    <name>VersionTab</name>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished">Версія</translation>
+    </message>
+    <message>
+        <source>Build</source>
+        <translation type="unfinished">Збірка</translation>
+    </message>
+    <message>
+        <source>Using:</source>
+        <translation type="unfinished">Програма використовує:</translation>
     </message>
 </context>
 </TS>

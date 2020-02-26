@@ -24,60 +24,27 @@
         <translation>Fechar</translation>
     </message>
     <message>
+        <source>Donate</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AboutTab</name>
+    <message>
         <source>Screenshot Tool</source>
-        <translation>Ferramenta de Captura</translation>
+        <translation type="unfinished">Ferramenta de Captura</translation>
     </message>
     <message>
         <source>License: </source>
-        <translation>Licença: </translation>
+        <translation type="unfinished">Licença: </translation>
     </message>
     <message>
         <source>Please use </source>
-        <translation>Por favor, utilize o </translation>
+        <translation type="unfinished">Por favor, utilize o </translation>
     </message>
     <message>
         <source> to report bugs.</source>
-        <translation> para reportar problemas.</translation>
-    </message>
-    <message>
-        <source>Build</source>
-        <translation>Compilação</translation>
-    </message>
-    <message>
-        <source>Using:</source>
-        <translation>Utilizando:</translation>
-    </message>
-    <message>
-        <source>The Author:</source>
-        <translation>Autor:</translation>
-    </message>
-    <message>
-        <source>Contributors:</source>
-        <translation>Contribuidores:</translation>
-    </message>
-    <message>
-        <source>Spanish Translation</source>
-        <translation>Tradução para o Espanhol</translation>
-    </message>
-    <message>
-        <source>Dutch Translation</source>
-        <translation>Tradução para o Holandês</translation>
-    </message>
-    <message>
-        <source>Russian Translation</source>
-        <translation>Tradução para o Russo</translation>
-    </message>
-    <message>
-        <source>Norwegian Bokmål Translation</source>
-        <translation>Tradução para o Norueguês Bokmål</translation>
-    </message>
-    <message>
-        <source>French Translation</source>
-        <translation>Tradução para o Francês</translation>
-    </message>
-    <message>
-        <source>Polish Translation</source>
-        <translation>Tradução para o Polonês</translation>
+        <translation type="unfinished"> para reportar problemas.</translation>
     </message>
 </context>
 <context>
@@ -252,6 +219,45 @@ A mudança requer reinicialização.</translation>
         <source>Close to Tray</source>
         <translation>Fechar para a bandeja</translation>
     </message>
+    <message>
+        <source>Start Minimized to Tray.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AuthorTab</name>
+    <message>
+        <source>The Author:</source>
+        <translation type="unfinished">Autor:</translation>
+    </message>
+    <message>
+        <source>Contributors:</source>
+        <translation type="unfinished">Contribuidores:</translation>
+    </message>
+    <message>
+        <source>Spanish Translation</source>
+        <translation type="unfinished">Tradução para o Espanhol</translation>
+    </message>
+    <message>
+        <source>Dutch Translation</source>
+        <translation type="unfinished">Tradução para o Holandês</translation>
+    </message>
+    <message>
+        <source>Russian Translation</source>
+        <translation type="unfinished">Tradução para o Russo</translation>
+    </message>
+    <message>
+        <source>Norwegian Bokmål Translation</source>
+        <translation type="unfinished">Tradução para o Norueguês Bokmål</translation>
+    </message>
+    <message>
+        <source>French Translation</source>
+        <translation type="unfinished">Tradução para o Francês</translation>
+    </message>
+    <message>
+        <source>Polish Translation</source>
+        <translation type="unfinished">Tradução para o Polonês</translation>
+    </message>
 </context>
 <context>
     <name>CanDiscardOperation</name>
@@ -337,6 +343,33 @@ Você quer salvá-la?</translation>
     </message>
 </context>
 <context>
+    <name>DonateTab</name>
+    <message>
+        <source>Donate a Beer?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sure, you can do that</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Become a Sponsor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Also possible, </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donations are always welcome</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>HandleUploadResponseOperation</name>
     <message>
         <source>Upload Successful</source>
@@ -403,22 +436,6 @@ capturas de tela.</translation>
         <translation>Congelar imagem ao capturar área retangular</translation>
     </message>
     <message>
-        <source>When enabled will freeze the background while
-selecting a rectangular region. It also changes
-the behavior of delayed screenshots, with this
-option enabled the delay happens before the
-snipping area is show and with the option disabled
-the delay happens after the snipping area is shown.
-This feature doesn&apos;t work for Wayland and is always
-used for MacOs.</source>
-        <translation>Quando habilitado, o fundo será congelado ao selecionar uma área retangular.
-Também muda o comportamento de capturas de tela atrasadas, com esta opção
-hablidatada o atraso acontece antes da área retangular ser exibida e com a opção
-desabilitada o atraso acontece depois que a área retangular for exibida.
-Esse recurso não funciona para Wayland e é sempre
-utilizada no MacOS.</translation>
-    </message>
-    <message>
         <source>Show magnifying glass on snipping area</source>
         <translation>Exibir lupa ao capturar área retangular</translation>
     </message>
@@ -480,6 +497,17 @@ A alteração requer que o ksnip reinicie para surtir efeito.</translation>
         <source>Image Grabber</source>
         <translation>Captura de Imagem</translation>
     </message>
+    <message>
+        <source>When enabled will freeze the background while
+selecting a rectangular region. It also changes
+the behavior of delayed screenshots, with this
+option enabled the delay happens before the
+snipping area is show and with the option disabled
+the delay happens after the snipping area is shown.
+This feature is always disabled for Wayland and always
+enabled for MacOs.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgurHistoryDialog</name>
@@ -509,10 +537,6 @@ A alteração requer que o ksnip reinicie para surtir efeito.</translation>
     <message>
         <source>Force anonymous upload</source>
         <translation>Forçar upload anônimo</translation>
-    </message>
-    <message>
-        <source>Open link directly to image</source>
-        <translation>Abrir link diretamente para a imagem</translation>
     </message>
     <message>
         <source>Always copy Imgur link to clipboard</source>
@@ -577,6 +601,10 @@ A alteração requer que o ksnip reinicie para surtir efeito.</translation>
     <message>
         <source>After uploading open Imgur link in default browser</source>
         <translation>Depois do upload, abrir link do Imgur no navegador padrão</translation>
+    </message>
+    <message>
+        <source>Link directly to image</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -824,6 +852,21 @@ e captura de tela.</translation>
     <message>
         <source>You are about to upload the screenshot to a imgur.com, do you want to proceed?</source>
         <translation>Você está prestes a enviar a captura de tela para imgur.com, deseja continuar?</translation>
+    </message>
+</context>
+<context>
+    <name>VersionTab</name>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished">Versão</translation>
+    </message>
+    <message>
+        <source>Build</source>
+        <translation type="unfinished">Compilação</translation>
+    </message>
+    <message>
+        <source>Using:</source>
+        <translation type="unfinished">Utilizando:</translation>
     </message>
 </context>
 </TS>

@@ -23,18 +23,15 @@ HandleUploadResponseOperation::HandleUploadResponseOperation(const QString &resp
 {
 	mResponse = response;
 	mTrayIcon = trayIcon;
-	mConfig = KsnipConfig::instance();
+	mConfig = KsnipConfigProvider::instance();
 	mClipboard = QApplication::clipboard();
 }
 
 bool HandleUploadResponseOperation::execute()
 {
 	auto url = formatUrl(mResponse);
-
 	openInBrowser(url);
-
 	copyToClipboard(url);
-
 	notifyAboutUpload(url);
 
 	return true;
@@ -55,7 +52,7 @@ void HandleUploadResponseOperation::openInBrowser(const QUrl &url) const
 
 QUrl HandleUploadResponseOperation::formatUrl(QString &response) const
 {
-	if (!mConfig->imgurOpenLinkDirectlyToImage()) {
+	if (!mConfig->imgurLinkDirectlyToImage()) {
 		response = response.remove(QStringLiteral(".png"));
 	}
 	return response;

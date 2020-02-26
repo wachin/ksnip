@@ -50,7 +50,7 @@ ImgurUploaderSettings::~ImgurUploaderSettings()
 void ImgurUploaderSettings::saveSettings()
 {
 	mConfig->setImgurForceAnonymous(mImgurForceAnonymousCheckbox->isChecked());
-	mConfig->setImgurOpenLinkDirectlyToImage(mImgurDirectLinkToImageCheckbox->isChecked());
+	mConfig->setImgurLinkDirectlyToImage(mImgurDirectLinkToImageCheckbox->isChecked());
 	mConfig->setImgurAlwaysCopyToClipboard(mImgurAlwaysCopyToClipboardCheckBox->isChecked());
 	mConfig->setImgurConfirmBeforeUpload(mImgurConfirmBeforeUploadCheckbox->isChecked());
 	mConfig->setImgurOpenLinkInBrowser(mImgurOpenLinkInBrowserCheckbox->isChecked());
@@ -78,11 +78,9 @@ void ImgurUploaderSettings::initGui()
 
 	mImgurForceAnonymousCheckbox->setText(tr("Force anonymous upload"));
 	mImgurOpenLinkInBrowserCheckbox->setText(tr("After uploading open Imgur link in default browser"));
-	mImgurDirectLinkToImageCheckbox->setText(tr("Open link directly to image"));
+	mImgurDirectLinkToImageCheckbox->setText(tr("Link directly to image"));
 	mImgurAlwaysCopyToClipboardCheckBox->setText(tr("Always copy Imgur link to clipboard"));
 	mImgurConfirmBeforeUploadCheckbox->setText(tr("Ask for confirmation before uploading"));
-
-	connect(mImgurOpenLinkInBrowserCheckbox, &QCheckBox::stateChanged, this, &ImgurUploaderSettings::openLinkInBrowserChanged);
 
 	mImgurClientIdLineEdit->setPlaceholderText(tr("Client ID"));
 	connect(mImgurClientIdLineEdit, &QLineEdit::textChanged, this, &ImgurUploaderSettings::imgurClientEntered);
@@ -108,20 +106,20 @@ void ImgurUploaderSettings::initGui()
 	connect(mImgurHistoryButton, &QPushButton::clicked, this, &ImgurUploaderSettings::showImgurHistoryDialog);
 
 	mLayout->setAlignment(Qt::AlignTop);
-	mLayout->setColumnStretch(0, 1);
-	mLayout->addWidget(mImgurForceAnonymousCheckbox, 0, 0);
-	mLayout->addWidget(mImgurOpenLinkInBrowserCheckbox, 1, 0);
-	mLayout->addWidget(mImgurDirectLinkToImageCheckbox, 2, 0);
-	mLayout->addWidget(mImgurAlwaysCopyToClipboardCheckBox, 3, 0);
-	mLayout->addWidget(mImgurConfirmBeforeUploadCheckbox, 4, 0);
+	mLayout->setColumnMinimumWidth(0, ScaledSizeProvider::getScaledWidth(10));
+	mLayout->addWidget(mImgurForceAnonymousCheckbox, 0, 0, 1, 3);
+	mLayout->addWidget(mImgurOpenLinkInBrowserCheckbox, 1, 0, 1, 3);
+	mLayout->addWidget(mImgurDirectLinkToImageCheckbox, 2, 0, 1, 3);
+	mLayout->addWidget(mImgurAlwaysCopyToClipboardCheckBox, 3, 0, 1, 3);
+	mLayout->addWidget(mImgurConfirmBeforeUploadCheckbox, 4, 0, 1, 3);
 	mLayout->setRowMinimumHeight(5, 15);
-	mLayout->addWidget(mImgurUsernameLabel, 6, 0);
-	mLayout->addWidget(mImgurHistoryButton, 6, 3);
-	mLayout->addWidget(mImgurClientIdLineEdit, 7, 0);
-	mLayout->addWidget(mImgurClientSecretLineEdit, 8, 0);
-	mLayout->addWidget(mImgurGetPinButton, 8, 3);
-	mLayout->addWidget(mImgurPinLineEdit, 9, 0);
-	mLayout->addWidget(mImgurGetTokenButton, 9, 3);
+	mLayout->addWidget(mImgurUsernameLabel, 6, 0, 1, 3);
+	mLayout->addWidget(mImgurHistoryButton, 6, 3, 1, 1);
+	mLayout->addWidget(mImgurClientIdLineEdit, 7, 0, 1, 3);
+	mLayout->addWidget(mImgurClientSecretLineEdit, 8, 0, 1, 3);
+	mLayout->addWidget(mImgurGetPinButton, 8, 3, 1, 1);
+	mLayout->addWidget(mImgurPinLineEdit, 9, 0, 1, 3);
+	mLayout->addWidget(mImgurGetTokenButton, 9, 3, 1, 1);
 
 	setTitle(tr("Imgur Uploader"));
 	setLayout(mLayout);
@@ -131,11 +129,9 @@ void ImgurUploaderSettings::loadConfig()
 {
 	mImgurForceAnonymousCheckbox->setChecked(mConfig->imgurForceAnonymous());
 	mImgurOpenLinkInBrowserCheckbox->setChecked(mConfig->imgurOpenLinkInBrowser());
-	mImgurDirectLinkToImageCheckbox->setChecked(mConfig->imgurOpenLinkDirectlyToImage());
+	mImgurDirectLinkToImageCheckbox->setChecked(mConfig->imgurLinkDirectlyToImage());
 	mImgurAlwaysCopyToClipboardCheckBox->setChecked(mConfig->imgurAlwaysCopyToClipboard());
 	mImgurConfirmBeforeUploadCheckbox->setChecked(mConfig->imgurConfirmBeforeUpload());
-
-	openLinkInBrowserChanged();
 
 	mImgurUsernameLabel->setText(tr("Username") + ": " + mConfig->imgurUsername());
 	if(!mConfig->imgurClientId().isEmpty()) {
@@ -184,12 +180,10 @@ void ImgurUploaderSettings::imgurClientEntered(const QString&)
  * We have received a new token from imgur.com, now we save it to config for
  * later use and inform the user about it.
  */
-void ImgurUploaderSettings::imgurTokenUpdated(const QString& accessToken,
-                                       const QString& refreshTocken,
-                                       const QString& username)
+void ImgurUploaderSettings::imgurTokenUpdated(const QString& accessToken, const QString& refreshToken, const QString& username)
 {
 	mConfig->setImgurAccessToken(accessToken.toUtf8());
-	mConfig->setImgurRefreshToken(refreshTocken.toUtf8());
+	mConfig->setImgurRefreshToken(refreshToken.toUtf8());
 	mConfig->setImgurUsername(username);
 
 	mImgurUsernameLabel->setText(tr("Username:") + username);
@@ -212,7 +206,3 @@ void ImgurUploaderSettings::showImgurHistoryDialog()
 	dialog.exec();
 }
 
-void ImgurUploaderSettings::openLinkInBrowserChanged()
-{
-	mImgurDirectLinkToImageCheckbox->setEnabled(mImgurOpenLinkInBrowserCheckbox->isChecked());
-}

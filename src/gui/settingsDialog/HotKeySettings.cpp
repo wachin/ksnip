@@ -110,17 +110,19 @@ void HotKeySettings::initGui()
 void HotKeySettings::loadConfig()
 {
 	mEnableGlobalHotKeysCheckBox->setChecked(mConfig->globalHotKeysEnabled());
+	mEnableGlobalHotKeysCheckBox->setEnabled(!mConfig->isGlobalHotKeysEnabledReadOnly());
 	mRectAreaKeySequenceLineEdit->setValue(mConfig->rectAreaHotKey());
 	mLastRectAreaKeySequenceLineEdit->setValue(mConfig->lastRectAreaHotKey());
 	mFullScreenKeySequenceLineEdit->setValue(mConfig->fullScreenHotKey());
 	mCurrentScreenKeySequenceLineEdit->setValue(mConfig->currentScreenHotKey());
 	mActiveWindowKeySequenceLineEdit->setValue(mConfig->activeWindowHotKey());
 	mWindowUnderCursorKeySequenceLineEdit->setValue(mConfig->windowUnderCursorHotKey());
+	globalHotKeysStateChanged();
 }
 
 void HotKeySettings::globalHotKeysStateChanged()
 {
-	auto hotKeysEnabled = mEnableGlobalHotKeysCheckBox->isChecked();
+	auto hotKeysEnabled = mEnableGlobalHotKeysCheckBox->isChecked() && mEnableGlobalHotKeysCheckBox->isEnabled();
 	mRectAreaLabel->setEnabled(hotKeysEnabled);
 	mLastRectAreaLabel->setEnabled(hotKeysEnabled);
 	mFullScreenLabel->setEnabled(hotKeysEnabled);

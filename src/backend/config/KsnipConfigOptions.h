@@ -41,6 +41,7 @@ public:
 	static QString useTrayIconString();
 	static QString minimizeToTrayString();
 	static QString closeToTrayString();
+	static QString startMinimizedToTray();
 	static QString textFontString();
 	static QString numberFontString();
 	static QString itemShadowEnabledString();
@@ -61,7 +62,7 @@ public:
 	static QString imgurAccessTokenString();
 	static QString imgurRefreshTokenString();
 	static QString imgurForceAnonymousString();
-	static QString imgurOpenLinkDirectlyToImageString();
+	static QString imgurLinkDirectlyToImageString();
 	static QString imgurOpenLinkInBrowserString();
 	static QString imgurAlwaysCopyToClipboardString();
 	static QString imgurConfirmBeforeUploadString();

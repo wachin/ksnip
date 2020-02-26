@@ -3,6 +3,7 @@ set(KSNIP_SRCS
 	${CMAKE_SOURCE_DIR}/src/backend/config/KsnipConfig.cpp
 	${CMAKE_SOURCE_DIR}/src/backend/config/KsnipConfigOptions.cpp
 	${CMAKE_SOURCE_DIR}/src/backend/config/SavePathProvider.cpp
+	${CMAKE_SOURCE_DIR}/src/backend/config/KsnipConfigProvider.cpp
 	${CMAKE_SOURCE_DIR}/src/backend/imageGrabber/AbstractImageGrabber.cpp
 	${CMAKE_SOURCE_DIR}/src/backend/imageGrabber/ImageGrabberFactory.cpp
 	${CMAKE_SOURCE_DIR}/src/backend/uploader/ImgurUploader.cpp
@@ -19,6 +20,7 @@ set(KSNIP_SRCS
 	${CMAKE_SOURCE_DIR}/src/common/helper/PathHelper.cpp
 	${CMAKE_SOURCE_DIR}/src/common/loader/IconLoader.cpp
 	${CMAKE_SOURCE_DIR}/src/common/handler/DelayHandler.cpp
+	${CMAKE_SOURCE_DIR}/src/common/provider/ScaledSizeProvider.cpp
 	${CMAKE_SOURCE_DIR}/src/widgets/CustomToolButton.cpp
 	${CMAKE_SOURCE_DIR}/src/widgets/CustomCursor.cpp
 	${CMAKE_SOURCE_DIR}/src/widgets/CursorFactory.cpp
@@ -41,7 +43,11 @@ set(KSNIP_SRCS
 	${CMAKE_SOURCE_DIR}/src/gui/settingsDialog/ImgurUploaderSettings.cpp
 	${CMAKE_SOURCE_DIR}/src/gui/settingsDialog/HotKeySettings.cpp
 	${CMAKE_SOURCE_DIR}/src/gui/settingsDialog/SettingsDialog.cpp
-	${CMAKE_SOURCE_DIR}/src/gui/AboutDialog.cpp
+	${CMAKE_SOURCE_DIR}/src/gui/aboutDialog/AboutDialog.cpp
+	${CMAKE_SOURCE_DIR}/src/gui/aboutDialog/AboutTab.cpp
+	${CMAKE_SOURCE_DIR}/src/gui/aboutDialog/VersionTab.cpp
+	${CMAKE_SOURCE_DIR}/src/gui/aboutDialog/AuthorTab.cpp
+	${CMAKE_SOURCE_DIR}/src/gui/aboutDialog/DonateTab.cpp
 	${CMAKE_SOURCE_DIR}/src/gui/ImgurHistoryDialog.cpp
 	${CMAKE_SOURCE_DIR}/src/gui/TrayIcon.cpp
 	${CMAKE_SOURCE_DIR}/src/gui/globalHotKeys/GlobalHotKey.cpp
@@ -66,6 +72,7 @@ if (APPLE)
 		${KSNIP_SRCS}
 		${CMAKE_SOURCE_DIR}/src/backend/imageGrabber/MacImageGrabber.cpp
 		${CMAKE_SOURCE_DIR}/src/backend/imageGrabber/MacWrapper.cpp
+		${CMAKE_SOURCE_DIR}/src/backend/config/KsnipMacConfig.cpp
 		${CMAKE_SOURCE_DIR}/src/gui/snippingArea/MacSnippingArea.cpp
 		${CMAKE_SOURCE_DIR}/src/gui/globalHotKeys/DummyKeyHandler.cpp
 		${CMAKE_SOURCE_DIR}/src/gui/globalHotKeys/MacKeyHandler.cpp
@@ -78,6 +85,7 @@ elseif (UNIX)
 		${CMAKE_SOURCE_DIR}/src/backend/imageGrabber/KdeWaylandImageGrabber.cpp
 		${CMAKE_SOURCE_DIR}/src/backend/imageGrabber/X11Wrapper.cpp
 		${CMAKE_SOURCE_DIR}/src/backend/imageGrabber/GnomeWaylandImageGrabber.cpp
+		${CMAKE_SOURCE_DIR}/src/backend/config/KsnipWaylandConfig.cpp
 		${CMAKE_SOURCE_DIR}/src/common/platform/PlatformChecker.cpp
 		${CMAKE_SOURCE_DIR}/src/common/platform/CommandRunner.cpp
 		${CMAKE_SOURCE_DIR}/src/common/platform/DesktopScaleFactorProvider.cpp
