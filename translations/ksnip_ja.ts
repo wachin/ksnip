@@ -55,7 +55,7 @@
     </message>
     <message>
         <source>Please add a Watermark Image via Options &gt; Settings &gt; Annotator &gt; Update</source>
-        <translation>オプション &gt; 設定 &gt; 注釈 &gt; 更新 からウォーターマーク画像を追加してください</translation>
+        <translation>「オプション」 &gt; 「設定」 &gt; 「注釈」 &gt; 「更新」でウォーターマーク画像を追加してください</translation>
     </message>
 </context>
 <context>
@@ -118,77 +118,42 @@ make them more smooth.</source>
         <translation>番号描画ツール用のフォントを設定します。</translation>
     </message>
     <message>
-        <source>Watermark Image</source>
-        <translation>ウォーターマーク画像</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation>更新</translation>
-    </message>
-    <message>
-        <source>Rotate Watermark</source>
-        <translation>ウォーターマークを傾ける</translation>
-    </message>
-    <message>
-        <source>When enabled, Watermark will be added with a rotation of 45°</source>
-        <translation>有効にするとウォーターマークが 45° 傾いた状態になります</translation>
-    </message>
-    <message>
         <source>Annotator Settings</source>
         <translation>注釈設定</translation>
+    </message>
+    <message>
+        <source>Remember annotation tool selection and load on startup</source>
+        <translation>注釈ツールの選択を記憶して起動時に読み込みます</translation>
+    </message>
+    <message>
+        <source>Switch to Select Tool after drawing Item</source>
+        <translation>アイテムを描画したら選択ツールに切り替える</translation>
+    </message>
+    <message>
+        <source>Number Tool Seed change updates all Number Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabling this option causes changes of the number tool
+seed to affect only new items but not existing items.
+Disabling this option allows having duplicate numbers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Canvas Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default Canvas background color for annotation area.
+Changing color affects only new annotation areas.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ApplicationSettings</name>
     <message>
-        <source>Always copy capture to clipboard</source>
-        <translation>常にキャプチャーをクリップボードにコピーする</translation>
-    </message>
-    <message>
-        <source>Prompt to save before discarding unsaved changes</source>
-        <translation>未保存の変更を破棄する前に保存するか確認する</translation>
-    </message>
-    <message>
-        <source>Save ksnip position on move and load on startup</source>
-        <translation>ksnip のウィンドウ位置を記憶する</translation>
-    </message>
-    <message>
-        <source>Save ksnip tool selection and load on startup</source>
-        <translation>選択した ksnip のツールを記憶する</translation>
-    </message>
-    <message>
         <source>Capture screenshot at startup with default mode</source>
-        <translation>起動時にデフォルトモードでスクリーンショットを撮る</translation>
-    </message>
-    <message>
-        <source>Instant save to default location without &apos;Save as&apos; dialog</source>
-        <translation>「名前を付けて保存」ダイアログを表示せずにデフォルトの場所に即保存する</translation>
-    </message>
-    <message>
-        <source>When enabled, will not ask where to save a screenshot
-when saving, but will save instantly to default location.</source>
-        <translation>有効にすると、スクリーンショット保存時に
-確認ダイアログを表示せず、デフォルトの場
-所に直接保存します。</translation>
-    </message>
-    <message>
-        <source>Use Tray Icon</source>
-        <translation>トレイアイコンを使用する</translation>
-    </message>
-    <message>
-        <source>When enabled will add a Tray Icon to the TaskBar if the OS Window Manager supports it.
-Change requires restart.</source>
-        <translation>有効にすると、タスクバーにトレイアイコンを追加します 
-(OS のウィンドウマネージャーがサポートしている場合)。
-変更には再起動が必要です。</translation>
-    </message>
-    <message>
-        <source>Minimize to Tray</source>
-        <translation>最小化したらトレイに格納する</translation>
-    </message>
-    <message>
-        <source>Close to Tray</source>
-        <translation>ウィンドウを閉じたらトレイに格納する</translation>
+        <translation>起動時に既定のモードでスクリーンショットを撮る</translation>
     </message>
     <message>
         <source>Application Style</source>
@@ -201,37 +166,59 @@ Change requires ksnip restart to take effect.</source>
 この変更は ksnip を再起動すると有効になります。</translation>
     </message>
     <message>
-        <source>Capture save location and filename</source>
-        <translation>キャプチャーの保存場所とファイル名</translation>
-    </message>
-    <message>
-        <source>Filename can contain $Y, $M, $D for date, $h, $m, $s for time, or $T for time in hhmmss format.</source>
-        <translation>ファイル名には、日付を表す変数 ($Y、$M、$D)、時間を表す変数 ($h、$m、$s)、
-hhmmss 形式で時間を表す変数 ($T) を含めることができます。</translation>
-    </message>
-    <message>
-        <source>Browse</source>
-        <translation>参照</translation>
-    </message>
-    <message>
         <source>Application Settings</source>
         <translation>アプリケーション設定</translation>
     </message>
     <message>
-        <source>Capture save location</source>
-        <translation>キャプチャーの保存場所</translation>
+        <source>Automatically copy new captures to clipboard</source>
+        <translation>自動的に新しいキャプチャーをクリップボードにコピーする</translation>
     </message>
     <message>
-        <source>Start Minimized to Tray.</source>
-        <translation>トレイに最小化した状態で起動する</translation>
+        <source>Use Tabs</source>
+        <translation>タブを使用する</translation>
+    </message>
+    <message>
+        <source>Change requires restart.</source>
+        <translation>変更には再起動が必要です。</translation>
+    </message>
+    <message>
+        <source>Run ksnip as single instance</source>
+        <translation>ksnip をシングルインスタンスとして実行する</translation>
+    </message>
+    <message>
+        <source>Hide Tabbar when only one Tab is used.</source>
+        <translation>タブが一つの時はタブバーを隠します。</translation>
+    </message>
+    <message>
+        <source>Enabling this option will allow only one ksnip instance to run,
+all other instances started after the first will pass its
+arguments to the first and close. Changing this option requires
+a new start of all instances.</source>
+        <translation>このオプションを有効にすると、実行できる ksnip のインスタンス
+は一つだけになり、他のインスタンスを起動すると起動済みのイン
+スタンスに引数を渡して終了するようになります。このオプション
+の変更には、すべてのインスタンスを終了する必要があります。</translation>
+    </message>
+    <message>
+        <source>Remember Main Window position on move and load on startup</source>
+        <translation>メインウィンドウの位置を記憶して起動時に読み込む</translation>
+    </message>
+    <message>
+        <source>Auto hide Tabs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto hide Docks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On startup hide Toolbar and Annotation Settings.
+Docks visibility can be toggled with the Tab Key.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AuthorTab</name>
-    <message>
-        <source>The Author:</source>
-        <translation>作者:</translation>
-    </message>
     <message>
         <source>Contributors:</source>
         <translation>貢献者:</translation>
@@ -260,6 +247,14 @@ hhmmss 形式で時間を表す変数 ($T) を含めることができます。<
         <source>Polish Translation</source>
         <translation>ポーランド語訳</translation>
     </message>
+    <message>
+        <source>Snap &amp; Flatpak Support</source>
+        <translation>Snap と Flatpak のサポート</translation>
+    </message>
+    <message>
+        <source>The Authors:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CanDiscardOperation</name>
@@ -268,9 +263,9 @@ hhmmss 形式で時間を表す変数 ($T) を含めることができます。<
         <translation>警告 - </translation>
     </message>
     <message>
-        <source>The capture has been modified.
+        <source>The capture %1%2%3 has been modified.
 Do you want to save it?</source>
-        <translation>キャプチャーが変更されています。
+        <translation>キャプチャー %1%2%3 は変更されています。
 保存しますか？</translation>
     </message>
 </context>
@@ -281,105 +276,185 @@ Do you want to save it?</source>
         <translation>新規</translation>
     </message>
     <message>
-        <source>Rectangular Area</source>
-        <translation>選択範囲</translation>
-    </message>
-    <message>
         <source>Draw a rectangular area with your mouse</source>
         <translation>マウスで四角く選択します</translation>
-    </message>
-    <message>
-        <source>Last Rectangular Area</source>
-        <translation>最近の選択範囲</translation>
     </message>
     <message>
         <source>Capture a screenshot of the last selected rectangular area</source>
         <translation>最近選択した範囲のスクリーンショットをキャプチャーします</translation>
     </message>
     <message>
-        <source>Full Screen (All Monitors)</source>
-        <translation>全画面 (すべてのモニター)</translation>
-    </message>
-    <message>
         <source>Capture full screen including all monitors</source>
         <translation>すべてのモニターの全画面をキャプチャーします</translation>
-    </message>
-    <message>
-        <source>Current Screen</source>
-        <translation>現在の画面</translation>
     </message>
     <message>
         <source>Capture screen where the mouse is located</source>
         <translation>マウスカーソルがある画面をキャプチャーします</translation>
     </message>
     <message>
-        <source>Active Window</source>
-        <translation>アクティブウィンドウ</translation>
-    </message>
-    <message>
         <source>Capture window that currently has focus</source>
         <translation>現在フォーカスがあるウィンドウをキャプチャーします</translation>
-    </message>
-    <message>
-        <source>Window Under Cursor</source>
-        <translation>カーソルがあるウィンドウ</translation>
     </message>
     <message>
         <source>Capture that is currently under the mouse cursor</source>
         <translation>現在マウスカーソルがあるウィンドウをキャプチャーします</translation>
     </message>
+    <message>
+        <source>Uses the screenshot Portal for taking screenshot</source>
+        <translation>スクリーンショットの取得に Screenshot Portal を使用します</translation>
+    </message>
 </context>
 <context>
-    <name>CaptureUploader</name>
+    <name>CopyAsDataUriOperation</name>
     <message>
-        <source>Upload to imgur.com finished!</source>
-        <translation>imgur.com へのアップロードが完了しました！</translation>
+        <source>Failed to copy to clipboard</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Received new token, trying upload again…</source>
-        <translation>新しいトークンを受け取りました。アップロードを再試行しています…</translation>
+        <source>Failed to copy to clipboard as base64 encoded image.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Imgur token has expired, requesting new token…</source>
-        <translation>Imgur トークンの期限切れです。新しいトークンを要求しています…</translation>
+        <source>Copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copied to clipboard as base64 encoded image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DeleteImageOperation</name>
+    <message>
+        <source>Delete Image</source>
+        <translation>画像を削除</translation>
+    </message>
+    <message>
+        <source>The item &apos;%1&apos; will be deleted.
+Do you want to continue?</source>
+        <translation>&apos;%1&apos; を削除します。
+続行しますか？</translation>
     </message>
 </context>
 <context>
     <name>DonateTab</name>
     <message>
-        <source>Donate a Beer?</source>
-        <translation>寄付について</translation>
-    </message>
-    <message>
-        <source>Sure, you can do that</source>
-        <translation>寄付していただける場合は、</translation>
-    </message>
-    <message>
         <source>here</source>
         <translation>こちらからお願いします</translation>
     </message>
     <message>
-        <source>Become a Sponsor</source>
-        <translation>スポンサーになる</translation>
-    </message>
-    <message>
         <source>Also possible, </source>
-        <translation>スポンサーになっていただける場合は、 </translation>
+        <translation>スポンサーになっていただける場合は </translation>
     </message>
     <message>
         <source>Donations are always welcome</source>
         <translation>寄付はいつでも大歓迎です</translation>
     </message>
+    <message>
+        <source>Donation</source>
+        <translation>寄付</translation>
+    </message>
+    <message>
+        <source>Become a GitHub Sponsor</source>
+        <translation>GitHub スポンサーになる</translation>
+    </message>
+    <message>
+        <source>ksnip is a non-profitable copylefted libre software project, and&lt;br/&gt;still has some costs that need to be covered,&lt;br/&gt;like domain costs or hardware costs for cross-platform support.</source>
+        <translation>ksnip は非営利でコピーレフトの自由なソフトウェアプロジェクトですが、&lt;br/&gt;ドメインやクロスプラットフォームのサポートのためのハードウェアなどに&lt;br/&gt;費用がかかっています。</translation>
+    </message>
+    <message>
+        <source>If you want to help or just&lt;br/&gt;want to appreciate the work being done&lt;br/&gt;by treating developers to a beer or coffee, you can do that</source>
+        <translation>開発者をビールやコーヒーで支援していただける場合は</translation>
+    </message>
 </context>
 <context>
-    <name>HandleUploadResponseOperation</name>
+    <name>EnumTranslator</name>
+    <message>
+        <source>Rectangular Area</source>
+        <translation type="unfinished">選択範囲</translation>
+    </message>
+    <message>
+        <source>Last Rectangular Area</source>
+        <translation type="unfinished">最近の選択範囲</translation>
+    </message>
+    <message>
+        <source>Full Screen (All Monitors)</source>
+        <translation type="unfinished">全画面 (すべてのモニター)</translation>
+    </message>
+    <message>
+        <source>Current Screen</source>
+        <translation type="unfinished">現在の画面</translation>
+    </message>
+    <message>
+        <source>Active Window</source>
+        <translation type="unfinished">アクティブウィンドウ</translation>
+    </message>
+    <message>
+        <source>Window Under Cursor</source>
+        <translation type="unfinished">カーソルがあるウィンドウ</translation>
+    </message>
+    <message>
+        <source>Screenshot Portal</source>
+        <translation type="unfinished">Screenshot Portal</translation>
+    </message>
+</context>
+<context>
+    <name>HandleUploadResultOperation</name>
     <message>
         <source>Upload Successful</source>
-        <translation>アップロードが成功しました</translation>
+        <translation>アップロードに成功しました</translation>
+    </message>
+    <message>
+        <source>Upload script </source>
+        <translation>アップロードスクリプト </translation>
+    </message>
+    <message>
+        <source> finished successfully.</source>
+        <translation> が正常に終了しました。</translation>
     </message>
     <message>
         <source>Uploaded to</source>
         <translation>アップロード先:</translation>
+    </message>
+    <message>
+        <source>Unable to save temporary image for upload.</source>
+        <translation>アップロードするための一時画像を保存できません。</translation>
+    </message>
+    <message>
+        <source>Unable to start process, check path and permissions.</source>
+        <translation>プロセスを起動できません。パスとパーミッションを確認してください。</translation>
+    </message>
+    <message>
+        <source>Process crashed</source>
+        <translation>プロセスがクラッシュしました</translation>
+    </message>
+    <message>
+        <source>Process timed out.</source>
+        <translation>プロセスがタイムアウトしました。</translation>
+    </message>
+    <message>
+        <source>Process read error.</source>
+        <translation>プロセスの読み取りエラーです。</translation>
+    </message>
+    <message>
+        <source>Process write error.</source>
+        <translation>プロセスの書き込みエラーです。</translation>
+    </message>
+    <message>
+        <source>Web error, check console output.</source>
+        <translation>ウェブのエラーです。コンソールの出力を確認してください。</translation>
+    </message>
+    <message>
+        <source>Unknown process error.</source>
+        <translation>プロセスの不明なエラーです。</translation>
+    </message>
+    <message>
+        <source>Upload Failed</source>
+        <translation>アップロードに失敗しました</translation>
+    </message>
+    <message>
+        <source>Script wrote to StdErr.</source>
+        <translation>スクリプトが StdErr に書き込みました。</translation>
     </message>
 </context>
 <context>
@@ -420,6 +495,14 @@ Do you want to save it?</source>
         <source>Global HotKeys</source>
         <translation>グローバルホットキー</translation>
     </message>
+    <message>
+        <source>Clear</source>
+        <translation>消去</translation>
+    </message>
+    <message>
+        <source>Capture using Portal</source>
+        <translation>Portal を使用してキャプチャー</translation>
+    </message>
 </context>
 <context>
     <name>ImageGrabberSettings</name>
@@ -434,86 +517,50 @@ screenshots.</source>
 表示させたい場合は有効にしてください。</translation>
     </message>
     <message>
-        <source>Freeze Image while snipping</source>
-        <translation>範囲選択画面で画像を固定する</translation>
-    </message>
-    <message>
-        <source>Show magnifying glass on snipping area</source>
-        <translation>範囲選択画面で拡大鏡を表示する</translation>
-    </message>
-    <message>
-        <source>Show a magnifying glass which zooms into
-the background image. This option only works
-with &apos;Freeze Image while snipping&apos; enabled.</source>
-        <translation>背景画像を拡大する拡大鏡を表示します。
-このオプションは「範囲選択画面で画像を
-固定する」が有効な場合のみ動作します。</translation>
-    </message>
-    <message>
-        <source>Show Snipping Area rulers</source>
-        <translation>範囲選択画面でルーラーを表示する</translation>
-    </message>
-    <message>
-        <source>Horizontal and vertical lines going from
-desktop edges to cursor on snipping area.</source>
-        <translation>マウスカーソルから画面端まで
-横線と縦線を表示します。</translation>
-    </message>
-    <message>
-        <source>Show Snipping Area position and size info</source>
-        <translation>範囲選択画面でカーソル位置情報や選択サイズ情報を表示する</translation>
-    </message>
-    <message>
-        <source>When left mouse is not pressed the position
-is show, when the mouse button is pressed,
-the size of the select area is shown left
-and above from the captured area.</source>
-        <translation>マウスの左ボタンを押していない
-時はカーソルの位置情報を表示し、
-押している時は選択範囲の左辺と
-上辺にサイズを表示します。</translation>
-    </message>
-    <message>
-        <source>Snipping Area cursor color</source>
-        <translation>範囲選択カーソルの色</translation>
-    </message>
-    <message>
-        <source>Sets the color of the snipping area
-cursor. Change requires ksnip restart to
-take effect.</source>
-        <translation>範囲選択画面でのカーソルの色を設定します。
-この変更は ksnip を再起動すると有効になります。</translation>
-    </message>
-    <message>
-        <source>Snipping Area cursor thickness</source>
-        <translation>範囲選択カーソルの太さ</translation>
-    </message>
-    <message>
-        <source>Sets the thickness of the snipping area
-cursor. Change requires ksnip restart to
-take effect.</source>
-        <translation>範囲選択画面でのカーソルの太さを設定します。
-この変更は ksnip を再起動すると有効になります。</translation>
-    </message>
-    <message>
         <source>Image Grabber</source>
         <translation>画像取得</translation>
     </message>
     <message>
-        <source>When enabled will freeze the background while
-selecting a rectangular region. It also changes
-the behavior of delayed screenshots, with this
-option enabled the delay happens before the
-snipping area is show and with the option disabled
-the delay happens after the snipping area is shown.
-This feature is always disabled for Wayland and always
-enabled for MacOs.</source>
-        <translation>有効にすると、範囲選択画面の背景を固定します。
-遅延スクリーンショットの挙動にも影響し、このオ
-プションが有効だと遅延発生後に範囲選択画面が表
-示され、無効だと範囲を選択した後に遅延が発生し
-ます。この機能は Wayland では常に無効になり、
-macOS では常に有効になります。</translation>
+        <source>Force Generic Wayland Screenshot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Generic Wayland Screenshots</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generic Wayland implementations that use
+XDG-DESKTOP-PORTAL handle screen scaling
+differently. Enabling this option will
+determine the current screen scaling and
+apply that to the screenshot in ksnip.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GNOME and KDE Plasma support their own Wayland
+and the Generic XDG-DESKTOP-PORTAL screenshots.
+Enabling this option will force KDE Plasma and
+GNOME to use the XDG-DESKTOP-PORTAL screenshots.
+Change in this option require a ksnip restart.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Main Window after capturing screenshot</source>
+        <translation>スクリーンショット撮影後にメインウィンドウを表示する</translation>
+    </message>
+    <message>
+        <source>Show Main Window after capturing a new screenshot
+when the Main Window was hidden or minimized.</source>
+        <translation>メインウィンドウが非表示または最小化されている状態でスクリーン
+ショットを撮影した場合、撮影後にメインウィンドウを表示します。</translation>
+    </message>
+    <message>
+        <source>Hide Main Window during screenshot</source>
+        <translation>スクリーンショット撮影中はメインウィンドウを隠す</translation>
+    </message>
+    <message>
+        <source>Hide Main Window when capturing a new screenshot.</source>
+        <translation>新しいスクリーンショットを撮る時にメインウィンドウを非表示にします。</translation>
     </message>
 </context>
 <context>
@@ -540,6 +587,21 @@ macOS では常に有効になります。</translation>
     </message>
 </context>
 <context>
+    <name>ImgurUploader</name>
+    <message>
+        <source>Upload to imgur.com finished!</source>
+        <translation>imgur.com へのアップロードが完了しました！</translation>
+    </message>
+    <message>
+        <source>Received new token, trying upload again…</source>
+        <translation>新しいトークンを受け取りました。アップロードを再試行しています…</translation>
+    </message>
+    <message>
+        <source>Imgur token has expired, requesting new token…</source>
+        <translation>Imgur トークンの期限切れです。新しいトークンを要求しています…</translation>
+    </message>
+</context>
+<context>
     <name>ImgurUploaderSettings</name>
     <message>
         <source>Force anonymous upload</source>
@@ -547,15 +609,11 @@ macOS では常に有効になります。</translation>
     </message>
     <message>
         <source>After uploading open Imgur link in default browser</source>
-        <translation>アップロード後 Imgur のリンクをデフォルトのブラウザーで開く</translation>
+        <translation>アップロード後 Imgur のリンクを既定のブラウザーで開く</translation>
     </message>
     <message>
         <source>Always copy Imgur link to clipboard</source>
         <translation>常に Imgur のリンクをクリップボードにコピーする</translation>
-    </message>
-    <message>
-        <source>Ask for confirmation before uploading</source>
-        <translation>アップロード前に確認する</translation>
     </message>
     <message>
         <source>Client ID</source>
@@ -598,10 +656,6 @@ macOS では常に有効になります。</translation>
         <translation>imgur.com を待っています…</translation>
     </message>
     <message>
-        <source>Username:</source>
-        <translation>ユーザー名:</translation>
-    </message>
-    <message>
         <source>Imgur.com token successfully updated.</source>
         <translation>Imgur.com トークンの更新に成功しました。</translation>
     </message>
@@ -612,6 +666,31 @@ macOS では常に有効になります。</translation>
     <message>
         <source>Link directly to image</source>
         <translation>画像に直接リンクする</translation>
+    </message>
+    <message>
+        <source>Base Url:</source>
+        <translation>ベース URL:</translation>
+    </message>
+    <message>
+        <source>Base url that will be used for communication with Imgur.
+Changing requires restart.</source>
+        <translation>Imgur との通信時に使用するベース URL です。
+変更には再起動が必要です。</translation>
+    </message>
+    <message>
+        <source>Clear Token</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LoadImageFromFileOperation</name>
+    <message>
+        <source>Unable to open image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to open image from path %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -674,20 +753,12 @@ and capturing screenshot.</source>
         <translation>画像を表示できません</translation>
     </message>
     <message>
-        <source>No image provided to but one was expected.</source>
-        <translation>期待された画像の提供がありません。</translation>
-    </message>
-    <message>
         <source>Unsaved</source>
         <translation>未保存</translation>
     </message>
     <message>
         <source>Upload</source>
         <translation>アップロード</translation>
-    </message>
-    <message>
-        <source>Upload capture image to imgur.com</source>
-        <translation>キャプチャー画像を imgur.com にアップロードします</translation>
     </message>
     <message>
         <source>Print</source>
@@ -754,12 +825,171 @@ and capturing screenshot.</source>
         <translation>ヘルプ(&amp;H)</translation>
     </message>
     <message>
-        <source>Open Image</source>
+        <source>Image Files (*.png *.jpg *.bmp)</source>
+        <translation>画像ファイル (*.png *.jpg *.bmp)</translation>
+    </message>
+    <message>
+        <source>Save As...</source>
+        <translation>名前を付けて保存...</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>貼り付け</translation>
+    </message>
+    <message>
+        <source>Paste Embedded</source>
+        <translation>貼り付け (埋め込み)</translation>
+    </message>
+    <message>
+        <source>Upload capture to external source</source>
+        <translation>キャプチャーを外部ソースにアップロードします</translation>
+    </message>
+    <message>
+        <source>Pin</source>
+        <translation>ピン留め</translation>
+    </message>
+    <message>
+        <source>Pin screenshot to foreground in frameless window</source>
+        <translation>スクリーンショットを枠のないウィンドウ内に前景としてピン留めします</translation>
+    </message>
+    <message>
+        <source>No image provided but one was expected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy Path</source>
+        <translation>パスをコピー</translation>
+    </message>
+    <message>
+        <source>Open Directory</source>
+        <translation>ディレクトリを開く</translation>
+    </message>
+    <message>
+        <source>&amp;View</source>
+        <translation>表示(&amp;V)</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>削除</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>名前を変更</translation>
+    </message>
+    <message>
+        <source>Open Images</source>
         <translation>画像を開く</translation>
     </message>
     <message>
-        <source>Image Files (*.png *.jpg *.bmp)</source>
-        <translation>画像ファイル (*.png *.jpg *.bmp)</translation>
+        <source>Show Docks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide Docks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy as data URI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy capture to system clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open &amp;Recent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modify Canvas</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MultiCaptureHandler</name>
+    <message>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <source>Save As</source>
+        <translation>名前を付けて保存</translation>
+    </message>
+    <message>
+        <source>Open Directory</source>
+        <translation>ディレクトリを開く</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>コピー</translation>
+    </message>
+    <message>
+        <source>Copy Path</source>
+        <translation>パスをコピー</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>削除</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>名前を変更</translation>
+    </message>
+</context>
+<context>
+    <name>NewCaptureNameProvider</name>
+    <message>
+        <source>Capture</source>
+        <translation>キャプチャー</translation>
+    </message>
+</context>
+<context>
+    <name>PinWindow</name>
+    <message>
+        <source>Close</source>
+        <translation>閉じる</translation>
+    </message>
+    <message>
+        <source>Close Other</source>
+        <translation>他のを閉じる</translation>
+    </message>
+    <message>
+        <source>Close All</source>
+        <translation>すべて閉じる</translation>
+    </message>
+</context>
+<context>
+    <name>PinWindowHandler</name>
+    <message>
+        <source>Pin Window %1</source>
+        <translation>ピン留めウィンドウ %1</translation>
+    </message>
+</context>
+<context>
+    <name>RenameOperation</name>
+    <message>
+        <source>Image Renamed</source>
+        <translation>画像の名前を変更しました</translation>
+    </message>
+    <message>
+        <source>Successfully renamed image to </source>
+        <translation>次の名前に変更しました: </translation>
+    </message>
+    <message>
+        <source>Image Rename Failed</source>
+        <translation>画像の名前を変更できませんでした</translation>
+    </message>
+    <message>
+        <source>Failed to rename image to </source>
+        <translation>次の名前に変更できませんでした: </translation>
+    </message>
+    <message>
+        <source>Rename image</source>
+        <translation>画像の名前を変更</translation>
+    </message>
+    <message>
+        <source>New filename:</source>
+        <translation>新しいファイル名:</translation>
     </message>
 </context>
 <context>
@@ -791,6 +1021,120 @@ and capturing screenshot.</source>
     <message>
         <source>Failed to save image to</source>
         <translation>失敗した保存先:</translation>
+    </message>
+</context>
+<context>
+    <name>SaverSettings</name>
+    <message>
+        <source>Automatically save new captures to default location</source>
+        <translation>自動的に新しいキャプチャーを既定の場所に保存する</translation>
+    </message>
+    <message>
+        <source>Prompt to save before discarding unsaved changes</source>
+        <translation>未保存の変更を破棄する前に保存するか確認する</translation>
+    </message>
+    <message>
+        <source>Remember last Save Directory</source>
+        <translation>最後に保存したディレクトリを記憶する</translation>
+    </message>
+    <message>
+        <source>When enabled will overwrite the save directory stored in settings
+with the latest save directory, for every save.</source>
+        <translation>有効にすると、保存するたびに
+保存先の設定が上書きされます。</translation>
+    </message>
+    <message>
+        <source>Capture save location and filename</source>
+        <translation>キャプチャーの保存場所とファイル名</translation>
+    </message>
+    <message>
+        <source>Supported Formats are JPG, PNG and BMP. If no format provided, PNG will be used as default.
+Filename can contain following wildcards:
+- $Y, $M, $D for date, $h, $m, $s for time, or $T for time in hhmmss format.
+- Multiple consecutive # for counter. #### will result in 0001, next capture would be 0002.</source>
+        <translation>JPG、PNG、BMP をサポートしています。ファイル形式を指定しない場合は PNG になります。
+ファイル名には次のワイルドカードを含めることができます:
+- 日付: $Y, $M, $D, 時刻: $h, $m, $s, hhmmss 形式の時刻: $T
+- 番号を表す連続した #。#### は 0001 に置換され、0002 のように増加します。</translation>
+    </message>
+    <message>
+        <source>Browse</source>
+        <translation>参照</translation>
+    </message>
+    <message>
+        <source>Saver Settings</source>
+        <translation>保存設定</translation>
+    </message>
+    <message>
+        <source>Capture save location</source>
+        <translation>キャプチャーの保存場所</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>既定</translation>
+    </message>
+    <message>
+        <source>Factor</source>
+        <translation>係数</translation>
+    </message>
+    <message>
+        <source>Save Quality</source>
+        <translation>保存品質</translation>
+    </message>
+    <message>
+        <source>Specify 0 to obtain small compressed files, 100 for large uncompressed files.
+Not all image formats support the full range, JPEG does.</source>
+        <translation>ファイルを圧縮して小さくしたい場合は 0 を、大きくても非圧縮にしたい場合は 100 を指定してください。
+JPEG 以外の画像形式は 0 から 100 までの範囲をサポートしていない場合があります。</translation>
+    </message>
+</context>
+<context>
+    <name>ScriptUploaderSettings</name>
+    <message>
+        <source>Copy script output to clipboard</source>
+        <translation>スクリプトの出力をクリップボードにコピーする</translation>
+    </message>
+    <message>
+        <source>Script:</source>
+        <translation>スクリプト:</translation>
+    </message>
+    <message>
+        <source>Path to script that will be called for uploading. During upload the script will be called
+with the path to a temporary png file as a single argument.</source>
+        <translation>アップロード用のスクリプトのパス。スクリプトは、アップロード中に
+単一の一時ファイル (PNG) を引数として呼び出されます。</translation>
+    </message>
+    <message>
+        <source>Browse</source>
+        <translation>参照</translation>
+    </message>
+    <message>
+        <source>Script Uploader</source>
+        <translation>スクリプトアップローダー</translation>
+    </message>
+    <message>
+        <source>Select Upload Script</source>
+        <translation>アップロードスクリプトを選択</translation>
+    </message>
+    <message>
+        <source>Stop when upload script writes to StdErr</source>
+        <translation>アップロードスクリプトが StdErr に書き込む時に停止する</translation>
+    </message>
+    <message>
+        <source>Marks the upload as failed when script writes to StdErr.
+Without this setting errors in the script will be unnoticed.</source>
+        <translation>スクリプトが StdErr に書き込む時に、アップロードに失敗したとしてマークします。
+この設定がないとスクリプト内のエラーに気付けません。</translation>
+    </message>
+    <message>
+        <source>Filter:</source>
+        <translation>絞り込み:</translation>
+    </message>
+    <message>
+        <source>RegEx Expression. Only copy to clipboard what matches the RegEx Expression.
+When omitted, everything is copied.</source>
+        <translation>正規表現の式です。この正規表現に一致するもののみクリップボードにコピーします。
+省略した場合、すべてコピーします。</translation>
     </message>
 </context>
 <context>
@@ -827,12 +1171,284 @@ and capturing screenshot.</source>
         <source>HotKeys</source>
         <translation>ホットキー</translation>
     </message>
+    <message>
+        <source>Uploader</source>
+        <translation>アップローダー</translation>
+    </message>
+    <message>
+        <source>Script Uploader</source>
+        <translation>スクリプトアップローダー</translation>
+    </message>
+    <message>
+        <source>Saver</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <source>Stickers</source>
+        <translation>ステッカー</translation>
+    </message>
+    <message>
+        <source>Snipping Area</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tray Icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SnippingAreaResizerInfoText</name>
+    <message>
+        <source>Resize selected rect using the handles or move it by dragging the selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use arrow keys to move the selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use arrow keys while pressing CTRL to move top left handle.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use arrow keys while pressing ALT to move bottom right handle.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm selection by pressing ENTER/RETURN or abort by pressing ESC.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This message can be disabled via settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SnippingAreaSelectorInfoText</name>
+    <message>
+        <source>Click and Drag to select a rectangular area or press ESC to quit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hold CTRL pressed to resize selection after selecting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hold CTRL pressed to prevent resizing after selecting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Operation will be canceled after 60 sec when no selection made.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This message can be disabled via settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SnippingAreaSettings</name>
+    <message>
+        <source>Freeze Image while snipping</source>
+        <translation type="unfinished">範囲選択画面で画像を固定する</translation>
+    </message>
+    <message>
+        <source>When enabled will freeze the background while
+selecting a rectangular region. It also changes
+the behavior of delayed screenshots, with this
+option enabled the delay happens before the
+snipping area is shown and with the option disabled
+the delay happens after the snipping area is shown.
+This feature is always disabled for Wayland and always
+enabled for MacOs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show magnifying glass on snipping area</source>
+        <translation type="unfinished">範囲選択画面で拡大鏡を表示する</translation>
+    </message>
+    <message>
+        <source>Show a magnifying glass which zooms into
+the background image. This option only works
+with &apos;Freeze Image while snipping&apos; enabled.</source>
+        <translation type="unfinished">背景画像を拡大する拡大鏡を表示します。
+このオプションは「範囲選択画面で画像を
+固定する」が有効な場合のみ動作します。</translation>
+    </message>
+    <message>
+        <source>Show Snipping Area rulers</source>
+        <translation type="unfinished">範囲選択画面でルーラーを表示する</translation>
+    </message>
+    <message>
+        <source>Horizontal and vertical lines going from
+desktop edges to cursor on snipping area.</source>
+        <translation type="unfinished">マウスカーソルから画面端まで
+横線と縦線を表示します。</translation>
+    </message>
+    <message>
+        <source>Show Snipping Area position and size info</source>
+        <translation type="unfinished">範囲選択画面でカーソル位置情報や選択サイズ情報を表示する</translation>
+    </message>
+    <message>
+        <source>When left mouse button is not pressed the position
+is shown, when the mouse button is pressed,
+the size of the select area is shown left
+and above from the captured area.</source>
+        <translation type="unfinished">マウスの左ボタンを押していない場合は
+カーソルの位置情報が表示され、押して
+いる場合は選択範囲の長さが表示されま
+す。</translation>
+    </message>
+    <message>
+        <source>Allow resizing rect area selection by default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When enabled will, after selecting a rect
+area, allow resizing the selection. When
+done resizing the selection can be confirmed
+by pressing return.</source>
+        <translation type="unfinished">有効にすると、範囲選択後にそのサイズを変更
+できるようになります。
+サイズ変更後に Return キーを押すと確定します。</translation>
+    </message>
+    <message>
+        <source>Show Snipping Area info text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Snipping Area cursor color</source>
+        <translation type="unfinished">範囲選択カーソルの色</translation>
+    </message>
+    <message>
+        <source>Sets the color of the snipping area cursor.</source>
+        <translation type="unfinished">範囲選択カーソルの色を設定します。</translation>
+    </message>
+    <message>
+        <source>Snipping Area cursor thickness</source>
+        <translation type="unfinished">範囲選択カーソルの太さ</translation>
+    </message>
+    <message>
+        <source>Sets the thickness of the snipping area cursor.</source>
+        <translation type="unfinished">範囲選択カーソルの太さを設定します。</translation>
+    </message>
+    <message>
+        <source>Snipping Area</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Snipping Area adorner color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sets the color of all adorner elements
+on the snipping area.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Snipping Area Transparency</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alpha for not selected region on snipping area.
+Smaller number is more transparent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StickerSettings</name>
+    <message>
+        <source>Up</source>
+        <translation>上へ</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation>下へ</translation>
+    </message>
+    <message>
+        <source>Use Default Stickers</source>
+        <translation>既定のステッカーを使用する</translation>
+    </message>
+    <message>
+        <source>Sticker Settings</source>
+        <translation>ステッカー設定</translation>
+    </message>
+    <message>
+        <source>Vector Image Files (*.svg)</source>
+        <translation>ベクター画像ファイル (*.svg)</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>追加</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>削除</translation>
+    </message>
+    <message>
+        <source>Add Stickers</source>
+        <translation>ステッカーを追加</translation>
+    </message>
 </context>
 <context>
     <name>TrayIcon</name>
     <message>
         <source>Show Editor</source>
         <translation>エディターを表示</translation>
+    </message>
+</context>
+<context>
+    <name>TrayIconSettings</name>
+    <message>
+        <source>Use Tray Icon</source>
+        <translation type="unfinished">トレイアイコンを使用する</translation>
+    </message>
+    <message>
+        <source>When enabled will add a Tray Icon to the TaskBar if the OS Window Manager supports it.
+Change requires restart.</source>
+        <translation type="unfinished">有効にすると、タスクバーにトレイアイコンを追加します 
+(OS のウィンドウマネージャーがサポートしている場合)。
+変更には再起動が必要です。</translation>
+    </message>
+    <message>
+        <source>Minimize to Tray</source>
+        <translation type="unfinished">最小化したらトレイに格納する</translation>
+    </message>
+    <message>
+        <source>Start Minimized to Tray</source>
+        <translation type="unfinished">トレイに最小化して起動する</translation>
+    </message>
+    <message>
+        <source>Close to Tray</source>
+        <translation type="unfinished">ウィンドウを閉じたらトレイに格納する</translation>
+    </message>
+    <message>
+        <source>Show Editor</source>
+        <translation type="unfinished">エディターを表示</translation>
+    </message>
+    <message>
+        <source>Capture</source>
+        <translation type="unfinished">キャプチャー</translation>
+    </message>
+    <message>
+        <source>Default Tray Icon action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default Action that is triggered by left clicking the tray icon.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tray Icon Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display Tray icon notifications</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -853,12 +1469,43 @@ and capturing screenshot.</source>
 <context>
     <name>UploadOperation</name>
     <message>
-        <source>Imgur Upload</source>
-        <translation>Imgur へのアップロード</translation>
+        <source>Upload Script Required</source>
+        <translation>アップロードスクリプトが必要です</translation>
     </message>
     <message>
-        <source>You are about to upload the screenshot to a imgur.com, do you want to proceed?</source>
-        <translation>imgur.com にスクリーンショットをアップロードしようとしています。続行しますか？</translation>
+        <source>Please add an upload script via Options &gt; Settings &gt; Upload Script</source>
+        <translation>「オプション」 &gt; 「設定」 &gt; 「アップロードスクリプト」でアップロードスクリプトを追加してください</translation>
+    </message>
+    <message>
+        <source>Capture Upload</source>
+        <translation>キャプチャーをアップロード</translation>
+    </message>
+    <message>
+        <source>You are about to upload the image to an external destination, do you want to proceed?</source>
+        <translation>外部の場所に画像をアップロードしようとしています。続行しますか？</translation>
+    </message>
+</context>
+<context>
+    <name>UploaderSettings</name>
+    <message>
+        <source>Ask for confirmation before uploading</source>
+        <translation>アップロード前に確認する</translation>
+    </message>
+    <message>
+        <source>Uploader Type:</source>
+        <translation>アップローダーの種類:</translation>
+    </message>
+    <message>
+        <source>Imgur</source>
+        <translation>Imgur</translation>
+    </message>
+    <message>
+        <source>Script</source>
+        <translation>スクリプト</translation>
+    </message>
+    <message>
+        <source>Uploader</source>
+        <translation>アップローダー</translation>
     </message>
 </context>
 <context>
@@ -874,6 +1521,29 @@ and capturing screenshot.</source>
     <message>
         <source>Using:</source>
         <translation>使用:</translation>
+    </message>
+</context>
+<context>
+    <name>WatermarkSettings</name>
+    <message>
+        <source>Watermark Image</source>
+        <translation type="unfinished">ウォーターマーク画像</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">更新</translation>
+    </message>
+    <message>
+        <source>Rotate Watermark</source>
+        <translation type="unfinished">ウォーターマークを傾ける</translation>
+    </message>
+    <message>
+        <source>When enabled, Watermark will be added with a rotation of 45°</source>
+        <translation type="unfinished">有効にするとウォーターマークが 45° 傾いた状態になります</translation>
+    </message>
+    <message>
+        <source>Watermark Settings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -2,7 +2,7 @@
  * Copyright (C) 2019 Damir Porobic <damir.porobic@gmx.com>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -24,30 +24,28 @@
 
 #include <random>
 
-#include <kImageAnnotator/KImageAnnotator.h>
-
 #include "WatermarkImagePreparer.h"
-#include "src/common/helper/MessageBoxHelper.h"
+#include "src/gui/messageBoxService/MessageBoxService.h"
 #include "src/backend/WatermarkImageLoader.h"
 #include "src/backend/config/KsnipConfigProvider.h"
-
-using kImageAnnotator::KImageAnnotator;
+#include "src/gui/imageAnnotator/IImageAnnotator.h"
 
 class AddWatermarkOperation : public QObject
 {
 	Q_OBJECT
 public:
-	explicit AddWatermarkOperation(KImageAnnotator *kImageAnnotator);
-	~AddWatermarkOperation() override = default;
+	explicit AddWatermarkOperation(IImageAnnotator *imageAnnotator);
+	~AddWatermarkOperation() override;
 	void execute();
 
 private:
-	KImageAnnotator *mKImageAnnotator;
+	IImageAnnotator *mImageAnnotator;
 	WatermarkImagePreparer mImagePreparer;
-	WatermarkImageLoader mImageLoader;
+	WatermarkImageLoader mWatermarkImageLoader;
 	KsnipConfig *mConfig;
+	IMessageBoxService *mMessageBoxService;
 
-	QPointF getPositionForWatermark(const QPixmap &image, const QSize &availableSpace) const;
+	static QPointF getPositionForWatermark(const QPixmap &image, const QSize &availableSpace) ;
 	void NotifyAboutMissingWatermarkImage() const;
 };
 

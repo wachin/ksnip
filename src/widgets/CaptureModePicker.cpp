@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Damir Porobic <damir.porobic@gmx.com>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -29,10 +29,12 @@ CaptureModePicker::CaptureModePicker(const QList<CaptureModes> &captureModes)
 
 void CaptureModePicker::setCaptureMode(CaptureModes mode)
 {
-    auto action = mActionToCaptureMode.key(mode, nullptr);
-    if (action != nullptr) {
-        setDefaultAction(action);
-        mSelectedCaptureMode = mode;
+    for(auto action : mCaptureActions) {
+	    if (action->data().value<CaptureModes>() == mode) {
+		    setDefaultAction(action);
+		    mSelectedCaptureMode = mode;
+		    return;
+	    }
     }
 }
 
@@ -47,9 +49,9 @@ void CaptureModePicker::init(const QList<CaptureModes> &captureModes)
 
     if (isCaptureModeSupported(captureModes, CaptureModes::RectArea)) {
 	    auto action = createAction(
-				tr("Rectangular Area"),
+				EnumTranslator::instance()->toString(CaptureModes::RectArea),
 				tr("Draw a rectangular area with your mouse"),
-				QStringLiteral("drawRect.svg"),
+				QLatin1String("drawRect.svg"),
 				CaptureModes::RectArea,
 				QKeySequence(Qt::SHIFT + Qt::Key_R));
         menu->addAction(action);
@@ -57,9 +59,9 @@ void CaptureModePicker::init(const QList<CaptureModes> &captureModes)
 
 	if (isCaptureModeSupported(captureModes, CaptureModes::LastRectArea)) {
 		auto action = createAction(
-			tr("Last Rectangular Area"),
+			EnumTranslator::instance()->toString(CaptureModes::LastRectArea),
 			tr("Capture a screenshot of the last selected rectangular area"),
-			QStringLiteral("lastRect.svg"),
+			QLatin1String("lastRect.svg"),
 			CaptureModes::LastRectArea,
 			QKeySequence(Qt::SHIFT + Qt::Key_L));
 		menu->addAction(action);
@@ -67,9 +69,9 @@ void CaptureModePicker::init(const QList<CaptureModes> &captureModes)
 
     if (isCaptureModeSupported(captureModes, CaptureModes::FullScreen)) {
         auto action = createAction(
-				tr("Full Screen (All Monitors)"),
+				EnumTranslator::instance()->toString(CaptureModes::FullScreen),
 				tr("Capture full screen including all monitors"),
-				QStringLiteral("fullScreen.svg"),
+				QLatin1String("fullScreen.svg"),
 				CaptureModes::FullScreen,
 				QKeySequence(Qt::SHIFT + Qt::Key_F));
         menu->addAction(action);
@@ -77,9 +79,9 @@ void CaptureModePicker::init(const QList<CaptureModes> &captureModes)
 
     if (isCaptureModeSupported(captureModes, CaptureModes::CurrentScreen)) {
 	    auto action = createAction(
-	    		tr("Current Screen"),
+				EnumTranslator::instance()->toString(CaptureModes::CurrentScreen),
 	    		tr("Capture screen where the mouse is located"),
-	    		QStringLiteral("currentScreen.svg"),
+	    		QLatin1String("currentScreen.svg"),
 	    		CaptureModes::CurrentScreen,
 				QKeySequence(Qt::SHIFT + Qt::Key_M));
         menu->addAction(action);
@@ -87,9 +89,9 @@ void CaptureModePicker::init(const QList<CaptureModes> &captureModes)
 
     if (isCaptureModeSupported(captureModes, CaptureModes::ActiveWindow)) {
 	    auto action = createAction(
-	    		tr("Active Window"),
+				EnumTranslator::instance()->toString(CaptureModes::ActiveWindow),
 	    		tr("Capture window that currently has focus"),
-	    		QStringLiteral("activeWindow.svg"),
+	    		QLatin1String("activeWindow.svg"),
 	    		CaptureModes::ActiveWindow,
 				QKeySequence(Qt::SHIFT + Qt::Key_A));
         menu->addAction(action);
@@ -97,17 +99,26 @@ void CaptureModePicker::init(const QList<CaptureModes> &captureModes)
 
     if (isCaptureModeSupported(captureModes, CaptureModes::WindowUnderCursor)) {
         auto action = createAction(
-        		tr("Window Under Cursor"),
+				EnumTranslator::instance()->toString(CaptureModes::WindowUnderCursor),
 				tr("Capture that is currently under the mouse cursor"),
-				QStringLiteral("windowUnderCursor.svg"),
+				QLatin1String("windowUnderCursor.svg"),
 				CaptureModes::WindowUnderCursor,
 				QKeySequence(Qt::SHIFT + Qt::Key_U));
         menu->addAction(action);
     }
 
-    auto allActions = mActionToCaptureMode.keys();
-    if (!allActions.isEmpty()) {
-        setDefaultAction(allActions[0]);
+    if (isCaptureModeSupported(captureModes, CaptureModes::Portal)) {
+        auto action = createAction(
+				EnumTranslator::instance()->toString(CaptureModes::Portal),
+                tr("Uses the screenshot Portal for taking screenshot"),
+                QLatin1String("wayland.svg"),
+                CaptureModes::Portal,
+                QKeySequence(Qt::SHIFT + Qt::Key_T));
+        menu->addAction(action);
+    }
+
+    if (!mCaptureActions.isEmpty()) {
+        setDefaultAction(mCaptureActions.first());
     }
     setMenu(menu);
 }
@@ -122,10 +133,11 @@ QAction *CaptureModePicker::createAction(const QString &text, const QString &too
     auto action = new QAction(this);
     action->setIconText(text);
     action->setToolTip(tooltip);
-	action->setIcon(IconLoader::load(iconName));
+	action->setIcon(IconLoader::loadForTheme(iconName));
 	action->setShortcut(shortcut);
+	action->setData(static_cast<int>(captureMode));
     connect(action, &QAction::triggered, [this, captureMode]() { selectCaptureMode(captureMode); } );
-    mActionToCaptureMode[action] = captureMode;
+	mCaptureActions.append(action);
     return action;
 }
 
@@ -133,4 +145,9 @@ void CaptureModePicker::selectCaptureMode(CaptureModes mode)
 {
     mSelectedCaptureMode = mode;
     emit captureModeSelected(mode);
+}
+
+QList<QAction*> CaptureModePicker::captureActions() const
+{
+	return mCaptureActions;
 }

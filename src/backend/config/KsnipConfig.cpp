@@ -2,7 +2,7 @@
  *  Copyright (C) 2016 Damir Porobic <https://github.com/damirporobic>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -22,17 +22,17 @@
 
 // Application
 
-bool KsnipConfig::savePosition() const
+bool KsnipConfig::rememberPosition() const
 {
-	return loadValue(KsnipConfigOptions::savePositionString(), true).toBool();
+	return loadValue(KsnipConfigOptions::rememberPositionString(), true).toBool();
 }
 
-void KsnipConfig::setSavePosition(bool enabled)
+void KsnipConfig::setRememberPosition(bool enabled)
 {
-	if (savePosition() == enabled) {
+	if (rememberPosition() == enabled) {
         return;
     }
-	saveValue(KsnipConfigOptions::savePositionString(), enabled);
+	saveValue(KsnipConfigOptions::rememberPositionString(), enabled);
 }
 
 bool KsnipConfig::promptSaveBeforeExit() const
@@ -48,30 +48,71 @@ void KsnipConfig::setPromptSaveBeforeExit(bool  enabled)
 	saveValue(KsnipConfigOptions::promptSaveBeforeExitString(), enabled);
 }
 
-bool KsnipConfig::alwaysCopyToClipboard() const
+bool KsnipConfig::autoCopyToClipboardNewCaptures() const
 {
-	return loadValue(KsnipConfigOptions::alwaysCopyToClipboardString(), false).toBool();
+	return loadValue(KsnipConfigOptions::autoCopyToClipboardNewCapturesString(), false).toBool();
 }
 
-void KsnipConfig::setAlwaysCopyToClipboard(bool  enabled)
+void KsnipConfig::setAutoCopyToClipboardNewCaptures(bool  enabled)
 {
-    if (alwaysCopyToClipboard() == enabled) {
+    if (autoCopyToClipboardNewCaptures() == enabled) {
         return;
     }
-	saveValue(KsnipConfigOptions::alwaysCopyToClipboardString(), enabled);
+	saveValue(KsnipConfigOptions::autoCopyToClipboardNewCapturesString(), enabled);
 }
 
-bool KsnipConfig::saveToolSelection() const
+bool KsnipConfig::autoSaveNewCaptures() const
 {
-	return loadValue(KsnipConfigOptions::saveToolSelectionString(), true).toBool();
+	return loadValue(KsnipConfigOptions::autoSaveNewCapturesString(), false).toBool();
 }
 
-void KsnipConfig::setSaveToolSelection(bool enabled)
+void KsnipConfig::setAutoSaveNewCaptures(bool  enabled)
 {
-	if (saveToolSelection() == enabled) {
-        return;
-    }
-	saveValue(KsnipConfigOptions::saveToolSelectionString(), enabled);
+	if (autoSaveNewCaptures() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::autoSaveNewCapturesString(), enabled);
+}
+
+bool KsnipConfig::autoHideDocks() const
+{
+	return loadValue(KsnipConfigOptions::autoHideDocksString(), false).toBool();
+}
+
+void KsnipConfig::setAutoHideDocks(bool enabled)
+{
+	if (autoHideDocks() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::autoHideDocksString(), enabled);
+}
+
+bool KsnipConfig::useTabs() const
+{
+	return loadValue(KsnipConfigOptions::useTabsString(), true).toBool();
+}
+
+void KsnipConfig::setUseTabs(bool enabled)
+{
+	if (useTabs() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::useTabsString(), enabled);
+	emit annotatorConfigChanged();
+}
+
+bool KsnipConfig::autoHideTabs() const
+{
+	return loadValue(KsnipConfigOptions::autoHideTabsString(), false).toBool();
+}
+
+void KsnipConfig::setAutoHideTabs(bool enabled)
+{
+	if (autoHideTabs() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::autoHideTabsString(), enabled);
+	emit annotatorConfigChanged();
 }
 
 bool KsnipConfig::captureOnStartup() const
@@ -91,7 +132,7 @@ QPoint KsnipConfig::windowPosition() const
 {
 	// If we are not saving the position we return the default and ignore what
     // has been save earlier
-	if (!savePosition()) {
+	if (!rememberPosition()) {
 	    return { 200, 200 };
     }
 
@@ -110,12 +151,11 @@ void KsnipConfig::setWindowPosition(const QPoint& position)
 CaptureModes KsnipConfig::captureMode() const
 {
     // If we are not storing the tool selection, always return the rect area as default
-	if (!saveToolSelection()) {
+	if (!rememberToolSelection()) {
         return CaptureModes::RectArea;
     }
 
-	auto modeEnumAsInt = loadValue(KsnipConfigOptions::captureModeString()).toInt();
-    return static_cast<CaptureModes>(modeEnumAsInt);
+	return loadValue(KsnipConfigOptions::captureModeString(), (int)CaptureModes::RectArea).value<CaptureModes>();
 }
 
 void KsnipConfig::setCaptureMode(CaptureModes mode)
@@ -128,9 +168,9 @@ void KsnipConfig::setCaptureMode(CaptureModes mode)
 
 QString KsnipConfig::saveDirectory() const
 {
-	auto saveDirectoryString = loadValue(KsnipConfigOptions::saveDirectoryString(), QDir::homePath()).toString();
+	auto saveDirectoryString = loadValue(KsnipConfigOptions::saveDirectoryString(), DirectoryPathProvider::home()).toString();
 	if (!saveDirectoryString.isEmpty()) {
-		return saveDirectoryString + QStringLiteral("/");
+		return saveDirectoryString + QLatin1String("/");
     } else {
 		return {};
     }
@@ -146,8 +186,13 @@ void KsnipConfig::setSaveDirectory(const QString& path)
 
 QString KsnipConfig::saveFilename() const
 {
-	auto defaultFilename = QStringLiteral("ksnip_$Y$M$D-$T");
-	return loadValue(KsnipConfigOptions::saveFilenameString(), defaultFilename).toString();
+	auto defaultFilename = QLatin1String("ksnip_$Y$M$D-$T");
+	auto filename = loadValue(KsnipConfigOptions::saveFilenameString(), defaultFilename).toString();
+	if (filename.isEmpty() || filename.isNull()) {
+		filename = defaultFilename;
+	}
+
+	return filename;
 }
 
 void KsnipConfig::setSaveFilename(const QString& filename)
@@ -160,13 +205,13 @@ void KsnipConfig::setSaveFilename(const QString& filename)
 
 QString KsnipConfig::saveFormat() const
 {
-	auto defaultFormat = QStringLiteral("png");
-	auto saveFormatString = loadValue(KsnipConfigOptions::saveFormatString(), defaultFormat).toString();
-	if (!saveFormatString.isEmpty()) {
-		return QStringLiteral(".") + saveFormatString;
-    } else {
-		return {};
+	auto defaultFormat = QLatin1String("png");
+	auto format = loadValue(KsnipConfigOptions::saveFormatString(), defaultFormat).toString();
+	if (format.isEmpty() || format.isNull()) {
+		format = defaultFormat;
     }
+
+	return format;
 }
 
 void KsnipConfig::setSaveFormat(const QString& format)
@@ -177,31 +222,44 @@ void KsnipConfig::setSaveFormat(const QString& format)
 	saveValue(KsnipConfigOptions::saveFormatString(), format);
 }
 
-bool KsnipConfig::useInstantSave() const
-{
-	return loadValue(KsnipConfigOptions::useInstantSaveString(), false).toBool();
-}
-
-void KsnipConfig::setUseInstantSave(const bool enabled)
-{
-    if (useInstantSave() == enabled) {
-        return;
-    }
-	saveValue(KsnipConfigOptions::useInstantSaveString(), enabled);
-}
-
 QString KsnipConfig::applicationStyle() const
 {
-	auto defaultStyle = QStringLiteral("Fusion");
+	auto defaultStyle = QLatin1String("Fusion");
 	return loadValue(KsnipConfigOptions::applicationStyleString(), defaultStyle).toString();
 }
 
-void KsnipConfig::setApplicationStyle(QString style)
+void KsnipConfig::setApplicationStyle(const QString &style)
 {
     if (applicationStyle() == style) {
         return;
     }
 	saveValue(KsnipConfigOptions::applicationStyleString(), style);
+}
+
+TrayIconDefaultActionMode KsnipConfig::defaultTrayIconActionMode() const
+{
+	return loadValue(KsnipConfigOptions::trayIconDefaultActionModeString(), (int)TrayIconDefaultActionMode::ShowEditor).value<TrayIconDefaultActionMode>();
+}
+
+void KsnipConfig::setDefaultTrayIconActionMode(TrayIconDefaultActionMode mode)
+{
+	if (defaultTrayIconActionMode() == mode) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::trayIconDefaultActionModeString(), static_cast<int>(mode));
+}
+
+CaptureModes KsnipConfig::defaultTrayIconCaptureMode() const
+{
+	return loadValue(KsnipConfigOptions::trayIconDefaultCaptureModeString(), (int)CaptureModes::RectArea).value<CaptureModes>();
+}
+
+void KsnipConfig::setDefaultTrayIconCaptureMode(CaptureModes mode)
+{
+	if (defaultTrayIconCaptureMode() == mode) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::trayIconDefaultCaptureModeString(), static_cast<int>(mode));
 }
 
 bool KsnipConfig::useTrayIcon() const
@@ -243,9 +301,22 @@ void KsnipConfig::setCloseToTray(bool enabled)
 	saveValue(KsnipConfigOptions::closeToTrayString(), enabled);
 }
 
+bool KsnipConfig::trayIconNotificationsEnabled() const
+{
+	return loadValue(KsnipConfigOptions::trayIconNotificationsEnabledString(), true).toBool();
+}
+
+void KsnipConfig::setTrayIconNotificationsEnabled(bool enabled)
+{
+	if (trayIconNotificationsEnabled() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::trayIconNotificationsEnabledString(), enabled);
+}
+
 bool KsnipConfig::startMinimizedToTray() const
 {
-	return loadValue(KsnipConfigOptions::startMinimizedToTray(), false).toBool();
+	return loadValue(KsnipConfigOptions::startMinimizedToTrayString(), false).toBool();
 }
 
 void KsnipConfig::setStartMinimizedToTray(bool enabled)
@@ -253,10 +324,144 @@ void KsnipConfig::setStartMinimizedToTray(bool enabled)
 	if (startMinimizedToTray() == enabled) {
 		return;
 	}
-	saveValue(KsnipConfigOptions::startMinimizedToTray(), enabled);
+	saveValue(KsnipConfigOptions::startMinimizedToTrayString(), enabled);
+}
+
+bool KsnipConfig::rememberLastSaveDirectory() const
+{
+	return loadValue(KsnipConfigOptions::rememberLastSaveDirectoryString(), false).toBool();
+}
+
+void KsnipConfig::setRememberLastSaveDirectory(bool enabled)
+{
+	if (rememberLastSaveDirectory() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::rememberLastSaveDirectoryString(), enabled);
+}
+
+bool KsnipConfig::useSingleInstance() const
+{
+	return loadValue(KsnipConfigOptions::useSingleInstanceString(), true).toBool();
+}
+
+void KsnipConfig::setUseSingleInstance(bool enabled)
+{
+	if (useSingleInstance() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::useSingleInstanceString(), enabled);
+}
+
+bool KsnipConfig::hideMainWindowDuringScreenshot() const
+{
+	return loadValue(KsnipConfigOptions::hideMainWindowDuringScreenshotString(), true).toBool();
+}
+
+void KsnipConfig::setHideMainWindowDuringScreenshot(bool enabled)
+{
+	if (hideMainWindowDuringScreenshot() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::hideMainWindowDuringScreenshotString(), enabled);
+}
+
+bool KsnipConfig::allowResizingRectSelection() const
+{
+	return loadValue(KsnipConfigOptions::allowResizingRectSelectionString(), false).toBool();
+}
+
+void KsnipConfig::setAllowResizingRectSelection(bool enabled)
+{
+	if (allowResizingRectSelection() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::allowResizingRectSelectionString(), enabled);
+}
+
+bool KsnipConfig::showSnippingAreaInfoText() const
+{
+	return loadValue(KsnipConfigOptions::showSnippingAreaInfoTextString(), true).toBool();
+}
+
+void KsnipConfig::setShowSnippingAreaInfoText(bool enabled)
+{
+	if (showSnippingAreaInfoText() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::showSnippingAreaInfoTextString(), enabled);
+}
+
+SaveQualityMode KsnipConfig::saveQualityMode() const
+{
+	return loadValue(KsnipConfigOptions::saveQualityModeString(), (int)SaveQualityMode::Default).value<SaveQualityMode>();
+}
+
+void KsnipConfig::setSaveQualityMode(SaveQualityMode mode)
+{
+	if (saveQualityMode() == mode) {
+		return;
+	}
+
+	saveValue(KsnipConfigOptions::saveQualityModeString(), static_cast<int>(mode));
+}
+
+int KsnipConfig::saveQualityFactor() const
+{
+	return loadValue(KsnipConfigOptions::saveQualityFactorString(), 50).toInt();
+}
+
+void KsnipConfig::setSaveQualityFactor(int factor)
+{
+	if (saveQualityFactor() == factor) {
+		return;
+	}
+
+	saveValue(KsnipConfigOptions::saveQualityFactorString(), factor);
 }
 
 // Annotator
+
+bool KsnipConfig::rememberToolSelection() const
+{
+	return loadValue(KsnipConfigOptions::rememberToolSelectionString(), true).toBool();
+}
+
+void KsnipConfig::setRememberToolSelection(bool enabled)
+{
+	if (rememberToolSelection() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::rememberToolSelectionString(), enabled);
+}
+
+bool KsnipConfig::switchToSelectToolAfterDrawingItem() const
+{
+	return loadValue(KsnipConfigOptions::switchToSelectToolAfterDrawingItemString(), false).toBool();
+}
+
+void KsnipConfig::setSwitchToSelectToolAfterDrawingItem(bool enabled)
+{
+	if (switchToSelectToolAfterDrawingItem() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::switchToSelectToolAfterDrawingItemString(), enabled);
+	emit annotatorConfigChanged();
+}
+
+bool KsnipConfig::numberToolSeedChangeUpdatesAllItems() const
+{
+	return loadValue(KsnipConfigOptions::numberToolSeedChangeUpdatesAllItemsString(), true).toBool();
+}
+
+void KsnipConfig::setNumberToolSeedChangeUpdatesAllItems(bool enabled)
+{
+	if (numberToolSeedChangeUpdatesAllItems() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::numberToolSeedChangeUpdatesAllItemsString(), enabled);
+	emit annotatorConfigChanged();
+}
 
 bool KsnipConfig::textBold() const
 {
@@ -272,8 +477,7 @@ void KsnipConfig::setTextBold(bool  bold)
     font.setBold(bold);
 
 	saveValue(KsnipConfigOptions::textFontString(), font);
-    emit painterUpdated();
-	emit toolConfigChanged();
+	emit annotatorConfigChanged();
 }
 
 bool KsnipConfig::textItalic() const
@@ -290,8 +494,7 @@ void KsnipConfig::setTextItalic(bool  italic)
     font.setItalic(italic);
 
 	saveValue(KsnipConfigOptions::textFontString(), font);
-    emit painterUpdated();
-	emit toolConfigChanged();
+	emit annotatorConfigChanged();
 }
 
 bool KsnipConfig::textUnderline() const
@@ -308,13 +511,12 @@ void KsnipConfig::setTextUnderline(bool  underline)
     font.setUnderline(underline);
 
 	saveValue(KsnipConfigOptions::textFontString(), font);
-    emit painterUpdated();
-	emit toolConfigChanged();
+	emit annotatorConfigChanged();
 }
 
 QFont KsnipConfig::textFont() const
 {
-	auto defaultFont = QFont(QStringLiteral("Arial"), 12);
+	auto defaultFont = QFont(QLatin1String("Arial"), 12);
 	return loadValue(KsnipConfigOptions::textFontString(), defaultFont).value<QFont>();
 }
 
@@ -327,13 +529,12 @@ void KsnipConfig::setTextFont(const QFont& font)
     tmpFont.setFamily(font.family());
 
 	saveValue(KsnipConfigOptions::textFontString(), tmpFont);
-    emit painterUpdated();
-	emit toolConfigChanged();
+	emit annotatorConfigChanged();
 }
 
 QFont KsnipConfig::numberFont() const
 {
-	auto defaultFont = QFont(QStringLiteral("Comic Sans MS"), 30, QFont::Bold);
+	auto defaultFont = QFont(QLatin1String("Arial"), 30, QFont::Bold);
 	return loadValue(KsnipConfigOptions::numberFontString(), defaultFont).value<QFont>();
 }
 
@@ -347,8 +548,7 @@ void KsnipConfig::setNumberFont(const QFont& font)
     tmpFont.setBold(true);
 
 	saveValue(KsnipConfigOptions::numberFontString(), tmpFont);
-    emit painterUpdated();
-	emit toolConfigChanged();
+	emit annotatorConfigChanged();
 }
 
 bool KsnipConfig::itemShadowEnabled() const
@@ -363,7 +563,7 @@ void KsnipConfig::setItemShadowEnabled(bool enabled)
     }
 
 	saveValue(KsnipConfigOptions::itemShadowEnabledString(), enabled);
-	emit toolConfigChanged();
+	emit annotatorConfigChanged();
 }
 
 bool KsnipConfig::smoothPathEnabled() const
@@ -378,7 +578,7 @@ void KsnipConfig::setSmoothPathEnabled(bool  enabled)
     }
 
 	saveValue(KsnipConfigOptions::smoothPathEnabledString(), enabled);
-	emit toolConfigChanged();
+	emit annotatorConfigChanged();
 }
 
 int KsnipConfig::smoothFactor() const
@@ -393,7 +593,7 @@ void KsnipConfig::setSmoothFactor(int  factor)
     }
 
 	saveValue(KsnipConfigOptions::smoothPathFactorString(), factor);
-	emit toolConfigChanged();
+	emit annotatorConfigChanged();
 }
 
 bool KsnipConfig::rotateWatermarkEnabled() const
@@ -408,6 +608,51 @@ void KsnipConfig::setRotateWatermarkEnabled(bool enabled)
 	}
 
 	saveValue(KsnipConfigOptions::rotateWatermarkEnabledString(), enabled);
+}
+
+QStringList KsnipConfig::stickerPaths() const
+{
+	return loadValue(KsnipConfigOptions::stickerPathsString(), QVariant::fromValue(QStringList())).value<QStringList>();
+}
+
+void KsnipConfig::setStickerPaths(const QStringList &paths)
+{
+	if (stickerPaths() == paths) {
+		return;
+	}
+
+	saveValue(KsnipConfigOptions::stickerPathsString(), QVariant::fromValue(paths));
+	emit annotatorConfigChanged();
+}
+
+bool KsnipConfig::useDefaultSticker() const
+{
+	return loadValue(KsnipConfigOptions::useDefaultStickerString(), true).toBool();
+}
+
+void KsnipConfig::setUseDefaultSticker(bool enabled)
+{
+	if (useDefaultSticker() == enabled) {
+		return;
+	}
+
+	saveValue(KsnipConfigOptions::useDefaultStickerString(), enabled);
+	emit annotatorConfigChanged();
+}
+
+QColor KsnipConfig::canvasColor() const
+{
+	return loadValue(KsnipConfigOptions::canvasColorString(), QColor(Qt::white)).value<QColor>();
+}
+
+void KsnipConfig::setCanvasColor(const QColor &color)
+{
+	if (canvasColor() == color) {
+		return;
+	}
+
+	saveValue(KsnipConfigOptions::canvasColorString(), color);
+	emit annotatorConfigChanged();
 }
 
 // Image Grabber
@@ -469,6 +714,19 @@ void KsnipConfig::setSnippingAreaPositionAndSizeInfoEnabled(bool enabled)
 	saveValue(KsnipConfigOptions::snippingAreaPositionAndSizeInfoEnabledString(), enabled);
 }
 
+bool KsnipConfig::showMainWindowAfterTakingScreenshotEnabled() const
+{
+	return loadValue(KsnipConfigOptions::showMainWindowAfterTakingScreenshotEnabledString(), true).toBool();
+}
+
+void KsnipConfig::setShowMainWindowAfterTakingScreenshotEnabled(bool enabled)
+{
+	if (showMainWindowAfterTakingScreenshotEnabled() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::showMainWindowAfterTakingScreenshotEnabledString(), enabled);
+}
+
 bool KsnipConfig::isSnippingAreaMagnifyingGlassEnabledReadOnly() const
 {
 	return false;
@@ -527,6 +785,32 @@ void KsnipConfig::setSnippingCursorColor(const QColor& color)
 	saveValue(KsnipConfigOptions::snippingCursorColorString(), color);
 }
 
+QColor KsnipConfig::snippingAdornerColor() const
+{
+	return loadValue(KsnipConfigOptions::snippingAdornerColorString(), QColor(Qt::red)).value<QColor>();
+}
+
+void KsnipConfig::setSnippingAdornerColor(const QColor& color)
+{
+	if (snippingAdornerColor() == color) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::snippingAdornerColorString(), color);
+}
+
+int KsnipConfig::snippingAreaTransparency() const
+{
+	return loadValue(KsnipConfigOptions::snippingAreaTransparencyString(), 150).value<int>();
+}
+
+void KsnipConfig::setSnippingAreaTransparency(int transparency)
+{
+	if (snippingAreaTransparency() == transparency) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::snippingAreaTransparencyString(), transparency);
+}
+
 QRect KsnipConfig::lastRectArea() const
 {
 	return loadValue(KsnipConfigOptions::lastRectAreaString(), QRect()).value<QRect>();
@@ -540,11 +824,75 @@ void KsnipConfig::setLastRectArea(const QRect &rectArea)
 	saveValue(KsnipConfigOptions::lastRectAreaString(), rectArea);
 }
 
+bool KsnipConfig::isForceGenericWaylandEnabledReadOnly() const
+{
+    return true;
+}
+
+bool KsnipConfig::forceGenericWaylandEnabled() const
+{
+    return loadValue(KsnipConfigOptions::forceGenericWaylandEnabledString(), false).toBool();
+}
+
+void KsnipConfig::setForceGenericWaylandEnabled(bool enabled)
+{
+    if (forceGenericWaylandEnabled() == enabled) {
+        return;
+    }
+    saveValue(KsnipConfigOptions::forceGenericWaylandEnabledString(), enabled);
+}
+
+bool KsnipConfig::isScaleGenericWaylandScreenshotEnabledReadOnly() const
+{
+    return true;
+}
+
+bool KsnipConfig::scaleGenericWaylandScreenshotsEnabled() const
+{
+    return loadValue(KsnipConfigOptions::scaleWaylandScreenshotsEnabledString(), false).toBool();
+}
+
+void KsnipConfig::setScaleGenericWaylandScreenshots(bool enabled)
+{
+    if (scaleGenericWaylandScreenshotsEnabled() == enabled) {
+        return;
+    }
+    saveValue(KsnipConfigOptions::scaleWaylandScreenshotsEnabledString(), enabled);
+}
+
+// Uploader
+
+bool KsnipConfig::confirmBeforeUpload() const
+{
+	return loadValue(KsnipConfigOptions::confirmBeforeUploadString(), true).toBool();
+}
+
+void KsnipConfig::setConfirmBeforeUpload(bool enabled)
+{
+	if (confirmBeforeUpload() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::confirmBeforeUploadString(), enabled);
+}
+
+UploaderType KsnipConfig::uploaderType() const
+{
+	return loadValue(KsnipConfigOptions::uploaderTypeString(), static_cast<int>(UploaderType::Imgur)).value<UploaderType >();
+}
+
+void KsnipConfig::setUploaderType(UploaderType type)
+{
+	if (uploaderType() == type) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::uploaderTypeString(), static_cast<int>(type));
+}
+
 // Imgur Uploader
 
 QString KsnipConfig::imgurUsername() const
 {
-	auto defaultUsername = QStringLiteral("");
+	auto defaultUsername = QLatin1String("");
 	return loadValue(KsnipConfigOptions::imgurUsernameString(), defaultUsername).toString();
 }
 
@@ -558,7 +906,7 @@ void KsnipConfig::setImgurUsername(const QString& username)
 
 QByteArray KsnipConfig::imgurClientId() const
 {
-	auto defaultClientId = QStringLiteral("");
+	auto defaultClientId = QLatin1String("");
 	return loadValue(KsnipConfigOptions::imgurClientIdString(), defaultClientId).toByteArray();
 }
 
@@ -572,7 +920,7 @@ void KsnipConfig::setImgurClientId(const QString& clientId)
 
 QByteArray KsnipConfig::imgurClientSecret() const
 {
-	auto defaultClientSecret = QStringLiteral("");
+	auto defaultClientSecret = QLatin1String("");
 	return loadValue(KsnipConfigOptions::imgurClientSecretString(), defaultClientSecret).toByteArray();
 }
 
@@ -586,7 +934,7 @@ void KsnipConfig::setImgurClientSecret(const QString& clientSecret)
 
 QByteArray KsnipConfig::imgurAccessToken() const
 {
-	auto defaultAccessToken = QStringLiteral("");
+	auto defaultAccessToken = QLatin1String("");
 	return loadValue(KsnipConfigOptions::imgurAccessTokenString(), defaultAccessToken).toByteArray();
 }
 
@@ -600,7 +948,7 @@ void KsnipConfig::setImgurAccessToken(const QString& accessToken)
 
 QByteArray KsnipConfig::imgurRefreshToken() const
 {
-	auto defaultRefreshToken = QStringLiteral("");
+	auto defaultRefreshToken = QLatin1String("");
 	return loadValue(KsnipConfigOptions::imgurRefreshTokenString(), defaultRefreshToken).toByteArray();
 }
 
@@ -651,19 +999,6 @@ void KsnipConfig::setImgurAlwaysCopyToClipboard(bool  enabled)
 	saveValue(KsnipConfigOptions::imgurAlwaysCopyToClipboardString(), enabled);
 }
 
-bool KsnipConfig::imgurConfirmBeforeUpload() const
-{
-	return loadValue(KsnipConfigOptions::imgurConfirmBeforeUploadString(), true).toBool();
-}
-
-void KsnipConfig::setImgurConfirmBeforeUpload(bool enabled)
-{
-    if (imgurConfirmBeforeUpload() == enabled) {
-        return;
-    }
-	saveValue(KsnipConfigOptions::imgurConfirmBeforeUploadString(), enabled);
-}
-
 bool KsnipConfig::imgurOpenLinkInBrowser() const
 {
 	return loadValue(KsnipConfigOptions::imgurOpenLinkInBrowserString(), true).toBool();
@@ -675,6 +1010,73 @@ void KsnipConfig::setImgurOpenLinkInBrowser(bool enabled)
 		return;
 	}
 	saveValue(KsnipConfigOptions::imgurOpenLinkInBrowserString(), enabled);
+}
+
+QString KsnipConfig::imgurBaseUrl() const
+{
+	return loadValue(KsnipConfigOptions::imgurBaseUrlString(), DefaultValues::ImgurBaseUrl).toString();
+}
+
+void KsnipConfig::setImgurBaseUrl(const QString &baseUrl)
+{
+	if (imgurBaseUrl() == baseUrl) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::imgurBaseUrlString(), baseUrl);
+}
+
+// Script Uploader
+
+QString KsnipConfig::uploadScriptPath() const
+{
+	return loadValue(KsnipConfigOptions::uploadScriptPathString(), QString()).toString();
+}
+
+void KsnipConfig::setUploadScriptPath(const QString &path)
+{
+	if (uploadScriptPath() == path) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::uploadScriptPathString(), path);
+}
+
+bool KsnipConfig::uploadScriptCopyOutputToClipboard() const
+{
+	return loadValue(KsnipConfigOptions::uploadScriptCopyOutputToClipboardString(), false).toBool();
+}
+
+void KsnipConfig::setUploadScriptCopyOutputToClipboard(bool enabled)
+{
+	if (uploadScriptCopyOutputToClipboard() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::uploadScriptCopyOutputToClipboardString(), enabled);
+}
+
+QString KsnipConfig::uploadScriptCopyOutputFilter() const
+{
+	return loadValue(KsnipConfigOptions::uploadScriptCopyOutputFilterString(), QString()).toString();
+}
+
+void KsnipConfig::setUploadScriptCopyOutputFilter(const QString &regex)
+{
+	if (uploadScriptCopyOutputFilter() == regex) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::uploadScriptCopyOutputFilterString(), regex);
+}
+
+bool KsnipConfig::uploadScriptStopOnStdErr() const
+{
+	return loadValue(KsnipConfigOptions::uploadScriptStopOnStdErrString(), true).toBool();
+}
+
+void KsnipConfig::setUploadScriptStopOnStdErr(bool enabled)
+{
+	if (uploadScriptStopOnStdErr() == enabled) {
+		return;
+	}
+	saveValue(KsnipConfigOptions::uploadScriptStopOnStdErrString(), enabled);
 }
 
 // HotKeys
@@ -781,6 +1183,20 @@ void KsnipConfig::setWindowUnderCursorHotKey(const QKeySequence &keySequence)
 	}
 	saveValue(KsnipConfigOptions::windowUnderCursorHotKeyString(), keySequence);
 	emit hotKeysChanged();
+}
+
+QKeySequence KsnipConfig::portalHotKey() const
+{
+    return loadValue(KsnipConfigOptions::portalHotKeyString(), QKeySequence(Qt::ALT + Qt::SHIFT + Qt::Key_T)).value<QKeySequence>();
+}
+
+void KsnipConfig::setPortalHotKey(const QKeySequence &keySequence)
+{
+    if (portalHotKey() == keySequence) {
+        return;
+    }
+    saveValue(KsnipConfigOptions::portalHotKeyString(), keySequence);
+    emit hotKeysChanged();
 }
 
 // Misc

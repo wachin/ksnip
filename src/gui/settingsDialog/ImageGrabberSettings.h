@@ -2,7 +2,7 @@
  * Copyright (C) 2019 Damir Porobic <damir.porobic@gmx.com>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -22,34 +22,25 @@
 
 #include <QGroupBox>
 #include <QCheckBox>
-#include <QLabel>
 #include <QGridLayout>
 
-#include "backend/config/KsnipConfig.h"
-#include "src/widgets/ColorButton.h"
-#include "src/widgets/NumericComboBox.h"
-#include "src/common/provider/ScaledSizeProvider.h"
+#include "src/backend/config/KsnipConfig.h"
 
 class ImageGrabberSettings : public QGroupBox
 {
 	Q_OBJECT
 public:
-	explicit ImageGrabberSettings(KsnipConfig *ksnipConfig);
+	explicit ImageGrabberSettings(KsnipConfig *config);
 	~ImageGrabberSettings() override;
 	void saveSettings();
 
 private:
 	QCheckBox *mCaptureCursorCheckbox;
-	QCheckBox *mFreezeImageWhileSnippingCheckbox;
-	QCheckBox *mSnippingAreaRulersCheckbox;
-	QCheckBox *mSnippingAreaPositionAndSizeInfoCheckbox;
-	QCheckBox *mSnippingAreaMagnifyingGlassCheckbox;
-	QLabel *mSnippingCursorSizeLabel;
-	QLabel *mSnippingCursorColorLabel;
-	ColorButton *mSnippingCursorColorButton;
-	NumericComboBox *mSnippingCursorSizeCombobox;
+	QCheckBox *mHideMainWindowDuringScreenshotCheckbox;
+	QCheckBox *mShowMainWindowAfterTakingScreenshotCheckbox;
+	QCheckBox *mForceGenericWaylandCheckbox;
+	QCheckBox *mScaleGenericWaylandScreenshotsCheckbox;
 	QGridLayout *mLayout;
-
 	KsnipConfig *mConfig;
 
 	void initGui();

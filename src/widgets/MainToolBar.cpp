@@ -2,7 +2,7 @@
  *  Copyright (C) 2019 Damir Porobic <https://github.com/damirporobic>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -39,7 +39,7 @@ MainToolBar::MainToolBar(const QList<CaptureModes> &captureModes, QAction* undoA
 {
     connect(mCaptureModePicker, &CaptureModePicker::captureModeSelected, this, &MainToolBar::captureModeSelected);
 
-	setStyleSheet(QStringLiteral("QToolBar { border: 0px }"));
+	setStyleSheet(QLatin1String("QToolBar { border: 0px }"));
 
     mNewCaptureAction->setText(tr("New"));
     mNewCaptureAction->setShortcut(QKeySequence::New);
@@ -65,39 +65,40 @@ MainToolBar::MainToolBar(const QList<CaptureModes> &captureModes, QAction* undoA
     mCropButton->addAction(mCropAction);
     mCropButton->setDefaultAction(mCropAction);
 
-	auto clockPixmap = IconLoader::load(QStringLiteral("clock.svg")).pixmap(ScaledSizeProvider::getScaledSize(QSize(24, 24)));
+	auto clockIcon = IconLoader::loadForTheme(QLatin1String("clock.svg"));
+	auto clockPixmap = clockIcon.pixmap(ScaledSizeProvider::scaledSize(QSize(24, 24)));
 	mDelayLabel->setPixmap(clockPixmap);
 	mDelayLabel->setContentsMargins(0, 0, 2, 0);
 	mDelayLabel->setToolTip(tr("Delay in seconds between triggering\n"
 	                           "and capturing screenshot."));
     mDelayPicker->setSuffix(tr("s"));
-	mDelayPicker->setFixedWidth(ScaledSizeProvider::getScaledWidth(55));
+	mDelayPicker->setFixedWidth(ScaledSizeProvider::scaledWidth(55));
 	mDelayPicker->setToolTip(mDelayLabel->toolTip());
     connect(mDelayPicker, &CustomSpinBox::valueChanged, this, &MainToolBar::captureDelayChanged);
 
     mSaveAction->setText(tr("Save"));
     mSaveAction->setToolTip(tr("Save Screen Capture to file system"));
-	mSaveAction->setIcon(IconLoader::load(QStringLiteral("save.svg")));
+	mSaveAction->setIcon(IconLoader::loadForTheme(QLatin1String("save.svg")));
     mSaveAction->setShortcut(QKeySequence::Save);
     connect(mSaveAction, &QAction::triggered, this, &MainToolBar::saveActionTriggered);
 
     mCopyAction->setText(tr("Copy"));
     mCopyAction->setToolTip(tr("Copy Screen Capture to clipboard"));
-	mCopyAction->setIcon(IconLoader::load(QStringLiteral("copy.svg")));
+	mCopyAction->setIcon(IconLoader::loadForTheme(QLatin1String("copy.svg")));
     mCopyAction->setShortcut(QKeySequence::Copy);
     connect(mCopyAction, &QAction::triggered, this, &MainToolBar::copyActionTriggered);
 
-    mUndoAction->setIcon(IconLoader::load(QStringLiteral("undo.svg")));;
+    mUndoAction->setIcon(IconLoader::loadForTheme(QLatin1String("undo.svg")));;
     mUndoAction->setText(tr("Undo"));
     mUndoAction->setShortcut(QKeySequence::Undo);
 
-    mRedoAction->setIcon(IconLoader::load(QStringLiteral("redo.svg")));
+    mRedoAction->setIcon(IconLoader::loadForTheme(QLatin1String("redo.svg")));
 	mRedoAction->setText(tr("Redo"));
     mRedoAction->setShortcut(QKeySequence::Redo);
 
     mCropAction->setText(tr("Crop"));
     mCropAction->setToolTip(tr("Crop Screen Capture"));
-    mCropAction->setIcon(IconLoader::load(QStringLiteral("crop.svg")));
+    mCropAction->setIcon(IconLoader::loadForTheme(QLatin1String("crop.svg")));
     mCropAction->setShortcut(Qt::SHIFT + Qt::Key_C);
     connect(mCropAction, &QAction::triggered, this, &MainToolBar::cropActionTriggered);
 
@@ -195,4 +196,19 @@ QAction *MainToolBar::undoAction() const
 QAction *MainToolBar::redoAction() const
 {
     return mRedoAction;
+}
+
+QList<QAction *> MainToolBar::captureActions() const
+{
+	return mCaptureModePicker->captureActions();
+}
+
+void MainToolBar::setCollapsed(bool isCollapsed)
+{
+	isCollapsed ? setFixedSize(0, 0) : setFixedSize(sizeHint());
+}
+
+bool MainToolBar::isCollapsed() const
+{
+	return size() != sizeHint();
 }

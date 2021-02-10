@@ -2,7 +2,7 @@
  * Copyright (C) 2017 Damir Porobic <https://github.com/damirporobic>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -45,13 +45,18 @@ bool PlatformChecker::isGnome() const
     return mEnvironment == Environment::Gnome;
 }
 
+bool PlatformChecker::isSnap() const
+{
+	return mPackageManager == PackageManager::Snap;
+}
+
 void PlatformChecker::checkPlatform()
 {
     CommandRunner runner;
-    auto output = runner.getEnviromentVariable(QStringLiteral("XDG_SESSION_TYPE"));
-    if (outputContainsValue(output, QStringLiteral("x11"))) {
+    auto output = runner.getEnvironmentVariable(QLatin1String("XDG_SESSION_TYPE"));
+    if (outputContainsValue(output, QLatin1String("x11"))) {
         mPlatform = Platform::X11;
-    } else if (outputContainsValue(output, QStringLiteral("wayland"))) {
+    } else if (outputContainsValue(output, QLatin1String("wayland"))) {
         mPlatform = Platform::Wayland;
     } else {
         mPlatform = Platform::Unknown;
@@ -61,14 +66,24 @@ void PlatformChecker::checkPlatform()
 void PlatformChecker::checkEnvironment()
 {
     CommandRunner runner;
-    auto output = runner.getEnviromentVariable(QStringLiteral("XDG_CURRENT_DESKTOP"));
-    if (outputContainsValue(output, QStringLiteral("kde"))) {
+    auto output = runner.getEnvironmentVariable(QLatin1String("XDG_CURRENT_DESKTOP"));
+    if (outputContainsValue(output, QLatin1String("kde"))) {
         mEnvironment = Environment::KDE;
-    } else if (outputContainsValue(output, QStringLiteral("gnome"))) {
+    } else if (outputContainsValue(output, QLatin1String("gnome")) || outputContainsValue(output, QLatin1String("unity"))) {
         mEnvironment = Environment::Gnome;
     } else {
         mEnvironment = Environment::Unknown;
     }
+}
+
+void PlatformChecker::checkCheckPackageManager()
+{
+	CommandRunner runner;
+	if (runner.isEnvironmentVariableSet(QLatin1String("SNAP"))) {
+		mPackageManager = PackageManager::Snap;
+	} else {
+		mPackageManager = PackageManager::Unknown;
+	}
 }
 
 bool PlatformChecker::outputContainsValue(const QString& output, const QString& value) const
@@ -76,8 +91,12 @@ bool PlatformChecker::outputContainsValue(const QString& output, const QString& 
     return output.contains(value.toLatin1(), Qt::CaseInsensitive);
 }
 
-PlatformChecker::PlatformChecker()
+PlatformChecker::PlatformChecker() :
+	mEnvironment(Environment::Unknown),
+	mPlatform(Platform::Unknown),
+	mPackageManager(PackageManager::Unknown)
 {
     checkPlatform();
     checkEnvironment();
+    checkCheckPackageManager();
 }

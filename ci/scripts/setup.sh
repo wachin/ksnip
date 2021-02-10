@@ -20,30 +20,8 @@ git clone git://github.com/DamirPorobic/kColorPicker
 git clone git://github.com/DamirPorobic/kImageAnnotator
 
 if [[ "${BINARY_TYPE}" == "AppImage" ]]; then
-    sudo apt-get -y install qt56base qt56x11extras qt56tools qt56svg
-    source /opt/qt*/bin/qt*-env.sh
-
-    echo "--> Install Extra CMake Modules"
-    git clone git://anongit.kde.org/extra-cmake-modules
-    cd extra-cmake-modules
-    mkdir build && cd build
-    cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-    make && sudo make install
-    cd ../..
-
-    echo "--> Install kColorPicker"
-    cd kColorPicker
-    mkdir build && cd build
-    cmake .. -DBUILD_EXAMPLE=OFF -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-    make && sudo make install
-    cd ../..
-
-    echo "--> Install kImageAnnotator"
-    cd kImageAnnotator
-    mkdir build && cd build
-    cmake .. -DBUILD_EXAMPLE=OFF -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-    make && sudo make install
-    cd ../..
+    source ci/scripts/common/setup_ubuntu_qt.sh
+    source ci/scripts/common/setup_dependencies_ubuntu.sh
 
 elif [[ "${BINARY_TYPE}" == "deb" ]]; then
     docker exec build-container apt-get update
@@ -52,9 +30,10 @@ elif [[ "${BINARY_TYPE}" == "deb" ]]; then
                                                    build-essential \
                                                    qt5-default \
                                                    libqt5x11extras5-dev \
-												   qttools5-dev \
+												                           qttools5-dev \
                                                    qttools5-dev-tools \
                                                    extra-cmake-modules \
+                                                   libqt5svg5-dev \
                                                    devscripts \
                                                    debhelper
     docker exec build-container bash -c "source ci/scripts/common/setup_dependencies_linux_noSudo.sh"
@@ -71,6 +50,7 @@ elif [[ "${BINARY_TYPE}" == "rpm" ]]; then
                                                                  libqt5-qtx11extras-devel \
                                                                  libqt5-qtdeclarative-devel \
                                                                  libqt5-qtbase-devel \
+                                                                 libqt5-qtsvg-devel \
                                                                  rpm-build \
                                                                  update-desktop-files
     docker exec build-container bash -c "source ci/scripts/common/setup_dependencies_linux_noSudo.sh"
@@ -82,9 +62,13 @@ elif [[ "${BINARY_TYPE}" == "rpm" ]]; then
 elif [[ "${BINARY_TYPE}" == "exe" ]]; then
     source ci/scripts/exe/setup_dependencies_windows.sh
 elif [[ "${BINARY_TYPE}" == "app" ]]; then
-    brew install qt5
+    brew upgrade qt
 
     export PATH="/usr/local/opt/qt/bin:$PATH"
 
     source ci/scripts/common/setup_dependencies_linux_noSudo.sh
+
+    echo "--> Setup Certificates"
+    chmod +x ci/scripts/app/add-osx-cert.sh;
+    ./ci/scripts/app/add-osx-cert.sh;
 fi

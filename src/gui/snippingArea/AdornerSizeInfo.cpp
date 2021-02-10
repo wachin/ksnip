@@ -2,7 +2,7 @@
  * Copyright (C) 2019 Damir Porobic <damir.porobic@gmx.com>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -19,10 +19,10 @@
 
 #include "AdornerSizeInfo.h"
 
-AdornerSizeInfo::AdornerSizeInfo()
+AdornerSizeInfo::AdornerSizeInfo() :
+	mFontMetric(new QFontMetrics(mFont)),
+	mSizeInfoPen(new QPen(Qt::red, 1))
 {
-	mFontMetric = new QFontMetrics(mFont);
-	mSizeInfoPen = new QPen(Qt::red, 1);
 }
 
 AdornerSizeInfo::~AdornerSizeInfo()
@@ -38,14 +38,15 @@ void AdornerSizeInfo::update(const QRect &captureRect)
 	updateSizeInfoText(captureRect);
 }
 
-void AdornerSizeInfo::draw(QPainter &painter)
+void AdornerSizeInfo::paint(QPainter *painter, const QColor &color)
 {
-	painter.setBrush(Qt::NoBrush);
-	painter.setPen(*mSizeInfoPen);
-	painter.drawPath(mWidthInfo);
-	painter.drawPath(mHeightInfo);
-	painter.drawText(mWidthTextPosition, mWidthInfoText);
-	painter.drawText(mHeightTextPosition, mHeightInfoText);
+	mSizeInfoPen->setColor(color);
+	painter->setBrush(Qt::NoBrush);
+	painter->setPen(*mSizeInfoPen);
+	painter->drawPath(mWidthInfo);
+	painter->drawPath(mHeightInfo);
+	painter->drawText(mWidthTextPosition, mWidthInfoText);
+	painter->drawText(mHeightTextPosition, mHeightInfoText);
 }
 
 void AdornerSizeInfo::updateWidthInfo(const QRect &captureRect)

@@ -2,7 +2,7 @@
  *  Copyright (C) 2016 Damir Porobic <https://github.com/damirporobic>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -64,14 +64,14 @@ AboutDialog::~AboutDialog()
 
 void AboutDialog::createHeader()
 {
-	auto pixmap = QPixmap(QStringLiteral(":/icons/ksnip"));
+	auto pixmap = QPixmap(QLatin1String(":/icons/ksnip"));
 	auto scaledPixmap = pixmap.scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     auto label = new QLabel();
     mHeaderLayout = new QHBoxLayout();
 	label->setPixmap(scaledPixmap);
     label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     mHeaderLayout->addWidget(label);
-    label = new QLabel(QStringLiteral("<h2>") + QApplication::applicationName() + QStringLiteral("</h2>"));
+    label = new QLabel(QLatin1String("<h2>") + QApplication::applicationName() + QLatin1String("</h2>"));
     label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     mHeaderLayout->addWidget(label);
     mHeaderLayout->setAlignment(Qt::AlignLeft);

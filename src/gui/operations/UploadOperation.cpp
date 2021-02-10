@@ -2,7 +2,7 @@
  * Copyright (C) 2019 Damir Porobic <damir.porobic@gmx.com>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -19,16 +19,26 @@
 
 #include "UploadOperation.h"
 
-UploadOperation::UploadOperation(const QImage &image, CaptureUploader *uploader)
+UploadOperation::UploadOperation(QImage image, IUploader* uploader) :
+	mImage(std::move(image)),
+	mUploader(uploader),
+	mConfig(KsnipConfigProvider::instance()),
+	mMessageBoxService(new MessageBoxService)
 {
-	mImage = image;
-	mUploader = uploader;
-	mConfig = KsnipConfigProvider::instance();
+	Q_ASSERT(mUploader != nullptr);
+}
+
+UploadOperation::~UploadOperation()
+{
+	delete mMessageBoxService;
 }
 
 bool UploadOperation::execute()
 {
-	if (!mImage.isNull() && proceedWithUpload()) {
+	if (mUploader->type() == UploaderType::Script && !PathHelper::isPathValid(mConfig->uploadScriptPath())) {
+		mMessageBoxService->ok(tr("Upload Script Required"),
+							  tr("Please add an upload script via Options > Settings > Upload Script"));
+	} else if (!mImage.isNull() && proceedWithUpload()) {
 		mUploader->upload(mImage);
 		return true;
 	}
@@ -37,11 +47,11 @@ bool UploadOperation::execute()
 
 bool UploadOperation::proceedWithUpload() const
 {
-	return mConfig->imgurConfirmBeforeUpload() ? getProceedWithUpload() : true;
+	return !mConfig->confirmBeforeUpload() || askIfCanProceedWithUpload();
 }
 
-bool UploadOperation::getProceedWithUpload() const
+bool UploadOperation::askIfCanProceedWithUpload() const
 {
-	return MessageBoxHelper::yesNo(tr("Imgur Upload"),
-		                           tr("You are about to upload the screenshot to a imgur.com, do you want to proceed?"));
+	return mMessageBoxService->yesNo(tr("Capture Upload"),
+									tr("You are about to upload the image to an external destination, do you want to proceed?"));
 }

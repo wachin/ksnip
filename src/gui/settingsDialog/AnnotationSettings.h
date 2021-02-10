@@ -2,7 +2,7 @@
  * Copyright (C) 2019 Damir Porobic <damir.porobic@gmx.com>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -31,9 +31,10 @@
 #include "src/backend/config/KsnipConfig.h"
 #include "src/backend/WatermarkImageLoader.h"
 #include "src/widgets/NumericComboBox.h"
+#include "src/widgets/ColorButton.h"
+#include "src/gui/operations/UpdateWatermarkOperation.h"
 #include "src/common/loader/IconLoader.h"
 #include "src/common/provider/ScaledSizeProvider.h"
-#include "src/gui/operations/UpdateWatermarkOperation.h"
 
 class AnnotationSettings : public QGroupBox
 {
@@ -46,28 +47,28 @@ public:
 private:
     QCheckBox *mSmoothPathCheckbox;
     QCheckBox *mItemShadowCheckbox;
-    QCheckBox *mRotateWatermarkCheckbox;
+    QCheckBox *mRememberToolSelectionCheckbox;
+    QCheckBox *mSwitchToSelectToolAfterDrawingItemCheckbox;
+    QCheckBox *mNumberToolSeedChangeUpdatesAllItemsCheckbox;
     QLabel *mTextFontLabel;
     QLabel *mNumberFontLabel;
     QLabel *mSmoothFactorLabel;
-    QLabel *mWatermarkImageLabel;
+    QLabel *mCanvasColorLabel;
     NumericComboBox *mSmoothFactorCombobox;
     QFontComboBox *mTextFontCombobox;
     QFontComboBox *mNumberFontCombobox;
     QToolButton *mTextBoldButton;
     QToolButton *mTextItalicButton;
     QToolButton *mTextUnderlineButton;
-    QPushButton *mUpdateWatermarkImageButton;
+    ColorButton *mCanvasColorButton;
     QGridLayout *mLayout;
     KsnipConfig *mConfig;
-    WatermarkImageLoader mWatermarkImageLoader;
 
     void initGui();
     void loadConfig();
 
 private slots:
     void smoothPathCheckboxClicked(bool checked);
-	void updateWatermarkImageClicked();
 };
 
 #endif //KSNIP_ANNOTATIONSETTINGS_H

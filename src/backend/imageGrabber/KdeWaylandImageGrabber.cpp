@@ -2,7 +2,7 @@
  * Copyright (C) 2017 Damir Porobic <https://github.com/damirporobic>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -60,44 +60,26 @@ static QImage readImage(int pipeFd)
     return image;
 };
 
-KdeWaylandImageGrabber::KdeWaylandImageGrabber() : AbstractImageGrabber(new LinuxSnippingArea)
+KdeWaylandImageGrabber::KdeWaylandImageGrabber() : AbstractImageGrabber()
 {
 	addSupportedCaptureMode(CaptureModes::WindowUnderCursor);
 	addSupportedCaptureMode(CaptureModes::CurrentScreen);
 	addSupportedCaptureMode(CaptureModes::FullScreen);
 }
 
-QRect KdeWaylandImageGrabber::fullScreenRect() const
-{
-	// Not Supported for Kde Wayland
-	return {};
-}
-
-QRect KdeWaylandImageGrabber::activeWindowRect() const
-{
-	// Not Supported for Kde Wayland
-	return {};
-}
-
 void KdeWaylandImageGrabber::grab()
 {
-    if (mCaptureMode == CaptureModes::FullScreen) {
-        prepareDBus(QStringLiteral("screenshotFullscreen"), mCaptureCursor);
-    } else if (mCaptureMode == CaptureModes::CurrentScreen) {
-        prepareDBus(QStringLiteral("screenshotScreen"), mCaptureCursor);
+    if (captureMode() == CaptureModes::FullScreen) {
+        prepareDBus(QLatin1String("screenshotFullscreen"), isCaptureCursorEnabled());
+    } else if (captureMode() == CaptureModes::CurrentScreen) {
+        prepareDBus(QLatin1String("screenshotScreen"), isCaptureCursorEnabled());
     } else {
         int mask = 1;
-        if (mCaptureCursor) {
+        if (isCaptureCursorEnabled()) {
             mask |= 1 << 1;
         }
-        prepareDBus(QStringLiteral("interactive"), mask);
+        prepareDBus(QLatin1String("interactive"), mask);
     }
-}
-
-CursorDto KdeWaylandImageGrabber::getCursorWithPosition() const
-{
-	// Not Supported for Kde Wayland
-	return CursorDto();
 }
 
 template<typename T>
@@ -118,7 +100,7 @@ void KdeWaylandImageGrabber::prepareDBus(const QString& mode, T mask)
 template<typename T>
 void KdeWaylandImageGrabber::callDBus(int writeFd, const QString& mode, T mask)
 {
-    QDBusInterface interface(QStringLiteral("org.kde.KWin"), QStringLiteral("/Screenshot"), QStringLiteral("org.kde.kwin.Screenshot"));
+    QDBusInterface interface(QLatin1String("org.kde.KWin"), QLatin1String("/Screenshot"), QLatin1String("org.kde.kwin.Screenshot"));
     interface.asyncCall(mode, QVariant::fromValue(QDBusUnixFileDescriptor(writeFd)), mask);
 }
 

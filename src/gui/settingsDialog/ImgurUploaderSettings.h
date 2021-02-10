@@ -2,7 +2,7 @@
  * Copyright (C) 2019 Damir Porobic <damir.porobic@gmx.com>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -28,10 +28,11 @@
 #include <QPushButton>
 #include <QDesktopServices>
 
-#include "backend/config/KsnipConfig.h"
-#include "backend/uploader/ImgurUploader.h"
-#include "gui/ImgurHistoryDialog.h"
-#include "src/common/provider/ScaledSizeProvider.h"
+#include "src/backend/config/KsnipConfig.h"
+#include "src/backend/uploader/imgur/ImgurWrapper.h"
+#include "src/gui/ImgurHistoryDialog.h"
+#include "src/widgets/CustomLineEdit.h"
+#include "src/common/constants/DefaultValues.h"
 
 class ImgurUploaderSettings : public QGroupBox
 {
@@ -42,22 +43,24 @@ public:
 	void saveSettings();
 
 private:
-	QCheckBox *mImgurForceAnonymousCheckbox;
-	QCheckBox *mImgurDirectLinkToImageCheckbox;
-	QCheckBox *mImgurAlwaysCopyToClipboardCheckBox;
-	QCheckBox *mImgurConfirmBeforeUploadCheckbox;
-	QCheckBox *mImgurOpenLinkInBrowserCheckbox;
-	QLineEdit *mImgurClientIdLineEdit;
-	QLineEdit *mImgurClientSecretLineEdit;
-	QLineEdit *mImgurPinLineEdit;
-	QLabel *mImgurUsernameLabel;
-	QPushButton *mImgurGetPinButton;
-	QPushButton *mImgurGetTokenButton;
-	QPushButton *mImgurHistoryButton;
-	ImgurUploader *mImgurUploader;
-
-	QGridLayout *mLayout;
 	KsnipConfig *mConfig;
+	QCheckBox *mForceAnonymousCheckbox;
+	QCheckBox *mDirectLinkToImageCheckbox;
+	QCheckBox *mAlwaysCopyToClipboardCheckBox;
+	QCheckBox *mOpenLinkInBrowserCheckbox;
+	QLineEdit *mClientIdLineEdit;
+	QLineEdit *mClientSecretLineEdit;
+	QLineEdit *mPinLineEdit;
+	QLineEdit *mUsernameLineEdit;
+	CustomLineEdit *mBaseUrlLineEdit;
+	QLabel *mUsernameLabel;
+	QLabel *mBaseUrlLabel;
+	QPushButton *mGetPinButton;
+	QPushButton *mGetTokenButton;
+	QPushButton *mClearTokenButton;
+	QPushButton *mHistoryButton;
+	ImgurWrapper *mImgurWrapper;
+	QGridLayout *mLayout;
 
 	void initGui();
 	void loadConfig();
@@ -65,10 +68,12 @@ private:
 private slots:
 	void requestImgurPin();
 	void getImgurToken();
+	void clearImgurToken();
 	void imgurClientEntered(const QString &text);
 	void imgurTokenUpdated(const QString &accessToken, const QString &refreshToken, const QString &username);
 	void imgurTokenError(const QString &message);
 	void showImgurHistoryDialog();
+	void usernameChanged();
 };
 
 #endif //KSNIP_IMGURUPLOADERSETTINGS_H

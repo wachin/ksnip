@@ -2,7 +2,7 @@
  *  Copyright (C) 2016 Damir Porobic <https://github.com/damirporobic>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,18 +11,17 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  *
  */
 
-#ifndef KSNIPCONFIG_H
-#define KSNIPCONFIG_H
+#ifndef KSNIP_KSNIPCONFIG_H
+#define KSNIP_KSNIPCONFIG_H
 
 #include <QObject>
-#include <QDirModel>
 #include <QPoint>
 #include <QPen>
 #include <QFont>
@@ -31,7 +30,13 @@
 
 #include "KsnipConfigOptions.h"
 #include "src/common/enum/CaptureModes.h"
-#include "common/helper/PathHelper.h"
+#include "src/common/enum/SaveQualityMode.h"
+#include "src/common/enum/UploaderType.h"
+#include "src/common/enum/TrayIconDefaultActionMode.h"
+#include "src/common/helper/PathHelper.h"
+#include "src/common/constants/DefaultValues.h"
+#include "src/common/provider/DirectoryPathProvider.h"
+
 
 class KsnipConfig : public QObject
 {
@@ -41,17 +46,26 @@ public:
 
     // Application
 
-	virtual bool savePosition() const;
-	virtual void setSavePosition(bool enabled);
+	virtual bool rememberPosition() const;
+	virtual void setRememberPosition(bool enabled);
 
 	virtual bool promptSaveBeforeExit() const;
 	virtual void setPromptSaveBeforeExit(bool enabled);
 
-	virtual bool alwaysCopyToClipboard() const;
-	virtual void setAlwaysCopyToClipboard(bool enabled);
+	virtual bool autoCopyToClipboardNewCaptures() const;
+	virtual void setAutoCopyToClipboardNewCaptures(bool enabled);
 
-	virtual bool saveToolSelection() const;
-	virtual void setSaveToolSelection(bool enabled);
+	virtual bool autoSaveNewCaptures() const;
+	virtual void setAutoSaveNewCaptures(bool enabled);
+
+	virtual bool autoHideDocks() const;
+	virtual void setAutoHideDocks(bool enabled);
+
+	virtual bool useTabs() const;
+	virtual void setUseTabs(bool enabled);
+
+	virtual bool autoHideTabs() const;
+	virtual void setAutoHideTabs(bool enabled);
 
 	virtual bool captureOnStartup() const;
 	virtual void setCaptureOnStartup(bool enabled);
@@ -71,11 +85,14 @@ public:
 	virtual QString saveFormat() const;
 	virtual void setSaveFormat(const QString &format);
 
-	virtual bool useInstantSave() const;
-	virtual void setUseInstantSave(bool enabled);
-
 	virtual QString applicationStyle() const;
-	virtual void setApplicationStyle(QString style);
+	virtual void setApplicationStyle(const QString &style);
+
+	virtual TrayIconDefaultActionMode defaultTrayIconActionMode() const;
+	virtual void setDefaultTrayIconActionMode(TrayIconDefaultActionMode mode);
+
+	virtual CaptureModes defaultTrayIconCaptureMode() const;
+	virtual void setDefaultTrayIconCaptureMode(CaptureModes mode);
 
 	virtual bool useTrayIcon() const;
 	virtual void setUseTrayIcon(bool enabled);
@@ -86,10 +103,34 @@ public:
 	virtual bool closeToTray() const;
 	virtual void setCloseToTray(bool enabled);
 
+	virtual bool trayIconNotificationsEnabled() const;
+	virtual void setTrayIconNotificationsEnabled(bool enabled);
+
 	virtual bool startMinimizedToTray() const;
 	virtual void setStartMinimizedToTray(bool enabled);
 
+	virtual bool rememberLastSaveDirectory() const;
+	virtual void setRememberLastSaveDirectory(bool enabled);
+
+	virtual bool useSingleInstance() const;
+	virtual void setUseSingleInstance(bool enabled);
+
+	virtual SaveQualityMode saveQualityMode() const;
+	virtual void setSaveQualityMode(SaveQualityMode mode);
+
+	virtual int saveQualityFactor() const;
+	virtual void setSaveQualityFactor(int factor);
+
 	// Annotator
+
+	virtual bool rememberToolSelection() const;
+	virtual void setRememberToolSelection(bool enabled);
+
+	virtual bool switchToSelectToolAfterDrawingItem() const;
+	virtual void setSwitchToSelectToolAfterDrawingItem(bool enabled);
+
+	virtual bool numberToolSeedChangeUpdatesAllItems() const;
+	virtual void setNumberToolSeedChangeUpdatesAllItems(bool enabled);
 
 	virtual bool textBold() const;
 	virtual void setTextBold(bool bold);
@@ -118,6 +159,15 @@ public:
 	virtual bool rotateWatermarkEnabled() const;
 	virtual void setRotateWatermarkEnabled(bool enabled);
 
+	virtual QStringList stickerPaths() const;
+	virtual void setStickerPaths(const QStringList &paths);
+
+	virtual bool useDefaultSticker() const;
+	virtual void setUseDefaultSticker(bool enabled);
+
+	virtual QColor canvasColor() const;
+	virtual void setCanvasColor(const QColor &color);
+
     // Image Grabber
 
     virtual bool isFreezeImageWhileSnippingEnabledReadOnly() const;
@@ -133,6 +183,9 @@ public:
 	virtual bool snippingAreaPositionAndSizeInfoEnabled() const;
 	virtual void setSnippingAreaPositionAndSizeInfoEnabled(bool enabled);
 
+	virtual bool showMainWindowAfterTakingScreenshotEnabled() const;
+	virtual void setShowMainWindowAfterTakingScreenshotEnabled(bool enabled);
+
 	virtual bool isSnippingAreaMagnifyingGlassEnabledReadOnly() const;
 	virtual bool snippingAreaMagnifyingGlassEnabled() const;
 	virtual void setSnippingAreaMagnifyingGlassEnabled(bool enabled);
@@ -146,8 +199,39 @@ public:
 	virtual QColor snippingCursorColor() const;
 	virtual void setSnippingCursorColor(const QColor &color);
 
+	virtual QColor snippingAdornerColor() const;
+	virtual void setSnippingAdornerColor(const QColor &color);
+
+	virtual int snippingAreaTransparency() const;
+	virtual void setSnippingAreaTransparency(int transparency);
+
 	virtual QRect lastRectArea() const;
 	virtual void setLastRectArea(const QRect &rectArea);
+
+	virtual bool isForceGenericWaylandEnabledReadOnly() const;
+	virtual bool forceGenericWaylandEnabled() const;
+	virtual void setForceGenericWaylandEnabled(bool enabled);
+
+    virtual bool isScaleGenericWaylandScreenshotEnabledReadOnly() const;
+    virtual bool scaleGenericWaylandScreenshotsEnabled() const;
+    virtual void setScaleGenericWaylandScreenshots(bool enabled);
+
+	virtual bool hideMainWindowDuringScreenshot() const;
+	virtual void setHideMainWindowDuringScreenshot(bool enabled);
+
+	virtual bool allowResizingRectSelection() const;
+	virtual void setAllowResizingRectSelection(bool enabled);
+
+	virtual bool showSnippingAreaInfoText() const;
+	virtual void setShowSnippingAreaInfoText(bool enabled);
+
+	// Uploader
+
+	virtual bool confirmBeforeUpload() const;
+	virtual void setConfirmBeforeUpload(bool enabled);
+
+	virtual UploaderType uploaderType() const;
+	virtual void setUploaderType(UploaderType type);
 
     // Imgur Uploader
 
@@ -175,11 +259,25 @@ public:
 	virtual bool imgurAlwaysCopyToClipboard() const;
 	virtual void setImgurAlwaysCopyToClipboard(bool enabled);
 
-	virtual bool imgurConfirmBeforeUpload() const;
-	virtual void setImgurConfirmBeforeUpload(bool enabled);
-
 	virtual bool imgurOpenLinkInBrowser() const;
 	virtual void setImgurOpenLinkInBrowser(bool enabled);
+
+	virtual QString imgurBaseUrl() const;
+	virtual void setImgurBaseUrl(const QString &baseUrl);
+
+	// Script Uploader
+
+	virtual QString uploadScriptPath() const;
+	virtual void setUploadScriptPath(const QString &path);
+
+	virtual bool uploadScriptCopyOutputToClipboard() const;
+	virtual void setUploadScriptCopyOutputToClipboard(bool enabled);
+
+	virtual QString uploadScriptCopyOutputFilter() const;
+	virtual void setUploadScriptCopyOutputFilter(const QString &regex);
+
+	virtual bool uploadScriptStopOnStdErr() const;
+	virtual void setUploadScriptStopOnStdErr(bool enabled);
 
 	// HotKeys
 
@@ -205,9 +303,11 @@ public:
 	virtual QKeySequence windowUnderCursorHotKey() const;
 	virtual void setWindowUnderCursorHotKey(const QKeySequence &keySequence);
 
+    virtual QKeySequence portalHotKey() const;
+    virtual void setPortalHotKey(const QKeySequence &keySequence);
+
 signals:
-    void painterUpdated() const;
-	void toolConfigChanged() const;
+	void annotatorConfigChanged() const;
 	void hotKeysChanged() const;
 
 private:
@@ -217,4 +317,4 @@ private:
 	QVariant loadValue(const QString &key, const QVariant &defaultValue = QVariant()) const;
 };
 
-#endif // KSNIPCONFIG_H
+#endif // KSNIP_KSNIPCONFIG_H

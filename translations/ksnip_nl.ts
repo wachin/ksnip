@@ -92,7 +92,7 @@ gladder.</translation>
     </message>
     <message>
         <source>Text Font</source>
-        <translation>Tekstlettertype</translation>
+        <translation>Tekstvaklettertype</translation>
     </message>
     <message>
         <source>Sets the font for the Text Paint Item.</source>
@@ -119,57 +119,45 @@ gladder.</translation>
         <translation>Stelt het lettertype in van de getallen.</translation>
     </message>
     <message>
-        <source>Watermark Image</source>
-        <translation>Watermerkafbeelding</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation>Bijwerken</translation>
-    </message>
-    <message>
-        <source>Rotate Watermark</source>
-        <translation>Watermerk draaien</translation>
-    </message>
-    <message>
-        <source>When enabled, Watermark will be added with a rotation of 45°</source>
-        <translation>Gebruik deze optie om een watermerk toe te voegen dat 45° gedraaid is</translation>
-    </message>
-    <message>
         <source>Annotator Settings</source>
         <translation>Aantekeningsinstellingen</translation>
+    </message>
+    <message>
+        <source>Remember annotation tool selection and load on startup</source>
+        <translation>Aantekeningsgereedschap onthouden en laden na opstarten</translation>
+    </message>
+    <message>
+        <source>Switch to Select Tool after drawing Item</source>
+        <translation>Overschakelen naar selectiegereedschap na tekenen</translation>
+    </message>
+    <message>
+        <source>Number Tool Seed change updates all Number Items</source>
+        <translation>Getalwijziging werkt alle items met getallen bij</translation>
+    </message>
+    <message>
+        <source>Disabling this option causes changes of the number tool
+seed to affect only new items but not existing items.
+Disabling this option allows having duplicate numbers.</source>
+        <translation>Schakel deze optie uit om alleen nieuwe items
+en niet ook bestaande items te wijzigen.
+Hierdoor zijn duplicaten mogelijk.</translation>
+    </message>
+    <message>
+        <source>Canvas Color</source>
+        <translation>Canvaskleur</translation>
+    </message>
+    <message>
+        <source>Default Canvas background color for annotation area.
+Changing color affects only new annotation areas.</source>
+        <translation>De standaard achtergrondkleur van het aantekeningsgebied.
+Dit is alleen van toepassing op nieuwe aantekeningsgebieden.</translation>
     </message>
 </context>
 <context>
     <name>ApplicationSettings</name>
     <message>
-        <source>Always copy capture to clipboard</source>
-        <translation>Schermfoto altijd kopiëren naar klembord</translation>
-    </message>
-    <message>
-        <source>Prompt to save before discarding unsaved changes</source>
-        <translation>Altijd vragen om aanpassingen op te slaan</translation>
-    </message>
-    <message>
-        <source>Save ksnip position on move and load on startup</source>
-        <translation>ksnip-vensterpositie onthouden bij verplaatsen en laden bij opstarten</translation>
-    </message>
-    <message>
-        <source>Save ksnip tool selection and load on startup</source>
-        <translation>ksnip-hulpmiddelkeuze onthouden en laden bij opstarten</translation>
-    </message>
-    <message>
         <source>Capture screenshot at startup with default mode</source>
         <translation>Schermfoto vastleggen met standaardmodus bij opstarten</translation>
-    </message>
-    <message>
-        <source>Instant save to default location without &apos;Save as&apos; dialog</source>
-        <translation>Schermfoto altijd direct opslaan in standaardmap</translation>
-    </message>
-    <message>
-        <source>When enabled, will not ask where to save a screenshot
-when saving, but will save instantly to default location.</source>
-        <translation>Schakel dit in om niet te worden gevraagd waar een schermfoto moet
-worden opgeslagen, maar deze direct op te slaan in de standaardmap.</translation>
     </message>
     <message>
         <source>Application Style</source>
@@ -182,54 +170,60 @@ Change requires ksnip restart to take effect.</source>
 Herstart ksnip om de wijzigingen toe te passen.</translation>
     </message>
     <message>
-        <source>Capture save location and filename</source>
-        <translation>Opslaglocatie en bestandsnaam</translation>
-    </message>
-    <message>
-        <source>Filename can contain $Y, $M, $D for date, $h, $m, $s for time, or $T for time in hhmmss format.</source>
-        <translation>De bestandsnaam mag het volgende bevatten: $Y, $M, $D voor de datum, $h, $m, $s voor de tijd, of $T voor de tijd in uummss-opmaak.</translation>
-    </message>
-    <message>
-        <source>Browse</source>
-        <translation>Bladeren</translation>
-    </message>
-    <message>
         <source>Application Settings</source>
         <translation>Programma-instellingen</translation>
     </message>
     <message>
-        <source>Capture save location</source>
-        <translation>Opslaglocatie</translation>
+        <source>Automatically copy new captures to clipboard</source>
+        <translation>Nieuwe schermfoto&apos;s automatisch kopiëren naar klembord</translation>
     </message>
     <message>
-        <source>Use Tray Icon</source>
-        <translation>Systeemvakpictogram gebruiken</translation>
+        <source>Use Tabs</source>
+        <translation>Tabbladen gebruiken</translation>
     </message>
     <message>
-        <source>When enabled will add a Tray Icon to the TaskBar if the OS Window Manager supports it.
-Change requires restart.</source>
-        <translation>Schakel dit in om, als je vensterbeheerder dit ondersteunt, een systeemvakpictogram te gebruiken.
-Herstart om de wijziging toe te passen.</translation>
+        <source>Change requires restart.</source>
+        <translation>Herstart om de wijzigingen toe te passen.</translation>
     </message>
     <message>
-        <source>Minimize to Tray</source>
-        <translation>Minimaliseren naar systeemvak</translation>
+        <source>Run ksnip as single instance</source>
+        <translation>Slechts één ksnip-proces toestaan</translation>
     </message>
     <message>
-        <source>Close to Tray</source>
-        <translation>Sluiten naar systeemvak</translation>
+        <source>Hide Tabbar when only one Tab is used.</source>
+        <translation>Verberg de tabbladbalk als er één tabblad geopend is.</translation>
     </message>
     <message>
-        <source>Start Minimized to Tray.</source>
-        <translation>Geminimaliseerd opstarten.</translation>
+        <source>Enabling this option will allow only one ksnip instance to run,
+all other instances started after the first will pass its
+arguments to the first and close. Changing this option requires
+a new start of all instances.</source>
+        <translation>Schakel deze optie in om slechts één ksnip-proces toe te staan.
+Alle hierna gestarte processen geven opdrachten door aan het eerste
+en worden daarna afgesloten. Herstart alle ksnip-processen om deze
+wijziging toe te passen.</translation>
+    </message>
+    <message>
+        <source>Remember Main Window position on move and load on startup</source>
+        <translation>Automatisch opstarten met vorige schermpositie van hoofdvenster</translation>
+    </message>
+    <message>
+        <source>Auto hide Tabs</source>
+        <translation>Tabbladen automatisch verbergen</translation>
+    </message>
+    <message>
+        <source>Auto hide Docks</source>
+        <translation>Panelen automatisch verbergen</translation>
+    </message>
+    <message>
+        <source>On startup hide Toolbar and Annotation Settings.
+Docks visibility can be toggled with the Tab Key.</source>
+        <translation>Verberg bij het opstarten de werkbalk- en aantekeningsinstellingen.
+Ze kunnen dan worden getoond/verborgen met de Tab-toets.</translation>
     </message>
 </context>
 <context>
     <name>AuthorTab</name>
-    <message>
-        <source>The Author:</source>
-        <translation>Maker:</translation>
-    </message>
     <message>
         <source>Contributors:</source>
         <translation>Bijdragers:</translation>
@@ -258,6 +252,14 @@ Herstart om de wijziging toe te passen.</translation>
         <source>Polish Translation</source>
         <translation>Poolse vertaling</translation>
     </message>
+    <message>
+        <source>Snap &amp; Flatpak Support</source>
+        <translation>Snap- en Flatpak-ondersteuning</translation>
+    </message>
+    <message>
+        <source>The Authors:</source>
+        <translation>De makers:</translation>
+    </message>
 </context>
 <context>
     <name>CanDiscardOperation</name>
@@ -266,9 +268,9 @@ Herstart om de wijziging toe te passen.</translation>
         <translation>Waarschuwing - </translation>
     </message>
     <message>
-        <source>The capture has been modified.
+        <source>The capture %1%2%3 has been modified.
 Do you want to save it?</source>
-        <translation>De schermfoto is aangepast.
+        <translation>De schermfoto, %1%2%3, is bewerkt.
 Wil je deze opslaan?</translation>
     </message>
 </context>
@@ -279,86 +281,71 @@ Wil je deze opslaan?</translation>
         <translation>Nieuw</translation>
     </message>
     <message>
-        <source>Rectangular Area</source>
-        <translation>Rechthoekig gebied</translation>
-    </message>
-    <message>
         <source>Draw a rectangular area with your mouse</source>
         <translation>Teken een rechthoekig gebied met je cursor</translation>
-    </message>
-    <message>
-        <source>Full Screen (All Monitors)</source>
-        <translation>Volledig scherm (alle beeldschermen)</translation>
     </message>
     <message>
         <source>Capture full screen including all monitors</source>
         <translation>Leg het volledige scherm vast op alle beeldschermen</translation>
     </message>
     <message>
-        <source>Current Screen</source>
-        <translation>Huidig scherm</translation>
-    </message>
-    <message>
         <source>Capture screen where the mouse is located</source>
         <translation>Maak een schermfoto van het scherm waarop de cursor is</translation>
-    </message>
-    <message>
-        <source>Active Window</source>
-        <translation>Actief venster</translation>
     </message>
     <message>
         <source>Capture window that currently has focus</source>
         <translation>Maak een schermfoto van het momenteel gefocuste venster</translation>
     </message>
     <message>
-        <source>Window Under Cursor</source>
-        <translation>Venster onder cursor</translation>
-    </message>
-    <message>
         <source>Capture that is currently under the mouse cursor</source>
         <translation>Maak een schermfoto van het venster onder de cursor</translation>
-    </message>
-    <message>
-        <source>Last Rectangular Area</source>
-        <translation>Vorig rechthoekig gebied</translation>
     </message>
     <message>
         <source>Capture a screenshot of the last selected rectangular area</source>
         <translation>Maak een schermfoto van het laatst geselecteerde rechthoekige gebied</translation>
     </message>
+    <message>
+        <source>Uses the screenshot Portal for taking screenshot</source>
+        <translation>Gebruik het schermfotoportaal om een schermfoto te maken</translation>
+    </message>
 </context>
 <context>
-    <name>CaptureUploader</name>
+    <name>CopyAsDataUriOperation</name>
     <message>
-        <source>Upload to imgur.com finished!</source>
-        <translation>Afbeelding geüpload naar imgur.com!</translation>
+        <source>Failed to copy to clipboard</source>
+        <translation>Kopiëren naar klembord mislukt</translation>
     </message>
     <message>
-        <source>Received new token, trying upload again…</source>
-        <translation>Nieuwe toegangssleutel ontvangen; bezig met opnieuw uploaden…</translation>
+        <source>Failed to copy to clipboard as base64 encoded image.</source>
+        <translation>Het kopiëren naar het klembord als base64-versleutelde afbeelding is mislukt.</translation>
     </message>
     <message>
-        <source>Imgur token has expired, requesting new token…</source>
-        <translation>Imgur-toegangssleutel verlopen; bezig met aanvragen van nieuwe…</translation>
+        <source>Copied to clipboard</source>
+        <translation>Gekopieerd naar klembord</translation>
+    </message>
+    <message>
+        <source>Copied to clipboard as base64 encoded image.</source>
+        <translation>Gekopieerd naar het klembord als base64-versleutelde afbeelding.</translation>
+    </message>
+</context>
+<context>
+    <name>DeleteImageOperation</name>
+    <message>
+        <source>Delete Image</source>
+        <translation>Afbeelding verwijderen</translation>
+    </message>
+    <message>
+        <source>The item &apos;%1&apos; will be deleted.
+Do you want to continue?</source>
+        <translation>&apos;%1&apos; wordt verwijderd.
+Weet je zeker dat je wilt doorgaan?</translation>
     </message>
 </context>
 <context>
     <name>DonateTab</name>
     <message>
-        <source>Donate a Beer?</source>
-        <translation>Wil je me trakteren op een biertje?</translation>
-    </message>
-    <message>
-        <source>Sure, you can do that</source>
-        <translation>Ja, dat kan</translation>
-    </message>
-    <message>
         <source>here</source>
         <translation>hier</translation>
-    </message>
-    <message>
-        <source>Become a Sponsor</source>
-        <translation>Sponsor worden</translation>
     </message>
     <message>
         <source>Also possible, </source>
@@ -368,16 +355,111 @@ Wil je deze opslaan?</translation>
         <source>Donations are always welcome</source>
         <translation>Donaties zijn altijd welkom</translation>
     </message>
+    <message>
+        <source>Donation</source>
+        <translation>Doneren</translation>
+    </message>
+    <message>
+        <source>Become a GitHub Sponsor</source>
+        <translation>GitHub-sponsor worden</translation>
+    </message>
+    <message>
+        <source>ksnip is a non-profitable copylefted libre software project, and&lt;br/&gt;still has some costs that need to be covered,&lt;br/&gt;like domain costs or hardware costs for cross-platform support.</source>
+        <translation>ksnip is een vrijesoftwareproject zonder winstoogmerk, maar&lt;br/&gt;maakt desondanks kosten,&lt;br/&gt;zoals domeinnaam- en hardwarekosten (voor platform-onafhankelijke ondersteuning).</translation>
+    </message>
+    <message>
+        <source>If you want to help or just&lt;br/&gt;want to appreciate the work being done&lt;br/&gt;by treating developers to a beer or coffee, you can do that</source>
+        <translation>Als je wilt helpen of gewoon&lt;br/&gt;je waardering voor ons harde werk wilt tonen,&lt;br/&gt;dan kun je ons trakteren op een biertje of kopje koffie</translation>
+    </message>
 </context>
 <context>
-    <name>HandleUploadResponseOperation</name>
+    <name>EnumTranslator</name>
+    <message>
+        <source>Rectangular Area</source>
+        <translation>Rechthoekig gebied</translation>
+    </message>
+    <message>
+        <source>Last Rectangular Area</source>
+        <translation>Vorig rechthoekig gebied</translation>
+    </message>
+    <message>
+        <source>Full Screen (All Monitors)</source>
+        <translation>Volledig scherm (alle beeldschermen)</translation>
+    </message>
+    <message>
+        <source>Current Screen</source>
+        <translation>Huidig scherm</translation>
+    </message>
+    <message>
+        <source>Active Window</source>
+        <translation>Actief venster</translation>
+    </message>
+    <message>
+        <source>Window Under Cursor</source>
+        <translation>Venster onder cursor</translation>
+    </message>
+    <message>
+        <source>Screenshot Portal</source>
+        <translation>Schermfotoportaal</translation>
+    </message>
+</context>
+<context>
+    <name>HandleUploadResultOperation</name>
     <message>
         <source>Upload Successful</source>
         <translation>Afbeelding geüpload</translation>
     </message>
     <message>
+        <source>Upload script </source>
+        <translation>Het uploadscript </translation>
+    </message>
+    <message>
+        <source> finished successfully.</source>
+        <translation> is uitgevoerd.</translation>
+    </message>
+    <message>
         <source>Uploaded to</source>
         <translation>Geüpload naar</translation>
+    </message>
+    <message>
+        <source>Unable to save temporary image for upload.</source>
+        <translation>De tijdelijke afbeelding, nodig voor het uploaden, kan niet worden opgeslagen.</translation>
+    </message>
+    <message>
+        <source>Unable to start process, check path and permissions.</source>
+        <translation>Het proces kan niet worden gestart. Controleer het pad en de toegangsrechten.</translation>
+    </message>
+    <message>
+        <source>Process crashed</source>
+        <translation>Het proces is gecrasht</translation>
+    </message>
+    <message>
+        <source>Process timed out.</source>
+        <translation>Het proces is verlopen.</translation>
+    </message>
+    <message>
+        <source>Process read error.</source>
+        <translation>Leesfout.</translation>
+    </message>
+    <message>
+        <source>Process write error.</source>
+        <translation>Schrijffout.</translation>
+    </message>
+    <message>
+        <source>Web error, check console output.</source>
+        <translation>Netwerkfout. Controleer de opdrachtvensteruitvoer.</translation>
+    </message>
+    <message>
+        <source>Unknown process error.</source>
+        <translation>Onbekende procesfout.</translation>
+    </message>
+    <message>
+        <source>Upload Failed</source>
+        <translation>Uploaden mislukt</translation>
+    </message>
+    <message>
+        <source>Script wrote to StdErr.</source>
+        <translation>Het script is weggeschreven naar StdErr.</translation>
     </message>
 </context>
 <context>
@@ -418,6 +500,14 @@ Wil je deze opslaan?</translation>
         <source>Capture Last Rect Area</source>
         <translation>Vorig rechthoekig gebied vastleggen</translation>
     </message>
+    <message>
+        <source>Clear</source>
+        <translation>Wissen</translation>
+    </message>
+    <message>
+        <source>Capture using Portal</source>
+        <translation>Vastleggen met portaal</translation>
+    </message>
 </context>
 <context>
     <name>ImageGrabberSettings</name>
@@ -432,89 +522,58 @@ screenshots.</source>
 schermfoto&apos;s.</translation>
     </message>
     <message>
-        <source>Freeze Image while snipping</source>
-        <translation>Afbeelding bevriezen tijdens vastleggen</translation>
-    </message>
-    <message>
-        <source>Show magnifying glass on snipping area</source>
-        <translation>Vergrootglas tonen op vastleggebied</translation>
-    </message>
-    <message>
-        <source>Show a magnifying glass which zooms into
-the background image. This option only works
-with &apos;Freeze Image while snipping&apos; enabled.</source>
-        <translation>Toont een vergrootglas om in te zoomen op de
-achtergrondafbeelding. Deze optie werkt alleen als
-&apos;Afbeelding bevriezen tijdens vastleggen&apos; is ingeschakeld.</translation>
-    </message>
-    <message>
-        <source>Show Snipping Area rulers</source>
-        <translation>Linialen tonen op vastleggebied</translation>
-    </message>
-    <message>
-        <source>Horizontal and vertical lines going from
-desktop edges to cursor on snipping area.</source>
-        <translation>Horizontale en verticale lijnen die lopen vanaf
-de schermranden naar de cursor op het vastleggebied.</translation>
-    </message>
-    <message>
-        <source>Show Snipping Area position and size info</source>
-        <translation>Positie- en grootte-informatie tonen op vastleggebied</translation>
-    </message>
-    <message>
-        <source>When left mouse is not pressed the position
-is show, when the mouse button is pressed,
-the size of the select area is shown left
-and above from the captured area.</source>
-        <translation>Als je de linkermuisknop niet indrukt, dan wordt
-de positie getoond. Doe je dat wél, dan wordt de
-grootte van het selectiegebied getoond, zowel aan
-de linker- als bovenzijde van het vastgelegde gebied.</translation>
-    </message>
-    <message>
-        <source>Snipping Area cursor color</source>
-        <translation>Cursorkleur binnen vastleggebied</translation>
-    </message>
-    <message>
-        <source>Sets the color of the snipping area
-cursor. Change requires ksnip restart to
-take effect.</source>
-        <translation>Stelt de kleur in van de cursor tijdens het
-vastleggen. Als je dit aanpast, dan moet je
-ksnip herstarten om de wijziging toe te passen.</translation>
-    </message>
-    <message>
-        <source>Snipping Area cursor thickness</source>
-        <translation>Cursordikte binnen vastleggebied</translation>
-    </message>
-    <message>
-        <source>Sets the thickness of the snipping area
-cursor. Change requires ksnip restart to
-take effect.</source>
-        <translation>Stelt de dikte in van de cursor tijdens het vastleggen.
-Herstart ksnip om de wijziging
-toe te passen.</translation>
-    </message>
-    <message>
         <source>Image Grabber</source>
         <translation>Vastleggen</translation>
     </message>
     <message>
-        <source>When enabled will freeze the background while
-selecting a rectangular region. It also changes
-the behavior of delayed screenshots, with this
-option enabled the delay happens before the
-snipping area is show and with the option disabled
-the delay happens after the snipping area is shown.
-This feature is always disabled for Wayland and always
-enabled for MacOs.</source>
-        <translation>Met deze optie bevries je de achtergrond tijdens het
-selecteren van een rechthoekig gebied. Dit past tevens
-het gedrag aan van vertraagde schermfoto&apos;s: de vertraging
-wordt toegepast voordat het selectiegebied wordt getoond
-in plaats van erna.
-Deze functie is standaard uitgeschakeld op Wayland en
-standaard ingeschakeld op macOS.</translation>
+        <source>Force Generic Wayland Screenshot</source>
+        <translation>Algemene Wayland-schermfoto afdwingen</translation>
+    </message>
+    <message>
+        <source>Scale Generic Wayland Screenshots</source>
+        <translation>Grootte van algemene Wayland-schermfoto&apos;s aanpassen</translation>
+    </message>
+    <message>
+        <source>Generic Wayland implementations that use
+XDG-DESKTOP-PORTAL handle screen scaling
+differently. Enabling this option will
+determine the current screen scaling and
+apply that to the screenshot in ksnip.</source>
+        <translation>Algemene Wayland-implementaties die XDG
+DESKTOP PORTAL gebruiken, handelen beeldgroottes
+allemaal anders af. Met deze optie wordt de huidige
+beeldgrootte bepaald en toegepast op de schermfoto
+in ksnip.</translation>
+    </message>
+    <message>
+        <source>GNOME and KDE Plasma support their own Wayland
+and the Generic XDG-DESKTOP-PORTAL screenshots.
+Enabling this option will force KDE Plasma and
+GNOME to use the XDG-DESKTOP-PORTAL screenshots.
+Change in this option require a ksnip restart.</source>
+        <translation>GNOME en KDE Plasma ondersteunen zowel hun eigen
+Wayland-implementatie als die van de algemene
+XDG-DESKTOP-PORTAL. Schakel deze optie in om KDE Plasma
+en GNOME XDG-DESKTOP-PORTAL te laten gebruiken voor het
+maken van schermfoto&apos;s. Herstart ksnip om de wijziging toe te passen.</translation>
+    </message>
+    <message>
+        <source>Show Main Window after capturing screenshot</source>
+        <translation>Hoofdvenster tonen na maken van schermfoto</translation>
+    </message>
+    <message>
+        <source>Show Main Window after capturing a new screenshot
+when the Main Window was hidden or minimized.</source>
+        <translation>Toon het hoofdvenster na het maken van een schermfoto
+als het hoofdvenster geminimaliseerd of verborgen is.</translation>
+    </message>
+    <message>
+        <source>Hide Main Window during screenshot</source>
+        <translation>Hoofdvenster verbergen tijdens maken van schermfoto</translation>
+    </message>
+    <message>
+        <source>Hide Main Window when capturing a new screenshot.</source>
+        <translation>Verberg het hoofdvenster tijdens het maken van een schermfoto.</translation>
     </message>
 </context>
 <context>
@@ -541,6 +600,21 @@ standaard ingeschakeld op macOS.</translation>
     </message>
 </context>
 <context>
+    <name>ImgurUploader</name>
+    <message>
+        <source>Upload to imgur.com finished!</source>
+        <translation>Afbeelding geüpload naar imgur.com!</translation>
+    </message>
+    <message>
+        <source>Received new token, trying upload again…</source>
+        <translation>Nieuwe toegangssleutel ontvangen; bezig met opnieuw uploaden…</translation>
+    </message>
+    <message>
+        <source>Imgur token has expired, requesting new token…</source>
+        <translation>Imgur-toegangssleutel verlopen; bezig met aanvragen van nieuwe…</translation>
+    </message>
+</context>
+<context>
     <name>ImgurUploaderSettings</name>
     <message>
         <source>Force anonymous upload</source>
@@ -549,10 +623,6 @@ standaard ingeschakeld op macOS.</translation>
     <message>
         <source>Always copy Imgur link to clipboard</source>
         <translation>Imgur-link altijd kopiëren naar klembord</translation>
-    </message>
-    <message>
-        <source>Ask for confirmation before uploading</source>
-        <translation>Vragen alvorens te uploaden</translation>
     </message>
     <message>
         <source>Client ID</source>
@@ -595,10 +665,6 @@ standaard ingeschakeld op macOS.</translation>
         <translation>Bezig met wachten op imgur.com…</translation>
     </message>
     <message>
-        <source>Username:</source>
-        <translation>Gebruikersnaam:</translation>
-    </message>
-    <message>
         <source>Imgur.com token successfully updated.</source>
         <translation>De imgur.com-toegangssleutel is bijgewerkt.</translation>
     </message>
@@ -613,6 +679,31 @@ standaard ingeschakeld op macOS.</translation>
     <message>
         <source>Link directly to image</source>
         <translation>Directe link naar afbeelding</translation>
+    </message>
+    <message>
+        <source>Base Url:</source>
+        <translation>Basis-url:</translation>
+    </message>
+    <message>
+        <source>Base url that will be used for communication with Imgur.
+Changing requires restart.</source>
+        <translation>De basis-url voor communicatie met Imgur.
+Herstart om de wijzigingen toe te passen.</translation>
+    </message>
+    <message>
+        <source>Clear Token</source>
+        <translation>Toegangssleutel wissen</translation>
+    </message>
+</context>
+<context>
+    <name>LoadImageFromFileOperation</name>
+    <message>
+        <source>Unable to open image</source>
+        <translation>Kan afbeelding niet openen</translation>
+    </message>
+    <message>
+        <source>Unable to open image from path %1</source>
+        <translation>De afbeelding uit het pad &apos;%1&apos; kan niet worden geopend</translation>
     </message>
 </context>
 <context>
@@ -679,10 +770,6 @@ van schermfoto, in seconden.</translation>
         <translation>Uploaden</translation>
     </message>
     <message>
-        <source>Upload capture image to imgur.com</source>
-        <translation>Schermfoto uploaden naar imgur.com</translation>
-    </message>
-    <message>
         <source>Print</source>
         <translation>Afdrukken</translation>
     </message>
@@ -735,10 +822,6 @@ van schermfoto, in seconden.</translation>
         <translation>&amp;Hulp</translation>
     </message>
     <message>
-        <source>Open Image</source>
-        <translation>Afbeelding openen</translation>
-    </message>
-    <message>
         <source>Image Files (*.png *.jpg *.bmp)</source>
         <translation>Afbeeldingsbestanden (*.png *.jpg *.bmp)</translation>
     </message>
@@ -759,8 +842,167 @@ van schermfoto, in seconden.</translation>
         <translation>Kan afbeelding niet tonen</translation>
     </message>
     <message>
-        <source>No image provided to but one was expected.</source>
-        <translation>Er werd een afbeelding verwacht, maar geen afbeelding opgegeven.</translation>
+        <source>Save As...</source>
+        <translation>Opslaan als...</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Plakken</translation>
+    </message>
+    <message>
+        <source>Paste Embedded</source>
+        <translation>Ingesloten plakken</translation>
+    </message>
+    <message>
+        <source>Upload capture to external source</source>
+        <translation>Schermfoto uploaden naar online-dienst</translation>
+    </message>
+    <message>
+        <source>Pin</source>
+        <translation>Vastmaken</translation>
+    </message>
+    <message>
+        <source>Pin screenshot to foreground in frameless window</source>
+        <translation>Schermfoto vastmaken aan voorgrond van naadloos venster</translation>
+    </message>
+    <message>
+        <source>No image provided but one was expected.</source>
+        <translation>Er werd een foto verwacht, maar niks opgegeven.</translation>
+    </message>
+    <message>
+        <source>Copy Path</source>
+        <translation>Pad kopiëren</translation>
+    </message>
+    <message>
+        <source>Open Directory</source>
+        <translation>Map openen</translation>
+    </message>
+    <message>
+        <source>&amp;View</source>
+        <translation>&amp;Bekijken</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Naam wijzigen</translation>
+    </message>
+    <message>
+        <source>Open Images</source>
+        <translation>Afbeeldingen openen</translation>
+    </message>
+    <message>
+        <source>Show Docks</source>
+        <translation>Panelen tonen</translation>
+    </message>
+    <message>
+        <source>Hide Docks</source>
+        <translation>Panelen verbergen</translation>
+    </message>
+    <message>
+        <source>Copy as data URI</source>
+        <translation>Kopiëren als gegevensuri</translation>
+    </message>
+    <message>
+        <source>Copy capture to system clipboard</source>
+        <translation>Schermfoto kopiëren naar klembord</translation>
+    </message>
+    <message>
+        <source>Open &amp;Recent</source>
+        <translation>&amp;Recent bestand openen</translation>
+    </message>
+    <message>
+        <source>Modify Canvas</source>
+        <translation>Canvas aanpassen</translation>
+    </message>
+</context>
+<context>
+    <name>MultiCaptureHandler</name>
+    <message>
+        <source>Save</source>
+        <translation>Opslaan</translation>
+    </message>
+    <message>
+        <source>Save As</source>
+        <translation>Opslaan als</translation>
+    </message>
+    <message>
+        <source>Open Directory</source>
+        <translation>Map openen</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopiëren</translation>
+    </message>
+    <message>
+        <source>Copy Path</source>
+        <translation>Pad kopiëren</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Naam wijzigen</translation>
+    </message>
+</context>
+<context>
+    <name>NewCaptureNameProvider</name>
+    <message>
+        <source>Capture</source>
+        <translation>Vastleggen</translation>
+    </message>
+</context>
+<context>
+    <name>PinWindow</name>
+    <message>
+        <source>Close</source>
+        <translation>Sluiten</translation>
+    </message>
+    <message>
+        <source>Close Other</source>
+        <translation>Anderen sluiten</translation>
+    </message>
+    <message>
+        <source>Close All</source>
+        <translation>Alles sluiten</translation>
+    </message>
+</context>
+<context>
+    <name>PinWindowHandler</name>
+    <message>
+        <source>Pin Window %1</source>
+        <translation>Venster %1 vastmaken</translation>
+    </message>
+</context>
+<context>
+    <name>RenameOperation</name>
+    <message>
+        <source>Image Renamed</source>
+        <translation>De afbeeldingsnaam is gewijzigd</translation>
+    </message>
+    <message>
+        <source>Successfully renamed image to </source>
+        <translation>De nieuwe afbeeldingsnaam is </translation>
+    </message>
+    <message>
+        <source>Image Rename Failed</source>
+        <translation>Naamswijziging mislukt</translation>
+    </message>
+    <message>
+        <source>Failed to rename image to </source>
+        <translation>De afbeeldingsnaam kan niet worden gewijzigd in </translation>
+    </message>
+    <message>
+        <source>Rename image</source>
+        <translation>Afbeeldingsnaam wijzigen</translation>
+    </message>
+    <message>
+        <source>New filename:</source>
+        <translation>Nieuwe bestandsnaam:</translation>
     </message>
 </context>
 <context>
@@ -792,6 +1034,120 @@ van schermfoto, in seconden.</translation>
     <message>
         <source>Failed to save image to</source>
         <translation>Kan afbeelding niet opslaan in</translation>
+    </message>
+</context>
+<context>
+    <name>SaverSettings</name>
+    <message>
+        <source>Automatically save new captures to default location</source>
+        <translation>Nieuwe schermfoto&apos;s automatisch opslaan in standaardlocatie</translation>
+    </message>
+    <message>
+        <source>Prompt to save before discarding unsaved changes</source>
+        <translation>Altijd vragen om aanpassingen op te slaan</translation>
+    </message>
+    <message>
+        <source>Remember last Save Directory</source>
+        <translation>Recentste opslagmap onthouden</translation>
+    </message>
+    <message>
+        <source>When enabled will overwrite the save directory stored in settings
+with the latest save directory, for every save.</source>
+        <translation>Schakel in om de opslagmap uit de instellingen te vervangen door
+de recentste opslagmap.</translation>
+    </message>
+    <message>
+        <source>Capture save location and filename</source>
+        <translation>Opslaglocatie en bestandsnaam</translation>
+    </message>
+    <message>
+        <source>Supported Formats are JPG, PNG and BMP. If no format provided, PNG will be used as default.
+Filename can contain following wildcards:
+- $Y, $M, $D for date, $h, $m, $s for time, or $T for time in hhmmss format.
+- Multiple consecutive # for counter. #### will result in 0001, next capture would be 0002.</source>
+        <translation>Ondersteunde bestandsformaten: JPG, PNG en BMP. Als je geen formaat opgeeft, dan wordt PNG gebruikt.
+De bestandsnaam mag de volgende jokertekens bevatten:
+- $Y, $M, $D voor datum, $h, $m, $s voor tijd, of $T voor tijd in de opmaak &apos;uummss&apos;.
+- Gebruik # voor optelling. Voorbeeld: #### geeft 0001, met als opvolger 0002.</translation>
+    </message>
+    <message>
+        <source>Browse</source>
+        <translation>Bladeren</translation>
+    </message>
+    <message>
+        <source>Saver Settings</source>
+        <translation>Opslaginstellingen</translation>
+    </message>
+    <message>
+        <source>Capture save location</source>
+        <translation>Opslaglocatie</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Standaard</translation>
+    </message>
+    <message>
+        <source>Factor</source>
+        <translation>Factor</translation>
+    </message>
+    <message>
+        <source>Save Quality</source>
+        <translation>Opslagkwaliteit</translation>
+    </message>
+    <message>
+        <source>Specify 0 to obtain small compressed files, 100 for large uncompressed files.
+Not all image formats support the full range, JPEG does.</source>
+        <translation>Geef 0 op om bestanden met lage compressie te verkrijgen en 100 voor bestanden met
+hoge compressie. Niet alle formaten ondersteunen det volledige bereik, maar jpeg wel.</translation>
+    </message>
+</context>
+<context>
+    <name>ScriptUploaderSettings</name>
+    <message>
+        <source>Copy script output to clipboard</source>
+        <translation>Scriptuitvoer kopiëren naar klembord</translation>
+    </message>
+    <message>
+        <source>Script:</source>
+        <translation>Script:</translation>
+    </message>
+    <message>
+        <source>Path to script that will be called for uploading. During upload the script will be called
+with the path to a temporary png file as a single argument.</source>
+        <translation>Pad naar het script dat moet worden gebruikt bij het uploaden. Tijdens het uploaden
+wordt dit script aangeroepen op het pad van de tijdelijke png.</translation>
+    </message>
+    <message>
+        <source>Browse</source>
+        <translation>Bladeren</translation>
+    </message>
+    <message>
+        <source>Script Uploader</source>
+        <translation>Script-uploader</translation>
+    </message>
+    <message>
+        <source>Select Upload Script</source>
+        <translation>Uploadscript kiezen</translation>
+    </message>
+    <message>
+        <source>Stop when upload script writes to StdErr</source>
+        <translation>Stoppen als uploadscript is weggeschreven naar StdErr</translation>
+    </message>
+    <message>
+        <source>Marks the upload as failed when script writes to StdErr.
+Without this setting errors in the script will be unnoticed.</source>
+        <translation>Markeert de upload als &apos;mislukt&apos; als het script wordt weggeschreven naar StdErr.
+Schakel uit om scriptfouten te negeren.</translation>
+    </message>
+    <message>
+        <source>Filter:</source>
+        <translation>Filter:</translation>
+    </message>
+    <message>
+        <source>RegEx Expression. Only copy to clipboard what matches the RegEx Expression.
+When omitted, everything is copied.</source>
+        <translation>Reguliere uitdrukking. Kopieer alleen tekst naar het klembord die hiermee overeenkomt.
+Sla over om álles te kopiëren.</translation>
     </message>
 </context>
 <context>
@@ -828,12 +1184,293 @@ van schermfoto, in seconden.</translation>
         <source>HotKeys</source>
         <translation>Sneltoetsen</translation>
     </message>
+    <message>
+        <source>Uploader</source>
+        <translation>Uploader</translation>
+    </message>
+    <message>
+        <source>Script Uploader</source>
+        <translation>Script-uploader</translation>
+    </message>
+    <message>
+        <source>Saver</source>
+        <translation>Opslaan</translation>
+    </message>
+    <message>
+        <source>Stickers</source>
+        <translation>Stickers</translation>
+    </message>
+    <message>
+        <source>Snipping Area</source>
+        <translation>Vastleggebied</translation>
+    </message>
+    <message>
+        <source>Tray Icon</source>
+        <translation>Systeemvakpictogram</translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation>Watermerk</translation>
+    </message>
+</context>
+<context>
+    <name>SnippingAreaResizerInfoText</name>
+    <message>
+        <source>Resize selected rect using the handles or move it by dragging the selection.</source>
+        <translation>Pas de grootte van het selectiegebied aan door de handgrepen te verschuiven of de selectie te verplaatsen.</translation>
+    </message>
+    <message>
+        <source>Use arrow keys to move the selection.</source>
+        <translation>Gebruik de pijltjestoetsen om de selectie te verplaatsen.</translation>
+    </message>
+    <message>
+        <source>Use arrow keys while pressing CTRL to move top left handle.</source>
+        <translation>Houd de Ctrl-toets ingedrukt en druk op de pijltjestoetsen om het bovenste linkerhandvat te verplaatsen.</translation>
+    </message>
+    <message>
+        <source>Use arrow keys while pressing ALT to move bottom right handle.</source>
+        <translation>Houd de Alt-toets ingedrukt en druk op de pijltjestoetsen om het onderste rechterhandvat te verplaatsen.</translation>
+    </message>
+    <message>
+        <source>Confirm selection by pressing ENTER/RETURN or abort by pressing ESC.</source>
+        <translation>Bevestig de selectie door op Enter te drukken of breek af door op Esc te drukken.</translation>
+    </message>
+    <message>
+        <source>This message can be disabled via settings.</source>
+        <translation>Dit bericht kan in de instellingen worden uitgeschakeld.</translation>
+    </message>
+</context>
+<context>
+    <name>SnippingAreaSelectorInfoText</name>
+    <message>
+        <source>Click and Drag to select a rectangular area or press ESC to quit.</source>
+        <translation>Klik en sleep om een rechthoekig gebied te selecteren of druk op Esc om af te breken.</translation>
+    </message>
+    <message>
+        <source>Hold CTRL pressed to resize selection after selecting.</source>
+        <translation>Houd na het selecteren Ctrl ingedrukt om het gebied te verkleinen/vergroten.</translation>
+    </message>
+    <message>
+        <source>Hold CTRL pressed to prevent resizing after selecting.</source>
+        <translation>Houd na het selecteren Ctrl ingedrukt om vergroten/verkleinen te voorkomen.</translation>
+    </message>
+    <message>
+        <source>Operation will be canceled after 60 sec when no selection made.</source>
+        <translation>De handeling wordt na 60 sec. inactiviteit afgebroken.</translation>
+    </message>
+    <message>
+        <source>This message can be disabled via settings.</source>
+        <translation>Dit bericht kan in de instellingen worden uitgeschakeld.</translation>
+    </message>
+</context>
+<context>
+    <name>SnippingAreaSettings</name>
+    <message>
+        <source>Freeze Image while snipping</source>
+        <translation>Afbeelding bevriezen tijdens vastleggen</translation>
+    </message>
+    <message>
+        <source>When enabled will freeze the background while
+selecting a rectangular region. It also changes
+the behavior of delayed screenshots, with this
+option enabled the delay happens before the
+snipping area is shown and with the option disabled
+the delay happens after the snipping area is shown.
+This feature is always disabled for Wayland and always
+enabled for MacOs.</source>
+        <translation>Schakel in om de achtergrond te bevriezen
+tijdens het selecteren van een rechthoekig
+gebied. Dit verandert tevens het gedrag
+van vertraagde schermfoto&apos;s: de vertraging
+vindt plaats vóórdat het selectiegebied
+wordt getoond. Deze optie is altijd
+uitgeschakeld op Wayland en altijd ingeschakeld
+op macOS.</translation>
+    </message>
+    <message>
+        <source>Show magnifying glass on snipping area</source>
+        <translation>Vergrootglas tonen op vastleggebied</translation>
+    </message>
+    <message>
+        <source>Show a magnifying glass which zooms into
+the background image. This option only works
+with &apos;Freeze Image while snipping&apos; enabled.</source>
+        <translation>Toont een vergrootglas om in te zoomen op de
+achtergrondafbeelding. Deze optie werkt alleen als
+&apos;Afbeelding bevriezen tijdens vastleggen&apos; is ingeschakeld.</translation>
+    </message>
+    <message>
+        <source>Show Snipping Area rulers</source>
+        <translation>Linialen tonen op vastleggebied</translation>
+    </message>
+    <message>
+        <source>Horizontal and vertical lines going from
+desktop edges to cursor on snipping area.</source>
+        <translation>Horizontale en verticale lijnen die lopen vanaf
+de schermranden naar de cursor op het vastleggebied.</translation>
+    </message>
+    <message>
+        <source>Show Snipping Area position and size info</source>
+        <translation>Positie- en afmetingsinformatie tonen op vastleggebied</translation>
+    </message>
+    <message>
+        <source>When left mouse button is not pressed the position
+is shown, when the mouse button is pressed,
+the size of the select area is shown left
+and above from the captured area.</source>
+        <translation>Als de linkermuisknop niet wordt ingedrukt, wordt de
+positie getoond. Als de knop wél wordt ingedrukt,
+wordt de grootte van het selectiegebied links en
+bovenaan getoond.</translation>
+    </message>
+    <message>
+        <source>Allow resizing rect area selection by default</source>
+        <translation>Vergroten/Verkleinen van selectiegebied toestaan</translation>
+    </message>
+    <message>
+        <source>When enabled will, after selecting a rect
+area, allow resizing the selection. When
+done resizing the selection can be confirmed
+by pressing return.</source>
+        <translation>Schakel in om de afmetingen van het
+gebied van een rechthoekige selectie aan te
+passen. Druk na het aanpassen op Enter om
+op te slaan.</translation>
+    </message>
+    <message>
+        <source>Show Snipping Area info text</source>
+        <translation>Informatietekst tonen op vastleggebied</translation>
+    </message>
+    <message>
+        <source>Snipping Area cursor color</source>
+        <translation>Cursorkleur binnen vastleggebied</translation>
+    </message>
+    <message>
+        <source>Sets the color of the snipping area cursor.</source>
+        <translation>Stel de kleur in van de cursor op het vastleggebied.</translation>
+    </message>
+    <message>
+        <source>Snipping Area cursor thickness</source>
+        <translation>Cursordikte binnen vastleggebied</translation>
+    </message>
+    <message>
+        <source>Sets the thickness of the snipping area cursor.</source>
+        <translation>Stel de dikte in van de cursor op het vastleggebied.</translation>
+    </message>
+    <message>
+        <source>Snipping Area</source>
+        <translation>Vastleggebied</translation>
+    </message>
+    <message>
+        <source>Snipping Area adorner color</source>
+        <translation>Versierkleur van vastleggebied</translation>
+    </message>
+    <message>
+        <source>Sets the color of all adorner elements
+on the snipping area.</source>
+        <translation>Stelt de kleur in van versierde elementen
+in het vastleggebied.</translation>
+    </message>
+    <message>
+        <source>Snipping Area Transparency</source>
+        <translation>Doorzichtigheid van vastleggebied</translation>
+    </message>
+    <message>
+        <source>Alpha for not selected region on snipping area.
+Smaller number is more transparent.</source>
+        <translation>De alfawaarde van niet-geselecteerde gebieden in het selectiegebied.
+Lager = doorzichtiger.</translation>
+    </message>
+</context>
+<context>
+    <name>StickerSettings</name>
+    <message>
+        <source>Up</source>
+        <translation>Omhoog</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation>Omlaag</translation>
+    </message>
+    <message>
+        <source>Use Default Stickers</source>
+        <translation>Standaardstickers gebruiken</translation>
+    </message>
+    <message>
+        <source>Sticker Settings</source>
+        <translation>Stickerinstellingen</translation>
+    </message>
+    <message>
+        <source>Vector Image Files (*.svg)</source>
+        <translation>Vector-afbeeldingsbestanden (*.svg)</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Toevoegen</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Verwijderen</translation>
+    </message>
+    <message>
+        <source>Add Stickers</source>
+        <translation>Stickers toevoegen</translation>
+    </message>
 </context>
 <context>
     <name>TrayIcon</name>
     <message>
         <source>Show Editor</source>
         <translation>Bewerker tonen</translation>
+    </message>
+</context>
+<context>
+    <name>TrayIconSettings</name>
+    <message>
+        <source>Use Tray Icon</source>
+        <translation>Systeemvakpictogram gebruiken</translation>
+    </message>
+    <message>
+        <source>When enabled will add a Tray Icon to the TaskBar if the OS Window Manager supports it.
+Change requires restart.</source>
+        <translation>Schakel dit in om, als je vensterbeheerder dit ondersteunt, een systeemvakpictogram te gebruiken.
+Herstart om de wijziging toe te passen.</translation>
+    </message>
+    <message>
+        <source>Minimize to Tray</source>
+        <translation>Minimaliseren naar systeemvak</translation>
+    </message>
+    <message>
+        <source>Start Minimized to Tray</source>
+        <translation>Geminimaliseerd in systeemvak opstarten</translation>
+    </message>
+    <message>
+        <source>Close to Tray</source>
+        <translation>Sluiten naar systeemvak</translation>
+    </message>
+    <message>
+        <source>Show Editor</source>
+        <translation>Bewerker tonen</translation>
+    </message>
+    <message>
+        <source>Capture</source>
+        <translation>Vastleggen</translation>
+    </message>
+    <message>
+        <source>Default Tray Icon action</source>
+        <translation>Standaard systeemvakpictogramactie</translation>
+    </message>
+    <message>
+        <source>Default Action that is triggered by left clicking the tray icon.</source>
+        <translation>De standaardactie na het klikken op het systeemvakpictogram.</translation>
+    </message>
+    <message>
+        <source>Tray Icon Settings</source>
+        <translation>Systeemvakinstellingen</translation>
+    </message>
+    <message>
+        <source>Display Tray icon notifications</source>
+        <translation>Systeemvakmeldingen tonen</translation>
     </message>
 </context>
 <context>
@@ -854,12 +1491,43 @@ van schermfoto, in seconden.</translation>
 <context>
     <name>UploadOperation</name>
     <message>
-        <source>Imgur Upload</source>
-        <translation>Uploaden naar Imgur</translation>
+        <source>Upload Script Required</source>
+        <translation>Uploadscript vereist</translation>
     </message>
     <message>
-        <source>You are about to upload the screenshot to a imgur.com, do you want to proceed?</source>
-        <translation>Je staat op het punt om de schermafbeelding te uploaden naar imgur.com. Wil je doorgaan?</translation>
+        <source>Please add an upload script via Options &gt; Settings &gt; Upload Script</source>
+        <translation>Voeg een uploadscript toe via Opties --&gt; Instellingen --&gt; Uploadscript</translation>
+    </message>
+    <message>
+        <source>Capture Upload</source>
+        <translation>Schermfoto uploaden</translation>
+    </message>
+    <message>
+        <source>You are about to upload the image to an external destination, do you want to proceed?</source>
+        <translation>Je staat op het punt om een afbeelding te uploaden. Wil je doorgaan?</translation>
+    </message>
+</context>
+<context>
+    <name>UploaderSettings</name>
+    <message>
+        <source>Ask for confirmation before uploading</source>
+        <translation>Vragen alvorens te uploaden</translation>
+    </message>
+    <message>
+        <source>Uploader Type:</source>
+        <translation>Soort upload:</translation>
+    </message>
+    <message>
+        <source>Imgur</source>
+        <translation>Imgur</translation>
+    </message>
+    <message>
+        <source>Script</source>
+        <translation>Script</translation>
+    </message>
+    <message>
+        <source>Uploader</source>
+        <translation>Uploader</translation>
     </message>
 </context>
 <context>
@@ -875,6 +1543,29 @@ van schermfoto, in seconden.</translation>
     <message>
         <source>Using:</source>
         <translation>Gebruikmakend van:</translation>
+    </message>
+</context>
+<context>
+    <name>WatermarkSettings</name>
+    <message>
+        <source>Watermark Image</source>
+        <translation>Watermerkafbeelding</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Bijwerken</translation>
+    </message>
+    <message>
+        <source>Rotate Watermark</source>
+        <translation>Watermerk draaien</translation>
+    </message>
+    <message>
+        <source>When enabled, Watermark will be added with a rotation of 45°</source>
+        <translation>Gebruik deze optie om een watermerk toe te voegen dat 45° gedraaid is</translation>
+    </message>
+    <message>
+        <source>Watermark Settings</source>
+        <translation>Watermerkinstellingen</translation>
     </message>
 </context>
 </TS>

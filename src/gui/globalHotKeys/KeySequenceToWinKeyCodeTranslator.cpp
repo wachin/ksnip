@@ -2,7 +2,7 @@
  * Copyright (C) 2019 Damir Porobic <damir.porobic@gmx.com>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -27,8 +27,8 @@ KeySequenceToWinKeyCodeTranslator::KeySequenceToWinKeyCodeTranslator()
 KeyCodeCombo KeySequenceToWinKeyCodeTranslator::map(const QKeySequence &keySequence) const
 {
 	auto sequenceString = keySequence.toString().toUpper();
-	auto modifierString = sequenceString.section(QStringLiteral("+"), 0, -2);
-	auto keyString = sequenceString.section(QStringLiteral("+"), -1, -1);
+	auto modifierString = sequenceString.section(QLatin1String("+"), 0, -2);
+	auto keyString = sequenceString.section(QLatin1String("+"), -1, -1);
 
 	auto modifier = getModifier(modifierString);
 	auto key = getKey(keyString);
@@ -38,18 +38,16 @@ KeyCodeCombo KeySequenceToWinKeyCodeTranslator::map(const QKeySequence &keySeque
 
 unsigned int KeySequenceToWinKeyCodeTranslator::getModifier(const QString &modifierString) const
 {
-	unsigned int modifier = 0;
-	if (modifierString.contains(QStringLiteral("SHIFT"))) {
+	unsigned int modifier = MOD_NOREPEAT;
+	if (modifierString.contains(QLatin1String("SHIFT"))) {
 		modifier |= MOD_SHIFT;
 	}
-	if (modifierString.contains(QStringLiteral("ALT"))) {
+	if (modifierString.contains(QLatin1String("ALT"))) {
 		modifier |= MOD_ALT;
 	}
-	if (modifierString.contains(QStringLiteral("CTRL"))) {
+	if (modifierString.contains(QLatin1String("CTRL"))) {
 		modifier |= MOD_CONTROL;
 	}
-
-	modifier |= 0x4000;
 
 	return modifier;
 }
@@ -96,7 +94,7 @@ unsigned int KeySequenceToWinKeyCodeTranslator::getKey(const QString &keyString)
 		case Qt::Key_Pause:
 			return VK_PAUSE;
 		case Qt::Key_Print:
-			return VK_PRINT;
+			return VK_SNAPSHOT;
 		case Qt::Key_Home:
 			return VK_HOME;
 		case Qt::Key_End:

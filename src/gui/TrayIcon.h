@@ -2,7 +2,7 @@
  * Copyright (C) 2019 Damir Porobic <damir.porobic@gmx.com>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -22,43 +22,55 @@
 
 #include <QSystemTrayIcon>
 #include <QMenu>
+#include <QDesktopServices>
+#include <QUrl>
 
+#include "IToastService.h"
+#include "src/backend/config/KsnipConfigProvider.h"
 #include "src/common/enum/CaptureModes.h"
+#include "src/common/loader/IconLoader.h"
 
-class TrayIcon : public QSystemTrayIcon
+class TrayIcon : public QSystemTrayIcon, public IToastService
 {
 Q_OBJECT
 public:
 	explicit TrayIcon(QObject *parent);
 	~TrayIcon() override;
-	void setNewCaptureAction(QAction *action);
+	void setCaptureActions(const QList<QAction*> &captureActions);
 	void setOpenAction(QAction *action);
 	void setSaveAction(QAction *action);
+	void setPasteAction(QAction *action);
 	void setCopyAction(QAction *action);
 	void setUploadAction(QAction *action);
 	void setQuitAction(QAction *action);
 	void setEnabled(bool enabled);
-	void showInfoToast(const QString &title, const QString &message);
-	void showWarningToast(const QString &title, const QString &message);
-	void showCriticalToast(const QString &title, const QString &message);
+	void showInfoToast(const QString &title, const QString &message, const QString &contentUrl) override;
+	void showWarningToast(const QString &title, const QString &message, const QString &contentUrl) override;
+	void showCriticalToast(const QString &title, const QString &message, const QString &contentUrl) override;
 
 signals:
 	void showEditorTriggered() const;
 
 private:
+	KsnipConfig *mConfig;
 	QMenu mMenu;
-	QAction *mNewCaptureAction;
+	QList<QAction*> mCaptureActions;
 	QAction *mOpenAction;
 	QAction *mSaveAction;
+	QAction *mPasteAction;
 	QAction *mCopyAction;
 	QAction *mUploadAction;
 	QAction *mShowEditorAction;
 	QAction *mQuitAction;
+	QString mToastContentUrl;
 
 	void setupMenu();
+	void triggerDefaultCaptureMode() const;
 
 private slots:
-	void activated(ActivationReason reason) const;
+	void activatedDefaultAction(ActivationReason reason) const;
+	void openContentUrl();
+	void showMessage(const QString &title, const QString &message, const QString &contentUrl, QSystemTrayIcon::MessageIcon messageIcon);
 };
 
 #endif //KSNIP_TRAYICON_H

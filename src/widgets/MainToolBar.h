@@ -2,7 +2,7 @@
  *  Copyright (C) 2019 Damir Porobic <https://github.com/damirporobic>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -46,6 +46,9 @@ public:
     QAction* cropAction() const;
     QAction* undoAction() const;
     QAction* redoAction() const;
+    QList<QAction*> captureActions() const;
+    void setCollapsed(bool isCollapsed);
+    bool isCollapsed() const;
 
 signals:
     void captureModeSelected(CaptureModes mode) const;
@@ -72,8 +75,6 @@ private:
     QAction *mCropAction;
     QAction *mUndoAction;
     QAction *mRedoAction;
-
 };
-
 
 #endif //KSNIP_MAINTOOLBAR_H

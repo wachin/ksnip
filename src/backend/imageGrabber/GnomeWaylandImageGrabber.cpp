@@ -2,7 +2,7 @@
  * Copyright (C) 2017 Damir Porobic <https://github.com/damirporobic>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -19,7 +19,7 @@
 
 #include "GnomeWaylandImageGrabber.h"
 
-GnomeWaylandImageGrabber::GnomeWaylandImageGrabber() : AbstractImageGrabber(new LinuxSnippingArea)
+GnomeWaylandImageGrabber::GnomeWaylandImageGrabber() : AbstractRectAreaImageGrabber(new LinuxSnippingArea)
 {
 	addSupportedCaptureMode(CaptureModes::RectArea);
 	addSupportedCaptureMode(CaptureModes::LastRectArea);
@@ -42,12 +42,12 @@ CursorDto GnomeWaylandImageGrabber::getCursorWithPosition() const
 
 void GnomeWaylandImageGrabber::grab()
 {
-    QDBusInterface interface(QStringLiteral("org.gnome.Shell.Screenshot"), QStringLiteral("/org/gnome/Shell/Screenshot"), QStringLiteral("org.gnome.Shell.Screenshot"));
+    QDBusInterface interface(QLatin1String("org.gnome.Shell.Screenshot"), QLatin1String("/org/gnome/Shell/Screenshot"), QLatin1String("org.gnome.Shell.Screenshot"));
     QDBusPendingReply<bool, QString> reply;
-    if (mCaptureMode == CaptureModes::ActiveWindow) {
-        reply = interface.asyncCall(QStringLiteral("ScreenshotWindow"), true, mCaptureCursor, false, tmpScreenshotFilename());
+    if (captureMode() == CaptureModes::ActiveWindow) {
+        reply = interface.asyncCall(QLatin1String("ScreenshotWindow"), true, isCaptureCursorEnabled(), false, tmpScreenshotFilename());
     } else {
-        reply = interface.asyncCall(QStringLiteral("Screenshot"), mCaptureCursor, false, tmpScreenshotFilename());
+        reply = interface.asyncCall(QLatin1String("Screenshot"), isCaptureCursorEnabled(), false, tmpScreenshotFilename());
     }
 
     reply.waitForFinished();
@@ -63,7 +63,7 @@ void GnomeWaylandImageGrabber::grab()
 
 void GnomeWaylandImageGrabber::postProcessing(const QPixmap& pixmap)
 {
-    if (mCaptureMode == CaptureModes::ActiveWindow) {
+    if (captureMode() == CaptureModes::ActiveWindow) {
         emit finished(CaptureDto(pixmap));
     } else {
 	    setCaptureRectFromCorrectSource();
@@ -73,9 +73,9 @@ void GnomeWaylandImageGrabber::postProcessing(const QPixmap& pixmap)
 
 QString GnomeWaylandImageGrabber::tmpScreenshotFilename() const
 {
-    auto path = QStringLiteral("/tmp/");
-    auto filename = QStringLiteral("ksnip-") + QString::number(MathHelper::randomInt());
-    auto extension = QStringLiteral(".png");
+    auto path = QLatin1String("/tmp/");
+    auto filename = QLatin1String("ksnip-") + QString::number(MathHelper::randomInt());
+    auto extension = QLatin1String(".png");
     return path + filename + extension;
 }
 

@@ -2,7 +2,7 @@
  * Copyright (C) 2019 Damir Porobic <damir.porobic@gmx.com>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -22,17 +22,20 @@
 
 #include <QApplication>
 
+#include <utility>
+
 #include "SaveOperation.h"
 #include "NotifyOperation.h"
 #include "src/backend/config/KsnipConfigProvider.h"
-#include "src/common/helper/MessageBoxHelper.h"
+#include "src/backend/recentImages/IRecentImageService.h"
+#include "src/gui/messageBoxService/MessageBoxService.h"
 
 class CanDiscardOperation : public QObject
 {
 	Q_OBJECT
 public:
-	CanDiscardOperation(QWidget *parent, const QImage &image, bool isUnsaved, TrayIcon *trayIcon);
-	~CanDiscardOperation() override = default;
+	CanDiscardOperation(QWidget *parent, QImage image, bool isUnsaved, QString pathToImageSource, QString filename, IToastService *toastService, IRecentImageService *recentImageService);
+	~CanDiscardOperation() override;
 	bool execute();
 
 private:
@@ -40,7 +43,11 @@ private:
 	bool mIsUnsaved;
 	QWidget *mParent;
 	QImage mImage;
-	TrayIcon *mTrayIcon;
+	QString mPathToImageSource;
+	QString mFilename;
+	IToastService *mToastService;
+	IMessageBoxService *mMessageBoxService;
+	IRecentImageService *mRecentImageService;
 
 	MessageBoxResponse getSaveBeforeDiscard() const;
 	bool saveImage() const;

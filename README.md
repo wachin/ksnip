@@ -1,129 +1,179 @@
-# [ksnip](http://ksnip.org/) &middot; [![Build Status][travis-badge]][travis-url] [![GitHub commits (since latest release)][gh-comm-since-badge]][gh-comm-since-url] [![Translation status][weblate-badge]][weblate-url] [![GitHub total downloads][gh-dl-badge]][gh-dl-url] [![SourceForge total downloads][sf-dt-badge]][sf-dt-badge-url] 
+# [ksnip](http://ksnip.org/) &middot; [![Build Status][travis-badge]][travis-url] [![GitHub commits (since latest release)][gh-comm-since-badge]][gh-comm-since-url] [![Translation status][weblate-badge]][weblate-url] [![GitHub total downloads][gh-dl-badge]][gh-dl-url] [![SourceForge total downloads][sf-dt-badge]][sf-dt-badge-url]
 
+Version v1.9.0 - Work in Progress
 
-Version v1.6.1
-
-Ksnip is a Qt based cross-platform screenshot tool that provides many annotation features 
+Ksnip is a Qt-based cross-platform screenshot tool that provides many annotation features
 for your screenshots.
 
-![Ksnip](https://i.imgur.com/TsDWwXC.png "Ksnip with annotations")
-
+![ksnip](https://i.imgur.com/4nMcbnF.png "Ksnip with annotations")
 
 # Features
 Latest ksnip version contains following features:
-* Supports Linux (X11 and experimental KDE and Gnome Wayland support), Windows and MacOS.
-* Taking screenshot of a custom rectangular area that can be drawn with mouse cursor.
-* Taking screenshot of last selected rectangular area without selecting again.
-* Taking screenshot of the screen/monitor where the mouse cursor is currently located.
-* Taking screenshot of full screen, including all screens/monitors.
-* Taking screenshot of window that currently has focus.
-* Taking screenshot of window under mouse cursor.
-* Take screenshot with or without mouse cursor.
+* Supports Linux (X11, Plasma Wayland, GNOME Wayland and xdg-desktop-portal Wayland), Windows and macOS.
+* Screenshot of a custom rectangular area that can be drawn with mouse cursor.
+* Screenshot of last selected rectangular area without selecting again.
+* Screenshot of the screen/monitor where the mouse cursor is currently located.
+* Screenshot of full-screen, including all screens/monitors.
+* Screenshot of window that currently has focus.
+* Screenshot of window under mouse cursor.
+* Screenshot with or without mouse cursor.
 * Capture mouse cursor as annotation item that can be moved and deleted.
 * Customizable capture delay for all capture options.
 * Upload screenshots directly to imgur.com in anonymous or user mode.
-* Command line support, for taking screenshot and saving it to default location, filename and format.
-* Customizable default location, filename and format for saving new screenshots with wildcards for Year ($Y), Month ($M), Day ($D) and Time ($T).
-* Print screenshot or save is to pdf/ps.
+* Upload screenshots via custom user defined scripts.
+* Command-line support, for capturing screenshots and saving to default location, filename and format.
+* Filename wildcards for Year ($Y), Month ($M), Day ($D), Time ($T) and Counter (multiple # characters for number with zero-leading padding).
+* Print screenshot or save it to PDF/PS.
 * Annotate screenshots with pen, marker, rectangles, ellipses, texts and other tools.
+* Annotate screenshots with stickers and add custom stickers.
+* Obfuscate image regions with blur and pixelate.
+* Add effects to image (Drop Shadow, Grayscale or Border).
 * Add watermarks to captured images.
-* Global HotKeys for taking Screenshots (Currently only for Windows and X11).
+* Global hotkeys for capturing screenshots (currently only for Windows and X11).
+* Tabs for screenshots and images.
+* Open existing images via dialog, drag-and-drop or paste from clipboard.
+* Run as single instance application (secondary instances send cli parameter to primary instance).
+* Pin screenshots in frameless windows that stay atop other windows.
 * Many configuration options.
 
-
 # Supported Screenshot Types
-|              | Rect Area | Last Rect Area | Full Screen | Current Screen | Active Window | Window Under Cursor | Without Mouse Cursor |
-| -------------|:---------:|:--------------:|:-----------:|:--------------:|:-------------:|:-------------------:|:--------------------:|
-| X11          | X         | X              | X           | X              | X             |                     | X                    |
-| KDE Wayland  |           |                | X           | X              |               | X                   |                      |
-| Gnome Wayland| X         | X              | X           | X              | X             |                     | X                    |
-| Windows      | X         | X              | X           | X              | X             |                     | X                    |
-| MacOS        | X         | X              | X           | X              |               |                     |                      |
-
+|                    | Rect Area | Last Rect Area | Full Screen | Current Screen | Active Window | Window Under Cursor | Without Mouse Cursor | Screenshot Portal |
+| -------------------|:---------:|:--------------:|:-----------:|:--------------:|:-------------:|:-------------------:|:--------------------:|:-----------------:|
+| X11                | X         | X              | X           | X              | X             |                     | X                    |                   |
+| Plasma Wayland     |           |                | X           | X              |               | X                   |                      |                   |
+| Gnome Wayland      | X         | X              | X           | X              | X             |                     | X                    |                   |
+| xdg-desktop-portal |           |                |             |                |               |                     |                      | X                 |
+| Windows            | X         | X              | X           | X              | X             |                     | X                    |                   |
+| macOS              | X         | X              | X           | X              |               |                     |                      |                   |
 
 # Installing Binaries
-Binaries can be downloaded from the release page [here](https://github.com/ksnip/ksnip/releases). Currently we 
-provide RPM, DEB and AppImage for Linux, zipped EXE for Windows and APP for MacOS in a DMG package.
+Binaries can be downloaded from the release page [here](https://github.com/ksnip/ksnip/releases). Currently
+RPM, DEB and AppImage for Linux, zipped EXE for Windows and APP for macOS in a DMG package is available.
 
 ### Continuous build
-We build and provide all supported binaries for every pushed commit, those can be found at the top of the
-release page. Continuous build artifacts are not fully tested and in most cases they are work in progress
+All supported binaries are built for every pushed commit, to be found at the top of the
+release page. Continuous build artifacts are not fully tested and in most cases they are work in progress,
 so use them with caution.
 
 ### AppImage (Linux)
-In order to use AppImages, make them executable and start using it, no installation required.  
-`$ chmod a+x ksnip*.AppImage`  
+To use AppImages, make them executable and run them, no installation required.
+`$ chmod a+x ksnip*.AppImage`
 `$ ./ksnip*.AppImage`
 
-More information about setting to executable can be found [here](https://discourse.appimage.org/t/how-to-make-an-appimage-executable/80).
+More info about setting to executable can be found [here](https://discourse.appimage.org/t/how-to-make-an-appimage-executable/80).
 
 ### RPM (Linux)
-Just install them via rpm and start using.  
-`$ rpm -Uvh ksnip*.rpm`  
-`$ ksnip`  
+Just install them via RPM and use.
+`$ rpm -Uvh ksnip*.rpm`
+`$ ksnip`
 
 ### DEB (Linux)
-Just install them via dpkg and start using.  
-`$ sudo dpkg -i ksnip*.deb`  
-`$ ksnip`  
+Just install them via dpkg and start using.
+`$ sudo dpkg -i ksnip*.deb`
+`$ ksnip`
+
+### Snap (Linux)
+The usual method for Snaps, will install the latest version:
+`$ sudo snap install ksnip`
+
+The continuous build version is also available as edge, in order to install it you need to provide the edge flag:
+`$ sudo snap install ksnip --edge`
+
+Snap startup time can be sped up and console output cleaned up from following error `Could not create AF_NETLINK socket (Permission denied)` by running the following commands:
+`$ snap connect ksnip:network-observe`
+`$ snap connect ksnip:network-manager-observe`
+
+If you need to save screenshots to a removable media, the following additional connection is required:
+`$ snap connect ksnip:removable-media`
+
+This only needs to be done once and connects some Snap plugs which are currently not auto-connected.
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/ksnip)
+
+### Flatpak (Linux)
+The usual method for Flatpaks will install the latest version:
+`$ flatpak install flathub org.ksnip.ksnip`
+
+Then just start it:
+`$ flatpak run org.ksnip.ksnip`
+
+<a href='https://flathub.org/apps/details/org.ksnip.ksnip'><img width='220' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>
 
 ### EXE (Windows)
-The exe file with all required dependencies comes in a zipped package, which just need to be unzipped 
-with your favorite zip tool. Ksnip can then be started by just double clicking ksnip.exe.
+The EXE file with all required dependencies comes in a zipped package, which just need to be unzipped
+with your favorite unpacking tool. Ksnip can then be started by just double-clicking ksnip.exe.
 
-### APP (MacOS)
-The app file comes in a dmg package which needs to be opened and the ksnip.app file needs to be dragged 
-and dropped into the Application folder. After that the application can be started by double clicking ksnip.app
+### APP (macOS)
+The app file comes in a DMG package which needs to be opened and the ksnip.app file needs to be dragged
+and dropped into the "Application" folder. After that the application can be started by double clicking ksnip.app
 
+### Homebrew Cask (macOS)
+Just install via Homebrew and start using from your "Applications" folder.
+`$ brew install --cask ksnip`
 
 # Dependencies
-ksnip depends on [kImageAnnotator](https://github.com/ksnip/kImageAnnotator) and [kColoPicker](https://github.com/DamirPorobic/kColorPicker) which needs
-to be installed before building ksnip from source. Install instructions can be found on the github pages.
-
+ksnip depends on [kImageAnnotator](https://github.com/ksnip/kImageAnnotator) and [kColorPicker](https://github.com/DamirPorobic/kColorPicker) which needs
+to be installed before building ksnip from source. Installation instructions can be found on the Github pages.
 
 # Building from source
-1. Get latest release from GitHub by cloning the repo:  
-    `$ git clone https://github.com/ksnip/ksnip`  
-2. Change to repo directory:  
-    `$ cd ksnip`  
-3. Make new build directory and enter it:  
-    `$ mkdir build && cd build`  
-4. Create the makefile and build the project:  
-    `$ cmake .. && make`  
-5. Now install the application, eventually you need to run it with sudo:  
-    `$ sudo make install`  
-6. Run the application:  
-    `$ ksnip`  
-
+1. Get latest release from GitHub by cloning the repo:
+    `$ git clone https://github.com/ksnip/ksnip`
+2. Change to repo directory:
+    `$ cd ksnip`
+3. Make new build directory and enter it:
+    `$ mkdir build && cd build`
+4. Create the makefile and build the project:
+    `$ cmake .. && make`
+5. Now install the application, eventually you need to run it with sudo:
+    `$ sudo make install`
+6. Run the application:
+    `$ ksnip`
 
 # Translations
-We are always looking for help with translations, contributors are welcome!  
-For translations we use [Weblate](https://hosted.weblate.org/projects/ksnip/translations/)!  
+As with all continuous translations, contributors are always welcome!
+For translations [Weblate](https://hosted.weblate.org/projects/ksnip/translations/) is used.
 [![Translation status](https://hosted.weblate.org/widgets/ksnip/-/translations/multi-green.svg)](https://hosted.weblate.org/engage/ksnip/?utm_source=widget)
 
+For translations of annotator-related texts, please refer to [kImageAnnotator](https://github.com/ksnip/kImageAnnotator)
 
 # Known Issues
 
 ### X11
-1. Snipping Area with transparent background doesn't work when Compositor is disabled, freeze background is used in that case.
+1. Snipping area with transparent background doesn't work when compositor is turned off, freeze background is used in that case.
 
-### MacOs
-1. Snipping Area with transparent background doesn't work, freeze background is always used. Issue [#151](https://github.com/ksnip/ksnip/issues/151)
+### macOS
+1. Snipping area with transparent background doesn't work, freeze background is always used. Issue [#151](https://github.com/ksnip/ksnip/issues/151)
 2. Second activation of snipping area doesn't get focus, you need to switch to the right side in order to see the snipping area. Issue [#152](https://github.com/ksnip/ksnip/issues/152)
-3. Mouse Cursor is always captured. Issue [#153](https://github.com/ksnip/ksnip/issues/153)
+3. Mouse cursor is always captured. Issue [#153](https://github.com/ksnip/ksnip/issues/153)
 
+### Wayland
+1. Portal and Native Screenshots not working under KDE Plasma `>= 5.80`. The issue is coming from a recent change in KDE 
+Plasma that prevents access to DBUS Interfaces responsible for taking screenshots. This issue is going to be fixed in 
+future Plasma releases for the Portal Screenshots. Workaround for making the Portal Screenshots work is adding the string 
+`X-KDE-DBUS-Restricted-Interfaces=org.kde.kwin.Screenshot` to the 
+`/usr/share/applications/org.freedesktop.impl.portal.desktop.kde.desktop` file and then restarting. Don't forget to 
+enforce Portal screenshots in settings. Issue [#424](https://github.com/ksnip/ksnip/issues/424)
+2. Under Gnome Wayland copying images to clipboard and then pasting them somewhere might not work. This happens currently
+with native Wayland. A workaround is using XWayland by starting ksnip like this `QT_QPA_PLATFORM=xcb /usr/bin/ksnip` or
+switch to XWayland completely by exporting that variable `export QT_QPA_PLATFORM=xcb`. Issue [#416](https://github.com/ksnip/ksnip/issues/416)
+
+# Discussion
+If you have general questions, ideas or just want to talk about ksnip, please use [Discussion](https://github.com/ksnip/ksnip/discussions) for that. 
 
 # Bug report
-Please report any bugs or feature requests related to the annotation editor on the [kImageAnnotator](https://github.com/ksnip/kImageAnnotator/issues) github page under the issue section.
-All other bugs or feature requests please report on the [ksnip](https://github.com/ksnip/ksnip/issues) github page under the issue section.
+Please report any bugs or feature requests related to the annotation editor on the [kImageAnnotator](https://github.com/ksnip/kImageAnnotator/issues) GitHub page under the "Issue" section.
+All other bugs or feature requests can be reported on the [ksnip](https://github.com/ksnip/ksnip/issues) GitHub page under the "Issue" section.
 
 # Contribution
-Any contribution, be it Code, Translation or other is always welcome. We are currently looking for someone to help produce a Snap [#147](https://github.com/ksnip/ksnip/issues/147) and Flatpak [#127](https://github.com/ksnip/ksnip/issues/127) 
-version of ksnip and also help with setting up the CI/CD Pipeline for building both. Another area where help is wanted is MacOS support, we are currently looking for someone who
-could help fix bugs under MacOS.
+Any contribution welcome, be it code, translations or other things. Currently this is needed:
+* Write code and fix bugs for macOS.
+* Write wiki entries and documentation for ksnip.
+* Package ksnip for different operating systems and distros.
 
-# Donate a Beer?
-You would like to donate a Beer? Sure, you can do that [here](https://www.paypal.me/damirporobic), donations are always welcome :)
+# Donation 
+ksnip is a non-profitable copylefted libre software project, and still has some costs that need to be covered, like domain costs or hardware costs for cross-platform support.
+If you want to help or just want appreciate the work being done by treating developers to a beer or coffee,
+you can do that [here](https://www.paypal.me/damirporobic), donations are always welcome :)
 
 [travis-badge]:        https://img.shields.io/travis/ksnip/ksnip.svg?label=travis&logo=travis
 [travis-url]:          https://travis-ci.org/ksnip/ksnip

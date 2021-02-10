@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Damir Porobic <https://github.com/damirporobic>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
@@ -42,11 +42,6 @@ void WinSnippingArea::setFullScreen()
     QWidget::show();
 }
 
-QPoint WinSnippingArea::getMousePosition() const
-{
-    return mapFromGlobal(QCursor::pos());
-}
-
 QRect WinSnippingArea::getSnippingAreaGeometry() const
 {
     auto snippingAreaGeometry = geometry();
@@ -55,16 +50,12 @@ QRect WinSnippingArea::getSnippingAreaGeometry() const
 
 QRect WinSnippingArea::getFullScreenRect() const
 {
-    QRect fullScreenRect = QDesktopWidget().rect();
+    QRect fullScreenRect;
     auto screenCount = QDesktopWidget().screenCount();
     for(int i = 0; i < screenCount; i++) {
         auto screenRect = QDesktopWidget().screenGeometry(i);
-        if(screenRect.x() < fullScreenRect.x()) {
-            fullScreenRect.moveLeft(screenRect.x());
-        }
-        if(screenRect.y() < fullScreenRect.y()) {
-            fullScreenRect.moveBottom(screenRect.y());
-        }
+		fullScreenRect = fullScreenRect.united(screenRect);
     }
+
     return fullScreenRect;
 }
