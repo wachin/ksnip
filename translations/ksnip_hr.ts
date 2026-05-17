@@ -76,7 +76,7 @@
     </message>
     <message>
         <source>Capture Mode</source>
-        <translation>Način snimanja</translation>
+        <translation>Modus snimanja</translation>
     </message>
     <message>
         <source>Show image in Pin Window</source>
@@ -430,7 +430,7 @@ Do you want to save it?</source>
     </message>
     <message>
         <source>If you have general questions, ideas or just want to talk about ksnip,&lt;br/&gt;please join our %1 or our %2 server.</source>
-        <translation>Ako imaš opća pitanja, ideje ili ako jednostavno želiš razgovarati o ksnipu,&lt;br/&gt;, pridruži se našem %1 ili našem %2 poslužitelju.</translation>
+        <translation>Ako imaš opća pitanja, ideje ili ako jednostavno želiš razgovarati o ksnipu,&lt;br/&gt;, pridruži se našem %1 ili našem %2 serveru.</translation>
     </message>
     <message>
         <source>Please use %1 to report bugs.</source>
@@ -970,7 +970,7 @@ okidanja i snimanja slike ekrana.</translation>
     </message>
     <message>
         <source>Print Preview</source>
-        <translation>Pretprikaz ispisa</translation>
+        <translation>Pregled ispisa</translation>
     </message>
     <message>
         <source>Opens Print Preview dialog where the image orientation can be changed</source>
@@ -978,7 +978,7 @@ okidanja i snimanja slike ekrana.</translation>
     </message>
     <message>
         <source>Scale</source>
-        <translation>Skaliraj</translation>
+        <translation>Skaliranje</translation>
     </message>
     <message>
         <source>Quit</source>
