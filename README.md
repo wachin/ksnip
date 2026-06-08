@@ -9,6 +9,17 @@ Version v1.11.0
 Ksnip is a Qt-based cross-platform screenshot tool that provides many annotation features
 for your screenshots.
 
+# Looking for a Co-Maintainer
+
+After many years of maintaining ksnip as a solo project, I have reached a point where I can no longer dedicate the amount of time that the project deserves. ksnip 
+remains an important project to me, and I would like to ensure its continued growth and long-term sustainability by bringing one or more co-maintainers on board.
+
+I'm looking for contributors who are interested in taking a more active role in the project's development, helping with feature work, bug fixes, releases, and overall 
+project direction. While I may not have the capacity to drive development as I did in the past, I am not stepping away completely. I will continue to be available for 
+guidance, discussions, code reviews, and support during the transition and beyond.
+
+If you are passionate about ksnip and would like to help shape its future, I would be happy to hear from you.
+
 ![ksnip](https://i.imgur.com/0oP6i1H.png "Ksnip with annotations")
 
 # Features
@@ -57,7 +68,7 @@ Latest ksnip version contains following features:
 &ast; xdg-desktop-portal screenshots are screenshots taken by the compositor and passed to ksnip, you will see a popup dialog that requires additional confirmation,
     the implementation can vary depending on the compositor. Currently, Snaps and Gnome Wayland `>= 41` only support xdg-desktop-portal screenshots, this is a
     limitation coming from the Gnome and Snaps, non-native screenshot tools are not allowed to take screenshots in any other way except through the xdg-desktop-portal.
-    
+
 # Installing Binaries
 Binaries can be downloaded from the [Releases page](https://github.com/ksnip/ksnip/releases). 
 Currently, RPM, DEB, APT, Snap, Flatpak and AppImage for Linux, 
