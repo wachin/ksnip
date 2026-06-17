@@ -18,7 +18,7 @@ I'm looking for contributors who are interested in taking a more active role in 
 project direction. While I may not have the capacity to drive development as I did in the past, I am not stepping away completely. I will continue to be available for 
 guidance, discussions, code reviews, and support during the transition and beyond.
 
-If you are passionate about ksnip and would like to help shape its future, conntact me via damir.porobic@gmx.com.
+If you are passionate about ksnip and would like to help shape its future, [reach out to me](https://github.com/DamirPorobic).
 
 
 
