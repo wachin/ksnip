@@ -7,13 +7,10 @@ on:
     tags:
       - "v*"
   pull_request:
-
-env:
-  CXXFLAGS: -D_HAS_DEPRECATED_STDEXT_ARR_ITERS=1 # Fixes "'make_checked_array_iterator': identifier not found" error. Can be removed when the build runs on Qt6
   
 jobs:
   test-windows:
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -67,7 +64,7 @@ jobs:
 
   package-exe:
     if: ${{ github.event_name == 'push' }}
-    runs-on: windows-latest
+    runs-on: windows-2022
     needs: test-windows
     steps:
     - name: Checkout
@@ -138,7 +135,7 @@ jobs:
 
   package-msi:
     if: ${{ github.event_name == 'push' }}
-    runs-on: windows-latest
+    runs-on: windows-2022
     needs: test-windows
     steps:
       - name: Checkout
