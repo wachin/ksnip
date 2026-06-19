@@ -8,6 +8,9 @@ on:
       - "v*"
   pull_request:
 
+env:
+  CXXFLAGS: /D_HAS_DEPRECATED_STDEXT_ARR_ITERS=1 # Fixes "'make_checked_array_iterator': identifier not found" error. Can be removed when the build runs on Qt6
+  
 jobs:
   test-windows:
     runs-on: windows-latest
