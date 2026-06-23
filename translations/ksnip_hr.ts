@@ -67,7 +67,7 @@
     </message>
     <message>
         <source>Delay</source>
-        <translation>Odgodi</translation>
+        <translation>Zadrška</translation>
     </message>
     <message>
         <source>s</source>
@@ -252,7 +252,7 @@ Promjene stupaju na snagu nakon ponovnog pokretanja ksnipa.</translation>
     </message>
     <message>
         <source>Run ksnip as single instance</source>
-        <translation>Pokrenite samo jedan primjerak ksnipa</translation>
+        <translation>Pokreni samo jedan primjerak ksnipa</translation>
     </message>
     <message>
         <source>Hide Tabbar when only one Tab is used.</source>
@@ -308,13 +308,13 @@ Promjena zahtijeva ponovno pokretanje ksnip-a da bi stupilo na snagu.</translati
         <source>Resizing to content is delay to allow the Window Manager to receive
 the new content. In case that the Main Windows is not adjusted correctly
 to the new content, increasing this delay might improve the behavior.</source>
-        <translation>Mijenjanje veličine sadržaja je odgoda kako bi se upravljaču prozora omogućilo primanje
-novog sadržaja. U slučaju da glavni prozori nisu pravilno podešeni
-na novi sadržaj, povećanje ovog kašnjenja moglo bi poboljšati ponašanje.</translation>
+        <translation>Mijenjanje na veličinu sadržaja se događa sa zadrškom, kako bi se upravljaču prozora
+omogućilo primanje novog sadržaja. U slučaju da glavni prozori nisu pravilno podešeni
+na novi sadržaj, povećanje ove zadrške bi moglo poboljšati ponašanje.</translation>
     </message>
     <message>
         <source>Resize delay</source>
-        <translation>Kašnjenje mijenjanja veličine</translation>
+        <translation>Zadrška pri mijenjanju veličine</translation>
     </message>
     <message>
         <source>Temp Directory</source>
@@ -728,20 +728,20 @@ Mijenjanje ove opcije zahtijeva ponovno pokretanje ksnip-a.</translation>
     <message>
         <source>Show Main Window after capturing a new screenshot
 when the Main Window was hidden or minimize.</source>
-        <translation>Prikaži glavni prozor nakon snimanja nove snimke ekrana
+        <translation>Prikaži glavni prozor nakon snimanja nove slike ekrana
 kad je glavni prozor bio skriven ili smanjen.</translation>
     </message>
     <message>
         <source>Force Generic Wayland (xdg-desktop-portal) Screenshot</source>
-        <translation>Prisili generičku wayland (xdg-desktop-portal) snimku ekrana</translation>
+        <translation>Prisili generičku wayland (xdg-desktop-portal) sliku ekrana</translation>
     </message>
     <message>
         <source>Scale Generic Wayland (xdg-desktop-portal) Screenshots</source>
-        <translation>Promijeni veličinu generičke wayland (xdg-desktop-portal) snimke ekrana</translation>
+        <translation>Promijeni veličinu generičke wayland (xdg-desktop-portal) slike ekrana</translation>
     </message>
     <message>
         <source>Implicit capture delay</source>
-        <translation>Implicitno kašnjenje snimanja</translation>
+        <translation>Implicitna zadrška snimanja</translation>
     </message>
     <message>
         <source>This delay is used when no delay was selected in
@@ -750,12 +750,12 @@ a screenshot. This value is not applied when
 ksnip was already minimized. Reducing this value
 can have the effect that ksnip&apos;s main window is
 visible on the screenshot.</source>
-        <translation>Ova se odgoda koristi kad u korisničkom sučelju
-odgoda nije odabrana. Time se omogućuje skrivanje
+        <translation>Ova se zadrška koristi kad u korisničkom sučelju
+zadrška nije odabrana. Time se omogućuje skrivanje
 ksnipa prije snimanja ekrana. Ova se vrijednost ne
 primjenjuje kada je ksnip već skriven u programsku
 traku. Smanjenje ove vrijednosti može imati učinak
-da glavni prozor ksnipa bude vidljiv na snimci ekrana.</translation>
+da glavni prozor ksnipa bude vidljiv u slici ekrana.</translation>
     </message>
 </context>
 <context>
