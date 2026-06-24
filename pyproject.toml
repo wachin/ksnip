@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ksnip-pyqt6"
+version = "0.1.0"
+description = "PyQt6 port MVP of the ksnip screenshot and annotation tool"
+readme = "README_PYQT6_PORT.md"
+requires-python = ">=3.11"
+dependencies = [
+  "PyQt6>=6.6",
+]
+
+[project.scripts]
+ksnip-pyqt6 = "ksnip_py.app:main"
+
+[tool.setuptools]
+packages = ["ksnip_py"]

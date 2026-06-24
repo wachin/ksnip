@@ -1,0 +1,1449 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+from PyQt6.QtCore import QEvent, QPoint, QSettings, QThread, Qt
+from PyQt6.QtGui import QAction, QColor, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPixmap
+from PyQt6.QtWidgets import (
+    QCheckBox,
+    QComboBox,
+    QColorDialog,
+    QFileDialog,
+    QFontComboBox,
+    QInputDialog,
+    QLabel,
+    QMainWindow,
+    QMessageBox,
+    QMenu,
+    QProgressDialog,
+    QSpinBox,
+    QSystemTrayIcon,
+    QTabWidget,
+    QToolBar,
+    QWidget,
+)
+
+from .canvas import AnnotationCanvas, FillMode, Tool
+from .capture import grab_active_window, grab_current_screen, grab_fullscreen, grab_rectangular_area, grab_window_under_cursor
+from .ocr_backend import OcrBackend, OcrOptions, OcrWorker
+from .ocr_result_dialog import OcrResultDialog
+from .pin_window import PinWindow
+from .settings_dialog import SettingsData, SettingsDialog
+from .uploader import ScriptUploader
+from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
+
+
+class MainWindow(QMainWindow):
+    MAX_RECENT_IMAGES = 10
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._settings = QSettings()
+        self._recent_image_paths = self._load_recent_image_paths()
+        self._pin_windows: list[PinWindow] = []
+        self._watermark_store = WatermarkStore()
+        self._watermark_preparer = WatermarkPreparer()
+        self._script_uploader = ScriptUploader()
+        self._ocr_backend = OcrBackend()
+        self._ocr_thread: QThread | None = None
+        self._ocr_worker: OcrWorker | None = None
+        self._ocr_progress: QProgressDialog | None = None
+        self._tray_icon: QSystemTrayIcon | None = None
+        self._allow_quit = False
+
+        self.setWindowTitle("ksnip PyQt6")
+        self.resize(1200, 800)
+
+        self.tabs = QTabWidget()
+        self.tabs.setTabsClosable(True)
+        self.tabs.tabCloseRequested.connect(self.close_tab)
+        self.tabs.currentChanged.connect(self._handle_current_tab_changed)
+        self.setCentralWidget(self.tabs)
+
+        self.status_label = QLabel("Ready")
+        self.statusBar().addPermanentWidget(self.status_label)
+
+        self._build_actions()
+        self._build_toolbar()
+        self._build_menus()
+        self._restore_ui_settings()
+        self._setup_tray_icon()
+        self._apply_shortcuts()
+        self._update_actions()
+        self.new_tab()
+        self._apply_tool_selection_from_settings()
+
+    def _build_actions(self) -> None:
+        self.new_capture_rect_action = QAction("Rect Area", self)
+        self.new_capture_rect_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.new_capture_rect_action.triggered.connect(self.capture_rect_area)
+        self.new_capture_full_action = QAction("Full Screen", self)
+        self.new_capture_full_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.new_capture_full_action.triggered.connect(self.capture_fullscreen)
+        self.new_capture_current_action = QAction("Current Screen", self)
+        self.new_capture_current_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.new_capture_current_action.triggered.connect(self.capture_current_screen)
+        self.new_capture_active_action = QAction("Active Window", self)
+        self.new_capture_active_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.new_capture_active_action.triggered.connect(self.capture_active_window)
+        self.new_capture_under_cursor_action = QAction("Window Under Cursor", self)
+        self.new_capture_under_cursor_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.new_capture_under_cursor_action.triggered.connect(self.capture_window_under_cursor)
+
+        self.open_action = QAction("Open…", self)
+        self.open_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.open_action.setShortcut(QKeySequence.StandardKey.Open)
+        self.open_action.triggered.connect(self.open_image)
+
+        self.save_action = QAction("Save", self)
+        self.save_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.save_action.setShortcut(QKeySequence.StandardKey.Save)
+        self.save_action.triggered.connect(self.save_image)
+
+        self.save_as_action = QAction("Save As…", self)
+        self.save_as_action.setShortcut(QKeySequence.StandardKey.SaveAs)
+        self.save_as_action.triggered.connect(self.save_image_as)
+
+        self.copy_action = QAction("Copy", self)
+        self.copy_action.setShortcut(QKeySequence.StandardKey.Copy)
+        self.copy_action.triggered.connect(self.copy_image)
+
+        self.copy_item_action = QAction("Copy Item", self)
+        self.copy_item_action.setShortcut("Ctrl+Shift+C")
+        self.copy_item_action.triggered.connect(self.copy_selected_item)
+
+        self.close_tab_action = QAction("Close Tab", self)
+        self.close_tab_action.setShortcut(QKeySequence.StandardKey.Close)
+        self.close_tab_action.triggered.connect(lambda: self.close_tab(self.tabs.currentIndex()))
+
+        self.pen_action = QAction("Pen", self)
+        self.pen_action.setCheckable(True)
+        self.pen_action.triggered.connect(lambda: self.set_tool(Tool.PEN))
+
+        self.line_action = QAction("Line", self)
+        self.line_action.setCheckable(True)
+        self.line_action.triggered.connect(lambda: self.set_tool(Tool.LINE))
+
+        self.arrow_action = QAction("Arrow", self)
+        self.arrow_action.setCheckable(True)
+        self.arrow_action.triggered.connect(lambda: self.set_tool(Tool.ARROW))
+
+        self.rect_action = QAction("Rectangle", self)
+        self.rect_action.setCheckable(True)
+        self.rect_action.triggered.connect(lambda: self.set_tool(Tool.RECT))
+
+        self.ellipse_action = QAction("Ellipse", self)
+        self.ellipse_action.setCheckable(True)
+        self.ellipse_action.triggered.connect(lambda: self.set_tool(Tool.ELLIPSE))
+
+        self.text_action = QAction("Text", self)
+        self.text_action.setCheckable(True)
+        self.text_action.triggered.connect(lambda: self.set_tool(Tool.TEXT))
+
+        self.blur_action = QAction("Blur", self)
+        self.blur_action.setCheckable(True)
+        self.blur_action.triggered.connect(lambda: self.set_tool(Tool.BLUR))
+
+        self.pixelate_action = QAction("Pixelate", self)
+        self.pixelate_action.setCheckable(True)
+        self.pixelate_action.triggered.connect(lambda: self.set_tool(Tool.PIXELATE))
+
+        self.crop_action = QAction("Crop", self)
+        self.crop_action.setCheckable(True)
+        self.crop_action.triggered.connect(lambda: self.set_tool(Tool.CROP))
+
+        self.select_action = QAction("Select", self)
+        self.select_action.setCheckable(True)
+        self.select_action.triggered.connect(lambda: self.set_tool(Tool.SELECT))
+
+        self.color_action = QAction("Color", self)
+        self.color_action.triggered.connect(self.select_color)
+
+        self.undo_action = QAction("Undo", self)
+        self.undo_action.setShortcut(QKeySequence.StandardKey.Undo)
+        self.undo_action.triggered.connect(self.undo)
+
+        self.redo_action = QAction("Redo", self)
+        self.redo_action.setShortcut(QKeySequence.StandardKey.Redo)
+        self.redo_action.triggered.connect(self.redo)
+
+        self.paste_action = QAction("Paste", self)
+        self.paste_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.paste_action.setShortcut(QKeySequence.StandardKey.Paste)
+        self.paste_action.triggered.connect(self.paste_image)
+
+        self.paste_item_action = QAction("Paste Item", self)
+        self.paste_item_action.setShortcut("Ctrl+Shift+V")
+        self.paste_item_action.triggered.connect(self.paste_item)
+
+        self.delete_action = QAction("Delete Item", self)
+        self.delete_action.setShortcut(QKeySequence.StandardKey.Delete)
+        self.delete_action.triggered.connect(self.delete_selected_item)
+
+        self.duplicate_action = QAction("Duplicate Item", self)
+        self.duplicate_action.setShortcut("Ctrl+D")
+        self.duplicate_action.triggered.connect(self.duplicate_selected_item)
+
+        self.edit_text_action = QAction("Edit Text…", self)
+        self.edit_text_action.triggered.connect(self.edit_selected_text)
+
+        self.bring_to_front_action = QAction("Bring To Front", self)
+        self.bring_to_front_action.triggered.connect(self.bring_selected_item_to_front)
+
+        self.send_to_back_action = QAction("Send To Back", self)
+        self.send_to_back_action.triggered.connect(self.send_selected_item_to_back)
+
+        self.rotate_action = QAction("Rotate…", self)
+        self.rotate_action.triggered.connect(self.rotate_image)
+
+        self.scale_action = QAction("Scale…", self)
+        self.scale_action.triggered.connect(self.scale_image)
+
+        self.pin_action = QAction("Pin", self)
+        self.pin_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.pin_action.triggered.connect(self.pin_image)
+
+        self.add_watermark_action = QAction("Add Watermark", self)
+        self.add_watermark_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.add_watermark_action.setShortcut("Shift+W")
+        self.add_watermark_action.triggered.connect(self.add_watermark)
+
+        self.upload_action = QAction("Upload", self)
+        self.upload_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.upload_action.triggered.connect(self.upload_image)
+
+        self.ocr_action = QAction("OCR Text Recognition", self)
+        self.ocr_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.ocr_action.triggered.connect(self.run_ocr)
+
+        self.update_watermark_action = QAction("Update Watermark Image…", self)
+        self.update_watermark_action.triggered.connect(self.update_watermark_image)
+
+        self.rotate_watermark_action = QAction("Rotate Watermark", self)
+        self.rotate_watermark_action.setCheckable(True)
+        self.rotate_watermark_action.setChecked(self._setting_bool("watermark/rotate", True))
+        self.rotate_watermark_action.toggled.connect(self._set_rotate_watermark)
+
+        self.settings_action = QAction("Settings…", self)
+        self.settings_action.triggered.connect(self.open_settings_dialog)
+
+        self.about_action = QAction("About", self)
+        self.about_action.triggered.connect(self.show_about)
+
+        self.clear_recent_images_action = QAction("Clear Recent Images", self)
+        self.clear_recent_images_action.triggered.connect(self.clear_recent_images)
+
+        self.quit_action = QAction("Quit", self)
+        self.quit_action.triggered.connect(self.quit_application)
+
+    def _build_toolbar(self) -> None:
+        toolbar = QToolBar("Main", self)
+        toolbar.setMovable(False)
+        self.addToolBar(toolbar)
+
+        toolbar.addAction(self.new_capture_rect_action)
+        toolbar.addAction(self.new_capture_full_action)
+        toolbar.addAction(self.new_capture_current_action)
+        toolbar.addAction(self.new_capture_active_action)
+        toolbar.addAction(self.new_capture_under_cursor_action)
+        toolbar.addSeparator()
+        toolbar.addAction(self.open_action)
+        toolbar.addAction(self.paste_action)
+        toolbar.addAction(self.paste_item_action)
+        toolbar.addAction(self.save_action)
+        toolbar.addAction(self.save_as_action)
+        toolbar.addAction(self.copy_action)
+        toolbar.addAction(self.copy_item_action)
+        toolbar.addAction(self.undo_action)
+        toolbar.addAction(self.redo_action)
+        toolbar.addAction(self.delete_action)
+        toolbar.addAction(self.duplicate_action)
+        toolbar.addAction(self.edit_text_action)
+        toolbar.addAction(self.bring_to_front_action)
+        toolbar.addAction(self.send_to_back_action)
+        toolbar.addAction(self.rotate_action)
+        toolbar.addAction(self.scale_action)
+        toolbar.addAction(self.pin_action)
+        toolbar.addAction(self.add_watermark_action)
+        toolbar.addAction(self.upload_action)
+        toolbar.addAction(self.ocr_action)
+        toolbar.addSeparator()
+        toolbar.addAction(self.select_action)
+        toolbar.addAction(self.pen_action)
+        toolbar.addAction(self.line_action)
+        toolbar.addAction(self.arrow_action)
+        toolbar.addAction(self.rect_action)
+        toolbar.addAction(self.ellipse_action)
+        toolbar.addAction(self.text_action)
+        toolbar.addAction(self.blur_action)
+        toolbar.addAction(self.pixelate_action)
+        toolbar.addAction(self.crop_action)
+        toolbar.addAction(self.color_action)
+
+        self.stroke_width = QSpinBox()
+        self.stroke_width.setRange(1, 20)
+        self.stroke_width.setValue(3)
+        self.stroke_width.valueChanged.connect(self._apply_stroke_width)
+        toolbar.addWidget(self.stroke_width)
+
+        self.font_family = QFontComboBox()
+        self.font_family.currentFontChanged.connect(self._apply_font_family)
+        toolbar.addWidget(self.font_family)
+
+        self.font_size = QSpinBox()
+        self.font_size.setRange(6, 144)
+        self.font_size.setValue(14)
+        self.font_size.valueChanged.connect(self._apply_font_size)
+        toolbar.addWidget(self.font_size)
+
+        self.fill_color_action = QAction("Fill", self)
+        self.fill_color_action.triggered.connect(self.select_fill_color)
+        toolbar.addAction(self.fill_color_action)
+
+        self.fill_mode = QComboBox()
+        self.fill_mode.addItem("Stroke", FillMode.STROKE_ONLY)
+        self.fill_mode.addItem("Fill", FillMode.FILL_ONLY)
+        self.fill_mode.addItem("Stroke+Fill", FillMode.STROKE_AND_FILL)
+        self.fill_mode.currentIndexChanged.connect(self._apply_fill_mode)
+        toolbar.addWidget(self.fill_mode)
+
+        self.opacity = QSpinBox()
+        self.opacity.setRange(0, 100)
+        self.opacity.setValue(100)
+        self.opacity.valueChanged.connect(self._apply_opacity)
+        toolbar.addWidget(self.opacity)
+
+        self.bold = QCheckBox("B")
+        self.bold.toggled.connect(self._apply_bold)
+        toolbar.addWidget(self.bold)
+
+        self.italic = QCheckBox("I")
+        self.italic.toggled.connect(self._apply_italic)
+        toolbar.addWidget(self.italic)
+
+        self.select_action.setChecked(True)
+
+    def _build_menus(self) -> None:
+        file_menu = self.menuBar().addMenu("File")
+        self.file_menu = file_menu
+        file_menu.addAction(self.new_capture_rect_action)
+        file_menu.addAction(self.new_capture_full_action)
+        file_menu.addAction(self.new_capture_current_action)
+        file_menu.addAction(self.new_capture_active_action)
+        file_menu.addAction(self.new_capture_under_cursor_action)
+        file_menu.addSeparator()
+        file_menu.addAction(self.open_action)
+        self.recent_images_menu = file_menu.addMenu("Recent Images")
+        self.recent_images_menu.aboutToShow.connect(self._populate_recent_images_menu)
+        file_menu.addAction(self.paste_action)
+        file_menu.addAction(self.paste_item_action)
+        file_menu.addAction(self.save_action)
+        file_menu.addAction(self.save_as_action)
+        file_menu.addAction(self.copy_action)
+        file_menu.addAction(self.copy_item_action)
+        file_menu.addAction(self.upload_action)
+        file_menu.addAction(self.ocr_action)
+        file_menu.addAction(self.pin_action)
+        file_menu.addAction(self.add_watermark_action)
+        file_menu.addAction(self.update_watermark_action)
+        file_menu.addAction(self.settings_action)
+        file_menu.addAction(self.delete_action)
+        file_menu.addAction(self.duplicate_action)
+        file_menu.addAction(self.edit_text_action)
+        file_menu.addAction(self.bring_to_front_action)
+        file_menu.addAction(self.send_to_back_action)
+        file_menu.addAction(self.close_tab_action)
+
+        tools_menu = self.menuBar().addMenu("Tools")
+        tools_menu.addAction(self.undo_action)
+        tools_menu.addAction(self.redo_action)
+        tools_menu.addAction(self.rotate_action)
+        tools_menu.addAction(self.scale_action)
+        tools_menu.addAction(self.upload_action)
+        tools_menu.addAction(self.ocr_action)
+        tools_menu.addAction(self.pin_action)
+        tools_menu.addAction(self.add_watermark_action)
+        tools_menu.addAction(self.update_watermark_action)
+        tools_menu.addAction(self.rotate_watermark_action)
+        tools_menu.addSeparator()
+        tools_menu.addAction(self.select_action)
+        tools_menu.addAction(self.pen_action)
+        tools_menu.addAction(self.line_action)
+        tools_menu.addAction(self.arrow_action)
+        tools_menu.addAction(self.rect_action)
+        tools_menu.addAction(self.ellipse_action)
+        tools_menu.addAction(self.text_action)
+        tools_menu.addAction(self.blur_action)
+        tools_menu.addAction(self.pixelate_action)
+        tools_menu.addAction(self.crop_action)
+        tools_menu.addAction(self.color_action)
+
+        help_menu = self.menuBar().addMenu("Help")
+        help_menu.addAction(self.settings_action)
+        help_menu.addAction(self.about_action)
+
+    def current_canvas(self) -> AnnotationCanvas | None:
+        widget = self.tabs.currentWidget()
+        return widget if isinstance(widget, AnnotationCanvas) else None
+
+    def _setup_tray_icon(self) -> None:
+        if not QSystemTrayIcon.isSystemTrayAvailable():
+            self._tray_icon = None
+            return
+        tray_icon = QSystemTrayIcon(self)
+        icon = QIcon.fromTheme("ksnip")
+        if icon.isNull():
+            icon = self.windowIcon()
+        if icon.isNull():
+            icon = self.style().standardIcon(self.style().StandardPixmap.SP_ComputerIcon)
+        tray_icon.setIcon(icon)
+        tray_icon.setToolTip("ksnip PyQt6")
+        tray_icon.activated.connect(self._handle_tray_activated)
+
+        menu = QMenu(self)
+        menu.addAction("Show Editor", self.show_from_tray)
+        menu.addSeparator()
+        menu.addAction(self.new_capture_rect_action)
+        menu.addAction(self.new_capture_full_action)
+        menu.addAction(self.new_capture_current_action)
+        menu.addAction(self.new_capture_active_action)
+        menu.addAction(self.new_capture_under_cursor_action)
+        menu.addSeparator()
+        menu.addAction(self.open_action)
+        menu.addAction(self.save_action)
+        menu.addAction(self.paste_action)
+        menu.addAction(self.copy_action)
+        menu.addAction(self.upload_action)
+        menu.addAction(self.ocr_action)
+        menu.addSeparator()
+        menu.addAction(self.quit_action)
+        tray_icon.setContextMenu(menu)
+        self._tray_icon = tray_icon
+        self._apply_tray_settings()
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        if self._should_close_to_tray():
+            event.ignore()
+            self.hide_to_tray("ksnip PyQt6 is still running in the system tray.")
+            return
+        if not self._confirm_close_all_tabs():
+            event.ignore()
+            return
+        self.close_all_pin_windows()
+        self._save_ui_settings()
+        super().closeEvent(event)
+
+    def changeEvent(self, event) -> None:  # noqa: N802
+        if event.type() == QEvent.Type.WindowStateChange and self._should_minimize_to_tray() and self.isMinimized():
+            self.hide_to_tray("ksnip PyQt6 was minimized to the system tray.")
+        super().changeEvent(event)
+
+    def new_tab(self, image: QImage | None = None, path: str | None = None, title: str = "Untitled") -> AnnotationCanvas:
+        canvas = AnnotationCanvas()
+        canvas.changed.connect(self._sync_tab_title)
+        canvas.changed.connect(self._update_actions)
+        canvas.changed.connect(self._sync_item_controls)
+        canvas.set_pen_width(self.stroke_width.value())
+        canvas.set_font_family(self.font_family.currentFont().family())
+        canvas.set_font_point_size(self.font_size.value())
+        canvas.set_fill_mode(self.fill_mode.currentData())
+        canvas.set_bold(self.bold.isChecked())
+        canvas.set_italic(self.italic.isChecked())
+        canvas.set_tool(self._current_tool())
+        if image is not None:
+            canvas.set_image(image, path)
+        index = self.tabs.addTab(canvas, title)
+        self.tabs.setCurrentIndex(index)
+        self._update_actions()
+        self._sync_item_controls()
+        return canvas
+
+    def set_tool(self, tool: Tool) -> None:
+        canvas = self.current_canvas()
+        if canvas is not None:
+            canvas.set_tool(tool)
+        self.select_action.setChecked(tool == Tool.SELECT)
+        self.pen_action.setChecked(tool == Tool.PEN)
+        self.line_action.setChecked(tool == Tool.LINE)
+        self.arrow_action.setChecked(tool == Tool.ARROW)
+        self.rect_action.setChecked(tool == Tool.RECT)
+        self.ellipse_action.setChecked(tool == Tool.ELLIPSE)
+        self.text_action.setChecked(tool == Tool.TEXT)
+        self.blur_action.setChecked(tool == Tool.BLUR)
+        self.pixelate_action.setChecked(tool == Tool.PIXELATE)
+        self.crop_action.setChecked(tool == Tool.CROP)
+        self._settings.setValue("editor/tool", tool.value)
+        self._sync_item_controls()
+
+    def select_color(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        color = QColorDialog.getColor(parent=self)
+        if color.isValid():
+            if canvas.tool() == Tool.SELECT and canvas.apply_color_to_selected_item(color):
+                self.status_label.setText("Updated selected item color")
+                return
+            canvas.set_color(color)
+
+    def select_fill_color(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        color = QColorDialog.getColor(parent=self)
+        if not color.isValid():
+            return
+        alpha = self.opacity.value() / 100.0
+        color.setAlphaF(alpha)
+        if canvas.tool() == Tool.SELECT and canvas.apply_fill_color_to_selected_item(color):
+            self.status_label.setText("Updated selected item fill")
+            return
+        canvas.set_fill_color(color)
+
+    def _apply_stroke_width(self, width: int) -> None:
+        canvas = self.current_canvas()
+        if canvas is not None:
+            if canvas.tool() == Tool.SELECT and canvas.apply_pen_width_to_selected_item(width):
+                self.status_label.setText(f"Updated selected item width to {width}")
+                return
+            canvas.set_pen_width(width)
+        self._settings.setValue("editor/pen_width", width)
+
+    def _apply_font_family(self, font) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        family = font.family()
+        if canvas.tool() == Tool.SELECT and canvas.apply_font_family_to_selected_text(family):
+            self.status_label.setText("Updated selected text font")
+            return
+        canvas.set_font_family(family)
+        self._settings.setValue("editor/font_family", family)
+
+    def _apply_font_size(self, size: int) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.tool() == Tool.SELECT and canvas.apply_font_point_size_to_selected_text(size):
+            self.status_label.setText(f"Updated selected text size to {size}")
+            return
+        canvas.set_font_point_size(size)
+        self._settings.setValue("editor/font_point_size", size)
+
+    def _apply_opacity(self, opacity: int) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.tool() == Tool.SELECT and canvas.apply_opacity_to_selected_item(opacity):
+            self.status_label.setText(f"Updated selected item opacity to {opacity}%")
+            return
+        canvas.set_opacity(opacity / 100.0)
+        self._settings.setValue("editor/opacity_percent", opacity)
+
+    def _apply_fill_mode(self, index: int) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        fill_mode = self.fill_mode.itemData(index)
+        if fill_mode is None:
+            return
+        if canvas.tool() == Tool.SELECT and canvas.apply_fill_mode_to_selected_item(fill_mode):
+            self.status_label.setText("Updated selected item fill mode")
+            return
+        canvas.set_fill_mode(fill_mode)
+        self._settings.setValue("editor/fill_mode", fill_mode.value)
+
+    def _apply_bold(self, checked: bool) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.tool() == Tool.SELECT and canvas.apply_bold_to_selected_text(checked):
+            self.status_label.setText("Updated selected text bold style")
+            return
+        canvas.set_bold(checked)
+        self._settings.setValue("editor/bold", checked)
+
+    def _apply_italic(self, checked: bool) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.tool() == Tool.SELECT and canvas.apply_italic_to_selected_text(checked):
+            self.status_label.setText("Updated selected text italic style")
+            return
+        canvas.set_italic(checked)
+        self._settings.setValue("editor/italic", checked)
+
+    def _sync_item_controls(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.tool() == Tool.SELECT and canvas.has_selected_item():
+            selected_width = canvas.selected_item_pen_width()
+            if selected_width is not None and self.stroke_width.value() != selected_width:
+                self.stroke_width.blockSignals(True)
+                self.stroke_width.setValue(selected_width)
+                self.stroke_width.blockSignals(False)
+
+            selected_font_size = canvas.selected_item_font_point_size()
+            if selected_font_size is not None and self.font_size.value() != selected_font_size:
+                self.font_size.blockSignals(True)
+                self.font_size.setValue(selected_font_size)
+                self.font_size.blockSignals(False)
+
+            selected_font_family = canvas.selected_item_font_family()
+            if selected_font_family is not None and self.font_family.currentFont().family() != selected_font_family:
+                self.font_family.blockSignals(True)
+                self.font_family.setCurrentFont(QFont(selected_font_family))
+                self.font_family.blockSignals(False)
+
+            selected_opacity = canvas.selected_item_opacity()
+            if selected_opacity is not None and self.opacity.value() != selected_opacity:
+                self.opacity.blockSignals(True)
+                self.opacity.setValue(selected_opacity)
+                self.opacity.blockSignals(False)
+
+            selected_fill_mode = canvas.selected_item_fill_mode()
+            if selected_fill_mode is not None:
+                index = self.fill_mode.findData(selected_fill_mode)
+                if index >= 0 and self.fill_mode.currentIndex() != index:
+                    self.fill_mode.blockSignals(True)
+                    self.fill_mode.setCurrentIndex(index)
+                    self.fill_mode.blockSignals(False)
+
+            selected_bold = canvas.selected_item_bold()
+            if selected_bold is not None and self.bold.isChecked() != selected_bold:
+                self.bold.blockSignals(True)
+                self.bold.setChecked(selected_bold)
+                self.bold.blockSignals(False)
+
+            selected_italic = canvas.selected_item_italic()
+            if selected_italic is not None and self.italic.isChecked() != selected_italic:
+                self.italic.blockSignals(True)
+                self.italic.setChecked(selected_italic)
+                self.italic.blockSignals(False)
+
+    def capture_fullscreen(self) -> None:
+        result = grab_fullscreen()
+        if result is None:
+            self._show_error("Unable to capture full screen.")
+            return
+        self._load_capture(result.pixmap.toImage(), "Full Screen")
+
+    def capture_current_screen(self) -> None:
+        result = grab_current_screen()
+        if result is None:
+            self._show_error("Unable to capture current screen.")
+            return
+        self._load_capture(result.pixmap.toImage(), "Current Screen")
+
+    def capture_rect_area(self) -> None:
+        self.hide()
+        QGuiApplication.processEvents()
+        result = grab_rectangular_area()
+        self.show()
+        self.raise_()
+        self.activateWindow()
+        if result is None:
+            self.status_label.setText("Capture canceled")
+            return
+        self._load_capture(result.pixmap.toImage(), "Rect Area")
+
+    def capture_active_window(self) -> None:
+        result = grab_active_window()
+        if result is None:
+            self._show_error("Unable to capture active window.")
+            return
+        self._load_capture(result.pixmap.toImage(), "Active Window")
+
+    def capture_window_under_cursor(self) -> None:
+        result = grab_window_under_cursor()
+        if result is None:
+            self._show_error("Unable to capture window under cursor.")
+            return
+        self._load_capture(result.pixmap.toImage(), "Window Under Cursor")
+
+    def _load_capture(self, image: QImage, title: str) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or canvas.has_image():
+            canvas = self.new_tab()
+        canvas.set_image(image)
+        self.tabs.setTabText(self.tabs.currentIndex(), title)
+        self.status_label.setText(f"Loaded {title.lower()} capture")
+        self._update_actions()
+
+    def open_image(self) -> None:
+        path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Open image",
+            self._default_image_directory(),
+            "Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)",
+        )
+        if not path:
+            return
+        self._open_image_path(path)
+
+    def save_image(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        if canvas.state.path:
+            if canvas.image().save(canvas.state.path):
+                canvas.mark_saved(canvas.state.path)
+                self._store_recent_image_path(canvas.state.path)
+                self._sync_tab_title()
+                self.status_label.setText(f"Saved {canvas.state.path}")
+            else:
+                self._show_error(f"Unable to save image to {canvas.state.path}")
+            return
+        self.save_image_as()
+
+    def save_image_as(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save image as",
+            canvas.state.path or self._default_image_directory(),
+            "PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
+        )
+        if not path:
+            return
+        if canvas.image().save(path):
+            canvas.mark_saved(path)
+            self._store_recent_image_path(path)
+            self.tabs.setTabText(self.tabs.currentIndex(), Path(path).name)
+            self.status_label.setText(f"Saved {path}")
+        else:
+            self._show_error(f"Unable to save image to {path}")
+
+    def copy_image(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        QGuiApplication.clipboard().setImage(canvas.image())
+        self.status_label.setText("Copied image to clipboard")
+
+    def copy_selected_item(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.copy_selected_item_to_clipboard():
+            self.status_label.setText("Copied selected item(s)")
+
+    def paste_image(self) -> None:
+        image = QGuiApplication.clipboard().image()
+        if image.isNull():
+            self._show_error("Clipboard does not contain an image.")
+            return
+        canvas = self.current_canvas()
+        if canvas is None or canvas.has_image():
+            canvas = self.new_tab()
+        canvas.set_image(image)
+        self.tabs.setTabText(self.tabs.currentIndex(), "Clipboard")
+        self.status_label.setText("Loaded image from clipboard")
+        self._update_actions()
+
+    def paste_item(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        if canvas.paste_item_from_clipboard():
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText("Pasted item from clipboard")
+            return
+        self._show_error("Clipboard does not contain a ksnip PyQt6 item.")
+
+    def undo(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        canvas.undo()
+        self._sync_tab_title()
+        self._update_actions()
+
+    def redo(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        canvas.redo()
+        self._sync_tab_title()
+        self._update_actions()
+
+    def delete_selected_item(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.delete_selected_item():
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText("Deleted selected item")
+
+    def duplicate_selected_item(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.duplicate_selected_item():
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText("Duplicated selected item")
+
+    def edit_selected_text(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.edit_selected_text(self):
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText("Updated text item")
+
+    def bring_selected_item_to_front(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.bring_selected_item_to_front():
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText("Brought selected item to front")
+
+    def send_selected_item_to_back(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.send_selected_item_to_back():
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText("Sent selected item to back")
+
+    def rotate_image(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        angle, accepted = QInputDialog.getInt(
+            self,
+            "Rotate image",
+            "Angle:",
+            90,
+            -360,
+            360,
+            90,
+        )
+        if not accepted or angle % 360 == 0:
+            return
+        canvas.rotate(angle)
+        self._sync_tab_title()
+        self._update_actions()
+        self.status_label.setText(f"Rotated image by {angle} degrees")
+
+    def scale_image(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        percent, accepted = QInputDialog.getInt(
+            self,
+            "Scale image",
+            "Scale percent:",
+            100,
+            1,
+            1000,
+            10,
+        )
+        if not accepted or percent == 100:
+            return
+        canvas.scale_image(percent / 100.0)
+        self._sync_tab_title()
+        self._update_actions()
+        self.status_label.setText(f"Scaled image to {percent}%")
+
+    def pin_image(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        title = self.tabs.tabText(self.tabs.currentIndex()).replace(" *", "") or "Pinned Image"
+        pin_window = PinWindow(QPixmap.fromImage(canvas.image()), title)
+        pin_window.close_other_requested.connect(self.close_other_pin_windows)
+        pin_window.close_all_requested.connect(self.close_all_pin_windows)
+        pin_window.destroyed.connect(lambda _=None, window=pin_window: self._forget_pin_window(window))
+        self._pin_windows.append(pin_window)
+        pin_window.show()
+        pin_window.raise_()
+        pin_window.activateWindow()
+        self.status_label.setText("Pinned current image")
+
+    def open_settings_dialog(self) -> None:
+        dialog = SettingsDialog(self._current_settings_data(), self._watermark_store, self)
+        if dialog.exec() != dialog.DialogCode.Accepted:
+            return
+        self._apply_settings_data(dialog.settings_data())
+        self.status_label.setText("Settings updated")
+
+    def show_from_tray(self) -> None:
+        self.showNormal()
+        self.raise_()
+        self.activateWindow()
+
+    def hide_to_tray(self, message: str | None = None) -> None:
+        self.hide()
+        if self._tray_icon is not None and message and self._setting_bool("tray/notifications", True):
+            self._tray_icon.showMessage("ksnip PyQt6", message, QSystemTrayIcon.MessageIcon.Information)
+
+    def quit_application(self) -> None:
+        self._allow_quit = True
+        self.close()
+
+    def add_watermark(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        watermark = self._watermark_store.load()
+        if watermark.isNull():
+            self._show_error("Watermark image required. Use 'Update Watermark Image…' first.")
+            return
+        prepared = self._watermark_preparer.prepare(
+            watermark,
+            canvas.image().size(),
+            self.rotate_watermark_action.isChecked(),
+        )
+        x, y = random_watermark_position(prepared, canvas.image().size())
+        if canvas.add_image_item(prepared.toImage(), position=QPoint(x, y)):
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText("Added watermark")
+
+    def update_watermark_image(self) -> None:
+        path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Select watermark image",
+            self._default_image_directory(),
+            "Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)",
+        )
+        if not path:
+            return
+        if not self._watermark_store.save_from_path(path):
+            self._show_error(f"Unable to load watermark image: {path}")
+            return
+        self._settings.setValue("paths/last_image_dir", str(Path(path).parent))
+        self.status_label.setText("Updated watermark image")
+
+    def upload_image(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        script_path = self._settings.value("upload/script_path", "")
+        if not isinstance(script_path, str) or not script_path:
+            self._show_error("No upload script configured. Open Settings and set an upload script first.")
+            return
+        result = self._script_uploader.upload(
+            canvas.image(),
+            script_path=script_path,
+            copy_output_filter=str(self._settings.value("upload/output_filter", "")),
+            stop_on_stderr=self._setting_bool("upload/stop_on_stderr", False),
+        )
+        if result.ok:
+            if self._setting_bool("upload/copy_output", False) and result.output:
+                QGuiApplication.clipboard().setText(result.output)
+            self.status_label.setText("Upload finished successfully")
+            if result.output:
+                QMessageBox.information(self, "Upload Successful", result.output)
+            return
+        self._show_error(result.message)
+
+    def run_ocr(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        if not self._setting_bool("ocr/enabled", True):
+            self._show_error("OCR is disabled. Enable it in Settings first.")
+            return
+        if self._ocr_thread is not None:
+            return
+
+        options = OcrOptions(
+            backend=str(self._settings.value("ocr/backend", "paddleocr")),
+            language=str(self._settings.value("ocr/language", "english")),
+            script_path=str(self._settings.value("ocr/script_path", "")),
+        )
+        self._ocr_thread = QThread(self)
+        self._ocr_worker = OcrWorker(canvas.image(), self._ocr_backend, options)
+        self._ocr_worker.moveToThread(self._ocr_thread)
+        self._ocr_thread.started.connect(self._ocr_worker.run)
+        self._ocr_worker.finished.connect(self._handle_ocr_finished)
+        self._ocr_worker.failed.connect(self._handle_ocr_failed)
+        self._ocr_worker.cancelled.connect(self._handle_ocr_cancelled)
+        self._ocr_worker.finished.connect(self._cleanup_ocr_thread)
+        self._ocr_worker.failed.connect(self._cleanup_ocr_thread)
+        self._ocr_worker.cancelled.connect(self._cleanup_ocr_thread)
+        self._ocr_progress = QProgressDialog("Running OCR text recognition...", "Cancel", 0, 0, self)
+        self._ocr_progress.setWindowTitle("OCR")
+        self._ocr_progress.setWindowModality(Qt.WindowModality.WindowModal)
+        self._ocr_progress.canceled.connect(self._cancel_ocr)
+        self._ocr_progress.show()
+        self.status_label.setText("Running OCR...")
+        self._ocr_thread.start()
+
+    def _cancel_ocr(self) -> None:
+        if self._ocr_worker is not None:
+            self._ocr_worker.cancel()
+
+    def _handle_ocr_finished(self, text: str) -> None:
+        if self._setting_bool("ocr/copy_to_clipboard", False) and text:
+            QGuiApplication.clipboard().setText(text)
+        dialog = OcrResultDialog(text, self)
+        dialog.exec()
+        self.status_label.setText("OCR finished")
+
+    def _handle_ocr_failed(self, message: str) -> None:
+        self.status_label.setText("OCR failed")
+        self._show_error(message)
+
+    def _handle_ocr_cancelled(self) -> None:
+        self.status_label.setText("OCR canceled")
+
+    def _cleanup_ocr_thread(self, *_args) -> None:
+        if self._ocr_progress is not None:
+            self._ocr_progress.close()
+            self._ocr_progress.deleteLater()
+            self._ocr_progress = None
+        if self._ocr_thread is not None:
+            self._ocr_thread.quit()
+            self._ocr_thread.wait()
+            self._ocr_thread.deleteLater()
+            self._ocr_thread = None
+        if self._ocr_worker is not None:
+            self._ocr_worker.deleteLater()
+            self._ocr_worker = None
+
+    def _set_rotate_watermark(self, checked: bool) -> None:
+        self._settings.setValue("watermark/rotate", checked)
+
+    def close_tab(self, index: int) -> None:
+        if index < 0:
+            return
+        widget = self.tabs.widget(index)
+        if isinstance(widget, AnnotationCanvas) and not self._confirm_discard_canvas(widget):
+            return
+        self.tabs.removeTab(index)
+        if self.tabs.count() == 0:
+            self.new_tab()
+        self._update_actions()
+
+    def _sync_tab_title(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        index = self.tabs.currentIndex()
+        name = Path(canvas.state.path).name if canvas.state.path else self.tabs.tabText(index).replace(" *", "") or "Untitled"
+        suffix = " *" if canvas.state.dirty else ""
+        self.tabs.setTabText(index, f"{name}{suffix}")
+
+    def _update_actions(self) -> None:
+        canvas = self.current_canvas()
+        has_image = canvas is not None and canvas.has_image()
+        has_selected_item = canvas is not None and canvas.has_selected_item()
+        can_edit_text = canvas is not None and canvas.selected_item_kind() == Tool.TEXT
+        self.save_action.setEnabled(has_image)
+        self.save_as_action.setEnabled(has_image)
+        self.copy_action.setEnabled(has_image)
+        self.copy_item_action.setEnabled(has_selected_item)
+        self.paste_action.setEnabled(True)
+        self.paste_item_action.setEnabled(has_image)
+        self.undo_action.setEnabled(canvas is not None and canvas.can_undo())
+        self.redo_action.setEnabled(canvas is not None and canvas.can_redo())
+        self.pin_action.setEnabled(has_image)
+        self.add_watermark_action.setEnabled(has_image)
+        self.upload_action.setEnabled(has_image)
+        self.ocr_action.setEnabled(has_image and self._setting_bool("ocr/enabled", True))
+        self.delete_action.setEnabled(has_selected_item)
+        self.duplicate_action.setEnabled(has_selected_item)
+        self.edit_text_action.setEnabled(can_edit_text)
+        self.bring_to_front_action.setEnabled(canvas is not None and canvas.can_bring_selected_item_to_front())
+        self.send_to_back_action.setEnabled(canvas is not None and canvas.can_send_selected_item_to_back())
+        self.rotate_action.setEnabled(has_image)
+        self.scale_action.setEnabled(has_image)
+        self.close_tab_action.setEnabled(canvas is not None)
+        self.recent_images_menu.setEnabled(bool(self._recent_image_paths))
+
+    def _handle_current_tab_changed(self, index: int) -> None:
+        del index
+        self._update_actions()
+        self._sync_item_controls()
+
+    def _open_image_path(self, path: str) -> bool:
+        image = QImage(path)
+        if image.isNull():
+            self._remove_recent_image_path(path)
+            self._show_error(f"Unable to open image: {path}")
+            return False
+        title = Path(path).name
+        canvas = self.current_canvas()
+        if canvas is None or canvas.has_image():
+            canvas = self.new_tab()
+        canvas.set_image(image, path)
+        self._store_recent_image_path(path)
+        self.tabs.setTabText(self.tabs.currentIndex(), title)
+        self.status_label.setText(f"Opened {title}")
+        self._update_actions()
+        return True
+
+    def open_recent_image(self, path: str) -> None:
+        if not Path(path).exists():
+            self._remove_recent_image_path(path)
+            self._show_error(f"Recent image no longer exists: {path}")
+            return
+        self._open_image_path(path)
+
+    def clear_recent_images(self) -> None:
+        self._recent_image_paths.clear()
+        self._settings.remove("recent_images")
+        self._update_actions()
+
+    def _populate_recent_images_menu(self) -> None:
+        self.recent_images_menu.clear()
+        for index, path in enumerate(self._recent_image_paths[: self.MAX_RECENT_IMAGES], start=1):
+            action = QAction(path, self.recent_images_menu)
+            if index < 10:
+                action.setShortcut(f"Ctrl+{index}")
+            action.triggered.connect(lambda checked=False, selected_path=path: self.open_recent_image(selected_path))
+            self.recent_images_menu.addAction(action)
+        if self._recent_image_paths:
+            self.recent_images_menu.addSeparator()
+            self.recent_images_menu.addAction(self.clear_recent_images_action)
+        self.recent_images_menu.setEnabled(bool(self._recent_image_paths))
+
+    def _store_recent_image_path(self, path: str) -> None:
+        resolved = str(Path(path).expanduser())
+        self._recent_image_paths = [item for item in self._recent_image_paths if item != resolved]
+        self._recent_image_paths.insert(0, resolved)
+        self._recent_image_paths = self._recent_image_paths[: self.MAX_RECENT_IMAGES]
+        self._settings.setValue("recent_images/paths", self._recent_image_paths)
+        self._settings.setValue("paths/last_image_dir", str(Path(resolved).parent))
+        self._update_actions()
+
+    def _remove_recent_image_path(self, path: str) -> None:
+        resolved = str(Path(path).expanduser())
+        if resolved not in self._recent_image_paths:
+            return
+        self._recent_image_paths = [item for item in self._recent_image_paths if item != resolved]
+        self._settings.setValue("recent_images/paths", self._recent_image_paths)
+        self._update_actions()
+
+    def _load_recent_image_paths(self) -> list[str]:
+        raw_paths = self._settings.value("recent_images/paths", [])
+        if isinstance(raw_paths, str):
+            return [raw_paths] if raw_paths else []
+        if isinstance(raw_paths, (list, tuple)):
+            return [str(path) for path in raw_paths if path]
+        return []
+
+    def _default_image_directory(self) -> str:
+        configured = self._settings.value("paths/last_image_dir", "")
+        if isinstance(configured, str) and configured:
+            return configured
+        return str(Path.home())
+
+    def _current_settings_data(self) -> SettingsData:
+        return SettingsData(
+            tool=self._current_tool(),
+            pen_width=self.stroke_width.value(),
+            font_family=self.font_family.currentFont().family(),
+            font_point_size=self.font_size.value(),
+            fill_mode=self.fill_mode.currentData(),
+            opacity_percent=self.opacity.value(),
+            bold=self.bold.isChecked(),
+            italic=self.italic.isChecked(),
+            rotate_watermark=self.rotate_watermark_action.isChecked(),
+            use_tray_icon=self._setting_bool("tray/use", True),
+            minimize_to_tray=self._setting_bool("tray/minimize", True),
+            close_to_tray=self._setting_bool("tray/close", True),
+            start_minimized_to_tray=self._setting_bool("tray/start_minimized", False),
+            tray_notifications=self._setting_bool("tray/notifications", True),
+            shortcuts={key: sequence.toString(QKeySequence.SequenceFormat.NativeText) for key, sequence in self._current_shortcuts().items()},
+            upload_script_path=str(self._settings.value("upload/script_path", "")),
+            upload_copy_output=self._setting_bool("upload/copy_output", False),
+            upload_output_filter=str(self._settings.value("upload/output_filter", "")),
+            upload_stop_on_stderr=self._setting_bool("upload/stop_on_stderr", False),
+            ocr_enabled=self._setting_bool("ocr/enabled", True),
+            ocr_backend=str(self._settings.value("ocr/backend", "paddleocr")),
+            ocr_language=str(self._settings.value("ocr/language", "english")),
+            ocr_copy_to_clipboard=self._setting_bool("ocr/copy_to_clipboard", False),
+            ocr_script_path=str(self._settings.value("ocr/script_path", "")),
+        )
+
+    def _current_tool(self) -> Tool:
+        for tool, action in (
+            (Tool.SELECT, self.select_action),
+            (Tool.PEN, self.pen_action),
+            (Tool.LINE, self.line_action),
+            (Tool.ARROW, self.arrow_action),
+            (Tool.RECT, self.rect_action),
+            (Tool.ELLIPSE, self.ellipse_action),
+            (Tool.TEXT, self.text_action),
+            (Tool.BLUR, self.blur_action),
+            (Tool.PIXELATE, self.pixelate_action),
+            (Tool.CROP, self.crop_action),
+        ):
+            if action.isChecked():
+                return tool
+        return Tool.SELECT
+
+    def _apply_settings_data(self, data: SettingsData) -> None:
+        self._settings.setValue("editor/tool", data.tool.value)
+        self._settings.setValue("editor/pen_width", data.pen_width)
+        self._settings.setValue("editor/font_family", data.font_family)
+        self._settings.setValue("editor/font_point_size", data.font_point_size)
+        self._settings.setValue("editor/fill_mode", data.fill_mode.value)
+        self._settings.setValue("editor/opacity_percent", data.opacity_percent)
+        self._settings.setValue("editor/bold", data.bold)
+        self._settings.setValue("editor/italic", data.italic)
+        self._settings.setValue("watermark/rotate", data.rotate_watermark)
+        self._settings.setValue("tray/use", data.use_tray_icon)
+        self._settings.setValue("tray/minimize", data.minimize_to_tray)
+        self._settings.setValue("tray/close", data.close_to_tray)
+        self._settings.setValue("tray/start_minimized", data.start_minimized_to_tray)
+        self._settings.setValue("tray/notifications", data.tray_notifications)
+        for key, value in data.shortcuts.items():
+            self._settings.setValue(f"shortcuts/{key}", value)
+        self._settings.setValue("upload/script_path", data.upload_script_path)
+        self._settings.setValue("upload/copy_output", data.upload_copy_output)
+        self._settings.setValue("upload/output_filter", data.upload_output_filter)
+        self._settings.setValue("upload/stop_on_stderr", data.upload_stop_on_stderr)
+        self._settings.setValue("ocr/enabled", data.ocr_enabled)
+        self._settings.setValue("ocr/backend", data.ocr_backend)
+        self._settings.setValue("ocr/language", data.ocr_language)
+        self._settings.setValue("ocr/copy_to_clipboard", data.ocr_copy_to_clipboard)
+        self._settings.setValue("ocr/script_path", data.ocr_script_path)
+
+        self.stroke_width.blockSignals(True)
+        self.stroke_width.setValue(data.pen_width)
+        self.stroke_width.blockSignals(False)
+
+        self.font_family.blockSignals(True)
+        self.font_family.setCurrentFont(QFont(data.font_family))
+        self.font_family.blockSignals(False)
+
+        self.font_size.blockSignals(True)
+        self.font_size.setValue(data.font_point_size)
+        self.font_size.blockSignals(False)
+
+        fill_mode_index = self.fill_mode.findData(data.fill_mode)
+        if fill_mode_index >= 0:
+            self.fill_mode.blockSignals(True)
+            self.fill_mode.setCurrentIndex(fill_mode_index)
+            self.fill_mode.blockSignals(False)
+
+        self.opacity.blockSignals(True)
+        self.opacity.setValue(data.opacity_percent)
+        self.opacity.blockSignals(False)
+
+        self.bold.blockSignals(True)
+        self.bold.setChecked(data.bold)
+        self.bold.blockSignals(False)
+
+        self.italic.blockSignals(True)
+        self.italic.setChecked(data.italic)
+        self.italic.blockSignals(False)
+
+        self.rotate_watermark_action.blockSignals(True)
+        self.rotate_watermark_action.setChecked(data.rotate_watermark)
+        self.rotate_watermark_action.blockSignals(False)
+
+        self._apply_shortcuts_from_mapping(data.shortcuts)
+        self.set_tool(data.tool)
+        self._apply_defaults_to_canvases(data)
+        self._apply_tray_settings()
+
+    def _apply_defaults_to_canvases(self, data: SettingsData) -> None:
+        for index in range(self.tabs.count()):
+            widget = self.tabs.widget(index)
+            if not isinstance(widget, AnnotationCanvas):
+                continue
+            widget.set_pen_width(data.pen_width)
+            widget.set_font_family(data.font_family)
+            widget.set_font_point_size(data.font_point_size)
+            widget.set_fill_mode(data.fill_mode)
+            widget.set_opacity(data.opacity_percent / 100.0)
+            widget.set_bold(data.bold)
+            widget.set_italic(data.italic)
+
+    def _restore_ui_settings(self) -> None:
+        geometry = self._settings.value("window/geometry")
+        if geometry is not None:
+            self.restoreGeometry(geometry)
+
+        self.stroke_width.setValue(self._setting_int("editor/pen_width", 3))
+        self.font_size.setValue(self._setting_int("editor/font_point_size", 14))
+        self.opacity.setValue(self._setting_int("editor/opacity_percent", 100))
+        self.bold.setChecked(self._setting_bool("editor/bold", False))
+        self.italic.setChecked(self._setting_bool("editor/italic", False))
+
+        stored_font_family = self._settings.value("editor/font_family", "")
+        if isinstance(stored_font_family, str) and stored_font_family:
+            self.font_family.setCurrentFont(QFont(stored_font_family))
+
+        stored_fill_mode = self._settings.value("editor/fill_mode", FillMode.STROKE_AND_FILL.value)
+        fill_mode = FillMode(stored_fill_mode) if stored_fill_mode in {mode.value for mode in FillMode} else FillMode.STROKE_AND_FILL
+        fill_mode_index = self.fill_mode.findData(fill_mode)
+        if fill_mode_index >= 0:
+            self.fill_mode.setCurrentIndex(fill_mode_index)
+
+    def _apply_tray_settings(self) -> None:
+        if self._tray_icon is None:
+            return
+        if self._setting_bool("tray/use", True):
+            self._tray_icon.show()
+        else:
+            self._tray_icon.hide()
+
+    def _apply_tool_selection_from_settings(self) -> None:
+        stored_tool = self._settings.value("editor/tool", Tool.SELECT.value)
+        try:
+            tool = Tool(stored_tool)
+        except ValueError:
+            tool = Tool.SELECT
+        self.set_tool(tool)
+
+    def _shortcut_defaults(self) -> dict[str, QKeySequence]:
+        return {
+            "capture_rect": QKeySequence("Ctrl+Shift+R"),
+            "capture_full": QKeySequence("Ctrl+Shift+F"),
+            "capture_current": QKeySequence("Ctrl+Shift+S"),
+            "capture_active": QKeySequence("Ctrl+Shift+A"),
+            "capture_under_cursor": QKeySequence("Ctrl+Shift+U"),
+            "open": QKeySequence(QKeySequence.StandardKey.Open),
+            "save": QKeySequence(QKeySequence.StandardKey.Save),
+            "paste": QKeySequence(QKeySequence.StandardKey.Paste),
+            "pin": QKeySequence("Ctrl+Shift+P"),
+            "watermark": QKeySequence("Shift+W"),
+            "upload": QKeySequence("Ctrl+Shift+U"),
+            "ocr": QKeySequence("Ctrl+Shift+T"),
+        }
+
+    def _shortcut_actions(self) -> dict[str, QAction]:
+        return {
+            "capture_rect": self.new_capture_rect_action,
+            "capture_full": self.new_capture_full_action,
+            "capture_current": self.new_capture_current_action,
+            "capture_active": self.new_capture_active_action,
+            "capture_under_cursor": self.new_capture_under_cursor_action,
+            "open": self.open_action,
+            "save": self.save_action,
+            "paste": self.paste_action,
+            "pin": self.pin_action,
+            "watermark": self.add_watermark_action,
+            "upload": self.upload_action,
+            "ocr": self.ocr_action,
+        }
+
+    def _current_shortcuts(self) -> dict[str, QKeySequence]:
+        return {key: action.shortcut() for key, action in self._shortcut_actions().items()}
+
+    def _apply_shortcuts(self) -> None:
+        mapping: dict[str, str] = {}
+        for key, default_sequence in self._shortcut_defaults().items():
+            stored = self._settings.value(f"shortcuts/{key}", default_sequence.toString(QKeySequence.SequenceFormat.NativeText))
+            mapping[key] = str(stored) if stored is not None else ""
+        self._apply_shortcuts_from_mapping(mapping)
+
+    def _apply_shortcuts_from_mapping(self, mapping: dict[str, str]) -> None:
+        defaults = self._shortcut_defaults()
+        for key, action in self._shortcut_actions().items():
+            value = mapping.get(key, defaults[key].toString(QKeySequence.SequenceFormat.NativeText))
+            action.setShortcut(QKeySequence(value) if value else QKeySequence())
+
+    def _save_ui_settings(self) -> None:
+        self._settings.setValue("window/geometry", self.saveGeometry())
+        self._settings.setValue("editor/pen_width", self.stroke_width.value())
+        self._settings.setValue("editor/font_family", self.font_family.currentFont().family())
+        self._settings.setValue("editor/font_point_size", self.font_size.value())
+        self._settings.setValue("editor/opacity_percent", self.opacity.value())
+        self._settings.setValue("editor/fill_mode", self.fill_mode.currentData().value)
+        self._settings.setValue("editor/bold", self.bold.isChecked())
+        self._settings.setValue("editor/italic", self.italic.isChecked())
+
+    def _should_minimize_to_tray(self) -> bool:
+        return (
+            self._tray_icon is not None
+            and self._tray_icon.isVisible()
+            and self._setting_bool("tray/use", True)
+            and self._setting_bool("tray/minimize", True)
+        )
+
+    def _should_close_to_tray(self) -> bool:
+        return (
+            not self._allow_quit
+            and self._tray_icon is not None
+            and self._tray_icon.isVisible()
+            and self._setting_bool("tray/use", True)
+            and self._setting_bool("tray/close", True)
+        )
+
+    def _handle_tray_activated(self, reason: QSystemTrayIcon.ActivationReason) -> None:
+        if reason != QSystemTrayIcon.ActivationReason.Context:
+            self.show_from_tray()
+
+    def close_other_pin_windows(self, current_window: PinWindow) -> None:
+        for pin_window in list(self._pin_windows):
+            if pin_window is not current_window:
+                pin_window.close()
+
+    def close_all_pin_windows(self) -> None:
+        for pin_window in list(self._pin_windows):
+            pin_window.close()
+
+    def _forget_pin_window(self, window: PinWindow) -> None:
+        self._pin_windows = [pin_window for pin_window in self._pin_windows if pin_window is not window]
+
+    def _setting_int(self, key: str, default: int) -> int:
+        value = self._settings.value(key, default)
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return default
+
+    def _setting_bool(self, key: str, default: bool) -> bool:
+        value = self._settings.value(key, default)
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            return value.strip().lower() in {"1", "true", "yes", "on"}
+        return bool(value)
+
+    def _confirm_discard_canvas(self, canvas: AnnotationCanvas) -> bool:
+        if not canvas.state.dirty:
+            return True
+        reply = QMessageBox.question(
+            self,
+            "Unsaved changes",
+            "Close this tab and discard unsaved changes?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        return reply == QMessageBox.StandardButton.Yes
+
+    def _confirm_close_all_tabs(self) -> bool:
+        dirty_canvases = [
+            self.tabs.widget(index)
+            for index in range(self.tabs.count())
+            if isinstance(self.tabs.widget(index), AnnotationCanvas) and self.tabs.widget(index).state.dirty
+        ]
+        if not dirty_canvases:
+            return True
+        reply = QMessageBox.question(
+            self,
+            "Unsaved changes",
+            "Close ksnip PyQt6 and discard unsaved changes in open tabs?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        return reply == QMessageBox.StandardButton.Yes
+
+    def _show_error(self, message: str) -> None:
+        QMessageBox.critical(self, "ksnip PyQt6", message)
+
+    def show_about(self) -> None:
+        QMessageBox.information(
+            self,
+            "About",
+            "PyQt6 MVP port of ksnip.\n\nImplemented: capture, tabs, open/save/copy, script upload, experimental OCR, annotation tools, image overlays, watermarking, item properties, multi-selection editing, persistence, settings dialog, configurable app hotkeys, tray workflow, and pin windows.",
+        )
