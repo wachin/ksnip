@@ -363,8 +363,11 @@ class SettingsDialog(QDialog):
         self.tray_default_capture_mode.addItems(["Rect Area", "Last Rect Area", "Full Screen", "Current Screen", "Active Window", "Window Under Cursor"])
         self.tray_default_capture_mode.setEnabled(False)
         tray_defaults_layout.addRow("Capture Mode", self.tray_default_capture_mode)
-        shortcuts_group = QGroupBox("Hotkeys", self)
+        shortcuts_group = QGroupBox("Global HotKeys", self)
         shortcuts_layout = QFormLayout(shortcuts_group)
+        self.enable_global_hotkeys = QCheckBox("Enable Global HotKeys", shortcuts_group)
+        self.enable_global_hotkeys.setEnabled(False)
+        shortcuts_layout.addRow(self.enable_global_hotkeys)
         self.shortcut_edits: dict[str, QKeySequenceEdit] = {}
         for key, label in (
             ("capture_rect", "Rect Area Capture"),
@@ -383,8 +386,25 @@ class SettingsDialog(QDialog):
         ):
             editor = QKeySequenceEdit(shortcuts_group)
             self.shortcut_edits[key] = editor
-            shortcuts_layout.addRow(label, editor)
-        upload_group = QGroupBox("Uploader", self)
+            clear_button = QPushButton("Clear", shortcuts_group)
+            clear_button.clicked.connect(lambda _checked=False, target=editor: target.clear())
+            row_layout = QHBoxLayout()
+            row_layout.addWidget(editor, 1)
+            row_layout.addWidget(clear_button)
+            row_host = QWidget(shortcuts_group)
+            row_host.setLayout(row_layout)
+            shortcuts_layout.addRow(label, row_host)
+        uploader_group = QGroupBox("Uploader", self)
+        uploader_layout = QFormLayout(uploader_group)
+        self.ask_confirmation_before_uploading = QCheckBox("Ask for confirmation before uploading", uploader_group)
+        self.ask_confirmation_before_uploading.setEnabled(False)
+        uploader_layout.addRow(self.ask_confirmation_before_uploading)
+        self.uploader_type = QComboBox(uploader_group)
+        self.uploader_type.addItems(["Imgur", "FTP", "Script"])
+        self.uploader_type.setEnabled(False)
+        uploader_layout.addRow("Uploader Type", self.uploader_type)
+
+        upload_group = QGroupBox("Script Uploader", self)
         upload_layout = QFormLayout(upload_group)
         script_row = QHBoxLayout()
         self.upload_script_path = QLineEdit(upload_group)
@@ -394,13 +414,13 @@ class SettingsDialog(QDialog):
         script_row.addWidget(self.upload_script_button)
         script_host = QWidget(upload_group)
         script_host.setLayout(script_row)
-        upload_layout.addRow("Script Path", script_host)
+        upload_layout.addRow("Script", script_host)
 
         self.upload_copy_output = QCheckBox("Copy script output to clipboard", upload_group)
         upload_layout.addRow(self.upload_copy_output)
 
         self.upload_output_filter = QLineEdit(upload_group)
-        upload_layout.addRow("Output Filter Regex", self.upload_output_filter)
+        upload_layout.addRow("Filter", self.upload_output_filter)
 
         self.upload_stop_on_stderr = QCheckBox("Treat stderr as failure", upload_group)
         upload_layout.addRow(self.upload_stop_on_stderr)
@@ -468,7 +488,7 @@ class SettingsDialog(QDialog):
                 snipping_area_appearance_group,
             ],
         )
-        self._add_settings_page("Uploader", "Uploader Settings", [upload_group, ocr_group])
+        self._add_settings_page("Uploader", "Uploader Settings", [uploader_group])
         self._add_settings_page(
             "Imgur Uploader",
             "Imgur Uploader Settings",
@@ -496,15 +516,7 @@ class SettingsDialog(QDialog):
         self._add_settings_page(
             "Script Uploader",
             "Script Uploader Settings",
-            [
-                self._create_placeholder_group(
-                    "Script Uploader",
-                    [
-                        "This subpage is reserved for a more faithful port of the dedicated Script Uploader view.",
-                        "Current script uploader options are available on the main Uploader page.",
-                    ],
-                ),
-            ],
+            [upload_group],
         )
         self._add_settings_page("Annotator", "Annotator Settings", [annotator_group, annotator_appearance_group, editor_group])
         self._add_settings_page(
@@ -520,7 +532,7 @@ class SettingsDialog(QDialog):
             ],
         )
         self._add_settings_page("Watermark", "Watermark Settings", [watermark_group])
-        self._add_settings_page("HotKeys", "HotKey Settings", [shortcuts_group])
+        self._add_settings_page("HotKeys", "Global HotKeys", [shortcuts_group])
         self._add_settings_page(
             "Actions",
             "Action Settings",

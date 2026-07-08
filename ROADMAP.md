@@ -163,6 +163,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Página `Image Grabber` reestructurada con layout base cercano a la referencia
 - [x] Página `Snipping Area` reestructurada con layout base cercano a la referencia
 - [x] Página `Annotator` reestructurada con layout base cercano a la referencia
+- [x] Página `Uploader` reestructurada con layout base cercano a la referencia
+- [x] Página `HotKeys` reestructurada con layout base cercano a la referencia
 - [x] Persistencia de valores por defecto del editor
 - [x] Persistencia de hotkeys de aplicación
 - [x] Ajustes de tray
