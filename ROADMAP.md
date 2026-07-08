@@ -23,6 +23,17 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] `/images/GUI/15-Settings_HotKeys.png`
 - [x] `/images/GUI/16-Settings_Actions.png`
 - [x] `/images/GUI/17-Settings_Plugins.png`
+- [x] Los `Item Settings` por herramienta también deben alinearse visual y funcionalmente con estas referencias:
+- [x] `/images/Ksnip-Tools-selected/01-herramienta-de-seleccion-seleccionada.png`
+- [x] `/images/Ksnip-Tools-selected/02-Tool_Duplicate(selected).png`
+- [x] `/images/Ksnip-Tools-selected/03-Tool_Arrow(selected).png`
+- [x] `/images/Ksnip-Tools-selected/04-Tool_Pen(selected).png`
+- [x] `/images/Ksnip-Tools-selected/05-Tool_Marker-Pen(selected).png`
+- [x] `/images/Ksnip-Tools-selected/06-Tool_Text(selected).png`
+- [x] `/images/Ksnip-Tools-selected/07-Tool_Number(selected).png`
+- [x] `/images/Ksnip-Tools-selected/08-Tool_Blur(selected).png`
+- [x] `/images/Ksnip-Tools-selected/09-Tool_Rectangle(selected).png`
+- [x] `/images/Ksnip-Tools-selected/10-Tool_Sticker(selected).png`
 - [x] La meta no es reinterpretar ksnip: la UI PyQt6 debe conservar la estructura del programa original.
 - [x] Deben usarse los iconos de ksnip en la interfaz gráfica de `ksnip_py`.
 - [ ] Igualar por completo la disposición visual del toolbar, menús, panel lateral izquierdo, barra de estado y controles inferiores del ksnip original.
@@ -208,6 +219,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Barra de propiedades base con iconografía del editor original
 - [x] Barra de propiedades compactada con swatches visibles y controles más cercanos al layout de Ksnip
 - [x] `Item Settings` dinámicos en barra superior según herramienta seleccionada
+- [ ] Igualar exactamente los controles visibles de `Item Settings` para cada herramienta según las capturas en `/images/Ksnip-Tools-selected/`
 - [ ] Controles de propiedades iguales al original
 - [x] Zoom básico con controles inferiores
 - [x] Barra inferior de zoom compactada y acercada visualmente al patrón de Ksnip
