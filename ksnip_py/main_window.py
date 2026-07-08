@@ -121,6 +121,12 @@ class MainWindow(QMainWindow):
         if icon_path.exists():
             self.setWindowIcon(QIcon(str(icon_path)))
 
+    def _default_sticker_paths(self) -> list[str]:
+        stickers_dir = Path(__file__).resolve().parent.parent / "libraries" / "kImageAnnotator" / "resources" / "stickers"
+        if not stickers_dir.exists():
+            return []
+        return [str(path) for path in sorted(stickers_dir.glob("*.svg"))]
+
     def _configure_toolbar(
         self,
         toolbar: QToolBar,
@@ -270,15 +276,17 @@ class MainWindow(QMainWindow):
             return
         canvas = self.current_canvas()
         stroke = QColor("#df5a17")
-        secondary = QColor("#f6bd60")
+        secondary = QColor("#ffffff")
         if canvas is not None:
             if canvas.tool() == Tool.SELECT:
                 selected_color = canvas.selected_item_color()
                 if selected_color is not None:
                     stroke = QColor(selected_color)
-                selected_fill = canvas.selected_item_fill_color()
-                if selected_fill is not None:
-                    secondary = QColor(selected_fill)
+                selected_text_color = canvas.selected_item_text_color()
+                if selected_text_color is not None:
+                    secondary = QColor(selected_text_color)
+            else:
+                secondary = canvas.text_color()
             self.property_color_button.setStyleSheet(
                 f"QToolButton {{ background: {stroke.name()}; border: 1px solid #666; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; }}"
             )
@@ -311,14 +319,41 @@ class MainWindow(QMainWindow):
             self.blur_strength.blockSignals(False)
         if hasattr(self, "shadow_state_button"):
             self.shadow_state_button.setIcon(self._load_icon("check" if self.shadow_state_button.isChecked() else "disabled"))
+        if hasattr(self, "sticker_picker_button"):
+            self._sync_sticker_button()
 
     def _cycle_fill_mode(self) -> None:
         next_index = (self.fill_mode.currentIndex() + 1) % self.fill_mode.count()
         self.fill_mode.setCurrentIndex(next_index)
 
-    def _toggle_shadow_enabled(self) -> None:
-        self.shadow_state_button.setChecked(not self.shadow_state_button.isChecked())
-        self._apply_shadow_enabled(self.shadow_state_button.isChecked())
+    def _populate_sticker_menu(self) -> None:
+        self._sticker_menu.clear()
+        for sticker_path in self._default_sticker_paths():
+            action = QAction(QIcon(sticker_path), Path(sticker_path).stem.replace("_", " "), self._sticker_menu)
+            action.triggered.connect(lambda checked=False, path=sticker_path: self._select_sticker(path))
+            self._sticker_menu.addAction(action)
+        self._sync_sticker_button()
+
+    def _sync_sticker_button(self) -> None:
+        canvas = self.current_canvas()
+        sticker_path = canvas.selected_item_sticker_path() if canvas is not None else None
+        if not sticker_path and canvas is not None:
+            sticker_path = canvas.sticker_path()
+        if not sticker_path:
+            paths = self._default_sticker_paths()
+            sticker_path = paths[0] if paths else None
+        if sticker_path:
+            self.sticker_picker_button.setIcon(QIcon(sticker_path))
+
+    def _select_sticker(self, sticker_path: str) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.tool() == Tool.SELECT and canvas.apply_sticker_to_selected_item(sticker_path):
+            self.status_label.setText("Updated selected sticker")
+        else:
+            canvas.set_sticker_path(sticker_path)
+        self._sync_sticker_button()
 
     def _effective_property_tool(self) -> Tool | None:
         canvas = self.current_canvas()
@@ -397,6 +432,7 @@ class MainWindow(QMainWindow):
             Tool.RECT,
             Tool.ELLIPSE,
             Tool.IMAGE,
+            Tool.STICKER,
         }
         show_font = tool in {
             Tool.TEXT,
@@ -423,9 +459,10 @@ class MainWindow(QMainWindow):
             Tool.RECT,
             Tool.ELLIPSE,
             Tool.IMAGE,
+            Tool.STICKER,
         }
-        show_scaling = False
-        show_sticker = False
+        show_scaling = tool == Tool.STICKER
+        show_sticker = tool == Tool.STICKER
         visibility = {
             "handle": True,
             "stroke": show_stroke,
@@ -561,6 +598,10 @@ class MainWindow(QMainWindow):
         self.number_action = self._make_tool_action("number", "Number", Tool.NUMBER, "number")
         self.number_pointer_action = self._make_tool_action("numberPointer", "Number Pointer", Tool.NUMBER_POINTER, "number")
         self.number_arrow_action = self._make_tool_action("numberArrow", "Number Arrow", Tool.NUMBER_ARROW, "number")
+        self.sticker_action = QAction(self._load_icon("sticker"), "Sticker", self)
+        self.sticker_action.setCheckable(True)
+        self.sticker_action.triggered.connect(lambda: self.set_tool(Tool.STICKER))
+        self.tool_action_group.addAction(self.sticker_action)
 
         self.color_action = QAction(self._load_icon("color"), "Color", self)
         self.color_action.triggered.connect(self.select_color)
@@ -718,7 +759,7 @@ class MainWindow(QMainWindow):
         self.property_text_color_button = QToolButton(self)
         self.property_text_color_button.setToolTip("Text color")
         self.property_text_color_button.setFixedSize(22, 22)
-        self.property_text_color_button.clicked.connect(self.select_fill_color)
+        self.property_text_color_button.clicked.connect(self.select_text_color)
         self.property_text_color_group = self._make_property_group(
             self._make_icon_label("textColor", "Text color"),
             self.property_text_color_button,
@@ -753,6 +794,7 @@ class MainWindow(QMainWindow):
         self.number_value.setValue(1)
         self.number_value.setFixedWidth(48)
         self.number_value.setFixedHeight(22)
+        self.number_value.valueChanged.connect(self._apply_number_value)
         self.property_number_group = self._make_property_group(self._make_icon_label("number", "Number"), self.number_value)
         properties_toolbar.addWidget(self.property_number_group)
 
@@ -769,6 +811,9 @@ class MainWindow(QMainWindow):
         self.sticker_picker_button.setIcon(self._load_icon("sticker"))
         self.sticker_picker_button.setToolTip("Sticker")
         self.sticker_picker_button.setFixedSize(22, 22)
+        self.sticker_picker_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        self._sticker_menu = QMenu(self.sticker_picker_button)
+        self.sticker_picker_button.setMenu(self._sticker_menu)
         self.property_sticker_group = self._make_property_group(self._make_icon_label("sticker", "Sticker"), self.sticker_picker_button)
         properties_toolbar.addWidget(self.property_sticker_group)
 
@@ -816,6 +861,7 @@ class MainWindow(QMainWindow):
             "scaling": self.property_scaling_group,
             "opacity": self.property_opacity_group,
         }
+        self._populate_sticker_menu()
         self._sync_property_color_buttons()
         self._sync_fill_mode_button()
         self._sync_auxiliary_property_controls()
@@ -894,9 +940,7 @@ class MainWindow(QMainWindow):
                 [self.rect_action, self.ellipse_action],
             )
         )
-        self.sticker_action = QAction(self._load_icon("sticker"), "Sticker", self)
-        self.sticker_action.setEnabled(False)
-        tools_layout.addWidget(self._make_single_tool_widget(self.sticker_action, enabled=False))
+        tools_layout.addWidget(self._make_single_tool_widget(self.sticker_action))
         tools_layout.addStretch(1)
         toolbox_layout.addWidget(tools_panel)
         toolbox_layout.addStretch(1)
@@ -1024,6 +1068,7 @@ class MainWindow(QMainWindow):
         tools_menu.addAction(self.number_arrow_action)
         tools_menu.addAction(self.blur_action)
         tools_menu.addAction(self.pixelate_action)
+        tools_menu.addAction(self.sticker_action)
         tools_menu.addAction(self.crop_action)
         tools_menu.addAction(self.color_action)
 
@@ -1108,9 +1153,17 @@ class MainWindow(QMainWindow):
         canvas.set_pen_width(self.stroke_width.value())
         canvas.set_font_family(self.font_family.currentFont().family())
         canvas.set_font_point_size(self.font_size.value())
+        canvas.set_text_color(QColor("#ffffff"))
         canvas.set_fill_mode(self.fill_mode.currentData())
         canvas.set_bold(self.bold.isChecked())
         canvas.set_italic(self.italic.isChecked())
+        canvas.set_underline(self.underline_button.isChecked())
+        canvas.set_shadow(self.shadow_state_button.isChecked())
+        canvas.set_scaling(self.scaling.value() / 100.0)
+        canvas.set_number_seed(self.number_value.value())
+        canvas.set_sticker_paths(self._default_sticker_paths())
+        if self._default_sticker_paths():
+            canvas.set_sticker_path(self._default_sticker_paths()[0])
         canvas.set_tool(self._current_tool())
         if image is not None:
             canvas.set_image(image, path)
@@ -1164,6 +1217,8 @@ class MainWindow(QMainWindow):
             self._set_tool_group_default_action("shape", self.rect_action)
         elif tool == Tool.ELLIPSE:
             self._set_tool_group_default_action("shape", self.ellipse_action)
+        elif tool == Tool.STICKER:
+            self.sticker_action.setChecked(True)
         self.select_action.setChecked(tool == Tool.SELECT)
         self.pen_action.setChecked(tool == Tool.PEN)
         self.marker_pen_action.setChecked(tool == Tool.MARKER_PEN)
@@ -1182,6 +1237,7 @@ class MainWindow(QMainWindow):
         self.number_arrow_action.setChecked(tool == Tool.NUMBER_ARROW)
         self.blur_action.setChecked(tool == Tool.BLUR)
         self.pixelate_action.setChecked(tool == Tool.PIXELATE)
+        self.sticker_action.setChecked(tool == Tool.STICKER)
         self.crop_action.setChecked(tool == Tool.CROP)
         self._settings.setValue("editor/tool", tool.value)
         self._sync_item_controls()
@@ -1214,6 +1270,19 @@ class MainWindow(QMainWindow):
             self._sync_property_color_buttons()
             return
         canvas.set_fill_color(color)
+        self._sync_property_color_buttons()
+
+    def select_text_color(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        color = QColorDialog.getColor(parent=self)
+        if not color.isValid():
+            return
+        if canvas.tool() == Tool.SELECT and canvas.apply_text_color_to_selected_item(color):
+            self.status_label.setText("Updated selected text color")
+        else:
+            canvas.set_text_color(color)
         self._sync_property_color_buttons()
 
     def _apply_stroke_width(self, width: int) -> None:
@@ -1296,15 +1365,40 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/italic", checked)
 
     def _apply_underline(self, checked: bool) -> None:
+        canvas = self.current_canvas()
+        if canvas is not None:
+            if canvas.tool() == Tool.SELECT and canvas.apply_underline_to_selected_text(checked):
+                self.status_label.setText("Updated selected text underline style")
+                return
+            canvas.set_underline(checked)
         self._settings.setValue("editor/underline", checked)
 
     def _apply_shadow_enabled(self, checked: bool) -> None:
-        self.shadow_state_button.setChecked(checked)
+        canvas = self.current_canvas()
+        if canvas is not None:
+            if canvas.tool() == Tool.SELECT and canvas.apply_shadow_to_selected_item(checked):
+                self.status_label.setText("Updated selected item shadow")
+            else:
+                canvas.set_shadow(checked)
         self._sync_auxiliary_property_controls()
         self._settings.setValue("editor/shadow_enabled", checked)
 
     def _apply_scaling(self, value: int) -> None:
+        canvas = self.current_canvas()
+        if canvas is not None:
+            if canvas.tool() == Tool.SELECT and canvas.apply_scaling_to_selected_item(value):
+                self.status_label.setText(f"Updated selected item scale to {value}%")
+            else:
+                canvas.set_scaling(value / 100.0)
         self._settings.setValue("editor/scaling_percent", value)
+
+    def _apply_number_value(self, value: int) -> None:
+        canvas = self.current_canvas()
+        if canvas is not None:
+            if canvas.tool() == Tool.SELECT and canvas.apply_number_to_selected_item(value):
+                self.status_label.setText(f"Updated selected number to {value}")
+            else:
+                canvas.set_number_seed(value)
 
     def _apply_blur_strength(self, value: int) -> None:
         if self.stroke_width.value() != value:
@@ -1366,11 +1460,42 @@ class MainWindow(QMainWindow):
                 self.italic.setChecked(selected_italic)
                 self.italic.blockSignals(False)
 
+            selected_underline = canvas.selected_item_underline()
+            if selected_underline is not None and self.underline_button.isChecked() != selected_underline:
+                self.underline_button.blockSignals(True)
+                self.underline_button.setChecked(selected_underline)
+                self.underline_button.blockSignals(False)
+
+            selected_shadow = canvas.selected_item_shadow()
+            if selected_shadow is not None and self.shadow_state_button.isChecked() != selected_shadow:
+                self.shadow_state_button.blockSignals(True)
+                self.shadow_state_button.setChecked(selected_shadow)
+                self.shadow_state_button.blockSignals(False)
+
+            selected_scaling = canvas.selected_item_scaling()
+            if selected_scaling is not None and self.scaling.value() != selected_scaling:
+                self.scaling.blockSignals(True)
+                self.scaling.setValue(selected_scaling)
+                self.scaling.blockSignals(False)
+
+            selected_number = canvas.selected_item_number()
+            if selected_number is not None and self.number_value.value() != selected_number:
+                self.number_value.blockSignals(True)
+                self.number_value.setValue(selected_number)
+                self.number_value.blockSignals(False)
+
             selected_color = canvas.selected_item_color()
             if selected_color is not None:
                 self._sync_toolbox_color_button(selected_color)
                 self._sync_property_color_buttons()
+                self._sync_fill_mode_button()
+                self._sync_auxiliary_property_controls()
                 return
+        else:
+            if self.number_value.value() != canvas.number_seed():
+                self.number_value.blockSignals(True)
+                self.number_value.setValue(canvas.number_seed())
+                self.number_value.blockSignals(False)
         self._sync_toolbox_color_button()
         self._sync_property_color_buttons()
         self._sync_fill_mode_button()
@@ -2052,6 +2177,7 @@ class MainWindow(QMainWindow):
             (Tool.NUMBER_ARROW, self.number_arrow_action),
             (Tool.BLUR, self.blur_action),
             (Tool.PIXELATE, self.pixelate_action),
+            (Tool.STICKER, self.sticker_action),
             (Tool.CROP, self.crop_action),
         ):
             if action.isChecked():
@@ -2142,17 +2268,26 @@ class MainWindow(QMainWindow):
         self._apply_tray_settings()
 
     def _apply_defaults_to_canvases(self, data: SettingsData) -> None:
+        sticker_paths = self._default_sticker_paths()
         for index in range(self.tabs.count()):
             canvas = self._canvas_from_tab_widget(self.tabs.widget(index))
             if canvas is None:
                 continue
             canvas.set_pen_width(data.pen_width)
+            canvas.set_text_color(QColor("#ffffff"))
             canvas.set_font_family(data.font_family)
             canvas.set_font_point_size(data.font_point_size)
             canvas.set_fill_mode(data.fill_mode)
             canvas.set_opacity(data.opacity_percent / 100.0)
             canvas.set_bold(data.bold)
             canvas.set_italic(data.italic)
+            canvas.set_underline(self.underline_button.isChecked())
+            canvas.set_shadow(self.shadow_state_button.isChecked())
+            canvas.set_scaling(self.scaling.value() / 100.0)
+            canvas.set_number_seed(self.number_value.value())
+            canvas.set_sticker_paths(sticker_paths)
+            if sticker_paths and canvas.sticker_path() is None:
+                canvas.set_sticker_path(sticker_paths[0])
 
     def _restore_ui_settings(self) -> None:
         geometry = self._settings.value("window/geometry")
@@ -2167,6 +2302,7 @@ class MainWindow(QMainWindow):
         self.underline_button.setChecked(self._setting_bool("editor/underline", False))
         self.shadow_state_button.setChecked(self._setting_bool("editor/shadow_enabled", True))
         self.scaling.setValue(self._setting_int("editor/scaling_percent", 100))
+        self.number_value.setValue(self._setting_int("editor/number_seed", 1))
 
         stored_font_family = self._settings.value("editor/font_family", "")
         if isinstance(stored_font_family, str) and stored_font_family:
@@ -2256,6 +2392,10 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/fill_mode", self.fill_mode.currentData().value)
         self._settings.setValue("editor/bold", self.bold.isChecked())
         self._settings.setValue("editor/italic", self.italic.isChecked())
+        self._settings.setValue("editor/underline", self.underline_button.isChecked())
+        self._settings.setValue("editor/shadow_enabled", self.shadow_state_button.isChecked())
+        self._settings.setValue("editor/scaling_percent", self.scaling.value())
+        self._settings.setValue("editor/number_seed", self.number_value.value())
 
     def _should_minimize_to_tray(self) -> bool:
         return (

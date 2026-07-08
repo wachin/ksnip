@@ -5,15 +5,17 @@ import json
 from dataclasses import dataclass
 from enum import Enum
 from math import hypot
+from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QSize, Qt, pyqtSignal
-from PyQt6.QtGui import QColor, QFont, QImage, QMouseEvent, QPainter, QPen, QPixmap, QPolygon, QTransform
+from PyQt6.QtGui import QColor, QFont, QIcon, QImage, QMouseEvent, QPainter, QPen, QPixmap, QPolygon, QTransform
 from PyQt6.QtWidgets import QLabel, QInputDialog, QSizePolicy
 
 
 class Tool(str, Enum):
     SELECT = "select"
     IMAGE = "image"
+    STICKER = "sticker"
     PEN = "pen"
     MARKER_PEN = "marker_pen"
     LINE = "line"
@@ -61,6 +63,11 @@ class OverlayItem:
     fill_mode: FillMode = FillMode.STROKE_AND_FILL
     bold: bool = False
     italic: bool = False
+    underline: bool = False
+    text_color: QColor | None = None
+    shadow: bool = False
+    scaling: float = 1.0
+    sticker_path: str | None = None
     image: QImage | None = None
 
     def clone(self) -> "OverlayItem":
@@ -78,6 +85,11 @@ class OverlayItem:
             fill_mode=self.fill_mode,
             bold=self.bold,
             italic=self.italic,
+            underline=self.underline,
+            text_color=QColor(self.text_color) if self.text_color is not None else None,
+            shadow=self.shadow,
+            scaling=self.scaling,
+            sticker_path=self.sticker_path,
             image=self.image.copy() if self.image is not None else None,
         )
 
@@ -127,10 +139,17 @@ class AnnotationCanvas(QLabel):
         self._font_family = QFont().family()
         self._font_point_size = 14
         self._fill_color = QColor(246, 189, 96, 80)
+        self._text_color = QColor("#ffffff")
         self._opacity = 1.0
         self._fill_mode = FillMode.STROKE_AND_FILL
         self._bold = False
         self._italic = False
+        self._underline = False
+        self._shadow = True
+        self._scaling = 1.0
+        self._number_seed = 1
+        self._sticker_path: str | None = None
+        self._available_sticker_paths: list[str] = []
         self._image = QImage()
         self._items: list[OverlayItem] = []
         self._preview_start: QPoint | None = None
@@ -181,6 +200,8 @@ class AnnotationCanvas(QLabel):
                 color=QColor(self._color),
                 pen_width=1,
                 opacity=1.0,
+                shadow=self._shadow,
+                scaling=1.0,
                 image=image.copy(),
             )
         )
@@ -212,6 +233,11 @@ class AnnotationCanvas(QLabel):
             "fill_mode": item.fill_mode.value,
             "bold": item.bold,
             "italic": item.italic,
+            "underline": item.underline,
+            "text_color": item.text_color.name(QColor.NameFormat.HexArgb) if item.text_color is not None else None,
+            "shadow": item.shadow,
+            "scaling": item.scaling,
+            "sticker_path": item.sticker_path,
             "image_png_base64": image_payload,
         }
 
@@ -236,6 +262,11 @@ class AnnotationCanvas(QLabel):
             fill_mode=FillMode(payload.get("fill_mode", FillMode.STROKE_AND_FILL.value)),
             bold=payload.get("bold", False),
             italic=payload.get("italic", False),
+            underline=payload.get("underline", False),
+            text_color=QColor(payload["text_color"]) if payload.get("text_color") else None,
+            shadow=payload.get("shadow", False),
+            scaling=payload.get("scaling", 1.0),
+            sticker_path=payload.get("sticker_path"),
             image=image,
         )
 
@@ -316,6 +347,12 @@ class AnnotationCanvas(QLabel):
     def set_fill_color(self, color: QColor) -> None:
         self._fill_color = QColor(color)
 
+    def set_text_color(self, color: QColor) -> None:
+        self._text_color = QColor(color)
+
+    def text_color(self) -> QColor:
+        return QColor(self._text_color)
+
     def set_opacity(self, opacity: float) -> None:
         self._opacity = max(0.0, min(1.0, opacity))
 
@@ -327,6 +364,32 @@ class AnnotationCanvas(QLabel):
 
     def set_italic(self, italic: bool) -> None:
         self._italic = bool(italic)
+
+    def set_underline(self, underline: bool) -> None:
+        self._underline = bool(underline)
+
+    def set_shadow(self, shadow: bool) -> None:
+        self._shadow = bool(shadow)
+
+    def set_scaling(self, scaling: float) -> None:
+        self._scaling = max(0.0, scaling)
+
+    def set_number_seed(self, value: int) -> None:
+        self._number_seed = max(1, int(value))
+
+    def number_seed(self) -> int:
+        return self._number_seed
+
+    def set_sticker_paths(self, paths: list[str]) -> None:
+        self._available_sticker_paths = [path for path in paths if Path(path).exists()]
+        if self._sticker_path not in self._available_sticker_paths:
+            self._sticker_path = self._available_sticker_paths[0] if self._available_sticker_paths else None
+
+    def set_sticker_path(self, path: str | None) -> None:
+        self._sticker_path = path if path and Path(path).exists() else None
+
+    def sticker_path(self) -> str | None:
+        return self._sticker_path
 
     def zoom_percent(self) -> int:
         return self._zoom_percent
@@ -370,13 +433,13 @@ class AnnotationCanvas(QLabel):
 
     def selected_item_font_family(self) -> str | None:
         item = self._primary_selected_item()
-        if item is None or not self._is_text_like(item.kind):
+        if item is None or not (self._is_text_like(item.kind) or self._is_number_like(item.kind)):
             return None
         return item.font_family or self._font_family
 
     def selected_item_font_point_size(self) -> int | None:
         item = self._primary_selected_item()
-        if item is None or not self._is_text_like(item.kind):
+        if item is None or not (self._is_text_like(item.kind) or self._is_number_like(item.kind)):
             return None
         return item.font_point_size or self._font_point_size
 
@@ -386,6 +449,12 @@ class AnnotationCanvas(QLabel):
             return None
         return QColor(item.fill_color) if item.fill_color is not None else None
 
+    def selected_item_text_color(self) -> QColor | None:
+        item = self._primary_selected_item()
+        if item is None:
+            return None
+        return QColor(item.text_color) if item.text_color is not None else None
+
     def selected_item_opacity(self) -> int | None:
         item = self._primary_selected_item()
         if item is None:
@@ -394,21 +463,51 @@ class AnnotationCanvas(QLabel):
 
     def selected_item_fill_mode(self) -> FillMode | None:
         item = self._primary_selected_item()
-        if item is None or item.kind not in (Tool.RECT, Tool.ELLIPSE):
+        if item is None or item.kind not in (Tool.RECT, Tool.ELLIPSE, Tool.TEXT, Tool.TEXT_ARROW, Tool.NUMBER, Tool.NUMBER_ARROW):
             return None
         return item.fill_mode
 
     def selected_item_bold(self) -> bool | None:
         item = self._primary_selected_item()
-        if item is None or not self._is_text_like(item.kind):
+        if item is None or not (self._is_text_like(item.kind) or self._is_number_like(item.kind)):
             return None
         return item.bold
 
     def selected_item_italic(self) -> bool | None:
         item = self._primary_selected_item()
-        if item is None or not self._is_text_like(item.kind):
+        if item is None or not (self._is_text_like(item.kind) or self._is_number_like(item.kind)):
             return None
         return item.italic
+
+    def selected_item_underline(self) -> bool | None:
+        item = self._primary_selected_item()
+        if item is None or not (self._is_text_like(item.kind) or self._is_number_like(item.kind)):
+            return None
+        return item.underline
+
+    def selected_item_shadow(self) -> bool | None:
+        item = self._primary_selected_item()
+        if item is None:
+            return None
+        return item.shadow
+
+    def selected_item_scaling(self) -> int | None:
+        item = self._primary_selected_item()
+        if item is None or item.kind not in (Tool.IMAGE, Tool.STICKER):
+            return None
+        return round(item.scaling * 100)
+
+    def selected_item_number(self) -> int | None:
+        item = self._primary_selected_item()
+        if item is None or not self._is_number_like(item.kind) or not item.text or not item.text.isdigit():
+            return None
+        return int(item.text)
+
+    def selected_item_sticker_path(self) -> str | None:
+        item = self._primary_selected_item()
+        if item is None or item.kind != Tool.STICKER:
+            return None
+        return item.sticker_path
 
     def mark_saved(self, path: str | None) -> None:
         self.state.path = path
@@ -776,6 +875,8 @@ class AnnotationCanvas(QLabel):
         return hypot(px - proj_x, py - proj_y)
 
     def _draw_item(self, painter: QPainter, item: OverlayItem, selected: bool, show_handles: bool = True) -> None:
+        if item.shadow:
+            self._draw_shadow(painter, item)
         painter.save()
         painter.setOpacity(item.opacity)
         pen_color = item.color if item.fill_mode != FillMode.FILL_ONLY else QColor(item.color.red(), item.color.green(), item.color.blue(), 0)
@@ -806,7 +907,9 @@ class AnnotationCanvas(QLabel):
             font.setPointSize(item.font_point_size or max(10, item.pen_width * 4))
             font.setBold(item.bold)
             font.setItalic(item.italic)
+            font.setUnderline(item.underline)
             painter.setFont(font)
+            painter.setPen(QPen(item.text_color or item.color, max(1, item.pen_width // 2)))
             painter.drawText(item.start, item.text or "")
         elif item.kind == Tool.TEXT_POINTER:
             self._draw_text_pointer(painter, item)
@@ -819,6 +922,8 @@ class AnnotationCanvas(QLabel):
         elif item.kind == Tool.NUMBER_ARROW:
             self._draw_number_arrow(painter, item)
         elif item.kind == Tool.IMAGE and item.image is not None and not item.image.isNull():
+            painter.drawImage(QRect(item.start, item.end).normalized(), item.image)
+        elif item.kind == Tool.STICKER and item.image is not None and not item.image.isNull():
             painter.drawImage(QRect(item.start, item.end).normalized(), item.image)
         painter.restore()
 
@@ -970,7 +1075,7 @@ class AnnotationCanvas(QLabel):
 
     def apply_font_family_to_selected_text(self, family: str) -> bool:
         item = self._primary_selected_item()
-        if not self.has_single_selected_item() or item is None or not self._is_text_like(item.kind):
+        if not self.has_single_selected_item() or item is None or not (self._is_text_like(item.kind) or self._is_number_like(item.kind)):
             return False
         if item.font_family == family:
             return False
@@ -982,7 +1087,7 @@ class AnnotationCanvas(QLabel):
 
     def apply_font_point_size_to_selected_text(self, point_size: int) -> bool:
         item = self._primary_selected_item()
-        if not self.has_single_selected_item() or item is None or not self._is_text_like(item.kind):
+        if not self.has_single_selected_item() or item is None or not (self._is_text_like(item.kind) or self._is_number_like(item.kind)):
             return False
         point_size = max(1, point_size)
         if item.font_point_size == point_size:
@@ -1035,6 +1140,23 @@ class AnnotationCanvas(QLabel):
         self._refresh()
         return True
 
+    def apply_text_color_to_selected_item(self, color: QColor) -> bool:
+        text_indices = [
+            index
+            for index in self._selected_item_indices
+            if self._is_text_like(self._items[index].kind) or self._is_number_like(self._items[index].kind)
+        ]
+        if not text_indices:
+            return False
+        if all(self._items[index].text_color == color for index in text_indices):
+            return False
+        self._push_undo_state()
+        for index in text_indices:
+            self._items[index].text_color = QColor(color)
+        self._mark_dirty()
+        self._refresh()
+        return True
+
     def apply_opacity_to_selected_item(self, opacity_percent: int) -> bool:
         if not self.has_selected_item():
             return False
@@ -1052,7 +1174,7 @@ class AnnotationCanvas(QLabel):
         shape_indices = [
             index
             for index in self._selected_item_indices
-            if self._items[index].kind in (Tool.RECT, Tool.ELLIPSE)
+            if self._items[index].kind in (Tool.RECT, Tool.ELLIPSE, Tool.TEXT, Tool.TEXT_ARROW, Tool.NUMBER, Tool.NUMBER_ARROW)
         ]
         if not shape_indices:
             return False
@@ -1066,7 +1188,11 @@ class AnnotationCanvas(QLabel):
         return True
 
     def apply_bold_to_selected_text(self, bold: bool) -> bool:
-        text_indices = [index for index in self._selected_item_indices if self._is_text_like(self._items[index].kind)]
+        text_indices = [
+            index
+            for index in self._selected_item_indices
+            if self._is_text_like(self._items[index].kind) or self._is_number_like(self._items[index].kind)
+        ]
         if not text_indices:
             return False
         if all(self._items[index].bold == bold for index in text_indices):
@@ -1079,7 +1205,11 @@ class AnnotationCanvas(QLabel):
         return True
 
     def apply_italic_to_selected_text(self, italic: bool) -> bool:
-        text_indices = [index for index in self._selected_item_indices if self._is_text_like(self._items[index].kind)]
+        text_indices = [
+            index
+            for index in self._selected_item_indices
+            if self._is_text_like(self._items[index].kind) or self._is_number_like(self._items[index].kind)
+        ]
         if not text_indices:
             return False
         if all(self._items[index].italic == italic for index in text_indices):
@@ -1087,6 +1217,85 @@ class AnnotationCanvas(QLabel):
         self._push_undo_state()
         for index in text_indices:
             self._items[index].italic = italic
+        self._mark_dirty()
+        self._refresh()
+        return True
+
+    def apply_underline_to_selected_text(self, underline: bool) -> bool:
+        text_indices = [
+            index
+            for index in self._selected_item_indices
+            if self._is_text_like(self._items[index].kind) or self._is_number_like(self._items[index].kind)
+        ]
+        if not text_indices:
+            return False
+        if all(self._items[index].underline == underline for index in text_indices):
+            return False
+        self._push_undo_state()
+        for index in text_indices:
+            self._items[index].underline = underline
+        self._mark_dirty()
+        self._refresh()
+        return True
+
+    def apply_shadow_to_selected_item(self, shadow: bool) -> bool:
+        if not self.has_selected_item():
+            return False
+        if all(self._items[index].shadow == shadow for index in self._selected_item_indices):
+            return False
+        self._push_undo_state()
+        for index in self._selected_item_indices:
+            self._items[index].shadow = shadow
+        self._mark_dirty()
+        self._refresh()
+        return True
+
+    def apply_scaling_to_selected_item(self, scaling_percent: int) -> bool:
+        item_indices = [
+            index for index in self._selected_item_indices if self._items[index].kind in (Tool.IMAGE, Tool.STICKER)
+        ]
+        if not item_indices:
+            return False
+        scaling = max(0.0, scaling_percent / 100.0)
+        if all(abs(self._items[index].scaling - scaling) < 0.001 for index in item_indices):
+            return False
+        self._push_undo_state()
+        for index in item_indices:
+            item = self._items[index]
+            rect = QRect(item.start, item.end).normalized()
+            center = rect.center()
+            new_width = max(8, round(rect.width() * scaling / max(item.scaling, 0.01)))
+            new_height = max(8, round(rect.height() * scaling / max(item.scaling, 0.01)))
+            item.start = QPoint(center.x() - new_width // 2, center.y() - new_height // 2)
+            item.end = QPoint(item.start.x() + new_width, item.start.y() + new_height)
+            item.scaling = scaling
+        self._mark_dirty()
+        self._refresh()
+        return True
+
+    def apply_number_to_selected_item(self, value: int) -> bool:
+        item = self._primary_selected_item()
+        if item is None or not self._is_number_like(item.kind):
+            return False
+        resolved = max(1, int(value))
+        if item.text == str(resolved):
+            return False
+        self._push_undo_state()
+        item.text = str(resolved)
+        self._mark_dirty()
+        self._refresh()
+        return True
+
+    def apply_sticker_to_selected_item(self, sticker_path: str) -> bool:
+        item = self._primary_selected_item()
+        if item is None or item.kind != Tool.STICKER:
+            return False
+        image = self._load_sticker_image(sticker_path)
+        if image is None or image.isNull() or item.sticker_path == sticker_path:
+            return False
+        self._push_undo_state()
+        item.sticker_path = sticker_path
+        item.image = image
         self._mark_dirty()
         self._refresh()
         return True
@@ -1253,22 +1462,48 @@ class AnnotationCanvas(QLabel):
                 opacity=self._opacity,
                 bold=self._bold,
                 italic=self._italic,
+                underline=self._underline,
+                text_color=QColor(self._text_color),
+                shadow=self._shadow,
             )
         if tool == Tool.NUMBER:
             radius = max(16, self._font_point_size)
+            value = self._next_number_value()
             return OverlayItem(
                 kind=Tool.NUMBER,
                 start=QPoint(point.x() - radius, point.y() - radius),
                 end=QPoint(point.x() + radius, point.y() + radius),
                 color=QColor(self._color),
                 pen_width=self._pen_width,
-                text=str(self._next_number_value()),
+                text=str(value),
                 font_family=self._font_family,
                 font_point_size=self._font_point_size,
                 opacity=self._opacity,
                 bold=True,
                 italic=False,
+                underline=self._underline,
                 fill_color=QColor(self._color),
+                text_color=QColor(self._text_color),
+                shadow=self._shadow,
+            )
+        if tool == Tool.STICKER:
+            image = self._load_sticker_image(self._sticker_path)
+            if image is None or image.isNull():
+                return None
+            width = max(32, round(image.width() * self._scaling))
+            height = max(32, round(image.height() * self._scaling))
+            top_left = QPoint(point.x() - width // 2, point.y() - height // 2)
+            return OverlayItem(
+                kind=Tool.STICKER,
+                start=top_left,
+                end=QPoint(top_left.x() + width, top_left.y() + height),
+                color=QColor(self._color),
+                pen_width=self._pen_width,
+                opacity=self._opacity,
+                shadow=self._shadow,
+                scaling=self._scaling,
+                sticker_path=self._sticker_path,
+                image=image,
             )
         return None
 
@@ -1309,8 +1544,11 @@ class AnnotationCanvas(QLabel):
                 opacity=self._opacity,
                 bold=self._bold,
                 italic=self._italic,
+                underline=self._underline,
                 fill_color=QColor(255, 255, 255, 220),
                 fill_mode=FillMode.STROKE_AND_FILL,
+                text_color=QColor(self._text_color),
+                shadow=self._shadow,
             )
         if tool == Tool.TEXT_ARROW:
             text, accepted = QInputDialog.getText(self, "Insert text", "Text:")
@@ -1328,36 +1566,66 @@ class AnnotationCanvas(QLabel):
                 opacity=self._opacity,
                 bold=self._bold,
                 italic=self._italic,
+                underline=self._underline,
+                text_color=QColor(self._text_color),
+                shadow=self._shadow,
             )
         if tool in (Tool.NUMBER_POINTER, Tool.NUMBER_ARROW):
+            value = self._next_number_value()
             return OverlayItem(
                 kind=tool,
                 start=QPoint(start if tool == Tool.NUMBER_ARROW else rect.topLeft()),
                 end=QPoint(end if tool == Tool.NUMBER_ARROW else rect.bottomRight()),
                 color=QColor(self._color),
                 pen_width=self._pen_width,
-                text=str(self._next_number_value()),
+                text=str(value),
                 font_family=self._font_family,
                 font_point_size=self._font_point_size,
                 opacity=self._opacity,
                 bold=True,
                 italic=False,
+                underline=self._underline,
                 fill_color=QColor(self._color),
                 fill_mode=FillMode.STROKE_AND_FILL,
+                text_color=QColor(self._text_color),
+                shadow=self._shadow,
             )
         return None
 
     def _next_number_value(self) -> int:
-        values: list[int] = []
-        for item in self._items:
-            if self._is_number_like(item.kind) and item.text and item.text.isdigit():
-                values.append(int(item.text))
-        return (max(values) + 1) if values else 1
+        value = self._number_seed
+        self._number_seed += 1
+        return value
 
     def _text_box_size(self, item: OverlayItem) -> tuple[int, int]:
         width = max(96, len(item.text or "") * max(8, (item.font_point_size or self._font_point_size) - 2) + 24)
         height = max(34, (item.font_point_size or self._font_point_size) + 18)
         return width, height
+
+    def _draw_shadow(self, painter: QPainter, item: OverlayItem) -> None:
+        shadow = item.clone()
+        shadow.start += QPoint(4, 4)
+        shadow.end += QPoint(4, 4)
+        shadow.shadow = False
+        shadow.color = QColor(0, 0, 0, 80)
+        shadow.text_color = QColor(0, 0, 0, 120)
+        if shadow.fill_color is not None:
+            shadow.fill_color = QColor(0, 0, 0, 50)
+        painter.save()
+        painter.setOpacity(min(item.opacity, 0.35))
+        self._draw_item(painter, shadow, False, show_handles=False)
+        painter.restore()
+
+    def _load_sticker_image(self, sticker_path: str | None) -> QImage | None:
+        if not sticker_path:
+            return None
+        pixmap = QIcon(sticker_path).pixmap(160, 160)
+        if pixmap.isNull():
+            pixmap = QPixmap(sticker_path)
+        if pixmap.isNull():
+            image = QImage(sticker_path)
+            return image if not image.isNull() else None
+        return pixmap.toImage()
 
     def _text_arrow_label_rect(self, item: OverlayItem) -> QRect:
         width, height = self._text_box_size(item)
@@ -1394,7 +1662,9 @@ class AnnotationCanvas(QLabel):
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
         font.setBold(item.bold)
         font.setItalic(item.italic)
+        font.setUnderline(item.underline)
         painter.setFont(font)
+        painter.setPen(QPen(item.text_color or QColor("#111111")))
         painter.drawText(
             bubble_rect.adjusted(10, 8, -10, -8),
             Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap,
@@ -1410,7 +1680,9 @@ class AnnotationCanvas(QLabel):
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
         font.setBold(item.bold)
         font.setItalic(item.italic)
+        font.setUnderline(item.underline)
         painter.setFont(font)
+        painter.setPen(QPen(item.text_color or QColor("#111111")))
         painter.drawText(label_rect.adjusted(10, 4, -10, -4), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, item.text or "")
 
     def _draw_number_badge(self, painter: QPainter, item: OverlayItem) -> None:
@@ -1418,9 +1690,11 @@ class AnnotationCanvas(QLabel):
         painter.setBrush(item.fill_color or item.color)
         painter.drawEllipse(rect)
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
-        font.setBold(True)
+        font.setBold(item.bold)
+        font.setItalic(item.italic)
+        font.setUnderline(item.underline)
         painter.setFont(font)
-        painter.setPen(QPen(QColor("white"), max(1, item.pen_width // 2)))
+        painter.setPen(QPen(item.text_color or QColor("white"), max(1, item.pen_width // 2)))
         painter.drawText(rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
 
     def _draw_number_pointer(self, painter: QPainter, item: OverlayItem) -> None:
@@ -1437,9 +1711,11 @@ class AnnotationCanvas(QLabel):
         triangle = QPolygon([tail_left, tail_right, tail_tip])
         painter.drawPolygon(triangle)
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
-        font.setBold(True)
+        font.setBold(item.bold)
+        font.setItalic(item.italic)
+        font.setUnderline(item.underline)
         painter.setFont(font)
-        painter.setPen(QPen(QColor("white"), max(1, item.pen_width // 2)))
+        painter.setPen(QPen(item.text_color or QColor("white"), max(1, item.pen_width // 2)))
         painter.drawText(bubble_rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
 
     def _draw_number_arrow(self, painter: QPainter, item: OverlayItem) -> None:
@@ -1451,9 +1727,11 @@ class AnnotationCanvas(QLabel):
         painter.drawEllipse(bubble_rect)
         self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
         font = QFont(item.font_family or self._font_family, max(8, (item.font_point_size or self._font_point_size) - 1))
-        font.setBold(True)
+        font.setBold(item.bold)
+        font.setItalic(item.italic)
+        font.setUnderline(item.underline)
         painter.setFont(font)
-        painter.setPen(QPen(QColor("white"), max(1, item.pen_width // 2)))
+        painter.setPen(QPen(item.text_color or QColor("white"), max(1, item.pen_width // 2)))
         painter.drawText(bubble_rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
 
     def _apply_region_effect(self, rect: QRect, tool: Tool) -> None:

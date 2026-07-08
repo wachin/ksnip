@@ -120,6 +120,7 @@ class SettingsDialog(QDialog):
         self.tool_combo.addItem("Number Arrow", Tool.NUMBER_ARROW)
         self.tool_combo.addItem("Blur", Tool.BLUR)
         self.tool_combo.addItem("Pixelate", Tool.PIXELATE)
+        self.tool_combo.addItem("Sticker", Tool.STICKER)
         self.tool_combo.addItem("Crop", Tool.CROP)
         editor_layout.addRow("Default Tool", self.tool_combo)
 
