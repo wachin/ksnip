@@ -270,7 +270,7 @@ class MainWindow(QMainWindow):
             return
         canvas = self.current_canvas()
         stroke = QColor("#df5a17")
-        fill = QColor("#f6bd60")
+        secondary = QColor("#f6bd60")
         if canvas is not None:
             if canvas.tool() == Tool.SELECT:
                 selected_color = canvas.selected_item_color()
@@ -278,13 +278,14 @@ class MainWindow(QMainWindow):
                     stroke = QColor(selected_color)
                 selected_fill = canvas.selected_item_fill_color()
                 if selected_fill is not None:
-                    fill = QColor(selected_fill)
+                    secondary = QColor(selected_fill)
             self.property_color_button.setStyleSheet(
                 f"QToolButton {{ background: {stroke.name()}; border: 1px solid #666; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; }}"
             )
-            self.property_fill_button.setStyleSheet(
-                f"QToolButton {{ background: {fill.name()}; border: 1px solid #666; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; }}"
-            )
+            if hasattr(self, "property_text_color_button"):
+                self.property_text_color_button.setStyleSheet(
+                    f"QToolButton {{ background: {secondary.name()}; border: 1px solid #666; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; }}"
+                )
 
     def _fill_mode_icon_name(self, fill_mode: FillMode | None) -> str:
         if fill_mode == FillMode.STROKE_ONLY:
@@ -308,10 +309,16 @@ class MainWindow(QMainWindow):
             self.blur_strength.blockSignals(True)
             self.blur_strength.setValue(self.stroke_width.value())
             self.blur_strength.blockSignals(False)
+        if hasattr(self, "shadow_state_button"):
+            self.shadow_state_button.setIcon(self._load_icon("check" if self.shadow_state_button.isChecked() else "disabled"))
 
     def _cycle_fill_mode(self) -> None:
         next_index = (self.fill_mode.currentIndex() + 1) % self.fill_mode.count()
         self.fill_mode.setCurrentIndex(next_index)
+
+    def _toggle_shadow_enabled(self) -> None:
+        self.shadow_state_button.setChecked(not self.shadow_state_button.isChecked())
+        self._apply_shadow_enabled(self.shadow_state_button.isChecked())
 
     def _effective_property_tool(self) -> Tool | None:
         canvas = self.current_canvas()
@@ -328,6 +335,8 @@ class MainWindow(QMainWindow):
         if not hasattr(self, "_property_groups"):
             return
         tool = self._effective_property_tool()
+        if tool is None:
+            tool = Tool.SELECT
         show_stroke = tool in {
             Tool.ARROW,
             Tool.DOUBLE_ARROW,
@@ -352,40 +361,29 @@ class MainWindow(QMainWindow):
             Tool.PEN,
             Tool.MARKER_PEN,
             Tool.TEXT,
-            Tool.TEXT_POINTER,
             Tool.TEXT_ARROW,
             Tool.NUMBER,
-            Tool.NUMBER_POINTER,
             Tool.NUMBER_ARROW,
             Tool.RECT,
             Tool.ELLIPSE,
-            Tool.MARKER_RECT,
-            Tool.MARKER_ELLIPSE,
         }
-        show_fill_color = tool in {
+        show_text_color = tool in {
             Tool.TEXT,
             Tool.TEXT_POINTER,
             Tool.TEXT_ARROW,
             Tool.NUMBER,
             Tool.NUMBER_POINTER,
             Tool.NUMBER_ARROW,
-            Tool.RECT,
-            Tool.ELLIPSE,
-            Tool.MARKER_RECT,
-            Tool.MARKER_ELLIPSE,
         }
         show_fill_mode = tool in {
             Tool.TEXT,
-            Tool.TEXT_POINTER,
             Tool.TEXT_ARROW,
             Tool.NUMBER,
-            Tool.NUMBER_POINTER,
             Tool.NUMBER_ARROW,
             Tool.RECT,
             Tool.ELLIPSE,
         }
         show_opacity = tool in {
-            Tool.SELECT,
             Tool.ARROW,
             Tool.DOUBLE_ARROW,
             Tool.LINE,
@@ -411,7 +409,7 @@ class MainWindow(QMainWindow):
         show_style = show_font
         show_number = tool in {Tool.NUMBER, Tool.NUMBER_POINTER, Tool.NUMBER_ARROW}
         show_blur = tool in {Tool.BLUR, Tool.PIXELATE}
-        show_options = tool in {
+        show_shadow = tool in {
             Tool.ARROW,
             Tool.DOUBLE_ARROW,
             Tool.LINE,
@@ -426,20 +424,29 @@ class MainWindow(QMainWindow):
             Tool.ELLIPSE,
             Tool.IMAGE,
         }
+        show_scaling = False
+        show_sticker = False
         visibility = {
             "handle": True,
             "stroke": show_stroke,
             "width": show_width,
-            "fill_color": show_fill_color,
+            "text_color": show_text_color,
             "fill_mode": show_fill_mode,
-            "opacity": show_opacity,
             "font": show_font,
             "style": show_style,
             "number": show_number,
             "blur": show_blur,
-            "options": show_options,
-            "sticker": False,
+            "sticker": show_sticker,
+            "shadow": show_shadow,
+            "scaling": show_scaling,
+            "opacity": show_opacity,
         }
+
+        if tool == Tool.MARKER_PEN:
+            self.stroke_width.setMaximum(100)
+        else:
+            self.stroke_width.setMaximum(20 if tool not in {Tool.BLUR, Tool.PIXELATE} else 60)
+
         for name, widget in self._property_groups.items():
             widget.setVisible(visibility.get(name, False))
 
@@ -695,16 +702,6 @@ class MainWindow(QMainWindow):
         self.property_width_group = self._make_property_group(self._make_icon_label("width", "Stroke width"), self.stroke_width)
         properties_toolbar.addWidget(self.property_width_group)
 
-        self.property_fill_button = QToolButton(self)
-        self.property_fill_button.setToolTip("Fill color")
-        self.property_fill_button.setFixedSize(22, 22)
-        self.property_fill_button.clicked.connect(self.select_fill_color)
-        self.property_fill_color_group = self._make_property_group(
-            self._make_icon_label("fillType", "Fill color"),
-            self.property_fill_button,
-        )
-        properties_toolbar.addWidget(self.property_fill_color_group)
-
         self.fill_mode = QComboBox()
         self.fill_mode.addItem("Border", FillMode.STROKE_ONLY)
         self.fill_mode.addItem("Fill", FillMode.FILL_ONLY)
@@ -718,15 +715,15 @@ class MainWindow(QMainWindow):
         self.property_fill_mode_group = self._make_property_group(self.fill_mode_button)
         properties_toolbar.addWidget(self.property_fill_mode_group)
 
-        self.opacity = QSpinBox()
-        self.opacity.setRange(0, 100)
-        self.opacity.setValue(100)
-        self.opacity.setSuffix("%")
-        self.opacity.setFixedWidth(68)
-        self.opacity.setFixedHeight(22)
-        self.opacity.valueChanged.connect(self._apply_opacity)
-        self.property_opacity_group = self._make_property_group(self._make_icon_label("opacity", "Opacity"), self.opacity)
-        properties_toolbar.addWidget(self.property_opacity_group)
+        self.property_text_color_button = QToolButton(self)
+        self.property_text_color_button.setToolTip("Text color")
+        self.property_text_color_button.setFixedSize(22, 22)
+        self.property_text_color_button.clicked.connect(self.select_fill_color)
+        self.property_text_color_group = self._make_property_group(
+            self._make_icon_label("textColor", "Text color"),
+            self.property_text_color_button,
+        )
+        properties_toolbar.addWidget(self.property_text_color_group)
 
         self.font_family = QFontComboBox()
         self.font_family.setMaximumWidth(140)
@@ -759,13 +756,6 @@ class MainWindow(QMainWindow):
         self.property_number_group = self._make_property_group(self._make_icon_label("number", "Number"), self.number_value)
         properties_toolbar.addWidget(self.property_number_group)
 
-        self.border_button = self._make_tool_toggle("border", "Border", True, self._apply_border_option)
-        self.check_button = self._make_tool_toggle("check", "Option", True, self._apply_check_option)
-        self.border_button.setFixedSize(22, 22)
-        self.check_button.setFixedSize(22, 22)
-        self.property_options_group = self._make_property_group(self.border_button, self.check_button)
-        properties_toolbar.addWidget(self.property_options_group)
-
         self.blur_strength = QSpinBox()
         self.blur_strength.setRange(1, 60)
         self.blur_strength.setValue(10)
@@ -781,19 +771,50 @@ class MainWindow(QMainWindow):
         self.sticker_picker_button.setFixedSize(22, 22)
         self.property_sticker_group = self._make_property_group(self._make_icon_label("sticker", "Sticker"), self.sticker_picker_button)
         properties_toolbar.addWidget(self.property_sticker_group)
+
+        self.shadow_state_button = QToolButton(self)
+        self.shadow_state_button.setCheckable(True)
+        self.shadow_state_button.setChecked(self._setting_bool("editor/shadow_enabled", True))
+        self.shadow_state_button.setFixedSize(22, 22)
+        self.shadow_state_button.setToolTip("Item shadow")
+        self.shadow_state_button.toggled.connect(self._apply_shadow_enabled)
+        self.property_shadow_group = self._make_property_group(self._make_icon_label("dropShadow", "Item shadow"), self.shadow_state_button)
+        properties_toolbar.addWidget(self.property_shadow_group)
+
+        self.scaling = QSpinBox()
+        self.scaling.setRange(0, 500)
+        self.scaling.setValue(self._setting_int("editor/scaling_percent", 100))
+        self.scaling.setSuffix("%")
+        self.scaling.setSingleStep(10)
+        self.scaling.setFixedWidth(68)
+        self.scaling.setFixedHeight(22)
+        self.scaling.valueChanged.connect(self._apply_scaling)
+        self.property_scaling_group = self._make_property_group(self._make_icon_label("scale", "Scale"), self.scaling)
+        properties_toolbar.addWidget(self.property_scaling_group)
+
+        self.opacity = QSpinBox()
+        self.opacity.setRange(0, 100)
+        self.opacity.setValue(100)
+        self.opacity.setSuffix("%")
+        self.opacity.setFixedWidth(68)
+        self.opacity.setFixedHeight(22)
+        self.opacity.valueChanged.connect(self._apply_opacity)
+        self.property_opacity_group = self._make_property_group(self._make_icon_label("opacity", "Opacity"), self.opacity)
+        properties_toolbar.addWidget(self.property_opacity_group)
         self._property_groups = {
             "handle": self.property_handle_group,
             "stroke": self.property_stroke_group,
             "width": self.property_width_group,
-            "fill_color": self.property_fill_color_group,
             "fill_mode": self.property_fill_mode_group,
-            "opacity": self.property_opacity_group,
+            "text_color": self.property_text_color_group,
             "font": self.property_font_group,
             "style": self.property_style_group,
             "number": self.property_number_group,
             "blur": self.property_blur_group,
-            "options": self.property_options_group,
             "sticker": self.property_sticker_group,
+            "shadow": self.property_shadow_group,
+            "scaling": self.property_scaling_group,
+            "opacity": self.property_opacity_group,
         }
         self._sync_property_color_buttons()
         self._sync_fill_mode_button()
@@ -1277,11 +1298,13 @@ class MainWindow(QMainWindow):
     def _apply_underline(self, checked: bool) -> None:
         self._settings.setValue("editor/underline", checked)
 
-    def _apply_border_option(self, checked: bool) -> None:
-        self._settings.setValue("editor/show_border", checked)
+    def _apply_shadow_enabled(self, checked: bool) -> None:
+        self.shadow_state_button.setChecked(checked)
+        self._sync_auxiliary_property_controls()
+        self._settings.setValue("editor/shadow_enabled", checked)
 
-    def _apply_check_option(self, checked: bool) -> None:
-        self._settings.setValue("editor/check_option", checked)
+    def _apply_scaling(self, value: int) -> None:
+        self._settings.setValue("editor/scaling_percent", value)
 
     def _apply_blur_strength(self, value: int) -> None:
         if self.stroke_width.value() != value:
@@ -2106,8 +2129,8 @@ class MainWindow(QMainWindow):
         self.italic.setChecked(data.italic)
         self.italic.blockSignals(False)
         self.underline_button.setChecked(self._setting_bool("editor/underline", False))
-        self.border_button.setChecked(self._setting_bool("editor/show_border", True))
-        self.check_button.setChecked(self._setting_bool("editor/check_option", True))
+        self.shadow_state_button.setChecked(self._setting_bool("editor/shadow_enabled", True))
+        self.scaling.setValue(self._setting_int("editor/scaling_percent", 100))
 
         self.rotate_watermark_action.blockSignals(True)
         self.rotate_watermark_action.setChecked(data.rotate_watermark)
@@ -2142,8 +2165,8 @@ class MainWindow(QMainWindow):
         self.bold.setChecked(self._setting_bool("editor/bold", False))
         self.italic.setChecked(self._setting_bool("editor/italic", False))
         self.underline_button.setChecked(self._setting_bool("editor/underline", False))
-        self.border_button.setChecked(self._setting_bool("editor/show_border", True))
-        self.check_button.setChecked(self._setting_bool("editor/check_option", True))
+        self.shadow_state_button.setChecked(self._setting_bool("editor/shadow_enabled", True))
+        self.scaling.setValue(self._setting_int("editor/scaling_percent", 100))
 
         stored_font_family = self._settings.value("editor/font_family", "")
         if isinstance(stored_font_family, str) and stored_font_family:
