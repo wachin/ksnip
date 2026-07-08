@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from PyQt6.QtCore import QEvent, QEventLoop, QPoint, QSettings, QSize, QThread, QTimer, Qt
-from PyQt6.QtGui import QAction, QColor, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPixmap
+from PyQt6.QtGui import QAction, QActionGroup, QColor, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPixmap
 from PyQt6.QtWidgets import (
     QComboBox,
     QColorDialog,
@@ -133,6 +133,9 @@ class MainWindow(QMainWindow):
         return button
 
     def _build_actions(self) -> None:
+        self.tool_action_group = QActionGroup(self)
+        self.tool_action_group.setExclusive(True)
+
         self.new_capture_rect_action = QAction(self._load_icon("drawRect"), "Rect Area", self)
         self.new_capture_rect_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_rect_action.triggered.connect(self.capture_rect_area)
@@ -178,42 +181,52 @@ class MainWindow(QMainWindow):
         self.pen_action = QAction(self._load_first_icon("pen", "markerPen"), "Pen", self)
         self.pen_action.setCheckable(True)
         self.pen_action.triggered.connect(lambda: self.set_tool(Tool.PEN))
+        self.tool_action_group.addAction(self.pen_action)
 
         self.line_action = QAction(self._load_icon("line"), "Line", self)
         self.line_action.setCheckable(True)
         self.line_action.triggered.connect(lambda: self.set_tool(Tool.LINE))
+        self.tool_action_group.addAction(self.line_action)
 
         self.arrow_action = QAction(self._load_icon("arrow"), "Arrow", self)
         self.arrow_action.setCheckable(True)
         self.arrow_action.triggered.connect(lambda: self.set_tool(Tool.ARROW))
+        self.tool_action_group.addAction(self.arrow_action)
 
         self.rect_action = QAction(self._load_icon("rect"), "Rectangle", self)
         self.rect_action.setCheckable(True)
         self.rect_action.triggered.connect(lambda: self.set_tool(Tool.RECT))
+        self.tool_action_group.addAction(self.rect_action)
 
         self.ellipse_action = QAction(self._load_icon("ellipse"), "Ellipse", self)
         self.ellipse_action.setCheckable(True)
         self.ellipse_action.triggered.connect(lambda: self.set_tool(Tool.ELLIPSE))
+        self.tool_action_group.addAction(self.ellipse_action)
 
         self.text_action = QAction(self._load_icon("text"), "Text", self)
         self.text_action.setCheckable(True)
         self.text_action.triggered.connect(lambda: self.set_tool(Tool.TEXT))
+        self.tool_action_group.addAction(self.text_action)
 
         self.blur_action = QAction(self._load_icon("blur"), "Blur", self)
         self.blur_action.setCheckable(True)
         self.blur_action.triggered.connect(lambda: self.set_tool(Tool.BLUR))
+        self.tool_action_group.addAction(self.blur_action)
 
         self.pixelate_action = QAction(self._load_icon("pixelate"), "Pixelate", self)
         self.pixelate_action.setCheckable(True)
         self.pixelate_action.triggered.connect(lambda: self.set_tool(Tool.PIXELATE))
+        self.tool_action_group.addAction(self.pixelate_action)
 
         self.crop_action = QAction(self._load_icon("crop"), "Crop", self)
         self.crop_action.setCheckable(True)
         self.crop_action.triggered.connect(lambda: self.set_tool(Tool.CROP))
+        self.tool_action_group.addAction(self.crop_action)
 
         self.select_action = QAction(self._load_icon("select"), "Select", self)
         self.select_action.setCheckable(True)
         self.select_action.triggered.connect(lambda: self.set_tool(Tool.SELECT))
+        self.tool_action_group.addAction(self.select_action)
 
         self.color_action = QAction(self._load_icon("color"), "Color", self)
         self.color_action.triggered.connect(self.select_color)
@@ -326,6 +339,15 @@ class MainWindow(QMainWindow):
         toolbar.addAction(self.crop_action)
         toolbar.addAction(self.rotate_action)
         toolbar.addAction(self.scale_action)
+        toolbar.addSeparator()
+        toolbar.addWidget(self._make_icon_label("clock", "Capture delay"))
+
+        self.capture_delay_toolbar = QSpinBox(self)
+        self.capture_delay_toolbar.setRange(0, 60)
+        self.capture_delay_toolbar.setSuffix("s")
+        self.capture_delay_toolbar.setValue(self._setting_int("capture/delay_seconds", 0))
+        self.capture_delay_toolbar.valueChanged.connect(self._apply_capture_delay)
+        toolbar.addWidget(self.capture_delay_toolbar)
         toolbar.addSeparator()
         toolbar.addAction(self.pin_action)
         toolbar.addAction(self.add_watermark_action)
@@ -668,6 +690,9 @@ class MainWindow(QMainWindow):
             return
         canvas.set_opacity(opacity / 100.0)
         self._settings.setValue("editor/opacity_percent", opacity)
+
+    def _apply_capture_delay(self, seconds: int) -> None:
+        self._settings.setValue("capture/delay_seconds", max(0, int(seconds)))
 
     def _apply_fill_mode(self, index: int) -> None:
         canvas = self.current_canvas()
@@ -1422,6 +1447,10 @@ class MainWindow(QMainWindow):
         self._settings.setValue("ocr/language", data.ocr_language)
         self._settings.setValue("ocr/copy_to_clipboard", data.ocr_copy_to_clipboard)
         self._settings.setValue("ocr/script_path", data.ocr_script_path)
+
+        self.capture_delay_toolbar.blockSignals(True)
+        self.capture_delay_toolbar.setValue(data.capture_delay_seconds)
+        self.capture_delay_toolbar.blockSignals(False)
 
         self.stroke_width.blockSignals(True)
         self.stroke_width.setValue(data.pen_width)

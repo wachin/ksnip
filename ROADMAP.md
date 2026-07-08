@@ -31,6 +31,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Captura de ventana activa
 - [x] Captura de ventana bajo el cursor
 - [x] Preferencias de captura para delay
+- [x] Control visible de delay de captura en la barra principal
 - [x] Ocultar ventana principal durante la captura
 - [x] Restaurar/mostrar ventana principal después de la captura
 - [x] Copia automática al portapapeles para nuevas capturas
