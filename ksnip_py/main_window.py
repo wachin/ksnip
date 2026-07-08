@@ -147,6 +147,25 @@ class MainWindow(QMainWindow):
         button.toggled.connect(slot)
         return button
 
+    def _make_capture_menu_button(self) -> QToolButton:
+        button = QToolButton(self)
+        button.setText("New")
+        button.setToolTip("New Screenshot")
+        button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        icon = self._load_icon("drawRect")
+        if not icon.isNull():
+            button.setIcon(icon)
+
+        menu = QMenu(button)
+        menu.addAction(self.new_capture_rect_action)
+        menu.addAction(self.new_capture_last_rect_action)
+        menu.addAction(self.new_capture_full_action)
+        menu.addAction(self.new_capture_current_action)
+        menu.addAction(self.new_capture_active_action)
+        menu.addAction(self.new_capture_under_cursor_action)
+        button.setMenu(menu)
+        return button
+
     def _build_actions(self) -> None:
         self.tool_action_group = QActionGroup(self)
         self.tool_action_group.setExclusive(True)
@@ -341,12 +360,8 @@ class MainWindow(QMainWindow):
         self._configure_toolbar(toolbar, icon_size=22, style=Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, toolbar)
 
-        toolbar.addAction(self.new_capture_rect_action)
-        toolbar.addAction(self.new_capture_last_rect_action)
-        toolbar.addAction(self.new_capture_full_action)
-        toolbar.addAction(self.new_capture_current_action)
-        toolbar.addAction(self.new_capture_active_action)
-        toolbar.addAction(self.new_capture_under_cursor_action)
+        self.capture_menu_button = self._make_capture_menu_button()
+        toolbar.addWidget(self.capture_menu_button)
         toolbar.addSeparator()
         toolbar.addAction(self.open_action)
         toolbar.addAction(self.paste_action)
