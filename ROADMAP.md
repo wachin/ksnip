@@ -158,6 +158,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Diálogo de settings en PyQt6
 - [x] Referencias visuales de `Settings` añadidas al roadmap
 - [x] Navegación lateral base para `Settings`
+- [x] Página `Application` reestructurada con layout más cercano a la referencia
+- [x] Página `Tray Icon` reestructurada con layout más cercano a la referencia
 - [x] Persistencia de valores por defecto del editor
 - [x] Persistencia de hotkeys de aplicación
 - [x] Ajustes de tray

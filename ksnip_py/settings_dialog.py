@@ -152,6 +152,72 @@ class SettingsDialog(QDialog):
         image_host.setLayout(image_row)
         watermark_layout.addRow("Stored Image", image_host)
 
+        application_group = QGroupBox("Application", self)
+        application_layout = QVBoxLayout(application_group)
+
+        self.auto_copy_new_captures = QCheckBox("Automatically copy new captures to clipboard", application_group)
+        application_layout.addWidget(self.auto_copy_new_captures)
+
+        self.remember_window_position = QCheckBox("Remember Main Window position on move and load on startup", application_group)
+        self.remember_window_position.setChecked(True)
+        self.remember_window_position.setEnabled(False)
+        application_layout.addWidget(self.remember_window_position)
+
+        self.capture_on_startup = QCheckBox("Capture screenshot at startup with default mode", application_group)
+        self.capture_on_startup.setEnabled(False)
+        application_layout.addWidget(self.capture_on_startup)
+
+        self.use_tabs = QCheckBox("Use Tabs", application_group)
+        self.use_tabs.setChecked(True)
+        self.use_tabs.setEnabled(False)
+        application_layout.addWidget(self.use_tabs)
+
+        self.auto_hide_tabs = QCheckBox("Auto hide Tabs", application_group)
+        self.auto_hide_tabs.setEnabled(False)
+        application_layout.addWidget(self.auto_hide_tabs)
+
+        self.run_single_instance = QCheckBox("Run ksnip as single instance", application_group)
+        self.run_single_instance.setEnabled(False)
+        application_layout.addWidget(self.run_single_instance)
+
+        self.auto_hide_docks = QCheckBox("Auto hide Docks", application_group)
+        self.auto_hide_docks.setEnabled(False)
+        application_layout.addWidget(self.auto_hide_docks)
+
+        self.auto_resize_to_content = QCheckBox("Auto resize to content", application_group)
+        self.auto_resize_to_content.setEnabled(False)
+        application_layout.addWidget(self.auto_resize_to_content)
+
+        self.enable_debugging = QCheckBox("Enable Debugging", application_group)
+        self.enable_debugging.setEnabled(False)
+        application_layout.addWidget(self.enable_debugging)
+
+        application_details_group = QGroupBox("Appearance and Paths", self)
+        application_details_layout = QFormLayout(application_details_group)
+
+        self.resize_delay = QSpinBox(application_details_group)
+        self.resize_delay.setRange(0, 1000)
+        self.resize_delay.setSuffix(" ms")
+        self.resize_delay.setValue(10)
+        self.resize_delay.setEnabled(False)
+        application_details_layout.addRow("Resize delay", self.resize_delay)
+
+        self.application_style = QComboBox(application_details_group)
+        self.application_style.addItems(["Fusion", "Windows"])
+        self.application_style.setEnabled(False)
+        application_details_layout.addRow("Application Style", self.application_style)
+
+        temp_directory_row = QHBoxLayout()
+        self.temp_directory = QLineEdit("/tmp", application_details_group)
+        self.temp_directory.setEnabled(False)
+        self.temp_directory_browse = QPushButton("Browse", application_details_group)
+        self.temp_directory_browse.setEnabled(False)
+        temp_directory_row.addWidget(self.temp_directory, 1)
+        temp_directory_row.addWidget(self.temp_directory_browse)
+        temp_directory_host = QWidget(application_details_group)
+        temp_directory_host.setLayout(temp_directory_row)
+        application_details_layout.addRow("Temp Directory", temp_directory_host)
+
         capture_group = QGroupBox("Capture", self)
         capture_layout = QFormLayout(capture_group)
 
@@ -162,10 +228,8 @@ class SettingsDialog(QDialog):
 
         self.hide_main_window_during_capture = QCheckBox("Hide Main Window During Capture", capture_group)
         self.show_main_window_after_capture = QCheckBox("Show Main Window After Capture", capture_group)
-        self.auto_copy_new_captures = QCheckBox("Automatically Copy New Captures To Clipboard", capture_group)
         capture_layout.addRow(self.hide_main_window_during_capture)
         capture_layout.addRow(self.show_main_window_after_capture)
-        capture_layout.addRow(self.auto_copy_new_captures)
         tray_group = QGroupBox("Tray Icon", self)
         tray_layout = QFormLayout(tray_group)
 
@@ -180,6 +244,18 @@ class SettingsDialog(QDialog):
         tray_layout.addRow(self.start_minimized_to_tray)
         tray_layout.addRow(self.tray_notifications)
         self.use_tray_icon.toggled.connect(self._sync_tray_controls)
+
+        tray_defaults_group = QGroupBox("Default Action", self)
+        tray_defaults_layout = QFormLayout(tray_defaults_group)
+        self.tray_default_action = QComboBox(tray_defaults_group)
+        self.tray_default_action.addItems(["Show Editor", "Capture"])
+        self.tray_default_action.setEnabled(False)
+        tray_defaults_layout.addRow("Action", self.tray_default_action)
+
+        self.tray_default_capture_mode = QComboBox(tray_defaults_group)
+        self.tray_default_capture_mode.addItems(["Rect Area", "Last Rect Area", "Full Screen", "Current Screen", "Active Window", "Window Under Cursor"])
+        self.tray_default_capture_mode.setEnabled(False)
+        tray_defaults_layout.addRow("Capture Mode", self.tray_default_capture_mode)
         shortcuts_group = QGroupBox("Hotkeys", self)
         shortcuts_layout = QFormLayout(shortcuts_group)
         self.shortcut_edits: dict[str, QKeySequenceEdit] = {}
@@ -251,13 +327,8 @@ class SettingsDialog(QDialog):
             "Application",
             "Application Settings",
             [
-                self._create_placeholder_group(
-                    "Application",
-                    [
-                        "This page is being ported toward the original Application settings layout.",
-                        "Current PyQt6 coverage includes capture workflow defaults and general persisted behavior.",
-                    ],
-                ),
+                application_group,
+                application_details_group,
                 capture_group,
             ],
         )
@@ -273,7 +344,7 @@ class SettingsDialog(QDialog):
                 ),
             ],
         )
-        self._add_settings_page("Tray Icon", "Tray Icon Settings", [tray_group])
+        self._add_settings_page("Tray Icon", "Tray Icon Settings", [tray_group, tray_defaults_group])
         self._add_settings_page(
             "Image Grabber",
             "Image Grabber Settings",
