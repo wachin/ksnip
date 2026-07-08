@@ -617,6 +617,7 @@ class MainWindow(QMainWindow):
         self.zoom_out_button = QToolButton(self)
         self.zoom_out_button.setText("-")
         self.zoom_out_button.setToolTip("Zoom out")
+        self.zoom_out_button.setFixedSize(22, 22)
         self.zoom_out_button.clicked.connect(self.zoom_out_current_canvas)
         self.statusBar().addPermanentWidget(self.zoom_out_button)
 
@@ -624,16 +625,19 @@ class MainWindow(QMainWindow):
         self.zoom_reset_button.setDefaultAction(self.zoom_reset_action)
         self.zoom_reset_button.setText("100%")
         self.zoom_reset_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextOnly)
+        self.zoom_reset_button.setFixedHeight(22)
         self.statusBar().addPermanentWidget(self.zoom_reset_button)
 
         self.zoom_fit_button = QToolButton(self)
         self.zoom_fit_button.setDefaultAction(self.zoom_fit_action)
         self.zoom_fit_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.zoom_fit_button.setFixedSize(22, 22)
         self.statusBar().addPermanentWidget(self.zoom_fit_button)
 
         self.zoom_in_button = QToolButton(self)
         self.zoom_in_button.setText("+")
         self.zoom_in_button.setToolTip("Zoom in")
+        self.zoom_in_button.setFixedSize(22, 22)
         self.zoom_in_button.clicked.connect(self.zoom_in_current_canvas)
         self.statusBar().addPermanentWidget(self.zoom_in_button)
 
@@ -641,8 +645,11 @@ class MainWindow(QMainWindow):
         self.zoom_spinbox.setRange(10, 800)
         self.zoom_spinbox.setSuffix("%")
         self.zoom_spinbox.setValue(100)
+        self.zoom_spinbox.setButtonSymbols(QSpinBox.ButtonSymbols.UpDownArrows)
+        self.zoom_spinbox.setFixedWidth(72)
+        self.zoom_spinbox.setFixedHeight(22)
         self.zoom_spinbox.valueChanged.connect(self.set_current_canvas_zoom)
-        self.statusBar().addPermanentWidget(QLabel("Zoom", self))
+        self.statusBar().addPermanentWidget(self._make_icon_label("zoom", "Zoom"))
         self.statusBar().addPermanentWidget(self.zoom_spinbox)
 
         self.bold = self.bold_button
