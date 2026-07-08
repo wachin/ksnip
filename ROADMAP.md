@@ -157,6 +157,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 
 - [x] Diálogo de settings en PyQt6
 - [x] Referencias visuales de `Settings` añadidas al roadmap
+- [x] Navegación lateral base para `Settings`
 - [x] Persistencia de valores por defecto del editor
 - [x] Persistencia de hotkeys de aplicación
 - [x] Ajustes de tray
@@ -165,6 +166,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Ajustes de watermark
 - [x] Ajustes de captura básicos
 - [ ] Paridad completa con todas las pestañas/categorías del `SettingsDialog.cpp`
+- [ ] Estructura jerárquica de `Settings` igual a la del original
 - [ ] Ajustes de aplicación avanzados
 - [ ] Ajustes completos de image grabber
 - [ ] Ajustes completos de annotation

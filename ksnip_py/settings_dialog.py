@@ -15,8 +15,12 @@ from PyQt6.QtWidgets import (
     QKeySequenceEdit,
     QLabel,
     QLineEdit,
+    QListWidget,
+    QListWidgetItem,
     QPushButton,
+    QScrollArea,
     QSpinBox,
+    QStackedWidget,
     QVBoxLayout,
     QWidget,
 )
@@ -62,9 +66,29 @@ class SettingsDialog(QDialog):
         super().__init__(parent)
         self._watermark_store = watermark_store
         self.setWindowTitle("Settings")
-        self.resize(720, 780)
+        self.resize(900, 700)
 
         layout = QVBoxLayout(self)
+        content_layout = QHBoxLayout()
+        layout.addLayout(content_layout, 1)
+
+        self.search_line_edit = QLineEdit(self)
+        self.search_line_edit.setPlaceholderText("Search Settings...")
+        self.navigation_list = QListWidget(self)
+        self.navigation_list.setMaximumWidth(220)
+        self.navigation_list.currentRowChanged.connect(self._show_settings_page)
+        self.search_line_edit.textChanged.connect(self._filter_navigation_items)
+
+        left_layout = QVBoxLayout()
+        left_layout.addWidget(self.search_line_edit)
+        left_layout.addWidget(self.navigation_list, 1)
+
+        left_host = QWidget(self)
+        left_host.setLayout(left_layout)
+        content_layout.addWidget(left_host)
+
+        self.page_stack = QStackedWidget(self)
+        content_layout.addWidget(self.page_stack, 1)
 
         editor_group = QGroupBox("Editor Defaults", self)
         editor_layout = QFormLayout(editor_group)
@@ -112,8 +136,6 @@ class SettingsDialog(QDialog):
         style_host.setLayout(style_row)
         editor_layout.addRow("Text Style", style_host)
 
-        layout.addWidget(editor_group)
-
         watermark_group = QGroupBox("Watermark", self)
         watermark_layout = QFormLayout(watermark_group)
 
@@ -130,8 +152,6 @@ class SettingsDialog(QDialog):
         image_host.setLayout(image_row)
         watermark_layout.addRow("Stored Image", image_host)
 
-        layout.addWidget(watermark_group)
-
         capture_group = QGroupBox("Capture", self)
         capture_layout = QFormLayout(capture_group)
 
@@ -146,8 +166,6 @@ class SettingsDialog(QDialog):
         capture_layout.addRow(self.hide_main_window_during_capture)
         capture_layout.addRow(self.show_main_window_after_capture)
         capture_layout.addRow(self.auto_copy_new_captures)
-        layout.addWidget(capture_group)
-
         tray_group = QGroupBox("Tray Icon", self)
         tray_layout = QFormLayout(tray_group)
 
@@ -162,8 +180,6 @@ class SettingsDialog(QDialog):
         tray_layout.addRow(self.start_minimized_to_tray)
         tray_layout.addRow(self.tray_notifications)
         self.use_tray_icon.toggled.connect(self._sync_tray_controls)
-        layout.addWidget(tray_group)
-
         shortcuts_group = QGroupBox("Hotkeys", self)
         shortcuts_layout = QFormLayout(shortcuts_group)
         self.shortcut_edits: dict[str, QKeySequenceEdit] = {}
@@ -185,8 +201,6 @@ class SettingsDialog(QDialog):
             editor = QKeySequenceEdit(shortcuts_group)
             self.shortcut_edits[key] = editor
             shortcuts_layout.addRow(label, editor)
-        layout.addWidget(shortcuts_group)
-
         upload_group = QGroupBox("Uploader", self)
         upload_layout = QFormLayout(upload_group)
         script_row = QHBoxLayout()
@@ -207,8 +221,6 @@ class SettingsDialog(QDialog):
 
         self.upload_stop_on_stderr = QCheckBox("Treat stderr as failure", upload_group)
         upload_layout.addRow(self.upload_stop_on_stderr)
-        layout.addWidget(upload_group)
-
         ocr_group = QGroupBox("OCR", self)
         ocr_layout = QFormLayout(ocr_group)
         self.ocr_enabled = QCheckBox("Enable OCR actions", ocr_group)
@@ -235,7 +247,134 @@ class SettingsDialog(QDialog):
         ocr_layout.addRow("Script Path", ocr_script_host)
         self.ocr_enabled.toggled.connect(self._sync_ocr_controls)
         self.ocr_backend.currentIndexChanged.connect(self._sync_ocr_controls)
-        layout.addWidget(ocr_group)
+        self._add_settings_page(
+            "Application",
+            "Application Settings",
+            [
+                self._create_placeholder_group(
+                    "Application",
+                    [
+                        "This page is being ported toward the original Application settings layout.",
+                        "Current PyQt6 coverage includes capture workflow defaults and general persisted behavior.",
+                    ],
+                ),
+                capture_group,
+            ],
+        )
+        self._add_settings_page(
+            "Saver",
+            "Saver Settings",
+            [
+                self._create_placeholder_group(
+                    "Saver",
+                    [
+                        "Save path templates, quality controls, and advanced saver options are still pending parity.",
+                    ],
+                ),
+            ],
+        )
+        self._add_settings_page("Tray Icon", "Tray Icon Settings", [tray_group])
+        self._add_settings_page(
+            "Image Grabber",
+            "Image Grabber Settings",
+            [
+                self._create_placeholder_group(
+                    "Image Grabber",
+                    [
+                        "Portal, cursor, Wayland/X11 options, and implicit capture delay are not yet fully ported.",
+                    ],
+                ),
+            ],
+        )
+        self._add_settings_page(
+            "Snipping Area",
+            "Snipping Area Settings",
+            [
+                self._create_placeholder_group(
+                    "Snipping Area",
+                    [
+                        "Fine-grained snipping overlay settings are still pending parity with the C++ dialog.",
+                    ],
+                ),
+            ],
+        )
+        self._add_settings_page("Uploader", "Uploader Settings", [upload_group, ocr_group])
+        self._add_settings_page(
+            "Imgur Uploader",
+            "Imgur Uploader Settings",
+            [
+                self._create_placeholder_group(
+                    "Imgur Uploader",
+                    [
+                        "Native Imgur uploader parity is still pending.",
+                    ],
+                ),
+            ],
+        )
+        self._add_settings_page(
+            "FTP Uploader",
+            "FTP Uploader Settings",
+            [
+                self._create_placeholder_group(
+                    "FTP Uploader",
+                    [
+                        "Native FTP uploader parity is still pending.",
+                    ],
+                ),
+            ],
+        )
+        self._add_settings_page(
+            "Script Uploader",
+            "Script Uploader Settings",
+            [
+                self._create_placeholder_group(
+                    "Script Uploader",
+                    [
+                        "This subpage is reserved for a more faithful port of the dedicated Script Uploader view.",
+                        "Current script uploader options are available on the main Uploader page.",
+                    ],
+                ),
+            ],
+        )
+        self._add_settings_page("Annotator", "Annotator Settings", [editor_group])
+        self._add_settings_page(
+            "Stickers",
+            "Sticker Settings",
+            [
+                self._create_placeholder_group(
+                    "Stickers",
+                    [
+                        "Sticker management and picker parity are still pending.",
+                    ],
+                ),
+            ],
+        )
+        self._add_settings_page("Watermark", "Watermark Settings", [watermark_group])
+        self._add_settings_page("HotKeys", "HotKey Settings", [shortcuts_group])
+        self._add_settings_page(
+            "Actions",
+            "Action Settings",
+            [
+                self._create_placeholder_group(
+                    "Actions",
+                    [
+                        "Post-capture action pipelines and per-action configuration are still pending.",
+                    ],
+                ),
+            ],
+        )
+        self._add_settings_page(
+            "Plugins",
+            "Plugin Settings",
+            [
+                self._create_placeholder_group(
+                    "Plugins",
+                    [
+                        "Plugin system parity is still pending for the PyQt6 port.",
+                    ],
+                ),
+            ],
+        )
 
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel, self)
         buttons.accepted.connect(self.accept)
@@ -244,6 +383,58 @@ class SettingsDialog(QDialog):
 
         self._apply_initial(initial)
         self._refresh_watermark_status()
+        self.navigation_list.setCurrentRow(0)
+
+    def _create_placeholder_group(self, title: str, lines: list[str]) -> QGroupBox:
+        group = QGroupBox(title, self)
+        group_layout = QVBoxLayout(group)
+        for line in lines:
+            label = QLabel(line, group)
+            label.setWordWrap(True)
+            group_layout.addWidget(label)
+        group_layout.addStretch(1)
+        return group
+
+    def _wrap_page(self, title: str, groups: list[QWidget]) -> QWidget:
+        host = QWidget(self)
+        host_layout = QVBoxLayout(host)
+        title_label = QLabel(title, host)
+        title_font = title_label.font()
+        title_font.setPointSize(title_font.pointSize() + 1)
+        title_font.setBold(True)
+        title_label.setFont(title_font)
+        host_layout.addWidget(title_label)
+        for group in groups:
+            host_layout.addWidget(group)
+        host_layout.addStretch(1)
+
+        scroll_area = QScrollArea(self)
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(host)
+        return scroll_area
+
+    def _add_settings_page(self, navigation_title: str, page_title: str, groups: list[QWidget]) -> None:
+        item = QListWidgetItem(navigation_title, self.navigation_list)
+        item.setData(256, navigation_title.lower())
+        self.page_stack.addWidget(self._wrap_page(page_title, groups))
+
+    def _show_settings_page(self, index: int) -> None:
+        if index < 0 or index >= self.page_stack.count():
+            return
+        self.page_stack.setCurrentIndex(index)
+
+    def _filter_navigation_items(self, text: str) -> None:
+        normalized = text.strip().lower()
+        first_visible_row = -1
+        for row in range(self.navigation_list.count()):
+            item = self.navigation_list.item(row)
+            haystack = str(item.data(256) or item.text().lower())
+            hidden = bool(normalized) and normalized not in haystack
+            item.setHidden(hidden)
+            if not hidden and first_visible_row < 0:
+                first_visible_row = row
+        if first_visible_row >= 0 and self.navigation_list.currentRow() != first_visible_row:
+            self.navigation_list.setCurrentRow(first_visible_row)
 
     def _apply_initial(self, initial: SettingsData) -> None:
         tool_index = self.tool_combo.findData(initial.tool)
