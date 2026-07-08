@@ -7,9 +7,26 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] La interfaz final de `ksnip_py` debe quedar visual y funcionalmente alineada con las capturas de referencia:
 - [x] `/images/01-Ksnip-recien-abierto.png`
 - [x] `/images/02-ksnip-cuando-a-hecho-su-primer-captura-de-pantalla.png`
+- [x] Las ventanas de `Settings` también deben alinearse visual y funcionalmente con estas referencias:
+- [x] `/images/GUI/03-Settings_Application.png`
+- [x] `/images/GUI/04-Settings_Application_Saver.png`
+- [x] `/images/GUI/05-Settings_Application_Tray-Icon.png`
+- [x] `/images/GUI/06-Settings_Imge-Grabber.png`
+- [x] `/images/GUI/07-Settings_Imge-Grabber_Snipping-Area.png`
+- [x] `/images/GUI/08-Settings_Uploader.png`
+- [x] `/images/GUI/09-Settings_Uploader_Imur_Uploader.png`
+- [x] `/images/GUI/10-Settings_Uploader_FTP_Uploader.png`
+- [x] `/images/GUI/11-Settings_Uploader_Script_Uploader.png`
+- [x] `/images/GUI/12-Settings_Annotator.png`
+- [x] `/images/GUI/13-Settings_Annotator_Stickers.png`
+- [x] `/images/GUI/14-Settings_Annotator_Watermark.png`
+- [x] `/images/GUI/15-Settings_HotKeys.png`
+- [x] `/images/GUI/16-Settings_Actions.png`
+- [x] `/images/GUI/17-Settings_Plugins.png`
 - [x] La meta no es reinterpretar ksnip: la UI PyQt6 debe conservar la estructura del programa original.
 - [x] Deben usarse los iconos de ksnip en la interfaz gráfica de `ksnip_py`.
 - [ ] Igualar por completo la disposición visual del toolbar, menús, panel lateral izquierdo, barra de estado y controles inferiores del ksnip original.
+- [ ] Igualar por completo la navegación, categorías, controles y densidad visual de `Settings` respecto a las capturas de referencia.
 
 ## Núcleo de Aplicación
 
@@ -139,6 +156,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 ## Configuración y Ajustes
 
 - [x] Diálogo de settings en PyQt6
+- [x] Referencias visuales de `Settings` añadidas al roadmap
 - [x] Persistencia de valores por defecto del editor
 - [x] Persistencia de hotkeys de aplicación
 - [x] Ajustes de tray
