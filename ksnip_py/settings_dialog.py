@@ -53,6 +53,8 @@ class SettingsData:
     close_to_tray: bool
     start_minimized_to_tray: bool
     tray_notifications: bool
+    tray_default_action: str
+    tray_default_capture_mode: str
     shortcuts_enabled: bool
     shortcuts: dict[str, str]
     upload_confirm_before_uploading: bool
@@ -359,14 +361,19 @@ class SettingsDialog(QDialog):
         tray_defaults_group = QGroupBox("Default Action", self)
         tray_defaults_layout = QFormLayout(tray_defaults_group)
         self.tray_default_action = QComboBox(tray_defaults_group)
-        self.tray_default_action.addItems(["Show Editor", "Capture"])
-        self.tray_default_action.setEnabled(False)
+        self.tray_default_action.addItem("Show Editor", "show")
+        self.tray_default_action.addItem("Capture", "capture")
         tray_defaults_layout.addRow("Action", self.tray_default_action)
 
         self.tray_default_capture_mode = QComboBox(tray_defaults_group)
-        self.tray_default_capture_mode.addItems(["Rect Area", "Last Rect Area", "Full Screen", "Current Screen", "Active Window", "Window Under Cursor"])
-        self.tray_default_capture_mode.setEnabled(False)
+        self.tray_default_capture_mode.addItem("Rect Area", "rect")
+        self.tray_default_capture_mode.addItem("Last Rect Area", "last_rect")
+        self.tray_default_capture_mode.addItem("Full Screen", "full")
+        self.tray_default_capture_mode.addItem("Current Screen", "current")
+        self.tray_default_capture_mode.addItem("Active Window", "active")
+        self.tray_default_capture_mode.addItem("Window Under Cursor", "under_cursor")
         tray_defaults_layout.addRow("Capture Mode", self.tray_default_capture_mode)
+        self.tray_default_action.currentIndexChanged.connect(self._sync_tray_default_controls)
         shortcuts_group = QGroupBox("Global HotKeys", self)
         shortcuts_layout = QFormLayout(shortcuts_group)
         self.enable_global_hotkeys = QCheckBox("Enable Global HotKeys", shortcuts_group)
@@ -709,6 +716,12 @@ class SettingsDialog(QDialog):
         self.close_to_tray.setChecked(initial.close_to_tray)
         self.start_minimized_to_tray.setChecked(initial.start_minimized_to_tray)
         self.tray_notifications.setChecked(initial.tray_notifications)
+        tray_default_action_index = self.tray_default_action.findData(initial.tray_default_action)
+        if tray_default_action_index >= 0:
+            self.tray_default_action.setCurrentIndex(tray_default_action_index)
+        tray_default_capture_mode_index = self.tray_default_capture_mode.findData(initial.tray_default_capture_mode)
+        if tray_default_capture_mode_index >= 0:
+            self.tray_default_capture_mode.setCurrentIndex(tray_default_capture_mode_index)
         self._sync_tray_controls(initial.use_tray_icon)
         self.enable_global_hotkeys.setChecked(initial.shortcuts_enabled)
         for key, value in initial.shortcuts.items():
@@ -759,6 +772,13 @@ class SettingsDialog(QDialog):
         self.close_to_tray.setEnabled(enabled)
         self.start_minimized_to_tray.setEnabled(enabled)
         self.tray_notifications.setEnabled(enabled)
+        self.tray_default_action.setEnabled(enabled)
+        self._sync_tray_default_controls()
+
+    def _sync_tray_default_controls(self) -> None:
+        tray_enabled = self.use_tray_icon.isChecked()
+        capture_enabled = tray_enabled and self.tray_default_action.currentData() == "capture"
+        self.tray_default_capture_mode.setEnabled(capture_enabled)
 
     def _sync_shortcut_controls(self, enabled: bool) -> None:
         for editor in self.shortcut_edits.values():
@@ -809,6 +829,8 @@ class SettingsDialog(QDialog):
             close_to_tray=self.close_to_tray.isChecked(),
             start_minimized_to_tray=self.start_minimized_to_tray.isChecked(),
             tray_notifications=self.tray_notifications.isChecked(),
+            tray_default_action=str(self.tray_default_action.currentData()),
+            tray_default_capture_mode=str(self.tray_default_capture_mode.currentData()),
             shortcuts_enabled=self.enable_global_hotkeys.isChecked(),
             shortcuts={
                 key: editor.keySequence().toString(QKeySequence.SequenceFormat.NativeText)

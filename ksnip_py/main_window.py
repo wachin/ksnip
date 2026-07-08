@@ -1423,6 +1423,8 @@ class MainWindow(QMainWindow):
             close_to_tray=self._setting_bool("tray/close", True),
             start_minimized_to_tray=self._setting_bool("tray/start_minimized", False),
             tray_notifications=self._setting_bool("tray/notifications", True),
+            tray_default_action=str(self._settings.value("tray/default_action", "show")),
+            tray_default_capture_mode=str(self._settings.value("tray/default_capture_mode", "rect")),
             shortcuts_enabled=self._setting_bool("shortcuts/enabled", True),
             shortcuts={key: sequence.toString(QKeySequence.SequenceFormat.NativeText) for key, sequence in self._current_shortcuts().items()},
             upload_confirm_before_uploading=self._setting_bool("upload/confirm", False),
@@ -1473,6 +1475,8 @@ class MainWindow(QMainWindow):
         self._settings.setValue("tray/close", data.close_to_tray)
         self._settings.setValue("tray/start_minimized", data.start_minimized_to_tray)
         self._settings.setValue("tray/notifications", data.tray_notifications)
+        self._settings.setValue("tray/default_action", data.tray_default_action)
+        self._settings.setValue("tray/default_capture_mode", data.tray_default_capture_mode)
         self._settings.setValue("shortcuts/enabled", data.shortcuts_enabled)
         for key, value in data.shortcuts.items():
             self._settings.setValue(f"shortcuts/{key}", value)
@@ -1658,9 +1662,27 @@ class MainWindow(QMainWindow):
             and self._setting_bool("tray/close", True)
         )
 
+    def _tray_capture_action(self) -> QAction:
+        mode = str(self._settings.value("tray/default_capture_mode", "rect"))
+        return {
+            "rect": self.new_capture_rect_action,
+            "last_rect": self.new_capture_last_rect_action,
+            "full": self.new_capture_full_action,
+            "current": self.new_capture_current_action,
+            "active": self.new_capture_active_action,
+            "under_cursor": self.new_capture_under_cursor_action,
+        }.get(mode, self.new_capture_rect_action)
+
+    def _trigger_tray_default_action(self) -> None:
+        action = str(self._settings.value("tray/default_action", "show"))
+        if action == "capture":
+            self._tray_capture_action().trigger()
+            return
+        self.show_from_tray()
+
     def _handle_tray_activated(self, reason: QSystemTrayIcon.ActivationReason) -> None:
         if reason != QSystemTrayIcon.ActivationReason.Context:
-            self.show_from_tray()
+            self._trigger_tray_default_action()
 
     def close_other_pin_windows(self, current_window: PinWindow) -> None:
         for pin_window in list(self._pin_windows):

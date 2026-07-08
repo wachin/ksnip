@@ -149,7 +149,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Inicio minimizado al tray
 - [x] Notificaciones del tray
 - [x] Ventanas pin "always on top"
-- [ ] Acción por defecto del tray configurable como en C++
+- [x] Acción por defecto del tray configurable como en C++
 - [ ] Menú/acciones del tray con paridad completa
 - [ ] Ventanas modeless adicionales con paridad
 
@@ -170,6 +170,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Confirmación antes de subir imagen conectada a la lógica real
 - [x] Activación/desactivación de atajos conectada a la lógica real
 - [x] Toggles compartidos de captura conectados entre `Application` e `Image Grabber`
+- [x] Acción por defecto del `Tray Icon` conectada a la lógica real
 - [x] Persistencia de valores por defecto del editor
 - [x] Persistencia de hotkeys de aplicación
 - [x] Ajustes de tray
