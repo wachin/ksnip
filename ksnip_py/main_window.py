@@ -367,7 +367,7 @@ class MainWindow(QMainWindow):
         return tool
 
     def _update_property_toolbar_for_tool(self) -> None:
-        if not hasattr(self, "_property_groups"):
+        if not hasattr(self, "_property_groups") or not hasattr(self, "properties_toolbar"):
             return
         tool = self._effective_property_tool()
         if tool is None:
@@ -484,8 +484,14 @@ class MainWindow(QMainWindow):
         else:
             self.stroke_width.setMaximum(20 if tool not in {Tool.BLUR, Tool.PIXELATE} else 60)
 
-        for name, widget in self._property_groups.items():
+        self._render_property_toolbar(visibility)
+
+    def _render_property_toolbar(self, visibility: dict[str, bool]) -> None:
+        self.properties_toolbar.clear()
+        for name, widget in self._property_order:
             widget.setVisible(visibility.get(name, False))
+            if visibility.get(name, False):
+                self.properties_toolbar.addWidget(widget)
 
     def _build_actions(self) -> None:
         self.tool_action_group = QActionGroup(self)
@@ -723,16 +729,15 @@ class MainWindow(QMainWindow):
         properties_toolbar.setMovable(False)
         self._configure_toolbar(properties_toolbar, icon_size=16, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, properties_toolbar)
+        self.properties_toolbar = properties_toolbar
 
         self.property_handle_group = self._make_property_group(QLabel("::", self))
-        properties_toolbar.addWidget(self.property_handle_group)
 
         self.property_color_button = QToolButton(self)
         self.property_color_button.setToolTip("Stroke color")
         self.property_color_button.setFixedSize(22, 22)
         self.property_color_button.clicked.connect(self.select_color)
         self.property_stroke_group = self._make_property_group(self.property_color_button)
-        properties_toolbar.addWidget(self.property_stroke_group)
 
         self.stroke_width = QSpinBox()
         self.stroke_width.setRange(1, 60)
@@ -741,7 +746,6 @@ class MainWindow(QMainWindow):
         self.stroke_width.setFixedHeight(22)
         self.stroke_width.valueChanged.connect(self._apply_stroke_width)
         self.property_width_group = self._make_property_group(self._make_icon_label("width", "Stroke width"), self.stroke_width)
-        properties_toolbar.addWidget(self.property_width_group)
 
         self.fill_mode = QComboBox()
         self.fill_mode.addItem("Border", FillMode.STROKE_ONLY)
@@ -754,7 +758,6 @@ class MainWindow(QMainWindow):
         self.fill_mode_button.setFixedSize(22, 22)
         self.fill_mode_button.clicked.connect(self._cycle_fill_mode)
         self.property_fill_mode_group = self._make_property_group(self.fill_mode_button)
-        properties_toolbar.addWidget(self.property_fill_mode_group)
 
         self.property_text_color_button = QToolButton(self)
         self.property_text_color_button.setToolTip("Text color")
@@ -764,7 +767,6 @@ class MainWindow(QMainWindow):
             self._make_icon_label("textColor", "Text color"),
             self.property_text_color_button,
         )
-        properties_toolbar.addWidget(self.property_text_color_group)
 
         self.font_family = QFontComboBox()
         self.font_family.setMaximumWidth(140)
@@ -778,7 +780,6 @@ class MainWindow(QMainWindow):
         self.font_size.setFixedHeight(22)
         self.font_size.valueChanged.connect(self._apply_font_size)
         self.property_font_group = self._make_property_group(self.font_family, self.font_size)
-        properties_toolbar.addWidget(self.property_font_group)
 
         self.bold_button = self._make_tool_toggle("bold", "Bold", False, self._apply_bold)
         self.italic_button = self._make_tool_toggle("italic", "Italic", False, self._apply_italic)
@@ -787,7 +788,6 @@ class MainWindow(QMainWindow):
         self.italic_button.setFixedSize(22, 22)
         self.underline_button.setFixedSize(22, 22)
         self.property_style_group = self._make_property_group(self.bold_button, self.italic_button, self.underline_button)
-        properties_toolbar.addWidget(self.property_style_group)
 
         self.number_value = QSpinBox()
         self.number_value.setRange(1, 999)
@@ -796,7 +796,6 @@ class MainWindow(QMainWindow):
         self.number_value.setFixedHeight(22)
         self.number_value.valueChanged.connect(self._apply_number_value)
         self.property_number_group = self._make_property_group(self._make_icon_label("number", "Number"), self.number_value)
-        properties_toolbar.addWidget(self.property_number_group)
 
         self.blur_strength = QSpinBox()
         self.blur_strength.setRange(1, 60)
@@ -805,7 +804,6 @@ class MainWindow(QMainWindow):
         self.blur_strength.setFixedHeight(22)
         self.blur_strength.valueChanged.connect(self._apply_blur_strength)
         self.property_blur_group = self._make_property_group(self._make_icon_label("obfuscateFactor", "Effect strength"), self.blur_strength)
-        properties_toolbar.addWidget(self.property_blur_group)
 
         self.sticker_picker_button = QToolButton(self)
         self.sticker_picker_button.setIcon(self._load_icon("sticker"))
@@ -815,7 +813,6 @@ class MainWindow(QMainWindow):
         self._sticker_menu = QMenu(self.sticker_picker_button)
         self.sticker_picker_button.setMenu(self._sticker_menu)
         self.property_sticker_group = self._make_property_group(self._make_icon_label("sticker", "Sticker"), self.sticker_picker_button)
-        properties_toolbar.addWidget(self.property_sticker_group)
 
         self.shadow_state_button = QToolButton(self)
         self.shadow_state_button.setCheckable(True)
@@ -824,7 +821,6 @@ class MainWindow(QMainWindow):
         self.shadow_state_button.setToolTip("Item shadow")
         self.shadow_state_button.toggled.connect(self._apply_shadow_enabled)
         self.property_shadow_group = self._make_property_group(self._make_icon_label("dropShadow", "Item shadow"), self.shadow_state_button)
-        properties_toolbar.addWidget(self.property_shadow_group)
 
         self.scaling = QSpinBox()
         self.scaling.setRange(0, 500)
@@ -835,7 +831,6 @@ class MainWindow(QMainWindow):
         self.scaling.setFixedHeight(22)
         self.scaling.valueChanged.connect(self._apply_scaling)
         self.property_scaling_group = self._make_property_group(self._make_icon_label("scale", "Scale"), self.scaling)
-        properties_toolbar.addWidget(self.property_scaling_group)
 
         self.opacity = QSpinBox()
         self.opacity.setRange(0, 100)
@@ -845,7 +840,21 @@ class MainWindow(QMainWindow):
         self.opacity.setFixedHeight(22)
         self.opacity.valueChanged.connect(self._apply_opacity)
         self.property_opacity_group = self._make_property_group(self._make_icon_label("opacity", "Opacity"), self.opacity)
-        properties_toolbar.addWidget(self.property_opacity_group)
+        self._property_order = [
+            ("handle", self.property_handle_group),
+            ("stroke", self.property_stroke_group),
+            ("width", self.property_width_group),
+            ("fill_mode", self.property_fill_mode_group),
+            ("text_color", self.property_text_color_group),
+            ("font", self.property_font_group),
+            ("style", self.property_style_group),
+            ("number", self.property_number_group),
+            ("blur", self.property_blur_group),
+            ("sticker", self.property_sticker_group),
+            ("shadow", self.property_shadow_group),
+            ("scaling", self.property_scaling_group),
+            ("opacity", self.property_opacity_group),
+        ]
         self._property_groups = {
             "handle": self.property_handle_group,
             "stroke": self.property_stroke_group,
