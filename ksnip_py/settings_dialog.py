@@ -53,7 +53,9 @@ class SettingsData:
     close_to_tray: bool
     start_minimized_to_tray: bool
     tray_notifications: bool
+    shortcuts_enabled: bool
     shortcuts: dict[str, str]
+    upload_confirm_before_uploading: bool
     upload_script_path: str
     upload_copy_output: bool
     upload_output_filter: str
@@ -241,10 +243,8 @@ class SettingsDialog(QDialog):
         self.capture_mouse_cursor.setEnabled(False)
         self.show_main_window_after_capture_checkbox = QCheckBox("Show Main Window after capturing screenshot", image_grabber_group)
         self.show_main_window_after_capture_checkbox.setChecked(True)
-        self.show_main_window_after_capture_checkbox.setEnabled(False)
         self.hide_main_window_during_capture_checkbox = QCheckBox("Hide Main Window during screenshot", image_grabber_group)
         self.hide_main_window_during_capture_checkbox.setChecked(True)
-        self.hide_main_window_during_capture_checkbox.setEnabled(False)
         self.force_generic_wayland = QCheckBox("Force Generic Wayland (xdg-desktop-portal) Screenshot", image_grabber_group)
         self.force_generic_wayland.setEnabled(False)
         self.scale_generic_wayland = QCheckBox("Scale Generic Wayland (xdg-desktop-portal) Screenshots", image_grabber_group)
@@ -370,9 +370,9 @@ class SettingsDialog(QDialog):
         shortcuts_group = QGroupBox("Global HotKeys", self)
         shortcuts_layout = QFormLayout(shortcuts_group)
         self.enable_global_hotkeys = QCheckBox("Enable Global HotKeys", shortcuts_group)
-        self.enable_global_hotkeys.setEnabled(False)
         shortcuts_layout.addRow(self.enable_global_hotkeys)
         self.shortcut_edits: dict[str, QKeySequenceEdit] = {}
+        self.shortcut_clear_buttons: list[QPushButton] = []
         for key, label in (
             ("capture_rect", "Rect Area Capture"),
             ("capture_last_rect", "Last Rect Area Capture"),
@@ -392,16 +392,17 @@ class SettingsDialog(QDialog):
             self.shortcut_edits[key] = editor
             clear_button = QPushButton("Clear", shortcuts_group)
             clear_button.clicked.connect(lambda _checked=False, target=editor: target.clear())
+            self.shortcut_clear_buttons.append(clear_button)
             row_layout = QHBoxLayout()
             row_layout.addWidget(editor, 1)
             row_layout.addWidget(clear_button)
             row_host = QWidget(shortcuts_group)
             row_host.setLayout(row_layout)
             shortcuts_layout.addRow(label, row_host)
+        self.enable_global_hotkeys.toggled.connect(self._sync_shortcut_controls)
         uploader_group = QGroupBox("Uploader", self)
         uploader_layout = QFormLayout(uploader_group)
         self.ask_confirmation_before_uploading = QCheckBox("Ask for confirmation before uploading", uploader_group)
-        self.ask_confirmation_before_uploading.setEnabled(False)
         uploader_layout.addRow(self.ask_confirmation_before_uploading)
         self.uploader_type = QComboBox(uploader_group)
         self.uploader_type.addItems(["Imgur", "FTP", "Script"])
@@ -454,6 +455,8 @@ class SettingsDialog(QDialog):
         ocr_layout.addRow("Script Path", ocr_script_host)
         self.ocr_enabled.toggled.connect(self._sync_ocr_controls)
         self.ocr_backend.currentIndexChanged.connect(self._sync_ocr_controls)
+        self._bind_checkbox_pair(self.show_main_window_after_capture, self.show_main_window_after_capture_checkbox)
+        self._bind_checkbox_pair(self.hide_main_window_during_capture, self.hide_main_window_during_capture_checkbox)
         self._add_settings_page(
             "Application",
             "Application Settings",
@@ -674,6 +677,15 @@ class SettingsDialog(QDialog):
         if first_visible_row >= 0 and self.navigation_list.currentRow() != first_visible_row:
             self.navigation_list.setCurrentRow(first_visible_row)
 
+    def _bind_checkbox_pair(self, first: QCheckBox, second: QCheckBox) -> None:
+        def sync(source: QCheckBox, target: QCheckBox) -> None:
+            target.blockSignals(True)
+            target.setChecked(source.isChecked())
+            target.blockSignals(False)
+
+        first.toggled.connect(lambda _checked: sync(first, second))
+        second.toggled.connect(lambda _checked: sync(second, first))
+
     def _apply_initial(self, initial: SettingsData) -> None:
         tool_index = self.tool_combo.findData(initial.tool)
         if tool_index >= 0:
@@ -698,9 +710,12 @@ class SettingsDialog(QDialog):
         self.start_minimized_to_tray.setChecked(initial.start_minimized_to_tray)
         self.tray_notifications.setChecked(initial.tray_notifications)
         self._sync_tray_controls(initial.use_tray_icon)
+        self.enable_global_hotkeys.setChecked(initial.shortcuts_enabled)
         for key, value in initial.shortcuts.items():
             if key in self.shortcut_edits:
                 self.shortcut_edits[key].setKeySequence(QKeySequence(value))
+        self._sync_shortcut_controls(initial.shortcuts_enabled)
+        self.ask_confirmation_before_uploading.setChecked(initial.upload_confirm_before_uploading)
         self.upload_script_path.setText(initial.upload_script_path)
         self.upload_copy_output.setChecked(initial.upload_copy_output)
         self.upload_output_filter.setText(initial.upload_output_filter)
@@ -745,6 +760,12 @@ class SettingsDialog(QDialog):
         self.start_minimized_to_tray.setEnabled(enabled)
         self.tray_notifications.setEnabled(enabled)
 
+    def _sync_shortcut_controls(self, enabled: bool) -> None:
+        for editor in self.shortcut_edits.values():
+            editor.setEnabled(enabled)
+        for button in self.shortcut_clear_buttons:
+            button.setEnabled(enabled)
+
     def _select_upload_script(self) -> None:
         from PyQt6.QtWidgets import QFileDialog
 
@@ -788,10 +809,12 @@ class SettingsDialog(QDialog):
             close_to_tray=self.close_to_tray.isChecked(),
             start_minimized_to_tray=self.start_minimized_to_tray.isChecked(),
             tray_notifications=self.tray_notifications.isChecked(),
+            shortcuts_enabled=self.enable_global_hotkeys.isChecked(),
             shortcuts={
                 key: editor.keySequence().toString(QKeySequence.SequenceFormat.NativeText)
                 for key, editor in self.shortcut_edits.items()
             },
+            upload_confirm_before_uploading=self.ask_confirmation_before_uploading.isChecked(),
             upload_script_path=self.upload_script_path.text().strip(),
             upload_copy_output=self.upload_copy_output.isChecked(),
             upload_output_filter=self.upload_output_filter.text(),

@@ -1169,6 +1169,16 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
             return
+        if self._setting_bool("upload/confirm", False):
+            reply = QMessageBox.question(
+                self,
+                "Upload Image",
+                "Upload the current image?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No,
+            )
+            if reply != QMessageBox.StandardButton.Yes:
+                return
         script_path = self._settings.value("upload/script_path", "")
         if not isinstance(script_path, str) or not script_path:
             self._show_error("No upload script configured. Open Settings and set an upload script first.")
@@ -1413,7 +1423,9 @@ class MainWindow(QMainWindow):
             close_to_tray=self._setting_bool("tray/close", True),
             start_minimized_to_tray=self._setting_bool("tray/start_minimized", False),
             tray_notifications=self._setting_bool("tray/notifications", True),
+            shortcuts_enabled=self._setting_bool("shortcuts/enabled", True),
             shortcuts={key: sequence.toString(QKeySequence.SequenceFormat.NativeText) for key, sequence in self._current_shortcuts().items()},
+            upload_confirm_before_uploading=self._setting_bool("upload/confirm", False),
             upload_script_path=str(self._settings.value("upload/script_path", "")),
             upload_copy_output=self._setting_bool("upload/copy_output", False),
             upload_output_filter=str(self._settings.value("upload/output_filter", "")),
@@ -1461,8 +1473,10 @@ class MainWindow(QMainWindow):
         self._settings.setValue("tray/close", data.close_to_tray)
         self._settings.setValue("tray/start_minimized", data.start_minimized_to_tray)
         self._settings.setValue("tray/notifications", data.tray_notifications)
+        self._settings.setValue("shortcuts/enabled", data.shortcuts_enabled)
         for key, value in data.shortcuts.items():
             self._settings.setValue(f"shortcuts/{key}", value)
+        self._settings.setValue("upload/confirm", data.upload_confirm_before_uploading)
         self._settings.setValue("upload/script_path", data.upload_script_path)
         self._settings.setValue("upload/copy_output", data.upload_copy_output)
         self._settings.setValue("upload/output_filter", data.upload_output_filter)
@@ -1612,9 +1626,10 @@ class MainWindow(QMainWindow):
 
     def _apply_shortcuts_from_mapping(self, mapping: dict[str, str]) -> None:
         defaults = self._shortcut_defaults()
+        shortcuts_enabled = self._setting_bool("shortcuts/enabled", True)
         for key, action in self._shortcut_actions().items():
             value = mapping.get(key, defaults[key].toString(QKeySequence.SequenceFormat.NativeText))
-            action.setShortcut(QKeySequence(value) if value else QKeySequence())
+            action.setShortcut(QKeySequence(value) if value and shortcuts_enabled else QKeySequence())
 
     def _save_ui_settings(self) -> None:
         self._settings.setValue("window/geometry", self.saveGeometry())
