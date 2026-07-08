@@ -521,6 +521,8 @@ class MainWindow(QMainWindow):
         file_menu.addAction(self.bring_to_front_action)
         file_menu.addAction(self.send_to_back_action)
         file_menu.addAction(self.close_tab_action)
+        file_menu.addSeparator()
+        file_menu.addAction(self.quit_action)
 
         tools_menu = self.menuBar().addMenu("Tools")
         tools_menu.addAction(self.undo_action)
@@ -1151,7 +1153,13 @@ class MainWindow(QMainWindow):
 
     def quit_application(self) -> None:
         self._allow_quit = True
+        if self._tray_icon is not None:
+            self._tray_icon.hide()
+        self.close_all_pin_windows()
         self.close()
+        app = QGuiApplication.instance()
+        if app is not None:
+            app.quit()
 
     def add_watermark(self) -> None:
         canvas = self.current_canvas()
