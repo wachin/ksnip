@@ -199,6 +199,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [ ] Menú principal igual al original
 - [x] Panel de herramientas lateral izquierdo base en PyQt6
 - [x] Panel lateral con iconos del editor original
+- [x] Grupos de sub-herramientas en barra lateral para `Arrow`, `Marker`, `Text`, `Number`, `Blur/Pixelate` y `Rectangle/Ellipse`
 - [ ] Panel de herramientas lateral izquierdo igual al original
 - [x] Barra de propiedades base con iconografía del editor original
 - [ ] Controles de propiedades iguales al original

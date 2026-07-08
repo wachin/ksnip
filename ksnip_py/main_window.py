@@ -9,6 +9,7 @@ from PyQt6.QtWidgets import (
     QColorDialog,
     QFileDialog,
     QFontComboBox,
+    QHBoxLayout,
     QInputDialog,
     QLabel,
     QMainWindow,
@@ -59,6 +60,7 @@ class MainWindow(QMainWindow):
         self._ocr_progress: QProgressDialog | None = None
         self._tray_icon: QSystemTrayIcon | None = None
         self._allow_quit = False
+        self._tool_group_buttons: dict[str, QToolButton] = {}
 
         self.setWindowTitle("ksnip PyQt6")
         self.resize(1200, 800)
@@ -166,6 +168,47 @@ class MainWindow(QMainWindow):
         button.setMenu(menu)
         return button
 
+    def _make_placeholder_action(self, icon_name: str, text: str) -> QAction:
+        action = QAction(self._load_icon(icon_name), text, self)
+        action.setEnabled(False)
+        return action
+
+    def _set_tool_group_default_action(self, group_name: str, action: QAction) -> None:
+        button = self._tool_group_buttons.get(group_name)
+        if button is not None:
+            button.setDefaultAction(action)
+            button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+
+    def _select_group_tool(self, group_name: str, action: QAction, tool: Tool) -> None:
+        self._set_tool_group_default_action(group_name, action)
+        self.set_tool(tool)
+
+    def _make_tool_group_widget(self, group_name: str, main_action: QAction, menu_actions: list[QAction], *, enable_menu: bool = True) -> QWidget:
+        host = QWidget(self)
+        layout = QHBoxLayout(host)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+
+        main_button = QToolButton(host)
+        main_button.setDefaultAction(main_action)
+        main_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        main_button.setAutoRaise(False)
+        layout.addWidget(main_button)
+
+        menu_button = QToolButton(host)
+        menu_button.setArrowType(Qt.ArrowType.DownArrow)
+        menu_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        menu_button.setAutoRaise(False)
+        menu = QMenu(menu_button)
+        for action in menu_actions:
+            menu.addAction(action)
+        menu_button.setMenu(menu)
+        menu_button.setEnabled(enable_menu)
+        layout.addWidget(menu_button)
+
+        self._tool_group_buttons[group_name] = main_button
+        return host
+
     def _build_actions(self) -> None:
         self.tool_action_group = QActionGroup(self)
         self.tool_action_group.setExclusive(True)
@@ -227,32 +270,37 @@ class MainWindow(QMainWindow):
 
         self.arrow_action = QAction(self._load_icon("arrow"), "Arrow", self)
         self.arrow_action.setCheckable(True)
-        self.arrow_action.triggered.connect(lambda: self.set_tool(Tool.ARROW))
+        self.arrow_action.triggered.connect(lambda: self._select_group_tool("arrow", self.arrow_action, Tool.ARROW))
         self.tool_action_group.addAction(self.arrow_action)
+
+        self.double_arrow_action = self._make_placeholder_action("doubleArrow", "Double Arrow")
 
         self.rect_action = QAction(self._load_icon("rect"), "Rectangle", self)
         self.rect_action.setCheckable(True)
-        self.rect_action.triggered.connect(lambda: self.set_tool(Tool.RECT))
+        self.rect_action.triggered.connect(lambda: self._select_group_tool("shape", self.rect_action, Tool.RECT))
         self.tool_action_group.addAction(self.rect_action)
 
         self.ellipse_action = QAction(self._load_icon("ellipse"), "Ellipse", self)
         self.ellipse_action.setCheckable(True)
-        self.ellipse_action.triggered.connect(lambda: self.set_tool(Tool.ELLIPSE))
+        self.ellipse_action.triggered.connect(lambda: self._select_group_tool("shape", self.ellipse_action, Tool.ELLIPSE))
         self.tool_action_group.addAction(self.ellipse_action)
 
         self.text_action = QAction(self._load_icon("text"), "Text", self)
         self.text_action.setCheckable(True)
-        self.text_action.triggered.connect(lambda: self.set_tool(Tool.TEXT))
+        self.text_action.triggered.connect(lambda: self._select_group_tool("text", self.text_action, Tool.TEXT))
         self.tool_action_group.addAction(self.text_action)
+
+        self.text_pointer_action = self._make_placeholder_action("textPointer", "Text Pointer")
+        self.text_arrow_action = self._make_placeholder_action("textArrow", "Text Arrow")
 
         self.blur_action = QAction(self._load_icon("blur"), "Blur", self)
         self.blur_action.setCheckable(True)
-        self.blur_action.triggered.connect(lambda: self.set_tool(Tool.BLUR))
+        self.blur_action.triggered.connect(lambda: self._select_group_tool("effect", self.blur_action, Tool.BLUR))
         self.tool_action_group.addAction(self.blur_action)
 
         self.pixelate_action = QAction(self._load_icon("pixelate"), "Pixelate", self)
         self.pixelate_action.setCheckable(True)
-        self.pixelate_action.triggered.connect(lambda: self.set_tool(Tool.PIXELATE))
+        self.pixelate_action.triggered.connect(lambda: self._select_group_tool("effect", self.pixelate_action, Tool.PIXELATE))
         self.tool_action_group.addAction(self.pixelate_action)
 
         self.crop_action = QAction(self._load_icon("crop"), "Crop", self)
@@ -264,6 +312,12 @@ class MainWindow(QMainWindow):
         self.select_action.setCheckable(True)
         self.select_action.triggered.connect(lambda: self.set_tool(Tool.SELECT))
         self.tool_action_group.addAction(self.select_action)
+
+        self.marker_rect_action = self._make_placeholder_action("markerRect", "Marker Rectangle")
+        self.marker_ellipse_action = self._make_placeholder_action("markerEllipse", "Marker Ellipse")
+        self.number_action = self._make_placeholder_action("number", "Number")
+        self.number_pointer_action = self._make_placeholder_action("numberPointer", "Number Pointer")
+        self.number_arrow_action = self._make_placeholder_action("numberArrow", "Number Arrow")
 
         self.color_action = QAction(self._load_icon("color"), "Color", self)
         self.color_action.triggered.connect(self.select_color)
@@ -442,14 +496,48 @@ class MainWindow(QMainWindow):
         self._configure_toolbar(self.left_toolbar, icon_size=22, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.left_toolbar)
         self.left_toolbar.addAction(self.select_action)
-        self.left_toolbar.addAction(self.pen_action)
-        self.left_toolbar.addAction(self.line_action)
-        self.left_toolbar.addAction(self.arrow_action)
-        self.left_toolbar.addAction(self.rect_action)
-        self.left_toolbar.addAction(self.ellipse_action)
-        self.left_toolbar.addAction(self.text_action)
-        self.left_toolbar.addAction(self.blur_action)
-        self.left_toolbar.addAction(self.pixelate_action)
+        self.left_toolbar.addWidget(
+            self._make_tool_group_widget(
+                "arrow",
+                self.arrow_action,
+                [self.arrow_action, self.double_arrow_action, self.line_action],
+            )
+        )
+        self.left_toolbar.addWidget(
+            self._make_tool_group_widget(
+                "marker",
+                self.pen_action,
+                [self.pen_action, self.marker_rect_action, self.marker_ellipse_action],
+            )
+        )
+        self.left_toolbar.addWidget(
+            self._make_tool_group_widget(
+                "text",
+                self.text_action,
+                [self.text_action, self.text_pointer_action, self.text_arrow_action],
+            )
+        )
+        self.left_toolbar.addWidget(
+            self._make_tool_group_widget(
+                "number",
+                self.number_action,
+                [self.number_action, self.number_pointer_action, self.number_arrow_action],
+            )
+        )
+        self.left_toolbar.addWidget(
+            self._make_tool_group_widget(
+                "effect",
+                self.blur_action,
+                [self.blur_action, self.pixelate_action],
+            )
+        )
+        self.left_toolbar.addWidget(
+            self._make_tool_group_widget(
+                "shape",
+                self.rect_action,
+                [self.rect_action, self.ellipse_action],
+            )
+        )
         self.left_toolbar.addAction(self.crop_action)
         self.left_toolbar.addSeparator()
         self.left_toolbar.addAction(self.delete_action)
@@ -489,6 +577,12 @@ class MainWindow(QMainWindow):
         self.bold = self.bold_button
         self.italic = self.italic_button
         self.select_action.setChecked(True)
+        self._set_tool_group_default_action("arrow", self.arrow_action)
+        self._set_tool_group_default_action("marker", self.pen_action)
+        self._set_tool_group_default_action("text", self.text_action)
+        self._set_tool_group_default_action("number", self.number_action)
+        self._set_tool_group_default_action("effect", self.blur_action)
+        self._set_tool_group_default_action("shape", self.rect_action)
 
     def _build_menus(self) -> None:
         file_menu = self.menuBar().addMenu("File")
@@ -651,6 +745,22 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is not None:
             canvas.set_tool(tool)
+        if tool == Tool.LINE:
+            self._set_tool_group_default_action("arrow", self.line_action)
+        elif tool == Tool.ARROW:
+            self._set_tool_group_default_action("arrow", self.arrow_action)
+        elif tool == Tool.PEN:
+            self._set_tool_group_default_action("marker", self.pen_action)
+        elif tool == Tool.TEXT:
+            self._set_tool_group_default_action("text", self.text_action)
+        elif tool == Tool.BLUR:
+            self._set_tool_group_default_action("effect", self.blur_action)
+        elif tool == Tool.PIXELATE:
+            self._set_tool_group_default_action("effect", self.pixelate_action)
+        elif tool == Tool.RECT:
+            self._set_tool_group_default_action("shape", self.rect_action)
+        elif tool == Tool.ELLIPSE:
+            self._set_tool_group_default_action("shape", self.ellipse_action)
         self.select_action.setChecked(tool == Tool.SELECT)
         self.pen_action.setChecked(tool == Tool.PEN)
         self.line_action.setChecked(tool == Tool.LINE)
