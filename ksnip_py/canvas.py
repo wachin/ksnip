@@ -9,7 +9,36 @@ from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QColor, QFont, QIcon, QImage, QMouseEvent, QPainter, QPen, QPixmap, QPolygon, QTransform
-from PyQt6.QtWidgets import QLabel, QInputDialog, QSizePolicy
+from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QLabel, QPlainTextEdit, QSizePolicy, QVBoxLayout
+
+
+class TextInputDialog(QDialog):
+    def __init__(self, parent=None, *, title: str, text: str = "") -> None:
+        super().__init__(parent)
+        self.setWindowTitle(title)
+        self.resize(420, 220)
+
+        layout = QVBoxLayout(self)
+        hint = QLabel("Shift+Enter adds a new line. Ctrl+Enter accepts.", self)
+        layout.addWidget(hint)
+
+        self.editor = QPlainTextEdit(self)
+        self.editor.setPlainText(text)
+        layout.addWidget(self.editor, 1)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel, self)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        layout.addWidget(buttons)
+
+    def keyPressEvent(self, event) -> None:  # noqa: N802
+        if event.key() in {Qt.Key.Key_Return, Qt.Key.Key_Enter} and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
+            self.accept()
+            return
+        super().keyPressEvent(event)
+
+    def text(self) -> str:
+        return self.editor.toPlainText()
 
 
 class Tool(str, Enum):
@@ -100,12 +129,15 @@ class OverlayItem:
 
     def bounds(self) -> QRect:
         if self.kind == Tool.TEXT:
-            width = max(40, len(self.text or "") * 10)
-            height = max(20, (self.font_point_size or max(10, self.pen_width * 4)) + 12)
+            lines = (self.text or "").splitlines() or [""]
+            width = max(60, max(len(line) for line in lines) * 10 + 18)
+            line_height = max(18, (self.font_point_size or max(10, self.pen_width * 4)) + 6)
+            height = max(28, line_height * len(lines) + 10)
             return QRect(self.start.x(), self.start.y() - height, width, height)
         if self.kind == Tool.TEXT_ARROW:
-            width = max(96, len(self.text or "") * 10 + 24)
-            height = max(34, (self.font_point_size or 14) + 18)
+            lines = (self.text or "").splitlines() or [""]
+            width = max(96, max(len(line) for line in lines) * 10 + 24)
+            height = max(34, ((self.font_point_size or 14) + 8) * len(lines) + 10)
             label = QRect(self.start.x() + 8, self.start.y() - height // 2, width, height)
             return QRect(self.start, self.end).normalized().united(label).adjusted(-6, -6, 6, 6)
         if self.kind == Tool.NUMBER_ARROW:
@@ -770,6 +802,26 @@ class AnnotationCanvas(QLabel):
         self._active_handle = None
         self._refresh()
 
+    def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:  # noqa: N802
+        if not self.has_image() or self._tool != Tool.SELECT:
+            super().mouseDoubleClickEvent(event)
+            return
+        image_point = self._map_to_image(event.position().toPoint())
+        if image_point is None:
+            super().mouseDoubleClickEvent(event)
+            return
+        clicked_index = self._find_item_at(image_point)
+        if clicked_index is None:
+            super().mouseDoubleClickEvent(event)
+            return
+        self._select_single_item(clicked_index)
+        item = self._primary_selected_item()
+        if item is not None and (self._is_text_like(item.kind) or self._is_number_like(item.kind)):
+            self.edit_selected_text(self)
+        else:
+            self.changed.emit()
+            self._refresh()
+
     def _refresh(self) -> None:
         if self._image.isNull():
             self.clear()
@@ -926,7 +978,11 @@ class AnnotationCanvas(QLabel):
                 painter.drawRoundedRect(text_box, 6, 6)
             painter.setFont(font)
             painter.setPen(QPen(item.text_color or item.color, max(1, item.pen_width // 2)))
-            painter.drawText(text_box.adjusted(8, 4, -8, -4), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, item.text or "")
+            painter.drawText(
+                text_box.adjusted(8, 4, -8, -4),
+                Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap,
+                item.text or "",
+            )
         elif item.kind == Tool.TEXT_POINTER:
             self._draw_text_pointer(painter, item)
         elif item.kind == Tool.TEXT_ARROW:
@@ -1080,8 +1136,11 @@ class AnnotationCanvas(QLabel):
         item = self._primary_selected_item()
         if not self.has_single_selected_item() or item is None or not self._is_text_like(item.kind):
             return False
-        text, accepted = QInputDialog.getText(parent or self, "Edit text", "Text:", text=item.text or "")
-        if not accepted or text == item.text:
+        dialog = TextInputDialog(parent or self, title="Edit text", text=item.text or "")
+        if dialog.exec() != QDialog.DialogCode.Accepted:
+            return False
+        text = dialog.text()
+        if not text or text == item.text:
             return False
         self._push_undo_state()
         item.text = text
@@ -1463,8 +1522,11 @@ class AnnotationCanvas(QLabel):
 
     def _build_click_item(self, tool: Tool, point: QPoint) -> OverlayItem | None:
         if tool == Tool.TEXT:
-            text, accepted = QInputDialog.getText(self, "Insert text", "Text:")
-            if not accepted or not text:
+            dialog = TextInputDialog(self, title="Insert text")
+            if dialog.exec() != QDialog.DialogCode.Accepted:
+                return None
+            text = dialog.text()
+            if not text:
                 return None
             return OverlayItem(
                 kind=Tool.TEXT,
@@ -1546,8 +1608,11 @@ class AnnotationCanvas(QLabel):
                 fill_mode=fill_mode,
             )
         if tool == Tool.TEXT_POINTER:
-            text, accepted = QInputDialog.getText(self, "Insert text", "Text:")
-            if not accepted or not text:
+            dialog = TextInputDialog(self, title="Insert text")
+            if dialog.exec() != QDialog.DialogCode.Accepted:
+                return None
+            text = dialog.text()
+            if not text:
                 return None
             return OverlayItem(
                 kind=tool,
@@ -1568,8 +1633,11 @@ class AnnotationCanvas(QLabel):
                 shadow=self._shadow,
             )
         if tool == Tool.TEXT_ARROW:
-            text, accepted = QInputDialog.getText(self, "Insert text", "Text:")
-            if not accepted or not text:
+            dialog = TextInputDialog(self, title="Insert text")
+            if dialog.exec() != QDialog.DialogCode.Accepted:
+                return None
+            text = dialog.text()
+            if not text:
                 return None
             return OverlayItem(
                 kind=tool,
@@ -1702,7 +1770,11 @@ class AnnotationCanvas(QLabel):
         font.setUnderline(item.underline)
         painter.setFont(font)
         painter.setPen(QPen(item.text_color or QColor("#111111")))
-        painter.drawText(label_rect.adjusted(10, 4, -10, -4), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, item.text or "")
+        painter.drawText(
+            label_rect.adjusted(10, 4, -10, -4),
+            Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap,
+            item.text or "",
+        )
 
     def _draw_number_badge(self, painter: QPainter, item: OverlayItem) -> None:
         rect = QRect(item.start, item.end).normalized()

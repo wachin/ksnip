@@ -2001,8 +2001,9 @@ class MainWindow(QMainWindow):
             return
         self.tabs.removeTab(index)
         if self.tabs.count() == 0:
-            self.new_tab()
+            self.status_label.setText("Ready")
         self._update_actions()
+        self._update_property_toolbar_for_tool()
 
     def _sync_tab_title(self) -> None:
         canvas = self.current_canvas()
