@@ -5,7 +5,7 @@ This repository now contains a parallel PyQt6 port of `ksnip` under `ksnip_py/`.
 Current scope:
 
 - Main window with toolbar and menus
-- Capture modes: rectangular area, full screen, current screen, active window, window under cursor
+- Capture modes: rectangular area, last rectangular area, full screen, current screen, active window, window under cursor
 - Open image from disk
 - Paste image from clipboard
 - Save and save as

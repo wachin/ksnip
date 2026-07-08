@@ -169,6 +169,7 @@ class SettingsDialog(QDialog):
         self.shortcut_edits: dict[str, QKeySequenceEdit] = {}
         for key, label in (
             ("capture_rect", "Rect Area Capture"),
+            ("capture_last_rect", "Last Rect Area Capture"),
             ("capture_full", "Full Screen Capture"),
             ("capture_current", "Current Screen Capture"),
             ("capture_active", "Active Window Capture"),

@@ -26,6 +26,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 ## Captura de Pantalla
 
 - [x] Captura de área rectangular
+- [x] Captura de último rectángulo
 - [x] Captura de pantalla completa
 - [x] Captura de pantalla actual
 - [x] Captura de ventana activa
@@ -37,7 +38,6 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Copia automática al portapapeles para nuevas capturas
 - [ ] Paridad de captura con cursor del mouse
 - [ ] Paridad Wayland/X11/portal como en C++
-- [ ] Captura de último rectángulo
 - [ ] Captura vía portal genérico Wayland
 - [ ] Escalado específico de screenshots Wayland genéricos
 - [ ] Delay implícito con la misma semántica del código C++

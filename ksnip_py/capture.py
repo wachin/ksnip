@@ -15,6 +15,9 @@ class CaptureResult:
     mode: str
 
 
+_last_rect_area: QRect | None = None
+
+
 def grab_fullscreen() -> CaptureResult | None:
     desktop = _grab_virtual_desktop()
     if desktop.isNull():
@@ -55,6 +58,7 @@ def grab_window_under_cursor() -> CaptureResult | None:
 
 
 def grab_rectangular_area(parent: QWidget | None = None) -> CaptureResult | None:
+    global _last_rect_area
     desktop = _grab_virtual_desktop()
     if desktop.isNull():
         return None
@@ -66,8 +70,26 @@ def grab_rectangular_area(parent: QWidget | None = None) -> CaptureResult | None
     if overlay.wait_for_selection():
         rect = overlay.selected_rect()
         if rect is not None and not rect.isNull():
+            _last_rect_area = QRect(rect)
             return CaptureResult(desktop.copy(rect), "rect-area")
     return None
+
+
+def has_last_rectangular_area() -> bool:
+    return _last_rect_area is not None and not _last_rect_area.isNull()
+
+
+def grab_last_rectangular_area() -> CaptureResult | None:
+    if not has_last_rectangular_area():
+        return None
+    desktop = _grab_virtual_desktop()
+    if desktop.isNull():
+        return None
+    rect = QRect(_last_rect_area)
+    rect = rect.intersected(QRect(QPoint(0, 0), desktop.size()))
+    if rect.isNull() or rect.isEmpty():
+        return None
+    return CaptureResult(desktop.copy(rect), "last-rect-area")
 
 
 def _grab_virtual_desktop() -> QPixmap:

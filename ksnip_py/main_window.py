@@ -25,7 +25,15 @@ from PyQt6.QtWidgets import (
 )
 
 from .canvas import AnnotationCanvas, FillMode, Tool
-from .capture import grab_active_window, grab_current_screen, grab_fullscreen, grab_rectangular_area, grab_window_under_cursor
+from .capture import (
+    grab_active_window,
+    grab_current_screen,
+    grab_fullscreen,
+    grab_last_rectangular_area,
+    grab_rectangular_area,
+    grab_window_under_cursor,
+    has_last_rectangular_area,
+)
 from .ocr_backend import OcrBackend, OcrOptions, OcrWorker
 from .ocr_result_dialog import OcrResultDialog
 from .pin_window import PinWindow
@@ -139,6 +147,9 @@ class MainWindow(QMainWindow):
         self.new_capture_rect_action = QAction(self._load_icon("drawRect"), "Rect Area", self)
         self.new_capture_rect_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_rect_action.triggered.connect(self.capture_rect_area)
+        self.new_capture_last_rect_action = QAction(self._load_icon("lastRect"), "Last Rect Area", self)
+        self.new_capture_last_rect_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.new_capture_last_rect_action.triggered.connect(self.capture_last_rect_area)
         self.new_capture_full_action = QAction(self._load_icon("fullScreen"), "Full Screen", self)
         self.new_capture_full_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_full_action.triggered.connect(self.capture_fullscreen)
@@ -324,6 +335,7 @@ class MainWindow(QMainWindow):
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, toolbar)
 
         toolbar.addAction(self.new_capture_rect_action)
+        toolbar.addAction(self.new_capture_last_rect_action)
         toolbar.addAction(self.new_capture_full_action)
         toolbar.addAction(self.new_capture_current_action)
         toolbar.addAction(self.new_capture_active_action)
@@ -460,6 +472,7 @@ class MainWindow(QMainWindow):
         file_menu = self.menuBar().addMenu("File")
         self.file_menu = file_menu
         file_menu.addAction(self.new_capture_rect_action)
+        file_menu.addAction(self.new_capture_last_rect_action)
         file_menu.addAction(self.new_capture_full_action)
         file_menu.addAction(self.new_capture_current_action)
         file_menu.addAction(self.new_capture_active_action)
@@ -548,6 +561,7 @@ class MainWindow(QMainWindow):
         menu.addAction("Show Editor", self.show_from_tray)
         menu.addSeparator()
         menu.addAction(self.new_capture_rect_action)
+        menu.addAction(self.new_capture_last_rect_action)
         menu.addAction(self.new_capture_full_action)
         menu.addAction(self.new_capture_current_action)
         menu.addAction(self.new_capture_active_action)
@@ -831,6 +845,16 @@ class MainWindow(QMainWindow):
             self.status_label.setText("Capture canceled")
             return
         self._load_capture_result(result, "Rect Area")
+
+    def capture_last_rect_area(self) -> None:
+        result = self._capture_with_preferences(grab_last_rectangular_area)
+        if result is None:
+            if has_last_rectangular_area():
+                self._show_error("Unable to capture the last rectangular area.")
+            else:
+                self._show_error("No previous rectangular area capture is available yet.")
+            return
+        self._load_capture_result(result, "Last Rect Area")
 
     def capture_active_window(self) -> None:
         result = self._capture_with_preferences(grab_active_window)
@@ -1269,6 +1293,7 @@ class MainWindow(QMainWindow):
         self.add_watermark_action.setEnabled(has_image)
         self.upload_action.setEnabled(has_image)
         self.ocr_action.setEnabled(has_image and self._setting_bool("ocr/enabled", True))
+        self.new_capture_last_rect_action.setEnabled(has_last_rectangular_area())
         self.delete_action.setEnabled(has_selected_item)
         self.duplicate_action.setEnabled(has_selected_item)
         self.edit_text_action.setEnabled(can_edit_text)
@@ -1544,6 +1569,7 @@ class MainWindow(QMainWindow):
     def _shortcut_defaults(self) -> dict[str, QKeySequence]:
         return {
             "capture_rect": QKeySequence("Ctrl+Shift+R"),
+            "capture_last_rect": QKeySequence("Ctrl+Shift+L"),
             "capture_full": QKeySequence("Ctrl+Shift+F"),
             "capture_current": QKeySequence("Ctrl+Shift+S"),
             "capture_active": QKeySequence("Ctrl+Shift+A"),
@@ -1560,6 +1586,7 @@ class MainWindow(QMainWindow):
     def _shortcut_actions(self) -> dict[str, QAction]:
         return {
             "capture_rect": self.new_capture_rect_action,
+            "capture_last_rect": self.new_capture_last_rect_action,
             "capture_full": self.new_capture_full_action,
             "capture_current": self.new_capture_current_action,
             "capture_active": self.new_capture_active_action,
