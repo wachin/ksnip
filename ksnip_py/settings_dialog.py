@@ -230,6 +230,113 @@ class SettingsDialog(QDialog):
         self.show_main_window_after_capture = QCheckBox("Show Main Window After Capture", capture_group)
         capture_layout.addRow(self.hide_main_window_during_capture)
         capture_layout.addRow(self.show_main_window_after_capture)
+
+        image_grabber_group = QGroupBox("Image Grabber", self)
+        image_grabber_layout = QVBoxLayout(image_grabber_group)
+        self.capture_mouse_cursor = QCheckBox("Capture mouse cursor on screenshot", image_grabber_group)
+        self.capture_mouse_cursor.setEnabled(False)
+        self.show_main_window_after_capture_checkbox = QCheckBox("Show Main Window after capturing screenshot", image_grabber_group)
+        self.show_main_window_after_capture_checkbox.setChecked(True)
+        self.show_main_window_after_capture_checkbox.setEnabled(False)
+        self.hide_main_window_during_capture_checkbox = QCheckBox("Hide Main Window during screenshot", image_grabber_group)
+        self.hide_main_window_during_capture_checkbox.setChecked(True)
+        self.hide_main_window_during_capture_checkbox.setEnabled(False)
+        self.force_generic_wayland = QCheckBox("Force Generic Wayland (xdg-desktop-portal) Screenshot", image_grabber_group)
+        self.force_generic_wayland.setEnabled(False)
+        self.scale_generic_wayland = QCheckBox("Scale Generic Wayland (xdg-desktop-portal) Screenshots", image_grabber_group)
+        self.scale_generic_wayland.setEnabled(False)
+        image_grabber_layout.addWidget(self.capture_mouse_cursor)
+        image_grabber_layout.addWidget(self.show_main_window_after_capture_checkbox)
+        image_grabber_layout.addWidget(self.hide_main_window_during_capture_checkbox)
+        image_grabber_layout.addWidget(self.force_generic_wayland)
+        image_grabber_layout.addWidget(self.scale_generic_wayland)
+
+        image_grabber_delay_group = QGroupBox("Delays", self)
+        image_grabber_delay_layout = QFormLayout(image_grabber_delay_group)
+        self.implicit_capture_delay = QSpinBox(image_grabber_delay_group)
+        self.implicit_capture_delay.setRange(0, 2000)
+        self.implicit_capture_delay.setSuffix(" ms")
+        self.implicit_capture_delay.setValue(200)
+        self.implicit_capture_delay.setEnabled(False)
+        image_grabber_delay_layout.addRow("Implicit capture delay", self.implicit_capture_delay)
+
+        snipping_area_group = QGroupBox("Snipping Area", self)
+        snipping_area_layout = QVBoxLayout(snipping_area_group)
+        self.freeze_image_while_snipping = QCheckBox("Freeze Image while snipping", snipping_area_group)
+        self.freeze_image_while_snipping.setEnabled(False)
+        self.show_magnifying_glass = QCheckBox("Show magnifying glass on snipping area", snipping_area_group)
+        self.show_magnifying_glass.setEnabled(False)
+        self.show_snipping_rulers = QCheckBox("Show Snipping Area rulers", snipping_area_group)
+        self.show_snipping_rulers.setEnabled(False)
+        self.show_snipping_position_size = QCheckBox("Show Snipping Area position and size info", snipping_area_group)
+        self.show_snipping_position_size.setEnabled(False)
+        self.allow_resizing_rect = QCheckBox("Allow resizing rect area selection by default", snipping_area_group)
+        self.allow_resizing_rect.setEnabled(False)
+        self.show_snipping_info_text = QCheckBox("Show Snipping Area info text", snipping_area_group)
+        self.show_snipping_info_text.setEnabled(False)
+        for widget in (
+            self.freeze_image_while_snipping,
+            self.show_magnifying_glass,
+            self.show_snipping_rulers,
+            self.show_snipping_position_size,
+            self.allow_resizing_rect,
+            self.show_snipping_info_text,
+        ):
+            snipping_area_layout.addWidget(widget)
+
+        snipping_area_appearance_group = QGroupBox("Appearance", self)
+        snipping_area_appearance_layout = QFormLayout(snipping_area_appearance_group)
+        self.snipping_adorner_color = QLineEdit("#ff0000", snipping_area_appearance_group)
+        self.snipping_adorner_color.setEnabled(False)
+        self.snipping_cursor_color = QLineEdit("#221155", snipping_area_appearance_group)
+        self.snipping_cursor_color.setEnabled(False)
+        self.snipping_cursor_thickness = QSpinBox(snipping_area_appearance_group)
+        self.snipping_cursor_thickness.setRange(1, 10)
+        self.snipping_cursor_thickness.setValue(1)
+        self.snipping_cursor_thickness.setEnabled(False)
+        self.snipping_area_transparency = QSpinBox(snipping_area_appearance_group)
+        self.snipping_area_transparency.setRange(0, 255)
+        self.snipping_area_transparency.setValue(150)
+        self.snipping_area_transparency.setEnabled(False)
+        snipping_area_appearance_layout.addRow("Snipping Area adorner color", self.snipping_adorner_color)
+        snipping_area_appearance_layout.addRow("Snipping Area cursor color", self.snipping_cursor_color)
+        snipping_area_appearance_layout.addRow("Snipping Area cursor thickness", self.snipping_cursor_thickness)
+        snipping_area_appearance_layout.addRow("Snipping Area Transparency", self.snipping_area_transparency)
+
+        annotator_group = QGroupBox("Annotator", self)
+        annotator_layout = QVBoxLayout(annotator_group)
+        self.remember_annotation_tool = QCheckBox("Remember annotation tool selection and load on startup", annotator_group)
+        self.remember_annotation_tool.setEnabled(False)
+        self.switch_to_select_tool = QCheckBox("Switch to Select Tool after drawing Item", annotator_group)
+        self.switch_to_select_tool.setEnabled(False)
+        self.select_item_after_drawing = QCheckBox("Select Item after drawing", annotator_group)
+        self.select_item_after_drawing.setEnabled(False)
+        self.number_tool_seed_updates = QCheckBox("Number Tool Seed change updates all Number Items", annotator_group)
+        self.number_tool_seed_updates.setEnabled(False)
+        self.show_controls_widget = QCheckBox("Show Controls Widget", annotator_group)
+        self.show_controls_widget.setEnabled(False)
+        self.smooth_painter_paths = QCheckBox("Smooth Painter Paths", annotator_group)
+        self.smooth_painter_paths.setEnabled(False)
+        for widget in (
+            self.remember_annotation_tool,
+            self.switch_to_select_tool,
+            self.select_item_after_drawing,
+            self.number_tool_seed_updates,
+            self.show_controls_widget,
+            self.smooth_painter_paths,
+        ):
+            annotator_layout.addWidget(widget)
+
+        annotator_appearance_group = QGroupBox("Canvas", self)
+        annotator_appearance_layout = QFormLayout(annotator_appearance_group)
+        self.smooth_factor = QSpinBox(annotator_appearance_group)
+        self.smooth_factor.setRange(1, 20)
+        self.smooth_factor.setValue(7)
+        self.smooth_factor.setEnabled(False)
+        self.canvas_color = QLineEdit("#ffffff", annotator_appearance_group)
+        self.canvas_color.setEnabled(False)
+        annotator_appearance_layout.addRow("Smooth Factor", self.smooth_factor)
+        annotator_appearance_layout.addRow("Canvas Color", self.canvas_color)
         tray_group = QGroupBox("Tray Icon", self)
         tray_layout = QFormLayout(tray_group)
 
@@ -349,24 +456,16 @@ class SettingsDialog(QDialog):
             "Image Grabber",
             "Image Grabber Settings",
             [
-                self._create_placeholder_group(
-                    "Image Grabber",
-                    [
-                        "Portal, cursor, Wayland/X11 options, and implicit capture delay are not yet fully ported.",
-                    ],
-                ),
+                image_grabber_group,
+                image_grabber_delay_group,
             ],
         )
         self._add_settings_page(
             "Snipping Area",
             "Snipping Area Settings",
             [
-                self._create_placeholder_group(
-                    "Snipping Area",
-                    [
-                        "Fine-grained snipping overlay settings are still pending parity with the C++ dialog.",
-                    ],
-                ),
+                snipping_area_group,
+                snipping_area_appearance_group,
             ],
         )
         self._add_settings_page("Uploader", "Uploader Settings", [upload_group, ocr_group])
@@ -407,7 +506,7 @@ class SettingsDialog(QDialog):
                 ),
             ],
         )
-        self._add_settings_page("Annotator", "Annotator Settings", [editor_group])
+        self._add_settings_page("Annotator", "Annotator Settings", [annotator_group, annotator_appearance_group, editor_group])
         self._add_settings_page(
             "Stickers",
             "Sticker Settings",
