@@ -207,6 +207,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [ ] Panel de herramientas lateral izquierdo igual al original
 - [x] Barra de propiedades base con iconografía del editor original
 - [x] Barra de propiedades compactada con swatches visibles y controles más cercanos al layout de Ksnip
+- [x] `Item Settings` dinámicos en barra superior según herramienta seleccionada
 - [ ] Controles de propiedades iguales al original
 - [x] Zoom básico con controles inferiores
 - [x] Barra inferior de zoom compactada y acercada visualmente al patrón de Ksnip

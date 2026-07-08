@@ -240,6 +240,15 @@ class MainWindow(QMainWindow):
         layout.addWidget(spacer)
         return host
 
+    def _make_property_group(self, *widgets: QWidget) -> QWidget:
+        host = QWidget(self)
+        layout = QHBoxLayout(host)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(4)
+        for widget in widgets:
+            layout.addWidget(widget)
+        return host
+
     def _sync_toolbox_color_button(self, color: QColor | None = None) -> None:
         if not hasattr(self, "toolbox_color_button"):
             return
@@ -276,6 +285,103 @@ class MainWindow(QMainWindow):
             self.property_fill_button.setStyleSheet(
                 f"QToolButton {{ background: {fill.name()}; border: 1px solid #666; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; }}"
             )
+
+    def _effective_property_tool(self) -> Tool | None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return None
+        tool = canvas.tool()
+        if tool == Tool.SELECT and canvas.has_selected_item():
+            selected_kind = canvas.selected_item_kind()
+            if selected_kind is not None:
+                return selected_kind
+        return tool
+
+    def _update_property_toolbar_for_tool(self) -> None:
+        if not hasattr(self, "_property_groups"):
+            return
+        tool = self._effective_property_tool()
+        show_stroke = tool in {
+            Tool.ARROW,
+            Tool.DOUBLE_ARROW,
+            Tool.LINE,
+            Tool.PEN,
+            Tool.MARKER_PEN,
+            Tool.TEXT,
+            Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW,
+            Tool.NUMBER,
+            Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW,
+            Tool.RECT,
+            Tool.ELLIPSE,
+            Tool.MARKER_RECT,
+            Tool.MARKER_ELLIPSE,
+        }
+        show_width = tool in {
+            Tool.ARROW,
+            Tool.DOUBLE_ARROW,
+            Tool.LINE,
+            Tool.PEN,
+            Tool.MARKER_PEN,
+            Tool.TEXT,
+            Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW,
+            Tool.NUMBER,
+            Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW,
+            Tool.BLUR,
+            Tool.PIXELATE,
+            Tool.RECT,
+            Tool.ELLIPSE,
+            Tool.MARKER_RECT,
+            Tool.MARKER_ELLIPSE,
+        }
+        show_fill = tool in {
+            Tool.TEXT,
+            Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW,
+            Tool.NUMBER,
+            Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW,
+            Tool.RECT,
+            Tool.ELLIPSE,
+        }
+        show_opacity = tool in {
+            Tool.SELECT,
+            Tool.ARROW,
+            Tool.DOUBLE_ARROW,
+            Tool.LINE,
+            Tool.PEN,
+            Tool.TEXT,
+            Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW,
+            Tool.NUMBER,
+            Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW,
+            Tool.RECT,
+            Tool.ELLIPSE,
+        }
+        show_font = tool in {
+            Tool.TEXT,
+            Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW,
+            Tool.NUMBER,
+            Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW,
+        }
+        show_style = show_font
+        visibility = {
+            "handle": True,
+            "stroke": show_stroke,
+            "width": show_width,
+            "fill": show_fill,
+            "opacity": show_opacity,
+            "font": show_font,
+            "style": show_style,
+        }
+        for name, widget in self._property_groups.items():
+            widget.setVisible(visibility.get(name, False))
 
     def _build_actions(self) -> None:
         self.tool_action_group = QActionGroup(self)
@@ -510,15 +616,15 @@ class MainWindow(QMainWindow):
         self._configure_toolbar(properties_toolbar, icon_size=16, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, properties_toolbar)
 
-        properties_toolbar.addWidget(QLabel("::", self))
+        self.property_handle_group = self._make_property_group(QLabel("::", self))
+        properties_toolbar.addWidget(self.property_handle_group)
 
         self.property_color_button = QToolButton(self)
         self.property_color_button.setToolTip("Stroke color")
         self.property_color_button.setFixedSize(22, 22)
         self.property_color_button.clicked.connect(self.select_color)
-        properties_toolbar.addWidget(self.property_color_button)
-        properties_toolbar.addSeparator()
-        properties_toolbar.addWidget(self._make_icon_label("width", "Stroke width"))
+        self.property_stroke_group = self._make_property_group(self.property_color_button)
+        properties_toolbar.addWidget(self.property_stroke_group)
 
         self.stroke_width = QSpinBox()
         self.stroke_width.setRange(1, 20)
@@ -526,14 +632,13 @@ class MainWindow(QMainWindow):
         self.stroke_width.setFixedWidth(52)
         self.stroke_width.setFixedHeight(22)
         self.stroke_width.valueChanged.connect(self._apply_stroke_width)
-        properties_toolbar.addWidget(self.stroke_width)
-        properties_toolbar.addSeparator()
+        self.property_width_group = self._make_property_group(self._make_icon_label("width", "Stroke width"), self.stroke_width)
+        properties_toolbar.addWidget(self.property_width_group)
 
         self.property_fill_button = QToolButton(self)
         self.property_fill_button.setToolTip("Fill color")
         self.property_fill_button.setFixedSize(22, 22)
         self.property_fill_button.clicked.connect(self.select_fill_color)
-        properties_toolbar.addWidget(self.property_fill_button)
 
         self.fill_mode = QComboBox()
         self.fill_mode.addItem("Border", FillMode.STROKE_ONLY)
@@ -542,9 +647,8 @@ class MainWindow(QMainWindow):
         self.fill_mode.setFixedWidth(58)
         self.fill_mode.setFixedHeight(22)
         self.fill_mode.currentIndexChanged.connect(self._apply_fill_mode)
-        properties_toolbar.addWidget(self.fill_mode)
-        properties_toolbar.addSeparator()
-        properties_toolbar.addWidget(self._make_icon_label("opacity", "Opacity"))
+        self.property_fill_group = self._make_property_group(self.property_fill_button, self.fill_mode)
+        properties_toolbar.addWidget(self.property_fill_group)
 
         self.opacity = QSpinBox()
         self.opacity.setRange(0, 100)
@@ -553,14 +657,13 @@ class MainWindow(QMainWindow):
         self.opacity.setFixedWidth(68)
         self.opacity.setFixedHeight(22)
         self.opacity.valueChanged.connect(self._apply_opacity)
-        properties_toolbar.addWidget(self.opacity)
-        properties_toolbar.addSeparator()
+        self.property_opacity_group = self._make_property_group(self._make_icon_label("opacity", "Opacity"), self.opacity)
+        properties_toolbar.addWidget(self.property_opacity_group)
 
         self.font_family = QFontComboBox()
         self.font_family.setMaximumWidth(140)
         self.font_family.setFixedHeight(22)
         self.font_family.currentFontChanged.connect(self._apply_font_family)
-        properties_toolbar.addWidget(self.font_family)
 
         self.font_size = QSpinBox()
         self.font_size.setRange(6, 144)
@@ -568,16 +671,26 @@ class MainWindow(QMainWindow):
         self.font_size.setFixedWidth(52)
         self.font_size.setFixedHeight(22)
         self.font_size.valueChanged.connect(self._apply_font_size)
-        properties_toolbar.addWidget(self.font_size)
-        properties_toolbar.addSeparator()
+        self.property_font_group = self._make_property_group(self.font_family, self.font_size)
+        properties_toolbar.addWidget(self.property_font_group)
 
         self.bold_button = self._make_tool_toggle("bold", "Bold", False, self._apply_bold)
         self.italic_button = self._make_tool_toggle("italic", "Italic", False, self._apply_italic)
         self.bold_button.setFixedSize(22, 22)
         self.italic_button.setFixedSize(22, 22)
-        properties_toolbar.addWidget(self.bold_button)
-        properties_toolbar.addWidget(self.italic_button)
+        self.property_style_group = self._make_property_group(self.bold_button, self.italic_button)
+        properties_toolbar.addWidget(self.property_style_group)
+        self._property_groups = {
+            "handle": self.property_handle_group,
+            "stroke": self.property_stroke_group,
+            "width": self.property_width_group,
+            "fill": self.property_fill_group,
+            "opacity": self.property_opacity_group,
+            "font": self.property_font_group,
+            "style": self.property_style_group,
+        }
         self._sync_property_color_buttons()
+        self._update_property_toolbar_for_tool()
 
         self.left_toolbar = QToolBar("Tools", self)
         self.left_toolbar.setMovable(False)
@@ -943,6 +1056,7 @@ class MainWindow(QMainWindow):
         self.crop_action.setChecked(tool == Tool.CROP)
         self._settings.setValue("editor/tool", tool.value)
         self._sync_item_controls()
+        self._update_property_toolbar_for_tool()
 
     def select_color(self) -> None:
         canvas = self.current_canvas()
@@ -1105,6 +1219,7 @@ class MainWindow(QMainWindow):
                 return
         self._sync_toolbox_color_button()
         self._sync_property_color_buttons()
+        self._update_property_toolbar_for_tool()
 
     def set_current_canvas_zoom(self, percent: int) -> None:
         canvas = self.current_canvas()
