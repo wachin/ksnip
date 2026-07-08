@@ -8,7 +8,6 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QColorDialog,
     QFileDialog,
-    QFrame,
     QFontComboBox,
     QHBoxLayout,
     QInputDialog,
@@ -200,12 +199,15 @@ class MainWindow(QMainWindow):
         main_button.setDefaultAction(main_action)
         main_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         main_button.setAutoRaise(False)
+        main_button.setIconSize(QSize(24, 24))
+        main_button.setFixedSize(30, 30)
         layout.addWidget(main_button)
 
         menu_button = QToolButton(host)
         menu_button.setArrowType(Qt.ArrowType.DownArrow)
         menu_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         menu_button.setAutoRaise(False)
+        menu_button.setFixedSize(14, 30)
         menu = QMenu(menu_button)
         for action in menu_actions:
             menu.addAction(action)
@@ -221,6 +223,8 @@ class MainWindow(QMainWindow):
         button.setDefaultAction(action)
         button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         button.setAutoRaise(False)
+        button.setIconSize(QSize(24, 24))
+        button.setFixedSize(30, 30)
         button.setEnabled(enabled)
         return button
 
@@ -526,12 +530,12 @@ class MainWindow(QMainWindow):
         self.left_toolbar = QToolBar("Tools", self)
         self.left_toolbar.setMovable(False)
         self.left_toolbar.setOrientation(Qt.Orientation.Vertical)
-        self._configure_toolbar(self.left_toolbar, icon_size=22, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self._configure_toolbar(self.left_toolbar, icon_size=24, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.left_toolbar)
         toolbox_host = QWidget(self)
         toolbox_layout = QVBoxLayout(toolbox_host)
-        toolbox_layout.setContentsMargins(6, 6, 6, 6)
-        toolbox_layout.setSpacing(6)
+        toolbox_layout.setContentsMargins(4, 4, 4, 4)
+        toolbox_layout.setSpacing(4)
 
         toolbox_top = QWidget(toolbox_host)
         toolbox_top_layout = QHBoxLayout(toolbox_top)
@@ -542,55 +546,54 @@ class MainWindow(QMainWindow):
         self.toolbox_color_button = QToolButton(toolbox_top)
         self.toolbox_color_button.setToolTip("Stroke color")
         self.toolbox_color_button.clicked.connect(self.select_color)
+        self.toolbox_color_button.setFixedSize(24, 24)
         toolbox_top_layout.addWidget(self.toolbox_color_button)
         toolbox_top_layout.addStretch(1)
         toolbox_layout.addWidget(toolbox_top)
 
-        toolbox_frame = QFrame(toolbox_host)
-        toolbox_frame.setFrameShape(QFrame.Shape.StyledPanel)
-        toolbox_frame.setFrameShadow(QFrame.Shadow.Sunken)
-        frame_layout = QVBoxLayout(toolbox_frame)
-        frame_layout.setContentsMargins(8, 8, 8, 8)
-        frame_layout.setSpacing(6)
-        frame_layout.addWidget(self._make_action_button(self.select_action))
-        frame_layout.addWidget(self._make_action_button(self.duplicate_action, enabled=False))
-        frame_layout.addWidget(
+        tools_panel = QWidget(toolbox_host)
+        tools_layout = QVBoxLayout(tools_panel)
+        tools_layout.setContentsMargins(0, 0, 0, 0)
+        tools_layout.setSpacing(4)
+        tools_layout.addWidget(self._make_action_button(self.select_action))
+        tools_layout.addWidget(self._make_action_button(self.duplicate_action, enabled=False))
+        tools_layout.addWidget(
             self._make_tool_group_widget(
                 "arrow",
                 self.arrow_action,
                 [self.arrow_action, self.double_arrow_action, self.line_action],
             )
         )
-        frame_layout.addWidget(self._make_action_button(self.pen_action))
-        frame_layout.addWidget(
+        tools_layout.addWidget(self._make_action_button(self.pen_action))
+        tools_layout.addWidget(
             self._make_tool_group_widget(
                 "marker",
                 self.marker_pen_action,
                 [self.marker_pen_action, self.marker_rect_action, self.marker_ellipse_action],
             )
         )
-        frame_layout.addWidget(
+        tools_layout.addWidget(
             self._make_tool_group_widget(
                 "text",
                 self.text_action,
                 [self.text_action, self.text_pointer_action, self.text_arrow_action],
             )
         )
-        frame_layout.addWidget(
+        tools_layout.addWidget(
             self._make_tool_group_widget(
                 "number",
                 self.number_action,
                 [self.number_action, self.number_pointer_action, self.number_arrow_action],
             )
         )
-        frame_layout.addWidget(
+        tools_layout.addWidget(
             self._make_tool_group_widget(
                 "effect",
                 self.blur_action,
                 [self.blur_action, self.pixelate_action],
             )
         )
-        frame_layout.addWidget(
+        tools_layout.addWidget(
             self._make_tool_group_widget(
                 "shape",
                 self.rect_action,
@@ -599,9 +602,9 @@ class MainWindow(QMainWindow):
         )
         self.sticker_action = QAction(self._load_icon("sticker"), "Sticker", self)
         self.sticker_action.setEnabled(False)
-        frame_layout.addWidget(self._make_action_button(self.sticker_action, enabled=False))
-        frame_layout.addStretch(1)
-        toolbox_layout.addWidget(toolbox_frame)
+        tools_layout.addWidget(self._make_action_button(self.sticker_action, enabled=False))
+        tools_layout.addStretch(1)
+        toolbox_layout.addWidget(tools_panel)
         toolbox_layout.addStretch(1)
         self.left_toolbar.addWidget(toolbox_host)
         self._sync_toolbox_color_button(QColor("#df5a17"))
