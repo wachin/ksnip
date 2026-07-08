@@ -17,9 +17,17 @@ class Tool(str, Enum):
     PEN = "pen"
     LINE = "line"
     ARROW = "arrow"
+    DOUBLE_ARROW = "double_arrow"
     RECT = "rect"
     ELLIPSE = "ellipse"
+    MARKER_RECT = "marker_rect"
+    MARKER_ELLIPSE = "marker_ellipse"
     TEXT = "text"
+    TEXT_POINTER = "text_pointer"
+    TEXT_ARROW = "text_arrow"
+    NUMBER = "number"
+    NUMBER_POINTER = "number_pointer"
+    NUMBER_ARROW = "number_arrow"
     BLUR = "blur"
     PIXELATE = "pixelate"
     CROP = "crop"
@@ -81,6 +89,14 @@ class OverlayItem:
             width = max(40, len(self.text or "") * 10)
             height = max(20, (self.font_point_size or max(10, self.pen_width * 4)) + 12)
             return QRect(self.start.x(), self.start.y() - height, width, height)
+        if self.kind == Tool.TEXT_ARROW:
+            width = max(80, len(self.text or "") * 10)
+            label = QRect(self.start.x() + 8, self.start.y() - 28, width, 32)
+            return QRect(self.start, self.end).normalized().united(label).adjusted(-6, -6, 6, 6)
+        if self.kind == Tool.NUMBER_ARROW:
+            radius = max(14, self.font_point_size or 14)
+            bubble = QRect(self.start.x() - radius, self.start.y() - radius, radius * 2, radius * 2)
+            return QRect(self.start, self.end).normalized().united(bubble).adjusted(-6, -6, 6, 6)
         if self.kind == Tool.IMAGE and self.image is not None:
             return QRect(self.start, self.end).normalized()
         return QRect(self.start, self.end).normalized().adjusted(-6, -6, 6, 6)
@@ -126,6 +142,22 @@ class AnnotationCanvas(QLabel):
         self._redo_stack: list[CanvasSnapshot] = []
         self._zoom_percent = 100
         self.state = CanvasState()
+
+    @staticmethod
+    def _is_line_like(tool: Tool) -> bool:
+        return tool in (Tool.LINE, Tool.ARROW, Tool.DOUBLE_ARROW, Tool.TEXT_ARROW, Tool.NUMBER_ARROW)
+
+    @staticmethod
+    def _is_shape_like(tool: Tool) -> bool:
+        return tool in (Tool.RECT, Tool.ELLIPSE, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE)
+
+    @staticmethod
+    def _is_text_like(tool: Tool) -> bool:
+        return tool in (Tool.TEXT, Tool.TEXT_POINTER, Tool.TEXT_ARROW)
+
+    @staticmethod
+    def _is_number_like(tool: Tool) -> bool:
+        return tool in (Tool.NUMBER, Tool.NUMBER_POINTER, Tool.NUMBER_ARROW)
 
     def has_image(self) -> bool:
         return not self._image.isNull()
@@ -336,13 +368,13 @@ class AnnotationCanvas(QLabel):
 
     def selected_item_font_family(self) -> str | None:
         item = self._primary_selected_item()
-        if item is None or item.kind != Tool.TEXT:
+        if item is None or not self._is_text_like(item.kind):
             return None
         return item.font_family or self._font_family
 
     def selected_item_font_point_size(self) -> int | None:
         item = self._primary_selected_item()
-        if item is None or item.kind != Tool.TEXT:
+        if item is None or not self._is_text_like(item.kind):
             return None
         return item.font_point_size or self._font_point_size
 
@@ -360,19 +392,19 @@ class AnnotationCanvas(QLabel):
 
     def selected_item_fill_mode(self) -> FillMode | None:
         item = self._primary_selected_item()
-        if item is None or item.kind not in (Tool.RECT, Tool.ELLIPSE):
+        if item is None or item.kind not in (Tool.RECT, Tool.ELLIPSE, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE):
             return None
         return item.fill_mode
 
     def selected_item_bold(self) -> bool | None:
         item = self._primary_selected_item()
-        if item is None or item.kind != Tool.TEXT:
+        if item is None or not self._is_text_like(item.kind):
             return None
         return item.bold
 
     def selected_item_italic(self) -> bool | None:
         item = self._primary_selected_item()
-        if item is None or item.kind != Tool.TEXT:
+        if item is None or not self._is_text_like(item.kind):
             return None
         return item.italic
 
@@ -509,31 +541,33 @@ class AnnotationCanvas(QLabel):
             self._refresh()
             return
 
-        if self._tool == Tool.TEXT:
-            text, accepted = QInputDialog.getText(self, "Insert text", "Text:")
-            if accepted and text:
+        if self._tool in (Tool.TEXT, Tool.NUMBER):
+            item = self._build_click_item(self._tool, image_point)
+            if item is not None:
                 self._push_undo_state()
-                self._items.append(
-                    OverlayItem(
-                        kind=Tool.TEXT,
-                        start=QPoint(image_point),
-                        end=QPoint(image_point),
-                        color=QColor(self._color),
-                        pen_width=self._pen_width,
-                        text=text,
-                        font_family=self._font_family,
-                        font_point_size=self._font_point_size,
-                        opacity=self._opacity,
-                        bold=self._bold,
-                        italic=self._italic,
-                    )
-                )
+                self._items.append(item)
                 self._select_single_item(len(self._items) - 1)
                 self._mark_dirty()
                 self._refresh()
             return
 
-        if self._tool in (Tool.PEN, Tool.LINE, Tool.ARROW, Tool.RECT, Tool.ELLIPSE, Tool.BLUR, Tool.PIXELATE, Tool.CROP):
+        if self._tool in (
+            Tool.PEN,
+            Tool.LINE,
+            Tool.ARROW,
+            Tool.DOUBLE_ARROW,
+            Tool.RECT,
+            Tool.ELLIPSE,
+            Tool.MARKER_RECT,
+            Tool.MARKER_ELLIPSE,
+            Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW,
+            Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW,
+            Tool.BLUR,
+            Tool.PIXELATE,
+            Tool.CROP,
+        ):
             self._push_undo_state()
         self._preview_start = image_point
         self._preview_end = image_point
@@ -581,29 +615,35 @@ class AnnotationCanvas(QLabel):
         if image_point is not None:
             self._preview_end = image_point
 
-        if self._tool in (Tool.LINE, Tool.ARROW, Tool.RECT, Tool.ELLIPSE, Tool.BLUR, Tool.PIXELATE, Tool.CROP) and self._preview_end is not None:
+        if self._tool in (
+            Tool.LINE,
+            Tool.ARROW,
+            Tool.DOUBLE_ARROW,
+            Tool.RECT,
+            Tool.ELLIPSE,
+            Tool.MARKER_RECT,
+            Tool.MARKER_ELLIPSE,
+            Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW,
+            Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW,
+            Tool.BLUR,
+            Tool.PIXELATE,
+            Tool.CROP,
+        ) and self._preview_end is not None:
             rect = QRect(self._preview_start, self._preview_end).normalized()
-            if self._tool in (Tool.LINE, Tool.ARROW, Tool.RECT, Tool.ELLIPSE):
-                self._items.append(
-                    OverlayItem(
-                        kind=self._tool,
-                        start=QPoint(self._preview_start),
-                        end=QPoint(self._preview_end),
-                        color=QColor(self._color),
-                        pen_width=self._pen_width,
-                        fill_color=QColor(self._fill_color) if self._tool in (Tool.RECT, Tool.ELLIPSE) else None,
-                        opacity=self._opacity,
-                        fill_mode=self._fill_mode,
-                    )
-                )
+            item = self._build_drag_item(self._tool, QPoint(self._preview_start), QPoint(self._preview_end), rect)
+            if item is not None:
+                self._items.append(item)
                 self._select_single_item(len(self._items) - 1)
             elif self._tool == Tool.CROP:
                 self._image = self._image.copy(rect)
                 self._clear_selection()
-            else:
+            elif self._tool in (Tool.BLUR, Tool.PIXELATE):
                 self._apply_region_effect(rect, self._tool)
                 self._clear_selection()
-            self._mark_dirty()
+            if item is not None or self._tool in (Tool.CROP, Tool.BLUR, Tool.PIXELATE):
+                self._mark_dirty()
 
         self._preview_start = None
         self._preview_end = None
@@ -635,7 +675,22 @@ class AnnotationCanvas(QLabel):
         for index, item in enumerate(self._items):
             self._draw_item_preview(painter, item, sx, sy, selected=index in self._selected_item_indices, show_handles=index == self._primary_selected_index() and self.has_single_selected_item())
 
-        if self._tool in (Tool.LINE, Tool.ARROW, Tool.RECT, Tool.ELLIPSE, Tool.BLUR, Tool.PIXELATE, Tool.CROP) and self._preview_start is not None and self._preview_end is not None:
+        if self._tool in (
+            Tool.LINE,
+            Tool.ARROW,
+            Tool.DOUBLE_ARROW,
+            Tool.RECT,
+            Tool.ELLIPSE,
+            Tool.MARKER_RECT,
+            Tool.MARKER_ELLIPSE,
+            Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW,
+            Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW,
+            Tool.BLUR,
+            Tool.PIXELATE,
+            Tool.CROP,
+        ) and self._preview_start is not None and self._preview_end is not None:
             pen = QPen(self._color, max(1, self._pen_width))
             painter.setPen(pen)
             start_point, end_point = self._display_points()
@@ -644,9 +699,11 @@ class AnnotationCanvas(QLabel):
                 painter.drawLine(start_point, end_point)
             elif self._tool == Tool.ARROW:
                 self._draw_arrow(painter, start_point, end_point)
-            elif self._tool in (Tool.RECT, Tool.CROP, Tool.BLUR, Tool.PIXELATE):
+            elif self._tool == Tool.DOUBLE_ARROW:
+                self._draw_double_arrow(painter, start_point, end_point)
+            elif self._tool in (Tool.RECT, Tool.CROP, Tool.BLUR, Tool.PIXELATE, Tool.TEXT_POINTER, Tool.NUMBER_POINTER, Tool.MARKER_RECT):
                 painter.drawRect(rect)
-            elif self._tool == Tool.ELLIPSE:
+            elif self._tool in (Tool.ELLIPSE, Tool.MARKER_ELLIPSE):
                 painter.drawEllipse(rect)
             if self._tool in (Tool.BLUR, Tool.PIXELATE, Tool.CROP):
                 painter.fillRect(rect, QColor(255, 255, 255, 40))
@@ -686,7 +743,7 @@ class AnnotationCanvas(QLabel):
             if item.kind == Tool.LINE:
                 if self._point_line_distance(point, item.start, item.end) <= max(6, item.pen_width * 2):
                     return index
-            elif item.kind == Tool.ARROW:
+            elif item.kind in (Tool.ARROW, Tool.DOUBLE_ARROW, Tool.TEXT_ARROW, Tool.NUMBER_ARROW):
                 if self._point_line_distance(point, item.start, item.end) <= max(8, item.pen_width * 2):
                     return index
             elif item.bounds().contains(point):
@@ -716,10 +773,18 @@ class AnnotationCanvas(QLabel):
             painter.drawLine(item.start, item.end)
         elif item.kind == Tool.ARROW:
             self._draw_arrow(painter, item.start, item.end, color=item.color, pen_width=item.pen_width)
-        elif item.kind == Tool.RECT:
+        elif item.kind == Tool.DOUBLE_ARROW:
+            self._draw_double_arrow(painter, item.start, item.end, color=item.color, pen_width=item.pen_width)
+        elif item.kind in (Tool.RECT, Tool.MARKER_RECT):
+            if item.kind == Tool.MARKER_RECT:
+                pen = QPen(item.color, max(item.pen_width * 3, 8), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
+                painter.setPen(pen)
             painter.setBrush(self._brush_for_item(item))
             painter.drawRect(QRect(item.start, item.end).normalized())
-        elif item.kind == Tool.ELLIPSE:
+        elif item.kind in (Tool.ELLIPSE, Tool.MARKER_ELLIPSE):
+            if item.kind == Tool.MARKER_ELLIPSE:
+                pen = QPen(item.color, max(item.pen_width * 3, 8), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
+                painter.setPen(pen)
             painter.setBrush(self._brush_for_item(item))
             painter.drawEllipse(QRect(item.start, item.end).normalized())
         elif item.kind == Tool.TEXT:
@@ -731,6 +796,16 @@ class AnnotationCanvas(QLabel):
             font.setItalic(item.italic)
             painter.setFont(font)
             painter.drawText(item.start, item.text or "")
+        elif item.kind == Tool.TEXT_POINTER:
+            self._draw_text_pointer(painter, item)
+        elif item.kind == Tool.TEXT_ARROW:
+            self._draw_text_arrow(painter, item)
+        elif item.kind == Tool.NUMBER:
+            self._draw_number_badge(painter, item)
+        elif item.kind == Tool.NUMBER_POINTER:
+            self._draw_number_pointer(painter, item)
+        elif item.kind == Tool.NUMBER_ARROW:
+            self._draw_number_arrow(painter, item)
         elif item.kind == Tool.IMAGE and item.image is not None and not item.image.isNull():
             painter.drawImage(QRect(item.start, item.end).normalized(), item.image)
         painter.restore()
@@ -870,7 +945,7 @@ class AnnotationCanvas(QLabel):
 
     def edit_selected_text(self, parent=None) -> bool:
         item = self._primary_selected_item()
-        if not self.has_single_selected_item() or item is None or item.kind != Tool.TEXT:
+        if not self.has_single_selected_item() or item is None or not self._is_text_like(item.kind):
             return False
         text, accepted = QInputDialog.getText(parent or self, "Edit text", "Text:", text=item.text or "")
         if not accepted or text == item.text:
@@ -883,7 +958,7 @@ class AnnotationCanvas(QLabel):
 
     def apply_font_family_to_selected_text(self, family: str) -> bool:
         item = self._primary_selected_item()
-        if not self.has_single_selected_item() or item is None or item.kind != Tool.TEXT:
+        if not self.has_single_selected_item() or item is None or not self._is_text_like(item.kind):
             return False
         if item.font_family == family:
             return False
@@ -895,7 +970,7 @@ class AnnotationCanvas(QLabel):
 
     def apply_font_point_size_to_selected_text(self, point_size: int) -> bool:
         item = self._primary_selected_item()
-        if not self.has_single_selected_item() or item is None or item.kind != Tool.TEXT:
+        if not self.has_single_selected_item() or item is None or not self._is_text_like(item.kind):
             return False
         point_size = max(1, point_size)
         if item.font_point_size == point_size:
@@ -932,7 +1007,11 @@ class AnnotationCanvas(QLabel):
         return True
 
     def apply_fill_color_to_selected_item(self, color: QColor) -> bool:
-        shape_indices = [index for index in self._selected_item_indices if self._items[index].kind in (Tool.RECT, Tool.ELLIPSE)]
+        shape_indices = [
+            index
+            for index in self._selected_item_indices
+            if self._items[index].kind in (Tool.RECT, Tool.ELLIPSE, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE)
+        ]
         if not shape_indices:
             return False
         if all(self._items[index].fill_color == color for index in shape_indices):
@@ -958,7 +1037,11 @@ class AnnotationCanvas(QLabel):
         return True
 
     def apply_fill_mode_to_selected_item(self, fill_mode: FillMode) -> bool:
-        shape_indices = [index for index in self._selected_item_indices if self._items[index].kind in (Tool.RECT, Tool.ELLIPSE)]
+        shape_indices = [
+            index
+            for index in self._selected_item_indices
+            if self._items[index].kind in (Tool.RECT, Tool.ELLIPSE, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE)
+        ]
         if not shape_indices:
             return False
         if all(self._items[index].fill_mode == fill_mode for index in shape_indices):
@@ -971,7 +1054,7 @@ class AnnotationCanvas(QLabel):
         return True
 
     def apply_bold_to_selected_text(self, bold: bool) -> bool:
-        text_indices = [index for index in self._selected_item_indices if self._items[index].kind == Tool.TEXT]
+        text_indices = [index for index in self._selected_item_indices if self._is_text_like(self._items[index].kind)]
         if not text_indices:
             return False
         if all(self._items[index].bold == bold for index in text_indices):
@@ -984,7 +1067,7 @@ class AnnotationCanvas(QLabel):
         return True
 
     def apply_italic_to_selected_text(self, italic: bool) -> bool:
-        text_indices = [index for index in self._selected_item_indices if self._items[index].kind == Tool.TEXT]
+        text_indices = [index for index in self._selected_item_indices if self._is_text_like(self._items[index].kind)]
         if not text_indices:
             return False
         if all(self._items[index].italic == italic for index in text_indices):
@@ -1008,13 +1091,21 @@ class AnnotationCanvas(QLabel):
         return None
 
     def _handle_points(self, item: OverlayItem) -> dict[str, QPoint]:
-        if item.kind in (Tool.LINE, Tool.ARROW):
+        if self._is_line_like(item.kind):
             return {
                 "start": QPoint(item.start),
                 "end": QPoint(item.end),
             }
 
-        if item.kind in (Tool.RECT, Tool.ELLIPSE):
+        if item.kind in (
+            Tool.RECT,
+            Tool.ELLIPSE,
+            Tool.MARKER_RECT,
+            Tool.MARKER_ELLIPSE,
+            Tool.TEXT_POINTER,
+            Tool.NUMBER,
+            Tool.NUMBER_POINTER,
+        ):
             rect = QRect(item.start, item.end).normalized()
             return {
                 "top_left": rect.topLeft(),
@@ -1041,7 +1132,7 @@ class AnnotationCanvas(QLabel):
         }
 
     def _resize_item(self, item: OverlayItem, handle: str, point: QPoint) -> None:
-        if item.kind in (Tool.LINE, Tool.ARROW):
+        if self._is_line_like(item.kind):
             if handle == "start":
                 item.start = QPoint(point)
             elif handle == "end":
@@ -1100,6 +1191,9 @@ class AnnotationCanvas(QLabel):
 
     def _draw_arrow(self, painter: QPainter, start: QPoint, end: QPoint, color: QColor | None = None, pen_width: int | None = None) -> None:
         painter.drawLine(start, end)
+        self._draw_arrow_head(painter, start, end, color=color, pen_width=pen_width)
+
+    def _draw_arrow_head(self, painter: QPainter, start: QPoint, end: QPoint, color: QColor | None = None, pen_width: int | None = None) -> None:
         dx = end.x() - start.x()
         dy = end.y() - start.y()
         if dx == 0 and dy == 0:
@@ -1124,6 +1218,178 @@ class AnnotationCanvas(QLabel):
         polygon = QPolygon([end, left, right])
         painter.setBrush(self._color if color is None else color)
         painter.drawPolygon(polygon)
+
+    def _draw_double_arrow(self, painter: QPainter, start: QPoint, end: QPoint, color: QColor | None = None, pen_width: int | None = None) -> None:
+        painter.drawLine(start, end)
+        self._draw_arrow_head(painter, start, end, color=color, pen_width=pen_width)
+        self._draw_arrow_head(painter, end, start, color=color, pen_width=pen_width)
+
+    def _build_click_item(self, tool: Tool, point: QPoint) -> OverlayItem | None:
+        if tool == Tool.TEXT:
+            text, accepted = QInputDialog.getText(self, "Insert text", "Text:")
+            if not accepted or not text:
+                return None
+            return OverlayItem(
+                kind=Tool.TEXT,
+                start=QPoint(point),
+                end=QPoint(point),
+                color=QColor(self._color),
+                pen_width=self._pen_width,
+                text=text,
+                font_family=self._font_family,
+                font_point_size=self._font_point_size,
+                opacity=self._opacity,
+                bold=self._bold,
+                italic=self._italic,
+            )
+        if tool == Tool.NUMBER:
+            radius = max(16, self._font_point_size)
+            return OverlayItem(
+                kind=Tool.NUMBER,
+                start=QPoint(point.x() - radius, point.y() - radius),
+                end=QPoint(point.x() + radius, point.y() + radius),
+                color=QColor(self._color),
+                pen_width=self._pen_width,
+                text=str(self._next_number_value()),
+                font_family=self._font_family,
+                font_point_size=self._font_point_size,
+                opacity=self._opacity,
+                bold=True,
+                italic=False,
+                fill_color=QColor(self._color),
+            )
+        return None
+
+    def _build_drag_item(self, tool: Tool, start: QPoint, end: QPoint, rect: QRect) -> OverlayItem | None:
+        if self._is_line_like(tool) or self._is_shape_like(tool):
+            return OverlayItem(
+                kind=tool,
+                start=QPoint(start),
+                end=QPoint(end),
+                color=QColor(self._color),
+                pen_width=self._pen_width,
+                fill_color=QColor(self._fill_color) if tool in (Tool.RECT, Tool.ELLIPSE, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE) else None,
+                opacity=self._opacity,
+                fill_mode=self._fill_mode,
+            )
+        if tool == Tool.TEXT_POINTER:
+            text, accepted = QInputDialog.getText(self, "Insert text", "Text:")
+            if not accepted or not text:
+                return None
+            return OverlayItem(
+                kind=tool,
+                start=rect.topLeft(),
+                end=rect.bottomRight(),
+                color=QColor(self._color),
+                pen_width=self._pen_width,
+                text=text,
+                font_family=self._font_family,
+                font_point_size=self._font_point_size,
+                opacity=self._opacity,
+                bold=self._bold,
+                italic=self._italic,
+                fill_color=QColor(255, 255, 255, 220),
+                fill_mode=FillMode.STROKE_AND_FILL,
+            )
+        if tool == Tool.TEXT_ARROW:
+            text, accepted = QInputDialog.getText(self, "Insert text", "Text:")
+            if not accepted or not text:
+                return None
+            return OverlayItem(
+                kind=tool,
+                start=QPoint(start),
+                end=QPoint(end),
+                color=QColor(self._color),
+                pen_width=self._pen_width,
+                text=text,
+                font_family=self._font_family,
+                font_point_size=self._font_point_size,
+                opacity=self._opacity,
+                bold=self._bold,
+                italic=self._italic,
+            )
+        if tool in (Tool.NUMBER_POINTER, Tool.NUMBER_ARROW):
+            return OverlayItem(
+                kind=tool,
+                start=QPoint(start if tool == Tool.NUMBER_ARROW else rect.topLeft()),
+                end=QPoint(end if tool == Tool.NUMBER_ARROW else rect.bottomRight()),
+                color=QColor(self._color),
+                pen_width=self._pen_width,
+                text=str(self._next_number_value()),
+                font_family=self._font_family,
+                font_point_size=self._font_point_size,
+                opacity=self._opacity,
+                bold=True,
+                italic=False,
+                fill_color=QColor(self._color),
+                fill_mode=FillMode.STROKE_AND_FILL,
+            )
+        return None
+
+    def _next_number_value(self) -> int:
+        values: list[int] = []
+        for item in self._items:
+            if self._is_number_like(item.kind) and item.text and item.text.isdigit():
+                values.append(int(item.text))
+        return (max(values) + 1) if values else 1
+
+    def _draw_text_pointer(self, painter: QPainter, item: OverlayItem) -> None:
+        rect = QRect(item.start, item.end).normalized()
+        painter.setBrush(item.fill_color or QColor(255, 255, 255, 220))
+        painter.drawRect(rect)
+        tip = QPoint(rect.left() + max(12, item.pen_width * 3), rect.bottom() + max(12, item.pen_width * 3))
+        triangle = QPolygon([QPoint(rect.left() + 8, rect.bottom()), QPoint(rect.left() + 24, rect.bottom()), tip])
+        painter.drawPolygon(triangle)
+        font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
+        font.setBold(item.bold)
+        font.setItalic(item.italic)
+        painter.setFont(font)
+        painter.drawText(rect.adjusted(8, 8, -8, -8), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap, item.text or "")
+
+    def _draw_text_arrow(self, painter: QPainter, item: OverlayItem) -> None:
+        self._draw_arrow(painter, item.start, item.end, color=item.color, pen_width=item.pen_width)
+        label_rect = QRect(item.start.x() + 8, item.start.y() - 28, max(80, len(item.text or "") * 9), 32)
+        painter.fillRect(label_rect, QColor(255, 255, 255, 220))
+        font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
+        font.setBold(item.bold)
+        font.setItalic(item.italic)
+        painter.setFont(font)
+        painter.drawText(label_rect.adjusted(6, 4, -6, -4), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, item.text or "")
+
+    def _draw_number_badge(self, painter: QPainter, item: OverlayItem) -> None:
+        rect = QRect(item.start, item.end).normalized()
+        painter.setBrush(item.fill_color or item.color)
+        painter.drawEllipse(rect)
+        font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
+        font.setBold(True)
+        painter.setFont(font)
+        painter.setPen(QPen(QColor("white"), max(1, item.pen_width // 2)))
+        painter.drawText(rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
+
+    def _draw_number_pointer(self, painter: QPainter, item: OverlayItem) -> None:
+        rect = QRect(item.start, item.end).normalized()
+        bubble_rect = QRect(rect.left(), rect.top(), min(rect.width(), rect.height()), min(rect.width(), rect.height()))
+        painter.setBrush(item.fill_color or item.color)
+        painter.drawEllipse(bubble_rect)
+        triangle = QPolygon([bubble_rect.bottomLeft(), bubble_rect.bottomRight(), QPoint(rect.right(), rect.bottom())])
+        painter.drawPolygon(triangle)
+        font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
+        font.setBold(True)
+        painter.setFont(font)
+        painter.setPen(QPen(QColor("white"), max(1, item.pen_width // 2)))
+        painter.drawText(bubble_rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
+
+    def _draw_number_arrow(self, painter: QPainter, item: OverlayItem) -> None:
+        bubble_radius = max(14, item.font_point_size or self._font_point_size)
+        bubble_rect = QRect(item.start.x() - bubble_radius, item.start.y() - bubble_radius, bubble_radius * 2, bubble_radius * 2)
+        painter.setBrush(item.fill_color or item.color)
+        painter.drawEllipse(bubble_rect)
+        self._draw_arrow(painter, item.start, item.end, color=item.color, pen_width=item.pen_width)
+        font = QFont(item.font_family or self._font_family, max(8, (item.font_point_size or self._font_point_size) - 1))
+        font.setBold(True)
+        painter.setFont(font)
+        painter.setPen(QPen(QColor("white"), max(1, item.pen_width // 2)))
+        painter.drawText(bubble_rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
 
     def _apply_region_effect(self, rect: QRect, tool: Tool) -> None:
         rect = rect.intersected(self._image.rect())

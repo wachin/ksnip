@@ -168,9 +168,14 @@ class MainWindow(QMainWindow):
         button.setMenu(menu)
         return button
 
-    def _make_placeholder_action(self, icon_name: str, text: str) -> QAction:
+    def _make_tool_action(self, icon_name: str, text: str, tool: Tool, group_name: str | None = None) -> QAction:
         action = QAction(self._load_icon(icon_name), text, self)
-        action.setEnabled(False)
+        action.setCheckable(True)
+        if group_name is None:
+            action.triggered.connect(lambda: self.set_tool(tool))
+        else:
+            action.triggered.connect(lambda: self._select_group_tool(group_name, action, tool))
+        self.tool_action_group.addAction(action)
         return action
 
     def _set_tool_group_default_action(self, group_name: str, action: QAction) -> None:
@@ -273,7 +278,7 @@ class MainWindow(QMainWindow):
         self.arrow_action.triggered.connect(lambda: self._select_group_tool("arrow", self.arrow_action, Tool.ARROW))
         self.tool_action_group.addAction(self.arrow_action)
 
-        self.double_arrow_action = self._make_placeholder_action("doubleArrow", "Double Arrow")
+        self.double_arrow_action = self._make_tool_action("doubleArrow", "Double Arrow", Tool.DOUBLE_ARROW, "arrow")
 
         self.rect_action = QAction(self._load_icon("rect"), "Rectangle", self)
         self.rect_action.setCheckable(True)
@@ -290,8 +295,8 @@ class MainWindow(QMainWindow):
         self.text_action.triggered.connect(lambda: self._select_group_tool("text", self.text_action, Tool.TEXT))
         self.tool_action_group.addAction(self.text_action)
 
-        self.text_pointer_action = self._make_placeholder_action("textPointer", "Text Pointer")
-        self.text_arrow_action = self._make_placeholder_action("textArrow", "Text Arrow")
+        self.text_pointer_action = self._make_tool_action("textPointer", "Text Pointer", Tool.TEXT_POINTER, "text")
+        self.text_arrow_action = self._make_tool_action("textArrow", "Text Arrow", Tool.TEXT_ARROW, "text")
 
         self.blur_action = QAction(self._load_icon("blur"), "Blur", self)
         self.blur_action.setCheckable(True)
@@ -313,11 +318,11 @@ class MainWindow(QMainWindow):
         self.select_action.triggered.connect(lambda: self.set_tool(Tool.SELECT))
         self.tool_action_group.addAction(self.select_action)
 
-        self.marker_rect_action = self._make_placeholder_action("markerRect", "Marker Rectangle")
-        self.marker_ellipse_action = self._make_placeholder_action("markerEllipse", "Marker Ellipse")
-        self.number_action = self._make_placeholder_action("number", "Number")
-        self.number_pointer_action = self._make_placeholder_action("numberPointer", "Number Pointer")
-        self.number_arrow_action = self._make_placeholder_action("numberArrow", "Number Arrow")
+        self.marker_rect_action = self._make_tool_action("markerRect", "Marker Rectangle", Tool.MARKER_RECT, "marker")
+        self.marker_ellipse_action = self._make_tool_action("markerEllipse", "Marker Ellipse", Tool.MARKER_ELLIPSE, "marker")
+        self.number_action = self._make_tool_action("number", "Number", Tool.NUMBER, "number")
+        self.number_pointer_action = self._make_tool_action("numberPointer", "Number Pointer", Tool.NUMBER_POINTER, "number")
+        self.number_arrow_action = self._make_tool_action("numberArrow", "Number Arrow", Tool.NUMBER_ARROW, "number")
 
         self.color_action = QAction(self._load_icon("color"), "Color", self)
         self.color_action.triggered.connect(self.select_color)
@@ -632,11 +637,19 @@ class MainWindow(QMainWindow):
         tools_menu.addSeparator()
         tools_menu.addAction(self.select_action)
         tools_menu.addAction(self.pen_action)
+        tools_menu.addAction(self.marker_rect_action)
+        tools_menu.addAction(self.marker_ellipse_action)
         tools_menu.addAction(self.line_action)
         tools_menu.addAction(self.arrow_action)
+        tools_menu.addAction(self.double_arrow_action)
         tools_menu.addAction(self.rect_action)
         tools_menu.addAction(self.ellipse_action)
         tools_menu.addAction(self.text_action)
+        tools_menu.addAction(self.text_pointer_action)
+        tools_menu.addAction(self.text_arrow_action)
+        tools_menu.addAction(self.number_action)
+        tools_menu.addAction(self.number_pointer_action)
+        tools_menu.addAction(self.number_arrow_action)
         tools_menu.addAction(self.blur_action)
         tools_menu.addAction(self.pixelate_action)
         tools_menu.addAction(self.crop_action)
@@ -749,10 +762,26 @@ class MainWindow(QMainWindow):
             self._set_tool_group_default_action("arrow", self.line_action)
         elif tool == Tool.ARROW:
             self._set_tool_group_default_action("arrow", self.arrow_action)
+        elif tool == Tool.DOUBLE_ARROW:
+            self._set_tool_group_default_action("arrow", self.double_arrow_action)
         elif tool == Tool.PEN:
             self._set_tool_group_default_action("marker", self.pen_action)
+        elif tool == Tool.MARKER_RECT:
+            self._set_tool_group_default_action("marker", self.marker_rect_action)
+        elif tool == Tool.MARKER_ELLIPSE:
+            self._set_tool_group_default_action("marker", self.marker_ellipse_action)
         elif tool == Tool.TEXT:
             self._set_tool_group_default_action("text", self.text_action)
+        elif tool == Tool.TEXT_POINTER:
+            self._set_tool_group_default_action("text", self.text_pointer_action)
+        elif tool == Tool.TEXT_ARROW:
+            self._set_tool_group_default_action("text", self.text_arrow_action)
+        elif tool == Tool.NUMBER:
+            self._set_tool_group_default_action("number", self.number_action)
+        elif tool == Tool.NUMBER_POINTER:
+            self._set_tool_group_default_action("number", self.number_pointer_action)
+        elif tool == Tool.NUMBER_ARROW:
+            self._set_tool_group_default_action("number", self.number_arrow_action)
         elif tool == Tool.BLUR:
             self._set_tool_group_default_action("effect", self.blur_action)
         elif tool == Tool.PIXELATE:
@@ -765,9 +794,17 @@ class MainWindow(QMainWindow):
         self.pen_action.setChecked(tool == Tool.PEN)
         self.line_action.setChecked(tool == Tool.LINE)
         self.arrow_action.setChecked(tool == Tool.ARROW)
+        self.double_arrow_action.setChecked(tool == Tool.DOUBLE_ARROW)
         self.rect_action.setChecked(tool == Tool.RECT)
         self.ellipse_action.setChecked(tool == Tool.ELLIPSE)
+        self.marker_rect_action.setChecked(tool == Tool.MARKER_RECT)
+        self.marker_ellipse_action.setChecked(tool == Tool.MARKER_ELLIPSE)
         self.text_action.setChecked(tool == Tool.TEXT)
+        self.text_pointer_action.setChecked(tool == Tool.TEXT_POINTER)
+        self.text_arrow_action.setChecked(tool == Tool.TEXT_ARROW)
+        self.number_action.setChecked(tool == Tool.NUMBER)
+        self.number_pointer_action.setChecked(tool == Tool.NUMBER_POINTER)
+        self.number_arrow_action.setChecked(tool == Tool.NUMBER_ARROW)
         self.blur_action.setChecked(tool == Tool.BLUR)
         self.pixelate_action.setChecked(tool == Tool.PIXELATE)
         self.crop_action.setChecked(tool == Tool.CROP)
@@ -1430,7 +1467,7 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         has_image = canvas is not None and canvas.has_image()
         has_selected_item = canvas is not None and canvas.has_selected_item()
-        can_edit_text = canvas is not None and canvas.selected_item_kind() == Tool.TEXT
+        can_edit_text = canvas is not None and canvas.selected_item_kind() in (Tool.TEXT, Tool.TEXT_POINTER, Tool.TEXT_ARROW)
         self.save_action.setEnabled(has_image)
         self.save_as_action.setEnabled(has_image)
         self.copy_action.setEnabled(has_image)
@@ -1585,9 +1622,17 @@ class MainWindow(QMainWindow):
             (Tool.PEN, self.pen_action),
             (Tool.LINE, self.line_action),
             (Tool.ARROW, self.arrow_action),
+            (Tool.DOUBLE_ARROW, self.double_arrow_action),
             (Tool.RECT, self.rect_action),
             (Tool.ELLIPSE, self.ellipse_action),
+            (Tool.MARKER_RECT, self.marker_rect_action),
+            (Tool.MARKER_ELLIPSE, self.marker_ellipse_action),
             (Tool.TEXT, self.text_action),
+            (Tool.TEXT_POINTER, self.text_pointer_action),
+            (Tool.TEXT_ARROW, self.text_arrow_action),
+            (Tool.NUMBER, self.number_action),
+            (Tool.NUMBER_POINTER, self.number_pointer_action),
+            (Tool.NUMBER_ARROW, self.number_arrow_action),
             (Tool.BLUR, self.blur_action),
             (Tool.PIXELATE, self.pixelate_action),
             (Tool.CROP, self.crop_action),
