@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QColorDialog,
     QFileDialog,
+    QFrame,
     QFontComboBox,
     QHBoxLayout,
     QInputDialog,
@@ -22,6 +23,7 @@ from PyQt6.QtWidgets import (
     QTabWidget,
     QToolBar,
     QToolButton,
+    QVBoxLayout,
     QWidget,
 )
 
@@ -213,6 +215,30 @@ class MainWindow(QMainWindow):
 
         self._tool_group_buttons[group_name] = main_button
         return host
+
+    def _make_action_button(self, action: QAction, *, enabled: bool = True) -> QToolButton:
+        button = QToolButton(self)
+        button.setDefaultAction(action)
+        button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        button.setAutoRaise(False)
+        button.setEnabled(enabled)
+        return button
+
+    def _sync_toolbox_color_button(self, color: QColor | None = None) -> None:
+        if not hasattr(self, "toolbox_color_button"):
+            return
+        resolved = color
+        canvas = self.current_canvas()
+        if resolved is None and canvas is not None and canvas.tool() == Tool.SELECT:
+            selected_color = canvas.selected_item_color()
+            if selected_color is not None:
+                resolved = QColor(selected_color)
+        if resolved is None:
+            selected_color = canvas.selected_item_color() if canvas is not None else None
+            resolved = QColor(selected_color) if selected_color is not None else QColor("#df5a17")
+        self.toolbox_color_button.setStyleSheet(
+            f"QToolButton {{ background: {resolved.name()}; border: 1px solid #666; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; }}"
+        )
 
     def _build_actions(self) -> None:
         self.tool_action_group = QActionGroup(self)
@@ -502,54 +528,83 @@ class MainWindow(QMainWindow):
         self.left_toolbar.setOrientation(Qt.Orientation.Vertical)
         self._configure_toolbar(self.left_toolbar, icon_size=22, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.left_toolbar)
-        self.left_toolbar.addAction(self.select_action)
-        self.left_toolbar.addAction(self.pen_action)
-        self.left_toolbar.addWidget(
+        toolbox_host = QWidget(self)
+        toolbox_layout = QVBoxLayout(toolbox_host)
+        toolbox_layout.setContentsMargins(6, 6, 6, 6)
+        toolbox_layout.setSpacing(6)
+
+        toolbox_top = QWidget(toolbox_host)
+        toolbox_top_layout = QHBoxLayout(toolbox_top)
+        toolbox_top_layout.setContentsMargins(0, 0, 0, 0)
+        toolbox_top_layout.setSpacing(6)
+        toolbox_top_layout.addWidget(QLabel("::", toolbox_top))
+        toolbox_top_layout.addWidget(self._make_icon_label("opacity", "Opacity"))
+        self.toolbox_color_button = QToolButton(toolbox_top)
+        self.toolbox_color_button.setToolTip("Stroke color")
+        self.toolbox_color_button.clicked.connect(self.select_color)
+        toolbox_top_layout.addWidget(self.toolbox_color_button)
+        toolbox_top_layout.addStretch(1)
+        toolbox_layout.addWidget(toolbox_top)
+
+        toolbox_frame = QFrame(toolbox_host)
+        toolbox_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        toolbox_frame.setFrameShadow(QFrame.Shadow.Sunken)
+        frame_layout = QVBoxLayout(toolbox_frame)
+        frame_layout.setContentsMargins(8, 8, 8, 8)
+        frame_layout.setSpacing(6)
+        frame_layout.addWidget(self._make_action_button(self.select_action))
+        frame_layout.addWidget(self._make_action_button(self.duplicate_action, enabled=False))
+        frame_layout.addWidget(
             self._make_tool_group_widget(
                 "arrow",
                 self.arrow_action,
                 [self.arrow_action, self.double_arrow_action, self.line_action],
             )
         )
-        self.left_toolbar.addWidget(
+        frame_layout.addWidget(self._make_action_button(self.pen_action))
+        frame_layout.addWidget(
             self._make_tool_group_widget(
                 "marker",
                 self.marker_pen_action,
                 [self.marker_pen_action, self.marker_rect_action, self.marker_ellipse_action],
             )
         )
-        self.left_toolbar.addWidget(
+        frame_layout.addWidget(
             self._make_tool_group_widget(
                 "text",
                 self.text_action,
                 [self.text_action, self.text_pointer_action, self.text_arrow_action],
             )
         )
-        self.left_toolbar.addWidget(
+        frame_layout.addWidget(
             self._make_tool_group_widget(
                 "number",
                 self.number_action,
                 [self.number_action, self.number_pointer_action, self.number_arrow_action],
             )
         )
-        self.left_toolbar.addWidget(
+        frame_layout.addWidget(
             self._make_tool_group_widget(
                 "effect",
                 self.blur_action,
                 [self.blur_action, self.pixelate_action],
             )
         )
-        self.left_toolbar.addWidget(
+        frame_layout.addWidget(
             self._make_tool_group_widget(
                 "shape",
                 self.rect_action,
                 [self.rect_action, self.ellipse_action],
             )
         )
-        self.left_toolbar.addAction(self.crop_action)
-        self.left_toolbar.addSeparator()
-        self.left_toolbar.addAction(self.delete_action)
-        self.left_toolbar.addAction(self.duplicate_action)
+        self.sticker_action = QAction(self._load_icon("sticker"), "Sticker", self)
+        self.sticker_action.setEnabled(False)
+        frame_layout.addWidget(self._make_action_button(self.sticker_action, enabled=False))
+        frame_layout.addStretch(1)
+        toolbox_layout.addWidget(toolbox_frame)
+        toolbox_layout.addStretch(1)
+        self.left_toolbar.addWidget(toolbox_host)
+        self._sync_toolbox_color_button(QColor("#df5a17"))
 
         self.zoom_out_button = QToolButton(self)
         self.zoom_out_button.setText("-")
@@ -826,8 +881,10 @@ class MainWindow(QMainWindow):
         if color.isValid():
             if canvas.tool() == Tool.SELECT and canvas.apply_color_to_selected_item(color):
                 self.status_label.setText("Updated selected item color")
+                self._sync_toolbox_color_button(color)
                 return
             canvas.set_color(color)
+            self._sync_toolbox_color_button(color)
 
     def select_fill_color(self) -> None:
         canvas = self.current_canvas()
@@ -967,6 +1024,12 @@ class MainWindow(QMainWindow):
                 self.italic.blockSignals(True)
                 self.italic.setChecked(selected_italic)
                 self.italic.blockSignals(False)
+
+            selected_color = canvas.selected_item_color()
+            if selected_color is not None:
+                self._sync_toolbox_color_button(selected_color)
+                return
+        self._sync_toolbox_color_button()
 
     def set_current_canvas_zoom(self, percent: int) -> None:
         canvas = self.current_canvas()

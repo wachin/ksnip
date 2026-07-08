@@ -122,11 +122,11 @@ class AnnotationCanvas(QLabel):
         self.setMinimumSize(640, 360)
 
         self._tool = Tool.SELECT
-        self._color = QColor("#d9480f")
+        self._color = QColor("#df5a17")
         self._pen_width = 3
         self._font_family = QFont().family()
         self._font_point_size = 14
-        self._fill_color = QColor(255, 216, 168, 120)
+        self._fill_color = QColor(246, 189, 96, 80)
         self._opacity = 1.0
         self._fill_mode = FillMode.STROKE_AND_FILL
         self._bold = False
@@ -506,6 +506,8 @@ class AnnotationCanvas(QLabel):
             return QImage()
         composed = self._image.copy()
         painter = QPainter(composed)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        painter.setRenderHint(QPainter.RenderHint.TextAntialiasing, True)
         for item in self._items:
             self._draw_item(painter, item, selected=False)
         painter.end()
@@ -680,6 +682,8 @@ class AnnotationCanvas(QLabel):
         sx = display_width / self._image.width() if self._image.width() else 1
         sy = display_height / self._image.height() if self._image.height() else 1
         painter = QPainter(display)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        painter.setRenderHint(QPainter.RenderHint.TextAntialiasing, True)
         for index, item in enumerate(self._items):
             self._draw_item_preview(painter, item, sx, sy, selected=index in self._selected_item_indices, show_handles=index == self._primary_selected_index() and self.has_single_selected_item())
 
@@ -1211,7 +1215,7 @@ class AnnotationCanvas(QLabel):
         ux = dx / length
         uy = dy / length
         resolved_pen_width = self._pen_width if pen_width is None else pen_width
-        arrow_size = max(10, resolved_pen_width * 4)
+        arrow_size = max(12, resolved_pen_width * 5)
         px = -uy
         py = ux
 
@@ -1374,7 +1378,7 @@ class AnnotationCanvas(QLabel):
         rect = QRect(item.start, item.end).normalized()
         bubble_rect = rect.adjusted(0, 0, -max(16, rect.width() // 6), -max(16, rect.height() // 6))
         bubble_rect = bubble_rect.normalized()
-        fill = item.fill_color or QColor(255, 255, 255, 230)
+        fill = item.fill_color or QColor(255, 250, 245, 235)
         painter.setBrush(fill)
         painter.drawRoundedRect(bubble_rect, 8, 8)
         tip = rect.bottomRight()
@@ -1401,7 +1405,7 @@ class AnnotationCanvas(QLabel):
         label_rect = self._text_arrow_label_rect(item)
         arrow_start = QPoint(label_rect.right(), label_rect.center().y()) if item.end.x() >= item.start.x() else QPoint(label_rect.left(), label_rect.center().y())
         self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
-        painter.setBrush(QColor(255, 255, 255, 230))
+        painter.setBrush(QColor(255, 250, 245, 235))
         painter.drawRoundedRect(label_rect, 8, 8)
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
         font.setBold(item.bold)
