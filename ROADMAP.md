@@ -23,6 +23,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] `/images/GUI/15-Settings_HotKeys.png`
 - [x] `/images/GUI/16-Settings_Actions.png`
 - [x] `/images/GUI/17-Settings_Plugins.png`
+**Ksnip herramientas y sus controles**
 - [x] Los `Item Settings` por herramienta también deben alinearse visual y funcionalmente con estas referencias:
 - [x] `/images/Ksnip-Tools-selected/01-herramienta-de-seleccion-seleccionada.png`
   Descripción C++ original: `Tools::Select` no muestra pickers de propiedades. Debe verse únicamente el área de `Item Settings` vacía, sin color, ancho, relleno, fuente, sombra, opacidad ni sticker. Referencia de lógica: `libraries/kImageAnnotator/src/gui/annotator/settings/ItemSettingsWidgetConfigurator.cpp`.
