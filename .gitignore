@@ -107,3 +107,8 @@ dist/
 build/
 *.egg-info/
 .eggs/
+
+# User
+8vo
+
+
