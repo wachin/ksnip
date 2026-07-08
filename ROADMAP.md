@@ -25,15 +25,33 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] `/images/GUI/17-Settings_Plugins.png`
 - [x] Los `Item Settings` por herramienta también deben alinearse visual y funcionalmente con estas referencias:
 - [x] `/images/Ksnip-Tools-selected/01-herramienta-de-seleccion-seleccionada.png`
+  Descripción C++ original: `Tools::Select` no muestra pickers de propiedades. Debe verse únicamente el área de `Item Settings` vacía, sin color, ancho, relleno, fuente, sombra, opacidad ni sticker. Referencia de lógica: `libraries/kImageAnnotator/src/gui/annotator/settings/ItemSettingsWidgetConfigurator.cpp`.
 - [x] `/images/Ksnip-Tools-selected/02-Tool_Duplicate(selected).png`
+  Descripción C++ original: `Tools::Duplicate` sólo muestra `Opacity`. No muestra color, texto, ancho, relleno, número inicial, obfuscación, sticker, sombra, fuente ni escalado.
 - [x] `/images/Ksnip-Tools-selected/03-Tool_Arrow(selected).png`
+  Descripción C++ original: `Tools::Arrow` muestra, en el orden base del toolbar, `Color`, `Width`, `Item Shadow`, `Opacity`. No muestra `Text Color`, `Fill Mode`, `Number Seed`, `Obfuscation Factor`, `Sticker`, `Font` ni `Scaling`.
 - [x] `/images/Ksnip-Tools-selected/04-Tool_Pen(selected).png`
+  Descripción C++ original: `Tools::Pen` muestra `Color`, `Width`, `Item Shadow`, `Opacity`. Es prácticamente el mismo patrón visible que `Arrow`, pero sin `Fill Mode` y sin controles de texto o número.
 - [x] `/images/Ksnip-Tools-selected/05-Tool_Marker-Pen(selected).png`
+  Descripción C++ original: `Tools::MarkerPen` muestra sólo `Color` y `Width`. El `Width` cambia su rango a `1..100`, y el color se maneja sin canal alpha. No hay sombra ni opacidad.
 - [x] `/images/Ksnip-Tools-selected/06-Tool_Text(selected).png`
+  Descripción C++ original: `Tools::Text` muestra `Color`, `Width`, `Fill Mode`, `Text Color`, `Font`, `Item Shadow`, `Opacity`. En `Fill Mode` deben existir las opciones `Border and Fill`, `Border and No Fill` y `No Border and No Fill`. El `FontPicker` incluye familia, tamaño, `Bold`, `Italic` y `Underline`.
 - [x] `/images/Ksnip-Tools-selected/07-Tool_Number(selected).png`
+  Descripción C++ original: `Tools::Number` muestra `Color`, `Width`, `Fill Mode`, `Text Color`, `Font`, `Number Seed`, `Item Shadow`, `Opacity`. Igual que `Text`, debe permitir `No Border and No Fill` en `Fill Mode`.
 - [x] `/images/Ksnip-Tools-selected/08-Tool_Blur(selected).png`
+  Descripción C++ original: `Tools::Blur` y `Tools::Pixelate` muestran sólo `Obfuscation Factor`. No usan color, ancho, relleno, sombra, fuente ni opacidad.
 - [x] `/images/Ksnip-Tools-selected/09-Tool_Rectangle(selected).png`
+  Descripción C++ original: `Tools::Rect` y `Tools::Ellipse` muestran `Color`, `Width`, `Fill Mode`, `Item Shadow`, `Opacity`. No muestran `Text Color`, `Font`, `Number Seed`, `Sticker`, `Scaling` ni `Obfuscation Factor`.
 - [x] `/images/Ksnip-Tools-selected/10-Tool_Sticker(selected).png`
+  Descripción C++ original: `Tools::Sticker` muestra `Sticker`, `Item Shadow`, `Scaling`, `Opacity`. No usa color, ancho, relleno, texto ni obfuscación. El `StickerPicker` es un botón con menú en cuadrícula de stickers SVG.
+- [x] Orden base real de los controles en el C++ original dentro de `AnnotationItemSettings`: `Color`, `Width`, `Fill Mode`, `Text Color`, `Font`, `Number Seed`, `Obfuscation Factor`, `Sticker`, `Item Shadow`, `Scaling`, `Opacity`.
+- [x] Fuentes C++ de referencia para mantener esta paridad:
+  `libraries/kImageAnnotator/src/gui/annotator/settings/AnnotationItemSettings.cpp`
+  `libraries/kImageAnnotator/src/gui/annotator/settings/ItemSettingsWidgetConfigurator.cpp`
+  `libraries/kImageAnnotator/src/widgets/settingsPicker/FillModePicker.cpp`
+  `libraries/kImageAnnotator/src/widgets/settingsPicker/FontPicker.cpp`
+  `libraries/kImageAnnotator/src/widgets/settingsPicker/BoolPicker.cpp`
+  `libraries/kImageAnnotator/src/widgets/settingsPicker/StickerPicker.cpp`
 - [x] La meta no es reinterpretar ksnip: la UI PyQt6 debe conservar la estructura del programa original.
 - [x] Deben usarse los iconos de ksnip en la interfaz gráfica de `ksnip_py`.
 - [ ] Igualar por completo la disposición visual del toolbar, menús, panel lateral izquierdo, barra de estado y controles inferiores del ksnip original.
