@@ -20,6 +20,7 @@ Current scope:
 - Recent images menu with reopen support
 - Pin current image into always-on-top floating windows
 - Watermark image storage and add-watermark action
+- Capture preferences for delay, auto-copy, and hide/show main-window behavior
 - Undo and redo
 - Rotate and scale transforms
 - Select and move overlay annotation items

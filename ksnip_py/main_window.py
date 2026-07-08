@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PyQt6.QtCore import QEvent, QPoint, QSettings, QThread, Qt
+from PyQt6.QtCore import QEvent, QEventLoop, QPoint, QSettings, QThread, QTimer, Qt
 from PyQt6.QtGui import QAction, QColor, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPixmap
 from PyQt6.QtWidgets import (
     QCheckBox,
@@ -53,6 +53,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("ksnip PyQt6")
         self.resize(1200, 800)
+        self._apply_window_icon()
 
         self.tabs = QTabWidget()
         self.tabs.setTabsClosable(True)
@@ -73,38 +74,57 @@ class MainWindow(QMainWindow):
         self.new_tab()
         self._apply_tool_selection_from_settings()
 
+    def _icon_base_path(self) -> Path:
+        return Path(__file__).resolve().parent / "icons"
+
+    def _load_icon(self, name: str) -> QIcon:
+        base_path = self._icon_base_path()
+        for candidate in (
+            base_path / "light" / f"{name}.svg",
+            base_path / "dark" / f"{name}.svg",
+            base_path / f"{name}.svg",
+        ):
+            if candidate.exists():
+                return QIcon(str(candidate))
+        return QIcon()
+
+    def _apply_window_icon(self) -> None:
+        icon_path = self._icon_base_path() / "ksnip.svg"
+        if icon_path.exists():
+            self.setWindowIcon(QIcon(str(icon_path)))
+
     def _build_actions(self) -> None:
-        self.new_capture_rect_action = QAction("Rect Area", self)
+        self.new_capture_rect_action = QAction(self._load_icon("drawRect"), "Rect Area", self)
         self.new_capture_rect_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_rect_action.triggered.connect(self.capture_rect_area)
-        self.new_capture_full_action = QAction("Full Screen", self)
+        self.new_capture_full_action = QAction(self._load_icon("fullScreen"), "Full Screen", self)
         self.new_capture_full_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_full_action.triggered.connect(self.capture_fullscreen)
-        self.new_capture_current_action = QAction("Current Screen", self)
+        self.new_capture_current_action = QAction(self._load_icon("currentScreen"), "Current Screen", self)
         self.new_capture_current_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_current_action.triggered.connect(self.capture_current_screen)
-        self.new_capture_active_action = QAction("Active Window", self)
+        self.new_capture_active_action = QAction(self._load_icon("activeWindow"), "Active Window", self)
         self.new_capture_active_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_active_action.triggered.connect(self.capture_active_window)
-        self.new_capture_under_cursor_action = QAction("Window Under Cursor", self)
+        self.new_capture_under_cursor_action = QAction(self._load_icon("windowUnderCursor"), "Window Under Cursor", self)
         self.new_capture_under_cursor_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_under_cursor_action.triggered.connect(self.capture_window_under_cursor)
 
-        self.open_action = QAction("Open…", self)
+        self.open_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogOpenButton), "Open…", self)
         self.open_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.open_action.setShortcut(QKeySequence.StandardKey.Open)
         self.open_action.triggered.connect(self.open_image)
 
-        self.save_action = QAction("Save", self)
+        self.save_action = QAction(self._load_icon("save"), "Save", self)
         self.save_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.save_action.setShortcut(QKeySequence.StandardKey.Save)
         self.save_action.triggered.connect(self.save_image)
 
-        self.save_as_action = QAction("Save As…", self)
+        self.save_as_action = QAction(self._load_icon("saveAs"), "Save As…", self)
         self.save_as_action.setShortcut(QKeySequence.StandardKey.SaveAs)
         self.save_as_action.triggered.connect(self.save_image_as)
 
-        self.copy_action = QAction("Copy", self)
+        self.copy_action = QAction(self._load_icon("copy"), "Copy", self)
         self.copy_action.setShortcut(QKeySequence.StandardKey.Copy)
         self.copy_action.triggered.connect(self.copy_image)
 
@@ -148,7 +168,7 @@ class MainWindow(QMainWindow):
         self.pixelate_action.setCheckable(True)
         self.pixelate_action.triggered.connect(lambda: self.set_tool(Tool.PIXELATE))
 
-        self.crop_action = QAction("Crop", self)
+        self.crop_action = QAction(self._load_icon("crop"), "Crop", self)
         self.crop_action.setCheckable(True)
         self.crop_action.triggered.connect(lambda: self.set_tool(Tool.CROP))
 
@@ -159,15 +179,15 @@ class MainWindow(QMainWindow):
         self.color_action = QAction("Color", self)
         self.color_action.triggered.connect(self.select_color)
 
-        self.undo_action = QAction("Undo", self)
+        self.undo_action = QAction(self._load_icon("undo"), "Undo", self)
         self.undo_action.setShortcut(QKeySequence.StandardKey.Undo)
         self.undo_action.triggered.connect(self.undo)
 
-        self.redo_action = QAction("Redo", self)
+        self.redo_action = QAction(self._load_icon("redo"), "Redo", self)
         self.redo_action.setShortcut(QKeySequence.StandardKey.Redo)
         self.redo_action.triggered.connect(self.redo)
 
-        self.paste_action = QAction("Paste", self)
+        self.paste_action = QAction(self._load_icon("paste"), "Paste", self)
         self.paste_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.paste_action.setShortcut(QKeySequence.StandardKey.Paste)
         self.paste_action.triggered.connect(self.paste_image)
@@ -176,7 +196,7 @@ class MainWindow(QMainWindow):
         self.paste_item_action.setShortcut("Ctrl+Shift+V")
         self.paste_item_action.triggered.connect(self.paste_item)
 
-        self.delete_action = QAction("Delete Item", self)
+        self.delete_action = QAction(self._load_icon("delete"), "Delete Item", self)
         self.delete_action.setShortcut(QKeySequence.StandardKey.Delete)
         self.delete_action.triggered.connect(self.delete_selected_item)
 
@@ -199,7 +219,7 @@ class MainWindow(QMainWindow):
         self.scale_action = QAction("Scale…", self)
         self.scale_action.triggered.connect(self.scale_image)
 
-        self.pin_action = QAction("Pin", self)
+        self.pin_action = QAction(self._load_icon("pin"), "Pin", self)
         self.pin_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.pin_action.triggered.connect(self.pin_image)
 
@@ -233,7 +253,7 @@ class MainWindow(QMainWindow):
         self.clear_recent_images_action = QAction("Clear Recent Images", self)
         self.clear_recent_images_action.triggered.connect(self.clear_recent_images)
 
-        self.quit_action = QAction("Quit", self)
+        self.quit_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogCloseButton), "Quit", self)
         self.quit_action.triggered.connect(self.quit_application)
 
     def _build_toolbar(self) -> None:
@@ -623,44 +643,70 @@ class MainWindow(QMainWindow):
                 self.italic.blockSignals(False)
 
     def capture_fullscreen(self) -> None:
-        result = grab_fullscreen()
+        result = self._capture_with_preferences(grab_fullscreen)
         if result is None:
             self._show_error("Unable to capture full screen.")
             return
-        self._load_capture(result.pixmap.toImage(), "Full Screen")
+        self._load_capture_result(result, "Full Screen")
 
     def capture_current_screen(self) -> None:
-        result = grab_current_screen()
+        result = self._capture_with_preferences(grab_current_screen)
         if result is None:
             self._show_error("Unable to capture current screen.")
             return
-        self._load_capture(result.pixmap.toImage(), "Current Screen")
+        self._load_capture_result(result, "Current Screen")
 
     def capture_rect_area(self) -> None:
-        self.hide()
-        QGuiApplication.processEvents()
-        result = grab_rectangular_area()
-        self.show()
-        self.raise_()
-        self.activateWindow()
+        result = self._capture_with_preferences(lambda: grab_rectangular_area())
         if result is None:
             self.status_label.setText("Capture canceled")
             return
-        self._load_capture(result.pixmap.toImage(), "Rect Area")
+        self._load_capture_result(result, "Rect Area")
 
     def capture_active_window(self) -> None:
-        result = grab_active_window()
+        result = self._capture_with_preferences(grab_active_window)
         if result is None:
             self._show_error("Unable to capture active window.")
             return
-        self._load_capture(result.pixmap.toImage(), "Active Window")
+        self._load_capture_result(result, "Active Window")
 
     def capture_window_under_cursor(self) -> None:
-        result = grab_window_under_cursor()
+        result = self._capture_with_preferences(grab_window_under_cursor)
         if result is None:
             self._show_error("Unable to capture window under cursor.")
             return
-        self._load_capture(result.pixmap.toImage(), "Window Under Cursor")
+        self._load_capture_result(result, "Window Under Cursor")
+
+    def _capture_with_preferences(self, capture_fn):
+        should_hide = self._setting_bool("capture/hide_main_window", True) and self.isVisible() and not self.isMinimized()
+        if should_hide:
+            self.hide()
+            QGuiApplication.processEvents()
+
+        delay_ms = max(0, self._setting_int("capture/delay_seconds", 0) * 1000)
+        if delay_ms > 0:
+            self._wait_for_capture_delay(delay_ms)
+
+        try:
+            result = capture_fn()
+        finally:
+            if should_hide and self._setting_bool("capture/show_main_window_after_capture", True):
+                self.showNormal()
+                self.raise_()
+                self.activateWindow()
+
+        return result
+
+    def _wait_for_capture_delay(self, delay_ms: int) -> None:
+        loop = QEventLoop(self)
+        QTimer.singleShot(delay_ms, loop.quit)
+        loop.exec()
+
+    def _load_capture_result(self, result, title: str) -> None:
+        self._load_capture(result.pixmap.toImage(), title)
+        if self._setting_bool("capture/auto_copy_new_captures", False):
+            QGuiApplication.clipboard().setImage(result.pixmap.toImage())
+            self.status_label.setText(f"Loaded {title.lower()} capture and copied it to clipboard")
 
     def _load_capture(self, image: QImage, title: str) -> None:
         canvas = self.current_canvas()
@@ -1153,6 +1199,10 @@ class MainWindow(QMainWindow):
             bold=self.bold.isChecked(),
             italic=self.italic.isChecked(),
             rotate_watermark=self.rotate_watermark_action.isChecked(),
+            capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
+            hide_main_window_during_capture=self._setting_bool("capture/hide_main_window", True),
+            show_main_window_after_capture=self._setting_bool("capture/show_main_window_after_capture", True),
+            auto_copy_new_captures=self._setting_bool("capture/auto_copy_new_captures", False),
             use_tray_icon=self._setting_bool("tray/use", True),
             minimize_to_tray=self._setting_bool("tray/minimize", True),
             close_to_tray=self._setting_bool("tray/close", True),
@@ -1197,6 +1247,10 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/bold", data.bold)
         self._settings.setValue("editor/italic", data.italic)
         self._settings.setValue("watermark/rotate", data.rotate_watermark)
+        self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
+        self._settings.setValue("capture/hide_main_window", data.hide_main_window_during_capture)
+        self._settings.setValue("capture/show_main_window_after_capture", data.show_main_window_after_capture)
+        self._settings.setValue("capture/auto_copy_new_captures", data.auto_copy_new_captures)
         self._settings.setValue("tray/use", data.use_tray_icon)
         self._settings.setValue("tray/minimize", data.minimize_to_tray)
         self._settings.setValue("tray/close", data.close_to_tray)

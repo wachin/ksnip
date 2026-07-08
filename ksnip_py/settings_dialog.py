@@ -36,6 +36,10 @@ class SettingsData:
     bold: bool
     italic: bool
     rotate_watermark: bool
+    capture_delay_seconds: int
+    hide_main_window_during_capture: bool
+    show_main_window_after_capture: bool
+    auto_copy_new_captures: bool
     use_tray_icon: bool
     minimize_to_tray: bool
     close_to_tray: bool
@@ -127,6 +131,22 @@ class SettingsDialog(QDialog):
         watermark_layout.addRow("Stored Image", image_host)
 
         layout.addWidget(watermark_group)
+
+        capture_group = QGroupBox("Capture", self)
+        capture_layout = QFormLayout(capture_group)
+
+        self.capture_delay_seconds = QSpinBox(capture_group)
+        self.capture_delay_seconds.setRange(0, 60)
+        self.capture_delay_seconds.setSuffix(" s")
+        capture_layout.addRow("Capture Delay", self.capture_delay_seconds)
+
+        self.hide_main_window_during_capture = QCheckBox("Hide Main Window During Capture", capture_group)
+        self.show_main_window_after_capture = QCheckBox("Show Main Window After Capture", capture_group)
+        self.auto_copy_new_captures = QCheckBox("Automatically Copy New Captures To Clipboard", capture_group)
+        capture_layout.addRow(self.hide_main_window_during_capture)
+        capture_layout.addRow(self.show_main_window_after_capture)
+        capture_layout.addRow(self.auto_copy_new_captures)
+        layout.addWidget(capture_group)
 
         tray_group = QGroupBox("Tray Icon", self)
         tray_layout = QFormLayout(tray_group)
@@ -238,6 +258,10 @@ class SettingsDialog(QDialog):
         self.bold.setChecked(initial.bold)
         self.italic.setChecked(initial.italic)
         self.rotate_watermark.setChecked(initial.rotate_watermark)
+        self.capture_delay_seconds.setValue(initial.capture_delay_seconds)
+        self.hide_main_window_during_capture.setChecked(initial.hide_main_window_during_capture)
+        self.show_main_window_after_capture.setChecked(initial.show_main_window_after_capture)
+        self.auto_copy_new_captures.setChecked(initial.auto_copy_new_captures)
         self.use_tray_icon.setChecked(initial.use_tray_icon)
         self.minimize_to_tray.setChecked(initial.minimize_to_tray)
         self.close_to_tray.setChecked(initial.close_to_tray)
@@ -325,6 +349,10 @@ class SettingsDialog(QDialog):
             bold=self.bold.isChecked(),
             italic=self.italic.isChecked(),
             rotate_watermark=self.rotate_watermark.isChecked(),
+            capture_delay_seconds=self.capture_delay_seconds.value(),
+            hide_main_window_during_capture=self.hide_main_window_during_capture.isChecked(),
+            show_main_window_after_capture=self.show_main_window_after_capture.isChecked(),
+            auto_copy_new_captures=self.auto_copy_new_captures.isChecked(),
             use_tray_icon=self.use_tray_icon.isChecked(),
             minimize_to_tray=self.minimize_to_tray.isChecked(),
             close_to_tray=self.close_to_tray.isChecked(),
