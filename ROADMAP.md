@@ -92,6 +92,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Herramienta blur
 - [x] Herramienta pixelate
 - [x] Herramienta crop
+- [x] Sub-herramientas iniciales funcionales: `Double Arrow`, `Marker Pen`, `Marker Rectangle`, `Marker Ellipse`, `Text Pointer`, `Text Arrow`, `Number`, `Number Pointer`, `Number Arrow`
 - [x] Deshacer
 - [x] Rehacer
 - [x] Rotar imagen

@@ -104,6 +104,7 @@ class SettingsDialog(QDialog):
         self.tool_combo = QComboBox(editor_group)
         self.tool_combo.addItem("Select", Tool.SELECT)
         self.tool_combo.addItem("Pen", Tool.PEN)
+        self.tool_combo.addItem("Marker Pen", Tool.MARKER_PEN)
         self.tool_combo.addItem("Line", Tool.LINE)
         self.tool_combo.addItem("Arrow", Tool.ARROW)
         self.tool_combo.addItem("Double Arrow", Tool.DOUBLE_ARROW)

@@ -15,6 +15,7 @@ class Tool(str, Enum):
     SELECT = "select"
     IMAGE = "image"
     PEN = "pen"
+    MARKER_PEN = "marker_pen"
     LINE = "line"
     ARROW = "arrow"
     DOUBLE_ARROW = "double_arrow"
@@ -392,7 +393,7 @@ class AnnotationCanvas(QLabel):
 
     def selected_item_fill_mode(self) -> FillMode | None:
         item = self._primary_selected_item()
-        if item is None or item.kind not in (Tool.RECT, Tool.ELLIPSE, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE):
+        if item is None or item.kind not in (Tool.RECT, Tool.ELLIPSE):
             return None
         return item.fill_mode
 
@@ -553,6 +554,7 @@ class AnnotationCanvas(QLabel):
 
         if self._tool in (
             Tool.PEN,
+            Tool.MARKER_PEN,
             Tool.LINE,
             Tool.ARROW,
             Tool.DOUBLE_ARROW,
@@ -595,9 +597,14 @@ class AnnotationCanvas(QLabel):
         if image_point is None:
             return
 
-        if self._tool == Tool.PEN and self._last_point is not None:
+        if self._tool in (Tool.PEN, Tool.MARKER_PEN) and self._last_point is not None:
             painter = QPainter(self._image)
-            pen = QPen(self._color, self._pen_width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
+            pen_color = QColor(self._color)
+            pen_width = self._pen_width
+            if self._tool == Tool.MARKER_PEN:
+                pen_color.setAlpha(110)
+                pen_width = max(8, self._pen_width * 3)
+            pen = QPen(pen_color, pen_width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
             painter.setPen(pen)
             painter.drawLine(self._last_point, image_point)
             painter.end()
@@ -1010,7 +1017,7 @@ class AnnotationCanvas(QLabel):
         shape_indices = [
             index
             for index in self._selected_item_indices
-            if self._items[index].kind in (Tool.RECT, Tool.ELLIPSE, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE)
+            if self._items[index].kind in (Tool.RECT, Tool.ELLIPSE)
         ]
         if not shape_indices:
             return False
@@ -1040,7 +1047,7 @@ class AnnotationCanvas(QLabel):
         shape_indices = [
             index
             for index in self._selected_item_indices
-            if self._items[index].kind in (Tool.RECT, Tool.ELLIPSE, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE)
+            if self._items[index].kind in (Tool.RECT, Tool.ELLIPSE)
         ]
         if not shape_indices:
             return False
@@ -1262,15 +1269,24 @@ class AnnotationCanvas(QLabel):
 
     def _build_drag_item(self, tool: Tool, start: QPoint, end: QPoint, rect: QRect) -> OverlayItem | None:
         if self._is_line_like(tool) or self._is_shape_like(tool):
+            pen_width = self._pen_width
+            color = QColor(self._color)
+            fill_color = QColor(self._fill_color) if tool in (Tool.RECT, Tool.ELLIPSE) else None
+            fill_mode = self._fill_mode
+            if tool in (Tool.MARKER_RECT, Tool.MARKER_ELLIPSE):
+                color.setAlpha(110)
+                pen_width = max(8, self._pen_width * 3)
+                fill_color = None
+                fill_mode = FillMode.STROKE_ONLY
             return OverlayItem(
                 kind=tool,
                 start=QPoint(start),
                 end=QPoint(end),
-                color=QColor(self._color),
-                pen_width=self._pen_width,
-                fill_color=QColor(self._fill_color) if tool in (Tool.RECT, Tool.ELLIPSE, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE) else None,
+                color=color,
+                pen_width=pen_width,
+                fill_color=fill_color,
                 opacity=self._opacity,
-                fill_mode=self._fill_mode,
+                fill_mode=fill_mode,
             )
         if tool == Tool.TEXT_POINTER:
             text, accepted = QInputDialog.getText(self, "Insert text", "Text:")

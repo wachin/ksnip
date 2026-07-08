@@ -268,6 +268,8 @@ class MainWindow(QMainWindow):
         self.pen_action.triggered.connect(lambda: self.set_tool(Tool.PEN))
         self.tool_action_group.addAction(self.pen_action)
 
+        self.marker_pen_action = self._make_tool_action("markerPen", "Marker Pen", Tool.MARKER_PEN, "marker")
+
         self.line_action = QAction(self._load_icon("line"), "Line", self)
         self.line_action.setCheckable(True)
         self.line_action.triggered.connect(lambda: self.set_tool(Tool.LINE))
@@ -501,6 +503,7 @@ class MainWindow(QMainWindow):
         self._configure_toolbar(self.left_toolbar, icon_size=22, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.left_toolbar)
         self.left_toolbar.addAction(self.select_action)
+        self.left_toolbar.addAction(self.pen_action)
         self.left_toolbar.addWidget(
             self._make_tool_group_widget(
                 "arrow",
@@ -511,8 +514,8 @@ class MainWindow(QMainWindow):
         self.left_toolbar.addWidget(
             self._make_tool_group_widget(
                 "marker",
-                self.pen_action,
-                [self.pen_action, self.marker_rect_action, self.marker_ellipse_action],
+                self.marker_pen_action,
+                [self.marker_pen_action, self.marker_rect_action, self.marker_ellipse_action],
             )
         )
         self.left_toolbar.addWidget(
@@ -583,7 +586,7 @@ class MainWindow(QMainWindow):
         self.italic = self.italic_button
         self.select_action.setChecked(True)
         self._set_tool_group_default_action("arrow", self.arrow_action)
-        self._set_tool_group_default_action("marker", self.pen_action)
+        self._set_tool_group_default_action("marker", self.marker_pen_action)
         self._set_tool_group_default_action("text", self.text_action)
         self._set_tool_group_default_action("number", self.number_action)
         self._set_tool_group_default_action("effect", self.blur_action)
@@ -637,6 +640,7 @@ class MainWindow(QMainWindow):
         tools_menu.addSeparator()
         tools_menu.addAction(self.select_action)
         tools_menu.addAction(self.pen_action)
+        tools_menu.addAction(self.marker_pen_action)
         tools_menu.addAction(self.marker_rect_action)
         tools_menu.addAction(self.marker_ellipse_action)
         tools_menu.addAction(self.line_action)
@@ -765,7 +769,9 @@ class MainWindow(QMainWindow):
         elif tool == Tool.DOUBLE_ARROW:
             self._set_tool_group_default_action("arrow", self.double_arrow_action)
         elif tool == Tool.PEN:
-            self._set_tool_group_default_action("marker", self.pen_action)
+            self.pen_action.setChecked(True)
+        elif tool == Tool.MARKER_PEN:
+            self._set_tool_group_default_action("marker", self.marker_pen_action)
         elif tool == Tool.MARKER_RECT:
             self._set_tool_group_default_action("marker", self.marker_rect_action)
         elif tool == Tool.MARKER_ELLIPSE:
@@ -792,6 +798,7 @@ class MainWindow(QMainWindow):
             self._set_tool_group_default_action("shape", self.ellipse_action)
         self.select_action.setChecked(tool == Tool.SELECT)
         self.pen_action.setChecked(tool == Tool.PEN)
+        self.marker_pen_action.setChecked(tool == Tool.MARKER_PEN)
         self.line_action.setChecked(tool == Tool.LINE)
         self.arrow_action.setChecked(tool == Tool.ARROW)
         self.double_arrow_action.setChecked(tool == Tool.DOUBLE_ARROW)
@@ -1620,6 +1627,7 @@ class MainWindow(QMainWindow):
         for tool, action in (
             (Tool.SELECT, self.select_action),
             (Tool.PEN, self.pen_action),
+            (Tool.MARKER_PEN, self.marker_pen_action),
             (Tool.LINE, self.line_action),
             (Tool.ARROW, self.arrow_action),
             (Tool.DOUBLE_ARROW, self.double_arrow_action),
