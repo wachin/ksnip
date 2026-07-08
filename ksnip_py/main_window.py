@@ -208,6 +208,7 @@ class MainWindow(QMainWindow):
         menu_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         menu_button.setAutoRaise(False)
         menu_button.setFixedSize(14, 30)
+        menu_button.setStyleSheet("QToolButton::menu-indicator { image: none; width: 0px; }")
         menu = QMenu(menu_button)
         for action in menu_actions:
             menu.addAction(action)
@@ -218,8 +219,8 @@ class MainWindow(QMainWindow):
         self._tool_group_buttons[group_name] = main_button
         return host
 
-    def _make_action_button(self, action: QAction, *, enabled: bool = True) -> QToolButton:
-        button = QToolButton(self)
+    def _make_action_button(self, action: QAction, parent: QWidget | None = None, *, enabled: bool = True) -> QToolButton:
+        button = QToolButton(parent or self)
         button.setDefaultAction(action)
         button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         button.setAutoRaise(False)
@@ -227,6 +228,17 @@ class MainWindow(QMainWindow):
         button.setFixedSize(30, 30)
         button.setEnabled(enabled)
         return button
+
+    def _make_single_tool_widget(self, action: QAction, *, enabled: bool = True) -> QWidget:
+        host = QWidget(self)
+        layout = QHBoxLayout(host)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        layout.addWidget(self._make_action_button(action, host, enabled=enabled))
+        spacer = QWidget(host)
+        spacer.setFixedSize(14, 30)
+        layout.addWidget(spacer)
+        return host
 
     def _sync_toolbox_color_button(self, color: QColor | None = None) -> None:
         if not hasattr(self, "toolbox_color_button"):
@@ -555,8 +567,8 @@ class MainWindow(QMainWindow):
         tools_layout = QVBoxLayout(tools_panel)
         tools_layout.setContentsMargins(0, 0, 0, 0)
         tools_layout.setSpacing(4)
-        tools_layout.addWidget(self._make_action_button(self.select_action))
-        tools_layout.addWidget(self._make_action_button(self.duplicate_action, enabled=False))
+        tools_layout.addWidget(self._make_single_tool_widget(self.select_action))
+        tools_layout.addWidget(self._make_single_tool_widget(self.duplicate_action, enabled=False))
         tools_layout.addWidget(
             self._make_tool_group_widget(
                 "arrow",
@@ -564,7 +576,7 @@ class MainWindow(QMainWindow):
                 [self.arrow_action, self.double_arrow_action, self.line_action],
             )
         )
-        tools_layout.addWidget(self._make_action_button(self.pen_action))
+        tools_layout.addWidget(self._make_single_tool_widget(self.pen_action))
         tools_layout.addWidget(
             self._make_tool_group_widget(
                 "marker",
@@ -602,7 +614,7 @@ class MainWindow(QMainWindow):
         )
         self.sticker_action = QAction(self._load_icon("sticker"), "Sticker", self)
         self.sticker_action.setEnabled(False)
-        tools_layout.addWidget(self._make_action_button(self.sticker_action, enabled=False))
+        tools_layout.addWidget(self._make_single_tool_widget(self.sticker_action, enabled=False))
         tools_layout.addStretch(1)
         toolbox_layout.addWidget(tools_panel)
         toolbox_layout.addStretch(1)
