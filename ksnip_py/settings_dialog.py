@@ -136,9 +136,9 @@ class SettingsDialog(QDialog):
         editor_layout.addRow("Font Size", self.font_size)
 
         self.fill_mode = QComboBox(editor_group)
-        self.fill_mode.addItem("Stroke", FillMode.STROKE_ONLY)
-        self.fill_mode.addItem("Fill", FillMode.FILL_ONLY)
-        self.fill_mode.addItem("Stroke+Fill", FillMode.STROKE_AND_FILL)
+        self.fill_mode.addItem("Border and Fill", FillMode.BORDER_AND_FILL)
+        self.fill_mode.addItem("Border and No Fill", FillMode.BORDER_AND_NO_FILL)
+        self.fill_mode.addItem("No Border and No Fill", FillMode.NO_BORDER_AND_NO_FILL)
         editor_layout.addRow("Shape Fill Mode", self.fill_mode)
 
         self.opacity = QSpinBox(editor_group)

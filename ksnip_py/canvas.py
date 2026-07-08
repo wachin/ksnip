@@ -37,9 +37,10 @@ class Tool(str, Enum):
 
 
 class FillMode(str, Enum):
-    STROKE_ONLY = "stroke_only"
-    FILL_ONLY = "fill_only"
-    STROKE_AND_FILL = "stroke_and_fill"
+    BORDER_AND_NO_FILL = "border_and_no_fill"
+    BORDER_AND_FILL = "border_and_fill"
+    NO_BORDER_AND_NO_FILL = "no_border_and_no_fill"
+    NO_BORDER_AND_FILL = "no_border_and_fill"
 
 
 @dataclass
@@ -60,7 +61,7 @@ class OverlayItem:
     font_point_size: int | None = None
     fill_color: QColor | None = None
     opacity: float = 1.0
-    fill_mode: FillMode = FillMode.STROKE_AND_FILL
+    fill_mode: FillMode = FillMode.BORDER_AND_FILL
     bold: bool = False
     italic: bool = False
     underline: bool = False
@@ -141,7 +142,7 @@ class AnnotationCanvas(QLabel):
         self._fill_color = QColor(246, 189, 96, 80)
         self._text_color = QColor("#ffffff")
         self._opacity = 1.0
-        self._fill_mode = FillMode.STROKE_AND_FILL
+        self._fill_mode = FillMode.BORDER_AND_FILL
         self._bold = False
         self._italic = False
         self._underline = False
@@ -179,6 +180,14 @@ class AnnotationCanvas(QLabel):
     @staticmethod
     def _is_number_like(tool: Tool) -> bool:
         return tool in (Tool.NUMBER, Tool.NUMBER_POINTER, Tool.NUMBER_ARROW)
+
+    @staticmethod
+    def _has_fill(fill_mode: FillMode) -> bool:
+        return fill_mode in {FillMode.BORDER_AND_FILL, FillMode.NO_BORDER_AND_FILL}
+
+    @staticmethod
+    def _has_border(fill_mode: FillMode) -> bool:
+        return fill_mode in {FillMode.BORDER_AND_FILL, FillMode.BORDER_AND_NO_FILL}
 
     def has_image(self) -> bool:
         return not self._image.isNull()
@@ -259,7 +268,7 @@ class AnnotationCanvas(QLabel):
             font_point_size=payload.get("font_point_size"),
             fill_color=QColor(payload["fill_color"]) if payload.get("fill_color") else None,
             opacity=payload.get("opacity", 1.0),
-            fill_mode=FillMode(payload.get("fill_mode", FillMode.STROKE_AND_FILL.value)),
+            fill_mode=FillMode(payload.get("fill_mode", FillMode.BORDER_AND_FILL.value)),
             bold=payload.get("bold", False),
             italic=payload.get("italic", False),
             underline=payload.get("underline", False),
@@ -879,7 +888,7 @@ class AnnotationCanvas(QLabel):
             self._draw_shadow(painter, item)
         painter.save()
         painter.setOpacity(item.opacity)
-        pen_color = item.color if item.fill_mode != FillMode.FILL_ONLY else QColor(item.color.red(), item.color.green(), item.color.blue(), 0)
+        pen_color = item.color if self._has_border(item.fill_mode) else QColor(item.color.red(), item.color.green(), item.color.blue(), 0)
         pen = QPen(pen_color, item.pen_width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
         painter.setPen(pen)
         if item.kind == Tool.LINE:
@@ -908,9 +917,16 @@ class AnnotationCanvas(QLabel):
             font.setBold(item.bold)
             font.setItalic(item.italic)
             font.setUnderline(item.underline)
+            text_box = item.bounds().adjusted(2, 2, -2, -2)
+            if self._has_fill(item.fill_mode):
+                painter.setBrush(item.color)
+            else:
+                painter.setBrush(Qt.BrushStyle.NoBrush)
+            if self._has_border(item.fill_mode):
+                painter.drawRoundedRect(text_box, 6, 6)
             painter.setFont(font)
             painter.setPen(QPen(item.text_color or item.color, max(1, item.pen_width // 2)))
-            painter.drawText(item.start, item.text or "")
+            painter.drawText(text_box.adjusted(8, 4, -8, -4), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, item.text or "")
         elif item.kind == Tool.TEXT_POINTER:
             self._draw_text_pointer(painter, item)
         elif item.kind == Tool.TEXT_ARROW:
@@ -1301,9 +1317,9 @@ class AnnotationCanvas(QLabel):
         return True
 
     def _brush_for_item(self, item: OverlayItem):
-        if item.fill_mode == FillMode.STROKE_ONLY or item.fill_color is None:
+        if not self._has_fill(item.fill_mode):
             return Qt.BrushStyle.NoBrush
-        return item.fill_color
+        return item.color
 
     def _find_handle_at(self, item: OverlayItem, point: QPoint) -> str | None:
         for handle_name, handle_point in self._handle_points(item).items():
@@ -1465,6 +1481,7 @@ class AnnotationCanvas(QLabel):
                 underline=self._underline,
                 text_color=QColor(self._text_color),
                 shadow=self._shadow,
+                fill_mode=self._fill_mode,
             )
         if tool == Tool.NUMBER:
             radius = max(16, self._font_point_size)
@@ -1482,9 +1499,9 @@ class AnnotationCanvas(QLabel):
                 bold=True,
                 italic=False,
                 underline=self._underline,
-                fill_color=QColor(self._color),
                 text_color=QColor(self._text_color),
                 shadow=self._shadow,
+                fill_mode=self._fill_mode,
             )
         if tool == Tool.STICKER:
             image = self._load_sticker_image(self._sticker_path)
@@ -1517,7 +1534,7 @@ class AnnotationCanvas(QLabel):
                 color.setAlpha(110)
                 pen_width = max(8, self._pen_width * 3)
                 fill_color = None
-                fill_mode = FillMode.STROKE_ONLY
+                fill_mode = FillMode.BORDER_AND_NO_FILL
             return OverlayItem(
                 kind=tool,
                 start=QPoint(start),
@@ -1546,7 +1563,7 @@ class AnnotationCanvas(QLabel):
                 italic=self._italic,
                 underline=self._underline,
                 fill_color=QColor(255, 255, 255, 220),
-                fill_mode=FillMode.STROKE_AND_FILL,
+                fill_mode=FillMode.BORDER_AND_FILL,
                 text_color=QColor(self._text_color),
                 shadow=self._shadow,
             )
@@ -1569,6 +1586,7 @@ class AnnotationCanvas(QLabel):
                 underline=self._underline,
                 text_color=QColor(self._text_color),
                 shadow=self._shadow,
+                fill_mode=self._fill_mode,
             )
         if tool in (Tool.NUMBER_POINTER, Tool.NUMBER_ARROW):
             value = self._next_number_value()
@@ -1585,8 +1603,7 @@ class AnnotationCanvas(QLabel):
                 bold=True,
                 italic=False,
                 underline=self._underline,
-                fill_color=QColor(self._color),
-                fill_mode=FillMode.STROKE_AND_FILL,
+                fill_mode=self._fill_mode if tool == Tool.NUMBER_ARROW else FillMode.BORDER_AND_FILL,
                 text_color=QColor(self._text_color),
                 shadow=self._shadow,
             )
@@ -1674,9 +1691,11 @@ class AnnotationCanvas(QLabel):
     def _draw_text_arrow(self, painter: QPainter, item: OverlayItem) -> None:
         label_rect = self._text_arrow_label_rect(item)
         arrow_start = QPoint(label_rect.right(), label_rect.center().y()) if item.end.x() >= item.start.x() else QPoint(label_rect.left(), label_rect.center().y())
-        self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
-        painter.setBrush(QColor(255, 250, 245, 235))
-        painter.drawRoundedRect(label_rect, 8, 8)
+        if self._has_border(item.fill_mode):
+            self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
+        painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
+        if self._has_border(item.fill_mode):
+            painter.drawRoundedRect(label_rect, 8, 8)
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
         font.setBold(item.bold)
         font.setItalic(item.italic)
@@ -1687,8 +1706,9 @@ class AnnotationCanvas(QLabel):
 
     def _draw_number_badge(self, painter: QPainter, item: OverlayItem) -> None:
         rect = QRect(item.start, item.end).normalized()
-        painter.setBrush(item.fill_color or item.color)
-        painter.drawEllipse(rect)
+        painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
+        if self._has_border(item.fill_mode):
+            painter.drawEllipse(rect)
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
         font.setBold(item.bold)
         font.setItalic(item.italic)
@@ -1706,10 +1726,11 @@ class AnnotationCanvas(QLabel):
         tail_base = self._circle_edge_point(center, diameter // 2 - 2, tail_tip)
         tail_left = QPoint(tail_base.x() - 5, tail_base.y() + 7)
         tail_right = QPoint(tail_base.x() + 7, tail_base.y() - 5)
-        painter.setBrush(item.fill_color or item.color)
-        painter.drawEllipse(bubble_rect)
-        triangle = QPolygon([tail_left, tail_right, tail_tip])
-        painter.drawPolygon(triangle)
+        painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
+        if self._has_border(item.fill_mode):
+            painter.drawEllipse(bubble_rect)
+            triangle = QPolygon([tail_left, tail_right, tail_tip])
+            painter.drawPolygon(triangle)
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
         font.setBold(item.bold)
         font.setItalic(item.italic)
@@ -1723,9 +1744,10 @@ class AnnotationCanvas(QLabel):
         bubble_rect = QRect(item.start.x() - bubble_radius, item.start.y() - bubble_radius, bubble_radius * 2, bubble_radius * 2)
         bubble_center = bubble_rect.center()
         arrow_start = self._circle_edge_point(bubble_center, bubble_radius - 2, item.end)
-        painter.setBrush(item.fill_color or item.color)
-        painter.drawEllipse(bubble_rect)
-        self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
+        painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
+        if self._has_border(item.fill_mode):
+            painter.drawEllipse(bubble_rect)
+            self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
         font = QFont(item.font_family or self._font_family, max(8, (item.font_point_size or self._font_point_size) - 1))
         font.setBold(item.bold)
         font.setItalic(item.italic)

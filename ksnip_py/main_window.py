@@ -296,9 +296,9 @@ class MainWindow(QMainWindow):
                 )
 
     def _fill_mode_icon_name(self, fill_mode: FillMode | None) -> str:
-        if fill_mode == FillMode.STROKE_ONLY:
+        if fill_mode == FillMode.BORDER_AND_NO_FILL:
             return "fillType_borderAndNoFill"
-        if fill_mode == FillMode.FILL_ONLY:
+        if fill_mode == FillMode.NO_BORDER_AND_NO_FILL:
             return "fillType_noBorderAndNoFill"
         return "fillType_borderAndFill"
 
@@ -307,7 +307,7 @@ class MainWindow(QMainWindow):
             return
         fill_mode = self.fill_mode.currentData()
         if fill_mode is None:
-            fill_mode = FillMode.STROKE_AND_FILL
+            fill_mode = FillMode.BORDER_AND_FILL
         self.fill_mode_button.setIcon(self._load_icon(self._fill_mode_icon_name(fill_mode)))
 
     def _sync_auxiliary_property_controls(self) -> None:
@@ -748,9 +748,9 @@ class MainWindow(QMainWindow):
         self.property_width_group = self._make_property_group(self._make_icon_label("width", "Stroke width"), self.stroke_width)
 
         self.fill_mode = QComboBox()
-        self.fill_mode.addItem("Border", FillMode.STROKE_ONLY)
-        self.fill_mode.addItem("Fill", FillMode.FILL_ONLY)
-        self.fill_mode.addItem("Both", FillMode.STROKE_AND_FILL)
+        self.fill_mode.addItem("Border and Fill", FillMode.BORDER_AND_FILL)
+        self.fill_mode.addItem("Border and No Fill", FillMode.BORDER_AND_NO_FILL)
+        self.fill_mode.addItem("No Border and No Fill", FillMode.NO_BORDER_AND_NO_FILL)
         self.fill_mode.hide()
         self.fill_mode.currentIndexChanged.connect(self._apply_fill_mode)
         self.fill_mode_button = QToolButton(self)
@@ -2317,8 +2317,16 @@ class MainWindow(QMainWindow):
         if isinstance(stored_font_family, str) and stored_font_family:
             self.font_family.setCurrentFont(QFont(stored_font_family))
 
-        stored_fill_mode = self._settings.value("editor/fill_mode", FillMode.STROKE_AND_FILL.value)
-        fill_mode = FillMode(stored_fill_mode) if stored_fill_mode in {mode.value for mode in FillMode} else FillMode.STROKE_AND_FILL
+        stored_fill_mode = self._settings.value("editor/fill_mode", FillMode.BORDER_AND_FILL.value)
+        legacy_map = {
+            "stroke_only": FillMode.BORDER_AND_NO_FILL,
+            "fill_only": FillMode.NO_BORDER_AND_FILL,
+            "stroke_and_fill": FillMode.BORDER_AND_FILL,
+        }
+        if stored_fill_mode in legacy_map:
+            fill_mode = legacy_map[stored_fill_mode]
+        else:
+            fill_mode = FillMode(stored_fill_mode) if stored_fill_mode in {mode.value for mode in FillMode} else FillMode.BORDER_AND_FILL
         fill_mode_index = self.fill_mode.findData(fill_mode)
         if fill_mode_index >= 0:
             self.fill_mode.setCurrentIndex(fill_mode_index)
