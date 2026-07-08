@@ -91,8 +91,9 @@ class OverlayItem:
             height = max(20, (self.font_point_size or max(10, self.pen_width * 4)) + 12)
             return QRect(self.start.x(), self.start.y() - height, width, height)
         if self.kind == Tool.TEXT_ARROW:
-            width = max(80, len(self.text or "") * 10)
-            label = QRect(self.start.x() + 8, self.start.y() - 28, width, 32)
+            width = max(96, len(self.text or "") * 10 + 24)
+            height = max(34, (self.font_point_size or 14) + 18)
+            label = QRect(self.start.x() + 8, self.start.y() - height // 2, width, height)
             return QRect(self.start, self.end).normalized().united(label).adjusted(-6, -6, 6, 6)
         if self.kind == Tool.NUMBER_ARROW:
             radius = max(14, self.font_point_size or 14)
@@ -1349,28 +1350,64 @@ class AnnotationCanvas(QLabel):
                 values.append(int(item.text))
         return (max(values) + 1) if values else 1
 
+    def _text_box_size(self, item: OverlayItem) -> tuple[int, int]:
+        width = max(96, len(item.text or "") * max(8, (item.font_point_size or self._font_point_size) - 2) + 24)
+        height = max(34, (item.font_point_size or self._font_point_size) + 18)
+        return width, height
+
+    def _text_arrow_label_rect(self, item: OverlayItem) -> QRect:
+        width, height = self._text_box_size(item)
+        dx = item.end.x() - item.start.x()
+        offset_x = 12 if dx >= 0 else -(width + 12)
+        top = item.start.y() - height // 2
+        return QRect(item.start.x() + offset_x, top, width, height)
+
+    def _circle_edge_point(self, center: QPoint, radius: int, target: QPoint) -> QPoint:
+        dx = target.x() - center.x()
+        dy = target.y() - center.y()
+        if dx == 0 and dy == 0:
+            return QPoint(center.x() + radius, center.y())
+        length = (dx * dx + dy * dy) ** 0.5
+        return QPoint(int(center.x() + dx / length * radius), int(center.y() + dy / length * radius))
+
     def _draw_text_pointer(self, painter: QPainter, item: OverlayItem) -> None:
         rect = QRect(item.start, item.end).normalized()
-        painter.setBrush(item.fill_color or QColor(255, 255, 255, 220))
-        painter.drawRect(rect)
-        tip = QPoint(rect.left() + max(12, item.pen_width * 3), rect.bottom() + max(12, item.pen_width * 3))
-        triangle = QPolygon([QPoint(rect.left() + 8, rect.bottom()), QPoint(rect.left() + 24, rect.bottom()), tip])
+        bubble_rect = rect.adjusted(0, 0, -max(16, rect.width() // 6), -max(16, rect.height() // 6))
+        bubble_rect = bubble_rect.normalized()
+        fill = item.fill_color or QColor(255, 255, 255, 230)
+        painter.setBrush(fill)
+        painter.drawRoundedRect(bubble_rect, 8, 8)
+        tip = rect.bottomRight()
+        base_center = QPoint(bubble_rect.right() - 18, bubble_rect.bottom() - 10)
+        triangle = QPolygon(
+            [
+                QPoint(base_center.x() - 8, base_center.y() - 4),
+                QPoint(base_center.x() + 8, base_center.y() + 4),
+                tip,
+            ]
+        )
         painter.drawPolygon(triangle)
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
         font.setBold(item.bold)
         font.setItalic(item.italic)
         painter.setFont(font)
-        painter.drawText(rect.adjusted(8, 8, -8, -8), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap, item.text or "")
+        painter.drawText(
+            bubble_rect.adjusted(10, 8, -10, -8),
+            Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap,
+            item.text or "",
+        )
 
     def _draw_text_arrow(self, painter: QPainter, item: OverlayItem) -> None:
-        self._draw_arrow(painter, item.start, item.end, color=item.color, pen_width=item.pen_width)
-        label_rect = QRect(item.start.x() + 8, item.start.y() - 28, max(80, len(item.text or "") * 9), 32)
-        painter.fillRect(label_rect, QColor(255, 255, 255, 220))
+        label_rect = self._text_arrow_label_rect(item)
+        arrow_start = QPoint(label_rect.right(), label_rect.center().y()) if item.end.x() >= item.start.x() else QPoint(label_rect.left(), label_rect.center().y())
+        self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
+        painter.setBrush(QColor(255, 255, 255, 230))
+        painter.drawRoundedRect(label_rect, 8, 8)
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
         font.setBold(item.bold)
         font.setItalic(item.italic)
         painter.setFont(font)
-        painter.drawText(label_rect.adjusted(6, 4, -6, -4), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, item.text or "")
+        painter.drawText(label_rect.adjusted(10, 4, -10, -4), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, item.text or "")
 
     def _draw_number_badge(self, painter: QPainter, item: OverlayItem) -> None:
         rect = QRect(item.start, item.end).normalized()
@@ -1384,10 +1421,16 @@ class AnnotationCanvas(QLabel):
 
     def _draw_number_pointer(self, painter: QPainter, item: OverlayItem) -> None:
         rect = QRect(item.start, item.end).normalized()
-        bubble_rect = QRect(rect.left(), rect.top(), min(rect.width(), rect.height()), min(rect.width(), rect.height()))
+        diameter = min(rect.width(), rect.height())
+        bubble_rect = QRect(rect.left(), rect.top(), diameter, diameter)
+        center = bubble_rect.center()
+        tail_tip = rect.bottomRight()
+        tail_base = self._circle_edge_point(center, diameter // 2 - 2, tail_tip)
+        tail_left = QPoint(tail_base.x() - 5, tail_base.y() + 7)
+        tail_right = QPoint(tail_base.x() + 7, tail_base.y() - 5)
         painter.setBrush(item.fill_color or item.color)
         painter.drawEllipse(bubble_rect)
-        triangle = QPolygon([bubble_rect.bottomLeft(), bubble_rect.bottomRight(), QPoint(rect.right(), rect.bottom())])
+        triangle = QPolygon([tail_left, tail_right, tail_tip])
         painter.drawPolygon(triangle)
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
         font.setBold(True)
@@ -1398,9 +1441,11 @@ class AnnotationCanvas(QLabel):
     def _draw_number_arrow(self, painter: QPainter, item: OverlayItem) -> None:
         bubble_radius = max(14, item.font_point_size or self._font_point_size)
         bubble_rect = QRect(item.start.x() - bubble_radius, item.start.y() - bubble_radius, bubble_radius * 2, bubble_radius * 2)
+        bubble_center = bubble_rect.center()
+        arrow_start = self._circle_edge_point(bubble_center, bubble_radius - 2, item.end)
         painter.setBrush(item.fill_color or item.color)
         painter.drawEllipse(bubble_rect)
-        self._draw_arrow(painter, item.start, item.end, color=item.color, pen_width=item.pen_width)
+        self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
         font = QFont(item.font_family or self._font_family, max(8, (item.font_point_size or self._font_point_size) - 1))
         font.setBold(True)
         painter.setFont(font)
