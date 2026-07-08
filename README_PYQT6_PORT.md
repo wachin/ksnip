@@ -83,7 +83,7 @@ And if you're not using a KDE operating system (like Kubuntu, MX Linux KDE, Neon
 $ QT_QPA_PLATFORMTHEME=gtk3 python3 -m ksnip_py
 ```
 
-an
+Then, when you open or save a file, the operating system's context menu will appear.
 
 ## OCR
 
