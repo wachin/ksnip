@@ -286,6 +286,33 @@ class MainWindow(QMainWindow):
                 f"QToolButton {{ background: {fill.name()}; border: 1px solid #666; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; }}"
             )
 
+    def _fill_mode_icon_name(self, fill_mode: FillMode | None) -> str:
+        if fill_mode == FillMode.STROKE_ONLY:
+            return "fillType_borderAndNoFill"
+        if fill_mode == FillMode.FILL_ONLY:
+            return "fillType_noBorderAndNoFill"
+        return "fillType_borderAndFill"
+
+    def _sync_fill_mode_button(self) -> None:
+        if not hasattr(self, "fill_mode_button"):
+            return
+        fill_mode = self.fill_mode.currentData()
+        if fill_mode is None:
+            fill_mode = FillMode.STROKE_AND_FILL
+        self.fill_mode_button.setIcon(self._load_icon(self._fill_mode_icon_name(fill_mode)))
+
+    def _sync_auxiliary_property_controls(self) -> None:
+        if not hasattr(self, "blur_strength"):
+            return
+        if self.blur_strength.value() != self.stroke_width.value():
+            self.blur_strength.blockSignals(True)
+            self.blur_strength.setValue(self.stroke_width.value())
+            self.blur_strength.blockSignals(False)
+
+    def _cycle_fill_mode(self) -> None:
+        next_index = (self.fill_mode.currentIndex() + 1) % self.fill_mode.count()
+        self.fill_mode.setCurrentIndex(next_index)
+
     def _effective_property_tool(self) -> Tool | None:
         canvas = self.current_canvas()
         if canvas is None:
@@ -330,14 +357,24 @@ class MainWindow(QMainWindow):
             Tool.NUMBER,
             Tool.NUMBER_POINTER,
             Tool.NUMBER_ARROW,
-            Tool.BLUR,
-            Tool.PIXELATE,
             Tool.RECT,
             Tool.ELLIPSE,
             Tool.MARKER_RECT,
             Tool.MARKER_ELLIPSE,
         }
-        show_fill = tool in {
+        show_fill_color = tool in {
+            Tool.TEXT,
+            Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW,
+            Tool.NUMBER,
+            Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW,
+            Tool.RECT,
+            Tool.ELLIPSE,
+            Tool.MARKER_RECT,
+            Tool.MARKER_ELLIPSE,
+        }
+        show_fill_mode = tool in {
             Tool.TEXT,
             Tool.TEXT_POINTER,
             Tool.TEXT_ARROW,
@@ -361,6 +398,7 @@ class MainWindow(QMainWindow):
             Tool.NUMBER_ARROW,
             Tool.RECT,
             Tool.ELLIPSE,
+            Tool.IMAGE,
         }
         show_font = tool in {
             Tool.TEXT,
@@ -371,14 +409,36 @@ class MainWindow(QMainWindow):
             Tool.NUMBER_ARROW,
         }
         show_style = show_font
+        show_number = tool in {Tool.NUMBER, Tool.NUMBER_POINTER, Tool.NUMBER_ARROW}
+        show_blur = tool in {Tool.BLUR, Tool.PIXELATE}
+        show_options = tool in {
+            Tool.ARROW,
+            Tool.DOUBLE_ARROW,
+            Tool.LINE,
+            Tool.PEN,
+            Tool.TEXT,
+            Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW,
+            Tool.NUMBER,
+            Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW,
+            Tool.RECT,
+            Tool.ELLIPSE,
+            Tool.IMAGE,
+        }
         visibility = {
             "handle": True,
             "stroke": show_stroke,
             "width": show_width,
-            "fill": show_fill,
+            "fill_color": show_fill_color,
+            "fill_mode": show_fill_mode,
             "opacity": show_opacity,
             "font": show_font,
             "style": show_style,
+            "number": show_number,
+            "blur": show_blur,
+            "options": show_options,
+            "sticker": False,
         }
         for name, widget in self._property_groups.items():
             widget.setVisible(visibility.get(name, False))
@@ -627,7 +687,7 @@ class MainWindow(QMainWindow):
         properties_toolbar.addWidget(self.property_stroke_group)
 
         self.stroke_width = QSpinBox()
-        self.stroke_width.setRange(1, 20)
+        self.stroke_width.setRange(1, 60)
         self.stroke_width.setValue(3)
         self.stroke_width.setFixedWidth(52)
         self.stroke_width.setFixedHeight(22)
@@ -639,16 +699,24 @@ class MainWindow(QMainWindow):
         self.property_fill_button.setToolTip("Fill color")
         self.property_fill_button.setFixedSize(22, 22)
         self.property_fill_button.clicked.connect(self.select_fill_color)
+        self.property_fill_color_group = self._make_property_group(
+            self._make_icon_label("fillType", "Fill color"),
+            self.property_fill_button,
+        )
+        properties_toolbar.addWidget(self.property_fill_color_group)
 
         self.fill_mode = QComboBox()
         self.fill_mode.addItem("Border", FillMode.STROKE_ONLY)
         self.fill_mode.addItem("Fill", FillMode.FILL_ONLY)
         self.fill_mode.addItem("Both", FillMode.STROKE_AND_FILL)
-        self.fill_mode.setFixedWidth(58)
-        self.fill_mode.setFixedHeight(22)
+        self.fill_mode.hide()
         self.fill_mode.currentIndexChanged.connect(self._apply_fill_mode)
-        self.property_fill_group = self._make_property_group(self.property_fill_button, self.fill_mode)
-        properties_toolbar.addWidget(self.property_fill_group)
+        self.fill_mode_button = QToolButton(self)
+        self.fill_mode_button.setToolTip("Fill mode")
+        self.fill_mode_button.setFixedSize(22, 22)
+        self.fill_mode_button.clicked.connect(self._cycle_fill_mode)
+        self.property_fill_mode_group = self._make_property_group(self.fill_mode_button)
+        properties_toolbar.addWidget(self.property_fill_mode_group)
 
         self.opacity = QSpinBox()
         self.opacity.setRange(0, 100)
@@ -676,20 +744,60 @@ class MainWindow(QMainWindow):
 
         self.bold_button = self._make_tool_toggle("bold", "Bold", False, self._apply_bold)
         self.italic_button = self._make_tool_toggle("italic", "Italic", False, self._apply_italic)
+        self.underline_button = self._make_tool_toggle("underline", "Underline", False, self._apply_underline)
         self.bold_button.setFixedSize(22, 22)
         self.italic_button.setFixedSize(22, 22)
-        self.property_style_group = self._make_property_group(self.bold_button, self.italic_button)
+        self.underline_button.setFixedSize(22, 22)
+        self.property_style_group = self._make_property_group(self.bold_button, self.italic_button, self.underline_button)
         properties_toolbar.addWidget(self.property_style_group)
+
+        self.number_value = QSpinBox()
+        self.number_value.setRange(1, 999)
+        self.number_value.setValue(1)
+        self.number_value.setFixedWidth(48)
+        self.number_value.setFixedHeight(22)
+        self.property_number_group = self._make_property_group(self._make_icon_label("number", "Number"), self.number_value)
+        properties_toolbar.addWidget(self.property_number_group)
+
+        self.border_button = self._make_tool_toggle("border", "Border", True, self._apply_border_option)
+        self.check_button = self._make_tool_toggle("check", "Option", True, self._apply_check_option)
+        self.border_button.setFixedSize(22, 22)
+        self.check_button.setFixedSize(22, 22)
+        self.property_options_group = self._make_property_group(self.border_button, self.check_button)
+        properties_toolbar.addWidget(self.property_options_group)
+
+        self.blur_strength = QSpinBox()
+        self.blur_strength.setRange(1, 60)
+        self.blur_strength.setValue(10)
+        self.blur_strength.setFixedWidth(52)
+        self.blur_strength.setFixedHeight(22)
+        self.blur_strength.valueChanged.connect(self._apply_blur_strength)
+        self.property_blur_group = self._make_property_group(self._make_icon_label("obfuscateFactor", "Effect strength"), self.blur_strength)
+        properties_toolbar.addWidget(self.property_blur_group)
+
+        self.sticker_picker_button = QToolButton(self)
+        self.sticker_picker_button.setIcon(self._load_icon("sticker"))
+        self.sticker_picker_button.setToolTip("Sticker")
+        self.sticker_picker_button.setFixedSize(22, 22)
+        self.property_sticker_group = self._make_property_group(self._make_icon_label("sticker", "Sticker"), self.sticker_picker_button)
+        properties_toolbar.addWidget(self.property_sticker_group)
         self._property_groups = {
             "handle": self.property_handle_group,
             "stroke": self.property_stroke_group,
             "width": self.property_width_group,
-            "fill": self.property_fill_group,
+            "fill_color": self.property_fill_color_group,
+            "fill_mode": self.property_fill_mode_group,
             "opacity": self.property_opacity_group,
             "font": self.property_font_group,
             "style": self.property_style_group,
+            "number": self.property_number_group,
+            "blur": self.property_blur_group,
+            "options": self.property_options_group,
+            "sticker": self.property_sticker_group,
         }
         self._sync_property_color_buttons()
+        self._sync_fill_mode_button()
+        self._sync_auxiliary_property_controls()
         self._update_property_toolbar_for_tool()
 
         self.left_toolbar = QToolBar("Tools", self)
@@ -1092,8 +1200,10 @@ class MainWindow(QMainWindow):
         if canvas is not None:
             if canvas.tool() == Tool.SELECT and canvas.apply_pen_width_to_selected_item(width):
                 self.status_label.setText(f"Updated selected item width to {width}")
+                self._sync_auxiliary_property_controls()
                 return
             canvas.set_pen_width(width)
+        self._sync_auxiliary_property_controls()
         self._settings.setValue("editor/pen_width", width)
 
     def _apply_font_family(self, font) -> None:
@@ -1137,6 +1247,7 @@ class MainWindow(QMainWindow):
         fill_mode = self.fill_mode.itemData(index)
         if fill_mode is None:
             return
+        self._sync_fill_mode_button()
         if canvas.tool() == Tool.SELECT and canvas.apply_fill_mode_to_selected_item(fill_mode):
             self.status_label.setText("Updated selected item fill mode")
             return
@@ -1162,6 +1273,25 @@ class MainWindow(QMainWindow):
             return
         canvas.set_italic(checked)
         self._settings.setValue("editor/italic", checked)
+
+    def _apply_underline(self, checked: bool) -> None:
+        self._settings.setValue("editor/underline", checked)
+
+    def _apply_border_option(self, checked: bool) -> None:
+        self._settings.setValue("editor/show_border", checked)
+
+    def _apply_check_option(self, checked: bool) -> None:
+        self._settings.setValue("editor/check_option", checked)
+
+    def _apply_blur_strength(self, value: int) -> None:
+        if self.stroke_width.value() != value:
+            self.stroke_width.blockSignals(True)
+            self.stroke_width.setValue(value)
+            self.stroke_width.blockSignals(False)
+        canvas = self.current_canvas()
+        if canvas is not None:
+            canvas.set_pen_width(value)
+        self._settings.setValue("editor/pen_width", value)
 
     def _sync_item_controls(self) -> None:
         canvas = self.current_canvas()
@@ -1199,6 +1329,7 @@ class MainWindow(QMainWindow):
                     self.fill_mode.blockSignals(True)
                     self.fill_mode.setCurrentIndex(index)
                     self.fill_mode.blockSignals(False)
+                    self._sync_fill_mode_button()
 
             selected_bold = canvas.selected_item_bold()
             if selected_bold is not None and self.bold.isChecked() != selected_bold:
@@ -1219,6 +1350,8 @@ class MainWindow(QMainWindow):
                 return
         self._sync_toolbox_color_button()
         self._sync_property_color_buttons()
+        self._sync_fill_mode_button()
+        self._sync_auxiliary_property_controls()
         self._update_property_toolbar_for_tool()
 
     def set_current_canvas_zoom(self, percent: int) -> None:
@@ -1958,6 +2091,8 @@ class MainWindow(QMainWindow):
             self.fill_mode.blockSignals(True)
             self.fill_mode.setCurrentIndex(fill_mode_index)
             self.fill_mode.blockSignals(False)
+        self._sync_fill_mode_button()
+        self._sync_auxiliary_property_controls()
 
         self.opacity.blockSignals(True)
         self.opacity.setValue(data.opacity_percent)
@@ -1970,6 +2105,9 @@ class MainWindow(QMainWindow):
         self.italic.blockSignals(True)
         self.italic.setChecked(data.italic)
         self.italic.blockSignals(False)
+        self.underline_button.setChecked(self._setting_bool("editor/underline", False))
+        self.border_button.setChecked(self._setting_bool("editor/show_border", True))
+        self.check_button.setChecked(self._setting_bool("editor/check_option", True))
 
         self.rotate_watermark_action.blockSignals(True)
         self.rotate_watermark_action.setChecked(data.rotate_watermark)
@@ -2003,6 +2141,9 @@ class MainWindow(QMainWindow):
         self.opacity.setValue(self._setting_int("editor/opacity_percent", 100))
         self.bold.setChecked(self._setting_bool("editor/bold", False))
         self.italic.setChecked(self._setting_bool("editor/italic", False))
+        self.underline_button.setChecked(self._setting_bool("editor/underline", False))
+        self.border_button.setChecked(self._setting_bool("editor/show_border", True))
+        self.check_button.setChecked(self._setting_bool("editor/check_option", True))
 
         stored_font_family = self._settings.value("editor/font_family", "")
         if isinstance(stored_font_family, str) and stored_font_family:
@@ -2013,6 +2154,8 @@ class MainWindow(QMainWindow):
         fill_mode_index = self.fill_mode.findData(fill_mode)
         if fill_mode_index >= 0:
             self.fill_mode.setCurrentIndex(fill_mode_index)
+        self._sync_fill_mode_button()
+        self._sync_auxiliary_property_controls()
 
     def _apply_tray_settings(self) -> None:
         if self._tray_icon is None:
