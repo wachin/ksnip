@@ -15,7 +15,9 @@ from PyQt6.QtWidgets import (
     QMainWindow,
     QMessageBox,
     QMenu,
+    QPushButton,
     QProgressDialog,
+    QScrollArea,
     QSpinBox,
     QSystemTrayIcon,
     QTabWidget,
@@ -256,10 +258,17 @@ class MainWindow(QMainWindow):
         self.quit_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogCloseButton), "Quit", self)
         self.quit_action.triggered.connect(self.quit_application)
 
+        self.zoom_out_action = QAction("-", self)
+        self.zoom_out_action.triggered.connect(self.zoom_out_current_canvas)
+        self.zoom_reset_action = QAction("100%", self)
+        self.zoom_reset_action.triggered.connect(self.reset_zoom_current_canvas)
+        self.zoom_in_action = QAction("+", self)
+        self.zoom_in_action.triggered.connect(self.zoom_in_current_canvas)
+
     def _build_toolbar(self) -> None:
         toolbar = QToolBar("Main", self)
         toolbar.setMovable(False)
-        self.addToolBar(toolbar)
+        self.addToolBar(Qt.ToolBarArea.TopToolBarArea, toolbar)
 
         toolbar.addAction(self.new_capture_rect_action)
         toolbar.addAction(self.new_capture_full_action)
@@ -268,78 +277,102 @@ class MainWindow(QMainWindow):
         toolbar.addAction(self.new_capture_under_cursor_action)
         toolbar.addSeparator()
         toolbar.addAction(self.open_action)
-        toolbar.addAction(self.paste_action)
-        toolbar.addAction(self.paste_item_action)
         toolbar.addAction(self.save_action)
-        toolbar.addAction(self.save_as_action)
         toolbar.addAction(self.copy_action)
-        toolbar.addAction(self.copy_item_action)
         toolbar.addAction(self.undo_action)
         toolbar.addAction(self.redo_action)
-        toolbar.addAction(self.delete_action)
-        toolbar.addAction(self.duplicate_action)
-        toolbar.addAction(self.edit_text_action)
-        toolbar.addAction(self.bring_to_front_action)
-        toolbar.addAction(self.send_to_back_action)
-        toolbar.addAction(self.rotate_action)
-        toolbar.addAction(self.scale_action)
+        toolbar.addAction(self.crop_action)
+        toolbar.addSeparator()
         toolbar.addAction(self.pin_action)
         toolbar.addAction(self.add_watermark_action)
         toolbar.addAction(self.upload_action)
         toolbar.addAction(self.ocr_action)
-        toolbar.addSeparator()
-        toolbar.addAction(self.select_action)
-        toolbar.addAction(self.pen_action)
-        toolbar.addAction(self.line_action)
-        toolbar.addAction(self.arrow_action)
-        toolbar.addAction(self.rect_action)
-        toolbar.addAction(self.ellipse_action)
-        toolbar.addAction(self.text_action)
-        toolbar.addAction(self.blur_action)
-        toolbar.addAction(self.pixelate_action)
-        toolbar.addAction(self.crop_action)
-        toolbar.addAction(self.color_action)
+
+        properties_toolbar = QToolBar("Properties", self)
+        properties_toolbar.setMovable(False)
+        self.addToolBar(Qt.ToolBarArea.TopToolBarArea, properties_toolbar)
+
+        properties_toolbar.addAction(self.color_action)
 
         self.stroke_width = QSpinBox()
         self.stroke_width.setRange(1, 20)
         self.stroke_width.setValue(3)
         self.stroke_width.valueChanged.connect(self._apply_stroke_width)
-        toolbar.addWidget(self.stroke_width)
+        properties_toolbar.addWidget(self.stroke_width)
 
         self.font_family = QFontComboBox()
         self.font_family.currentFontChanged.connect(self._apply_font_family)
-        toolbar.addWidget(self.font_family)
+        properties_toolbar.addWidget(self.font_family)
 
         self.font_size = QSpinBox()
         self.font_size.setRange(6, 144)
         self.font_size.setValue(14)
         self.font_size.valueChanged.connect(self._apply_font_size)
-        toolbar.addWidget(self.font_size)
+        properties_toolbar.addWidget(self.font_size)
 
         self.fill_color_action = QAction("Fill", self)
         self.fill_color_action.triggered.connect(self.select_fill_color)
-        toolbar.addAction(self.fill_color_action)
+        properties_toolbar.addAction(self.fill_color_action)
 
         self.fill_mode = QComboBox()
         self.fill_mode.addItem("Stroke", FillMode.STROKE_ONLY)
         self.fill_mode.addItem("Fill", FillMode.FILL_ONLY)
         self.fill_mode.addItem("Stroke+Fill", FillMode.STROKE_AND_FILL)
         self.fill_mode.currentIndexChanged.connect(self._apply_fill_mode)
-        toolbar.addWidget(self.fill_mode)
+        properties_toolbar.addWidget(self.fill_mode)
 
         self.opacity = QSpinBox()
         self.opacity.setRange(0, 100)
         self.opacity.setValue(100)
         self.opacity.valueChanged.connect(self._apply_opacity)
-        toolbar.addWidget(self.opacity)
+        properties_toolbar.addWidget(self.opacity)
 
         self.bold = QCheckBox("B")
         self.bold.toggled.connect(self._apply_bold)
-        toolbar.addWidget(self.bold)
+        properties_toolbar.addWidget(self.bold)
 
         self.italic = QCheckBox("I")
         self.italic.toggled.connect(self._apply_italic)
-        toolbar.addWidget(self.italic)
+        properties_toolbar.addWidget(self.italic)
+
+        self.left_toolbar = QToolBar("Tools", self)
+        self.left_toolbar.setMovable(False)
+        self.left_toolbar.setOrientation(Qt.Orientation.Vertical)
+        self.left_toolbar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextOnly)
+        self.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.left_toolbar)
+        self.left_toolbar.addAction(self.select_action)
+        self.left_toolbar.addAction(self.pen_action)
+        self.left_toolbar.addAction(self.line_action)
+        self.left_toolbar.addAction(self.arrow_action)
+        self.left_toolbar.addAction(self.rect_action)
+        self.left_toolbar.addAction(self.ellipse_action)
+        self.left_toolbar.addAction(self.text_action)
+        self.left_toolbar.addAction(self.blur_action)
+        self.left_toolbar.addAction(self.pixelate_action)
+        self.left_toolbar.addAction(self.crop_action)
+        self.left_toolbar.addSeparator()
+        self.left_toolbar.addAction(self.delete_action)
+        self.left_toolbar.addAction(self.duplicate_action)
+
+        self.zoom_out_button = QPushButton("-", self)
+        self.zoom_out_button.clicked.connect(self.zoom_out_current_canvas)
+        self.statusBar().addPermanentWidget(self.zoom_out_button)
+
+        self.zoom_reset_button = QPushButton("100%", self)
+        self.zoom_reset_button.clicked.connect(self.reset_zoom_current_canvas)
+        self.statusBar().addPermanentWidget(self.zoom_reset_button)
+
+        self.zoom_in_button = QPushButton("+", self)
+        self.zoom_in_button.clicked.connect(self.zoom_in_current_canvas)
+        self.statusBar().addPermanentWidget(self.zoom_in_button)
+
+        self.zoom_spinbox = QSpinBox(self)
+        self.zoom_spinbox.setRange(10, 800)
+        self.zoom_spinbox.setSuffix("%")
+        self.zoom_spinbox.setValue(100)
+        self.zoom_spinbox.valueChanged.connect(self.set_current_canvas_zoom)
+        self.statusBar().addPermanentWidget(QLabel("Zoom", self))
+        self.statusBar().addPermanentWidget(self.zoom_spinbox)
 
         self.select_action.setChecked(True)
 
@@ -403,8 +436,15 @@ class MainWindow(QMainWindow):
         help_menu.addAction(self.about_action)
 
     def current_canvas(self) -> AnnotationCanvas | None:
-        widget = self.tabs.currentWidget()
-        return widget if isinstance(widget, AnnotationCanvas) else None
+        return self._canvas_from_tab_widget(self.tabs.currentWidget())
+
+    def _canvas_from_tab_widget(self, widget: QWidget | None) -> AnnotationCanvas | None:
+        if isinstance(widget, AnnotationCanvas):
+            return widget
+        if isinstance(widget, QScrollArea):
+            inner = widget.widget()
+            return inner if isinstance(inner, AnnotationCanvas) else None
+        return None
 
     def _setup_tray_icon(self) -> None:
         if not QSystemTrayIcon.isSystemTrayAvailable():
@@ -463,6 +503,7 @@ class MainWindow(QMainWindow):
         canvas.changed.connect(self._sync_tab_title)
         canvas.changed.connect(self._update_actions)
         canvas.changed.connect(self._sync_item_controls)
+        canvas.zoom_changed.connect(self._sync_zoom_controls)
         canvas.set_pen_width(self.stroke_width.value())
         canvas.set_font_family(self.font_family.currentFont().family())
         canvas.set_font_point_size(self.font_size.value())
@@ -472,10 +513,16 @@ class MainWindow(QMainWindow):
         canvas.set_tool(self._current_tool())
         if image is not None:
             canvas.set_image(image, path)
-        index = self.tabs.addTab(canvas, title)
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(False)
+        scroll_area.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        scroll_area.setBackgroundRole(canvas.backgroundRole())
+        scroll_area.setWidget(canvas)
+        index = self.tabs.addTab(scroll_area, title)
         self.tabs.setCurrentIndex(index)
         self._update_actions()
         self._sync_item_controls()
+        self._sync_zoom_controls(canvas.zoom_percent())
         return canvas
 
     def set_tool(self, tool: Tool) -> None:
@@ -641,6 +688,34 @@ class MainWindow(QMainWindow):
                 self.italic.blockSignals(True)
                 self.italic.setChecked(selected_italic)
                 self.italic.blockSignals(False)
+
+    def set_current_canvas_zoom(self, percent: int) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        canvas.set_zoom_percent(percent)
+
+    def zoom_in_current_canvas(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is not None:
+            canvas.zoom_in()
+
+    def zoom_out_current_canvas(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is not None:
+            canvas.zoom_out()
+
+    def reset_zoom_current_canvas(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is not None:
+            canvas.reset_zoom()
+
+    def _sync_zoom_controls(self, percent: int) -> None:
+        if self.zoom_spinbox.value() == percent:
+            return
+        self.zoom_spinbox.blockSignals(True)
+        self.zoom_spinbox.setValue(percent)
+        self.zoom_spinbox.blockSignals(False)
 
     def capture_fullscreen(self) -> None:
         result = self._capture_with_preferences(grab_fullscreen)
@@ -1066,8 +1141,8 @@ class MainWindow(QMainWindow):
     def close_tab(self, index: int) -> None:
         if index < 0:
             return
-        widget = self.tabs.widget(index)
-        if isinstance(widget, AnnotationCanvas) and not self._confirm_discard_canvas(widget):
+        canvas = self._canvas_from_tab_widget(self.tabs.widget(index))
+        if canvas is not None and not self._confirm_discard_canvas(canvas):
             return
         self.tabs.removeTab(index)
         if self.tabs.count() == 0:
@@ -1109,11 +1184,21 @@ class MainWindow(QMainWindow):
         self.scale_action.setEnabled(has_image)
         self.close_tab_action.setEnabled(canvas is not None)
         self.recent_images_menu.setEnabled(bool(self._recent_image_paths))
+        self.zoom_spinbox.setEnabled(has_image)
+        self.zoom_in_action.setEnabled(has_image)
+        self.zoom_out_action.setEnabled(has_image)
+        self.zoom_reset_action.setEnabled(has_image)
+        self.zoom_in_button.setEnabled(has_image)
+        self.zoom_out_button.setEnabled(has_image)
+        self.zoom_reset_button.setEnabled(has_image)
 
     def _handle_current_tab_changed(self, index: int) -> None:
         del index
         self._update_actions()
         self._sync_item_controls()
+        canvas = self.current_canvas()
+        if canvas is not None:
+            self._sync_zoom_controls(canvas.zoom_percent())
 
     def _open_image_path(self, path: str) -> bool:
         image = QImage(path)
@@ -1309,16 +1394,16 @@ class MainWindow(QMainWindow):
 
     def _apply_defaults_to_canvases(self, data: SettingsData) -> None:
         for index in range(self.tabs.count()):
-            widget = self.tabs.widget(index)
-            if not isinstance(widget, AnnotationCanvas):
+            canvas = self._canvas_from_tab_widget(self.tabs.widget(index))
+            if canvas is None:
                 continue
-            widget.set_pen_width(data.pen_width)
-            widget.set_font_family(data.font_family)
-            widget.set_font_point_size(data.font_point_size)
-            widget.set_fill_mode(data.fill_mode)
-            widget.set_opacity(data.opacity_percent / 100.0)
-            widget.set_bold(data.bold)
-            widget.set_italic(data.italic)
+            canvas.set_pen_width(data.pen_width)
+            canvas.set_font_family(data.font_family)
+            canvas.set_font_point_size(data.font_point_size)
+            canvas.set_fill_mode(data.fill_mode)
+            canvas.set_opacity(data.opacity_percent / 100.0)
+            canvas.set_bold(data.bold)
+            canvas.set_italic(data.italic)
 
     def _restore_ui_settings(self) -> None:
         geometry = self._settings.value("window/geometry")
@@ -1476,11 +1561,11 @@ class MainWindow(QMainWindow):
         return reply == QMessageBox.StandardButton.Yes
 
     def _confirm_close_all_tabs(self) -> bool:
-        dirty_canvases = [
-            self.tabs.widget(index)
-            for index in range(self.tabs.count())
-            if isinstance(self.tabs.widget(index), AnnotationCanvas) and self.tabs.widget(index).state.dirty
-        ]
+        dirty_canvases = []
+        for index in range(self.tabs.count()):
+            canvas = self._canvas_from_tab_widget(self.tabs.widget(index))
+            if canvas is not None and canvas.state.dirty:
+                dirty_canvases.append(canvas)
         if not dirty_canvases:
             return True
         reply = QMessageBox.question(

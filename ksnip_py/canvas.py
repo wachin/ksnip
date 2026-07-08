@@ -94,12 +94,14 @@ class CanvasSnapshot:
 
 class AnnotationCanvas(QLabel):
     changed = pyqtSignal()
+    zoom_changed = pyqtSignal(int)
 
     def __init__(self) -> None:
         super().__init__()
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.setMouseTracking(True)
+        self.setMinimumSize(640, 360)
 
         self._tool = Tool.SELECT
         self._color = QColor("#d9480f")
@@ -122,6 +124,7 @@ class AnnotationCanvas(QLabel):
         self._active_handle: str | None = None
         self._undo_stack: list[CanvasSnapshot] = []
         self._redo_stack: list[CanvasSnapshot] = []
+        self._zoom_percent = 100
         self.state = CanvasState()
 
     def has_image(self) -> bool:
@@ -290,6 +293,26 @@ class AnnotationCanvas(QLabel):
 
     def set_italic(self, italic: bool) -> None:
         self._italic = bool(italic)
+
+    def zoom_percent(self) -> int:
+        return self._zoom_percent
+
+    def set_zoom_percent(self, percent: int) -> None:
+        resolved = max(10, min(800, int(percent)))
+        if resolved == self._zoom_percent:
+            return
+        self._zoom_percent = resolved
+        self.zoom_changed.emit(self._zoom_percent)
+        self._refresh()
+
+    def zoom_in(self) -> None:
+        self.set_zoom_percent(self._zoom_percent + 10)
+
+    def zoom_out(self) -> None:
+        self.set_zoom_percent(self._zoom_percent - 10)
+
+    def reset_zoom(self) -> None:
+        self.set_zoom_percent(100)
 
     def selected_item_color(self) -> QColor | None:
         item = self._primary_selected_item()
@@ -585,17 +608,21 @@ class AnnotationCanvas(QLabel):
         if self._image.isNull():
             self.clear()
             self.setText("Take a screenshot or open an image.")
+            self.resize(self.minimumSize())
             return
 
+        zoom_factor = self._zoom_percent / 100.0
+        display_width = max(1, round(self._image.width() * zoom_factor))
+        display_height = max(1, round(self._image.height() * zoom_factor))
         display = QPixmap.fromImage(self._image).scaled(
-            self.size(),
-            Qt.AspectRatioMode.KeepAspectRatio,
+            display_width,
+            display_height,
+            Qt.AspectRatioMode.IgnoreAspectRatio,
             Qt.TransformationMode.SmoothTransformation,
         )
 
-        display_size = self._image.size().scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio)
-        sx = display_size.width() / self._image.width() if self._image.width() else 1
-        sy = display_size.height() / self._image.height() if self._image.height() else 1
+        sx = display_width / self._image.width() if self._image.width() else 1
+        sy = display_height / self._image.height() if self._image.height() else 1
         painter = QPainter(display)
         for index, item in enumerate(self._items):
             self._draw_item_preview(painter, item, sx, sy, selected=index in self._selected_item_indices, show_handles=index == self._primary_selected_index() and self.has_single_selected_item())
@@ -618,11 +645,11 @@ class AnnotationCanvas(QLabel):
         painter.end()
 
         self.setPixmap(display)
+        self.resize(display.size())
 
     def _display_points(self) -> tuple[QPoint, QPoint]:
-        displayed_size = self._image.size().scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio)
-        sx = displayed_size.width() / self._image.width()
-        sy = displayed_size.height() / self._image.height()
+        sx = self._zoom_percent / 100.0
+        sy = self._zoom_percent / 100.0
         start = QPoint(int(self._preview_start.x() * sx), int(self._preview_start.y() * sy))
         end = QPoint(int(self._preview_end.x() * sx), int(self._preview_end.y() * sy))
         return start, end
@@ -630,10 +657,7 @@ class AnnotationCanvas(QLabel):
     def _image_rect_in_widget(self) -> QRect | None:
         if self._image.isNull() or self.width() <= 0 or self.height() <= 0:
             return None
-        scaled = self._image.size().scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio)
-        x = (self.width() - scaled.width()) // 2
-        y = (self.height() - scaled.height()) // 2
-        return QRect(x, y, scaled.width(), scaled.height())
+        return QRect(0, 0, self.width(), self.height())
 
     def _map_to_image(self, point: QPoint) -> QPoint | None:
         image_rect = self._image_rect_in_widget()
