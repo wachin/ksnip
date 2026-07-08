@@ -2,10 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PyQt6.QtCore import QEvent, QEventLoop, QPoint, QSettings, QThread, QTimer, Qt
+from PyQt6.QtCore import QEvent, QEventLoop, QPoint, QSettings, QSize, QThread, QTimer, Qt
 from PyQt6.QtGui import QAction, QColor, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPixmap
 from PyQt6.QtWidgets import (
-    QCheckBox,
     QComboBox,
     QColorDialog,
     QFileDialog,
@@ -15,13 +14,13 @@ from PyQt6.QtWidgets import (
     QMainWindow,
     QMessageBox,
     QMenu,
-    QPushButton,
     QProgressDialog,
     QScrollArea,
     QSpinBox,
     QSystemTrayIcon,
     QTabWidget,
     QToolBar,
+    QToolButton,
     QWidget,
 )
 
@@ -103,6 +102,35 @@ class MainWindow(QMainWindow):
         icon_path = self._icon_base_path() / "ksnip.svg"
         if icon_path.exists():
             self.setWindowIcon(QIcon(str(icon_path)))
+
+    def _configure_toolbar(
+        self,
+        toolbar: QToolBar,
+        *,
+        icon_size: int = 20,
+        style: Qt.ToolButtonStyle = Qt.ToolButtonStyle.ToolButtonIconOnly,
+    ) -> None:
+        toolbar.setIconSize(QSize(icon_size, icon_size))
+        toolbar.setToolButtonStyle(style)
+
+    def _make_icon_label(self, icon_name: str, tooltip: str) -> QLabel:
+        label = QLabel(self)
+        icon = self._load_icon(icon_name)
+        if not icon.isNull():
+            label.setPixmap(icon.pixmap(16, 16))
+        label.setToolTip(tooltip)
+        return label
+
+    def _make_tool_toggle(self, icon_name: str, tooltip: str, checked: bool, slot) -> QToolButton:
+        button = QToolButton(self)
+        button.setCheckable(True)
+        button.setChecked(checked)
+        button.setToolTip(tooltip)
+        icon = self._load_icon(icon_name)
+        if not icon.isNull():
+            button.setIcon(icon)
+        button.toggled.connect(slot)
+        return button
 
     def _build_actions(self) -> None:
         self.new_capture_rect_action = QAction(self._load_icon("drawRect"), "Rect Area", self)
@@ -279,6 +307,7 @@ class MainWindow(QMainWindow):
     def _build_toolbar(self) -> None:
         toolbar = QToolBar("Main", self)
         toolbar.setMovable(False)
+        self._configure_toolbar(toolbar, icon_size=22, style=Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, toolbar)
 
         toolbar.addAction(self.new_capture_rect_action)
@@ -288,11 +317,15 @@ class MainWindow(QMainWindow):
         toolbar.addAction(self.new_capture_under_cursor_action)
         toolbar.addSeparator()
         toolbar.addAction(self.open_action)
+        toolbar.addAction(self.paste_action)
         toolbar.addAction(self.save_action)
+        toolbar.addAction(self.save_as_action)
         toolbar.addAction(self.copy_action)
         toolbar.addAction(self.undo_action)
         toolbar.addAction(self.redo_action)
         toolbar.addAction(self.crop_action)
+        toolbar.addAction(self.rotate_action)
+        toolbar.addAction(self.scale_action)
         toolbar.addSeparator()
         toolbar.addAction(self.pin_action)
         toolbar.addAction(self.add_watermark_action)
@@ -301,9 +334,11 @@ class MainWindow(QMainWindow):
 
         properties_toolbar = QToolBar("Properties", self)
         properties_toolbar.setMovable(False)
+        self._configure_toolbar(properties_toolbar, icon_size=18, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, properties_toolbar)
 
         properties_toolbar.addAction(self.color_action)
+        properties_toolbar.addWidget(self._make_icon_label("width", "Stroke width"))
 
         self.stroke_width = QSpinBox()
         self.stroke_width.setRange(1, 20)
@@ -321,7 +356,7 @@ class MainWindow(QMainWindow):
         self.font_size.valueChanged.connect(self._apply_font_size)
         properties_toolbar.addWidget(self.font_size)
 
-        self.fill_color_action = QAction("Fill", self)
+        self.fill_color_action = QAction(self._load_icon("fillType"), "Fill", self)
         self.fill_color_action.triggered.connect(self.select_fill_color)
         properties_toolbar.addAction(self.fill_color_action)
 
@@ -331,25 +366,24 @@ class MainWindow(QMainWindow):
         self.fill_mode.addItem("Stroke+Fill", FillMode.STROKE_AND_FILL)
         self.fill_mode.currentIndexChanged.connect(self._apply_fill_mode)
         properties_toolbar.addWidget(self.fill_mode)
+        properties_toolbar.addWidget(self._make_icon_label("opacity", "Opacity"))
 
         self.opacity = QSpinBox()
         self.opacity.setRange(0, 100)
         self.opacity.setValue(100)
+        self.opacity.setSuffix("%")
         self.opacity.valueChanged.connect(self._apply_opacity)
         properties_toolbar.addWidget(self.opacity)
 
-        self.bold = QCheckBox("B")
-        self.bold.toggled.connect(self._apply_bold)
-        properties_toolbar.addWidget(self.bold)
-
-        self.italic = QCheckBox("I")
-        self.italic.toggled.connect(self._apply_italic)
-        properties_toolbar.addWidget(self.italic)
+        self.bold_button = self._make_tool_toggle("bold", "Bold", False, self._apply_bold)
+        self.italic_button = self._make_tool_toggle("italic", "Italic", False, self._apply_italic)
+        properties_toolbar.addWidget(self.bold_button)
+        properties_toolbar.addWidget(self.italic_button)
 
         self.left_toolbar = QToolBar("Tools", self)
         self.left_toolbar.setMovable(False)
         self.left_toolbar.setOrientation(Qt.Orientation.Vertical)
-        self.left_toolbar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self._configure_toolbar(self.left_toolbar, icon_size=22, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.left_toolbar)
         self.left_toolbar.addAction(self.select_action)
         self.left_toolbar.addAction(self.pen_action)
@@ -365,19 +399,26 @@ class MainWindow(QMainWindow):
         self.left_toolbar.addAction(self.delete_action)
         self.left_toolbar.addAction(self.duplicate_action)
 
-        self.zoom_out_button = QPushButton("-", self)
+        self.zoom_out_button = QToolButton(self)
+        self.zoom_out_button.setText("-")
+        self.zoom_out_button.setToolTip("Zoom out")
         self.zoom_out_button.clicked.connect(self.zoom_out_current_canvas)
         self.statusBar().addPermanentWidget(self.zoom_out_button)
 
-        self.zoom_reset_button = QPushButton("100%", self)
-        self.zoom_reset_button.clicked.connect(self.reset_zoom_current_canvas)
+        self.zoom_reset_button = QToolButton(self)
+        self.zoom_reset_button.setDefaultAction(self.zoom_reset_action)
+        self.zoom_reset_button.setText("100%")
+        self.zoom_reset_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextOnly)
         self.statusBar().addPermanentWidget(self.zoom_reset_button)
 
-        self.zoom_fit_button = QPushButton("Fit", self)
-        self.zoom_fit_button.clicked.connect(self.fit_current_canvas)
+        self.zoom_fit_button = QToolButton(self)
+        self.zoom_fit_button.setDefaultAction(self.zoom_fit_action)
+        self.zoom_fit_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.statusBar().addPermanentWidget(self.zoom_fit_button)
 
-        self.zoom_in_button = QPushButton("+", self)
+        self.zoom_in_button = QToolButton(self)
+        self.zoom_in_button.setText("+")
+        self.zoom_in_button.setToolTip("Zoom in")
         self.zoom_in_button.clicked.connect(self.zoom_in_current_canvas)
         self.statusBar().addPermanentWidget(self.zoom_in_button)
 
@@ -389,6 +430,8 @@ class MainWindow(QMainWindow):
         self.statusBar().addPermanentWidget(QLabel("Zoom", self))
         self.statusBar().addPermanentWidget(self.zoom_spinbox)
 
+        self.bold = self.bold_button
+        self.italic = self.italic_button
         self.select_action.setChecked(True)
 
     def _build_menus(self) -> None:
