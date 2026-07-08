@@ -19,4 +19,4 @@ ksnip-pyqt6 = "ksnip_py.app:main"
 packages = ["ksnip_py"]
 
 [tool.setuptools.package-data]
-ksnip_py = ["icons/*.svg", "icons/light/*.svg", "icons/dark/*.svg"]
+ksnip_py = ["icons/*.svg", "icons/light/*.svg", "icons/dark/*.svg", "icons/kimageannotator/light/*.svg", "icons/kimageannotator/dark/*.svg"]

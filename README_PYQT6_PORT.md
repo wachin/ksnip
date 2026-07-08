@@ -74,7 +74,7 @@ ksnip-pyqt6
 Or without installing:
 
 ```bash
-PYTHONPATH=. python3 -m ksnip_py
+python3 -m ksnip_py
 ```
 
 ## OCR

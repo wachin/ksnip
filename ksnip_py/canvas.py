@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from enum import Enum
 from math import hypot
 
-from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, Qt, pyqtSignal
+from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QColor, QFont, QImage, QMouseEvent, QPainter, QPen, QPixmap, QPolygon, QTransform
 from PyQt6.QtWidgets import QLabel, QInputDialog, QSizePolicy
 
@@ -313,6 +313,14 @@ class AnnotationCanvas(QLabel):
 
     def reset_zoom(self) -> None:
         self.set_zoom_percent(100)
+
+    def fit_to_size(self, available_size: QSize) -> None:
+        if self._image.isNull() or available_size.width() <= 0 or available_size.height() <= 0:
+            return
+        width_ratio = available_size.width() / self._image.width()
+        height_ratio = available_size.height() / self._image.height()
+        factor = min(width_ratio, height_ratio)
+        self.set_zoom_percent(max(10, min(800, round(factor * 100))))
 
     def selected_item_color(self) -> QColor | None:
         item = self._primary_selected_item()

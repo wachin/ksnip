@@ -84,10 +84,19 @@ class MainWindow(QMainWindow):
         for candidate in (
             base_path / "light" / f"{name}.svg",
             base_path / "dark" / f"{name}.svg",
+            base_path / "kimageannotator" / "light" / f"{name}.svg",
+            base_path / "kimageannotator" / "dark" / f"{name}.svg",
             base_path / f"{name}.svg",
         ):
             if candidate.exists():
                 return QIcon(str(candidate))
+        return QIcon()
+
+    def _load_first_icon(self, *names: str) -> QIcon:
+        for name in names:
+            icon = self._load_icon(name)
+            if not icon.isNull():
+                return icon
         return QIcon()
 
     def _apply_window_icon(self) -> None:
@@ -138,35 +147,35 @@ class MainWindow(QMainWindow):
         self.close_tab_action.setShortcut(QKeySequence.StandardKey.Close)
         self.close_tab_action.triggered.connect(lambda: self.close_tab(self.tabs.currentIndex()))
 
-        self.pen_action = QAction("Pen", self)
+        self.pen_action = QAction(self._load_first_icon("pen", "markerPen"), "Pen", self)
         self.pen_action.setCheckable(True)
         self.pen_action.triggered.connect(lambda: self.set_tool(Tool.PEN))
 
-        self.line_action = QAction("Line", self)
+        self.line_action = QAction(self._load_icon("line"), "Line", self)
         self.line_action.setCheckable(True)
         self.line_action.triggered.connect(lambda: self.set_tool(Tool.LINE))
 
-        self.arrow_action = QAction("Arrow", self)
+        self.arrow_action = QAction(self._load_icon("arrow"), "Arrow", self)
         self.arrow_action.setCheckable(True)
         self.arrow_action.triggered.connect(lambda: self.set_tool(Tool.ARROW))
 
-        self.rect_action = QAction("Rectangle", self)
+        self.rect_action = QAction(self._load_icon("rect"), "Rectangle", self)
         self.rect_action.setCheckable(True)
         self.rect_action.triggered.connect(lambda: self.set_tool(Tool.RECT))
 
-        self.ellipse_action = QAction("Ellipse", self)
+        self.ellipse_action = QAction(self._load_icon("ellipse"), "Ellipse", self)
         self.ellipse_action.setCheckable(True)
         self.ellipse_action.triggered.connect(lambda: self.set_tool(Tool.ELLIPSE))
 
-        self.text_action = QAction("Text", self)
+        self.text_action = QAction(self._load_icon("text"), "Text", self)
         self.text_action.setCheckable(True)
         self.text_action.triggered.connect(lambda: self.set_tool(Tool.TEXT))
 
-        self.blur_action = QAction("Blur", self)
+        self.blur_action = QAction(self._load_icon("blur"), "Blur", self)
         self.blur_action.setCheckable(True)
         self.blur_action.triggered.connect(lambda: self.set_tool(Tool.BLUR))
 
-        self.pixelate_action = QAction("Pixelate", self)
+        self.pixelate_action = QAction(self._load_icon("pixelate"), "Pixelate", self)
         self.pixelate_action.setCheckable(True)
         self.pixelate_action.triggered.connect(lambda: self.set_tool(Tool.PIXELATE))
 
@@ -174,11 +183,11 @@ class MainWindow(QMainWindow):
         self.crop_action.setCheckable(True)
         self.crop_action.triggered.connect(lambda: self.set_tool(Tool.CROP))
 
-        self.select_action = QAction("Select", self)
+        self.select_action = QAction(self._load_icon("select"), "Select", self)
         self.select_action.setCheckable(True)
         self.select_action.triggered.connect(lambda: self.set_tool(Tool.SELECT))
 
-        self.color_action = QAction("Color", self)
+        self.color_action = QAction(self._load_icon("color"), "Color", self)
         self.color_action.triggered.connect(self.select_color)
 
         self.undo_action = QAction(self._load_icon("undo"), "Undo", self)
@@ -202,7 +211,7 @@ class MainWindow(QMainWindow):
         self.delete_action.setShortcut(QKeySequence.StandardKey.Delete)
         self.delete_action.triggered.connect(self.delete_selected_item)
 
-        self.duplicate_action = QAction("Duplicate Item", self)
+        self.duplicate_action = QAction(self._load_icon("duplicate"), "Duplicate Item", self)
         self.duplicate_action.setShortcut("Ctrl+D")
         self.duplicate_action.triggered.connect(self.duplicate_selected_item)
 
@@ -215,10 +224,10 @@ class MainWindow(QMainWindow):
         self.send_to_back_action = QAction("Send To Back", self)
         self.send_to_back_action.triggered.connect(self.send_selected_item_to_back)
 
-        self.rotate_action = QAction("Rotate…", self)
+        self.rotate_action = QAction(self._load_icon("rotate"), "Rotate…", self)
         self.rotate_action.triggered.connect(self.rotate_image)
 
-        self.scale_action = QAction("Scale…", self)
+        self.scale_action = QAction(self._load_icon("scale"), "Scale…", self)
         self.scale_action.triggered.connect(self.scale_image)
 
         self.pin_action = QAction(self._load_icon("pin"), "Pin", self)
@@ -264,6 +273,8 @@ class MainWindow(QMainWindow):
         self.zoom_reset_action.triggered.connect(self.reset_zoom_current_canvas)
         self.zoom_in_action = QAction("+", self)
         self.zoom_in_action.triggered.connect(self.zoom_in_current_canvas)
+        self.zoom_fit_action = QAction(self._load_icon("fitImage"), "Fit", self)
+        self.zoom_fit_action.triggered.connect(self.fit_current_canvas)
 
     def _build_toolbar(self) -> None:
         toolbar = QToolBar("Main", self)
@@ -338,7 +349,7 @@ class MainWindow(QMainWindow):
         self.left_toolbar = QToolBar("Tools", self)
         self.left_toolbar.setMovable(False)
         self.left_toolbar.setOrientation(Qt.Orientation.Vertical)
-        self.left_toolbar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextOnly)
+        self.left_toolbar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.left_toolbar)
         self.left_toolbar.addAction(self.select_action)
         self.left_toolbar.addAction(self.pen_action)
@@ -361,6 +372,10 @@ class MainWindow(QMainWindow):
         self.zoom_reset_button = QPushButton("100%", self)
         self.zoom_reset_button.clicked.connect(self.reset_zoom_current_canvas)
         self.statusBar().addPermanentWidget(self.zoom_reset_button)
+
+        self.zoom_fit_button = QPushButton("Fit", self)
+        self.zoom_fit_button.clicked.connect(self.fit_current_canvas)
+        self.statusBar().addPermanentWidget(self.zoom_fit_button)
 
         self.zoom_in_button = QPushButton("+", self)
         self.zoom_in_button.clicked.connect(self.zoom_in_current_canvas)
@@ -437,6 +452,10 @@ class MainWindow(QMainWindow):
 
     def current_canvas(self) -> AnnotationCanvas | None:
         return self._canvas_from_tab_widget(self.tabs.currentWidget())
+
+    def current_scroll_area(self) -> QScrollArea | None:
+        widget = self.tabs.currentWidget()
+        return widget if isinstance(widget, QScrollArea) else None
 
     def _canvas_from_tab_widget(self, widget: QWidget | None) -> AnnotationCanvas | None:
         if isinstance(widget, AnnotationCanvas):
@@ -709,6 +728,13 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is not None:
             canvas.reset_zoom()
+
+    def fit_current_canvas(self) -> None:
+        canvas = self.current_canvas()
+        scroll_area = self.current_scroll_area()
+        if canvas is None or scroll_area is None:
+            return
+        canvas.fit_to_size(scroll_area.viewport().size())
 
     def _sync_zoom_controls(self, percent: int) -> None:
         if self.zoom_spinbox.value() == percent:
@@ -1191,6 +1217,7 @@ class MainWindow(QMainWindow):
         self.zoom_in_button.setEnabled(has_image)
         self.zoom_out_button.setEnabled(has_image)
         self.zoom_reset_button.setEnabled(has_image)
+        self.zoom_fit_button.setEnabled(has_image)
 
     def _handle_current_tab_changed(self, index: int) -> None:
         del index

@@ -157,12 +157,14 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 ## UI, Iconografía y Fidelidad Visual
 
 - [x] Iconos originales copiados a `ksnip_py/icons/`
+- [x] Iconos de `kImageAnnotator` copiados a `ksnip_py/icons/kimageannotator/`
 - [x] Icono principal de aplicación disponible dentro de `ksnip_py/`
 - [x] Asignar iconos de ksnip a acciones principales visibles
 - [ ] Asignar iconos de ksnip a todas las acciones visibles relevantes
 - [ ] Toolbar principal igual al original
 - [ ] Menú principal igual al original
 - [x] Panel de herramientas lateral izquierdo base en PyQt6
+- [x] Panel lateral con iconos del editor original
 - [ ] Panel de herramientas lateral izquierdo igual al original
 - [ ] Controles de propiedades iguales al original
 - [x] Zoom básico con controles inferiores
