@@ -572,9 +572,9 @@ class MainWindow(QMainWindow):
             self._tray_icon = None
             return
         tray_icon = QSystemTrayIcon(self)
-        icon = QIcon.fromTheme("ksnip")
+        icon = self.windowIcon()
         if icon.isNull():
-            icon = self.windowIcon()
+            icon = QIcon.fromTheme("ksnip")
         if icon.isNull():
             icon = self.style().standardIcon(self.style().StandardPixmap.SP_ComputerIcon)
         tray_icon.setIcon(icon)
