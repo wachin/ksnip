@@ -86,15 +86,22 @@ class MainWindow(QMainWindow):
     def _icon_base_path(self) -> Path:
         return Path(__file__).resolve().parent / "icons"
 
+    def _use_light_icons(self) -> bool:
+        window_color = self.palette().color(self.backgroundRole())
+        return window_color.lightness() < 128
+
     def _load_icon(self, name: str) -> QIcon:
         base_path = self._icon_base_path()
-        for candidate in (
-            base_path / "light" / f"{name}.svg",
-            base_path / "dark" / f"{name}.svg",
-            base_path / "kimageannotator" / "light" / f"{name}.svg",
-            base_path / "kimageannotator" / "dark" / f"{name}.svg",
-            base_path / f"{name}.svg",
-        ):
+        variant_order = ("light", "dark") if self._use_light_icons() else ("dark", "light")
+        candidates = [base_path / f"{name}.svg"]
+        for variant in variant_order:
+            candidates.extend(
+                [
+                    base_path / variant / f"{name}.svg",
+                    base_path / "kimageannotator" / variant / f"{name}.svg",
+                ]
+            )
+        for candidate in candidates:
             if candidate.exists():
                 return QIcon(str(candidate))
         return QIcon()
