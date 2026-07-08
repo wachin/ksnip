@@ -77,6 +77,14 @@ Or without installing:
 python3 -m ksnip_py
 ```
 
+And if you're not using a KDE operating system (like Kubuntu, MX Linux KDE, Neon, or others) and you want Ksnip to use the operating system's context menu, type this:
+
+```bash
+$ QT_QPA_PLATFORMTHEME=gtk3 python3 -m ksnip_py
+```
+
+an
+
 ## OCR
 
 OCR in `ksnip_py/` is optional and experimental.
