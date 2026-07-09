@@ -250,9 +250,10 @@ class MainWindow(QMainWindow):
         host = QWidget(self)
         layout = QHBoxLayout(host)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(4)
+        layout.setSpacing(2)
         for widget in widgets:
             layout.addWidget(widget)
+        host.setSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
         return host
 
     def _sync_toolbox_color_button(self, color: QColor | None = None) -> None:
@@ -522,10 +523,14 @@ class MainWindow(QMainWindow):
 
     def _render_property_toolbar(self, visibility: dict[str, bool]) -> None:
         self.properties_toolbar.clear()
+        first_visible = True
         for name, widget in self._property_order:
             widget.setVisible(visibility.get(name, False))
             if visibility.get(name, False):
+                if not first_visible:
+                    self.properties_toolbar.addSeparator()
                 self.properties_toolbar.addWidget(widget)
+                first_visible = False
 
     def _build_actions(self) -> None:
         self.tool_action_group = QActionGroup(self)
@@ -806,7 +811,7 @@ class MainWindow(QMainWindow):
         )
 
         self.font_family = QFontComboBox()
-        self.font_family.setMaximumWidth(140)
+        self.font_family.setMaximumWidth(132)
         self.font_family.setFixedHeight(22)
         self.font_family.currentFontChanged.connect(self._apply_font_family)
 
@@ -868,7 +873,7 @@ class MainWindow(QMainWindow):
         self.scaling.setValue(self._setting_int("editor/scaling_percent", 100))
         self.scaling.setSuffix("%")
         self.scaling.setSingleStep(10)
-        self.scaling.setFixedWidth(68)
+        self.scaling.setFixedWidth(62)
         self.scaling.setFixedHeight(22)
         self.scaling.valueChanged.connect(self._apply_scaling)
         self.property_scaling_group = self._make_property_group(self._make_icon_label("scale", "Scale"), self.scaling)
@@ -877,7 +882,7 @@ class MainWindow(QMainWindow):
         self.opacity.setRange(0, 100)
         self.opacity.setValue(100)
         self.opacity.setSuffix("%")
-        self.opacity.setFixedWidth(68)
+        self.opacity.setFixedWidth(62)
         self.opacity.setFixedHeight(22)
         self.opacity.valueChanged.connect(self._apply_opacity)
         self.property_opacity_group = self._make_property_group(self._make_icon_label("opacity", "Opacity"), self.opacity)
