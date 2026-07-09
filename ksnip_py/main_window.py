@@ -464,7 +464,6 @@ class MainWindow(QMainWindow):
         show_scaling = tool == Tool.STICKER
         show_sticker = tool == Tool.STICKER
         visibility = {
-            "handle": True,
             "stroke": show_stroke,
             "width": show_width,
             "text_color": show_text_color,
@@ -478,6 +477,7 @@ class MainWindow(QMainWindow):
             "scaling": show_scaling,
             "opacity": show_opacity,
         }
+        visibility["handle"] = any(visibility.values())
 
         if tool == Tool.MARKER_PEN:
             self.stroke_width.setMaximum(100)
