@@ -1545,6 +1545,12 @@ class AnnotationCanvas(QLabel):
         if handle in {"top_right", "bottom_left"}:
             self.setCursor(Qt.CursorShape.SizeBDiagCursor)
             return
+        if handle in {"top", "bottom"}:
+            self.setCursor(Qt.CursorShape.SizeVerCursor)
+            return
+        if handle in {"left", "right"}:
+            self.setCursor(Qt.CursorShape.SizeHorCursor)
+            return
         if item.bounds().contains(point):
             self.setCursor(Qt.CursorShape.SizeAllCursor)
             return
@@ -1584,6 +1590,17 @@ class AnnotationCanvas(QLabel):
             }
 
         bounds = item.bounds()
+        if item.kind == Tool.TEXT:
+            return {
+                "top_left": bounds.topLeft(),
+                "top": QPoint(bounds.center().x(), bounds.top()),
+                "top_right": bounds.topRight(),
+                "left": QPoint(bounds.left(), bounds.center().y()),
+                "right": QPoint(bounds.right(), bounds.center().y()),
+                "bottom_left": bounds.bottomLeft(),
+                "bottom": QPoint(bounds.center().x(), bounds.bottom()),
+                "bottom_right": bounds.bottomRight(),
+            }
         return {
             "top_left": bounds.topLeft(),
             "top_right": bounds.topRight(),
@@ -1603,21 +1620,29 @@ class AnnotationCanvas(QLabel):
             rect = QRect(item.start, item.end).normalized()
             if handle == "top_left":
                 rect.setTopLeft(point)
+            elif handle == "top":
+                rect.setTop(point.y())
             elif handle == "top_right":
                 rect.setTopRight(point)
+            elif handle == "left":
+                rect.setLeft(point.x())
+            elif handle == "right":
+                rect.setRight(point.x())
             elif handle == "bottom_left":
                 rect.setBottomLeft(point)
+            elif handle == "bottom":
+                rect.setBottom(point.y())
             elif handle == "bottom_right":
                 rect.setBottomRight(point)
             rect = rect.normalized()
             min_width, min_height = self._text_natural_size(item)
             if rect.width() < min_width:
-                if handle in {"top_left", "bottom_left"}:
+                if handle in {"top_left", "left", "bottom_left"}:
                     rect.setLeft(rect.right() - min_width)
                 else:
                     rect.setRight(rect.left() + min_width)
             if rect.height() < min_height:
-                if handle in {"top_left", "top_right"}:
+                if handle in {"top_left", "top", "top_right"}:
                     rect.setTop(rect.bottom() - min_height)
                 else:
                     rect.setBottom(rect.top() + min_height)
