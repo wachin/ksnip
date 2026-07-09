@@ -1,0 +1,25 @@
+Source: ksnip-pyqt6
+Section: graphics
+Priority: optional
+Maintainer: Wachin <wachin@invalid>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-python,
+ pybuild-plugin-pyproject,
+ python3-all,
+ python3-pyqt6,
+ python3-setuptools
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+
+Package: ksnip-pyqt6
+Architecture: all
+Depends:
+ ${misc:Depends},
+ ${python3:Depends},
+ hunspell,
+ hunspell-en-us
+Description: PyQt6 port of the ksnip screenshot and annotation tool
+ A Debian package for the PyQt6 port of ksnip located in ksnip_py/.
+ It provides screenshot capture, annotation tools, inline text editing,
+ and system hunspell-backed spell checking for text annotations.

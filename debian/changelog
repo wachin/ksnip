@@ -1,0 +1,5 @@
+ksnip-pyqt6 (0.1.0-1) unstable; urgency=medium
+
+  * Initial Debian packaging scaffold for the PyQt6 port.
+
+ -- Wachin <wachin@invalid>  Wed, 09 Jul 2026 00:00:00 -0500
