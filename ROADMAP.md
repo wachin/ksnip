@@ -265,6 +265,10 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 ## Calidad y Empaquetado
 
 - [x] `pyproject.toml`
+- [x] Esqueleto inicial de empaquetado Debian en `debian/`
+- [x] Dependencias de sistema para corrección ortográfica declaradas en `debian/control`: `hunspell`, `hunspell-en-us`
+- [ ] Empaquetado Debian completo y pulido según políticas Debian
+- [ ] Publicación potencial en Debian / `packages.debian.org` sólo después de terminar primero el refinado funcional y visual del programa
 - [x] Entrada ejecutable `ksnip-pyqt6`
 - [x] Compilación sintáctica verificada con `py_compile`
 - [x] Incluir recursos gráficos del paquete en distribución instalada
