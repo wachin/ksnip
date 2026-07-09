@@ -657,10 +657,12 @@ class MainWindow(QMainWindow):
         self.color_action.triggered.connect(self.select_color)
 
         self.undo_action = QAction(self._load_icon("undo"), "Undo", self)
+        self.undo_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.undo_action.setShortcut(QKeySequence.StandardKey.Undo)
         self.undo_action.triggered.connect(self.undo)
 
         self.redo_action = QAction(self._load_icon("redo"), "Redo", self)
+        self.redo_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.redo_action.setShortcut(QKeySequence.StandardKey.Redo)
         self.redo_action.triggered.connect(self.redo)
 

@@ -8,7 +8,7 @@ from math import hypot
 from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QSize, Qt, pyqtSignal
-from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QMouseEvent, QPainter, QPalette, QPen, QPixmap, QPolygon, QTransform
+from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QKeySequence, QMouseEvent, QPainter, QPalette, QPen, QPixmap, QPolygon, QTransform
 from PyQt6.QtWidgets import QApplication, QDialog, QDialogButtonBox, QLabel, QMenu, QSizePolicy, QVBoxLayout
 
 from .spellcheck import SpellCheckTextEdit
@@ -46,12 +46,20 @@ class TextInputDialog(QDialog):
 class InlineTextEditor(SpellCheckTextEdit):
     accepted = pyqtSignal()
     canceled = pyqtSignal()
+    undo_requested = pyqtSignal()
+    redo_requested = pyqtSignal()
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self._finished = False
 
     def keyPressEvent(self, event) -> None:  # noqa: N802
+        if event.matches(QKeySequence.StandardKey.Undo):
+            self.undo_requested.emit()
+            return
+        if event.matches(QKeySequence.StandardKey.Redo):
+            self.redo_requested.emit()
+            return
         if event.key() in {Qt.Key.Key_Return, Qt.Key.Key_Enter} and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
             self._emit_accepted()
             return
@@ -1741,6 +1749,8 @@ class AnnotationCanvas(QLabel):
         self._sync_inline_text_editor_geometry()
         editor.accepted.connect(lambda: self._finish_inline_text_edit(accept=True))
         editor.canceled.connect(lambda: self._finish_inline_text_edit(accept=False))
+        editor.undo_requested.connect(self.undo)
+        editor.redo_requested.connect(self.redo)
         editor.show()
         editor.setFocus()
         if select_all:
