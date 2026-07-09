@@ -8,7 +8,7 @@ from math import hypot
 from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QSize, Qt, pyqtSignal
-from PyQt6.QtGui import QColor, QFont, QIcon, QImage, QMouseEvent, QPainter, QPen, QPixmap, QPolygon, QTransform
+from PyQt6.QtGui import QColor, QFont, QFontMetrics, QIcon, QImage, QMouseEvent, QPainter, QPen, QPixmap, QPolygon, QTransform
 from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QLabel, QPlainTextEdit, QSizePolicy, QVBoxLayout
 
 
@@ -129,11 +129,21 @@ class OverlayItem:
 
     def bounds(self) -> QRect:
         if self.kind == Tool.TEXT:
+            if self.start != self.end:
+                return QRect(self.start, self.end).normalized()
             lines = (self.text or "").splitlines() or [""]
-            width = max(60, max(len(line) for line in lines) * 10 + 18)
-            line_height = max(18, (self.font_point_size or max(10, self.pen_width * 4)) + 6)
+            font = QFont()
+            if self.font_family:
+                font.setFamily(self.font_family)
+            font.setPointSize(self.font_point_size or max(10, self.pen_width * 4))
+            font.setBold(self.bold)
+            font.setItalic(self.italic)
+            font.setUnderline(self.underline)
+            metrics = QFontMetrics(font)
+            width = max(60, max(metrics.horizontalAdvance(line or " ") for line in lines) + 18)
+            line_height = max(18, metrics.lineSpacing())
             height = max(28, line_height * len(lines) + 10)
-            return QRect(self.start.x(), self.start.y() - height, width, height)
+            return QRect(self.start.x(), self.start.y(), width, height)
         if self.kind == Tool.TEXT_ARROW:
             lines = (self.text or "").splitlines() or [""]
             width = max(96, max(len(line) for line in lines) * 10 + 24)
@@ -962,13 +972,7 @@ class AnnotationCanvas(QLabel):
             painter.setBrush(self._brush_for_item(item))
             painter.drawEllipse(QRect(item.start, item.end).normalized())
         elif item.kind == Tool.TEXT:
-            font = QFont()
-            if item.font_family:
-                font.setFamily(item.font_family)
-            font.setPointSize(item.font_point_size or max(10, item.pen_width * 4))
-            font.setBold(item.bold)
-            font.setItalic(item.italic)
-            font.setUnderline(item.underline)
+            font = self._text_font(item)
             text_box = item.bounds().adjusted(2, 2, -2, -2)
             if self._has_fill(item.fill_mode):
                 painter.setBrush(item.color)
@@ -1144,6 +1148,10 @@ class AnnotationCanvas(QLabel):
             return False
         self._push_undo_state()
         item.text = text
+        if item.kind == Tool.TEXT:
+            rect = item.bounds()
+            width, height = self._text_natural_size(item)
+            item.end = QPoint(max(rect.right(), item.start.x() + width), max(rect.bottom(), item.start.y() + height))
         self._mark_dirty()
         self._refresh()
         return True
@@ -1436,16 +1444,29 @@ class AnnotationCanvas(QLabel):
             return
 
         if item.kind == Tool.TEXT:
-            bounds = item.bounds()
+            rect = QRect(item.start, item.end).normalized()
             if handle == "top_left":
-                item.start = QPoint(point.x(), bounds.bottom())
+                rect.setTopLeft(point)
             elif handle == "top_right":
-                item.start = QPoint(item.start.x(), bounds.bottom())
-                item.end = QPoint(point)
+                rect.setTopRight(point)
             elif handle == "bottom_left":
-                item.start = QPoint(point.x(), point.y())
+                rect.setBottomLeft(point)
             elif handle == "bottom_right":
-                item.end = QPoint(point)
+                rect.setBottomRight(point)
+            rect = rect.normalized()
+            min_width, min_height = self._text_natural_size(item)
+            if rect.width() < min_width:
+                if handle in {"top_left", "bottom_left"}:
+                    rect.setLeft(rect.right() - min_width)
+                else:
+                    rect.setRight(rect.left() + min_width)
+            if rect.height() < min_height:
+                if handle in {"top_left", "top_right"}:
+                    rect.setTop(rect.bottom() - min_height)
+                else:
+                    rect.setBottom(rect.top() + min_height)
+            item.start = rect.topLeft()
+            item.end = rect.bottomRight()
             return
 
         rect = QRect(item.start, item.end).normalized()
@@ -1520,6 +1541,23 @@ class AnnotationCanvas(QLabel):
         self._draw_arrow_head(painter, start, end, color=color, pen_width=pen_width)
         self._draw_arrow_head(painter, end, start, color=color, pen_width=pen_width)
 
+    def _text_font(self, item: OverlayItem) -> QFont:
+        font = QFont()
+        if item.font_family:
+            font.setFamily(item.font_family)
+        font.setPointSize(item.font_point_size or max(10, item.pen_width * 4))
+        font.setBold(item.bold)
+        font.setItalic(item.italic)
+        font.setUnderline(item.underline)
+        return font
+
+    def _text_natural_size(self, item: OverlayItem) -> tuple[int, int]:
+        lines = (item.text or "").splitlines() or [""]
+        metrics = QFontMetrics(self._text_font(item))
+        width = max(60, max(metrics.horizontalAdvance(line or " ") for line in lines) + 18)
+        height = max(28, metrics.lineSpacing() * len(lines) + 10)
+        return width, height
+
     def _build_click_item(self, tool: Tool, point: QPoint) -> OverlayItem | None:
         if tool == Tool.TEXT:
             dialog = TextInputDialog(self, title="Insert text")
@@ -1528,10 +1566,28 @@ class AnnotationCanvas(QLabel):
             text = dialog.text()
             if not text:
                 return None
-            return OverlayItem(
+            temp_item = OverlayItem(
                 kind=Tool.TEXT,
                 start=QPoint(point),
                 end=QPoint(point),
+                color=QColor(self._color),
+                pen_width=self._pen_width,
+                text=text,
+                font_family=self._font_family,
+                font_point_size=self._font_point_size,
+                opacity=self._opacity,
+                bold=self._bold,
+                italic=self._italic,
+                underline=self._underline,
+                text_color=QColor(self._text_color),
+                shadow=self._shadow,
+                fill_mode=self._fill_mode,
+            )
+            width, height = self._text_natural_size(temp_item)
+            return OverlayItem(
+                kind=Tool.TEXT,
+                start=QPoint(point),
+                end=QPoint(point.x() + width, point.y() + height),
                 color=QColor(self._color),
                 pen_width=self._pen_width,
                 text=text,
