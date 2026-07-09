@@ -8,8 +8,8 @@ from math import hypot
 from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QSize, Qt, pyqtSignal
-from PyQt6.QtGui import QColor, QFont, QFontMetrics, QIcon, QImage, QMouseEvent, QPainter, QPen, QPixmap, QPolygon, QTransform
-from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QLabel, QPlainTextEdit, QSizePolicy, QVBoxLayout
+from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QMouseEvent, QPainter, QPen, QPixmap, QPolygon, QTransform
+from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QLabel, QMenu, QPlainTextEdit, QSizePolicy, QVBoxLayout
 
 
 class TextInputDialog(QDialog):
@@ -39,6 +39,40 @@ class TextInputDialog(QDialog):
 
     def text(self) -> str:
         return self.editor.toPlainText()
+
+
+class InlineTextEditor(QPlainTextEdit):
+    accepted = pyqtSignal()
+    canceled = pyqtSignal()
+
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        self._finished = False
+
+    def keyPressEvent(self, event) -> None:  # noqa: N802
+        if event.key() in {Qt.Key.Key_Return, Qt.Key.Key_Enter} and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
+            self._emit_accepted()
+            return
+        if event.key() == Qt.Key.Key_Escape:
+            self._emit_canceled()
+            return
+        super().keyPressEvent(event)
+
+    def focusOutEvent(self, event) -> None:  # noqa: N802
+        self._emit_accepted()
+        super().focusOutEvent(event)
+
+    def _emit_accepted(self) -> None:
+        if self._finished:
+            return
+        self._finished = True
+        self.accepted.emit()
+
+    def _emit_canceled(self) -> None:
+        if self._finished:
+            return
+        self._finished = True
+        self.canceled.emit()
 
 
 class Tool(str, Enum):
@@ -205,6 +239,10 @@ class AnnotationCanvas(QLabel):
         self._undo_stack: list[CanvasSnapshot] = []
         self._redo_stack: list[CanvasSnapshot] = []
         self._zoom_percent = 100
+        self._inline_text_editor: InlineTextEditor | None = None
+        self._editing_text_index: int | None = None
+        self._editing_text_original: str | None = None
+        self._editing_text_is_new = False
         self.state = CanvasState()
 
     @staticmethod
@@ -695,7 +733,7 @@ class AnnotationCanvas(QLabel):
             self._refresh()
             return
 
-        if self._tool in (Tool.TEXT, Tool.NUMBER):
+        if self._tool == Tool.NUMBER:
             item = self._build_click_item(self._tool, image_point)
             if item is not None:
                 self._push_undo_state()
@@ -715,6 +753,7 @@ class AnnotationCanvas(QLabel):
             Tool.ELLIPSE,
             Tool.MARKER_RECT,
             Tool.MARKER_ELLIPSE,
+            Tool.TEXT,
             Tool.TEXT_POINTER,
             Tool.TEXT_ARROW,
             Tool.NUMBER_POINTER,
@@ -783,6 +822,7 @@ class AnnotationCanvas(QLabel):
             Tool.ELLIPSE,
             Tool.MARKER_RECT,
             Tool.MARKER_ELLIPSE,
+            Tool.TEXT,
             Tool.TEXT_POINTER,
             Tool.TEXT_ARROW,
             Tool.NUMBER_POINTER,
@@ -796,6 +836,8 @@ class AnnotationCanvas(QLabel):
             if item is not None:
                 self._items.append(item)
                 self._select_single_item(len(self._items) - 1)
+                if self._tool == Tool.TEXT:
+                    self._start_inline_text_edit(len(self._items) - 1, is_new=True)
             elif self._tool == Tool.CROP:
                 self._image = self._image.copy(rect)
                 self._clear_selection()
@@ -826,7 +868,7 @@ class AnnotationCanvas(QLabel):
             return
         self._select_single_item(clicked_index)
         item = self._primary_selected_item()
-        if item is not None and (self._is_text_like(item.kind) or self._is_number_like(item.kind)):
+        if item is not None and item.kind == Tool.TEXT:
             self.edit_selected_text(self)
         else:
             self.changed.emit()
@@ -865,6 +907,7 @@ class AnnotationCanvas(QLabel):
             Tool.ELLIPSE,
             Tool.MARKER_RECT,
             Tool.MARKER_ELLIPSE,
+            Tool.TEXT,
             Tool.TEXT_POINTER,
             Tool.TEXT_ARROW,
             Tool.NUMBER_POINTER,
@@ -883,7 +926,7 @@ class AnnotationCanvas(QLabel):
                 self._draw_arrow(painter, start_point, end_point)
             elif self._tool == Tool.DOUBLE_ARROW:
                 self._draw_double_arrow(painter, start_point, end_point)
-            elif self._tool in (Tool.RECT, Tool.CROP, Tool.BLUR, Tool.PIXELATE, Tool.TEXT_POINTER, Tool.NUMBER_POINTER, Tool.MARKER_RECT):
+            elif self._tool in (Tool.RECT, Tool.CROP, Tool.BLUR, Tool.PIXELATE, Tool.TEXT, Tool.TEXT_POINTER, Tool.NUMBER_POINTER, Tool.MARKER_RECT):
                 painter.drawRect(rect)
             elif self._tool in (Tool.ELLIPSE, Tool.MARKER_ELLIPSE):
                 painter.drawEllipse(rect)
@@ -893,6 +936,9 @@ class AnnotationCanvas(QLabel):
 
         self.setPixmap(display)
         self.resize(display.size())
+        if self._inline_text_editor is not None and self._editing_text_index is not None and 0 <= self._editing_text_index < len(self._items):
+            self._sync_inline_text_editor_style(self._items[self._editing_text_index])
+            self._sync_inline_text_editor_geometry()
 
     def _display_points(self) -> tuple[QPoint, QPoint]:
         sx = self._zoom_percent / 100.0
@@ -1138,23 +1184,38 @@ class AnnotationCanvas(QLabel):
 
     def edit_selected_text(self, parent=None) -> bool:
         item = self._primary_selected_item()
-        if not self.has_single_selected_item() or item is None or not self._is_text_like(item.kind):
+        if not self.has_single_selected_item() or item is None or item.kind != Tool.TEXT:
             return False
-        dialog = TextInputDialog(parent or self, title="Edit text", text=item.text or "")
-        if dialog.exec() != QDialog.DialogCode.Accepted:
+        primary_index = self._primary_selected_index()
+        if primary_index is None:
             return False
-        text = dialog.text()
-        if not text or text == item.text:
-            return False
-        self._push_undo_state()
-        item.text = text
-        if item.kind == Tool.TEXT:
-            rect = item.bounds()
-            width, height = self._text_natural_size(item)
-            item.end = QPoint(max(rect.right(), item.start.x() + width), max(rect.bottom(), item.start.y() + height))
-        self._mark_dirty()
-        self._refresh()
-        return True
+        return self._start_inline_text_edit(primary_index, is_new=False, select_all=True)
+
+    def contextMenuEvent(self, event: QContextMenuEvent) -> None:  # noqa: N802
+        if self._inline_text_editor is not None:
+            super().contextMenuEvent(event)
+            return
+        if not self.has_image():
+            super().contextMenuEvent(event)
+            return
+        image_point = self._map_to_image(event.pos())
+        if image_point is None:
+            super().contextMenuEvent(event)
+            return
+        clicked_index = self._find_item_at(image_point)
+        if clicked_index is None:
+            super().contextMenuEvent(event)
+            return
+        self._select_single_item(clicked_index)
+        item = self._primary_selected_item()
+        if item is None or item.kind != Tool.TEXT:
+            super().contextMenuEvent(event)
+            return
+        menu = QMenu(self)
+        edit_action = QAction("Edit text", menu)
+        edit_action.triggered.connect(lambda: self.edit_selected_text(self))
+        menu.addAction(edit_action)
+        menu.exec(event.globalPos())
 
     def apply_font_family_to_selected_text(self, family: str) -> bool:
         item = self._primary_selected_item()
@@ -1558,6 +1619,113 @@ class AnnotationCanvas(QLabel):
         height = max(28, metrics.lineSpacing() * len(lines) + 10)
         return width, height
 
+    def _item_display_rect(self, item: OverlayItem) -> QRect:
+        sx = self._zoom_percent / 100.0
+        sy = self._zoom_percent / 100.0
+        bounds = item.bounds()
+        left = int(bounds.left() * sx)
+        top = int(bounds.top() * sy)
+        width = max(40, int(bounds.width() * sx))
+        height = max(28, int(bounds.height() * sy))
+        return QRect(left, top, width, height)
+
+    def _sync_inline_text_editor_geometry(self) -> None:
+        if self._inline_text_editor is None or self._editing_text_index is None:
+            return
+        if not (0 <= self._editing_text_index < len(self._items)):
+            return
+        item = self._items[self._editing_text_index]
+        rect = self._item_display_rect(item).adjusted(2, 2, -2, -2)
+        self._inline_text_editor.setGeometry(rect)
+
+    def _sync_inline_text_editor_style(self, item: OverlayItem) -> None:
+        if self._inline_text_editor is None:
+            return
+        border = "1px solid #5f5f5f" if self._has_border(item.fill_mode) else "1px dashed #b0b0b0"
+        background = item.color.name() if self._has_fill(item.fill_mode) else "transparent"
+        text_color = (item.text_color or item.color).name()
+        self._inline_text_editor.setFont(self._text_font(item))
+        self._inline_text_editor.setStyleSheet(
+            "QPlainTextEdit {"
+            f"background: {background};"
+            f"color: {text_color};"
+            f"border: {border};"
+            "padding: 4px 8px;"
+            "}"
+        )
+
+    def _start_inline_text_edit(self, index: int, *, is_new: bool = False, select_all: bool = False) -> bool:
+        if not (0 <= index < len(self._items)):
+            return False
+        item = self._items[index]
+        if item.kind != Tool.TEXT:
+            return False
+        self._finish_inline_text_edit(accept=True)
+        editor = InlineTextEditor(self)
+        editor.setFrameStyle(0)
+        editor.setLineWrapMode(QPlainTextEdit.LineWrapMode.WidgetWidth)
+        editor.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        editor.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        editor.setPlainText(item.text or "")
+        self._inline_text_editor = editor
+        self._editing_text_index = index
+        self._editing_text_original = item.text or ""
+        self._editing_text_is_new = is_new
+        self._sync_inline_text_editor_style(item)
+        self._sync_inline_text_editor_geometry()
+        editor.accepted.connect(lambda: self._finish_inline_text_edit(accept=True))
+        editor.canceled.connect(lambda: self._finish_inline_text_edit(accept=False))
+        editor.show()
+        editor.setFocus()
+        if select_all:
+            editor.selectAll()
+        return True
+
+    def _finish_inline_text_edit(self, *, accept: bool) -> bool:
+        editor = self._inline_text_editor
+        index = self._editing_text_index
+        original_text = self._editing_text_original or ""
+        is_new = self._editing_text_is_new
+        if editor is None or index is None:
+            return False
+        self._inline_text_editor = None
+        self._editing_text_index = None
+        self._editing_text_original = None
+        self._editing_text_is_new = False
+        text = editor.toPlainText()
+        editor.hide()
+        editor.deleteLater()
+        if not (0 <= index < len(self._items)):
+            self._refresh()
+            return False
+        item = self._items[index]
+        if not accept:
+            if is_new:
+                del self._items[index]
+                self._clear_selection()
+            self._refresh()
+            return False
+        if not text.strip():
+            if is_new:
+                del self._items[index]
+                self._clear_selection()
+                self._refresh()
+                return False
+            text = original_text
+        if not is_new and text == original_text:
+            self._refresh()
+            return False
+        if not is_new:
+            self._push_undo_state()
+        item.text = text
+        rect = QRect(item.start, item.end).normalized()
+        width, height = self._text_natural_size(item)
+        item.end = QPoint(max(rect.right(), item.start.x() + width), max(rect.bottom(), item.start.y() + height))
+        self._select_single_item(index)
+        self._mark_dirty()
+        self._refresh()
+        return True
+
     def _build_click_item(self, tool: Tool, point: QPoint) -> OverlayItem | None:
         if tool == Tool.TEXT:
             dialog = TextInputDialog(self, title="Insert text")
@@ -1662,6 +1830,27 @@ class AnnotationCanvas(QLabel):
                 fill_color=fill_color,
                 opacity=self._opacity,
                 fill_mode=fill_mode,
+            )
+        if tool == Tool.TEXT:
+            top_left = rect.topLeft()
+            width = max(60, rect.width())
+            height = max(28, rect.height())
+            return OverlayItem(
+                kind=Tool.TEXT,
+                start=QPoint(top_left),
+                end=QPoint(top_left.x() + width, top_left.y() + height),
+                color=QColor(self._color),
+                pen_width=self._pen_width,
+                text="",
+                font_family=self._font_family,
+                font_point_size=self._font_point_size,
+                opacity=self._opacity,
+                bold=self._bold,
+                italic=self._italic,
+                underline=self._underline,
+                text_color=QColor(self._text_color),
+                shadow=self._shadow,
+                fill_mode=self._fill_mode,
             )
         if tool == Tool.TEXT_POINTER:
             dialog = TextInputDialog(self, title="Insert text")

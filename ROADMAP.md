@@ -123,6 +123,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Herramienta pixelate
 - [x] Herramienta crop
 - [x] Editor multilinea para `Text` con re-edición por doble clic
+- [x] `Text` ahora define su caja arrastrando un rectángulo antes de insertar el contenido, más cercano al flujo original de Ksnip
+- [x] `Text` entra en edición inline sobre la captura al soltar el rectángulo, sin diálogo aparte
 - [x] Sub-herramientas iniciales funcionales: `Double Arrow`, `Marker Pen`, `Marker Rectangle`, `Marker Ellipse`, `Text Pointer`, `Text Arrow`, `Number`, `Number Pointer`, `Number Arrow`
 - [x] Primera implementación funcional de `Sticker` en PyQt6
 - [x] Deshacer
@@ -135,6 +137,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Eliminar item seleccionado
 - [x] Duplicar item seleccionado
 - [x] Re-editar texto seleccionado
+- [x] Re-editar `Text` desde doble clic o menú contextual `Edit text`
 - [x] Traer selección al frente
 - [x] Enviar selección al fondo
 - [x] Editar color de trazo en items seleccionados
