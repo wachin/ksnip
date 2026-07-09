@@ -17,6 +17,7 @@ from PyQt6.QtWidgets import (
     QMenu,
     QProgressDialog,
     QScrollArea,
+    QSizePolicy,
     QSpinBox,
     QSystemTrayIcon,
     QTabWidget,
