@@ -29,12 +29,15 @@ Current scope:
 - Delete selected overlay item or selection
 - Duplicate selected overlay item or selection
 - Re-edit selected text item
+- Inline text editing for the `Text` tool after dragging the text box
+- Right-click `Edit text` support for existing `Text` items
 - Bring selected overlay item or selection to front or send it to back
 - Edit selected text font family and size
 - Apply color and stroke width to selected overlay items
 - Apply fill color and opacity to selected overlay items
 - Apply fill mode to selected shape items
 - Apply bold and italic styling to selected text items
+- Hunspell-backed spell checking in text editors with misspelled-word underline and replacement suggestions
 - Copy and paste selected overlay item selections
 - Region editing tools: crop, blur, pixelate
 - Basic annotation tools: pen, line, arrow, rectangle, ellipse, text
@@ -45,6 +48,7 @@ Not yet ported:
 - OCR/plugin parity with the C++ plugin system
 - Native OS-global hotkey registration
 - Effects beyond crop/blur/pixelate polish
+- Full Debian packaging polish and policy compliance
 
 Reference source trees now available locally:
 
@@ -57,7 +61,13 @@ These are being used as the behavioral reference for the PyQt6 reimplementation,
 
 MX Linux 23 / Debian 12 note:
 
-System Python is typically externally managed, so install optional OCR dependencies inside a virtual environment instead of using global `pip`.
+System Python is typically externally managed. If you are not building a Debian package yet, install optional Python-only extras inside a virtual environment instead of using global `pip`.
+
+Current packaging note:
+
+- A first Debian packaging scaffold already exists under `debian/`.
+- It is not finished yet and should not be treated as final Debian packaging.
+- The program is still being refined before packaging is completed for Debian policy review.
 
 System dependencies for spell checking:
 
@@ -90,6 +100,8 @@ Or without installing:
 python3 -m ksnip_py
 ```
 
+If you are running the port directly against system packages on Debian or MX Linux, that is supported too. The spell checker uses the system `hunspell` binary and installed dictionaries.
+
 And if you're not using a KDE operating system (like Kubuntu, MX Linux KDE, Neon, or others) and you want Ksnip to use the operating system's context menu, type this:
 
 ```bash
@@ -97,6 +109,24 @@ QT_QPA_PLATFORMTHEME=gtk3 python3 -m ksnip_py
 ```
 
 Then, when you open or save a file, the operating system's context menu will appear.
+
+## Text Tool
+
+Current `Text` workflow in `ksnip_py`:
+
+- Select `Text`
+- Drag to create the text rectangle on the screenshot
+- Release the mouse to start inline editing directly on the image
+- Use `Ctrl+Enter` to accept the text
+- Use `Esc` to cancel a newly created text box
+- Use double click or right click `Edit text` to re-edit an existing text item
+
+Spell checking in text editors:
+
+- Uses system `hunspell`
+- Detects installed dictionaries automatically, currently preferring `es_MX` and `en_US` when available
+- Underlines misspelled words
+- Offers replacement suggestions on right click
 
 ## OCR
 
