@@ -816,7 +816,11 @@ class MainWindow(QMainWindow):
         self.font_size.setFixedWidth(52)
         self.font_size.setFixedHeight(22)
         self.font_size.valueChanged.connect(self._apply_font_size)
-        self.property_font_group = self._make_property_group(self.font_family, self.font_size)
+        self.property_font_group = self._make_property_group(
+            self._make_icon_label("text", "Font"),
+            self.font_family,
+            self.font_size,
+        )
 
         self.bold_button = self._make_tool_toggle("bold", "Bold", False, self._apply_bold)
         self.italic_button = self._make_tool_toggle("italic", "Italic", False, self._apply_italic)
@@ -1293,7 +1297,11 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None:
             return
-        color = QColorDialog.getColor(parent=self)
+        options = QColorDialog.ColorDialogOption(0)
+        effective_tool = self._effective_property_tool()
+        if effective_tool not in {Tool.MARKER_PEN, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE}:
+            options |= QColorDialog.ColorDialogOption.ShowAlphaChannel
+        color = QColorDialog.getColor(parent=self, options=options)
         if color.isValid():
             if canvas.tool() == Tool.SELECT and canvas.apply_color_to_selected_item(color):
                 self.status_label.setText("Updated selected item color")
