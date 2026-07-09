@@ -9,7 +9,9 @@ from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QMouseEvent, QPainter, QPalette, QPen, QPixmap, QPolygon, QTransform
-from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QLabel, QMenu, QPlainTextEdit, QSizePolicy, QVBoxLayout
+from PyQt6.QtWidgets import QApplication, QDialog, QDialogButtonBox, QLabel, QMenu, QSizePolicy, QVBoxLayout
+
+from .spellcheck import SpellCheckTextEdit
 
 
 class TextInputDialog(QDialog):
@@ -22,7 +24,7 @@ class TextInputDialog(QDialog):
         hint = QLabel("Shift+Enter adds a new line. Ctrl+Enter accepts.", self)
         layout.addWidget(hint)
 
-        self.editor = QPlainTextEdit(self)
+        self.editor = SpellCheckTextEdit(self)
         self.editor.setPlainText(text)
         layout.addWidget(self.editor, 1)
 
@@ -41,7 +43,7 @@ class TextInputDialog(QDialog):
         return self.editor.toPlainText()
 
 
-class InlineTextEditor(QPlainTextEdit):
+class InlineTextEditor(SpellCheckTextEdit):
     accepted = pyqtSignal()
     canceled = pyqtSignal()
 
@@ -59,6 +61,9 @@ class InlineTextEditor(QPlainTextEdit):
         super().keyPressEvent(event)
 
     def focusOutEvent(self, event) -> None:  # noqa: N802
+        if event.reason() == Qt.FocusReason.PopupFocusReason or QApplication.activePopupWidget() is not None:
+            super().focusOutEvent(event)
+            return
         self._emit_accepted()
         super().focusOutEvent(event)
 
@@ -723,6 +728,11 @@ class AnnotationCanvas(QLabel):
         self._refresh()
 
     def mousePressEvent(self, event: QMouseEvent) -> None:  # noqa: N802
+        if self._inline_text_editor is not None:
+            if not self._inline_text_editor.geometry().contains(event.position().toPoint()):
+                self._finish_inline_text_edit(accept=True)
+            event.accept()
+            return
         if not self.has_image():
             return
         image_point = self._map_to_image(event.position().toPoint())
@@ -786,6 +796,9 @@ class AnnotationCanvas(QLabel):
         self._clear_selection()
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:  # noqa: N802
+        if self._inline_text_editor is not None:
+            event.accept()
+            return
         if not self.has_image() or self._preview_start is None:
             image_point = self._map_to_image(event.position().toPoint())
             if self._tool == Tool.SELECT and self.has_selected_item() and self._drag_start is not None and image_point is not None:
@@ -824,6 +837,9 @@ class AnnotationCanvas(QLabel):
         self._refresh()
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:  # noqa: N802
+        if self._inline_text_editor is not None:
+            event.accept()
+            return
         if not self.has_image():
             return
 
@@ -1680,6 +1696,7 @@ class AnnotationCanvas(QLabel):
         selection_background = QColor(item.color)
         selection_background.setAlpha(180)
         self._inline_text_editor.setFont(self._text_font(item))
+        self._inline_text_editor.set_spellcheck_reference_color(item.color)
         palette = self._inline_text_editor.palette()
         palette.setColor(QPalette.ColorRole.Base, background_color)
         palette.setColor(QPalette.ColorRole.Text, text_color)
@@ -1712,7 +1729,7 @@ class AnnotationCanvas(QLabel):
         self._finish_inline_text_edit(accept=True)
         editor = InlineTextEditor(self)
         editor.setFrameStyle(0)
-        editor.setLineWrapMode(QPlainTextEdit.LineWrapMode.WidgetWidth)
+        editor.setLineWrapMode(SpellCheckTextEdit.LineWrapMode.WidgetWidth)
         editor.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         editor.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         editor.setPlainText(item.text or "")
