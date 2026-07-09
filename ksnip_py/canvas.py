@@ -11,7 +11,7 @@ from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QSize, Q
 from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QKeySequence, QMouseEvent, QPainter, QPalette, QPen, QPixmap, QPolygon, QTransform
 from PyQt6.QtWidgets import QApplication, QDialog, QDialogButtonBox, QLabel, QMenu, QSizePolicy, QVBoxLayout
 
-from .spellcheck import SpellCheckTextEdit
+from .spellcheck import SpellCheckTextEdit, load_spellcheck_scheme
 
 
 class TextInputDialog(QDialog):
@@ -25,6 +25,7 @@ class TextInputDialog(QDialog):
         layout.addWidget(hint)
 
         self.editor = SpellCheckTextEdit(self)
+        self.editor.set_spellcheck_color_scheme(load_spellcheck_scheme())
         self.editor.setPlainText(text)
         layout.addWidget(self.editor, 1)
 
@@ -1704,6 +1705,7 @@ class AnnotationCanvas(QLabel):
         selection_background = QColor(item.color)
         selection_background.setAlpha(180)
         self._inline_text_editor.setFont(self._text_font(item))
+        self._inline_text_editor.set_spellcheck_color_scheme(load_spellcheck_scheme())
         self._inline_text_editor.set_spellcheck_reference_color(item.color)
         palette = self._inline_text_editor.palette()
         palette.setColor(QPalette.ColorRole.Base, background_color)

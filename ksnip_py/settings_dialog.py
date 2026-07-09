@@ -3,10 +3,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QKeySequence
+from PyQt6.QtGui import QColor, QFont, QKeySequence
 from PyQt6.QtWidgets import (
     QCheckBox,
     QComboBox,
+    QColorDialog,
     QDialog,
     QDialogButtonBox,
     QFontComboBox,
@@ -25,11 +26,13 @@ from PyQt6.QtWidgets import (
     QStackedWidget,
     QTableWidget,
     QTableWidgetItem,
+    QHeaderView,
     QVBoxLayout,
     QWidget,
 )
 
 from .canvas import FillMode, Tool
+from .spellcheck import default_spellcheck_scheme, load_spellcheck_scheme
 from .watermark import WatermarkStore
 
 
@@ -67,6 +70,7 @@ class SettingsData:
     ocr_language: str
     ocr_copy_to_clipboard: bool
     ocr_script_path: str
+    spellcheck_scheme: list[tuple[str, str, str]]
 
 
 class SettingsDialog(QDialog):
@@ -472,6 +476,26 @@ class SettingsDialog(QDialog):
         ocr_layout.addRow("Script Path", ocr_script_host)
         self.ocr_enabled.toggled.connect(self._sync_ocr_controls)
         self.ocr_backend.currentIndexChanged.connect(self._sync_ocr_controls)
+
+        scheme_group = QGroupBox("Color scheme for misspelled words", self)
+        scheme_layout = QVBoxLayout(scheme_group)
+        self.scheme_colors_hint = QLabel(
+            f"{len(default_spellcheck_scheme())} base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.",
+            scheme_group,
+        )
+        self.scheme_colors_hint.setWordWrap(True)
+        scheme_layout.addWidget(self.scheme_colors_hint)
+
+        self.scheme_colors_table = QTableWidget(0, 3, scheme_group)
+        self.scheme_colors_table.setHorizontalHeaderLabels(["Name", "Text fill color", "Underline color"])
+        self.scheme_colors_table.verticalHeader().setVisible(False)
+        self.scheme_colors_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        self.scheme_colors_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
+        self.scheme_colors_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
+        self.scheme_colors_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
+        self.scheme_colors_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self.scheme_colors_table.cellDoubleClicked.connect(self._edit_scheme_color_cell)
+        scheme_layout.addWidget(self.scheme_colors_table, 1)
         self._bind_checkbox_pair(self.show_main_window_after_capture, self.show_main_window_after_capture_checkbox)
         self._bind_checkbox_pair(self.hide_main_window_during_capture, self.hide_main_window_during_capture_checkbox)
         self._add_settings_page(
@@ -571,6 +595,11 @@ class SettingsDialog(QDialog):
                 self._build_plugins_page(),
             ],
         )
+        self._add_settings_page(
+            "Scheme colors",
+            "Scheme colors",
+            [scheme_group],
+        )
 
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel, self)
         buttons.accepted.connect(self.accept)
@@ -652,6 +681,46 @@ class SettingsDialog(QDialog):
         layout.addLayout(plugins_row, 1)
 
         return group
+
+    @staticmethod
+    def _scheme_color_display(color: QColor) -> str:
+        return color.name(QColor.NameFormat.HexRgb)
+
+    def _set_scheme_row(self, row: int, name: str, fill: QColor, underline: QColor) -> None:
+        name_item = QTableWidgetItem(name)
+        fill_item = QTableWidgetItem(self._scheme_color_display(fill))
+        underline_item = QTableWidgetItem(self._scheme_color_display(underline))
+        for item, color in ((fill_item, fill), (underline_item, underline)):
+            item.setData(Qt.ItemDataRole.UserRole, QColor(color))
+            item.setBackground(color)
+            contrast = QColor("#ffffff" if color.lightness() < 128 else "#000000")
+            item.setForeground(contrast)
+        self.scheme_colors_table.setItem(row, 0, name_item)
+        self.scheme_colors_table.setItem(row, 1, fill_item)
+        self.scheme_colors_table.setItem(row, 2, underline_item)
+
+    def _load_scheme_table(self, rows: list[tuple[str, QColor, QColor]]) -> None:
+        self.scheme_colors_table.setRowCount(len(rows))
+        for row_index, (name, fill, underline) in enumerate(rows):
+            self._set_scheme_row(row_index, name, fill, underline)
+
+    def _edit_scheme_color_cell(self, row: int, column: int) -> None:
+        if column not in {1, 2}:
+            return
+        item = self.scheme_colors_table.item(row, column)
+        if item is None:
+            return
+        current = item.data(Qt.ItemDataRole.UserRole)
+        current_color = QColor(current) if isinstance(current, QColor) else QColor(item.text())
+        color = QColorDialog.getColor(current_color, self, "Select color")
+        if not color.isValid():
+            return
+        name = self.scheme_colors_table.item(row, 0).text()
+        fill_item = self.scheme_colors_table.item(row, 1)
+        underline_item = self.scheme_colors_table.item(row, 2)
+        fill_color = QColor(color if column == 1 else fill_item.data(Qt.ItemDataRole.UserRole))
+        underline_color = QColor(color if column == 2 else underline_item.data(Qt.ItemDataRole.UserRole))
+        self._set_scheme_row(row, name, fill_color, underline_color)
 
     def _wrap_page(self, title: str, groups: list[QWidget]) -> QWidget:
         host = QWidget(self)
@@ -752,6 +821,11 @@ class SettingsDialog(QDialog):
             self.ocr_language.setCurrentIndex(language_index)
         self.ocr_copy_to_clipboard.setChecked(initial.ocr_copy_to_clipboard)
         self.ocr_script_path.setText(initial.ocr_script_path)
+        scheme_rows = [
+            (name, QColor(fill), QColor(underline))
+            for name, fill, underline in (initial.spellcheck_scheme or [])
+        ] or load_spellcheck_scheme()
+        self._load_scheme_table(scheme_rows)
         self._sync_ocr_controls()
 
     def _refresh_watermark_status(self) -> None:
@@ -820,6 +894,22 @@ class SettingsDialog(QDialog):
         self.ocr_script_button.setEnabled(enabled and backend == "script")
 
     def settings_data(self) -> SettingsData:
+        spellcheck_scheme: list[tuple[str, str, str]] = []
+        for row in range(self.scheme_colors_table.rowCount()):
+            name_item = self.scheme_colors_table.item(row, 0)
+            fill_item = self.scheme_colors_table.item(row, 1)
+            underline_item = self.scheme_colors_table.item(row, 2)
+            if name_item is None or fill_item is None or underline_item is None:
+                continue
+            fill_color = fill_item.data(Qt.ItemDataRole.UserRole)
+            underline_color = underline_item.data(Qt.ItemDataRole.UserRole)
+            spellcheck_scheme.append(
+                (
+                    name_item.text(),
+                    QColor(fill_color).name(QColor.NameFormat.HexRgb),
+                    QColor(underline_color).name(QColor.NameFormat.HexRgb),
+                )
+            )
         return SettingsData(
             tool=self.tool_combo.currentData(),
             pen_width=self.pen_width.value(),
@@ -856,4 +946,5 @@ class SettingsDialog(QDialog):
             ocr_language=str(self.ocr_language.currentData()),
             ocr_copy_to_clipboard=self.ocr_copy_to_clipboard.isChecked(),
             ocr_script_path=self.ocr_script_path.text().strip(),
+            spellcheck_scheme=spellcheck_scheme,
         )

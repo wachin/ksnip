@@ -1,22 +1,76 @@
 from __future__ import annotations
 
+import json
 import re
 import shutil
 import subprocess
 from dataclasses import dataclass
 
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import QSettings, Qt
 from PyQt6.QtGui import QAction, QColor, QSyntaxHighlighter, QTextCharFormat, QTextCursor
 from PyQt6.QtWidgets import QMenu, QPlainTextEdit
 
 
 WORD_RE = re.compile(r"[^\W\d_]+(?:['’\-][^\W\d_]+)*", re.UNICODE)
+SPELLCHECK_SCHEME_KEY = "spellcheck/misspelled_word_scheme"
+
+DEFAULT_SPELLCHECK_SCHEME: list[tuple[str, str, str]] = [
+    ("Black", "#000000", "#ffffff"),
+    ("White", "#ffffff", "#000000"),
+    ("Red", "#df5a17", "#ffffff"),
+    ("Orange", "#f08c00", "#002b36"),
+    ("Yellow", "#ffd43b", "#000000"),
+    ("Green", "#2b8a3e", "#ffffff"),
+    ("Cyan", "#15aabf", "#000000"),
+    ("Blue", "#1971c2", "#ffffff"),
+    ("Purple", "#6741d9", "#ffffff"),
+    ("Magenta", "#c2255c", "#ffffff"),
+    ("Brown", "#8d6e63", "#ffffff"),
+    ("Gray", "#868e96", "#000000"),
+]
 
 
 @dataclass(frozen=True)
 class SpellResult:
     correct: bool
     suggestions: tuple[str, ...] = ()
+
+
+def default_spellcheck_scheme() -> list[tuple[str, QColor, QColor]]:
+    return [(name, QColor(fill), QColor(underline)) for name, fill, underline in DEFAULT_SPELLCHECK_SCHEME]
+
+
+def load_spellcheck_scheme(settings: QSettings | None = None) -> list[tuple[str, QColor, QColor]]:
+    resolved_settings = settings or QSettings()
+    payload = resolved_settings.value(SPELLCHECK_SCHEME_KEY, "")
+    if isinstance(payload, str) and payload.strip():
+        try:
+            parsed = json.loads(payload)
+            rows: list[tuple[str, QColor, QColor]] = []
+            for entry in parsed:
+                name = str(entry.get("name", "")).strip()
+                fill = QColor(str(entry.get("fill", "")))
+                underline = QColor(str(entry.get("underline", "")))
+                if name and fill.isValid() and underline.isValid():
+                    rows.append((name, fill, underline))
+            if rows:
+                return rows
+        except (TypeError, ValueError, json.JSONDecodeError):
+            pass
+    return default_spellcheck_scheme()
+
+
+def save_spellcheck_scheme(rows: list[tuple[str, QColor, QColor]], settings: QSettings | None = None) -> None:
+    resolved_settings = settings or QSettings()
+    payload = [
+        {
+            "name": name,
+            "fill": fill.name(QColor.NameFormat.HexRgb),
+            "underline": underline.name(QColor.NameFormat.HexRgb),
+        }
+        for name, fill, underline in rows
+    ]
+    resolved_settings.setValue(SPELLCHECK_SCHEME_KEY, json.dumps(payload))
 
 
 class HunspellSpellChecker:
@@ -146,6 +200,7 @@ class SpellCheckTextEdit(QPlainTextEdit):
         super().__init__(parent)
         self._spell_checker = checker or HunspellSpellChecker()
         self._spell_highlighter = SpellCheckHighlighter(self.document(), self._spell_checker)
+        self._spellcheck_scheme = load_spellcheck_scheme()
 
     @staticmethod
     def _complementary_color(color: QColor) -> QColor:
@@ -159,8 +214,27 @@ class SpellCheckTextEdit(QPlainTextEdit):
         complementary.setAlpha(255)
         return complementary
 
+    def set_spellcheck_color_scheme(self, rows: list[tuple[str, QColor, QColor]]) -> None:
+        self._spellcheck_scheme = [(name, QColor(fill), QColor(underline)) for name, fill, underline in rows]
+
+    def _resolve_underline_color(self, color: QColor) -> QColor:
+        if not color.isValid():
+            return QColor("#0b7285")
+        best_distance: float | None = None
+        best_color: QColor | None = None
+        for _name, fill, underline in self._spellcheck_scheme:
+            distance = (
+                (fill.red() - color.red()) ** 2
+                + (fill.green() - color.green()) ** 2
+                + (fill.blue() - color.blue()) ** 2
+            )
+            if best_distance is None or distance < best_distance:
+                best_distance = distance
+                best_color = underline
+        return QColor(best_color) if best_color is not None else self._complementary_color(color)
+
     def set_spellcheck_reference_color(self, color: QColor) -> None:
-        self._spell_highlighter.set_error_color(self._complementary_color(color))
+        self._spell_highlighter.set_error_color(self._resolve_underline_color(color))
 
     def contextMenuEvent(self, event) -> None:  # noqa: N802
         menu = self.createStandardContextMenu()

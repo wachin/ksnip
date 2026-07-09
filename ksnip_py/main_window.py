@@ -41,6 +41,7 @@ from .ocr_backend import OcrBackend, OcrOptions, OcrWorker
 from .ocr_result_dialog import OcrResultDialog
 from .pin_window import PinWindow
 from .settings_dialog import SettingsData, SettingsDialog
+from .spellcheck import load_spellcheck_scheme, save_spellcheck_scheme
 from .uploader import ScriptUploader
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
 
@@ -2222,6 +2223,14 @@ class MainWindow(QMainWindow):
             ocr_language=str(self._settings.value("ocr/language", "english")),
             ocr_copy_to_clipboard=self._setting_bool("ocr/copy_to_clipboard", False),
             ocr_script_path=str(self._settings.value("ocr/script_path", "")),
+            spellcheck_scheme=[
+                (
+                    name,
+                    fill.name(QColor.NameFormat.HexRgb),
+                    underline.name(QColor.NameFormat.HexRgb),
+                )
+                for name, fill, underline in load_spellcheck_scheme(self._settings)
+            ],
         )
 
     def _current_tool(self) -> Tool:
@@ -2285,6 +2294,10 @@ class MainWindow(QMainWindow):
         self._settings.setValue("ocr/language", data.ocr_language)
         self._settings.setValue("ocr/copy_to_clipboard", data.ocr_copy_to_clipboard)
         self._settings.setValue("ocr/script_path", data.ocr_script_path)
+        save_spellcheck_scheme(
+            [(name, QColor(fill), QColor(underline)) for name, fill, underline in data.spellcheck_scheme],
+            self._settings,
+        )
 
         self.capture_delay_toolbar.blockSignals(True)
         self.capture_delay_toolbar.setValue(data.capture_delay_seconds)
