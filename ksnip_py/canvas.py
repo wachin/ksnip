@@ -749,6 +749,15 @@ class AnnotationCanvas(QLabel):
             return
 
         if self._tool == Tool.SELECT:
+            primary_index = self._primary_selected_index()
+            if self.has_single_selected_item() and primary_index is not None:
+                handle = self._find_handle_at(self._items[primary_index], image_point)
+                if handle is not None:
+                    self._active_handle = handle
+                    self._drag_start = image_point
+                    self._push_undo_state()
+                    self._refresh()
+                    return
             previous_selection = list(self._selected_item_indices)
             clicked_index = self._find_item_at(image_point)
             additive = bool(event.modifiers() & Qt.KeyboardModifier.ControlModifier)
