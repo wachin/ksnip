@@ -310,6 +310,37 @@ class MainWindow(QMainWindow):
             fill_mode = FillMode.BORDER_AND_FILL
         self.fill_mode_button.setIcon(self._load_icon(self._fill_mode_icon_name(fill_mode)))
 
+    def _fill_mode_options_for_tool(self, tool: Tool | None) -> list[tuple[str, FillMode]]:
+        if tool in {Tool.TEXT, Tool.NUMBER, Tool.NUMBER_ARROW}:
+            return [
+                ("Border and Fill", FillMode.BORDER_AND_FILL),
+                ("Border and No Fill", FillMode.BORDER_AND_NO_FILL),
+                ("No Border and No Fill", FillMode.NO_BORDER_AND_NO_FILL),
+            ]
+        if tool in {Tool.TEXT_ARROW, Tool.RECT, Tool.ELLIPSE}:
+            return [
+                ("Border and Fill", FillMode.BORDER_AND_FILL),
+                ("Border and No Fill", FillMode.BORDER_AND_NO_FILL),
+            ]
+        return []
+
+    def _refresh_fill_mode_choices(self, tool: Tool | None) -> None:
+        if not hasattr(self, "fill_mode"):
+            return
+        options = self._fill_mode_options_for_tool(tool)
+        current_mode = self.fill_mode.currentData()
+        self.fill_mode.blockSignals(True)
+        self.fill_mode.clear()
+        for label, mode in options:
+            self.fill_mode.addItem(label, mode)
+        if options:
+            allowed_modes = [mode for _, mode in options]
+            target_mode = current_mode if current_mode in allowed_modes else allowed_modes[0]
+            self.fill_mode.setCurrentIndex(max(0, self.fill_mode.findData(target_mode)))
+        self.fill_mode.blockSignals(False)
+        self.fill_mode_button.setEnabled(len(options) > 1)
+        self._sync_fill_mode_button()
+
     def _sync_auxiliary_property_controls(self) -> None:
         if not hasattr(self, "blur_strength"):
             return
@@ -323,6 +354,8 @@ class MainWindow(QMainWindow):
             self._sync_sticker_button()
 
     def _cycle_fill_mode(self) -> None:
+        if self.fill_mode.count() == 0:
+            return
         next_index = (self.fill_mode.currentIndex() + 1) % self.fill_mode.count()
         self.fill_mode.setCurrentIndex(next_index)
 
@@ -372,6 +405,7 @@ class MainWindow(QMainWindow):
         tool = self._effective_property_tool()
         if tool is None:
             tool = Tool.SELECT
+        self._refresh_fill_mode_choices(tool)
         show_stroke = tool in {
             Tool.ARROW,
             Tool.DOUBLE_ARROW,
@@ -737,7 +771,10 @@ class MainWindow(QMainWindow):
         self.property_color_button.setToolTip("Stroke color")
         self.property_color_button.setFixedSize(22, 22)
         self.property_color_button.clicked.connect(self.select_color)
-        self.property_stroke_group = self._make_property_group(self.property_color_button)
+        self.property_stroke_group = self._make_property_group(
+            self._make_icon_label("color", "Stroke color"),
+            self.property_color_button,
+        )
 
         self.stroke_width = QSpinBox()
         self.stroke_width.setRange(1, 60)
@@ -748,16 +785,16 @@ class MainWindow(QMainWindow):
         self.property_width_group = self._make_property_group(self._make_icon_label("width", "Stroke width"), self.stroke_width)
 
         self.fill_mode = QComboBox()
-        self.fill_mode.addItem("Border and Fill", FillMode.BORDER_AND_FILL)
-        self.fill_mode.addItem("Border and No Fill", FillMode.BORDER_AND_NO_FILL)
-        self.fill_mode.addItem("No Border and No Fill", FillMode.NO_BORDER_AND_NO_FILL)
         self.fill_mode.hide()
         self.fill_mode.currentIndexChanged.connect(self._apply_fill_mode)
         self.fill_mode_button = QToolButton(self)
         self.fill_mode_button.setToolTip("Fill mode")
         self.fill_mode_button.setFixedSize(22, 22)
         self.fill_mode_button.clicked.connect(self._cycle_fill_mode)
-        self.property_fill_mode_group = self._make_property_group(self.fill_mode_button)
+        self.property_fill_mode_group = self._make_property_group(
+            self._make_icon_label("fillType_borderAndFill", "Fill mode"),
+            self.fill_mode_button,
+        )
 
         self.property_text_color_button = QToolButton(self)
         self.property_text_color_button.setToolTip("Text color")
