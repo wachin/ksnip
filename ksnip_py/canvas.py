@@ -257,6 +257,8 @@ class AnnotationCanvas(QLabel):
         self._editing_text_index: int | None = None
         self._editing_text_original: str | None = None
         self._editing_text_is_new = False
+        self._editing_text_original_rect: QRect | None = None
+        self._editing_text_min_size: tuple[int, int] | None = None
         self.state = CanvasState()
 
     @staticmethod
@@ -1816,7 +1818,7 @@ class AnnotationCanvas(QLabel):
         self._finish_inline_text_edit(accept=True)
         editor = InlineTextEditor(self)
         editor.setFrameStyle(0)
-        editor.setLineWrapMode(SpellCheckTextEdit.LineWrapMode.WidgetWidth)
+        editor.setLineWrapMode(SpellCheckTextEdit.LineWrapMode.NoWrap)
         editor.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         editor.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         editor.setPlainText(item.text or "")
@@ -1824,7 +1826,12 @@ class AnnotationCanvas(QLabel):
         self._editing_text_index = index
         self._editing_text_original = item.text or ""
         self._editing_text_is_new = is_new
+        self._editing_text_original_rect = QRect(item.start, item.end).normalized()
+        base_rect = self._editing_text_original_rect
+        self._editing_text_min_size = (max(60, base_rect.width()), max(28, base_rect.height()))
         self._sync_inline_text_editor_style(item)
+        editor.textChanged.connect(self._autosize_inline_text_item)
+        self._autosize_inline_text_item()
         self._sync_inline_text_editor_geometry()
         editor.accepted.connect(lambda: self._finish_inline_text_edit(accept=True))
         editor.canceled.connect(lambda: self._finish_inline_text_edit(accept=False))
@@ -1841,12 +1848,15 @@ class AnnotationCanvas(QLabel):
         index = self._editing_text_index
         original_text = self._editing_text_original or ""
         is_new = self._editing_text_is_new
+        original_rect = QRect(self._editing_text_original_rect) if self._editing_text_original_rect is not None else None
         if editor is None or index is None:
             return False
         self._inline_text_editor = None
         self._editing_text_index = None
         self._editing_text_original = None
         self._editing_text_is_new = False
+        self._editing_text_original_rect = None
+        self._editing_text_min_size = None
         text = editor.toPlainText()
         editor.hide()
         editor.deleteLater()
@@ -1858,6 +1868,10 @@ class AnnotationCanvas(QLabel):
             if is_new:
                 del self._items[index]
                 self._clear_selection()
+            elif original_rect is not None:
+                item.text = original_text
+                item.start = original_rect.topLeft()
+                item.end = original_rect.bottomRight()
             self._refresh()
             return False
         if not text.strip():
@@ -1880,6 +1894,23 @@ class AnnotationCanvas(QLabel):
         self._mark_dirty()
         self._refresh()
         return True
+
+    def _autosize_inline_text_item(self) -> None:
+        if self._inline_text_editor is None or self._editing_text_index is None:
+            return
+        if not (0 <= self._editing_text_index < len(self._items)):
+            return
+        item = self._items[self._editing_text_index]
+        if item.kind != Tool.TEXT:
+            return
+        item.text = self._inline_text_editor.toPlainText()
+        natural_width, natural_height = self._text_natural_size(item)
+        min_width, min_height = self._editing_text_min_size or (60, 28)
+        item.end = QPoint(
+            item.start.x() + max(min_width, natural_width),
+            item.start.y() + max(min_height, natural_height),
+        )
+        self._sync_inline_text_editor_geometry()
 
     def _build_click_item(self, tool: Tool, point: QPoint) -> OverlayItem | None:
         if tool == Tool.TEXT:
