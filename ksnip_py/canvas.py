@@ -823,6 +823,10 @@ class AnnotationCanvas(QLabel):
                         self._drag_start = image_point
                 self._mark_dirty()
                 self._refresh()
+                self._update_cursor_for_point(image_point)
+                return
+            if self._tool == Tool.SELECT:
+                self._update_cursor_for_point(image_point)
             return
         image_point = self._map_to_image(event.position().toPoint())
         if image_point is None:
@@ -856,6 +860,7 @@ class AnnotationCanvas(QLabel):
             if self._drag_start is not None or self._active_handle is not None:
                 self._drag_start = None
                 self._active_handle = None
+                self.setCursor(Qt.CursorShape.ArrowCursor)
                 self._refresh()
             return
 
@@ -1107,9 +1112,7 @@ class AnnotationCanvas(QLabel):
             painter.setBrush(Qt.BrushStyle.NoBrush)
             painter.drawRect(item.bounds())
             if show_handles:
-                painter.setBrush(QColor("#1c7ed6"))
-                for handle_point in self._handle_points(item).values():
-                    painter.drawRect(QRect(handle_point.x() - 3, handle_point.y() - 3, 6, 6))
+                self._draw_selection_handles(painter, item)
 
     def _draw_item_preview(self, painter: QPainter, item: OverlayItem, sx: float, sy: float, selected: bool, show_handles: bool = True) -> None:
         scaled = item.clone()
@@ -1503,9 +1506,49 @@ class AnnotationCanvas(QLabel):
 
     def _find_handle_at(self, item: OverlayItem, point: QPoint) -> str | None:
         for handle_name, handle_point in self._handle_points(item).items():
-            if QRect(handle_point.x() - 6, handle_point.y() - 6, 12, 12).contains(point):
+            radius = 9 if item.kind == Tool.TEXT else 6
+            if QRect(handle_point.x() - radius, handle_point.y() - radius, radius * 2, radius * 2).contains(point):
                 return handle_name
         return None
+
+    def _draw_selection_handles(self, painter: QPainter, item: OverlayItem) -> None:
+        if item.kind == Tool.TEXT:
+            painter.save()
+            painter.setPen(QPen(QColor("#1c7ed6"), 1))
+            for handle_point in self._handle_points(item).values():
+                outer = QRect(handle_point.x() - 6, handle_point.y() - 6, 12, 12)
+                inner = QRect(handle_point.x() - 3, handle_point.y() - 3, 6, 6)
+                painter.setBrush(QColor("#ffffff"))
+                painter.drawEllipse(outer)
+                painter.setBrush(QColor("#1c7ed6"))
+                painter.drawEllipse(inner)
+            painter.restore()
+            return
+        painter.save()
+        painter.setBrush(QColor("#1c7ed6"))
+        for handle_point in self._handle_points(item).values():
+            painter.drawRect(QRect(handle_point.x() - 3, handle_point.y() - 3, 6, 6))
+        painter.restore()
+
+    def _update_cursor_for_point(self, point: QPoint | None) -> None:
+        if self._tool != Tool.SELECT or point is None or not self.has_single_selected_item():
+            self.setCursor(Qt.CursorShape.ArrowCursor)
+            return
+        item = self._primary_selected_item()
+        if item is None:
+            self.setCursor(Qt.CursorShape.ArrowCursor)
+            return
+        handle = self._find_handle_at(item, point)
+        if handle in {"top_left", "bottom_right"}:
+            self.setCursor(Qt.CursorShape.SizeFDiagCursor)
+            return
+        if handle in {"top_right", "bottom_left"}:
+            self.setCursor(Qt.CursorShape.SizeBDiagCursor)
+            return
+        if item.bounds().contains(point):
+            self.setCursor(Qt.CursorShape.SizeAllCursor)
+            return
+        self.setCursor(Qt.CursorShape.ArrowCursor)
 
     def _handle_points(self, item: OverlayItem) -> dict[str, QPoint]:
         if self._is_line_like(item.kind):
