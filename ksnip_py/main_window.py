@@ -312,6 +312,10 @@ class MainWindow(QMainWindow):
             fill_mode = FillMode.BORDER_AND_FILL
         self.fill_mode_button.setIcon(self._load_icon(self._fill_mode_icon_name(fill_mode)))
 
+    def _current_fill_mode_value(self) -> FillMode:
+        fill_mode = self.fill_mode.currentData() if hasattr(self, "fill_mode") else None
+        return fill_mode if isinstance(fill_mode, FillMode) else FillMode.BORDER_AND_FILL
+
     def _fill_mode_options_for_tool(self, tool: Tool | None) -> list[tuple[str, FillMode]]:
         if tool in {Tool.TEXT, Tool.NUMBER, Tool.NUMBER_ARROW}:
             return [
@@ -1210,7 +1214,7 @@ class MainWindow(QMainWindow):
         canvas.set_font_family(self.font_family.currentFont().family())
         canvas.set_font_point_size(self.font_size.value())
         canvas.set_text_color(QColor("#ffffff"))
-        canvas.set_fill_mode(self.fill_mode.currentData())
+        canvas.set_fill_mode(self._current_fill_mode_value())
         canvas.set_bold(self.bold.isChecked())
         canvas.set_italic(self.italic.isChecked())
         canvas.set_underline(self.underline_button.isChecked())
@@ -2188,7 +2192,7 @@ class MainWindow(QMainWindow):
             pen_width=self.stroke_width.value(),
             font_family=self.font_family.currentFont().family(),
             font_point_size=self.font_size.value(),
-            fill_mode=self.fill_mode.currentData(),
+            fill_mode=self._current_fill_mode_value(),
             opacity_percent=self.opacity.value(),
             bold=self.bold.isChecked(),
             italic=self.italic.isChecked(),
@@ -2458,7 +2462,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/font_family", self.font_family.currentFont().family())
         self._settings.setValue("editor/font_point_size", self.font_size.value())
         self._settings.setValue("editor/opacity_percent", self.opacity.value())
-        self._settings.setValue("editor/fill_mode", self.fill_mode.currentData().value)
+        self._settings.setValue("editor/fill_mode", self._current_fill_mode_value().value)
         self._settings.setValue("editor/bold", self.bold.isChecked())
         self._settings.setValue("editor/italic", self.italic.isChecked())
         self._settings.setValue("editor/underline", self.underline_button.isChecked())

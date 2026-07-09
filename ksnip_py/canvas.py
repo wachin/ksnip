@@ -8,7 +8,7 @@ from math import hypot
 from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QSize, Qt, pyqtSignal
-from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QMouseEvent, QPainter, QPen, QPixmap, QPolygon, QTransform
+from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QMouseEvent, QPainter, QPalette, QPen, QPixmap, QPolygon, QTransform
 from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QLabel, QMenu, QPlainTextEdit, QSizePolicy, QVBoxLayout
 
 
@@ -619,6 +619,21 @@ class AnnotationCanvas(QLabel):
         return item.kind if item is not None else None
 
     def undo(self) -> None:
+        if self._inline_text_editor is not None:
+            if self._editing_text_is_new:
+                if not self.can_undo():
+                    self._finish_inline_text_edit(accept=False)
+                    return
+                current_snapshot = self._make_snapshot()
+                self._finish_inline_text_edit(accept=False)
+                self._redo_stack.append(current_snapshot)
+                snapshot = self._undo_stack.pop()
+                self._restore_snapshot(snapshot)
+                self.state.dirty = True
+                self.changed.emit()
+                self._refresh()
+                return
+            self._finish_inline_text_edit(accept=True)
         if not self.can_undo():
             return
         self._redo_stack.append(self._make_snapshot())
@@ -629,6 +644,8 @@ class AnnotationCanvas(QLabel):
         self._refresh()
 
     def redo(self) -> None:
+        if self._inline_text_editor is not None:
+            self._finish_inline_text_edit(accept=True)
         if not self.can_redo():
             return
         self._undo_stack.append(self._make_snapshot())
@@ -807,7 +824,17 @@ class AnnotationCanvas(QLabel):
         self._refresh()
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:  # noqa: N802
-        if not self.has_image() or self._preview_start is None:
+        if not self.has_image():
+            return
+
+        if self._tool == Tool.SELECT:
+            if self._drag_start is not None or self._active_handle is not None:
+                self._drag_start = None
+                self._active_handle = None
+                self._refresh()
+            return
+
+        if self._preview_start is None:
             return
 
         image_point = self._map_to_image(event.position().toPoint())
@@ -1638,20 +1665,42 @@ class AnnotationCanvas(QLabel):
         rect = self._item_display_rect(item).adjusted(2, 2, -2, -2)
         self._inline_text_editor.setGeometry(rect)
 
+    @staticmethod
+    def _color_to_css(color: QColor) -> str:
+        return f"rgba({color.red()}, {color.green()}, {color.blue()}, {color.alphaF():.3f})"
+
     def _sync_inline_text_editor_style(self, item: OverlayItem) -> None:
         if self._inline_text_editor is None:
             return
-        border = "1px solid #5f5f5f" if self._has_border(item.fill_mode) else "1px dashed #b0b0b0"
-        background = item.color.name() if self._has_fill(item.fill_mode) else "transparent"
-        text_color = (item.text_color or item.color).name()
+        border_color = QColor(item.color)
+        border_color.setAlpha(255)
+        border = f"1px solid {self._color_to_css(border_color)}" if self._has_border(item.fill_mode) else "1px dashed rgba(176, 176, 176, 0.95)"
+        background_color = QColor(item.color) if self._has_fill(item.fill_mode) else QColor(255, 255, 255, 0)
+        text_color = QColor(item.text_color or item.color)
+        selection_background = QColor(item.color)
+        selection_background.setAlpha(180)
         self._inline_text_editor.setFont(self._text_font(item))
+        palette = self._inline_text_editor.palette()
+        palette.setColor(QPalette.ColorRole.Base, background_color)
+        palette.setColor(QPalette.ColorRole.Text, text_color)
+        palette.setColor(QPalette.ColorRole.Highlight, selection_background)
+        palette.setColor(QPalette.ColorRole.HighlightedText, QColor("#ffffff"))
+        self._inline_text_editor.setPalette(palette)
+        self._inline_text_editor.viewport().setAutoFillBackground(True)
+        self._inline_text_editor.setAutoFillBackground(True)
         self._inline_text_editor.setStyleSheet(
             "QPlainTextEdit {"
-            f"background: {background};"
-            f"color: {text_color};"
+            f"background-color: {self._color_to_css(background_color)};"
+            f"color: {self._color_to_css(text_color)};"
             f"border: {border};"
             "padding: 4px 8px;"
+            f"selection-background-color: {self._color_to_css(selection_background)};"
+            "selection-color: rgba(255, 255, 255, 1.0);"
             "}"
+        )
+        self._inline_text_editor.viewport().setStyleSheet(
+            f"background-color: {self._color_to_css(background_color)};"
+            f"color: {self._color_to_css(text_color)};"
         )
 
     def _start_inline_text_edit(self, index: int, *, is_new: bool = False, select_all: bool = False) -> bool:
