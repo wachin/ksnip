@@ -2,6 +2,17 @@
 
 Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como implementación actual.
 
+## Estado para retomar después del formateo
+
+- [x] Este `ROADMAP.md` quedó preparado como documento de continuidad para retomar el port sin depender de este chat
+- [x] El `README` activo del proyecto es `README.md`
+- [x] El `README` anterior del repositorio fue preservado como `README_Old.md`
+- [x] La implementación activa del port sigue concentrada en `ksnip_py/`
+- [x] Ya existe una base funcional real sobre la que se puede seguir afinando sin reiniciar el trabajo
+- [x] Ya existe esqueleto inicial de empaquetado Debian en `debian/`, pero todavía no debe considerarse terminado
+- [ ] Al retomar después del formateo, leer primero `README.md`, luego este `ROADMAP.md`, y después ejecutar `python3 -m ksnip_py`
+- [ ] Al retomar, priorizar primero la paridad visual/funcional fina y dejar el cierre Debian para el tramo final
+
 ## Regla de Interfaz
 
 - [x] La interfaz final de `ksnip_py` debe quedar visual y funcionalmente alineada con las capturas de referencia:
@@ -125,7 +136,17 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Editor multilinea para `Text` con re-edición por doble clic
 - [x] `Text` ahora define su caja arrastrando un rectángulo antes de insertar el contenido, más cercano al flujo original de Ksnip
 - [x] `Text` entra en edición inline sobre la captura al soltar el rectángulo, sin diálogo aparte
+- [x] El editor inline de `Text` aparece ya con el color de fondo y el color de fuente elegidos en la herramienta
+- [x] `Text` permite re-edición tanto por doble clic como desde el menú contextual `Edit text`
+- [x] `Text` evita crear un nuevo recuadro accidental cuando se confirma el anterior con un clic fuera del editor
+- [x] `Undo` y `Ctrl+Z` ya pueden eliminar un recuadro de texto recién creado mientras está en edición inline
+- [x] Los recuadros de `Text` ya no quedan pegados al cursor después de moverlos con la herramienta `Select`
+- [x] La caja inline de `Text` crece automáticamente hacia la derecha al escribir y hacia abajo al crear nuevas líneas
+- [x] `Text` dispone de handles especializados visibles para redimensionar desde esquinas y lados
+- [x] Los handles de `Text` aceptan mejor el clic centrado sobre el círculo
 - [x] Soporte base de corrección ortográfica en editores de texto usando `hunspell` del sistema, con detección de `es_MX` y `en_US`, subrayado de errores y sugerencias en menú contextual
+- [x] Las sugerencias ortográficas del menú contextual ya reemplazan correctamente la palabra seleccionada
+- [x] El menú contextual de corrección ortográfica ya no dispara recuadros espurios al devolver el foco al editor
 - [x] Nueva sección `Settings > Scheme colors` con esquema editable de 12 colores base para definir el color de subrayado de palabras mal escritas según el color de fondo de `Text`
 - [x] Sub-herramientas iniciales funcionales: `Double Arrow`, `Marker Pen`, `Marker Rectangle`, `Marker Ellipse`, `Text Pointer`, `Text Arrow`, `Number`, `Number Pointer`, `Number Arrow`
 - [x] Primera implementación funcional de `Sticker` en PyQt6
@@ -268,6 +289,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] `pyproject.toml`
 - [x] Esqueleto inicial de empaquetado Debian en `debian/`
 - [x] Dependencias de sistema para corrección ortográfica declaradas en `debian/control`: `hunspell`, `hunspell-en-us`
+- [x] `README.md` actualizado para reflejar el flujo actual de `Text`, el uso de `hunspell` y la ejecución sobre paquetes del sistema
 - [ ] Empaquetado Debian completo y pulido según políticas Debian
 - [ ] Publicación potencial en Debian / `packages.debian.org` sólo después de terminar primero el refinado funcional y visual del programa
 - [x] Entrada ejecutable `ksnip-pyqt6`
@@ -276,3 +298,11 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [ ] Smoke tests GUI para flujos principales
 - [ ] Tests automatizados equivalentes para la parte Python
 - [ ] Documentación de ejecución/instalación actualizada conforme crezca la paridad
+
+## Próximo bloque recomendado
+
+- [ ] Afinar todavía más la paridad visual del toolbar principal, barra de propiedades y barra inferior frente a Ksnip original
+- [ ] Igualar con más precisión los `Item Settings` visibles por herramienta según `/images/Ksnip-Tools-selected/`
+- [ ] Seguir puliendo `Text` hasta acercarlo lo más posible al comportamiento visual y de edición del C++ original
+- [ ] Completar más categorías y semántica fina de `Settings`
+- [ ] Dejar el empaquetado Debian listo sólo cuando la UI y el comportamiento ya estén estabilizados
