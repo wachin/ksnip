@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PyQt6.QtCore import QEvent, QEventLoop, QPoint, QSettings, QSize, QThread, QTimer, Qt
-from PyQt6.QtGui import QAction, QActionGroup, QColor, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPixmap
+from PyQt6.QtCore import QBuffer, QEvent, QEventLoop, QIODevice, QPoint, QSettings, QSize, QThread, QTimer, Qt, QUrl
+from PyQt6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPixmap
 from PyQt6.QtWidgets import (
     QComboBox,
     QColorDialog,
@@ -582,6 +582,15 @@ class MainWindow(QMainWindow):
         self.copy_action.setShortcut(QKeySequence.StandardKey.Copy)
         self.copy_action.triggered.connect(self.copy_image)
 
+        self.copy_data_uri_action = QAction("Copy as Data URI", self)
+        self.copy_data_uri_action.triggered.connect(self.copy_image_as_data_uri)
+
+        self.copy_path_action = QAction("Copy Path", self)
+        self.copy_path_action.triggered.connect(self.copy_image_path)
+
+        self.open_directory_action = QAction("Open Directory", self)
+        self.open_directory_action.triggered.connect(self.open_image_directory)
+
         self.copy_item_action = QAction("Copy Item", self)
         self.copy_item_action.setShortcut("Ctrl+Shift+C")
         self.copy_item_action.triggered.connect(self.copy_selected_item)
@@ -1088,6 +1097,8 @@ class MainWindow(QMainWindow):
         edit_menu.addAction(self.redo_action)
         edit_menu.addSeparator()
         edit_menu.addAction(self.copy_action)
+        edit_menu.addAction(self.copy_data_uri_action)
+        edit_menu.addAction(self.copy_path_action)
         edit_menu.addAction(self.copy_item_action)
         edit_menu.addAction(self.paste_action)
         edit_menu.addAction(self.paste_item_action)
@@ -1104,6 +1115,8 @@ class MainWindow(QMainWindow):
         view_menu.addAction(self.zoom_out_action)
         view_menu.addAction(self.zoom_reset_action)
         view_menu.addAction(self.zoom_fit_action)
+        view_menu.addSeparator()
+        view_menu.addAction(self.open_directory_action)
 
         tools_menu = self.menuBar().addMenu("Tools")
         tools_menu.addAction(self.rotate_action)
@@ -1785,6 +1798,41 @@ class MainWindow(QMainWindow):
         QGuiApplication.clipboard().setImage(canvas.image())
         self.status_label.setText("Copied image to clipboard")
 
+    def copy_image_as_data_uri(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        buffer = QBuffer(self)
+        if not buffer.open(QIODevice.OpenModeFlag.WriteOnly):
+            self._show_error("Unable to encode image as a Data URI")
+            return
+        try:
+            if not canvas.image().save(buffer, "PNG"):
+                self._show_error("Unable to encode image as a Data URI")
+                return
+            encoded = bytes(buffer.data().toBase64()).decode("ascii")
+        finally:
+            buffer.close()
+        QGuiApplication.clipboard().setText(f"data:image/png;base64,{encoded}")
+        self.status_label.setText("Copied image as a base64 encoded Data URI")
+
+    def copy_image_path(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.state.path:
+            return
+        QGuiApplication.clipboard().setText(canvas.state.path)
+        self.status_label.setText(f"Copied path {canvas.state.path}")
+
+    def open_image_directory(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.state.path:
+            return
+        directory = str(Path(canvas.state.path).expanduser().parent)
+        if not QDesktopServices.openUrl(QUrl.fromLocalFile(directory)):
+            self._show_error(f"Unable to open directory {directory}")
+            return
+        self.status_label.setText(f"Opened directory {directory}")
+
     def copy_selected_item(self) -> None:
         canvas = self.current_canvas()
         if canvas is None:
@@ -2130,6 +2178,10 @@ class MainWindow(QMainWindow):
             )
         )
         self.copy_action.setEnabled(has_image)
+        self.copy_data_uri_action.setEnabled(has_image)
+        has_path = canvas is not None and bool(canvas.state.path)
+        self.copy_path_action.setEnabled(has_path)
+        self.open_directory_action.setEnabled(has_path)
         self.copy_item_action.setEnabled(has_selected_item)
         self.paste_action.setEnabled(True)
         self.paste_item_action.setEnabled(has_image)

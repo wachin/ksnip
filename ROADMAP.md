@@ -116,9 +116,9 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [ ] Vista previa de impresión
 - [ ] Renombrar captura/archivo
 - [ ] Borrar imagen/captura con paridad de flujo C++
-- [ ] Abrir directorio contenedor
-- [ ] Copiar ruta del archivo
-- [ ] Copy as Data URI / base64
+- [x] Abrir directorio contenedor
+- [x] Copiar ruta del archivo
+- [x] Copy as Data URI / base64
 - [ ] Paste embedded image como en C++
 
 ## Anotación y Edición
