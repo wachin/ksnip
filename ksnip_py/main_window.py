@@ -575,6 +575,9 @@ class MainWindow(QMainWindow):
         self.save_as_action.setShortcut(QKeySequence.StandardKey.SaveAs)
         self.save_as_action.triggered.connect(self.save_image_as)
 
+        self.save_all_action = QAction(self._load_icon("save"), "Save All", self)
+        self.save_all_action.triggered.connect(self.save_all_images)
+
         self.copy_action = QAction(self._load_icon("copy"), "Copy", self)
         self.copy_action.setShortcut(QKeySequence.StandardKey.Copy)
         self.copy_action.triggered.connect(self.copy_image)
@@ -1073,6 +1076,7 @@ class MainWindow(QMainWindow):
         self.recent_images_menu.aboutToShow.connect(self._populate_recent_images_menu)
         file_menu.addAction(self.save_action)
         file_menu.addAction(self.save_as_action)
+        file_menu.addAction(self.save_all_action)
         file_menu.addAction(self.close_tab_action)
         file_menu.addSeparator()
         file_menu.addAction(self.settings_action)
@@ -1705,13 +1709,7 @@ class MainWindow(QMainWindow):
         if canvas is None or not canvas.has_image():
             return
         if canvas.state.path:
-            if canvas.image().save(canvas.state.path):
-                canvas.mark_saved(canvas.state.path)
-                self._store_recent_image_path(canvas.state.path)
-                self._sync_tab_title()
-                self.status_label.setText(f"Saved {canvas.state.path}")
-            else:
-                self._show_error(f"Unable to save image to {canvas.state.path}")
+            self._save_canvas_to_path(canvas, self.tabs.currentIndex(), canvas.state.path)
             return
         self.save_image_as()
 
@@ -1727,13 +1725,58 @@ class MainWindow(QMainWindow):
         )
         if not path:
             return
-        if canvas.image().save(path):
-            canvas.mark_saved(path)
-            self._store_recent_image_path(path)
-            self.tabs.setTabText(self.tabs.currentIndex(), Path(path).name)
-            self.status_label.setText(f"Saved {path}")
-        else:
+        self._save_canvas_to_path(canvas, self.tabs.currentIndex(), path)
+
+    def save_all_images(self) -> None:
+        saved_count = 0
+        for index in range(self.tabs.count()):
+            canvas = self._canvas_from_tab_widget(self.tabs.widget(index))
+            if canvas is None or not canvas.has_image():
+                continue
+            if canvas.state.path and not canvas.state.dirty:
+                continue
+
+            path = canvas.state.path
+            if not path:
+                self.tabs.setCurrentIndex(index)
+                suggested_name = self.tabs.tabText(index).replace(" *", "").strip()
+                if not Path(suggested_name).suffix:
+                    suggested_name = f"{suggested_name or 'Untitled'}.png"
+                path, _ = QFileDialog.getSaveFileName(
+                    self,
+                    "Save image as",
+                    str(Path(self._default_image_directory()) / suggested_name),
+                    "PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
+                )
+                if not path:
+                    self.status_label.setText(
+                        f"Save All canceled after saving {saved_count} image(s)"
+                    )
+                    return
+
+            if not self._save_canvas_to_path(canvas, index, path, show_status=False):
+                return
+            saved_count += 1
+
+        self.status_label.setText(f"Saved {saved_count} image(s)")
+
+    def _save_canvas_to_path(
+        self,
+        canvas: AnnotationCanvas,
+        tab_index: int,
+        path: str,
+        *,
+        show_status: bool = True,
+    ) -> bool:
+        if not canvas.image().save(path):
             self._show_error(f"Unable to save image to {path}")
+            return False
+        canvas.mark_saved(path)
+        self._store_recent_image_path(path)
+        self.tabs.setTabText(tab_index, Path(path).name)
+        if show_status:
+            self.status_label.setText(f"Saved {path}")
+        return True
 
     def copy_image(self) -> None:
         canvas = self.current_canvas()
@@ -2079,6 +2122,13 @@ class MainWindow(QMainWindow):
         can_edit_text = canvas is not None and canvas.selected_item_kind() in (Tool.TEXT, Tool.TEXT_POINTER, Tool.TEXT_ARROW)
         self.save_action.setEnabled(has_image)
         self.save_as_action.setEnabled(has_image)
+        self.save_all_action.setEnabled(
+            any(
+                (tab_canvas := self._canvas_from_tab_widget(self.tabs.widget(index))) is not None
+                and tab_canvas.has_image()
+                for index in range(self.tabs.count())
+            )
+        )
         self.copy_action.setEnabled(has_image)
         self.copy_item_action.setEnabled(has_selected_item)
         self.paste_action.setEnabled(True)
