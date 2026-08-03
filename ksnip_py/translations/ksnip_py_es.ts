@@ -61,6 +61,22 @@
     <message><source>Zoom</source><translation>Zoom</translation></message>
     <message><source>Watermark</source><translation>Marca de agua</translation></message>
     <message><source>Annotation Tools</source><translation>Herramientas de anotación</translation></message>
+    <message><source>Delete Image...</source><translation>Eliminar imagen...</translation></message>
+    <message><source>Copy Item</source><translation>Copiar elemento</translation></message>
+    <message><source>Close Tab</source><translation>Cerrar pestaña</translation></message>
+    <message><source>Paste Item</source><translation>Pegar elemento</translation></message>
+    <message><source>Delete Item</source><translation>Eliminar elemento</translation></message>
+    <message><source>Duplicate Item</source><translation>Duplicar elemento</translation></message>
+    <message><source>Edit Text...</source><translation>Editar texto...</translation></message>
+    <message><source>Bring To Front</source><translation>Traer al frente</translation></message>
+    <message><source>Send To Back</source><translation>Enviar al fondo</translation></message>
+    <message><source>Modify Canvas...</source><translation>Modificar lienzo...</translation></message>
+    <message><source>OCR Text Recognition</source><translation>Reconocimiento de texto OCR</translation></message>
+    <message><source>Update Watermark Image...</source><translation>Actualizar imagen de marca de agua...</translation></message>
+    <message><source>Rotate Watermark</source><translation>Rotar marca de agua</translation></message>
+    <message><source>Clear Recent Images</source><translation>Limpiar imágenes recientes</translation></message>
+    <message><source>Fit</source><translation>Ajustar</translation></message>
+    <message><source>New Screenshot</source><translation>Nueva captura de pantalla</translation></message>
 </context>
 <context>
     <name>SettingsDialog</name>
