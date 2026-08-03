@@ -96,7 +96,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Ocultar ventana principal durante la captura
 - [x] Restaurar/mostrar ventana principal después de la captura
 - [x] Copia automática al portapapeles para nuevas capturas
-- [ ] Paridad de captura con cursor del mouse
+- [x] Captura opcional del cursor real mediante XFixes en X11, insertado como `Image Item` editable; fallback seguro cuando no está disponible
 - [ ] Paridad Wayland/X11/portal como en C++
 - [ ] Captura vía portal genérico Wayland
 - [ ] Escalado específico de screenshots Wayland genéricos

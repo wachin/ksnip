@@ -38,6 +38,7 @@ from .capture import (
     grab_last_rectangular_area,
     grab_rectangular_area,
     grab_window_under_cursor,
+    grab_x11_cursor,
     has_last_rectangular_area,
 )
 from .ocr_backend import OcrBackend, OcrOptions, OcrWorker
@@ -1748,6 +1749,16 @@ class MainWindow(QMainWindow):
 
         try:
             result = capture_fn()
+            if result is not None and self._setting_bool("capture/include_cursor", True):
+                cursor = grab_x11_cursor()
+                if cursor is not None:
+                    cursor_image, cursor_global_position = cursor
+                    cursor_position = cursor_global_position - result.global_origin
+                    cursor_rect = QRectF(cursor_position.x(), cursor_position.y(), cursor_image.width(), cursor_image.height())
+                    capture_rect = QRectF(0, 0, result.pixmap.width(), result.pixmap.height())
+                    if cursor_rect.intersects(capture_rect):
+                        result.cursor_image = cursor_image
+                        result.cursor_position = cursor_position
         finally:
             if should_hide and self._setting_bool("capture/show_main_window_after_capture", True):
                 self.showNormal()
@@ -1763,6 +1774,9 @@ class MainWindow(QMainWindow):
 
     def _load_capture_result(self, result, title: str) -> None:
         self._load_capture(result.pixmap.toImage(), title)
+        canvas = self.current_canvas()
+        if canvas is not None and result.cursor_image is not None and result.cursor_position is not None:
+            canvas.add_image_item(result.cursor_image, position=result.cursor_position)
         if self._setting_bool("saver/auto_save", False):
             self._auto_save_current_capture()
         if self._setting_bool("capture/auto_copy_new_captures", False):
@@ -2668,6 +2682,7 @@ class MainWindow(QMainWindow):
             rotate_watermark=self.rotate_watermark_action.isChecked(),
             capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
             capture_implicit_delay_ms=self._setting_int("capture/implicit_delay_ms", 200),
+            capture_include_cursor=self._setting_bool("capture/include_cursor", True),
             hide_main_window_during_capture=self._setting_bool("capture/hide_main_window", True),
             show_main_window_after_capture=self._setting_bool("capture/show_main_window_after_capture", True),
             auto_copy_new_captures=self._setting_bool("capture/auto_copy_new_captures", False),
@@ -2752,6 +2767,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("watermark/rotate", data.rotate_watermark)
         self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
         self._settings.setValue("capture/implicit_delay_ms", data.capture_implicit_delay_ms)
+        self._settings.setValue("capture/include_cursor", data.capture_include_cursor)
         self._settings.setValue("capture/hide_main_window", data.hide_main_window_during_capture)
         self._settings.setValue("capture/show_main_window_after_capture", data.show_main_window_after_capture)
         self._settings.setValue("capture/auto_copy_new_captures", data.auto_copy_new_captures)

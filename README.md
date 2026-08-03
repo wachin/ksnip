@@ -76,6 +76,12 @@ sudo apt update
 sudo apt install hunspell hunspell-en-us
 ```
 
+On X11 with Qt 6, install the cursor/XFixes runtime libraries as well:
+
+```bash
+sudo apt install libxcb-cursor0 libxfixes3
+```
+
 For Spanish spell checking, install the dictionary package that matches your system or locale, for example:
 
 ```bash

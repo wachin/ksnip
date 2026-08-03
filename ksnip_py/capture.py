@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import ctypes
+import ctypes.util
 import re
 import subprocess
 from dataclasses import dataclass
+from dataclasses import field
 
 from PyQt6.QtCore import QPoint, QRect, Qt, pyqtSignal
-from PyQt6.QtGui import QColor, QCursor, QGuiApplication, QMouseEvent, QPainter, QPen, QPixmap
+from PyQt6.QtGui import QColor, QCursor, QGuiApplication, QImage, QMouseEvent, QPainter, QPen, QPixmap
 from PyQt6.QtWidgets import QApplication, QWidget
 
 
@@ -13,6 +16,9 @@ from PyQt6.QtWidgets import QApplication, QWidget
 class CaptureResult:
     pixmap: QPixmap
     mode: str
+    global_origin: QPoint = field(default_factory=QPoint)
+    cursor_image: QImage | None = None
+    cursor_position: QPoint | None = None
 
 
 _last_rect_area: QRect | None = None
@@ -22,7 +28,7 @@ def grab_fullscreen() -> CaptureResult | None:
     desktop = _grab_virtual_desktop()
     if desktop.isNull():
         return None
-    return CaptureResult(desktop, "full-screen")
+    return CaptureResult(desktop, "full-screen", QApplication.screens()[0].virtualGeometry().topLeft())
 
 
 def grab_current_screen() -> CaptureResult | None:
@@ -34,7 +40,7 @@ def grab_current_screen() -> CaptureResult | None:
     pixmap = screen.grabWindow(0)
     if pixmap.isNull():
         return None
-    return CaptureResult(pixmap, "current-screen")
+    return CaptureResult(pixmap, "current-screen", screen.geometry().topLeft())
 
 
 def grab_active_window() -> CaptureResult | None:
@@ -44,7 +50,8 @@ def grab_active_window() -> CaptureResult | None:
     pixmap = _grab_x11_window(window_id)
     if pixmap.isNull():
         return None
-    return CaptureResult(pixmap, "active-window")
+    geometry = _x11_window_geometry(window_id)
+    return CaptureResult(pixmap, "active-window", geometry.topLeft() if geometry is not None else QPoint())
 
 
 def grab_window_under_cursor() -> CaptureResult | None:
@@ -54,7 +61,8 @@ def grab_window_under_cursor() -> CaptureResult | None:
     pixmap = _grab_x11_window(window_id)
     if pixmap.isNull():
         return None
-    return CaptureResult(pixmap, "window-under-cursor")
+    geometry = _x11_window_geometry(window_id)
+    return CaptureResult(pixmap, "window-under-cursor", geometry.topLeft() if geometry is not None else QPoint())
 
 
 def grab_rectangular_area(parent: QWidget | None = None) -> CaptureResult | None:
@@ -71,7 +79,8 @@ def grab_rectangular_area(parent: QWidget | None = None) -> CaptureResult | None
         rect = overlay.selected_rect()
         if rect is not None and not rect.isNull():
             _last_rect_area = QRect(rect)
-            return CaptureResult(desktop.copy(rect), "rect-area")
+            origin = QApplication.screens()[0].virtualGeometry().topLeft() + rect.topLeft()
+            return CaptureResult(desktop.copy(rect), "rect-area", origin)
     return None
 
 
@@ -89,7 +98,57 @@ def grab_last_rectangular_area() -> CaptureResult | None:
     rect = rect.intersected(QRect(QPoint(0, 0), desktop.size()))
     if rect.isNull() or rect.isEmpty():
         return None
-    return CaptureResult(desktop.copy(rect), "last-rect-area")
+    origin = QApplication.screens()[0].virtualGeometry().topLeft() + rect.topLeft()
+    return CaptureResult(desktop.copy(rect), "last-rect-area", origin)
+
+
+class _XFixesCursorImage(ctypes.Structure):
+    _fields_ = [
+        ("x", ctypes.c_short),
+        ("y", ctypes.c_short),
+        ("width", ctypes.c_ushort),
+        ("height", ctypes.c_ushort),
+        ("xhot", ctypes.c_ushort),
+        ("yhot", ctypes.c_ushort),
+        ("cursor_serial", ctypes.c_ulong),
+        ("pixels", ctypes.POINTER(ctypes.c_ulong)),
+        ("atom", ctypes.c_ulong),
+        ("name", ctypes.c_char_p),
+    ]
+
+
+def grab_x11_cursor() -> tuple[QImage, QPoint] | None:
+    x11_name = ctypes.util.find_library("X11")
+    xfixes_name = ctypes.util.find_library("Xfixes")
+    if not x11_name or not xfixes_name:
+        return None
+    try:
+        x11 = ctypes.CDLL(x11_name)
+        xfixes = ctypes.CDLL(xfixes_name)
+        x11.XOpenDisplay.argtypes = [ctypes.c_char_p]
+        x11.XOpenDisplay.restype = ctypes.c_void_p
+        x11.XFree.argtypes = [ctypes.c_void_p]
+        x11.XCloseDisplay.argtypes = [ctypes.c_void_p]
+        xfixes.XFixesGetCursorImage.argtypes = [ctypes.c_void_p]
+        xfixes.XFixesGetCursorImage.restype = ctypes.POINTER(_XFixesCursorImage)
+        display = x11.XOpenDisplay(None)
+        if not display:
+            return None
+        cursor_ptr = xfixes.XFixesGetCursorImage(display)
+        if not cursor_ptr:
+            x11.XCloseDisplay(display)
+            return None
+        cursor = cursor_ptr.contents
+        image = QImage(cursor.width, cursor.height, QImage.Format.Format_ARGB32)
+        for y in range(cursor.height):
+            for x in range(cursor.width):
+                image.setPixel(x, y, int(cursor.pixels[y * cursor.width + x]) & 0xFFFFFFFF)
+        top_left = QPoint(cursor.x - cursor.xhot, cursor.y - cursor.yhot)
+        x11.XFree(cursor_ptr)
+        x11.XCloseDisplay(display)
+        return image, top_left
+    except (AttributeError, OSError, ValueError):
+        return None
 
 
 def _grab_virtual_desktop() -> QPixmap:

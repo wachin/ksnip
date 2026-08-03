@@ -50,6 +50,7 @@ class SettingsData:
     rotate_watermark: bool
     capture_delay_seconds: int
     capture_implicit_delay_ms: int
+    capture_include_cursor: bool
     hide_main_window_during_capture: bool
     show_main_window_after_capture: bool
     auto_copy_new_captures: bool
@@ -305,7 +306,6 @@ class SettingsDialog(QDialog):
         image_grabber_group = QGroupBox("Image Grabber", self)
         image_grabber_layout = QVBoxLayout(image_grabber_group)
         self.capture_mouse_cursor = QCheckBox("Capture mouse cursor on screenshot", image_grabber_group)
-        self.capture_mouse_cursor.setEnabled(False)
         self.show_main_window_after_capture_checkbox = QCheckBox("Show Main Window after capturing screenshot", image_grabber_group)
         self.show_main_window_after_capture_checkbox.setChecked(True)
         self.hide_main_window_during_capture_checkbox = QCheckBox("Hide Main Window during screenshot", image_grabber_group)
@@ -873,6 +873,7 @@ class SettingsDialog(QDialog):
         self.rotate_watermark.setChecked(initial.rotate_watermark)
         self.capture_delay_seconds.setValue(initial.capture_delay_seconds)
         self.implicit_capture_delay.setValue(initial.capture_implicit_delay_ms)
+        self.capture_mouse_cursor.setChecked(initial.capture_include_cursor)
         self.hide_main_window_during_capture.setChecked(initial.hide_main_window_during_capture)
         self.show_main_window_after_capture.setChecked(initial.show_main_window_after_capture)
         self.auto_copy_new_captures.setChecked(initial.auto_copy_new_captures)
@@ -1036,6 +1037,7 @@ class SettingsDialog(QDialog):
             rotate_watermark=self.rotate_watermark.isChecked(),
             capture_delay_seconds=self.capture_delay_seconds.value(),
             capture_implicit_delay_ms=self.implicit_capture_delay.value(),
+            capture_include_cursor=self.capture_mouse_cursor.isChecked(),
             hide_main_window_during_capture=self.hide_main_window_during_capture.isChecked(),
             show_main_window_after_capture=self.show_main_window_after_capture.isChecked(),
             auto_copy_new_captures=self.auto_copy_new_captures.isChecked(),
