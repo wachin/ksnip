@@ -78,6 +78,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Pestañas para múltiples capturas/imágenes
 - [x] Manejo de estado `dirty` por pestaña
 - [ ] Paridad completa con el flujo de arranque y comportamiento general de `MainWindow.cpp`
+- [x] Título dinámico de ventana alineado con `ApplicationTitleProvider`: ruta, prefijo de cambios y estado `Unsaved`
 - [ ] Single-instance / IPC como en C++
 - [ ] Integración completa con argumentos de línea de comandos del binario C++
 

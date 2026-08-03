@@ -68,7 +68,7 @@ class MainWindow(QMainWindow):
         self._allow_quit = False
         self._tool_group_buttons: dict[str, QToolButton] = {}
 
-        self.setWindowTitle("ksnip PyQt6")
+        self.setWindowTitle("ksnip")
         self.resize(1200, 800)
         self._apply_window_icon()
 
@@ -1751,8 +1751,9 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None or canvas.has_image():
             canvas = self.new_tab()
-        canvas.set_image(image)
+        canvas.set_image(image, dirty=True)
         self.tabs.setTabText(self.tabs.currentIndex(), title)
+        self._sync_tab_title()
         self.status_label.setText(f"Loaded {title.lower()} capture")
         self._update_actions()
 
@@ -1989,6 +1990,7 @@ class MainWindow(QMainWindow):
         suffix = " *" if canvas.state.dirty else ""
         self.tabs.setTabText(self.tabs.currentIndex(), f"{resolved_name}{suffix}")
         self.status_label.setText(f"Renamed to {resolved_name}")
+        self._update_window_title()
         self._update_actions()
         return True
 
@@ -2076,8 +2078,9 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None or canvas.has_image():
             canvas = self.new_tab()
-        canvas.set_image(image)
+        canvas.set_image(image, dirty=True)
         self.tabs.setTabText(self.tabs.currentIndex(), "Clipboard")
+        self._sync_tab_title()
         self.status_label.setText("Loaded image from clipboard")
         self._update_actions()
 
@@ -2433,11 +2436,22 @@ class MainWindow(QMainWindow):
     def _sync_tab_title(self) -> None:
         canvas = self.current_canvas()
         if canvas is None:
+            self._update_window_title()
             return
         index = self.tabs.currentIndex()
         name = Path(canvas.state.path).name if canvas.state.path else self.tabs.tabText(index).replace(" *", "") or "Untitled"
         suffix = " *" if canvas.state.dirty else ""
         self.tabs.setTabText(index, f"{name}{suffix}")
+        self._update_window_title()
+
+    def _update_window_title(self) -> None:
+        canvas = self.current_canvas()
+        title = "ksnip"
+        if canvas is not None and canvas.state.path:
+            title += f" [{canvas.state.path}]"
+        if canvas is not None and canvas.state.dirty:
+            title = f"*{title} - Unsaved"
+        self.setWindowTitle(title)
 
     def _update_actions(self) -> None:
         canvas = self.current_canvas()
@@ -2497,6 +2511,7 @@ class MainWindow(QMainWindow):
 
     def _handle_current_tab_changed(self, index: int) -> None:
         del index
+        self._update_window_title()
         self._update_actions()
         self._sync_item_controls()
         canvas = self.current_canvas()
@@ -2516,6 +2531,7 @@ class MainWindow(QMainWindow):
         canvas.set_image(image, path)
         self._store_recent_image_path(path)
         self.tabs.setTabText(self.tabs.currentIndex(), title)
+        self._update_window_title()
         self.status_label.setText(f"Opened {title}")
         self._update_actions()
         return True

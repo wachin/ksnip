@@ -375,7 +375,7 @@ class AnnotationCanvas(QLabel):
             image=image,
         )
 
-    def set_image(self, image: QImage, path: str | None = None) -> None:
+    def set_image(self, image: QImage, path: str | None = None, *, dirty: bool = False) -> None:
         self._image = image.copy()
         self._items = []
         self._undo_stack = []
@@ -383,7 +383,7 @@ class AnnotationCanvas(QLabel):
         self._clear_selection()
         self._drag_start = None
         self._active_handle = None
-        self.state = CanvasState(path=path, dirty=False)
+        self.state = CanvasState(path=path, dirty=dirty)
         self._preview_start = None
         self._preview_end = None
         self._last_point = None
