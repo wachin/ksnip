@@ -591,6 +591,10 @@ class MainWindow(QMainWindow):
         self.copy_path_action = QAction("Copy Path", self)
         self.copy_path_action.triggered.connect(self.copy_image_path)
 
+        self.rename_action = QAction("Rename", self)
+        self.rename_action.setShortcut("F2")
+        self.rename_action.triggered.connect(self.rename_current_image)
+
         self.open_directory_action = QAction("Open Directory", self)
         self.open_directory_action.triggered.connect(self.open_image_directory)
 
@@ -1112,6 +1116,7 @@ class MainWindow(QMainWindow):
         edit_menu.addAction(self.copy_action)
         edit_menu.addAction(self.copy_data_uri_action)
         edit_menu.addAction(self.copy_path_action)
+        edit_menu.addAction(self.rename_action)
         edit_menu.addAction(self.paste_action)
         edit_menu.addSeparator()
         edit_menu.addAction(self.crop_action)
@@ -1878,6 +1883,49 @@ class MainWindow(QMainWindow):
         QGuiApplication.clipboard().setImage(canvas.image())
         self.status_label.setText("Copied image to clipboard")
 
+    def rename_current_image(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        current_name = Path(canvas.state.path).name if canvas.state.path else self.tabs.tabText(self.tabs.currentIndex()).replace(" *", "")
+        name, accepted = QInputDialog.getText(self, "Rename", "New name:", text=current_name)
+        if accepted:
+            self._rename_current_image_to(name)
+
+    def _rename_current_image_to(self, name: str) -> bool:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return False
+        resolved_name = name.strip()
+        if not resolved_name or resolved_name in {".", ".."} or Path(resolved_name).name != resolved_name:
+            self._show_error("Enter a valid file name without directory separators.")
+            return False
+
+        old_path = Path(canvas.state.path) if canvas.state.path else None
+        if old_path is not None:
+            if not Path(resolved_name).suffix and old_path.suffix:
+                resolved_name += old_path.suffix
+            new_path = old_path.with_name(resolved_name)
+            if new_path == old_path:
+                return True
+            if new_path.exists():
+                self._show_error(f"A file named {new_path.name} already exists.")
+                return False
+            try:
+                old_path.rename(new_path)
+            except OSError as error:
+                self._show_error(f"Unable to rename {old_path.name}: {error}")
+                return False
+            canvas.state.path = str(new_path)
+            self._remove_recent_image_path(str(old_path))
+            self._store_recent_image_path(str(new_path))
+
+        suffix = " *" if canvas.state.dirty else ""
+        self.tabs.setTabText(self.tabs.currentIndex(), f"{resolved_name}{suffix}")
+        self.status_label.setText(f"Renamed to {resolved_name}")
+        self._update_actions()
+        return True
+
     def copy_image_as_data_uri(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
@@ -2261,6 +2309,7 @@ class MainWindow(QMainWindow):
         self.copy_data_uri_action.setEnabled(has_image)
         has_path = canvas is not None and bool(canvas.state.path)
         self.copy_path_action.setEnabled(has_path)
+        self.rename_action.setEnabled(has_image)
         self.open_directory_action.setEnabled(has_path)
         self.copy_item_action.setEnabled(has_selected_item)
         self.paste_action.setEnabled(True)
