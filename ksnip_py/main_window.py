@@ -162,6 +162,7 @@ class MainWindow(QMainWindow):
         button = QToolButton(self)
         button.setText("New")
         button.setToolTip("New Screenshot")
+        button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         icon = self._load_icon("drawRect")
         if not icon.isNull():
@@ -1027,27 +1028,26 @@ class MainWindow(QMainWindow):
         self.zoom_out_button.setToolTip("Zoom out")
         self.zoom_out_button.setFixedSize(22, 22)
         self.zoom_out_button.clicked.connect(self.zoom_out_current_canvas)
-        self.statusBar().addPermanentWidget(self.zoom_out_button)
+        self.zoom_out_button.hide()
 
         self.zoom_reset_button = QToolButton(self)
         self.zoom_reset_button.setDefaultAction(self.zoom_reset_action)
         self.zoom_reset_button.setText("100%")
         self.zoom_reset_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextOnly)
         self.zoom_reset_button.setFixedHeight(22)
-        self.statusBar().addPermanentWidget(self.zoom_reset_button)
+        self.zoom_reset_button.hide()
 
         self.zoom_fit_button = QToolButton(self)
         self.zoom_fit_button.setDefaultAction(self.zoom_fit_action)
         self.zoom_fit_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.zoom_fit_button.setFixedSize(22, 22)
-        self.statusBar().addPermanentWidget(self.zoom_fit_button)
 
         self.zoom_in_button = QToolButton(self)
         self.zoom_in_button.setText("+")
         self.zoom_in_button.setToolTip("Zoom in")
         self.zoom_in_button.setFixedSize(22, 22)
         self.zoom_in_button.clicked.connect(self.zoom_in_current_canvas)
-        self.statusBar().addPermanentWidget(self.zoom_in_button)
+        self.zoom_in_button.hide()
 
         self.zoom_spinbox = QSpinBox(self)
         self.zoom_spinbox.setRange(10, 800)
@@ -1057,8 +1057,18 @@ class MainWindow(QMainWindow):
         self.zoom_spinbox.setFixedWidth(72)
         self.zoom_spinbox.setFixedHeight(22)
         self.zoom_spinbox.valueChanged.connect(self.set_current_canvas_zoom)
-        self.statusBar().addPermanentWidget(self._make_icon_label("zoom", "Zoom"))
-        self.statusBar().addPermanentWidget(self.zoom_spinbox)
+
+        # Ksnip keeps its compact zoom controls on the left of the bottom bar.
+        # Normal status-bar widgets occupy that side; permanent widgets (such as
+        # the status message) remain right-aligned.
+        zoom_controls = QWidget(self)
+        zoom_layout = QHBoxLayout(zoom_controls)
+        zoom_layout.setContentsMargins(2, 0, 0, 0)
+        zoom_layout.setSpacing(3)
+        zoom_layout.addWidget(self._make_icon_label("zoom", "Zoom"))
+        zoom_layout.addWidget(self.zoom_spinbox)
+        zoom_layout.addWidget(self.zoom_fit_button)
+        self.statusBar().addWidget(zoom_controls)
 
         self.bold = self.bold_button
         self.italic = self.italic_button
