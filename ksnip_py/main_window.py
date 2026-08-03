@@ -2302,6 +2302,8 @@ class MainWindow(QMainWindow):
         return []
 
     def _default_image_directory(self) -> str:
+        if not self._setting_bool("saver/remember_directory", False):
+            return str(Path.home())
         configured = self._settings.value("paths/last_image_dir", "")
         if isinstance(configured, str) and configured:
             return configured
@@ -2322,6 +2324,8 @@ class MainWindow(QMainWindow):
             hide_main_window_during_capture=self._setting_bool("capture/hide_main_window", True),
             show_main_window_after_capture=self._setting_bool("capture/show_main_window_after_capture", True),
             auto_copy_new_captures=self._setting_bool("capture/auto_copy_new_captures", False),
+            saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
+            saver_remember_directory=self._setting_bool("saver/remember_directory", False),
             use_tray_icon=self._setting_bool("tray/use", True),
             minimize_to_tray=self._setting_bool("tray/minimize", True),
             close_to_tray=self._setting_bool("tray/close", True),
@@ -2392,6 +2396,8 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/hide_main_window", data.hide_main_window_during_capture)
         self._settings.setValue("capture/show_main_window_after_capture", data.show_main_window_after_capture)
         self._settings.setValue("capture/auto_copy_new_captures", data.auto_copy_new_captures)
+        self._settings.setValue("saver/prompt_discard", data.saver_prompt_discard)
+        self._settings.setValue("saver/remember_directory", data.saver_remember_directory)
         self._settings.setValue("tray/use", data.use_tray_icon)
         self._settings.setValue("tray/minimize", data.minimize_to_tray)
         self._settings.setValue("tray/close", data.close_to_tray)
@@ -2670,7 +2676,7 @@ class MainWindow(QMainWindow):
         return bool(value)
 
     def _confirm_discard_canvas(self, canvas: AnnotationCanvas) -> bool:
-        if not canvas.state.dirty:
+        if not canvas.state.dirty or not self._setting_bool("saver/prompt_discard", True):
             return True
         reply = QMessageBox.question(
             self,
@@ -2682,6 +2688,8 @@ class MainWindow(QMainWindow):
         return reply == QMessageBox.StandardButton.Yes
 
     def _confirm_close_all_tabs(self) -> bool:
+        if not self._setting_bool("saver/prompt_discard", True):
+            return True
         dirty_canvases = []
         for index in range(self.tabs.count()):
             canvas = self._canvas_from_tab_widget(self.tabs.widget(index))

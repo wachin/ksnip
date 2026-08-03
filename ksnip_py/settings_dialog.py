@@ -51,6 +51,8 @@ class SettingsData:
     hide_main_window_during_capture: bool
     show_main_window_after_capture: bool
     auto_copy_new_captures: bool
+    saver_prompt_discard: bool
+    saver_remember_directory: bool
     use_tray_icon: bool
     minimize_to_tray: bool
     close_to_tray: bool
@@ -255,6 +257,44 @@ class SettingsDialog(QDialog):
         self.show_main_window_after_capture = QCheckBox("Show Main Window After Capture", capture_group)
         capture_layout.addRow(self.hide_main_window_during_capture)
         capture_layout.addRow(self.show_main_window_after_capture)
+
+        saver_group = QGroupBox("Saver", self)
+        saver_layout = QVBoxLayout(saver_group)
+        self.saver_auto_save = QCheckBox("Automatically save new captures to default location", saver_group)
+        self.saver_auto_save.setEnabled(False)
+        self.saver_prompt_discard = QCheckBox("Prompt to save before discarding unsaved changes", saver_group)
+        self.saver_remember_directory = QCheckBox("Remember last Save Directory", saver_group)
+        saver_layout.addWidget(self.saver_auto_save)
+        saver_layout.addWidget(self.saver_prompt_discard)
+        saver_layout.addWidget(self.saver_remember_directory)
+
+        saver_quality_group = QGroupBox("Save Quality", self)
+        saver_quality_layout = QVBoxLayout(saver_quality_group)
+        self.saver_quality_default = QRadioButton("Default", saver_quality_group)
+        self.saver_quality_default.setChecked(True)
+        self.saver_quality_default.setEnabled(False)
+        self.saver_quality_factor = QRadioButton("Factor", saver_quality_group)
+        self.saver_quality_factor.setEnabled(False)
+        self.saver_quality_value = QSpinBox(saver_quality_group)
+        self.saver_quality_value.setRange(0, 100)
+        self.saver_quality_value.setValue(50)
+        self.saver_quality_value.setEnabled(False)
+        quality_factor_row = QHBoxLayout()
+        quality_factor_row.addWidget(self.saver_quality_factor)
+        quality_factor_row.addWidget(self.saver_quality_value)
+        quality_factor_row.addStretch(1)
+        saver_quality_layout.addWidget(self.saver_quality_default)
+        saver_quality_layout.addLayout(quality_factor_row)
+
+        saver_location_group = QGroupBox("Capture save location and filename", self)
+        saver_location_layout = QVBoxLayout(saver_location_group)
+        self.saver_location = QLineEdit(saver_location_group)
+        self.saver_location.setPlaceholderText("Automatic capture saving is not ported yet")
+        self.saver_location.setEnabled(False)
+        self.saver_overwrite = QCheckBox("Overwrite file with same name", saver_location_group)
+        self.saver_overwrite.setEnabled(False)
+        saver_location_layout.addWidget(self.saver_location)
+        saver_location_layout.addWidget(self.saver_overwrite)
 
         image_grabber_group = QGroupBox("Image Grabber", self)
         image_grabber_layout = QVBoxLayout(image_grabber_group)
@@ -513,14 +553,7 @@ class SettingsDialog(QDialog):
         self._add_settings_page(
             "Saver",
             "Saver Settings",
-            [
-                self._create_placeholder_group(
-                    "Saver",
-                    [
-                        "Save path templates, quality controls, and advanced saver options are still pending parity.",
-                    ],
-                ),
-            ],
+            [saver_group, saver_quality_group, saver_location_group],
             parent_title="Application",
         )
         self._add_settings_page("Tray Icon", "Tray Icon Settings", [tray_group, tray_defaults_group], parent_title="Application")
@@ -836,6 +869,8 @@ class SettingsDialog(QDialog):
         self.hide_main_window_during_capture.setChecked(initial.hide_main_window_during_capture)
         self.show_main_window_after_capture.setChecked(initial.show_main_window_after_capture)
         self.auto_copy_new_captures.setChecked(initial.auto_copy_new_captures)
+        self.saver_prompt_discard.setChecked(initial.saver_prompt_discard)
+        self.saver_remember_directory.setChecked(initial.saver_remember_directory)
         self.use_tray_icon.setChecked(initial.use_tray_icon)
         self.minimize_to_tray.setChecked(initial.minimize_to_tray)
         self.close_to_tray.setChecked(initial.close_to_tray)
@@ -970,6 +1005,8 @@ class SettingsDialog(QDialog):
             hide_main_window_during_capture=self.hide_main_window_during_capture.isChecked(),
             show_main_window_after_capture=self.show_main_window_after_capture.isChecked(),
             auto_copy_new_captures=self.auto_copy_new_captures.isChecked(),
+            saver_prompt_discard=self.saver_prompt_discard.isChecked(),
+            saver_remember_directory=self.saver_remember_directory.isChecked(),
             use_tray_icon=self.use_tray_icon.isChecked(),
             minimize_to_tray=self.minimize_to_tray.isChecked(),
             close_to_tray=self.close_to_tray.isChecked(),
