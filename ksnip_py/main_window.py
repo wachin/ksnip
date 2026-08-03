@@ -66,6 +66,7 @@ class MainWindow(QMainWindow):
         self._ocr_progress: QProgressDialog | None = None
         self._tray_icon: QSystemTrayIcon | None = None
         self._allow_quit = False
+        self._capture_delay_override_seconds: int | None = None
         self._tool_group_buttons: dict[str, QToolButton] = {}
 
         self.setWindowTitle("ksnip")
@@ -1720,7 +1721,13 @@ class MainWindow(QMainWindow):
             self.hide()
             QGuiApplication.processEvents()
 
-        delay_ms = max(0, self._setting_int("capture/delay_seconds", 0) * 1000)
+        delay_seconds = (
+            self._capture_delay_override_seconds
+            if self._capture_delay_override_seconds is not None
+            else self._setting_int("capture/delay_seconds", 0)
+        )
+        self._capture_delay_override_seconds = None
+        delay_ms = max(0, delay_seconds * 1000)
         if delay_ms > 0:
             self._wait_for_capture_delay(delay_ms)
 
