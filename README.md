@@ -75,6 +75,7 @@ sudo apt install \
   hunspell-es \
   libxcb-cursor0 \
   libxfixes3 \
+  xdg-desktop-portal \
   x11-utils \
   xdotool
 ```
@@ -85,6 +86,10 @@ Important X11 dependencies:
 - `libxfixes3` is used to capture the real mouse cursor.
 - `x11-utils` supplies helpers used for active-window geometry.
 - `xdotool` is used to identify the window under the cursor.
+
+Wayland portal dependency:
+
+- `xdg-desktop-portal` provides the screenshot portal used by `--portal`. A desktop-specific backend must also be installed and running, such as `xdg-desktop-portal-gtk` on XFCE/MX Linux or `xdg-desktop-portal-kde` on KDE Plasma.
 
 Hunspell dictionaries are optional but recommended. Install the dictionary packages appropriate for your language if they differ from the English and Spanish examples above.
 
