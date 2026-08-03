@@ -246,6 +246,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] `Remember Main Window position` y `Auto hide Tabs` habilitados, persistidos y conectados al comportamiento real
 - [x] `Capture screenshot at startup` habilitado y conectado al último modo de captura usado
 - [x] `Auto hide Docks` funcional al arrancar y acción `Tab` para mostrar/ocultar barras como en el C++
+- [x] `Auto resize to content` y `Resize delay` conectados al abrir, pegar o capturar, limitando la ventana al escritorio disponible
 - [ ] Ajustes completos de image grabber
 - [ ] Ajustes completos de annotation
 - [ ] Ajustes completos de saver

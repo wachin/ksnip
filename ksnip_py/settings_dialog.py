@@ -56,6 +56,8 @@ class SettingsData:
     application_auto_hide_tabs: bool
     application_capture_on_startup: bool
     application_auto_hide_docks: bool
+    application_auto_resize_to_content: bool
+    application_resize_delay_ms: int
     saver_prompt_discard: bool
     saver_remember_directory: bool
     saver_quality_enabled: bool
@@ -217,7 +219,6 @@ class SettingsDialog(QDialog):
         application_layout.addWidget(self.auto_hide_docks)
 
         self.auto_resize_to_content = QCheckBox("Auto resize to content", application_group)
-        self.auto_resize_to_content.setEnabled(False)
         application_layout.addWidget(self.auto_resize_to_content)
 
         self.enable_debugging = QCheckBox("Enable Debugging", application_group)
@@ -231,7 +232,6 @@ class SettingsDialog(QDialog):
         self.resize_delay.setRange(0, 1000)
         self.resize_delay.setSuffix(" ms")
         self.resize_delay.setValue(10)
-        self.resize_delay.setEnabled(False)
         application_details_layout.addRow("Resize delay", self.resize_delay)
 
         self.application_style = QComboBox(application_details_group)
@@ -878,6 +878,8 @@ class SettingsDialog(QDialog):
         self.auto_hide_tabs.setChecked(initial.application_auto_hide_tabs)
         self.capture_on_startup.setChecked(initial.application_capture_on_startup)
         self.auto_hide_docks.setChecked(initial.application_auto_hide_docks)
+        self.auto_resize_to_content.setChecked(initial.application_auto_resize_to_content)
+        self.resize_delay.setValue(initial.application_resize_delay_ms)
         self.saver_prompt_discard.setChecked(initial.saver_prompt_discard)
         self.saver_remember_directory.setChecked(initial.saver_remember_directory)
         self.saver_quality_factor.setChecked(initial.saver_quality_enabled)
@@ -1038,6 +1040,8 @@ class SettingsDialog(QDialog):
             application_auto_hide_tabs=self.auto_hide_tabs.isChecked(),
             application_capture_on_startup=self.capture_on_startup.isChecked(),
             application_auto_hide_docks=self.auto_hide_docks.isChecked(),
+            application_auto_resize_to_content=self.auto_resize_to_content.isChecked(),
+            application_resize_delay_ms=self.resize_delay.value(),
             saver_prompt_discard=self.saver_prompt_discard.isChecked(),
             saver_remember_directory=self.saver_remember_directory.isChecked(),
             saver_quality_enabled=self.saver_quality_factor.isChecked(),

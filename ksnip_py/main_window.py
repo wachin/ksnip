@@ -1775,6 +1775,7 @@ class MainWindow(QMainWindow):
         self._sync_tab_title()
         self.status_label.setText(f"Loaded {title.lower()} capture")
         self._update_actions()
+        self._schedule_resize_to_content()
 
     def _auto_save_current_capture(self) -> None:
         canvas = self.current_canvas()
@@ -2102,6 +2103,7 @@ class MainWindow(QMainWindow):
         self._sync_tab_title()
         self.status_label.setText("Loaded image from clipboard")
         self._update_actions()
+        self._schedule_resize_to_content()
 
     def paste_embedded_image(self) -> None:
         canvas = self.current_canvas()
@@ -2562,7 +2564,35 @@ class MainWindow(QMainWindow):
         self._update_window_title()
         self.status_label.setText(f"Opened {title}")
         self._update_actions()
+        self._schedule_resize_to_content()
         return True
+
+    def _schedule_resize_to_content(self) -> None:
+        if not self._setting_bool("application/auto_resize_to_content", True):
+            return
+        delay = max(0, self._setting_int("application/resize_delay_ms", 10))
+        QTimer.singleShot(delay, self._resize_window_to_content)
+
+    def _resize_window_to_content(self) -> None:
+        canvas = self.current_canvas()
+        screen = QGuiApplication.primaryScreen()
+        if canvas is None or not canvas.has_image() or screen is None:
+            return
+        image_size = canvas.image().size()
+        available = screen.availableGeometry().size()
+        side_width = self.left_toolbar.sizeHint().width() if self.left_toolbar.isVisible() else 0
+        toolbar_height = sum(
+            toolbar.sizeHint().height()
+            for toolbar in (self.main_toolbar, self.properties_toolbar)
+            if toolbar.isVisible()
+        )
+        chrome_width = side_width + 48
+        chrome_height = self.menuBar().sizeHint().height() + toolbar_height + self.statusBar().sizeHint().height() + 96
+        max_width = max(480, int(available.width() * 0.95))
+        max_height = max(320, int(available.height() * 0.95))
+        desired_width = min(max(480, image_size.width() + chrome_width), max_width)
+        desired_height = min(max(320, image_size.height() + chrome_height), max_height)
+        self.resize(desired_width, desired_height)
 
     def open_recent_image(self, path: str) -> None:
         if not Path(path).exists():
@@ -2641,6 +2671,8 @@ class MainWindow(QMainWindow):
             application_auto_hide_tabs=self._setting_bool("application/auto_hide_tabs", False),
             application_capture_on_startup=self._setting_bool("application/capture_on_startup", False),
             application_auto_hide_docks=self._setting_bool("application/auto_hide_docks", False),
+            application_auto_resize_to_content=self._setting_bool("application/auto_resize_to_content", True),
+            application_resize_delay_ms=self._setting_int("application/resize_delay_ms", 10),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", False),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
@@ -2722,6 +2754,8 @@ class MainWindow(QMainWindow):
         self._settings.setValue("application/auto_hide_tabs", data.application_auto_hide_tabs)
         self._settings.setValue("application/capture_on_startup", data.application_capture_on_startup)
         self._settings.setValue("application/auto_hide_docks", data.application_auto_hide_docks)
+        self._settings.setValue("application/auto_resize_to_content", data.application_auto_resize_to_content)
+        self._settings.setValue("application/resize_delay_ms", data.application_resize_delay_ms)
         if not data.application_remember_position:
             self._settings.remove("window/geometry")
         self.tabs.tabBar().setAutoHide(data.application_auto_hide_tabs)
