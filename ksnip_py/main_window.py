@@ -84,6 +84,7 @@ class MainWindow(QMainWindow):
         self._build_actions()
         self._build_toolbar()
         self._build_menus()
+        QGuiApplication.clipboard().dataChanged.connect(self._update_actions)
         self._restore_ui_settings()
         self._setup_tray_icon()
         self._apply_shortcuts()
@@ -702,8 +703,12 @@ class MainWindow(QMainWindow):
         self.paste_action.setShortcut(QKeySequence.StandardKey.Paste)
         self.paste_action.triggered.connect(self.paste_image)
 
+        self.paste_embedded_action = QAction(self._load_icon("pasteEmbedded"), "Paste Embedded", self)
+        self.paste_embedded_action.setShortcut("Ctrl+Shift+V")
+        self.paste_embedded_action.triggered.connect(self.paste_embedded_image)
+
         self.paste_item_action = QAction("Paste Item", self)
-        self.paste_item_action.setShortcut("Ctrl+Shift+V")
+        self.paste_item_action.setShortcut("Ctrl+Alt+V")
         self.paste_item_action.triggered.connect(self.paste_item)
 
         self.delete_action = QAction(self._load_icon("delete"), "Delete Item", self)
@@ -1132,6 +1137,7 @@ class MainWindow(QMainWindow):
         edit_menu.addAction(self.copy_path_action)
         edit_menu.addAction(self.rename_action)
         edit_menu.addAction(self.paste_action)
+        edit_menu.addAction(self.paste_embedded_action)
         edit_menu.addSeparator()
         edit_menu.addAction(self.crop_action)
         edit_menu.addAction(self.scale_action)
@@ -2071,6 +2077,24 @@ class MainWindow(QMainWindow):
         self.status_label.setText("Loaded image from clipboard")
         self._update_actions()
 
+    def paste_embedded_image(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        image = QGuiApplication.clipboard().image()
+        if image.isNull():
+            self._show_error("Clipboard does not contain an image.")
+            return
+        base_size = canvas.image().size()
+        position = QPoint(
+            max(0, (base_size.width() - image.width()) // 2),
+            max(0, (base_size.height() - image.height()) // 2),
+        )
+        if canvas.add_image_item(image, position=position):
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText("Pasted embedded image from clipboard")
+
     def paste_item(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
@@ -2406,6 +2430,10 @@ class MainWindow(QMainWindow):
         self.open_directory_action.setEnabled(has_path)
         self.copy_item_action.setEnabled(has_selected_item)
         self.paste_action.setEnabled(True)
+        clipboard_mime_data = QGuiApplication.clipboard().mimeData()
+        self.paste_embedded_action.setEnabled(
+            has_image and clipboard_mime_data is not None and clipboard_mime_data.hasImage()
+        )
         self.paste_item_action.setEnabled(has_image)
         self.undo_action.setEnabled(canvas is not None and canvas.can_undo())
         self.redo_action.setEnabled(canvas is not None and canvas.can_redo())
