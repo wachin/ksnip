@@ -84,5 +84,34 @@
     <message><source>English</source><translation>Inglés</translation></message>
     <message><source>Spanish</source><translation>Español</translation></message>
     <message><source>Language</source><translation>Idioma</translation></message>
+    <message><source>Application</source><translation>Aplicación</translation></message>
+    <message><source>Application Settings</source><translation>Configuración de la aplicación</translation></message>
+    <message><source>Automatically copy new captures to clipboard</source><translation>Copiar automáticamente las capturas nuevas al portapapeles</translation></message>
+    <message><source>Remember Main Window position on move and load on startup</source><translation>Recordar la posición de la ventana principal y restaurarla al iniciar</translation></message>
+    <message><source>Capture screenshot at startup with default mode</source><translation>Realizar una captura al iniciar con el modo predeterminado</translation></message>
+    <message><source>Use Tabs</source><translation>Usar pestañas</translation></message>
+    <message><source>Auto hide Tabs</source><translation>Ocultar automáticamente las pestañas</translation></message>
+    <message><source>Run ksnip as single instance</source><translation>Ejecutar ksnip como instancia única</translation></message>
+    <message><source>Auto hide Docks</source><translation>Ocultar automáticamente los paneles</translation></message>
+    <message><source>Auto resize to content</source><translation>Ajustar automáticamente al contenido</translation></message>
+    <message><source>Enable Debugging</source><translation>Activar depuración</translation></message>
+    <message><source>Appearance and Paths</source><translation>Apariencia y rutas</translation></message>
+    <message><source>Resize delay</source><translation>Retardo de redimensionamiento</translation></message>
+    <message><source>Application Style</source><translation>Estilo de la aplicación</translation></message>
+    <message><source>Browse</source><translation>Examinar</translation></message>
+    <message><source>Temp Directory</source><translation>Directorio temporal</translation></message>
+    <message><source>Capture</source><translation>Captura</translation></message>
+    <message><source>Capture Delay</source><translation>Retardo de captura</translation></message>
+    <message><source>Hide Main Window During Capture</source><translation>Ocultar la ventana principal durante la captura</translation></message>
+    <message><source>Show Main Window After Capture</source><translation>Mostrar la ventana principal después de la captura</translation></message>
+    <message><source>Image Grabber</source><translation>Capturador de imágenes</translation></message>
+    <message><source>Image Grabber Settings</source><translation>Configuración del capturador de imágenes</translation></message>
+    <message><source>Capture mouse cursor on screenshot</source><translation>Capturar el cursor del ratón en la imagen</translation></message>
+    <message><source>Show Main Window after capturing screenshot</source><translation>Mostrar la ventana principal después de realizar la captura</translation></message>
+    <message><source>Hide Main Window during screenshot</source><translation>Ocultar la ventana principal durante la captura</translation></message>
+    <message><source>Force Generic Wayland (xdg-desktop-portal) Screenshot</source><translation>Forzar captura genérica de Wayland (xdg-desktop-portal)</translation></message>
+    <message><source>Scale Generic Wayland (xdg-desktop-portal) Screenshots</source><translation>Escalar capturas genéricas de Wayland (xdg-desktop-portal)</translation></message>
+    <message><source>Delays</source><translation>Retardos</translation></message>
+    <message><source>Implicit capture delay</source><translation>Retardo implícito de captura</translation></message>
 </context>
 </TS>
