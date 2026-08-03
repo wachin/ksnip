@@ -1797,7 +1797,8 @@ class MainWindow(QMainWindow):
         *,
         show_status: bool = True,
     ) -> bool:
-        if not canvas.image().save(path):
+        quality = self._setting_int("saver/quality_factor", 50) if self._setting_bool("saver/quality_enabled", False) else -1
+        if not canvas.image().save(path, None, quality):
             self._show_error(f"Unable to save image to {path}")
             return False
         canvas.mark_saved(path)
@@ -2326,6 +2327,8 @@ class MainWindow(QMainWindow):
             auto_copy_new_captures=self._setting_bool("capture/auto_copy_new_captures", False),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", False),
+            saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
+            saver_quality_factor=self._setting_int("saver/quality_factor", 50),
             use_tray_icon=self._setting_bool("tray/use", True),
             minimize_to_tray=self._setting_bool("tray/minimize", True),
             close_to_tray=self._setting_bool("tray/close", True),
@@ -2398,6 +2401,8 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/auto_copy_new_captures", data.auto_copy_new_captures)
         self._settings.setValue("saver/prompt_discard", data.saver_prompt_discard)
         self._settings.setValue("saver/remember_directory", data.saver_remember_directory)
+        self._settings.setValue("saver/quality_enabled", data.saver_quality_enabled)
+        self._settings.setValue("saver/quality_factor", data.saver_quality_factor)
         self._settings.setValue("tray/use", data.use_tray_icon)
         self._settings.setValue("tray/minimize", data.minimize_to_tray)
         self._settings.setValue("tray/close", data.close_to_tray)

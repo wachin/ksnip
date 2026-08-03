@@ -53,6 +53,8 @@ class SettingsData:
     auto_copy_new_captures: bool
     saver_prompt_discard: bool
     saver_remember_directory: bool
+    saver_quality_enabled: bool
+    saver_quality_factor: int
     use_tray_icon: bool
     minimize_to_tray: bool
     close_to_tray: bool
@@ -272,13 +274,11 @@ class SettingsDialog(QDialog):
         saver_quality_layout = QVBoxLayout(saver_quality_group)
         self.saver_quality_default = QRadioButton("Default", saver_quality_group)
         self.saver_quality_default.setChecked(True)
-        self.saver_quality_default.setEnabled(False)
         self.saver_quality_factor = QRadioButton("Factor", saver_quality_group)
-        self.saver_quality_factor.setEnabled(False)
         self.saver_quality_value = QSpinBox(saver_quality_group)
         self.saver_quality_value.setRange(0, 100)
         self.saver_quality_value.setValue(50)
-        self.saver_quality_value.setEnabled(False)
+        self.saver_quality_factor.toggled.connect(self.saver_quality_value.setEnabled)
         quality_factor_row = QHBoxLayout()
         quality_factor_row.addWidget(self.saver_quality_factor)
         quality_factor_row.addWidget(self.saver_quality_value)
@@ -871,6 +871,10 @@ class SettingsDialog(QDialog):
         self.auto_copy_new_captures.setChecked(initial.auto_copy_new_captures)
         self.saver_prompt_discard.setChecked(initial.saver_prompt_discard)
         self.saver_remember_directory.setChecked(initial.saver_remember_directory)
+        self.saver_quality_factor.setChecked(initial.saver_quality_enabled)
+        self.saver_quality_default.setChecked(not initial.saver_quality_enabled)
+        self.saver_quality_value.setValue(initial.saver_quality_factor)
+        self.saver_quality_value.setEnabled(initial.saver_quality_enabled)
         self.use_tray_icon.setChecked(initial.use_tray_icon)
         self.minimize_to_tray.setChecked(initial.minimize_to_tray)
         self.close_to_tray.setChecked(initial.close_to_tray)
@@ -1007,6 +1011,8 @@ class SettingsDialog(QDialog):
             auto_copy_new_captures=self.auto_copy_new_captures.isChecked(),
             saver_prompt_discard=self.saver_prompt_discard.isChecked(),
             saver_remember_directory=self.saver_remember_directory.isChecked(),
+            saver_quality_enabled=self.saver_quality_factor.isChecked(),
+            saver_quality_factor=self.saver_quality_value.value(),
             use_tray_icon=self.use_tray_icon.isChecked(),
             minimize_to_tray=self.minimize_to_tray.isChecked(),
             close_to_tray=self.close_to_tray.isChecked(),

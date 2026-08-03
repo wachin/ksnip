@@ -245,6 +245,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [ ] Ajustes completos de annotation
 - [ ] Ajustes completos de saver
 - [x] Página `Saver` reemplaza el placeholder con el layout base original y conecta confirmación al descartar y recuerdo del directorio de guardado
+- [x] `Saver > Save Quality` funcional con modo predeterminado o factor `0..100`, persistido y aplicado al guardado real
 - [ ] Ajustes completos de actions
 - [ ] Ajustes completos de plugins
 - [ ] Ajustes completos de tray icon del original
