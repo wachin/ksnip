@@ -2616,6 +2616,8 @@ class MainWindow(QMainWindow):
             hide_main_window_during_capture=self._setting_bool("capture/hide_main_window", True),
             show_main_window_after_capture=self._setting_bool("capture/show_main_window_after_capture", True),
             auto_copy_new_captures=self._setting_bool("capture/auto_copy_new_captures", False),
+            application_remember_position=self._setting_bool("application/remember_position", True),
+            application_auto_hide_tabs=self._setting_bool("application/auto_hide_tabs", False),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", False),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
@@ -2693,6 +2695,11 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/hide_main_window", data.hide_main_window_during_capture)
         self._settings.setValue("capture/show_main_window_after_capture", data.show_main_window_after_capture)
         self._settings.setValue("capture/auto_copy_new_captures", data.auto_copy_new_captures)
+        self._settings.setValue("application/remember_position", data.application_remember_position)
+        self._settings.setValue("application/auto_hide_tabs", data.application_auto_hide_tabs)
+        if not data.application_remember_position:
+            self._settings.remove("window/geometry")
+        self.tabs.tabBar().setAutoHide(data.application_auto_hide_tabs)
         self._settings.setValue("saver/prompt_discard", data.saver_prompt_discard)
         self._settings.setValue("saver/remember_directory", data.saver_remember_directory)
         self._settings.setValue("saver/quality_enabled", data.saver_quality_enabled)
@@ -2796,9 +2803,11 @@ class MainWindow(QMainWindow):
                 canvas.set_sticker_path(sticker_paths[0])
 
     def _restore_ui_settings(self) -> None:
-        geometry = self._settings.value("window/geometry")
-        if geometry is not None:
-            self.restoreGeometry(geometry)
+        if self._setting_bool("application/remember_position", True):
+            geometry = self._settings.value("window/geometry")
+            if geometry is not None:
+                self.restoreGeometry(geometry)
+        self.tabs.tabBar().setAutoHide(self._setting_bool("application/auto_hide_tabs", False))
 
         self.stroke_width.setValue(self._setting_int("editor/pen_width", 3))
         self.font_size.setValue(self._setting_int("editor/font_point_size", 14))
@@ -2898,7 +2907,8 @@ class MainWindow(QMainWindow):
             action.setShortcut(QKeySequence(value) if value and shortcuts_enabled else QKeySequence())
 
     def _save_ui_settings(self) -> None:
-        self._settings.setValue("window/geometry", self.saveGeometry())
+        if self._setting_bool("application/remember_position", True):
+            self._settings.setValue("window/geometry", self.saveGeometry())
         self._settings.setValue("editor/pen_width", self.stroke_width.value())
         self._settings.setValue("editor/font_family", self.font_family.currentFont().family())
         self._settings.setValue("editor/font_point_size", self.font_size.value())

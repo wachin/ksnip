@@ -243,6 +243,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Estructura jerárquica de `Settings` alineada con el árbol del original, conservando `Scheme colors` como subpágina de `Annotator`
 - [x] Ajustes experimentales de OCR integrados en su propia página, evitando que el grupo quedara suelto fuera del layout
 - [ ] Ajustes de aplicación avanzados
+- [x] `Remember Main Window position` y `Auto hide Tabs` habilitados, persistidos y conectados al comportamiento real
 - [ ] Ajustes completos de image grabber
 - [ ] Ajustes completos de annotation
 - [ ] Ajustes completos de saver

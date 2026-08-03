@@ -52,6 +52,8 @@ class SettingsData:
     hide_main_window_during_capture: bool
     show_main_window_after_capture: bool
     auto_copy_new_captures: bool
+    application_remember_position: bool
+    application_auto_hide_tabs: bool
     saver_prompt_discard: bool
     saver_remember_directory: bool
     saver_quality_enabled: bool
@@ -192,8 +194,6 @@ class SettingsDialog(QDialog):
         application_layout.addWidget(self.auto_copy_new_captures)
 
         self.remember_window_position = QCheckBox("Remember Main Window position on move and load on startup", application_group)
-        self.remember_window_position.setChecked(True)
-        self.remember_window_position.setEnabled(False)
         application_layout.addWidget(self.remember_window_position)
 
         self.capture_on_startup = QCheckBox("Capture screenshot at startup with default mode", application_group)
@@ -206,7 +206,6 @@ class SettingsDialog(QDialog):
         application_layout.addWidget(self.use_tabs)
 
         self.auto_hide_tabs = QCheckBox("Auto hide Tabs", application_group)
-        self.auto_hide_tabs.setEnabled(False)
         application_layout.addWidget(self.auto_hide_tabs)
 
         self.run_single_instance = QCheckBox("Run ksnip as single instance", application_group)
@@ -875,6 +874,8 @@ class SettingsDialog(QDialog):
         self.hide_main_window_during_capture.setChecked(initial.hide_main_window_during_capture)
         self.show_main_window_after_capture.setChecked(initial.show_main_window_after_capture)
         self.auto_copy_new_captures.setChecked(initial.auto_copy_new_captures)
+        self.remember_window_position.setChecked(initial.application_remember_position)
+        self.auto_hide_tabs.setChecked(initial.application_auto_hide_tabs)
         self.saver_prompt_discard.setChecked(initial.saver_prompt_discard)
         self.saver_remember_directory.setChecked(initial.saver_remember_directory)
         self.saver_quality_factor.setChecked(initial.saver_quality_enabled)
@@ -1031,6 +1032,8 @@ class SettingsDialog(QDialog):
             hide_main_window_during_capture=self.hide_main_window_during_capture.isChecked(),
             show_main_window_after_capture=self.show_main_window_after_capture.isChecked(),
             auto_copy_new_captures=self.auto_copy_new_captures.isChecked(),
+            application_remember_position=self.remember_window_position.isChecked(),
+            application_auto_hide_tabs=self.auto_hide_tabs.isChecked(),
             saver_prompt_discard=self.saver_prompt_discard.isChecked(),
             saver_remember_directory=self.saver_remember_directory.isChecked(),
             saver_quality_enabled=self.saver_quality_factor.isChecked(),
