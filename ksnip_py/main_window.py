@@ -595,6 +595,9 @@ class MainWindow(QMainWindow):
         self.rename_action.setShortcut("F2")
         self.rename_action.triggered.connect(self.rename_current_image)
 
+        self.delete_image_action = QAction(self._load_icon("delete"), "Delete Image…", self)
+        self.delete_image_action.triggered.connect(self.delete_current_image_file)
+
         self.open_directory_action = QAction("Open Directory", self)
         self.open_directory_action.triggered.connect(self.open_image_directory)
 
@@ -1124,6 +1127,7 @@ class MainWindow(QMainWindow):
         edit_menu.addAction(self.rotate_action)
         edit_menu.addAction(self.add_watermark_action)
         edit_menu.addSeparator()
+        edit_menu.addAction(self.delete_image_action)
         edit_menu.addAction(self.delete_action)
         annotation_edit_menu = edit_menu.addMenu("Annotation Items")
         annotation_edit_menu.addAction(self.copy_item_action)
@@ -1926,6 +1930,40 @@ class MainWindow(QMainWindow):
         self._update_actions()
         return True
 
+    def delete_current_image_file(self) -> None:
+        self._delete_current_image_file(confirm=True)
+
+    def _delete_current_image_file(self, *, confirm: bool) -> bool:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.state.path:
+            return False
+        path = Path(canvas.state.path)
+        if confirm:
+            reply = QMessageBox.question(
+                self,
+                "Delete Image",
+                f"The item '{path}' will be deleted.\nDo you want to continue?",
+                QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel,
+                QMessageBox.StandardButton.Cancel,
+            )
+            if reply != QMessageBox.StandardButton.Ok:
+                return False
+        try:
+            path.unlink()
+        except OSError as error:
+            self._show_error(f"Unable to delete {path}: {error}")
+            return False
+
+        index = self.tabs.currentIndex()
+        self._remove_recent_image_path(str(path))
+        self.tabs.removeTab(index)
+        self.status_label.setText(f"Deleted {path.name}")
+        if self.tabs.count() > 0:
+            self._handle_current_tab_changed(self.tabs.currentIndex())
+        self._update_actions()
+        self._update_property_toolbar_for_tool()
+        return True
+
     def copy_image_as_data_uri(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
@@ -2310,6 +2348,7 @@ class MainWindow(QMainWindow):
         has_path = canvas is not None and bool(canvas.state.path)
         self.copy_path_action.setEnabled(has_path)
         self.rename_action.setEnabled(has_image)
+        self.delete_image_action.setEnabled(has_path)
         self.open_directory_action.setEnabled(has_path)
         self.copy_item_action.setEnabled(has_selected_item)
         self.paste_action.setEnabled(True)
