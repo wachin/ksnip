@@ -70,6 +70,7 @@ class MainWindow(QMainWindow):
         self._tray_icon: QSystemTrayIcon | None = None
         self._allow_quit = False
         self._capture_delay_override_seconds: int | None = None
+        self._capture_cursor_override: bool | None = None
         self._cli_direct_save = False
         self._cli_save_path: str | None = None
         self._quit_after_capture = False
@@ -1746,6 +1747,12 @@ class MainWindow(QMainWindow):
             else self._setting_int("capture/delay_seconds", 0)
         )
         self._capture_delay_override_seconds = None
+        include_cursor = (
+            self._capture_cursor_override
+            if self._capture_cursor_override is not None
+            else self._setting_bool("capture/include_cursor", True)
+        )
+        self._capture_cursor_override = None
         delay_ms = max(0, delay_seconds * 1000)
         if was_visible:
             delay_ms = max(delay_ms, max(0, self._setting_int("capture/implicit_delay_ms", 200)))
@@ -1754,7 +1761,7 @@ class MainWindow(QMainWindow):
 
         try:
             result = capture_fn()
-            if result is not None and self._setting_bool("capture/include_cursor", True):
+            if result is not None and include_cursor:
                 cursor = grab_x11_cursor()
                 if cursor is not None:
                     cursor_image, cursor_global_position = cursor

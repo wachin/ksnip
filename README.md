@@ -134,11 +134,12 @@ ksnip-pyqt6 --current
 ksnip-pyqt6 --active
 ksnip-pyqt6 --windowundercursor
 ksnip-pyqt6 --delay SECONDS --fullscreen
+ksnip-pyqt6 --fullscreen --cursor
 ksnip-pyqt6 --fullscreen --save
 ksnip-pyqt6 --current --saveto /path/to/capture.png
 ```
 
-Use `ksnip-pyqt6 --help` for the current option list. Cursor, portal, and direct-upload CLI parity are still pending.
+Use `ksnip-pyqt6 --help` for the current option list. Portal and direct-upload CLI parity are still pending.
 
 ## Text tool
 
