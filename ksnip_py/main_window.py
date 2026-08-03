@@ -1083,12 +1083,13 @@ class MainWindow(QMainWindow):
     def _build_menus(self) -> None:
         file_menu = self.menuBar().addMenu("File")
         self.file_menu = file_menu
-        file_menu.addAction(self.new_capture_rect_action)
-        file_menu.addAction(self.new_capture_last_rect_action)
-        file_menu.addAction(self.new_capture_full_action)
-        file_menu.addAction(self.new_capture_current_action)
-        file_menu.addAction(self.new_capture_active_action)
-        file_menu.addAction(self.new_capture_under_cursor_action)
+        new_capture_menu = file_menu.addMenu(self._load_icon("drawRect"), "New Screenshot")
+        new_capture_menu.addAction(self.new_capture_rect_action)
+        new_capture_menu.addAction(self.new_capture_last_rect_action)
+        new_capture_menu.addAction(self.new_capture_full_action)
+        new_capture_menu.addAction(self.new_capture_current_action)
+        new_capture_menu.addAction(self.new_capture_active_action)
+        new_capture_menu.addAction(self.new_capture_under_cursor_action)
         file_menu.addSeparator()
         file_menu.addAction(self.open_action)
         self.recent_images_menu = file_menu.addMenu("Recent Images")
@@ -1096,9 +1097,9 @@ class MainWindow(QMainWindow):
         file_menu.addAction(self.save_action)
         file_menu.addAction(self.save_as_action)
         file_menu.addAction(self.save_all_action)
-        file_menu.addAction(self.close_tab_action)
+        file_menu.addAction(self.upload_action)
         file_menu.addSeparator()
-        file_menu.addAction(self.settings_action)
+        file_menu.addAction(self.close_tab_action)
         file_menu.addSeparator()
         file_menu.addAction(self.quit_action)
 
@@ -1109,61 +1110,66 @@ class MainWindow(QMainWindow):
         edit_menu.addAction(self.copy_action)
         edit_menu.addAction(self.copy_data_uri_action)
         edit_menu.addAction(self.copy_path_action)
-        edit_menu.addAction(self.copy_item_action)
         edit_menu.addAction(self.paste_action)
-        edit_menu.addAction(self.paste_item_action)
+        edit_menu.addSeparator()
+        edit_menu.addAction(self.crop_action)
+        edit_menu.addAction(self.scale_action)
+        edit_menu.addAction(self.rotate_action)
+        edit_menu.addAction(self.add_watermark_action)
         edit_menu.addSeparator()
         edit_menu.addAction(self.delete_action)
-        edit_menu.addAction(self.duplicate_action)
-        edit_menu.addAction(self.edit_text_action)
-        edit_menu.addSeparator()
-        edit_menu.addAction(self.bring_to_front_action)
-        edit_menu.addAction(self.send_to_back_action)
+        annotation_edit_menu = edit_menu.addMenu("Annotation Items")
+        annotation_edit_menu.addAction(self.copy_item_action)
+        annotation_edit_menu.addAction(self.paste_item_action)
+        annotation_edit_menu.addAction(self.duplicate_action)
+        annotation_edit_menu.addAction(self.edit_text_action)
+        annotation_edit_menu.addSeparator()
+        annotation_edit_menu.addAction(self.bring_to_front_action)
+        annotation_edit_menu.addAction(self.send_to_back_action)
 
         view_menu = self.menuBar().addMenu("View")
-        view_menu.addAction(self.zoom_in_action)
-        view_menu.addAction(self.zoom_out_action)
-        view_menu.addAction(self.zoom_reset_action)
-        view_menu.addAction(self.zoom_fit_action)
-        view_menu.addSeparator()
         view_menu.addAction(self.open_directory_action)
+        zoom_menu = view_menu.addMenu("Zoom")
+        zoom_menu.addAction(self.zoom_in_action)
+        zoom_menu.addAction(self.zoom_out_action)
+        zoom_menu.addAction(self.zoom_reset_action)
+        zoom_menu.addAction(self.zoom_fit_action)
 
-        tools_menu = self.menuBar().addMenu("Tools")
-        tools_menu.addAction(self.rotate_action)
-        tools_menu.addAction(self.scale_action)
-        tools_menu.addSeparator()
-        tools_menu.addAction(self.pin_action)
-        tools_menu.addAction(self.upload_action)
-        tools_menu.addAction(self.ocr_action)
-        tools_menu.addSeparator()
-        tools_menu.addAction(self.add_watermark_action)
-        tools_menu.addAction(self.update_watermark_action)
-        tools_menu.addAction(self.rotate_watermark_action)
-        tools_menu.addSeparator()
-        tools_menu.addAction(self.select_action)
-        tools_menu.addAction(self.pen_action)
-        tools_menu.addAction(self.marker_pen_action)
-        tools_menu.addAction(self.marker_rect_action)
-        tools_menu.addAction(self.marker_ellipse_action)
-        tools_menu.addAction(self.line_action)
-        tools_menu.addAction(self.arrow_action)
-        tools_menu.addAction(self.double_arrow_action)
-        tools_menu.addAction(self.rect_action)
-        tools_menu.addAction(self.ellipse_action)
-        tools_menu.addAction(self.text_action)
-        tools_menu.addAction(self.text_pointer_action)
-        tools_menu.addAction(self.text_arrow_action)
-        tools_menu.addAction(self.number_action)
-        tools_menu.addAction(self.number_pointer_action)
-        tools_menu.addAction(self.number_arrow_action)
-        tools_menu.addAction(self.blur_action)
-        tools_menu.addAction(self.pixelate_action)
-        tools_menu.addAction(self.sticker_action)
-        tools_menu.addAction(self.crop_action)
-        tools_menu.addAction(self.color_action)
+        options_menu = self.menuBar().addMenu("Options")
+        options_menu.addAction(self.pin_action)
+        options_menu.addAction(self.ocr_action)
+        options_menu.addAction(self.settings_action)
+
+        watermark_menu = options_menu.addMenu("Watermark")
+        watermark_menu.addAction(self.update_watermark_action)
+        watermark_menu.addAction(self.rotate_watermark_action)
+
+        annotation_tools_menu = options_menu.addMenu("Annotation Tools")
+        for action in (
+            self.select_action,
+            self.pen_action,
+            self.marker_pen_action,
+            self.marker_rect_action,
+            self.marker_ellipse_action,
+            self.line_action,
+            self.arrow_action,
+            self.double_arrow_action,
+            self.rect_action,
+            self.ellipse_action,
+            self.text_action,
+            self.text_pointer_action,
+            self.text_arrow_action,
+            self.number_action,
+            self.number_pointer_action,
+            self.number_arrow_action,
+            self.blur_action,
+            self.pixelate_action,
+            self.sticker_action,
+            self.color_action,
+        ):
+            annotation_tools_menu.addAction(action)
 
         help_menu = self.menuBar().addMenu("Help")
-        help_menu.addAction(self.settings_action)
         help_menu.addAction(self.about_action)
 
     def current_canvas(self) -> AnnotationCanvas | None:

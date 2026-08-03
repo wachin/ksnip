@@ -257,7 +257,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Toolbar principal simplificada y acercada al patrón visual de Ksnip (`New`, `Save`, `Copy`, `Undo`, `Redo`, `Crop`, `Delay`)
 - [x] Botón desplegable `New` muestra icono y texto como en la barra principal original
 - [ ] Toolbar principal igual al original
-- [x] Menú principal reestructurado a `File / Edit / View / Tools / Help`
+- [x] Menú principal reestructurado según el C++ a `File / Edit / View / Options / Help`, sin duplicar `Settings`
 - [ ] Menú principal igual al original
 - [x] Panel de herramientas lateral izquierdo base en PyQt6
 - [x] Panel lateral con iconos del editor original
