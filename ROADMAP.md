@@ -238,7 +238,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Ajustes de watermark
 - [x] Ajustes de captura básicos
 - [ ] Paridad completa con todas las pestañas/categorías del `SettingsDialog.cpp`
-- [ ] Estructura jerárquica de `Settings` igual a la del original
+- [x] Estructura jerárquica de `Settings` alineada con el árbol del original, conservando `Scheme colors` como subpágina de `Annotator`
+- [x] Ajustes experimentales de OCR integrados en su propia página, evitando que el grupo quedara suelto fuera del layout
 - [ ] Ajustes de aplicación avanzados
 - [ ] Ajustes completos de image grabber
 - [ ] Ajustes completos de annotation

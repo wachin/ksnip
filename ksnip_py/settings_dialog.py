@@ -17,8 +17,6 @@ from PyQt6.QtWidgets import (
     QKeySequenceEdit,
     QLabel,
     QLineEdit,
-    QListWidget,
-    QListWidgetItem,
     QPushButton,
     QRadioButton,
     QScrollArea,
@@ -26,6 +24,8 @@ from PyQt6.QtWidgets import (
     QStackedWidget,
     QTableWidget,
     QTableWidgetItem,
+    QTreeWidget,
+    QTreeWidgetItem,
     QHeaderView,
     QVBoxLayout,
     QWidget,
@@ -86,14 +86,17 @@ class SettingsDialog(QDialog):
 
         self.search_line_edit = QLineEdit(self)
         self.search_line_edit.setPlaceholderText("Search Settings...")
-        self.navigation_list = QListWidget(self)
-        self.navigation_list.setMaximumWidth(220)
-        self.navigation_list.currentRowChanged.connect(self._show_settings_page)
+        self.navigation_tree = QTreeWidget(self)
+        self.navigation_tree.setHeaderHidden(True)
+        self.navigation_tree.setFixedWidth(170)
+        self.navigation_tree.currentItemChanged.connect(self._show_settings_page)
         self.search_line_edit.textChanged.connect(self._filter_navigation_items)
+        self._navigation_items: dict[str, QTreeWidgetItem] = {}
+        self._navigation_order: list[QTreeWidgetItem] = []
 
         left_layout = QVBoxLayout()
         left_layout.addWidget(self.search_line_edit)
-        left_layout.addWidget(self.navigation_list, 1)
+        left_layout.addWidget(self.navigation_tree, 1)
 
         left_host = QWidget(self)
         left_host.setLayout(left_layout)
@@ -518,8 +521,9 @@ class SettingsDialog(QDialog):
                     ],
                 ),
             ],
+            parent_title="Application",
         )
-        self._add_settings_page("Tray Icon", "Tray Icon Settings", [tray_group, tray_defaults_group])
+        self._add_settings_page("Tray Icon", "Tray Icon Settings", [tray_group, tray_defaults_group], parent_title="Application")
         self._add_settings_page(
             "Image Grabber",
             "Image Grabber Settings",
@@ -535,6 +539,7 @@ class SettingsDialog(QDialog):
                 snipping_area_group,
                 snipping_area_appearance_group,
             ],
+            parent_title="Image Grabber",
         )
         self._add_settings_page("Uploader", "Uploader Settings", [uploader_group])
         self._add_settings_page(
@@ -548,6 +553,7 @@ class SettingsDialog(QDialog):
                     ],
                 ),
             ],
+            parent_title="Uploader",
         )
         self._add_settings_page(
             "FTP Uploader",
@@ -560,11 +566,13 @@ class SettingsDialog(QDialog):
                     ],
                 ),
             ],
+            parent_title="Uploader",
         )
         self._add_settings_page(
             "Script Uploader",
             "Script Uploader Settings",
             [upload_group],
+            parent_title="Uploader",
         )
         self._add_settings_page("Annotator", "Annotator Settings", [annotator_group, annotator_appearance_group, editor_group])
         self._add_settings_page(
@@ -578,8 +586,9 @@ class SettingsDialog(QDialog):
                     ],
                 ),
             ],
+            parent_title="Annotator",
         )
-        self._add_settings_page("Watermark", "Watermark Settings", [watermark_group])
+        self._add_settings_page("Watermark", "Watermark Settings", [watermark_group], parent_title="Annotator")
         self._add_settings_page("HotKeys", "Global HotKeys", [shortcuts_group])
         self._add_settings_page(
             "Actions",
@@ -595,10 +604,12 @@ class SettingsDialog(QDialog):
                 self._build_plugins_page(),
             ],
         )
+        self._add_settings_page("OCR", "OCR Settings", [ocr_group])
         self._add_settings_page(
             "Scheme colors",
             "Scheme colors",
             [scheme_group],
+            parent_title="Annotator",
         )
 
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel, self)
@@ -608,7 +619,8 @@ class SettingsDialog(QDialog):
 
         self._apply_initial(initial)
         self._refresh_watermark_status()
-        self.navigation_list.setCurrentRow(0)
+        self.navigation_tree.expandAll()
+        self.navigation_tree.setCurrentItem(self._navigation_order[0])
 
     def _create_placeholder_group(self, title: str, lines: list[str]) -> QGroupBox:
         group = QGroupBox(title, self)
@@ -740,28 +752,62 @@ class SettingsDialog(QDialog):
         scroll_area.setWidget(host)
         return scroll_area
 
-    def _add_settings_page(self, navigation_title: str, page_title: str, groups: list[QWidget]) -> None:
-        item = QListWidgetItem(navigation_title, self.navigation_list)
-        item.setData(256, navigation_title.lower())
-        self.page_stack.addWidget(self._wrap_page(page_title, groups))
+    def _add_settings_page(
+        self,
+        navigation_title: str,
+        page_title: str,
+        groups: list[QWidget],
+        *,
+        parent_title: str | None = None,
+    ) -> None:
+        parent_item = self._navigation_items.get(parent_title) if parent_title else None
+        item = QTreeWidgetItem(parent_item or self.navigation_tree, [navigation_title])
+        page_index = self.page_stack.addWidget(self._wrap_page(page_title, groups))
+        item.setData(0, Qt.ItemDataRole.UserRole, page_index)
+        item.setData(0, Qt.ItemDataRole.UserRole + 1, navigation_title.lower())
+        self._navigation_items[navigation_title] = item
+        self._navigation_order.append(item)
 
-    def _show_settings_page(self, index: int) -> None:
+    def _show_settings_page(self, item: QTreeWidgetItem | None, _previous: QTreeWidgetItem | None = None) -> None:
+        if item is None:
+            return
+        index = item.data(0, Qt.ItemDataRole.UserRole)
+        if not isinstance(index, int):
+            return
         if index < 0 or index >= self.page_stack.count():
             return
         self.page_stack.setCurrentIndex(index)
 
     def _filter_navigation_items(self, text: str) -> None:
         normalized = text.strip().lower()
-        first_visible_row = -1
-        for row in range(self.navigation_list.count()):
-            item = self.navigation_list.item(row)
-            haystack = str(item.data(256) or item.text().lower())
-            hidden = bool(normalized) and normalized not in haystack
-            item.setHidden(hidden)
-            if not hidden and first_visible_row < 0:
-                first_visible_row = row
-        if first_visible_row >= 0 and self.navigation_list.currentRow() != first_visible_row:
-            self.navigation_list.setCurrentRow(first_visible_row)
+        direct_matches = {
+            id(item): not normalized
+            or normalized in str(item.data(0, Qt.ItemDataRole.UserRole + 1) or item.text(0).lower())
+            for item in self._navigation_order
+        }
+
+        def has_matching_descendant(item: QTreeWidgetItem) -> bool:
+            return any(
+                direct_matches.get(id(item.child(index)), False) or has_matching_descendant(item.child(index))
+                for index in range(item.childCount())
+            )
+
+        def has_matching_ancestor(item: QTreeWidgetItem) -> bool:
+            parent = item.parent()
+            while parent is not None:
+                if direct_matches.get(id(parent), False):
+                    return True
+                parent = parent.parent()
+            return False
+
+        first_visible_item = None
+        for item in self._navigation_order:
+            visible = direct_matches[id(item)] or has_matching_descendant(item) or has_matching_ancestor(item)
+            item.setHidden(not visible)
+            if visible and direct_matches[id(item)] and first_visible_item is None:
+                first_visible_item = item
+        if first_visible_item is not None and self.navigation_tree.currentItem() is not first_visible_item:
+            self.navigation_tree.setCurrentItem(first_visible_item)
 
     def _bind_checkbox_pair(self, first: QCheckBox, second: QCheckBox) -> None:
         def sync(source: QCheckBox, target: QCheckBox) -> None:
