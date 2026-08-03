@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from datetime import datetime
 from pathlib import Path
+import re
 
 from PyQt6.QtCore import QBuffer, QEvent, QEventLoop, QIODevice, QPoint, QSettings, QSize, QThread, QTimer, Qt, QUrl
 from PyQt6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPixmap
@@ -1709,6 +1711,8 @@ class MainWindow(QMainWindow):
 
     def _load_capture_result(self, result, title: str) -> None:
         self._load_capture(result.pixmap.toImage(), title)
+        if self._setting_bool("saver/auto_save", False):
+            self._auto_save_current_capture()
         if self._setting_bool("capture/auto_copy_new_captures", False):
             QGuiApplication.clipboard().setImage(result.pixmap.toImage())
             self.status_label.setText(f"Loaded {title.lower()} capture and copied it to clipboard")
@@ -1721,6 +1725,65 @@ class MainWindow(QMainWindow):
         self.tabs.setTabText(self.tabs.currentIndex(), title)
         self.status_label.setText(f"Loaded {title.lower()} capture")
         self._update_actions()
+
+    def _auto_save_current_capture(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        path = self._next_auto_save_path()
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+        except OSError as error:
+            self._show_error(f"Unable to create capture directory {path.parent}: {error}")
+            return
+        self._save_canvas_to_path(canvas, self.tabs.currentIndex(), str(path))
+
+    def _next_auto_save_path(self, now: datetime | None = None) -> Path:
+        now = now or datetime.now()
+        template = str(
+            self._settings.value(
+                "saver/location",
+                str(Path.home() / "Pictures" / "$Y$M$D-$T.png"),
+            )
+        ).strip()
+        if not template:
+            template = str(Path.home() / "Pictures" / "$Y$M$D-$T.png")
+        replacements = {
+            "$Y": now.strftime("%Y"),
+            "$M": now.strftime("%m"),
+            "$D": now.strftime("%d"),
+            "$h": now.strftime("%H"),
+            "$m": now.strftime("%M"),
+            "$s": now.strftime("%S"),
+            "$T": now.strftime("%H%M%S"),
+        }
+        for token, value in replacements.items():
+            template = template.replace(token, value)
+
+        counter = max(1, self._setting_int("saver/counter", 1))
+        counter_pattern = re.compile(r"#+")
+
+        def with_counter(value: int) -> str:
+            return counter_pattern.sub(lambda match: str(value).zfill(len(match.group(0))), template)
+
+        candidate = Path(with_counter(counter)).expanduser()
+        if not candidate.suffix:
+            candidate = candidate.with_suffix(".png")
+        overwrite = self._setting_bool("saver/overwrite", False)
+        if counter_pattern.search(template):
+            while candidate.exists() and not overwrite:
+                counter += 1
+                candidate = Path(with_counter(counter)).expanduser()
+                if not candidate.suffix:
+                    candidate = candidate.with_suffix(".png")
+            self._settings.setValue("saver/counter", counter + 1)
+        elif candidate.exists() and not overwrite:
+            stem, suffix = candidate.stem, candidate.suffix
+            index = 1
+            while candidate.exists():
+                candidate = candidate.with_name(f"{stem}-{index}{suffix}")
+                index += 1
+        return candidate
 
     def open_image(self) -> None:
         path, _ = QFileDialog.getOpenFileName(
@@ -2329,6 +2392,9 @@ class MainWindow(QMainWindow):
             saver_remember_directory=self._setting_bool("saver/remember_directory", False),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
             saver_quality_factor=self._setting_int("saver/quality_factor", 50),
+            saver_auto_save=self._setting_bool("saver/auto_save", False),
+            saver_location=str(self._settings.value("saver/location", str(Path.home() / "Pictures" / "$Y$M$D-$T.png"))),
+            saver_overwrite=self._setting_bool("saver/overwrite", False),
             use_tray_icon=self._setting_bool("tray/use", True),
             minimize_to_tray=self._setting_bool("tray/minimize", True),
             close_to_tray=self._setting_bool("tray/close", True),
@@ -2403,6 +2469,9 @@ class MainWindow(QMainWindow):
         self._settings.setValue("saver/remember_directory", data.saver_remember_directory)
         self._settings.setValue("saver/quality_enabled", data.saver_quality_enabled)
         self._settings.setValue("saver/quality_factor", data.saver_quality_factor)
+        self._settings.setValue("saver/auto_save", data.saver_auto_save)
+        self._settings.setValue("saver/location", data.saver_location)
+        self._settings.setValue("saver/overwrite", data.saver_overwrite)
         self._settings.setValue("tray/use", data.use_tray_icon)
         self._settings.setValue("tray/minimize", data.minimize_to_tray)
         self._settings.setValue("tray/close", data.close_to_tray)

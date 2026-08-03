@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QFont, QKeySequence
@@ -55,6 +56,9 @@ class SettingsData:
     saver_remember_directory: bool
     saver_quality_enabled: bool
     saver_quality_factor: int
+    saver_auto_save: bool
+    saver_location: str
+    saver_overwrite: bool
     use_tray_icon: bool
     minimize_to_tray: bool
     close_to_tray: bool
@@ -263,7 +267,6 @@ class SettingsDialog(QDialog):
         saver_group = QGroupBox("Saver", self)
         saver_layout = QVBoxLayout(saver_group)
         self.saver_auto_save = QCheckBox("Automatically save new captures to default location", saver_group)
-        self.saver_auto_save.setEnabled(False)
         self.saver_prompt_discard = QCheckBox("Prompt to save before discarding unsaved changes", saver_group)
         self.saver_remember_directory = QCheckBox("Remember last Save Directory", saver_group)
         saver_layout.addWidget(self.saver_auto_save)
@@ -289,11 +292,14 @@ class SettingsDialog(QDialog):
         saver_location_group = QGroupBox("Capture save location and filename", self)
         saver_location_layout = QVBoxLayout(saver_location_group)
         self.saver_location = QLineEdit(saver_location_group)
-        self.saver_location.setPlaceholderText("Automatic capture saving is not ported yet")
-        self.saver_location.setEnabled(False)
+        self.saver_location.setToolTip("Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter.")
+        self.saver_location_browse = QPushButton("Browse…", saver_location_group)
+        self.saver_location_browse.clicked.connect(self._select_saver_location)
+        saver_location_row = QHBoxLayout()
+        saver_location_row.addWidget(self.saver_location, 1)
+        saver_location_row.addWidget(self.saver_location_browse)
         self.saver_overwrite = QCheckBox("Overwrite file with same name", saver_location_group)
-        self.saver_overwrite.setEnabled(False)
-        saver_location_layout.addWidget(self.saver_location)
+        saver_location_layout.addLayout(saver_location_row)
         saver_location_layout.addWidget(self.saver_overwrite)
 
         image_grabber_group = QGroupBox("Image Grabber", self)
@@ -875,6 +881,9 @@ class SettingsDialog(QDialog):
         self.saver_quality_default.setChecked(not initial.saver_quality_enabled)
         self.saver_quality_value.setValue(initial.saver_quality_factor)
         self.saver_quality_value.setEnabled(initial.saver_quality_enabled)
+        self.saver_auto_save.setChecked(initial.saver_auto_save)
+        self.saver_location.setText(initial.saver_location)
+        self.saver_overwrite.setChecked(initial.saver_overwrite)
         self.use_tray_icon.setChecked(initial.use_tray_icon)
         self.minimize_to_tray.setChecked(initial.minimize_to_tray)
         self.close_to_tray.setChecked(initial.close_to_tray)
@@ -962,6 +971,19 @@ class SettingsDialog(QDialog):
         if path:
             self.upload_script_path.setText(path)
 
+    def _select_saver_location(self) -> None:
+        from PyQt6.QtWidgets import QFileDialog
+
+        current = self.saver_location.text().strip() or str(Path.home() / "Pictures" / "$Y$M$D-$T.png")
+        path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Capture save location and filename",
+            current,
+            "PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
+        )
+        if path:
+            self.saver_location.setText(path)
+
     def _select_ocr_script(self) -> None:
         from PyQt6.QtWidgets import QFileDialog
 
@@ -1013,6 +1035,9 @@ class SettingsDialog(QDialog):
             saver_remember_directory=self.saver_remember_directory.isChecked(),
             saver_quality_enabled=self.saver_quality_factor.isChecked(),
             saver_quality_factor=self.saver_quality_value.value(),
+            saver_auto_save=self.saver_auto_save.isChecked(),
+            saver_location=self.saver_location.text().strip(),
+            saver_overwrite=self.saver_overwrite.isChecked(),
             use_tray_icon=self.use_tray_icon.isChecked(),
             minimize_to_tray=self.minimize_to_tray.isChecked(),
             close_to_tray=self.close_to_tray.isChecked(),
