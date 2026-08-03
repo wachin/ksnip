@@ -734,6 +734,9 @@ class MainWindow(QMainWindow):
         self.scale_action = QAction(self._load_icon("scale"), "Scale…", self)
         self.scale_action.triggered.connect(self.scale_image)
 
+        self.modify_canvas_action = QAction("Modify Canvas…", self)
+        self.modify_canvas_action.triggered.connect(self.modify_canvas)
+
         self.pin_action = QAction(self._load_icon("pin"), "Pin", self)
         self.pin_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.pin_action.triggered.connect(self.pin_image)
@@ -1157,6 +1160,7 @@ class MainWindow(QMainWindow):
 
         view_menu = self.menuBar().addMenu("View")
         view_menu.addAction(self.open_directory_action)
+        view_menu.addAction(self.modify_canvas_action)
         zoom_menu = view_menu.addMenu("Zoom")
         zoom_menu.addAction(self.zoom_in_action)
         zoom_menu.addAction(self.zoom_out_action)
@@ -2095,6 +2099,36 @@ class MainWindow(QMainWindow):
             self._update_actions()
             self.status_label.setText("Pasted embedded image from clipboard")
 
+    def modify_canvas(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        current_size = canvas.image().size()
+        width, accepted = QInputDialog.getInt(
+            self,
+            "Modify Canvas",
+            "Width:",
+            current_size.width(),
+            1,
+            32768,
+        )
+        if not accepted:
+            return
+        height, accepted = QInputDialog.getInt(
+            self,
+            "Modify Canvas",
+            "Height:",
+            current_size.height(),
+            1,
+            32768,
+        )
+        if not accepted:
+            return
+        if canvas.modify_canvas_size(width, height):
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText(f"Modified canvas to {width}x{height}")
+
     def paste_item(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
@@ -2449,6 +2483,7 @@ class MainWindow(QMainWindow):
         self.send_to_back_action.setEnabled(canvas is not None and canvas.can_send_selected_item_to_back())
         self.rotate_action.setEnabled(has_image)
         self.scale_action.setEnabled(has_image)
+        self.modify_canvas_action.setEnabled(has_image)
         self.close_tab_action.setEnabled(canvas is not None)
         self.recent_images_menu.setEnabled(bool(self._recent_image_paths))
         self.zoom_spinbox.setEnabled(has_image)

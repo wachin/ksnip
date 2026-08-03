@@ -699,6 +699,29 @@ class AnnotationCanvas(QLabel):
         self._mark_dirty()
         self._refresh()
 
+    def modify_canvas_size(self, width: int, height: int, background: QColor | None = None) -> bool:
+        if self._image.isNull() or width < 1 or height < 1:
+            return False
+        if width == self._image.width() and height == self._image.height():
+            return False
+        self._push_undo_state()
+        resized = QImage(width, height, QImage.Format.Format_ARGB32_Premultiplied)
+        resized.fill(background or QColor("#ffffff"))
+        offset = QPoint(
+            (width - self._image.width()) // 2,
+            (height - self._image.height()) // 2,
+        )
+        painter = QPainter(resized)
+        painter.drawImage(offset, self._image)
+        painter.end()
+        self._image = resized
+        for item in self._items:
+            item.move_by(offset)
+        self._clear_selection()
+        self._mark_dirty()
+        self._refresh()
+        return True
+
     def _mark_dirty(self) -> None:
         self.state.dirty = True
         self.changed.emit()
