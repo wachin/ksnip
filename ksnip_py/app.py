@@ -30,6 +30,8 @@ def build_argument_parser() -> argparse.ArgumentParser:
     capture_modes.add_argument("-a", "--active", action="store_const", const="active", dest="capture_mode", help="Capture the active window")
     capture_modes.add_argument("-u", "--windowundercursor", action="store_const", const="under_cursor", dest="capture_mode", help="Capture the window under the cursor")
     parser.add_argument("-d", "--delay", type=_non_negative_int, default=None, metavar="SECONDS")
+    parser.add_argument("-s", "--save", action="store_true", help="Save a screenshot to the configured default location without opening the editor")
+    parser.add_argument("-p", "--saveto", metavar="PATH", help="Save a screenshot to PATH without opening the editor")
     parser.add_argument("-v", "--version", action="version", version="ksnip-pyqt6 0.1.0")
     return parser
 
@@ -40,6 +42,10 @@ def apply_startup_request(window: MainWindow, arguments: argparse.Namespace) -> 
         return window._open_image_path(str(Path(image_path).expanduser()))
     if arguments.delay is not None:
         window._capture_delay_override_seconds = arguments.delay
+    if arguments.save or arguments.saveto:
+        window._cli_direct_save = True
+        window._cli_save_path = arguments.saveto
+        window._quit_after_capture = True
     capture_methods = {
         "rect": window.capture_rect_area,
         "last_rect": window.capture_last_rect_area,
@@ -48,7 +54,10 @@ def apply_startup_request(window: MainWindow, arguments: argparse.Namespace) -> 
         "active": window.capture_active_window,
         "under_cursor": window.capture_window_under_cursor,
     }
-    capture_method = capture_methods.get(arguments.capture_mode)
+    requested_mode = arguments.capture_mode
+    if requested_mode is None and (arguments.save or arguments.saveto):
+        requested_mode = str(window._settings.value("capture/default_mode", "rect"))
+    capture_method = capture_methods.get(requested_mode)
     if capture_method is not None:
         QTimer.singleShot(0, capture_method)
     elif window._setting_bool("application/capture_on_startup", False):
@@ -75,7 +84,9 @@ def main(argv: list[str] | None = None) -> int:
     window = MainWindow()
     if not apply_startup_request(window, arguments):
         return 1
-    if window._setting_bool("tray/start_minimized", False) and window._tray_icon is not None and window._tray_icon.isVisible():
+    if window._quit_after_capture:
+        window.hide()
+    elif window._setting_bool("tray/start_minimized", False) and window._tray_icon is not None and window._tray_icon.isVisible():
         window.hide()
     else:
         window.show()

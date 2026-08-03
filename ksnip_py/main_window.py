@@ -3,11 +3,13 @@ from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
 import re
+import sys
 
 from PyQt6.QtCore import QBuffer, QEvent, QEventLoop, QIODevice, QPoint, QRectF, QSettings, QSize, QThread, QTimer, Qt, QUrl
 from PyQt6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPainter, QPixmap
 from PyQt6.QtPrintSupport import QPrintDialog, QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import (
+    QApplication,
     QComboBox,
     QColorDialog,
     QFileDialog,
@@ -68,6 +70,9 @@ class MainWindow(QMainWindow):
         self._tray_icon: QSystemTrayIcon | None = None
         self._allow_quit = False
         self._capture_delay_override_seconds: int | None = None
+        self._cli_direct_save = False
+        self._cli_save_path: str | None = None
+        self._quit_after_capture = False
         self._tool_group_buttons: dict[str, QToolButton] = {}
 
         self.setWindowTitle("ksnip")
@@ -1681,7 +1686,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/default_mode", "full")
         result = self._capture_with_preferences(grab_fullscreen)
         if result is None:
-            self._show_error("Unable to capture full screen.")
+            self._handle_capture_failure("Unable to capture full screen.")
             return
         self._load_capture_result(result, "Full Screen")
 
@@ -1689,7 +1694,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/default_mode", "current")
         result = self._capture_with_preferences(grab_current_screen)
         if result is None:
-            self._show_error("Unable to capture current screen.")
+            self._handle_capture_failure("Unable to capture current screen.")
             return
         self._load_capture_result(result, "Current Screen")
 
@@ -1697,7 +1702,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/default_mode", "rect")
         result = self._capture_with_preferences(lambda: grab_rectangular_area())
         if result is None:
-            self.status_label.setText("Capture canceled")
+            self._handle_capture_failure("Capture canceled", critical=False)
             return
         self._load_capture_result(result, "Rect Area")
 
@@ -1706,9 +1711,9 @@ class MainWindow(QMainWindow):
         result = self._capture_with_preferences(grab_last_rectangular_area)
         if result is None:
             if has_last_rectangular_area():
-                self._show_error("Unable to capture the last rectangular area.")
+                self._handle_capture_failure("Unable to capture the last rectangular area.")
             else:
-                self._show_error("No previous rectangular area capture is available yet.")
+                self._handle_capture_failure("No previous rectangular area capture is available yet.")
             return
         self._load_capture_result(result, "Last Rect Area")
 
@@ -1716,7 +1721,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/default_mode", "active")
         result = self._capture_with_preferences(grab_active_window)
         if result is None:
-            self._show_error("Unable to capture active window.")
+            self._handle_capture_failure("Unable to capture active window.")
             return
         self._load_capture_result(result, "Active Window")
 
@@ -1724,7 +1729,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/default_mode", "under_cursor")
         result = self._capture_with_preferences(grab_window_under_cursor)
         if result is None:
-            self._show_error("Unable to capture window under cursor.")
+            self._handle_capture_failure("Unable to capture window under cursor.")
             return
         self._load_capture_result(result, "Window Under Cursor")
 
@@ -1773,6 +1778,9 @@ class MainWindow(QMainWindow):
         loop.exec()
 
     def _load_capture_result(self, result, title: str) -> None:
+        if self._cli_direct_save:
+            self._save_cli_capture(result)
+            return
         self._load_capture(result.pixmap.toImage(), title)
         canvas = self.current_canvas()
         if canvas is not None and result.cursor_image is not None and result.cursor_position is not None:
@@ -1782,6 +1790,38 @@ class MainWindow(QMainWindow):
         if self._setting_bool("capture/auto_copy_new_captures", False):
             QGuiApplication.clipboard().setImage(result.pixmap.toImage())
             self.status_label.setText(f"Loaded {title.lower()} capture and copied it to clipboard")
+
+    def _save_cli_capture(self, result) -> bool:
+        path = Path(self._cli_save_path).expanduser() if self._cli_save_path else self._next_auto_save_path()
+        if not path.suffix:
+            path = path.with_suffix(".png")
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+        except OSError as error:
+            print(f"Unable to create capture directory {path.parent}: {error}", file=sys.stderr)
+            self._finish_cli_capture()
+            return False
+        quality = self._setting_int("saver/quality_factor", 50) if self._setting_bool("saver/quality_enabled", False) else -1
+        if not result.pixmap.toImage().save(str(path), None, quality):
+            print(f"Unable to save screenshot to {path}", file=sys.stderr)
+            self._finish_cli_capture()
+            return False
+        print(path)
+        self._finish_cli_capture()
+        return True
+
+    def _finish_cli_capture(self) -> None:
+        if self._quit_after_capture:
+            QTimer.singleShot(0, QApplication.quit)
+
+    def _handle_capture_failure(self, message: str, *, critical: bool = True) -> None:
+        if self._quit_after_capture:
+            print(message, file=sys.stderr)
+            self._finish_cli_capture()
+        elif critical:
+            self._show_error(message)
+        else:
+            self.status_label.setText(message)
 
     def _load_capture(self, image: QImage, title: str) -> None:
         canvas = self.current_canvas()
