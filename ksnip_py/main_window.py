@@ -4,8 +4,9 @@ from datetime import datetime
 from pathlib import Path
 import re
 
-from PyQt6.QtCore import QBuffer, QEvent, QEventLoop, QIODevice, QPoint, QSettings, QSize, QThread, QTimer, Qt, QUrl
-from PyQt6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPixmap
+from PyQt6.QtCore import QBuffer, QEvent, QEventLoop, QIODevice, QPoint, QRectF, QSettings, QSize, QThread, QTimer, Qt, QUrl
+from PyQt6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPainter, QPixmap
+from PyQt6.QtPrintSupport import QPrintDialog, QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import (
     QComboBox,
     QColorDialog,
@@ -581,6 +582,13 @@ class MainWindow(QMainWindow):
         self.save_all_action = QAction(self._load_icon("save"), "Save All", self)
         self.save_all_action.triggered.connect(self.save_all_images)
 
+        self.print_action = QAction(QIcon.fromTheme("document-print"), "Print", self)
+        self.print_action.setShortcut(QKeySequence.StandardKey.Print)
+        self.print_action.triggered.connect(self.print_current_image)
+
+        self.print_preview_action = QAction(QIcon.fromTheme("document-print-preview"), "Print Preview", self)
+        self.print_preview_action.triggered.connect(self.preview_current_image)
+
         self.copy_action = QAction(self._load_icon("copy"), "Copy", self)
         self.copy_action.setShortcut(QKeySequence.StandardKey.Copy)
         self.copy_action.triggered.connect(self.copy_image)
@@ -1107,6 +1115,9 @@ class MainWindow(QMainWindow):
         file_menu.addAction(self.save_as_action)
         file_menu.addAction(self.save_all_action)
         file_menu.addAction(self.upload_action)
+        file_menu.addSeparator()
+        file_menu.addAction(self.print_action)
+        file_menu.addAction(self.print_preview_action)
         file_menu.addSeparator()
         file_menu.addAction(self.close_tab_action)
         file_menu.addSeparator()
@@ -1887,6 +1898,47 @@ class MainWindow(QMainWindow):
         QGuiApplication.clipboard().setImage(canvas.image())
         self.status_label.setText("Copied image to clipboard")
 
+    def print_current_image(self) -> None:
+        if self.current_canvas() is None or not self.current_canvas().has_image():
+            return
+        printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+        dialog = QPrintDialog(printer, self)
+        if dialog.exec():
+            if self._paint_current_image_to_printer(printer):
+                self.status_label.setText("Sent image to printer")
+            else:
+                self._show_error("Unable to render the image for printing.")
+
+    def preview_current_image(self) -> None:
+        if self.current_canvas() is None or not self.current_canvas().has_image():
+            return
+        printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+        preview = QPrintPreviewDialog(printer, self)
+        preview.setWindowTitle("Print Preview")
+        preview.paintRequested.connect(self._paint_current_image_to_printer)
+        preview.exec()
+
+    def _paint_current_image_to_printer(self, printer: QPrinter) -> bool:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return False
+        image = canvas.image()
+        page_rect = printer.pageLayout().paintRectPixels(printer.resolution())
+        scaled_size = image.size()
+        scaled_size.scale(page_rect.size(), Qt.AspectRatioMode.KeepAspectRatio)
+        target = QRectF(
+            page_rect.x() + (page_rect.width() - scaled_size.width()) / 2,
+            page_rect.y() + (page_rect.height() - scaled_size.height()) / 2,
+            scaled_size.width(),
+            scaled_size.height(),
+        )
+        painter = QPainter()
+        if not painter.begin(printer):
+            return False
+        painter.drawImage(target, image)
+        painter.end()
+        return True
+
     def rename_current_image(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
@@ -2343,6 +2395,8 @@ class MainWindow(QMainWindow):
                 for index in range(self.tabs.count())
             )
         )
+        self.print_action.setEnabled(has_image)
+        self.print_preview_action.setEnabled(has_image)
         self.copy_action.setEnabled(has_image)
         self.copy_data_uri_action.setEnabled(has_image)
         has_path = canvas is not None and bool(canvas.state.path)
