@@ -55,6 +55,7 @@ class SettingsData:
     application_remember_position: bool
     application_auto_hide_tabs: bool
     application_capture_on_startup: bool
+    application_auto_hide_docks: bool
     saver_prompt_discard: bool
     saver_remember_directory: bool
     saver_quality_enabled: bool
@@ -213,7 +214,6 @@ class SettingsDialog(QDialog):
         application_layout.addWidget(self.run_single_instance)
 
         self.auto_hide_docks = QCheckBox("Auto hide Docks", application_group)
-        self.auto_hide_docks.setEnabled(False)
         application_layout.addWidget(self.auto_hide_docks)
 
         self.auto_resize_to_content = QCheckBox("Auto resize to content", application_group)
@@ -877,6 +877,7 @@ class SettingsDialog(QDialog):
         self.remember_window_position.setChecked(initial.application_remember_position)
         self.auto_hide_tabs.setChecked(initial.application_auto_hide_tabs)
         self.capture_on_startup.setChecked(initial.application_capture_on_startup)
+        self.auto_hide_docks.setChecked(initial.application_auto_hide_docks)
         self.saver_prompt_discard.setChecked(initial.saver_prompt_discard)
         self.saver_remember_directory.setChecked(initial.saver_remember_directory)
         self.saver_quality_factor.setChecked(initial.saver_quality_enabled)
@@ -1036,6 +1037,7 @@ class SettingsDialog(QDialog):
             application_remember_position=self.remember_window_position.isChecked(),
             application_auto_hide_tabs=self.auto_hide_tabs.isChecked(),
             application_capture_on_startup=self.capture_on_startup.isChecked(),
+            application_auto_hide_docks=self.auto_hide_docks.isChecked(),
             saver_prompt_discard=self.saver_prompt_discard.isChecked(),
             saver_remember_directory=self.saver_remember_directory.isChecked(),
             saver_quality_enabled=self.saver_quality_factor.isChecked(),

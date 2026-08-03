@@ -738,6 +738,10 @@ class MainWindow(QMainWindow):
         self.modify_canvas_action = QAction("Modify Canvas…", self)
         self.modify_canvas_action.triggered.connect(self.modify_canvas)
 
+        self.toggle_docks_action = QAction("Hide Docks", self)
+        self.toggle_docks_action.setShortcut("Tab")
+        self.toggle_docks_action.triggered.connect(self.toggle_docks)
+
         self.pin_action = QAction(self._load_icon("pin"), "Pin", self)
         self.pin_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.pin_action.triggered.connect(self.pin_image)
@@ -789,6 +793,7 @@ class MainWindow(QMainWindow):
         toolbar.setMovable(False)
         self._configure_toolbar(toolbar, icon_size=20, style=Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, toolbar)
+        self.main_toolbar = toolbar
 
         self.capture_menu_button = self._make_capture_menu_button()
         toolbar.addWidget(self.capture_menu_button)
@@ -1161,6 +1166,7 @@ class MainWindow(QMainWindow):
 
         view_menu = self.menuBar().addMenu("View")
         view_menu.addAction(self.open_directory_action)
+        view_menu.addAction(self.toggle_docks_action)
         view_menu.addAction(self.modify_canvas_action)
         zoom_menu = view_menu.addMenu("Zoom")
         zoom_menu.addAction(self.zoom_in_action)
@@ -2145,6 +2151,15 @@ class MainWindow(QMainWindow):
             self._update_actions()
             self.status_label.setText(f"Modified canvas to {width}x{height}")
 
+    def toggle_docks(self) -> None:
+        self._set_docks_collapsed(self.main_toolbar.isVisible())
+
+    def _set_docks_collapsed(self, collapsed: bool) -> None:
+        self.main_toolbar.setVisible(not collapsed)
+        self.properties_toolbar.setVisible(not collapsed)
+        self.left_toolbar.setVisible(not collapsed)
+        self.toggle_docks_action.setText("Show Docks" if collapsed else "Hide Docks")
+
     def paste_item(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
@@ -2625,6 +2640,7 @@ class MainWindow(QMainWindow):
             application_remember_position=self._setting_bool("application/remember_position", True),
             application_auto_hide_tabs=self._setting_bool("application/auto_hide_tabs", False),
             application_capture_on_startup=self._setting_bool("application/capture_on_startup", False),
+            application_auto_hide_docks=self._setting_bool("application/auto_hide_docks", False),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", False),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
@@ -2705,6 +2721,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("application/remember_position", data.application_remember_position)
         self._settings.setValue("application/auto_hide_tabs", data.application_auto_hide_tabs)
         self._settings.setValue("application/capture_on_startup", data.application_capture_on_startup)
+        self._settings.setValue("application/auto_hide_docks", data.application_auto_hide_docks)
         if not data.application_remember_position:
             self._settings.remove("window/geometry")
         self.tabs.tabBar().setAutoHide(data.application_auto_hide_tabs)
@@ -2816,6 +2833,7 @@ class MainWindow(QMainWindow):
             if geometry is not None:
                 self.restoreGeometry(geometry)
         self.tabs.tabBar().setAutoHide(self._setting_bool("application/auto_hide_tabs", False))
+        self._set_docks_collapsed(self._setting_bool("application/auto_hide_docks", False))
 
         self.stroke_width.setValue(self._setting_int("editor/pen_width", 3))
         self.font_size.setValue(self._setting_int("editor/font_point_size", 14))
