@@ -54,6 +54,7 @@ class SettingsData:
     auto_copy_new_captures: bool
     application_remember_position: bool
     application_auto_hide_tabs: bool
+    application_capture_on_startup: bool
     saver_prompt_discard: bool
     saver_remember_directory: bool
     saver_quality_enabled: bool
@@ -197,7 +198,6 @@ class SettingsDialog(QDialog):
         application_layout.addWidget(self.remember_window_position)
 
         self.capture_on_startup = QCheckBox("Capture screenshot at startup with default mode", application_group)
-        self.capture_on_startup.setEnabled(False)
         application_layout.addWidget(self.capture_on_startup)
 
         self.use_tabs = QCheckBox("Use Tabs", application_group)
@@ -876,6 +876,7 @@ class SettingsDialog(QDialog):
         self.auto_copy_new_captures.setChecked(initial.auto_copy_new_captures)
         self.remember_window_position.setChecked(initial.application_remember_position)
         self.auto_hide_tabs.setChecked(initial.application_auto_hide_tabs)
+        self.capture_on_startup.setChecked(initial.application_capture_on_startup)
         self.saver_prompt_discard.setChecked(initial.saver_prompt_discard)
         self.saver_remember_directory.setChecked(initial.saver_remember_directory)
         self.saver_quality_factor.setChecked(initial.saver_quality_enabled)
@@ -1034,6 +1035,7 @@ class SettingsDialog(QDialog):
             auto_copy_new_captures=self.auto_copy_new_captures.isChecked(),
             application_remember_position=self.remember_window_position.isChecked(),
             application_auto_hide_tabs=self.auto_hide_tabs.isChecked(),
+            application_capture_on_startup=self.capture_on_startup.isChecked(),
             saver_prompt_discard=self.saver_prompt_discard.isChecked(),
             saver_remember_directory=self.saver_remember_directory.isChecked(),
             saver_quality_enabled=self.saver_quality_factor.isChecked(),

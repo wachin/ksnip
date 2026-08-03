@@ -244,6 +244,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Ajustes experimentales de OCR integrados en su propia página, evitando que el grupo quedara suelto fuera del layout
 - [ ] Ajustes de aplicación avanzados
 - [x] `Remember Main Window position` y `Auto hide Tabs` habilitados, persistidos y conectados al comportamiento real
+- [x] `Capture screenshot at startup` habilitado y conectado al último modo de captura usado
 - [ ] Ajustes completos de image grabber
 - [ ] Ajustes completos de annotation
 - [ ] Ajustes completos de saver

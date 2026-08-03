@@ -1671,6 +1671,7 @@ class MainWindow(QMainWindow):
         self.zoom_spinbox.blockSignals(False)
 
     def capture_fullscreen(self) -> None:
+        self._settings.setValue("capture/default_mode", "full")
         result = self._capture_with_preferences(grab_fullscreen)
         if result is None:
             self._show_error("Unable to capture full screen.")
@@ -1678,6 +1679,7 @@ class MainWindow(QMainWindow):
         self._load_capture_result(result, "Full Screen")
 
     def capture_current_screen(self) -> None:
+        self._settings.setValue("capture/default_mode", "current")
         result = self._capture_with_preferences(grab_current_screen)
         if result is None:
             self._show_error("Unable to capture current screen.")
@@ -1685,6 +1687,7 @@ class MainWindow(QMainWindow):
         self._load_capture_result(result, "Current Screen")
 
     def capture_rect_area(self) -> None:
+        self._settings.setValue("capture/default_mode", "rect")
         result = self._capture_with_preferences(lambda: grab_rectangular_area())
         if result is None:
             self.status_label.setText("Capture canceled")
@@ -1692,6 +1695,7 @@ class MainWindow(QMainWindow):
         self._load_capture_result(result, "Rect Area")
 
     def capture_last_rect_area(self) -> None:
+        self._settings.setValue("capture/default_mode", "last_rect")
         result = self._capture_with_preferences(grab_last_rectangular_area)
         if result is None:
             if has_last_rectangular_area():
@@ -1702,6 +1706,7 @@ class MainWindow(QMainWindow):
         self._load_capture_result(result, "Last Rect Area")
 
     def capture_active_window(self) -> None:
+        self._settings.setValue("capture/default_mode", "active")
         result = self._capture_with_preferences(grab_active_window)
         if result is None:
             self._show_error("Unable to capture active window.")
@@ -1709,6 +1714,7 @@ class MainWindow(QMainWindow):
         self._load_capture_result(result, "Active Window")
 
     def capture_window_under_cursor(self) -> None:
+        self._settings.setValue("capture/default_mode", "under_cursor")
         result = self._capture_with_preferences(grab_window_under_cursor)
         if result is None:
             self._show_error("Unable to capture window under cursor.")
@@ -2618,6 +2624,7 @@ class MainWindow(QMainWindow):
             auto_copy_new_captures=self._setting_bool("capture/auto_copy_new_captures", False),
             application_remember_position=self._setting_bool("application/remember_position", True),
             application_auto_hide_tabs=self._setting_bool("application/auto_hide_tabs", False),
+            application_capture_on_startup=self._setting_bool("application/capture_on_startup", False),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", False),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
@@ -2697,6 +2704,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/auto_copy_new_captures", data.auto_copy_new_captures)
         self._settings.setValue("application/remember_position", data.application_remember_position)
         self._settings.setValue("application/auto_hide_tabs", data.application_auto_hide_tabs)
+        self._settings.setValue("application/capture_on_startup", data.application_capture_on_startup)
         if not data.application_remember_position:
             self._settings.remove("window/geometry")
         self.tabs.tabBar().setAutoHide(data.application_auto_hide_tabs)

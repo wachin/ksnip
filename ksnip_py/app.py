@@ -51,6 +51,9 @@ def apply_startup_request(window: MainWindow, arguments: argparse.Namespace) -> 
     capture_method = capture_methods.get(arguments.capture_mode)
     if capture_method is not None:
         QTimer.singleShot(0, capture_method)
+    elif window._setting_bool("application/capture_on_startup", False):
+        default_mode = str(window._settings.value("capture/default_mode", "rect"))
+        QTimer.singleShot(0, capture_methods.get(default_mode, window.capture_rect_area))
     return True
 
 
