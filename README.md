@@ -158,6 +158,8 @@ Use `ksnip-pyqt6 --help` for the current option list. `--upload` uses the script
 
 The PyQt6 port loads Qt Linguist `.qm` catalogs using the language selected under `Settings > Application > Language`, or the system locale by default. Use `--language LOCALE` (for example, `--language es`) for a temporary command-line override. Portal diagnostics are currently translated into Spanish; untranslated locales safely fall back to English while the remaining UI is migrated to `tr()`.
 
+Compatible strings from the original C++ `ksnip` catalogs are reused by the port. The `ksnip_py` catalog contains messages that only exist in the Python implementation.
+
 Translation workflow for contributors:
 
 ```bash

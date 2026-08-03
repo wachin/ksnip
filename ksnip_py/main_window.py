@@ -578,38 +578,38 @@ class MainWindow(QMainWindow):
         self.new_capture_under_cursor_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_under_cursor_action.triggered.connect(self.capture_window_under_cursor)
 
-        self.open_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogOpenButton), "Open…", self)
+        self.open_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogOpenButton), self.tr("Open"), self)
         self.open_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.open_action.setShortcut(QKeySequence.StandardKey.Open)
         self.open_action.triggered.connect(self.open_image)
 
-        self.save_action = QAction(self._load_icon("save"), "Save", self)
+        self.save_action = QAction(self._load_icon("save"), self.tr("Save"), self)
         self.save_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.save_action.setShortcut(QKeySequence.StandardKey.Save)
         self.save_action.triggered.connect(self.save_image)
 
-        self.save_as_action = QAction(self._load_icon("saveAs"), "Save As…", self)
+        self.save_as_action = QAction(self._load_icon("saveAs"), self.tr("Save As..."), self)
         self.save_as_action.setShortcut(QKeySequence.StandardKey.SaveAs)
         self.save_as_action.triggered.connect(self.save_image_as)
 
-        self.save_all_action = QAction(self._load_icon("save"), "Save All", self)
+        self.save_all_action = QAction(self._load_icon("save"), self.tr("Save All"), self)
         self.save_all_action.triggered.connect(self.save_all_images)
 
-        self.print_action = QAction(QIcon.fromTheme("document-print"), "Print", self)
+        self.print_action = QAction(QIcon.fromTheme("document-print"), self.tr("Print"), self)
         self.print_action.setShortcut(QKeySequence.StandardKey.Print)
         self.print_action.triggered.connect(self.print_current_image)
 
-        self.print_preview_action = QAction(QIcon.fromTheme("document-print-preview"), "Print Preview", self)
+        self.print_preview_action = QAction(QIcon.fromTheme("document-print-preview"), self.tr("Print Preview"), self)
         self.print_preview_action.triggered.connect(self.preview_current_image)
 
-        self.copy_action = QAction(self._load_icon("copy"), "Copy", self)
+        self.copy_action = QAction(self._load_icon("copy"), self.tr("Copy"), self)
         self.copy_action.setShortcut(QKeySequence.StandardKey.Copy)
         self.copy_action.triggered.connect(self.copy_image)
 
         self.copy_data_uri_action = QAction("Copy as Data URI", self)
         self.copy_data_uri_action.triggered.connect(self.copy_image_as_data_uri)
 
-        self.copy_path_action = QAction("Copy Path", self)
+        self.copy_path_action = QAction(self.tr("Copy Path"), self)
         self.copy_path_action.triggered.connect(self.copy_image_path)
 
         self.rename_action = QAction("Rename", self)
@@ -619,7 +619,7 @@ class MainWindow(QMainWindow):
         self.delete_image_action = QAction(self._load_icon("delete"), "Delete Image…", self)
         self.delete_image_action.triggered.connect(self.delete_current_image_file)
 
-        self.open_directory_action = QAction("Open Directory", self)
+        self.open_directory_action = QAction(self.tr("Open Directory"), self)
         self.open_directory_action.triggered.connect(self.open_image_directory)
 
         self.copy_item_action = QAction("Copy Item", self)
@@ -700,22 +700,22 @@ class MainWindow(QMainWindow):
         self.color_action = QAction(self._load_icon("color"), "Color", self)
         self.color_action.triggered.connect(self.select_color)
 
-        self.undo_action = QAction(self._load_icon("undo"), "Undo", self)
+        self.undo_action = QAction(self._load_icon("undo"), self.tr("Undo"), self)
         self.undo_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.undo_action.setShortcut(QKeySequence.StandardKey.Undo)
         self.undo_action.triggered.connect(self.undo)
 
-        self.redo_action = QAction(self._load_icon("redo"), "Redo", self)
+        self.redo_action = QAction(self._load_icon("redo"), self.tr("Redo"), self)
         self.redo_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.redo_action.setShortcut(QKeySequence.StandardKey.Redo)
         self.redo_action.triggered.connect(self.redo)
 
-        self.paste_action = QAction(self._load_icon("paste"), "Paste", self)
+        self.paste_action = QAction(self._load_icon("paste"), self.tr("Paste"), self)
         self.paste_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.paste_action.setShortcut(QKeySequence.StandardKey.Paste)
         self.paste_action.triggered.connect(self.paste_image)
 
-        self.paste_embedded_action = QAction(self._load_icon("pasteEmbedded"), "Paste Embedded", self)
+        self.paste_embedded_action = QAction(self._load_icon("pasteEmbedded"), self.tr("Paste Embedded"), self)
         self.paste_embedded_action.setShortcut("Ctrl+Shift+V")
         self.paste_embedded_action.triggered.connect(self.paste_embedded_image)
 
@@ -753,16 +753,16 @@ class MainWindow(QMainWindow):
         self.toggle_docks_action.setShortcut("Tab")
         self.toggle_docks_action.triggered.connect(self.toggle_docks)
 
-        self.pin_action = QAction(self._load_icon("pin"), "Pin", self)
+        self.pin_action = QAction(self._load_icon("pin"), self.tr("Pin"), self)
         self.pin_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.pin_action.triggered.connect(self.pin_image)
 
-        self.add_watermark_action = QAction("Add Watermark", self)
+        self.add_watermark_action = QAction(self.tr("Add Watermark"), self)
         self.add_watermark_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.add_watermark_action.setShortcut("Shift+W")
         self.add_watermark_action.triggered.connect(self.add_watermark)
 
-        self.upload_action = QAction("Upload", self)
+        self.upload_action = QAction(self.tr("Upload"), self)
         self.upload_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.upload_action.triggered.connect(self.upload_image)
 
@@ -778,7 +778,7 @@ class MainWindow(QMainWindow):
         self.rotate_watermark_action.setChecked(self._setting_bool("watermark/rotate", True))
         self.rotate_watermark_action.toggled.connect(self._set_rotate_watermark)
 
-        self.settings_action = QAction("Settings…", self)
+        self.settings_action = QAction(self.tr("Settings"), self)
         self.settings_action.triggered.connect(self.open_settings_dialog)
 
         self.about_action = QAction("About", self)
@@ -787,7 +787,7 @@ class MainWindow(QMainWindow):
         self.clear_recent_images_action = QAction("Clear Recent Images", self)
         self.clear_recent_images_action.triggered.connect(self.clear_recent_images)
 
-        self.quit_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogCloseButton), "Quit", self)
+        self.quit_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogCloseButton), self.tr("Quit"), self)
         self.quit_action.triggered.connect(self.quit_application)
 
         self.zoom_out_action = QAction("-", self)
@@ -1123,7 +1123,7 @@ class MainWindow(QMainWindow):
         self._set_tool_group_default_action("shape", self.rect_action)
 
     def _build_menus(self) -> None:
-        file_menu = self.menuBar().addMenu("File")
+        file_menu = self.menuBar().addMenu(self.tr("&File"))
         self.file_menu = file_menu
         new_capture_menu = file_menu.addMenu(self._load_icon("drawRect"), "New Screenshot")
         new_capture_menu.addAction(self.new_capture_rect_action)
@@ -1148,7 +1148,7 @@ class MainWindow(QMainWindow):
         file_menu.addSeparator()
         file_menu.addAction(self.quit_action)
 
-        edit_menu = self.menuBar().addMenu("Edit")
+        edit_menu = self.menuBar().addMenu(self.tr("&Edit"))
         edit_menu.addAction(self.undo_action)
         edit_menu.addAction(self.redo_action)
         edit_menu.addSeparator()
@@ -1175,7 +1175,7 @@ class MainWindow(QMainWindow):
         annotation_edit_menu.addAction(self.bring_to_front_action)
         annotation_edit_menu.addAction(self.send_to_back_action)
 
-        view_menu = self.menuBar().addMenu("View")
+        view_menu = self.menuBar().addMenu(self.tr("&View"))
         view_menu.addAction(self.open_directory_action)
         view_menu.addAction(self.toggle_docks_action)
         view_menu.addAction(self.modify_canvas_action)
@@ -1185,7 +1185,7 @@ class MainWindow(QMainWindow):
         zoom_menu.addAction(self.zoom_reset_action)
         zoom_menu.addAction(self.zoom_fit_action)
 
-        options_menu = self.menuBar().addMenu("Options")
+        options_menu = self.menuBar().addMenu(self.tr("&Options"))
         options_menu.addAction(self.pin_action)
         options_menu.addAction(self.ocr_action)
         options_menu.addAction(self.settings_action)
@@ -1219,7 +1219,7 @@ class MainWindow(QMainWindow):
         ):
             annotation_tools_menu.addAction(action)
 
-        help_menu = self.menuBar().addMenu("Help")
+        help_menu = self.menuBar().addMenu(self.tr("&Help"))
         help_menu.addAction(self.about_action)
 
     def current_canvas(self) -> AnnotationCanvas | None:
