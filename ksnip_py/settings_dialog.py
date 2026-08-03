@@ -61,6 +61,7 @@ class SettingsData:
     application_auto_hide_docks: bool
     application_auto_resize_to_content: bool
     application_resize_delay_ms: int
+    application_language: str
     saver_prompt_discard: bool
     saver_remember_directory: bool
     saver_quality_enabled: bool
@@ -236,6 +237,12 @@ class SettingsDialog(QDialog):
         self.resize_delay.setSuffix(" ms")
         self.resize_delay.setValue(10)
         application_details_layout.addRow("Resize delay", self.resize_delay)
+
+        self.application_language = QComboBox(application_details_group)
+        self.application_language.addItem(self.tr("System default"), "")
+        self.application_language.addItem(self.tr("English"), "en")
+        self.application_language.addItem(self.tr("Spanish"), "es")
+        application_details_layout.addRow(self.tr("Language"), self.application_language)
 
         self.application_style = QComboBox(application_details_group)
         self.application_style.addItems(["Fusion", "Windows"])
@@ -884,6 +891,9 @@ class SettingsDialog(QDialog):
         self.auto_hide_docks.setChecked(initial.application_auto_hide_docks)
         self.auto_resize_to_content.setChecked(initial.application_auto_resize_to_content)
         self.resize_delay.setValue(initial.application_resize_delay_ms)
+        language_index = self.application_language.findData(initial.application_language)
+        if language_index >= 0:
+            self.application_language.setCurrentIndex(language_index)
         self.saver_prompt_discard.setChecked(initial.saver_prompt_discard)
         self.saver_remember_directory.setChecked(initial.saver_remember_directory)
         self.saver_quality_factor.setChecked(initial.saver_quality_enabled)
@@ -1049,6 +1059,7 @@ class SettingsDialog(QDialog):
             application_auto_hide_docks=self.auto_hide_docks.isChecked(),
             application_auto_resize_to_content=self.auto_resize_to_content.isChecked(),
             application_resize_delay_ms=self.resize_delay.value(),
+            application_language=str(self.application_language.currentData()),
             saver_prompt_discard=self.saver_prompt_discard.isChecked(),
             saver_remember_directory=self.saver_remember_directory.isChecked(),
             saver_quality_enabled=self.saver_quality_factor.isChecked(),

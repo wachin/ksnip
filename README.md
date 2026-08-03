@@ -156,7 +156,7 @@ ksnip-pyqt6 --fullscreen --save --upload
 
 Use `ksnip-pyqt6 --help` for the current option list. `--upload` uses the script configured under `Settings > Uploader > Script Uploader`. On Wayland, `--portal` delegates capture selection to `xdg-desktop-portal`.
 
-The PyQt6 port loads Qt Linguist `.qm` catalogs using the system locale. Use `--language LOCALE` (for example, `--language es`) to override it. Portal diagnostics are currently translated into Spanish; untranslated locales safely fall back to English while the remaining UI is migrated to `tr()`.
+The PyQt6 port loads Qt Linguist `.qm` catalogs using the language selected under `Settings > Application > Language`, or the system locale by default. Use `--language LOCALE` (for example, `--language es`) for a temporary command-line override. Portal diagnostics are currently translated into Spanish; untranslated locales safely fall back to English while the remaining UI is migrated to `tr()`.
 
 Translation workflow for contributors:
 

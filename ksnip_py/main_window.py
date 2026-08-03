@@ -2409,11 +2409,16 @@ class MainWindow(QMainWindow):
         self.status_label.setText("Pinned current image")
 
     def open_settings_dialog(self) -> None:
+        previous_language = str(self._settings.value("application/language", ""))
         dialog = SettingsDialog(self._current_settings_data(), self._watermark_store, self)
         if dialog.exec() != dialog.DialogCode.Accepted:
             return
-        self._apply_settings_data(dialog.settings_data())
-        self.status_label.setText("Settings updated")
+        settings_data = dialog.settings_data()
+        self._apply_settings_data(settings_data)
+        if previous_language != settings_data.application_language:
+            self.status_label.setText(self.tr("Language changed. Restart ksnip to apply it."))
+        else:
+            self.status_label.setText("Settings updated")
 
     def show_from_tray(self) -> None:
         self.showNormal()
@@ -2795,6 +2800,7 @@ class MainWindow(QMainWindow):
             application_auto_hide_docks=self._setting_bool("application/auto_hide_docks", False),
             application_auto_resize_to_content=self._setting_bool("application/auto_resize_to_content", True),
             application_resize_delay_ms=self._setting_int("application/resize_delay_ms", 10),
+            application_language=str(self._settings.value("application/language", "")),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", False),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
@@ -2881,6 +2887,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("application/auto_hide_docks", data.application_auto_hide_docks)
         self._settings.setValue("application/auto_resize_to_content", data.application_auto_resize_to_content)
         self._settings.setValue("application/resize_delay_ms", data.application_resize_delay_ms)
+        self._settings.setValue("application/language", data.application_language)
         if not data.application_remember_position:
             self._settings.remove("window/geometry")
         self.tabs.tabBar().setAutoHide(data.application_auto_hide_tabs)

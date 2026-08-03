@@ -4,7 +4,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from PyQt6.QtCore import QTimer
+from PyQt6.QtCore import QSettings, QTimer
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication
 
@@ -89,7 +89,8 @@ def main(argv: list[str] | None = None) -> int:
     app.setOrganizationDomain("ksnip.ksnip.org")
     app.setApplicationName("ksnip-pyqt6")
     app.setApplicationVersion("0.1.0")
-    load_translation(app, arguments.language)
+    configured_language = arguments.language or str(QSettings().value("application/language", "")) or None
+    load_translation(app, configured_language)
     app_icon_path = Path(__file__).resolve().parent / "icons" / "ksnip.svg"
     if app_icon_path.exists():
         app.setWindowIcon(QIcon(str(app_icon_path)))

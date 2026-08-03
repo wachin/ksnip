@@ -23,5 +23,13 @@
 <context>
     <name>MainWindow</name>
     <message><source>Portal capture canceled.</source><translation>Captura mediante el portal cancelada.</translation></message>
+    <message><source>Language changed. Restart ksnip to apply it.</source><translation>El idioma ha cambiado. Reinicie ksnip para aplicarlo.</translation></message>
+</context>
+<context>
+    <name>SettingsDialog</name>
+    <message><source>System default</source><translation>Predeterminado del sistema</translation></message>
+    <message><source>English</source><translation>Inglés</translation></message>
+    <message><source>Spanish</source><translation>Español</translation></message>
+    <message><source>Language</source><translation>Idioma</translation></message>
 </context>
 </TS>
