@@ -1,176 +1,217 @@
-# PyQt6 Port MVP
+# ksnip PyQt6 Port
 
-This repository now contains a parallel PyQt6 port of `ksnip` under `ksnip_py/`.
+[![Port status](https://img.shields.io/badge/status-active%20port-orange)](ROADMAP.md)
+[![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![PyQt6](https://img.shields.io/badge/PyQt6-6.6%2B-41CD52?logo=qt&logoColor=white)](pyproject.toml)
+[![Debian 13](https://img.shields.io/badge/Debian-13-A81D33?logo=debian&logoColor=white)](#debian-13--mx-linux-25)
+[![MX Linux 25](https://img.shields.io/badge/MX%20Linux-25-222222)](#debian-13--mx-linux-25)
+[![License: GPL-2.0](https://img.shields.io/badge/license-GPL--2.0-blue)](LICENSE.txt)
+[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)](#contributing)
+[![GitHub issues](https://img.shields.io/github/issues/wachin/ksnip)](https://github.com/wachin/ksnip/issues)
+[![GitHub stars](https://img.shields.io/github/stars/wachin/ksnip?style=flat)](https://github.com/wachin/ksnip/stargazers)
 
-Current scope:
+An active port of the [ksnip](https://github.com/ksnip/ksnip) screenshot and annotation application from C++/Qt to Python/PyQt6.
 
-- Main window with toolbar and menus
-- Capture modes: rectangular area, last rectangular area, full screen, current screen, active window, window under cursor
-- Open image from disk
-- Paste image from clipboard
-- Save and save as
-- Copy image to clipboard
-- Tabbed image editing
-- Basic settings persistence for window state and editor defaults
-- Settings dialog for editor defaults and watermark options
-- Configurable persisted application hotkeys for capture and core actions
-- Script uploader support with persisted settings
-- Experimental OCR integration with optional PaddleOCR or script backend
-- Tray icon workflow with show/hide, start/minimize/close-to-tray settings
-- Recent images menu with reopen support
-- Pin current image into always-on-top floating windows
-- Watermark image storage and add-watermark action
-- Capture preferences for delay, auto-copy, and hide/show main-window behavior
-- Undo and redo
-- Rotate and scale transforms
-- Select and move overlay annotation items
-- Ctrl-click additive multi-selection with group move
-- Resize handles for overlay rectangle, ellipse, line, arrow, and text items
-- Delete selected overlay item or selection
-- Duplicate selected overlay item or selection
-- Re-edit selected text item
-- Inline text editing for the `Text` tool after dragging the text box
-- Right-click `Edit text` support for existing `Text` items
-- Bring selected overlay item or selection to front or send it to back
-- Edit selected text font family and size
-- Apply color and stroke width to selected overlay items
-- Apply fill color and opacity to selected overlay items
-- Apply fill mode to selected shape items
-- Apply bold and italic styling to selected text items
-- Hunspell-backed spell checking in text editors with misspelled-word underline and replacement suggestions
-- Copy and paste selected overlay item selections
-- Region editing tools: crop, blur, pixelate
-- Basic annotation tools: pen, line, arrow, rectangle, ellipse, text
-- Color and stroke width controls
+The port lives in `ksnip_py/` and aims to preserve the original application structure, workflow, icons, settings hierarchy, and kImageAnnotator behavior. It is already usable, but it is still under development and is not a finished replacement for upstream ksnip.
 
-Not yet ported:
+![Current ksnip interface reference](images/02-ksnip-cuando-a-hecho-su-primer-captura-de-pantalla.png)
 
-- OCR/plugin parity with the C++ plugin system
-- Native OS-global hotkey registration
-- Effects beyond crop/blur/pixelate polish
-- Full Debian packaging polish and policy compliance
+## Help wanted
 
-Reference source trees now available locally:
+Developers, testers, designers, Debian packagers, and translators are welcome. The most useful areas for contributions are:
 
-- `libraries/kColorPicker`
-- `libraries/kImageAnnotator`
+- Wayland and `xdg-desktop-portal` capture support.
+- Native global hotkeys.
+- Fine visual parity with the original toolbar, editor, and settings dialog.
+- Remaining kImageAnnotator behavior and effects.
+- Imgur, FTP, OCR, and plugin-system parity.
+- Automated GUI tests.
+- Debian packaging and policy review.
 
-These are being used as the behavioral reference for the PyQt6 reimplementation, not as direct Python runtime dependencies.
+See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and reference screenshots.
 
-## Run
+## Current features
 
-MX Linux 23 / Debian 12 note:
+- Rectangular, last-area, full-screen, current-screen, active-window, and window-under-cursor capture modes.
+- Optional real X11 cursor capture through XFixes, inserted as an editable image item.
+- Capture delay, implicit delay, startup capture, auto-copy, and auto-save preferences.
+- Open, paste, embedded paste, save, save as, save all, rename, delete, print, and print preview.
+- Multiple image tabs with dirty-state tracking and dynamic window titles.
+- Recent images, containing-directory access, path copying, and Data URI copying.
+- Annotation tools for selection, pen, markers, lines, arrows, shapes, text, numbers, blur, pixelate, stickers, and crop.
+- Inline multiline text editing with re-editing and Hunspell-backed spelling suggestions.
+- Multiple selection, move, resize, duplicate, ordering, copy/paste, undo, and redo.
+- Rotate, scale, crop, and modify-canvas operations.
+- Watermarks and always-on-top pin windows.
+- Script uploader and experimental PaddleOCR/script OCR backends.
+- System tray workflow and configurable application shortcuts.
+- Hierarchical settings dialog modeled after the original C++ application.
+- Command-line image opening and capture-mode selection.
 
-System Python is typically externally managed. If you are not building a Debian package yet, install optional Python-only extras inside a virtual environment instead of using global `pip`.
+## Known gaps
 
-Current packaging note:
+- Generic Wayland portal capture and Wayland-specific screenshot scaling.
+- Native OS-global hotkey registration.
+- Complete C++ plugin-system parity.
+- Native Imgur and FTP uploaders.
+- Full `Cut` tool parity.
+- Exact visual and behavioral parity across every editor control.
+- Final Debian packaging and automated GUI coverage.
 
-- A first Debian packaging scaffold already exists under `debian/`.
-- It is not finished yet and should not be treated as final Debian packaging.
-- The program is still being refined before packaging is completed for Debian policy review.
+## Debian 13 / MX Linux 25
 
-System dependencies for spell checking:
+The current development environment is AV Linux MXe based on Debian 13 and MX Linux 25.
+
+Install the system runtime and development dependencies:
 
 ```bash
 sudo apt update
-sudo apt install hunspell hunspell-en-us
+sudo apt install \
+  python3-pyqt6 \
+  python3-venv \
+  python3-pip \
+  hunspell \
+  hunspell-en-us \
+  hunspell-es \
+  libxcb-cursor0 \
+  libxfixes3 \
+  x11-utils \
+  xdotool
 ```
 
-On X11 with Qt 6, install the cursor/XFixes runtime libraries as well:
+Important X11 dependencies:
+
+- `libxcb-cursor0` is required by the Qt 6 `xcb` platform plugin. Without it, PyQt6 may fail to start on X11.
+- `libxfixes3` is used to capture the real mouse cursor.
+- `x11-utils` supplies helpers used for active-window geometry.
+- `xdotool` is used to identify the window under the cursor.
+
+Hunspell dictionaries are optional but recommended. Install the dictionary packages appropriate for your language if they differ from the English and Spanish examples above.
+
+## Run from system packages
 
 ```bash
-sudo apt install libxcb-cursor0 libxfixes3
-```
-
-For Spanish spell checking, install the dictionary package that matches your system or locale, for example:
-
-```bash
-sudo apt install hunspell-es
-```
-
-```bash
-sudo apt update
-sudo apt install python3-venv python3-pip
-
-cd /path/to/ksnip
-python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip setuptools wheel
-pip install -e .
-ksnip-pyqt6
-```
-
-Or without installing:
-
-```bash
+git clone https://github.com/wachin/ksnip.git
+cd ksnip
 python3 -m ksnip_py
 ```
 
-If you are running the port directly against system packages on Debian or MX Linux, that is supported too. The spell checker uses the system `hunspell` binary and installed dictionaries.
+## Run from a virtual environment
 
-And if you're not using a KDE operating system (like Kubuntu, MX Linux KDE, Neon, or others) and you want Ksnip to use the operating system's context menu, type this:
+Debian uses an externally managed system Python, so Python-only optional dependencies should be installed in a virtual environment:
+
+```bash
+git clone https://github.com/wachin/ksnip.git
+cd ksnip
+
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -e .
+
+ksnip-pyqt6
+```
+
+The spell checker continues to use the system `hunspell` executable and dictionaries when the application runs inside a virtual environment.
+
+## Desktop theme integration
+
+On GTK-based desktops, the following can help Qt use the desktop file-dialog and menu theme:
 
 ```bash
 QT_QPA_PLATFORMTHEME=gtk3 python3 -m ksnip_py
 ```
 
-Then, when you open or save a file, the operating system's context menu will appear.
+## Command line
 
-## Text Tool
+```text
+ksnip-pyqt6 [IMAGE]
+ksnip-pyqt6 --edit IMAGE
+ksnip-pyqt6 --rectarea
+ksnip-pyqt6 --lastrectarea
+ksnip-pyqt6 --fullscreen
+ksnip-pyqt6 --current
+ksnip-pyqt6 --active
+ksnip-pyqt6 --windowundercursor
+ksnip-pyqt6 --delay SECONDS --fullscreen
+```
 
-Current `Text` workflow in `ksnip_py`:
+Use `ksnip-pyqt6 --help` for the current option list. Cursor, portal, direct-save, and direct-upload CLI parity are still pending.
 
-- Select `Text`
-- Drag to create the text rectangle on the screenshot
-- Release the mouse to start inline editing directly on the image
-- Use `Ctrl+Enter` to accept the text
-- Use `Esc` to cancel a newly created text box
-- Use double click or right click `Edit text` to re-edit an existing text item
+## Text tool
 
-Spell checking in text editors:
+1. Select `Text`.
+2. Drag a rectangle on the screenshot.
+3. Type directly in the inline editor.
+4. Press `Ctrl+Enter` to accept or `Esc` to cancel a new text item.
+5. Double-click an existing text item, or use `Edit text`, to edit it again.
 
-- Uses system `hunspell`
-- Detects installed dictionaries automatically, currently preferring `es_MX` and `en_US` when available
-- Underlines misspelled words
-- Offers replacement suggestions on right click
+Hunspell automatically detects installed dictionaries, underlines misspelled words, and provides replacement suggestions in the context menu.
 
-## OCR
+## Optional OCR
 
-OCR in `ksnip_py/` is optional and experimental.
+OCR is experimental and does not prevent the application from starting when PaddleOCR is unavailable. A script backend can also be configured in Settings.
 
-- The application still starts normally when PaddleOCR is not installed.
-- The default OCR backend is `PaddleOCR`, but a script-based fallback backend is also available in Settings.
-- If PaddleOCR is missing and you trigger OCR, the app shows an install hint instead of failing at startup.
-- The `Spanish + English` setting uses PaddleOCR's `latin` model as the practical mixed-language fallback.
-
-Install PaddleOCR only if you want OCR:
+To install PaddleOCR in the project virtual environment:
 
 ```bash
-sudo apt update
-sudo apt install python3-venv python3-pip
-
-cd /path/to/ksnip
-python3 -m venv .venv
 source .venv/bin/activate
-pip install --upgrade pip setuptools wheel
-pip install paddlepaddle paddleocr
+python -m pip install paddlepaddle paddleocr
 ```
 
-Then reinstall or run the app from the same virtual environment:
+Current limitations:
+
+- Cancellation is best-effort after a backend call has started.
+- Live PaddleOCR recognition has not yet received full automated coverage.
+- Plugin and modeless-window behavior does not yet match the C++ implementation completely.
+
+## Project layout
+
+```text
+ksnip_py/       Active PyQt6 implementation
+src/            Original C++ ksnip reference implementation
+images/         UI and behavior reference screenshots
+debian/         Initial Debian packaging scaffold
+ROADMAP.md      Detailed port status and next work blocks
+pyproject.toml  Python package and executable metadata
+```
+
+The `kColorPicker` and `kImageAnnotator` git submodules are behavioral references, not Python runtime dependencies. After a fresh clone, initialize them with:
 
 ```bash
-pip install -e .
-ksnip-pyqt6
+git submodule update --init --recursive
 ```
 
-Current OCR workflow:
+## Development checks
 
-- Saves the current image to a temporary PNG
-- Runs OCR in a worker thread so the main window stays responsive
-- Shows recognized text in a dialog with copy-to-clipboard support
-- Can copy OCR text to the clipboard automatically if enabled in Settings
+At minimum, run:
 
-Current OCR limitations:
+```bash
+python3 -m compileall -q ksnip_py
+python3 -m ksnip_py --help
+```
 
-- Cancellation is best-effort. Once a backend call is actively running, it may not stop immediately.
-- PaddleOCR was not installed in the validation environment used for the current smoke tests, so runtime verification covered the optional-import path and settings persistence, not live OCR recognition.
+For a headless startup smoke test:
+
+```bash
+timeout 8s env QT_QPA_PLATFORM=offscreen python3 -m ksnip_py
+```
+
+## Contributing
+
+1. Read [ROADMAP.md](ROADMAP.md).
+2. Pick one small unchecked behavior or visual-parity item.
+3. Compare against the C++ sources and the reference screenshots before changing behavior.
+4. Keep unrelated user changes intact.
+5. Add a focused smoke test or reproducible verification when possible.
+6. Open an issue or pull request at [wachin/ksnip](https://github.com/wachin/ksnip).
+
+Please mention your desktop environment, display protocol (`X11` or `Wayland`), Python version, PyQt6 version, and reproduction steps in bug reports.
+
+## Packaging status
+
+The `debian/` directory contains an initial scaffold only. The package should not be considered policy-complete or ready for Debian submission until UI behavior, dependencies, tests, copyright metadata, and installation paths have been reviewed.
+
+## License
+
+This project follows the existing ksnip licensing terms. See [LICENSE.txt](LICENSE.txt).
