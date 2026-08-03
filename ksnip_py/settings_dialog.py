@@ -273,20 +273,20 @@ class SettingsDialog(QDialog):
         capture_layout.addRow(self.hide_main_window_during_capture)
         capture_layout.addRow(self.show_main_window_after_capture)
 
-        saver_group = QGroupBox("Saver", self)
+        saver_group = QGroupBox(self.tr("Saver"), self)
         saver_layout = QVBoxLayout(saver_group)
-        self.saver_auto_save = QCheckBox("Automatically save new captures to default location", saver_group)
-        self.saver_prompt_discard = QCheckBox("Prompt to save before discarding unsaved changes", saver_group)
-        self.saver_remember_directory = QCheckBox("Remember last Save Directory", saver_group)
+        self.saver_auto_save = QCheckBox(self.tr("Automatically save new captures to default location"), saver_group)
+        self.saver_prompt_discard = QCheckBox(self.tr("Prompt to save before discarding unsaved changes"), saver_group)
+        self.saver_remember_directory = QCheckBox(self.tr("Remember last Save Directory"), saver_group)
         saver_layout.addWidget(self.saver_auto_save)
         saver_layout.addWidget(self.saver_prompt_discard)
         saver_layout.addWidget(self.saver_remember_directory)
 
-        saver_quality_group = QGroupBox("Save Quality", self)
+        saver_quality_group = QGroupBox(self.tr("Save Quality"), self)
         saver_quality_layout = QVBoxLayout(saver_quality_group)
-        self.saver_quality_default = QRadioButton("Default", saver_quality_group)
+        self.saver_quality_default = QRadioButton(self.tr("Default"), saver_quality_group)
         self.saver_quality_default.setChecked(True)
-        self.saver_quality_factor = QRadioButton("Factor", saver_quality_group)
+        self.saver_quality_factor = QRadioButton(self.tr("Factor"), saver_quality_group)
         self.saver_quality_value = QSpinBox(saver_quality_group)
         self.saver_quality_value.setRange(0, 100)
         self.saver_quality_value.setValue(50)
@@ -298,16 +298,16 @@ class SettingsDialog(QDialog):
         saver_quality_layout.addWidget(self.saver_quality_default)
         saver_quality_layout.addLayout(quality_factor_row)
 
-        saver_location_group = QGroupBox("Capture save location and filename", self)
+        saver_location_group = QGroupBox(self.tr("Capture save location and filename"), self)
         saver_location_layout = QVBoxLayout(saver_location_group)
         self.saver_location = QLineEdit(saver_location_group)
-        self.saver_location.setToolTip("Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter.")
-        self.saver_location_browse = QPushButton("Browse…", saver_location_group)
+        self.saver_location.setToolTip(self.tr("Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter."))
+        self.saver_location_browse = QPushButton(self.tr("Browse..."), saver_location_group)
         self.saver_location_browse.clicked.connect(self._select_saver_location)
         saver_location_row = QHBoxLayout()
         saver_location_row.addWidget(self.saver_location, 1)
         saver_location_row.addWidget(self.saver_location_browse)
-        self.saver_overwrite = QCheckBox("Overwrite file with same name", saver_location_group)
+        self.saver_overwrite = QCheckBox(self.tr("Overwrite file with same name"), saver_location_group)
         saver_location_layout.addLayout(saver_location_row)
         saver_location_layout.addWidget(self.saver_overwrite)
 
@@ -996,7 +996,7 @@ class SettingsDialog(QDialog):
         current = self.saver_location.text().strip() or str(Path.home() / "Pictures" / "$Y$M$D-$T.png")
         path, _ = QFileDialog.getSaveFileName(
             self,
-            "Capture save location and filename",
+            self.tr("Capture save location and filename"),
             current,
             "PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
         )

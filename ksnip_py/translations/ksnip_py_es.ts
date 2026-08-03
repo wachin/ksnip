@@ -113,5 +113,17 @@
     <message><source>Scale Generic Wayland (xdg-desktop-portal) Screenshots</source><translation>Escalar capturas genéricas de Wayland (xdg-desktop-portal)</translation></message>
     <message><source>Delays</source><translation>Retardos</translation></message>
     <message><source>Implicit capture delay</source><translation>Retardo implícito de captura</translation></message>
+    <message><source>Saver</source><translation>Guardado</translation></message>
+    <message><source>Saver Settings</source><translation>Configuración de guardado</translation></message>
+    <message><source>Automatically save new captures to default location</source><translation>Guardar automáticamente las capturas nuevas en la ubicación predeterminada</translation></message>
+    <message><source>Prompt to save before discarding unsaved changes</source><translation>Preguntar antes de descartar cambios no guardados</translation></message>
+    <message><source>Remember last Save Directory</source><translation>Recordar el último directorio de guardado</translation></message>
+    <message><source>Save Quality</source><translation>Calidad de guardado</translation></message>
+    <message><source>Default</source><translation>Predeterminada</translation></message>
+    <message><source>Factor</source><translation>Factor</translation></message>
+    <message><source>Capture save location and filename</source><translation>Ubicación y nombre de archivo de las capturas</translation></message>
+    <message><source>Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter.</source><translation>Admite $Y, $M, $D, $h, $m, $s, $T y caracteres # consecutivos como contador.</translation></message>
+    <message><source>Browse...</source><translation>Examinar...</translation></message>
+    <message><source>Overwrite file with same name</source><translation>Sobrescribir archivos con el mismo nombre</translation></message>
 </context>
 </TS>
