@@ -76,6 +76,7 @@ sudo apt install \
   libxcb-cursor0 \
   libxfixes3 \
   xdg-desktop-portal \
+  xdg-desktop-portal-gtk \
   x11-utils \
   xdotool
 ```
@@ -87,9 +88,15 @@ Important X11 dependencies:
 - `x11-utils` supplies helpers used for active-window geometry.
 - `xdotool` is used to identify the window under the cursor.
 
-Wayland portal dependency:
+Portal dependencies:
 
-- `xdg-desktop-portal` provides the screenshot portal used by `--portal`. A desktop-specific backend must also be installed and running, such as `xdg-desktop-portal-gtk` on XFCE/MX Linux or `xdg-desktop-portal-kde` on KDE Plasma.
+- `xdg-desktop-portal` is the desktop-independent frontend used by `--portal`.
+- One backend is also required. Backend selection follows `XDG_CURRENT_DESKTOP`, not merely the window manager currently drawing windows.
+- For AV Linux MXe, MX Linux, XFCE, LXDE, Openbox, Fluxbox, and IceWM sessions, `xdg-desktop-portal-gtk` is the practical default. Bare or manually assembled window-manager sessions may additionally need a `portals.conf` configuration and a correctly exported `XDG_CURRENT_DESKTOP`.
+- Use `xdg-desktop-portal-kde` for Plasma, `xdg-desktop-portal-lxqt` for LXQt, `xdg-desktop-portal-xapp` for Cinnamon, `xdg-desktop-portal-phosh` for Phosh, and `xdg-desktop-portal-wlr` for wlroots-based Wayland compositors. GNOME/Ubuntu sessions normally use `xdg-desktop-portal-gnome`.
+- ksnip reports the detected desktop and session type and recommends a package if portal capture is unavailable.
+
+The `xdg-desktop-portal-dev` package is not a runtime dependency. It contains development files used to build portal backend implementations; this PyQt6 port is a portal client over D-Bus and does not need it.
 
 Hunspell dictionaries are optional but recommended. Install the dictionary packages appropriate for your language if they differ from the English and Spanish examples above.
 
@@ -148,6 +155,15 @@ ksnip-pyqt6 --fullscreen --save --upload
 ```
 
 Use `ksnip-pyqt6 --help` for the current option list. `--upload` uses the script configured under `Settings > Uploader > Script Uploader`. On Wayland, `--portal` delegates capture selection to `xdg-desktop-portal`.
+
+The PyQt6 port loads Qt Linguist `.qm` catalogs using the system locale. Use `--language LOCALE` (for example, `--language es`) to override it. Portal diagnostics are currently translated into Spanish; untranslated locales safely fall back to English while the remaining UI is migrated to `tr()`.
+
+Translation workflow for contributors:
+
+```bash
+pylupdate6 ksnip_py/*.py -ts ksnip_py/translations/ksnip_py_es.ts
+lrelease ksnip_py/translations/ksnip_py_es.ts -qm ksnip_py/translations/ksnip_py_es.qm
+```
 
 ## Text tool
 

@@ -9,6 +9,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication
 
 from .main_window import MainWindow
+from .i18n import load_translation
 
 
 def _non_negative_int(value: str) -> int:
@@ -36,6 +37,7 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("-p", "--saveto", metavar="PATH", help="Save a screenshot to PATH without opening the editor")
     parser.add_argument("-o", "--upload", action="store_true", help="Upload a screenshot using the configured script without opening the editor")
     parser.add_argument("-v", "--version", action="version", version="ksnip-pyqt6 0.1.0")
+    parser.add_argument("--language", metavar="LOCALE", help="Override the system language, for example es or es_EC")
     return parser
 
 
@@ -87,6 +89,7 @@ def main(argv: list[str] | None = None) -> int:
     app.setOrganizationDomain("ksnip.ksnip.org")
     app.setApplicationName("ksnip-pyqt6")
     app.setApplicationVersion("0.1.0")
+    load_translation(app, arguments.language)
     app_icon_path = Path(__file__).resolve().parent / "icons" / "ksnip.svg"
     if app_icon_path.exists():
         app.setWindowIcon(QIcon(str(app_icon_path)))

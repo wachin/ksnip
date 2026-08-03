@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import ctypes
 import ctypes.util
+import os
 import re
 import subprocess
 from dataclasses import dataclass
 from dataclasses import field
 
-from PyQt6.QtCore import QEventLoop, QObject, QPoint, QRect, QTimer, Qt, QUrl, pyqtSignal, pyqtSlot
+from PyQt6.QtCore import QCoreApplication, QEventLoop, QObject, QPoint, QRect, QTimer, Qt, QUrl, pyqtSignal, pyqtSlot
 from PyQt6.QtDBus import QDBusConnection, QDBusInterface, QDBusMessage, QDBusObjectPath
 from PyQt6.QtGui import QColor, QCursor, QGuiApplication, QImage, QMouseEvent, QPainter, QPen, QPixmap
 from PyQt6.QtWidgets import QApplication, QWidget
@@ -23,6 +24,61 @@ class CaptureResult:
 
 
 _last_rect_area: QRect | None = None
+_portal_last_error = ""
+_portal_was_canceled = False
+
+
+def desktop_environment() -> str:
+    return next(
+        (
+            value
+            for value in (
+                os.environ.get("XDG_CURRENT_DESKTOP", ""),
+                os.environ.get("XDG_SESSION_DESKTOP", ""),
+                os.environ.get("DESKTOP_SESSION", ""),
+            )
+            if value
+        ),
+        "unknown",
+    )
+
+
+def recommended_portal_backend(desktop: str | None = None) -> str:
+    normalized = (desktop or desktop_environment()).lower()
+    mappings = (
+        (("kde", "plasma"), "xdg-desktop-portal-kde"),
+        (("lxqt",), "xdg-desktop-portal-lxqt"),
+        (("phosh",), "xdg-desktop-portal-phosh"),
+        (("sway", "wayfire", "river", "wlroots"), "xdg-desktop-portal-wlr"),
+        (("cinnamon", "x-cinnamon"), "xdg-desktop-portal-xapp"),
+        (("gnome", "ubuntu"), "xdg-desktop-portal-gnome"),
+    )
+    for names, package in mappings:
+        if any(name in normalized for name in names):
+            return package
+    return "xdg-desktop-portal-gtk"
+
+
+def portal_failure_message() -> str:
+    desktop = desktop_environment()
+    session_type = os.environ.get("XDG_SESSION_TYPE", "unknown")
+    package = recommended_portal_backend(desktop)
+    detail = _portal_last_error or QCoreApplication.translate("PortalDiagnostics", "The screenshot portal did not return an image.")
+    return (
+        f"{QCoreApplication.translate('PortalDiagnostics', 'Portal capture is unavailable: %1').replace('%1', detail)}\n\n"
+        f"{QCoreApplication.translate('PortalDiagnostics', 'Detected desktop: %1').replace('%1', desktop)}\n"
+        f"{QCoreApplication.translate('PortalDiagnostics', 'Session type: %1').replace('%1', session_type)}\n\n"
+        f"{QCoreApplication.translate('PortalDiagnostics', 'Install the portal frontend and the recommended backend:')}\n"
+        f"sudo apt install xdg-desktop-portal {package}\n\n"
+        + QCoreApplication.translate(
+            "PortalDiagnostics",
+            "With Fluxbox, Openbox, IceWM, or another manually assembled session, xdg-desktop-portal-gtk is the usual fallback. The session must export XDG_CURRENT_DESKTOP and may require a matching portals.conf file.",
+        )
+    )
+
+
+def portal_capture_was_canceled() -> bool:
+    return _portal_was_canceled
 
 
 def grab_fullscreen() -> CaptureResult | None:
@@ -81,8 +137,12 @@ class _PortalResponse(QObject):
 
 
 def grab_portal(*, interactive: bool = True, scale: bool = False) -> CaptureResult | None:
+    global _portal_last_error, _portal_was_canceled
+    _portal_last_error = ""
+    _portal_was_canceled = False
     connection = QDBusConnection.sessionBus()
     if not connection.isConnected():
+        _portal_last_error = QCoreApplication.translate("PortalDiagnostics", "the D-Bus session bus is not available.")
         return None
     interface = QDBusInterface(
         "org.freedesktop.portal.Desktop",
@@ -91,14 +151,17 @@ def grab_portal(*, interactive: bool = True, scale: bool = False) -> CaptureResu
         connection,
     )
     if not interface.isValid():
+        _portal_last_error = QCoreApplication.translate("PortalDiagnostics", "the xdg-desktop-portal service is not available.")
         return None
     token = f"ksnip_py_{id(interface):x}"
     reply = interface.call("Screenshot", "", {"interactive": interactive, "handle_token": token})
     if reply.type() == QDBusMessage.MessageType.ErrorMessage or not reply.arguments():
+        _portal_last_error = reply.errorMessage() or QCoreApplication.translate("PortalDiagnostics", "the Screenshot portal interface is unavailable.")
         return None
     request = reply.arguments()[0]
     request_path = request.path() if isinstance(request, QDBusObjectPath) else str(request)
     if not request_path:
+        _portal_last_error = QCoreApplication.translate("PortalDiagnostics", "the portal returned an invalid request path.")
         return None
 
     response = _PortalResponse()
@@ -110,6 +173,7 @@ def grab_portal(*, interactive: bool = True, scale: bool = False) -> CaptureResu
         response.receive,
     )
     if not connected:
+        _portal_last_error = QCoreApplication.translate("PortalDiagnostics", "ksnip could not subscribe to the portal response.")
         return None
     timeout = QTimer(response)
     timeout.setSingleShot(True)
@@ -123,12 +187,23 @@ def grab_portal(*, interactive: bool = True, scale: bool = False) -> CaptureResu
         "Response",
         response.receive,
     )
+    if response.response_code is None:
+        _portal_last_error = QCoreApplication.translate("PortalDiagnostics", "the portal response timed out.")
+        return None
     if response.response_code != 0:
+        _portal_was_canceled = response.response_code == 1
+        _portal_last_error = (
+            QCoreApplication.translate("PortalDiagnostics", "capture was canceled.")
+            if _portal_was_canceled
+            else QCoreApplication.translate("PortalDiagnostics", "portal error code %1.").replace("%1", str(response.response_code))
+        )
         return None
     uri = str(response.results.get("uri") or response.results.get("path") or "")
     path = QUrl(uri).toLocalFile() if uri.startswith("file:") else uri
     image = QImage(path)
     if image.isNull():
+        source = path or QCoreApplication.translate("PortalDiagnostics", "an empty path")
+        _portal_last_error = QCoreApplication.translate("PortalDiagnostics", "the returned image could not be loaded from %1.").replace("%1", source)
         return None
     pixmap = QPixmap.fromImage(image)
     if scale:

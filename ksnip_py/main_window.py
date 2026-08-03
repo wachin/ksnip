@@ -43,6 +43,8 @@ from .capture import (
     grab_window_under_cursor,
     grab_x11_cursor,
     has_last_rectangular_area,
+    portal_capture_was_canceled,
+    portal_failure_message,
 )
 from .ocr_backend import OcrBackend, OcrOptions, OcrWorker
 from .ocr_result_dialog import OcrResultDialog
@@ -1745,7 +1747,11 @@ class MainWindow(QMainWindow):
             )
         )
         if result is None:
-            self._handle_capture_failure("Portal capture was canceled or failed.", critical=False)
+            message = portal_failure_message()
+            if portal_capture_was_canceled():
+                self._handle_capture_failure(self.tr("Portal capture canceled."), critical=False)
+            else:
+                self._handle_capture_failure(message)
             return
         self._load_capture_result(result, "Portal")
 

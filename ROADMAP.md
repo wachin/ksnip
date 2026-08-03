@@ -74,6 +74,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Estructura base de aplicación PyQt6 en `ksnip_py/`
 - [x] Ventana principal funcional
 - [x] Persistencia básica con `QSettings`
+- [x] Infraestructura inicial Qt Linguist para el port PyQt6, carga automática de `.qm`, override `--language` y diagnóstico del portal en español
+- [ ] Migrar todos los textos de la interfaz PyQt6 a `tr()` y completar los catálogos de los idiomas soportados
 - [x] Restauración de geometría de ventana
 - [x] Pestañas para múltiples capturas/imágenes
 - [x] Manejo de estado `dirty` por pestaña
@@ -103,6 +105,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Captura opcional del cursor real mediante XFixes en X11, insertado como `Image Item` editable; fallback seguro cuando no está disponible
 - [ ] Paridad Wayland/X11/portal como en C++
 - [x] Captura vía portal genérico Wayland mediante QtDBus, con cancelación, timeout y carga del URI devuelto
+- [x] Diagnóstico de entorno para fallos del portal, con recomendación del backend Debian según `XDG_CURRENT_DESKTOP`
 - [ ] Escalado específico de screenshots Wayland genéricos
 - [x] Delay implícito con la misma semántica del código C++: máximo con delay explícito sólo cuando la ventana estaba visible
 - [ ] Hotkeys globales nativos para capturas
