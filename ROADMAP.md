@@ -77,6 +77,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Infraestructura inicial Qt Linguist para el port PyQt6, carga automática de `.qm`, override `--language` y diagnóstico del portal en español
 - [x] Selector persistente de idioma en `Settings > Application`, con idioma del sistema, inglés y español
 - [x] Reutilización del catálogo Qt Linguist del ksnip C++ y migración inicial de menús/acciones principales a `tr()`
+- [x] Traducción inicial de modos de captura, herramientas de anotación y submenús principales del port
 - [ ] Migrar todos los textos de la interfaz PyQt6 a `tr()` y completar los catálogos de los idiomas soportados
 - [x] Restauración de geometría de ventana
 - [x] Pestañas para múltiples capturas/imágenes
