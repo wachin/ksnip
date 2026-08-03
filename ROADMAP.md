@@ -85,6 +85,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] CLI `--save` y `--saveto` para capturar y guardar directamente sin abrir el editor
 - [x] CLI `--cursor` para incluir el puntero en capturas solicitadas por línea de comandos
 - [x] CLI `--upload` para capturar y ejecutar el uploader por script sin abrir el editor; combinable con `--save`
+- [x] CLI `--portal` conectado al backend genérico de `xdg-desktop-portal`
 
 ## Captura de Pantalla
 
@@ -101,7 +102,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Copia automática al portapapeles para nuevas capturas
 - [x] Captura opcional del cursor real mediante XFixes en X11, insertado como `Image Item` editable; fallback seguro cuando no está disponible
 - [ ] Paridad Wayland/X11/portal como en C++
-- [ ] Captura vía portal genérico Wayland
+- [x] Captura vía portal genérico Wayland mediante QtDBus, con cancelación, timeout y carga del URI devuelto
 - [ ] Escalado específico de screenshots Wayland genéricos
 - [x] Delay implícito con la misma semántica del código C++: máximo con delay explícito sólo cuando la ventana estaba visible
 - [ ] Hotkeys globales nativos para capturas

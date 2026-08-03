@@ -7,7 +7,8 @@ import subprocess
 from dataclasses import dataclass
 from dataclasses import field
 
-from PyQt6.QtCore import QPoint, QRect, Qt, pyqtSignal
+from PyQt6.QtCore import QEventLoop, QObject, QPoint, QRect, QTimer, Qt, QUrl, pyqtSignal, pyqtSlot
+from PyQt6.QtDBus import QDBusConnection, QDBusInterface, QDBusMessage, QDBusObjectPath
 from PyQt6.QtGui import QColor, QCursor, QGuiApplication, QImage, QMouseEvent, QPainter, QPen, QPixmap
 from PyQt6.QtWidgets import QApplication, QWidget
 
@@ -63,6 +64,78 @@ def grab_window_under_cursor() -> CaptureResult | None:
         return None
     geometry = _x11_window_geometry(window_id)
     return CaptureResult(pixmap, "window-under-cursor", geometry.topLeft() if geometry is not None else QPoint())
+
+
+class _PortalResponse(QObject):
+    def __init__(self) -> None:
+        super().__init__()
+        self.response_code: int | None = None
+        self.results: dict = {}
+        self.loop = QEventLoop()
+
+    @pyqtSlot("uint", "QVariantMap")
+    def receive(self, response_code: int, results: dict) -> None:
+        self.response_code = response_code
+        self.results = results
+        self.loop.quit()
+
+
+def grab_portal(*, interactive: bool = True, scale: bool = False) -> CaptureResult | None:
+    connection = QDBusConnection.sessionBus()
+    if not connection.isConnected():
+        return None
+    interface = QDBusInterface(
+        "org.freedesktop.portal.Desktop",
+        "/org/freedesktop/portal/desktop",
+        "org.freedesktop.portal.Screenshot",
+        connection,
+    )
+    if not interface.isValid():
+        return None
+    token = f"ksnip_py_{id(interface):x}"
+    reply = interface.call("Screenshot", "", {"interactive": interactive, "handle_token": token})
+    if reply.type() == QDBusMessage.MessageType.ErrorMessage or not reply.arguments():
+        return None
+    request = reply.arguments()[0]
+    request_path = request.path() if isinstance(request, QDBusObjectPath) else str(request)
+    if not request_path:
+        return None
+
+    response = _PortalResponse()
+    connected = connection.connect(
+        "",
+        request_path,
+        "org.freedesktop.portal.Request",
+        "Response",
+        response.receive,
+    )
+    if not connected:
+        return None
+    timeout = QTimer(response)
+    timeout.setSingleShot(True)
+    timeout.timeout.connect(response.loop.quit)
+    timeout.start(120_000)
+    response.loop.exec()
+    connection.disconnect(
+        "",
+        request_path,
+        "org.freedesktop.portal.Request",
+        "Response",
+        response.receive,
+    )
+    if response.response_code != 0:
+        return None
+    uri = str(response.results.get("uri") or response.results.get("path") or "")
+    path = QUrl(uri).toLocalFile() if uri.startswith("file:") else uri
+    image = QImage(path)
+    if image.isNull():
+        return None
+    pixmap = QPixmap.fromImage(image)
+    if scale:
+        screen = QApplication.primaryScreen()
+        if screen is not None:
+            pixmap.setDevicePixelRatio(screen.devicePixelRatio())
+    return CaptureResult(pixmap, "portal")
 
 
 def grab_rectangular_area(parent: QWidget | None = None) -> CaptureResult | None:

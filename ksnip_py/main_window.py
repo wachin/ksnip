@@ -38,6 +38,7 @@ from .capture import (
     grab_current_screen,
     grab_fullscreen,
     grab_last_rectangular_area,
+    grab_portal,
     grab_rectangular_area,
     grab_window_under_cursor,
     grab_x11_cursor,
@@ -1735,6 +1736,19 @@ class MainWindow(QMainWindow):
             return
         self._load_capture_result(result, "Window Under Cursor")
 
+    def capture_portal(self) -> None:
+        self._settings.setValue("capture/default_mode", "portal")
+        result = self._capture_with_preferences(
+            lambda: grab_portal(
+                interactive=True,
+                scale=self._setting_bool("capture/scale_generic_wayland", False),
+            )
+        )
+        if result is None:
+            self._handle_capture_failure("Portal capture was canceled or failed.", critical=False)
+            return
+        self._load_capture_result(result, "Portal")
+
     def _capture_with_preferences(self, capture_fn):
         was_visible = self.isVisible() and not self.isMinimized()
         should_hide = self._setting_bool("capture/hide_main_window", True) and was_visible
@@ -2765,6 +2779,7 @@ class MainWindow(QMainWindow):
             capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
             capture_implicit_delay_ms=self._setting_int("capture/implicit_delay_ms", 200),
             capture_include_cursor=self._setting_bool("capture/include_cursor", True),
+            scale_generic_wayland=self._setting_bool("capture/scale_generic_wayland", False),
             hide_main_window_during_capture=self._setting_bool("capture/hide_main_window", True),
             show_main_window_after_capture=self._setting_bool("capture/show_main_window_after_capture", True),
             auto_copy_new_captures=self._setting_bool("capture/auto_copy_new_captures", False),
@@ -2850,6 +2865,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
         self._settings.setValue("capture/implicit_delay_ms", data.capture_implicit_delay_ms)
         self._settings.setValue("capture/include_cursor", data.capture_include_cursor)
+        self._settings.setValue("capture/scale_generic_wayland", data.scale_generic_wayland)
         self._settings.setValue("capture/hide_main_window", data.hide_main_window_during_capture)
         self._settings.setValue("capture/show_main_window_after_capture", data.show_main_window_after_capture)
         self._settings.setValue("capture/auto_copy_new_captures", data.auto_copy_new_captures)

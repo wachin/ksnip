@@ -29,6 +29,7 @@ def build_argument_parser() -> argparse.ArgumentParser:
     capture_modes.add_argument("-m", "--current", action="store_const", const="current", dest="capture_mode", help="Capture the current screen")
     capture_modes.add_argument("-a", "--active", action="store_const", const="active", dest="capture_mode", help="Capture the active window")
     capture_modes.add_argument("-u", "--windowundercursor", action="store_const", const="under_cursor", dest="capture_mode", help="Capture the window under the cursor")
+    capture_modes.add_argument("-t", "--portal", action="store_const", const="portal", dest="capture_mode", help="Capture using xdg-desktop-portal")
     parser.add_argument("-d", "--delay", type=_non_negative_int, default=None, metavar="SECONDS")
     parser.add_argument("-c", "--cursor", action="store_true", help="Include the mouse cursor in the screenshot")
     parser.add_argument("-s", "--save", action="store_true", help="Save a screenshot to the configured default location without opening the editor")
@@ -61,6 +62,7 @@ def apply_startup_request(window: MainWindow, arguments: argparse.Namespace) -> 
         "current": window.capture_current_screen,
         "active": window.capture_active_window,
         "under_cursor": window.capture_window_under_cursor,
+        "portal": window.capture_portal,
     }
     requested_mode = arguments.capture_mode
     if requested_mode is None and (arguments.save or arguments.saveto or arguments.upload):

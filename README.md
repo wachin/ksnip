@@ -133,6 +133,7 @@ ksnip-pyqt6 --fullscreen
 ksnip-pyqt6 --current
 ksnip-pyqt6 --active
 ksnip-pyqt6 --windowundercursor
+ksnip-pyqt6 --portal
 ksnip-pyqt6 --delay SECONDS --fullscreen
 ksnip-pyqt6 --fullscreen --cursor
 ksnip-pyqt6 --fullscreen --save
@@ -141,7 +142,7 @@ ksnip-pyqt6 --current --upload
 ksnip-pyqt6 --fullscreen --save --upload
 ```
 
-Use `ksnip-pyqt6 --help` for the current option list. `--upload` uses the script configured under `Settings > Uploader > Script Uploader`; portal CLI parity is still pending.
+Use `ksnip-pyqt6 --help` for the current option list. `--upload` uses the script configured under `Settings > Uploader > Script Uploader`. On Wayland, `--portal` delegates capture selection to `xdg-desktop-portal`.
 
 ## Text tool
 
