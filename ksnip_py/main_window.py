@@ -73,6 +73,7 @@ class MainWindow(QMainWindow):
         self._capture_cursor_override: bool | None = None
         self._cli_direct_save = False
         self._cli_save_path: str | None = None
+        self._cli_upload = False
         self._quit_after_capture = False
         self._tool_group_buttons: dict[str, QToolButton] = {}
 
@@ -1785,8 +1786,8 @@ class MainWindow(QMainWindow):
         loop.exec()
 
     def _load_capture_result(self, result, title: str) -> None:
-        if self._cli_direct_save:
-            self._save_cli_capture(result)
+        if self._cli_direct_save or self._cli_upload:
+            self._process_cli_capture(result)
             return
         self._load_capture(result.pixmap.toImage(), title)
         canvas = self.current_canvas()
@@ -1798,7 +1799,25 @@ class MainWindow(QMainWindow):
             QGuiApplication.clipboard().setImage(result.pixmap.toImage())
             self.status_label.setText(f"Loaded {title.lower()} capture and copied it to clipboard")
 
-    def _save_cli_capture(self, result) -> bool:
+    def _process_cli_capture(self, result) -> None:
+        image = self._cli_capture_image(result)
+        if self._cli_direct_save:
+            self._save_cli_capture(image)
+        if self._cli_upload:
+            self._upload_cli_capture(image)
+        self._finish_cli_capture()
+
+    @staticmethod
+    def _cli_capture_image(result) -> QImage:
+        image = result.pixmap.toImage()
+        if result.cursor_image is not None and result.cursor_position is not None:
+            image = image.copy()
+            painter = QPainter(image)
+            painter.drawImage(result.cursor_position, result.cursor_image)
+            painter.end()
+        return image
+
+    def _save_cli_capture(self, image: QImage) -> bool:
         path = Path(self._cli_save_path).expanduser() if self._cli_save_path else self._next_auto_save_path()
         if not path.suffix:
             path = path.with_suffix(".png")
@@ -1806,15 +1825,31 @@ class MainWindow(QMainWindow):
             path.parent.mkdir(parents=True, exist_ok=True)
         except OSError as error:
             print(f"Unable to create capture directory {path.parent}: {error}", file=sys.stderr)
-            self._finish_cli_capture()
             return False
         quality = self._setting_int("saver/quality_factor", 50) if self._setting_bool("saver/quality_enabled", False) else -1
-        if not result.pixmap.toImage().save(str(path), None, quality):
+        if not image.save(str(path), None, quality):
             print(f"Unable to save screenshot to {path}", file=sys.stderr)
-            self._finish_cli_capture()
             return False
         print(path)
-        self._finish_cli_capture()
+        return True
+
+    def _upload_cli_capture(self, image: QImage) -> bool:
+        result = self._script_uploader.upload(
+            image,
+            script_path=str(self._settings.value("upload/script_path", "")),
+            copy_output_filter=str(self._settings.value("upload/output_filter", "")),
+            stop_on_stderr=self._setting_bool("upload/stop_on_stderr", False),
+        )
+        if not result.ok:
+            print(f"Upload failed: {result.message}", file=sys.stderr)
+            if result.output:
+                print(result.output, file=sys.stderr)
+            return False
+        print("Upload finished")
+        if result.output:
+            print(result.output)
+            if self._setting_bool("upload/copy_output", False):
+                QGuiApplication.clipboard().setText(result.output)
         return True
 
     def _finish_cli_capture(self) -> None:

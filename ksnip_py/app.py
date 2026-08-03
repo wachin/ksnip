@@ -33,6 +33,7 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("-c", "--cursor", action="store_true", help="Include the mouse cursor in the screenshot")
     parser.add_argument("-s", "--save", action="store_true", help="Save a screenshot to the configured default location without opening the editor")
     parser.add_argument("-p", "--saveto", metavar="PATH", help="Save a screenshot to PATH without opening the editor")
+    parser.add_argument("-o", "--upload", action="store_true", help="Upload a screenshot using the configured script without opening the editor")
     parser.add_argument("-v", "--version", action="version", version="ksnip-pyqt6 0.1.0")
     return parser
 
@@ -43,12 +44,15 @@ def apply_startup_request(window: MainWindow, arguments: argparse.Namespace) -> 
         return window._open_image_path(str(Path(image_path).expanduser()))
     if arguments.delay is not None:
         window._capture_delay_override_seconds = arguments.delay
-    command_line_capture = arguments.capture_mode is not None or arguments.save or arguments.saveto
+    command_line_capture = arguments.capture_mode is not None or arguments.save or arguments.saveto or arguments.upload
     if command_line_capture:
         window._capture_cursor_override = arguments.cursor
     if arguments.save or arguments.saveto:
         window._cli_direct_save = True
         window._cli_save_path = arguments.saveto
+        window._quit_after_capture = True
+    if arguments.upload:
+        window._cli_upload = True
         window._quit_after_capture = True
     capture_methods = {
         "rect": window.capture_rect_area,
@@ -59,7 +63,7 @@ def apply_startup_request(window: MainWindow, arguments: argparse.Namespace) -> 
         "under_cursor": window.capture_window_under_cursor,
     }
     requested_mode = arguments.capture_mode
-    if requested_mode is None and (arguments.save or arguments.saveto):
+    if requested_mode is None and (arguments.save or arguments.saveto or arguments.upload):
         requested_mode = str(window._settings.value("capture/default_mode", "rect"))
     capture_method = capture_methods.get(requested_mode)
     if capture_method is not None:

@@ -137,9 +137,11 @@ ksnip-pyqt6 --delay SECONDS --fullscreen
 ksnip-pyqt6 --fullscreen --cursor
 ksnip-pyqt6 --fullscreen --save
 ksnip-pyqt6 --current --saveto /path/to/capture.png
+ksnip-pyqt6 --current --upload
+ksnip-pyqt6 --fullscreen --save --upload
 ```
 
-Use `ksnip-pyqt6 --help` for the current option list. Portal and direct-upload CLI parity are still pending.
+Use `ksnip-pyqt6 --help` for the current option list. `--upload` uses the script configured under `Settings > Uploader > Script Uploader`; portal CLI parity is still pending.
 
 ## Text tool
 

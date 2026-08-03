@@ -84,6 +84,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Integración CLI inicial para abrir imágenes, seleccionar los seis modos de captura, delay temporal, ayuda y versión
 - [x] CLI `--save` y `--saveto` para capturar y guardar directamente sin abrir el editor
 - [x] CLI `--cursor` para incluir el puntero en capturas solicitadas por línea de comandos
+- [x] CLI `--upload` para capturar y ejecutar el uploader por script sin abrir el editor; combinable con `--save`
 
 ## Captura de Pantalla
 
