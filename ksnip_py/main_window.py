@@ -1728,7 +1728,8 @@ class MainWindow(QMainWindow):
         self._load_capture_result(result, "Window Under Cursor")
 
     def _capture_with_preferences(self, capture_fn):
-        should_hide = self._setting_bool("capture/hide_main_window", True) and self.isVisible() and not self.isMinimized()
+        was_visible = self.isVisible() and not self.isMinimized()
+        should_hide = self._setting_bool("capture/hide_main_window", True) and was_visible
         if should_hide:
             self.hide()
             QGuiApplication.processEvents()
@@ -1740,6 +1741,8 @@ class MainWindow(QMainWindow):
         )
         self._capture_delay_override_seconds = None
         delay_ms = max(0, delay_seconds * 1000)
+        if was_visible:
+            delay_ms = max(delay_ms, max(0, self._setting_int("capture/implicit_delay_ms", 200)))
         if delay_ms > 0:
             self._wait_for_capture_delay(delay_ms)
 
@@ -2664,6 +2667,7 @@ class MainWindow(QMainWindow):
             italic=self.italic.isChecked(),
             rotate_watermark=self.rotate_watermark_action.isChecked(),
             capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
+            capture_implicit_delay_ms=self._setting_int("capture/implicit_delay_ms", 200),
             hide_main_window_during_capture=self._setting_bool("capture/hide_main_window", True),
             show_main_window_after_capture=self._setting_bool("capture/show_main_window_after_capture", True),
             auto_copy_new_captures=self._setting_bool("capture/auto_copy_new_captures", False),
@@ -2747,6 +2751,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/italic", data.italic)
         self._settings.setValue("watermark/rotate", data.rotate_watermark)
         self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
+        self._settings.setValue("capture/implicit_delay_ms", data.capture_implicit_delay_ms)
         self._settings.setValue("capture/hide_main_window", data.hide_main_window_during_capture)
         self._settings.setValue("capture/show_main_window_after_capture", data.show_main_window_after_capture)
         self._settings.setValue("capture/auto_copy_new_captures", data.auto_copy_new_captures)

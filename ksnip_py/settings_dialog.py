@@ -49,6 +49,7 @@ class SettingsData:
     italic: bool
     rotate_watermark: bool
     capture_delay_seconds: int
+    capture_implicit_delay_ms: int
     hide_main_window_during_capture: bool
     show_main_window_after_capture: bool
     auto_copy_new_captures: bool
@@ -325,7 +326,7 @@ class SettingsDialog(QDialog):
         self.implicit_capture_delay.setRange(0, 2000)
         self.implicit_capture_delay.setSuffix(" ms")
         self.implicit_capture_delay.setValue(200)
-        self.implicit_capture_delay.setEnabled(False)
+        self.implicit_capture_delay.setSingleStep(10)
         image_grabber_delay_layout.addRow("Implicit capture delay", self.implicit_capture_delay)
 
         snipping_area_group = QGroupBox("Snipping Area", self)
@@ -871,6 +872,7 @@ class SettingsDialog(QDialog):
         self.italic.setChecked(initial.italic)
         self.rotate_watermark.setChecked(initial.rotate_watermark)
         self.capture_delay_seconds.setValue(initial.capture_delay_seconds)
+        self.implicit_capture_delay.setValue(initial.capture_implicit_delay_ms)
         self.hide_main_window_during_capture.setChecked(initial.hide_main_window_during_capture)
         self.show_main_window_after_capture.setChecked(initial.show_main_window_after_capture)
         self.auto_copy_new_captures.setChecked(initial.auto_copy_new_captures)
@@ -1033,6 +1035,7 @@ class SettingsDialog(QDialog):
             italic=self.italic.isChecked(),
             rotate_watermark=self.rotate_watermark.isChecked(),
             capture_delay_seconds=self.capture_delay_seconds.value(),
+            capture_implicit_delay_ms=self.implicit_capture_delay.value(),
             hide_main_window_during_capture=self.hide_main_window_during_capture.isChecked(),
             show_main_window_after_capture=self.show_main_window_after_capture.isChecked(),
             auto_copy_new_captures=self.auto_copy_new_captures.isChecked(),

@@ -100,7 +100,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [ ] Paridad Wayland/X11/portal como en C++
 - [ ] Captura vía portal genérico Wayland
 - [ ] Escalado específico de screenshots Wayland genéricos
-- [ ] Delay implícito con la misma semántica del código C++
+- [x] Delay implícito con la misma semántica del código C++: máximo con delay explícito sólo cuando la ventana estaba visible
 - [ ] Hotkeys globales nativos para capturas
 
 ## Archivo e Imagen
