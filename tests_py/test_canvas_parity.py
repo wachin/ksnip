@@ -234,6 +234,27 @@ class NumberFontParityTest(unittest.TestCase):
         self.assertTrue(pointer.bounds().contains(pointer.start))
         self.assertTrue(arrow.bounds().contains(arrow.start))
 
+    def test_number_pointer_handles_and_hit_testing_follow_visible_geometry(self) -> None:
+        canvas = AnnotationCanvas()
+        item = OverlayItem(
+            kind=Tool.NUMBER_POINTER, start=QPoint(20, 20), end=QPoint(180, 100),
+            color=QColor("red"), pen_width=1, text="1", font_point_size=20,
+        )
+        canvas._items = [item]
+        bubble = item.number_pointer_bubble_rect()
+
+        self.assertEqual(canvas._handle_points(item), {"start": bubble.center(), "end": item.end})
+        self.assertEqual(canvas._find_item_at(bubble.center()), 0)
+        self.assertEqual(canvas._find_item_at(item.end), 0)
+        self.assertIsNone(canvas._find_item_at(QPoint(bubble.right() + 5, bubble.bottom() + 35)))
+
+        original_tip = QPoint(item.end)
+        canvas._resize_item(item, "start", QPoint(80, 60))
+        self.assertEqual(item.number_pointer_bubble_rect().center(), QPoint(80, 60))
+        self.assertEqual(item.end, original_tip)
+        canvas._resize_item(item, "end", QPoint(190, 30))
+        self.assertEqual(item.end, QPoint(190, 30))
+
     def test_number_tools_use_the_configured_font_styles(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_bold(False)

@@ -521,6 +521,10 @@ class OverlayItem:
         text_rect = QFontMetrics(font).boundingRect(self.text or " ").adjusted(-5, -5, 5, 5)
         return max(16, text_rect.width(), text_rect.height())
 
+    def number_pointer_bubble_rect(self) -> QRect:
+        diameter = self.number_badge_diameter()
+        return QRect(self.start, QSize(diameter, diameter))
+
     def bounds(self) -> QRect:
         if self.kind in (Tool.PEN, Tool.MARKER_PEN) and self.points:
             left = min(point.x() for point in self.points)
@@ -548,8 +552,7 @@ class OverlayItem:
         if self.kind == Tool.TEXT_ARROW:
             return QRect(self.start, self.end).normalized().united(self.text_arrow_label_rect()).adjusted(-6, -6, 6, 6)
         if self.kind == Tool.NUMBER_POINTER:
-            diameter = self.number_badge_diameter()
-            bubble = QRect(self.start, QSize(diameter, diameter))
+            bubble = self.number_pointer_bubble_rect()
             return bubble.united(QRect(bubble.center(), self.end).normalized()).adjusted(-6, -6, 6, 6)
         if self.kind == Tool.NUMBER_ARROW:
             radius = (self.number_badge_diameter() + 1) // 2
@@ -1647,6 +1650,13 @@ class AnnotationCanvas(QLabel):
                     or bubble_rect.contains(point)
                 ):
                     return index
+            elif item.kind == Tool.NUMBER_POINTER:
+                bubble_rect = item.number_pointer_bubble_rect()
+                if (
+                    bubble_rect.contains(point)
+                    or self._point_line_distance(point, bubble_rect.center(), item.end) <= max(8, item.pen_width * 2)
+                ):
+                    return index
             elif item.bounds().contains(point):
                 return index
         return None
@@ -2210,6 +2220,12 @@ class AnnotationCanvas(QLabel):
                 "end": QPoint(item.end),
             }
 
+        if item.kind == Tool.NUMBER_POINTER:
+            return {
+                "start": item.number_pointer_bubble_rect().center(),
+                "end": QPoint(item.end),
+            }
+
         if item.kind in (
             Tool.RECT,
             Tool.ELLIPSE,
@@ -2217,7 +2233,6 @@ class AnnotationCanvas(QLabel):
             Tool.MARKER_ELLIPSE,
             Tool.TEXT_POINTER,
             Tool.NUMBER,
-            Tool.NUMBER_POINTER,
         ):
             rect = QRect(item.start, item.end).normalized()
             return {
@@ -2256,6 +2271,13 @@ class AnnotationCanvas(QLabel):
         }
 
     def _resize_item(self, item: OverlayItem, handle: str, point: QPoint) -> None:
+        if item.kind == Tool.NUMBER_POINTER:
+            if handle == "start":
+                diameter = item.number_badge_diameter()
+                item.start = QPoint(point.x() - diameter // 2, point.y() - diameter // 2)
+            elif handle == "end":
+                item.end = QPoint(point)
+            return
         if self._is_line_like(item.kind):
             if handle == "start":
                 item.start = QPoint(point)
@@ -2923,8 +2945,8 @@ class AnnotationCanvas(QLabel):
         painter.drawText(rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
 
     def _draw_number_pointer(self, painter: QPainter, item: OverlayItem) -> None:
-        diameter = item.number_badge_diameter()
-        bubble_rect = QRect(item.start, QSize(diameter, diameter))
+        bubble_rect = item.number_pointer_bubble_rect()
+        diameter = bubble_rect.width()
         center = bubble_rect.center()
         tail_tip = item.end
         tail_base = self._circle_edge_point(center, diameter // 2 - 2, tail_tip)
