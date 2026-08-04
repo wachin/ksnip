@@ -1185,6 +1185,37 @@ class MainWindow(QMainWindow):
         zoom_layout.addWidget(self.zoom_reset_button)
         self.statusBar().addWidget(zoom_controls)
 
+        # The original annotator exposes Modify Canvas and Image Effect as
+        # compact controls at the right edge of its bottom bar.
+        bottom_tools = QWidget(self)
+        bottom_tools_layout = QHBoxLayout(bottom_tools)
+        bottom_tools_layout.setContentsMargins(2, 0, 2, 0)
+        bottom_tools_layout.setSpacing(3)
+        bottom_tools_layout.addWidget(QLabel("⋮", bottom_tools))
+
+        self.bottom_modify_canvas_button = QToolButton(bottom_tools)
+        self.bottom_modify_canvas_button.setDefaultAction(self.modify_canvas_action)
+        self.bottom_modify_canvas_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.bottom_modify_canvas_button.setFixedSize(22, 22)
+        bottom_tools_layout.addWidget(self.bottom_modify_canvas_button)
+
+        self.bottom_effect_button = QToolButton(bottom_tools)
+        self.bottom_effect_button.setIcon(self.no_effect_action.icon())
+        self.bottom_effect_button.setToolTip(self.tr("Image Effect: %1").replace("%1", self.no_effect_action.text()))
+        self.bottom_effect_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        self.bottom_effect_button.setFixedSize(22, 22)
+        bottom_effect_menu = QMenu(self.bottom_effect_button)
+        bottom_effect_menu.addAction(self.no_effect_action)
+        bottom_effect_menu.addAction(self.drop_shadow_effect_action)
+        bottom_effect_menu.addSeparator()
+        bottom_effect_menu.addAction(self.grayscale_action)
+        bottom_effect_menu.addAction(self.invert_color_action)
+        bottom_effect_menu.addAction(self.border_effect_action)
+        bottom_effect_menu.triggered.connect(self._sync_bottom_effect_button)
+        self.bottom_effect_button.setMenu(bottom_effect_menu)
+        bottom_tools_layout.addWidget(self.bottom_effect_button)
+        self.statusBar().addPermanentWidget(bottom_tools)
+
         self.bold = self.bold_button
         self.italic = self.italic_button
         self.select_action.setChecked(True)
@@ -2517,6 +2548,13 @@ class MainWindow(QMainWindow):
             self._update_actions()
             self.status_label.setText(self.tr("Image effect: %1").replace("%1", labels[effect]))
 
+    def _sync_bottom_effect_button(self, action: QAction | None = None) -> None:
+        if not hasattr(self, "bottom_effect_button"):
+            return
+        selected = action or self.image_effect_action_group.checkedAction() or self.no_effect_action
+        self.bottom_effect_button.setIcon(selected.icon())
+        self.bottom_effect_button.setToolTip(self.tr("Image Effect: %1").replace("%1", selected.text()))
+
     def cut_image(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
@@ -2803,7 +2841,9 @@ class MainWindow(QMainWindow):
                 "border": self.border_effect_action,
             }
             effect_actions[canvas.image_effect()].setChecked(True)
+        self._sync_bottom_effect_button()
         self.modify_canvas_action.setEnabled(has_image)
+        self.bottom_effect_button.setEnabled(has_image)
         self.close_tab_action.setEnabled(canvas is not None)
         self.recent_images_menu.setEnabled(bool(self._recent_image_paths))
         self.zoom_spinbox.setEnabled(has_image)

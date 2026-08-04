@@ -339,6 +339,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Barra inferior de zoom compactada y acercada visualmente al patrón de Ksnip
 - [x] Controles inferiores de zoom reubicados a la izquierda y simplificados al patrón visible del Ksnip original
 - [x] `ZoomPicker` alineado con kImageAnnotator: rango 10–800%, pasos de 10%, botones de ajustar/restablecer y atajos `Ctrl++`, `Ctrl+-`, `Ctrl+0` y `Ctrl+F`
+- [x] Accesos compactos a `Modify Canvas` e `Image Effect` restaurados en el extremo derecho de la barra inferior
 - [ ] Barra inferior y zoom igual al original
 - [ ] Tema visual, espaciado y densidad visual equivalentes a las capturas de referencia
 

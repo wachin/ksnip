@@ -108,6 +108,20 @@ class MainWindowColorPickerTest(unittest.TestCase):
         window.zoom_reset_action.trigger()
         self.assertEqual(canvas.zoom_percent(), 100)
 
+    def test_bottom_bar_exposes_modify_canvas_and_current_image_effect(self) -> None:
+        window = MainWindow()
+        self.assertIs(window.bottom_modify_canvas_button.defaultAction(), window.modify_canvas_action)
+        self.assertEqual(len(window.bottom_effect_button.menu().actions()), 6)
+        self.assertFalse(window.bottom_effect_button.isEnabled())
+
+        canvas = window.current_canvas()
+        canvas.set_image(QImage(20, 20, QImage.Format.Format_ARGB32))
+        window._update_actions()
+        self.assertTrue(window.bottom_effect_button.isEnabled())
+        window.grayscale_action.trigger()
+        self.assertEqual(canvas.image_effect(), "grayscale")
+        self.assertEqual(window.bottom_effect_button.icon().cacheKey(), window.grayscale_action.icon().cacheKey())
+
 
 class StickerPickerTest(unittest.TestCase):
     def test_legacy_sticker_scaling_is_migrated_to_the_normalized_default_once(self) -> None:
