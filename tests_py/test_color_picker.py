@@ -5,7 +5,7 @@ import unittest
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QColor, QImage
+from PyQt6.QtGui import QColor, QIcon, QImage
 from PyQt6.QtWidgets import QApplication
 
 from ksnip_py.canvas import Tool
@@ -43,11 +43,15 @@ class MainWindowColorPickerTest(unittest.TestCase):
     def test_bundled_stickers_are_loaded_from_the_python_package(self) -> None:
         window = MainWindow()
         paths = [Path(path) for path in window._default_sticker_paths()]
-        self.assertEqual(len(paths), 18)
+        self.assertEqual(len(paths), 26)
         self.assertTrue(all(path.parent.name == "stickers" for path in paths))
         self.assertTrue(all(path.parent.parent.name == "ksnip_py" for path in paths))
+        self.assertTrue(all(not QIcon(str(path)).isNull() for path in paths))
         self.assertIn("check_mark.svg", {path.name for path in paths})
         self.assertIn("smiling_face_with_sunglasses.svg", {path.name for path in paths})
+        self.assertIn("tutorial_attention.svg", {path.name for path in paths})
+        self.assertIn("tutorial_terminal.svg", {path.name for path in paths})
+        self.assertTrue(any(action.text() == "attention" for action in window._sticker_menu.actions()))
 
     def test_palette_applies_and_synchronizes_stroke_color(self) -> None:
         window = MainWindow()

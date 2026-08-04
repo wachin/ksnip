@@ -409,7 +409,8 @@ class MainWindow(QMainWindow):
     def _populate_sticker_menu(self) -> None:
         self._sticker_menu.clear()
         for sticker_path in self._default_sticker_paths():
-            action = QAction(QIcon(sticker_path), Path(sticker_path).stem.replace("_", " "), self._sticker_menu)
+            label = Path(sticker_path).stem.removeprefix("tutorial_").replace("_", " ")
+            action = QAction(QIcon(sticker_path), label, self._sticker_menu)
             action.triggered.connect(lambda checked=False, path=sticker_path: self._select_sticker(path))
             self._sticker_menu.addAction(action)
         self._sync_sticker_button()
