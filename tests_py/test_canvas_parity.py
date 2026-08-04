@@ -112,6 +112,51 @@ class ItemShadowParityTest(unittest.TestCase):
         self.assertTrue(canvas._items[0].shadow)
 
 
+class FreehandToolParityTest(unittest.TestCase):
+    def test_pen_creates_a_non_destructive_item_with_opacity_and_shadow(self) -> None:
+        source = coordinate_image(40, 30)
+        canvas = AnnotationCanvas()
+        canvas.set_image(source)
+        canvas.set_opacity(0.4)
+        canvas.set_shadow(True)
+        canvas._preview_points = [QPoint(5, 5), QPoint(10, 8), QPoint(18, 6)]
+
+        item = canvas._build_drag_item(Tool.PEN, QPoint(5, 5), QPoint(18, 6), QRect(5, 5, 14, 4))
+        self.assertEqual(item.kind, Tool.PEN)
+        self.assertEqual(item.opacity, 0.4)
+        self.assertTrue(item.shadow)
+        self.assertEqual(len(item.points), 3)
+        canvas._items.append(item)
+        self.assertEqual(canvas.background_image(), source)
+        self.assertNotEqual(canvas.image(), source)
+
+        original_points = [QPoint(point) for point in item.points]
+        item.move_by(QPoint(3, 4))
+        self.assertEqual(item.points, [point + QPoint(3, 4) for point in original_points])
+
+    def test_marker_pen_remains_translucent_without_shadow_or_item_opacity(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(40, 30))
+        canvas.set_pen_width(4)
+        canvas.set_opacity(0.2)
+        canvas.set_shadow(True)
+        canvas._preview_points = [QPoint(4, 4), QPoint(20, 10)]
+        item = canvas._build_drag_item(Tool.MARKER_PEN, QPoint(4, 4), QPoint(20, 10), QRect(4, 4, 17, 7))
+        self.assertEqual(item.opacity, 1.0)
+        self.assertFalse(item.shadow)
+        self.assertEqual(item.color.alpha(), 110)
+        self.assertEqual(item.pen_width, 12)
+
+    def test_freehand_points_survive_clipboard_serialization(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(40, 30))
+        canvas._preview_points = [QPoint(2, 3), QPoint(8, 9), QPoint(15, 6)]
+        item = canvas._build_drag_item(Tool.PEN, QPoint(2, 3), QPoint(15, 6), QRect(2, 3, 14, 7))
+        restored = canvas._deserialize_item(canvas._serialize_item(item))
+        self.assertEqual(restored.points, item.points)
+        self.assertEqual(restored.kind, Tool.PEN)
+
+
 class ImageEffectParityTest(unittest.TestCase):
     def setUp(self) -> None:
         self.image = QImage(20, 12, QImage.Format.Format_ARGB32)

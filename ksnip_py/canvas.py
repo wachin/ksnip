@@ -8,7 +8,7 @@ from math import hypot
 from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QRectF, QSize, Qt, pyqtSignal
-from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QKeySequence, QMouseEvent, QPainter, QPalette, QPen, QPixmap, QPolygon, QTransform
+from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QKeySequence, QMouseEvent, QPainter, QPainterPath, QPalette, QPen, QPixmap, QPolygon, QTransform
 from PyQt6.QtWidgets import QApplication, QButtonGroup, QCheckBox, QColorDialog, QDialog, QDialogButtonBox, QFormLayout, QGraphicsDropShadowEffect, QGraphicsScene, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QMenu, QPushButton, QRadioButton, QSizePolicy, QSpinBox, QVBoxLayout
 
 from .spellcheck import SpellCheckTextEdit, load_spellcheck_scheme
@@ -469,6 +469,7 @@ class OverlayItem:
     scaling: float = 1.0
     sticker_path: str | None = None
     image: QImage | None = None
+    points: list[QPoint] | None = None
 
     def clone(self) -> "OverlayItem":
         return OverlayItem(
@@ -491,13 +492,23 @@ class OverlayItem:
             scaling=self.scaling,
             sticker_path=self.sticker_path,
             image=self.image.copy() if self.image is not None else None,
+            points=[QPoint(point) for point in self.points] if self.points is not None else None,
         )
 
     def move_by(self, delta: QPoint) -> None:
         self.start += delta
         self.end += delta
+        if self.points is not None:
+            self.points = [point + delta for point in self.points]
 
     def bounds(self) -> QRect:
+        if self.kind in (Tool.PEN, Tool.MARKER_PEN) and self.points:
+            left = min(point.x() for point in self.points)
+            top = min(point.y() for point in self.points)
+            right = max(point.x() for point in self.points)
+            bottom = max(point.y() for point in self.points)
+            margin = max(6, self.pen_width // 2 + 3)
+            return QRect(QPoint(left, top), QPoint(right, bottom)).normalized().adjusted(-margin, -margin, margin, margin)
         if self.kind == Tool.TEXT:
             if self.start != self.end:
                 return QRect(self.start, self.end).normalized()
@@ -572,6 +583,7 @@ class AnnotationCanvas(QLabel):
         self._preview_start: QPoint | None = None
         self._preview_end: QPoint | None = None
         self._last_point: QPoint | None = None
+        self._preview_points: list[QPoint] = []
         self._selected_item_indices: list[int] = []
         self._primary_selected_item_index: int | None = None
         self._drag_start: QPoint | None = None
@@ -676,6 +688,7 @@ class AnnotationCanvas(QLabel):
             "scaling": item.scaling,
             "sticker_path": item.sticker_path,
             "image_png_base64": image_payload,
+            "points": [[point.x(), point.y()] for point in item.points] if item.points is not None else None,
         }
 
     @staticmethod
@@ -705,6 +718,7 @@ class AnnotationCanvas(QLabel):
             scaling=payload.get("scaling", 1.0),
             sticker_path=payload.get("sticker_path"),
             image=image,
+            points=[QPoint(x, y) for x, y in payload.get("points") or []] or None,
         )
 
     def set_image(self, image: QImage, path: str | None = None, *, dirty: bool = False) -> None:
@@ -720,6 +734,7 @@ class AnnotationCanvas(QLabel):
         self._preview_start = None
         self._preview_end = None
         self._last_point = None
+        self._preview_points = []
         self._refresh()
 
     def selected_item_count(self) -> int:
@@ -1265,6 +1280,7 @@ class AnnotationCanvas(QLabel):
         self._preview_start = image_point
         self._preview_end = image_point
         self._last_point = image_point
+        self._preview_points = [QPoint(image_point)] if self._tool in (Tool.PEN, Tool.MARKER_PEN) else []
         self._clear_selection()
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:  # noqa: N802
@@ -1296,18 +1312,9 @@ class AnnotationCanvas(QLabel):
             return
 
         if self._tool in (Tool.PEN, Tool.MARKER_PEN) and self._last_point is not None:
-            painter = QPainter(self._image)
-            pen_color = QColor(self._color)
-            pen_width = self._pen_width
-            if self._tool == Tool.MARKER_PEN:
-                pen_color.setAlpha(110)
-                pen_width = max(8, self._pen_width * 3)
-            pen = QPen(pen_color, pen_width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
-            painter.setPen(pen)
-            painter.drawLine(self._last_point, image_point)
-            painter.end()
+            if not self._preview_points or self._preview_points[-1] != image_point:
+                self._preview_points.append(QPoint(image_point))
             self._last_point = image_point
-            self._mark_dirty()
 
         self._preview_end = image_point
         self._refresh()
@@ -1336,6 +1343,8 @@ class AnnotationCanvas(QLabel):
 
         if self._tool in (
             Tool.DUPLICATE,
+            Tool.PEN,
+            Tool.MARKER_PEN,
             Tool.LINE,
             Tool.ARROW,
             Tool.DOUBLE_ARROW,
@@ -1373,6 +1382,7 @@ class AnnotationCanvas(QLabel):
         self._preview_start = None
         self._preview_end = None
         self._last_point = None
+        self._preview_points = []
         self._drag_start = None
         self._active_handle = None
         self._refresh()
@@ -1425,6 +1435,8 @@ class AnnotationCanvas(QLabel):
             self._draw_item_preview(painter, item, sx, sy, selected=index in self._selected_item_indices, show_handles=index == self._primary_selected_index() and self.has_single_selected_item())
 
         if self._tool in (
+            Tool.PEN,
+            Tool.MARKER_PEN,
             Tool.LINE,
             Tool.ARROW,
             Tool.DOUBLE_ARROW,
@@ -1442,7 +1454,12 @@ class AnnotationCanvas(QLabel):
             Tool.CROP,
             Tool.CUT,
         ) and self._preview_start is not None and self._preview_end is not None:
-            pen = QPen(self._color, max(1, self._pen_width))
+            preview_color = QColor(self._color)
+            preview_width = max(1, self._pen_width)
+            if self._tool == Tool.MARKER_PEN:
+                preview_color.setAlpha(110)
+                preview_width = max(8, self._pen_width * 3)
+            pen = QPen(preview_color, preview_width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
             painter.setPen(pen)
             start_point, end_point = self._display_points()
             rect = QRect(start_point, end_point).normalized()
@@ -1453,7 +1470,14 @@ class AnnotationCanvas(QLabel):
                 else:
                     rect.setLeft(0)
                     rect.setRight(max(0, round(self._image.width() * zoom_factor) - 1))
-            if self._tool == Tool.LINE:
+            if self._tool in (Tool.PEN, Tool.MARKER_PEN) and self._preview_points:
+                points = [QPoint(round(point.x() * sx), round(point.y() * sy)) for point in self._preview_points]
+                path = QPainterPath()
+                path.moveTo(points[0].x(), points[0].y())
+                for point in points[1:]:
+                    path.lineTo(point.x(), point.y())
+                painter.drawPath(path)
+            elif self._tool == Tool.LINE:
                 painter.drawLine(start_point, end_point)
             elif self._tool == Tool.ARROW:
                 self._draw_arrow(painter, start_point, end_point)
@@ -1566,7 +1590,14 @@ class AnnotationCanvas(QLabel):
     def _find_item_at(self, point: QPoint) -> int | None:
         for index in range(len(self._items) - 1, -1, -1):
             item = self._items[index]
-            if item.kind == Tool.LINE:
+            if item.kind in (Tool.PEN, Tool.MARKER_PEN) and item.points:
+                tolerance = max(6, item.pen_width)
+                if any(
+                    self._point_line_distance(point, start, end) <= tolerance
+                    for start, end in zip(item.points, item.points[1:])
+                ):
+                    return index
+            elif item.kind == Tool.LINE:
                 if self._point_line_distance(point, item.start, item.end) <= max(6, item.pen_width * 2):
                     return index
             elif item.kind in (Tool.ARROW, Tool.DOUBLE_ARROW, Tool.TEXT_ARROW, Tool.NUMBER_ARROW):
@@ -1597,7 +1628,13 @@ class AnnotationCanvas(QLabel):
         pen_color = item.color if self._has_border(item.fill_mode) else QColor(item.color.red(), item.color.green(), item.color.blue(), 0)
         pen = QPen(pen_color, item.pen_width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
         painter.setPen(pen)
-        if item.kind == Tool.LINE:
+        if item.kind in (Tool.PEN, Tool.MARKER_PEN) and item.points:
+            path = QPainterPath()
+            path.moveTo(item.points[0].x(), item.points[0].y())
+            for point in item.points[1:]:
+                path.lineTo(point.x(), point.y())
+            painter.drawPath(path)
+        elif item.kind == Tool.LINE:
             painter.drawLine(item.start, item.end)
         elif item.kind == Tool.ARROW:
             self._draw_arrow(painter, item.start, item.end, color=item.color, pen_width=item.pen_width)
@@ -1661,6 +1698,8 @@ class AnnotationCanvas(QLabel):
         scaled = item.clone()
         scaled.start = QPoint(int(item.start.x() * sx), int(item.start.y() * sy))
         scaled.end = QPoint(int(item.end.x() * sx), int(item.end.y() * sy))
+        if item.points is not None:
+            scaled.points = [QPoint(round(point.x() * sx), round(point.y() * sy)) for point in item.points]
         scaled.pen_width = max(1, int(item.pen_width * max(sx, sy)))
         self._draw_item(painter, scaled, selected, show_handles=show_handles)
 
@@ -2103,6 +2142,8 @@ class AnnotationCanvas(QLabel):
         self.setCursor(Qt.CursorShape.ArrowCursor)
 
     def _handle_points(self, item: OverlayItem) -> dict[str, QPoint]:
+        if item.kind in (Tool.PEN, Tool.MARKER_PEN):
+            return {}
         if self._is_line_like(item.kind):
             return {
                 "start": QPoint(item.start),
@@ -2213,12 +2254,16 @@ class AnnotationCanvas(QLabel):
         scaled = item.clone()
         scaled.start = QPoint(round(item.start.x() * scale_x), round(item.start.y() * scale_y))
         scaled.end = QPoint(round(item.end.x() * scale_x), round(item.end.y() * scale_y))
+        if item.points is not None:
+            scaled.points = [QPoint(round(point.x() * scale_x), round(point.y() * scale_y)) for point in item.points]
         return scaled
 
     def _rotated_item(self, item: OverlayItem, angle: int, old_size, new_size) -> OverlayItem:
         rotated = item.clone()
         rotated.start = self._rotate_point(item.start, angle, old_size, new_size)
         rotated.end = self._rotate_point(item.end, angle, old_size, new_size)
+        if item.points is not None:
+            rotated.points = [self._rotate_point(point, angle, old_size, new_size) for point in item.points]
         return rotated
 
     def _rotate_point(self, point: QPoint, angle: int, old_size, new_size) -> QPoint:
@@ -2538,6 +2583,25 @@ class AnnotationCanvas(QLabel):
         return None
 
     def _build_drag_item(self, tool: Tool, start: QPoint, end: QPoint, rect: QRect) -> OverlayItem | None:
+        if tool in (Tool.PEN, Tool.MARKER_PEN):
+            points = [QPoint(point) for point in self._preview_points]
+            if len(points) < 2:
+                return None
+            color = QColor(self._color)
+            pen_width = self._pen_width
+            if tool == Tool.MARKER_PEN:
+                color.setAlpha(110)
+                pen_width = max(8, self._pen_width * 3)
+            return OverlayItem(
+                kind=tool,
+                start=QPoint(points[0]),
+                end=QPoint(points[-1]),
+                color=color,
+                pen_width=pen_width,
+                opacity=self._opacity if tool == Tool.PEN else 1.0,
+                shadow=self._shadow if tool == Tool.PEN else False,
+                points=points,
+            )
         if tool == Tool.DUPLICATE:
             bounded = rect.intersected(self._image.rect())
             if bounded.width() < 2 or bounded.height() < 2:
@@ -2693,8 +2757,7 @@ class AnnotationCanvas(QLabel):
             painter.restore()
             return
         shadow = item.clone()
-        shadow.start += QPoint(4, 4)
-        shadow.end += QPoint(4, 4)
+        shadow.move_by(QPoint(4, 4))
         shadow.shadow = False
         shadow.color = QColor(0, 0, 0, 80)
         shadow.text_color = QColor(0, 0, 0, 120)
