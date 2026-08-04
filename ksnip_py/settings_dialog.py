@@ -50,6 +50,7 @@ class SettingsData:
     italic: bool
     number_tool_seed_updates_all: bool
     switch_to_select_after_drawing: bool
+    select_item_after_drawing: bool
     rotate_watermark: bool
     capture_delay_seconds: int
     capture_implicit_delay_ms: int
@@ -389,7 +390,7 @@ class SettingsDialog(QDialog):
         self.remember_annotation_tool.setEnabled(False)
         self.switch_to_select_tool = QCheckBox(self.tr("Switch to Select Tool after drawing Item"), annotator_group)
         self.select_item_after_drawing = QCheckBox(self.tr("Select Item after drawing"), annotator_group)
-        self.select_item_after_drawing.setEnabled(False)
+        self.switch_to_select_tool.toggled.connect(self.select_item_after_drawing.setEnabled)
         self.number_tool_seed_updates = QCheckBox(self.tr("Number Tool Seed change updates all Number Items"), annotator_group)
         self.show_controls_widget = QCheckBox(self.tr("Show Controls Widget"), annotator_group)
         self.show_controls_widget.setEnabled(False)
@@ -885,6 +886,8 @@ class SettingsDialog(QDialog):
         self.italic.setChecked(initial.italic)
         self.number_tool_seed_updates.setChecked(initial.number_tool_seed_updates_all)
         self.switch_to_select_tool.setChecked(initial.switch_to_select_after_drawing)
+        self.select_item_after_drawing.setChecked(initial.select_item_after_drawing)
+        self.select_item_after_drawing.setEnabled(initial.switch_to_select_after_drawing)
         self.rotate_watermark.setChecked(initial.rotate_watermark)
         self.capture_delay_seconds.setValue(initial.capture_delay_seconds)
         self.implicit_capture_delay.setValue(initial.capture_implicit_delay_ms)
@@ -1059,6 +1062,7 @@ class SettingsDialog(QDialog):
             italic=self.italic.isChecked(),
             number_tool_seed_updates_all=self.number_tool_seed_updates.isChecked(),
             switch_to_select_after_drawing=self.switch_to_select_tool.isChecked(),
+            select_item_after_drawing=self.select_item_after_drawing.isChecked(),
             rotate_watermark=self.rotate_watermark.isChecked(),
             capture_delay_seconds=self.capture_delay_seconds.value(),
             capture_implicit_delay_ms=self.implicit_capture_delay.value(),

@@ -240,6 +240,21 @@ class AnnotatorBehaviorParityTest(unittest.TestCase):
         canvas._request_select_tool_after_drawing()
         self.assertEqual(requests, [True])
 
+    def test_select_item_after_drawing_can_clear_selection_but_duplicate_keeps_it(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_switch_to_select_after_drawing(True)
+        canvas.set_select_item_after_drawing(False)
+        normal = OverlayItem(Tool.RECT, QPoint(10, 10), QPoint(40, 40), QColor("red"), 2)
+        duplicate = OverlayItem(Tool.DUPLICATE, QPoint(50, 10), QPoint(80, 40), QColor("red"), 1)
+        canvas._items = [normal, duplicate]
+
+        canvas._select_single_item(0)
+        canvas._request_select_tool_after_drawing(normal)
+        self.assertFalse(canvas.has_selected_item())
+        canvas._select_single_item(1)
+        canvas._request_select_tool_after_drawing(duplicate)
+        self.assertEqual(canvas.selected_item_kind(), Tool.DUPLICATE)
+
     def test_duplicated_number_variants_receive_new_sequential_values(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_image(coordinate_image(260, 160))
