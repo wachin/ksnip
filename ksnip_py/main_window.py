@@ -1252,7 +1252,7 @@ class MainWindow(QMainWindow):
         tray_icon.activated.connect(self._handle_tray_activated)
 
         menu = QMenu(self)
-        menu.addAction("Show Editor", self.show_from_tray)
+        menu.addAction(self.tr("Show Editor"), self.show_from_tray)
         menu.addSeparator()
         menu.addAction(self.new_capture_rect_action)
         menu.addAction(self.new_capture_last_rect_action)
@@ -1276,7 +1276,7 @@ class MainWindow(QMainWindow):
     def closeEvent(self, event) -> None:  # noqa: N802
         if self._should_close_to_tray():
             event.ignore()
-            self.hide_to_tray("ksnip PyQt6 is still running in the system tray.")
+            self.hide_to_tray(self.tr("ksnip PyQt6 is still running in the system tray."))
             return
         if not self._confirm_close_all_tabs():
             event.ignore()
@@ -1287,7 +1287,7 @@ class MainWindow(QMainWindow):
 
     def changeEvent(self, event) -> None:  # noqa: N802
         if event.type() == QEvent.Type.WindowStateChange and self._should_minimize_to_tray() and self.isMinimized():
-            self.hide_to_tray("ksnip PyQt6 was minimized to the system tray.")
+            self.hide_to_tray(self.tr("ksnip PyQt6 was minimized to the system tray."))
         super().changeEvent(event)
 
     def new_tab(self, image: QImage | None = None, path: str | None = None, title: str = "Untitled") -> AnnotationCanvas:

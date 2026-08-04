@@ -77,6 +77,9 @@
     <message><source>Clear Recent Images</source><translation>Limpiar imágenes recientes</translation></message>
     <message><source>Fit</source><translation>Ajustar</translation></message>
     <message><source>New Screenshot</source><translation>Nueva captura de pantalla</translation></message>
+    <message><source>Show Editor</source><translation>Mostrar editor</translation></message>
+    <message><source>ksnip PyQt6 is still running in the system tray.</source><translation>ksnip PyQt6 continúa ejecutándose en la bandeja del sistema.</translation></message>
+    <message><source>ksnip PyQt6 was minimized to the system tray.</source><translation>ksnip PyQt6 se minimizó a la bandeja del sistema.</translation></message>
 </context>
 <context>
     <name>SettingsDialog</name>
@@ -125,5 +128,22 @@
     <message><source>Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter.</source><translation>Admite $Y, $M, $D, $h, $m, $s, $T y caracteres # consecutivos como contador.</translation></message>
     <message><source>Browse...</source><translation>Examinar...</translation></message>
     <message><source>Overwrite file with same name</source><translation>Sobrescribir archivos con el mismo nombre</translation></message>
+    <message><source>Tray Icon</source><translation>Icono de bandeja</translation></message>
+    <message><source>Tray Icon Settings</source><translation>Configuración del icono de bandeja</translation></message>
+    <message><source>Use Tray Icon</source><translation>Usar icono de bandeja</translation></message>
+    <message><source>Minimize To Tray</source><translation>Minimizar a la bandeja</translation></message>
+    <message><source>Close To Tray</source><translation>Cerrar a la bandeja</translation></message>
+    <message><source>Start Minimized To Tray</source><translation>Iniciar minimizado en la bandeja</translation></message>
+    <message><source>Display Tray Notifications</source><translation>Mostrar notificaciones de la bandeja</translation></message>
+    <message><source>Default Action</source><translation>Acción predeterminada</translation></message>
+    <message><source>Show Editor</source><translation>Mostrar editor</translation></message>
+    <message><source>Action</source><translation>Acción</translation></message>
+    <message><source>Rect Area</source><translation>Área rectangular</translation></message>
+    <message><source>Last Rect Area</source><translation>Última área rectangular</translation></message>
+    <message><source>Full Screen</source><translation>Pantalla completa</translation></message>
+    <message><source>Current Screen</source><translation>Pantalla actual</translation></message>
+    <message><source>Active Window</source><translation>Ventana activa</translation></message>
+    <message><source>Window Under Cursor</source><translation>Ventana bajo el cursor</translation></message>
+    <message><source>Capture Mode</source><translation>Modo de captura</translation></message>
 </context>
 </TS>
