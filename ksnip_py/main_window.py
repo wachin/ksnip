@@ -1508,6 +1508,7 @@ class MainWindow(QMainWindow):
         self.crop_action.setChecked(tool == Tool.CROP)
         self._settings.setValue("editor/tool", tool.value)
         self._update_property_toolbar_for_tool()
+        self._restore_color_for_tool(tool)
         self._restore_width_for_tool(tool)
         self._restore_shadow_and_opacity_for_tool(tool)
         self._sync_item_controls()
@@ -1526,6 +1527,42 @@ class MainWindow(QMainWindow):
             Tool.DUPLICATE: 1,
         }
         return defaults.get(tool, 3)
+
+    @staticmethod
+    def _default_color_for_tool(tool: Tool) -> QColor:
+        if tool in {Tool.MARKER_PEN, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE}:
+            return QColor(Qt.GlobalColor.yellow)
+        if tool == Tool.LINE:
+            return QColor(Qt.GlobalColor.blue)
+        if tool == Tool.RECT:
+            return QColor(Qt.GlobalColor.gray)
+        if tool == Tool.TEXT:
+            return QColor(Qt.GlobalColor.black)
+        if tool in {Tool.BLUR, Tool.PIXELATE}:
+            return QColor(Qt.GlobalColor.white)
+        if tool == Tool.DUPLICATE:
+            return QColor(Qt.GlobalColor.green)
+        return QColor(Qt.GlobalColor.red)
+
+    def _restore_color_for_tool(self, tool: Tool) -> None:
+        color_tools = {
+            Tool.ARROW, Tool.DOUBLE_ARROW, Tool.LINE, Tool.PEN, Tool.MARKER_PEN,
+            Tool.TEXT, Tool.TEXT_POINTER, Tool.TEXT_ARROW, Tool.NUMBER, Tool.NUMBER_POINTER,
+            Tool.NUMBER_ARROW, Tool.RECT, Tool.ELLIPSE, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE,
+        }
+        if tool not in color_tools:
+            return
+        stored = self._settings.value(f"editor/tool_color/{tool.value}")
+        color = QColor(stored) if stored is not None else self._default_color_for_tool(tool)
+        if not color.isValid():
+            color = self._default_color_for_tool(tool)
+        if tool in {Tool.MARKER_PEN, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE}:
+            color.setAlpha(255)
+        canvas = self.current_canvas()
+        if canvas is not None:
+            canvas.set_color(color)
+        self._sync_toolbox_color_button(color)
+        self._sync_property_color_buttons()
 
     def _restore_width_for_tool(self, tool: Tool) -> None:
         width_tools = {
@@ -1598,6 +1635,9 @@ class MainWindow(QMainWindow):
             self.status_label.setText(self.tr("Updated selected item color"))
         else:
             canvas.set_color(color)
+            self._settings.setValue(
+                f"editor/tool_color/{canvas.tool().value}", color.name(QColor.NameFormat.HexArgb)
+            )
         self._sync_toolbox_color_button(color)
         self._sync_property_color_buttons()
 

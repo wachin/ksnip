@@ -209,6 +209,39 @@ class MainWindowColorPickerTest(unittest.TestCase):
                 else:
                     settings.setValue(key, value)
 
+    def test_colors_use_cpp_defaults_and_are_restored_per_tool(self) -> None:
+        window = MainWindow()
+        settings = window._settings
+        tools = (Tool.MARKER_PEN, Tool.LINE, Tool.RECT, Tool.TEXT, Tool.ARROW)
+        keys = [f"editor/tool_color/{tool.value}" for tool in tools]
+        old_values = {key: settings.value(key) for key in keys}
+        try:
+            for key in keys:
+                settings.remove(key)
+            expected = {
+                Tool.MARKER_PEN: QColor(Qt.GlobalColor.yellow),
+                Tool.LINE: QColor(Qt.GlobalColor.blue),
+                Tool.RECT: QColor(Qt.GlobalColor.gray),
+                Tool.TEXT: QColor(Qt.GlobalColor.black),
+                Tool.ARROW: QColor(Qt.GlobalColor.red),
+            }
+            for tool, color in expected.items():
+                window.set_tool(tool)
+                self.assertEqual(window.current_canvas().color(), color)
+
+            custom = QColor(12, 34, 56, 180)
+            window.set_tool(Tool.ARROW)
+            window._apply_selected_color(custom)
+            window.set_tool(Tool.LINE)
+            window.set_tool(Tool.ARROW)
+            self.assertEqual(window.current_canvas().color(), custom)
+        finally:
+            for key, value in old_values.items():
+                if value is None:
+                    settings.remove(key)
+                else:
+                    settings.setValue(key, value)
+
 
 class StickerPickerTest(unittest.TestCase):
     def test_legacy_sticker_scaling_is_migrated_to_the_normalized_default_once(self) -> None:
