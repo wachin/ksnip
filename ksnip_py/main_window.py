@@ -144,7 +144,7 @@ class MainWindow(QMainWindow):
             self.setWindowIcon(QIcon(str(icon_path)))
 
     def _default_sticker_paths(self) -> list[str]:
-        stickers_dir = Path(__file__).resolve().parent.parent / "libraries" / "kImageAnnotator" / "resources" / "stickers"
+        stickers_dir = Path(__file__).resolve().parent / "stickers"
         if not stickers_dir.exists():
             return []
         return [str(path) for path in sorted(stickers_dir.glob("*.svg"))]
