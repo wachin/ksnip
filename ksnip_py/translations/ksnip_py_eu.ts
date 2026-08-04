@@ -266,27 +266,27 @@
       <source>Scale</source>
       <translation>Eskalatu</translation></message>
     <message>
-      <location filename="../main_window.py" line="2501" />
+      <location filename="../main_window.py" line="2500" />
       <location filename="../main_window.py" line="786" />
       <source>No Effect</source>
       <translation>Efekturik ez</translation></message>
     <message>
-      <location filename="../main_window.py" line="2502" />
+      <location filename="../main_window.py" line="2501" />
       <location filename="../main_window.py" line="787" />
       <source>Drop Shadow</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2503" />
+      <location filename="../main_window.py" line="2502" />
       <location filename="../main_window.py" line="788" />
       <source>Grayscale</source>
       <translation>Grisen eskala</translation></message>
     <message>
-      <location filename="../main_window.py" line="2504" />
+      <location filename="../main_window.py" line="2503" />
       <location filename="../main_window.py" line="789" />
       <source>Invert Color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2505" />
+      <location filename="../main_window.py" line="2504" />
       <location filename="../main_window.py" line="790" />
       <source>Border</source>
       <translation type="unfinished" /></message>
@@ -429,23 +429,43 @@
       <source>Show Docks</source>
       <translation>Erakutsi kaiak</translation></message>
     <message>
-      <location filename="../main_window.py" line="2509" />
+      <location filename="../main_window.py" line="2465" />
+      <source>Rotated image by %1 degrees</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2468" />
+      <source>Horizontal</source>
+      <translation>Horizontala</translation></message>
+    <message>
+      <location filename="../main_window.py" line="2468" />
+      <source>Vertical</source>
+      <translation>Bertikala</translation></message>
+    <message>
+      <location filename="../main_window.py" line="2469" />
+      <source>Flipped image: %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2489" />
+      <source>Scaled image to %1 × %2 px</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2508" />
       <source>Image effect: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2521" />
+      <location filename="../main_window.py" line="2520" />
       <source>Image slice removed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2546" />
+      <location filename="../main_window.py" line="2545" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2840" />
+      <location filename="../main_window.py" line="2839" />
       <source>Unable to open image data.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2848" />
+      <location filename="../main_window.py" line="2847" />
       <source>Opened image from standard input</source>
       <translation type="unfinished" /></message>
     <message>
@@ -535,6 +555,74 @@
       <location filename="../capture.py" line="212" />
       <source>the returned image could not be loaded from %1.</source>
       <translation type="unfinished" /></message>
+  </context>
+  <context>
+    <name>RotateDialog</name>
+    <message>
+      <location filename="../canvas.py" line="175" />
+      <source>Rotate Image</source>
+      <translation>Biratu irudia</translation></message>
+    <message>
+      <location filename="../canvas.py" line="178" />
+      <source>180°</source>
+      <translation>180°</translation></message>
+    <message>
+      <location filename="../canvas.py" line="179" />
+      <source>90° Clockwise</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../canvas.py" line="180" />
+      <source>90° Counter Clockwise</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../canvas.py" line="181" />
+      <source>Arbitrary</source>
+      <translation>Arbitrarioa</translation></message>
+    <message>
+      <location filename="../canvas.py" line="189" />
+      <source>Rotate</source>
+      <translation>Biratu</translation></message>
+    <message>
+      <location filename="../canvas.py" line="197" />
+      <source>Horizontal</source>
+      <translation>Horizontala</translation></message>
+    <message>
+      <location filename="../canvas.py" line="198" />
+      <source>Vertical</source>
+      <translation>Bertikala</translation></message>
+    <message>
+      <location filename="../canvas.py" line="199" />
+      <source>Flip</source>
+      <translation>Irauli</translation></message>
+  </context>
+  <context>
+    <name>ScaleDialog</name>
+    <message>
+      <location filename="../canvas.py" line="237" />
+      <source>Scale Image</source>
+      <translation>Eskalako irudia</translation></message>
+    <message>
+      <location filename="../canvas.py" line="239" />
+      <source>Keep Aspect Ratio</source>
+      <translation>Mantendu itxura-erlazioa</translation></message>
+    <message>
+      <location filename="../canvas.py" line="246" />
+      <source>Pixel</source>
+      <translation>Pixel</translation></message>
+    <message>
+      <location filename="../canvas.py" line="252" />
+      <location filename="../canvas.py" line="248" />
+      <source>Width:</source>
+      <translation>Zabalera:</translation></message>
+    <message>
+      <location filename="../canvas.py" line="253" />
+      <location filename="../canvas.py" line="249" />
+      <source>Height:</source>
+      <translation>Altuera:</translation></message>
+    <message>
+      <location filename="../canvas.py" line="250" />
+      <source>Percent</source>
+      <translation>Ehunekoa</translation></message>
   </context>
   <context>
     <name>SettingsDialog</name>

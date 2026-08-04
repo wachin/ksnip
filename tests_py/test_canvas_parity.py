@@ -7,7 +7,7 @@ from PyQt6.QtCore import QPoint, QRect
 from PyQt6.QtGui import QColor, QImage
 from PyQt6.QtWidgets import QApplication
 
-from ksnip_py.canvas import AnnotationCanvas, CutDialog
+from ksnip_py.canvas import AnnotationCanvas, CutDialog, RotateDialog, ScaleDialog
 
 
 APP = QApplication.instance() or QApplication([])
@@ -75,6 +75,88 @@ class ImageEffectParityTest(unittest.TestCase):
         self.canvas._refresh()
         self.assertEqual(self.canvas._map_to_image(QPoint(30, 30)), QPoint(0, 0))
         self.assertIsNone(self.canvas._map_to_image(QPoint(10, 10)))
+
+
+class RotateAndFlipParityTest(unittest.TestCase):
+    def test_rotate_dialog_exposes_original_operations(self) -> None:
+        dialog = RotateDialog()
+        self.assertEqual(dialog.operation(), ("rotate", 180))
+        dialog.rotate_clockwise.setChecked(True)
+        self.assertEqual(dialog.operation(), ("rotate", 90))
+        dialog.rotate_counterclockwise.setChecked(True)
+        self.assertEqual(dialog.operation(), ("rotate", -90))
+        dialog.rotate_arbitrary.setChecked(True)
+        dialog.arbitrary_angle.setValue(37)
+        self.assertEqual(dialog.operation(), ("rotate", 37))
+        dialog.flip_horizontal.setChecked(True)
+        self.assertEqual(dialog.operation(), ("flip", "horizontal"))
+        dialog.flip_vertical.setChecked(True)
+        self.assertEqual(dialog.operation(), ("flip", "vertical"))
+
+    def test_horizontal_flip_changes_background_only_and_supports_undo(self) -> None:
+        source = coordinate_image(4, 3)
+        overlay = QImage(1, 1, QImage.Format.Format_ARGB32)
+        overlay.fill(QColor("red"))
+        canvas = AnnotationCanvas()
+        canvas.set_image(source)
+        canvas.add_image_item(overlay, QPoint(1, 1))
+
+        self.assertTrue(canvas.flip_image("horizontal"))
+        self.assertEqual(canvas._image.pixelColor(0, 1), source.pixelColor(3, 1))
+        self.assertEqual(canvas._items[0].start, QPoint(1, 1))
+        canvas.undo()
+        self.assertEqual(canvas._image, source)
+        self.assertEqual(canvas._items[0].start, QPoint(1, 1))
+
+    def test_rotation_changes_background_only_and_supports_undo(self) -> None:
+        source = coordinate_image(4, 3)
+        overlay = QImage(1, 1, QImage.Format.Format_ARGB32)
+        overlay.fill(QColor("red"))
+        canvas = AnnotationCanvas()
+        canvas.set_image(source)
+        canvas.add_image_item(overlay, QPoint(1, 1))
+
+        self.assertTrue(canvas.rotate(90))
+        self.assertEqual((canvas._image.width(), canvas._image.height()), (3, 4))
+        self.assertEqual(canvas._items[0].start, QPoint(1, 1))
+        canvas.undo()
+        self.assertEqual(canvas._image, source)
+        self.assertEqual(canvas._items[0].start, QPoint(1, 1))
+
+
+class ScaleParityTest(unittest.TestCase):
+    def test_dialog_synchronizes_pixel_and_percent_with_aspect_ratio(self) -> None:
+        dialog = ScaleDialog(QImage(500, 250, QImage.Format.Format_ARGB32).size())
+        dialog.width_pixel.setValue(250)
+        self.assertEqual(dialog.width_percent.value(), 50)
+        self.assertEqual(dialog.height_pixel.value(), 125)
+        self.assertEqual(dialog.height_percent.value(), 50)
+
+        dialog.height_percent.setValue(200)
+        self.assertEqual(dialog.new_size(), QImage(1000, 500, QImage.Format.Format_ARGB32).size())
+
+    def test_dialog_allows_non_uniform_scaling_when_aspect_is_disabled(self) -> None:
+        dialog = ScaleDialog(QImage(500, 250, QImage.Format.Format_ARGB32).size())
+        dialog.keep_aspect_ratio.setChecked(False)
+        dialog.width_percent.setValue(50)
+        dialog.height_percent.setValue(200)
+        self.assertEqual(dialog.new_size(), QImage(250, 500, QImage.Format.Format_ARGB32).size())
+
+    def test_scale_transforms_item_geometry_but_not_stroke_width(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(10, 8))
+        overlay = QImage(2, 2, QImage.Format.Format_ARGB32)
+        overlay.fill(QColor("red"))
+        canvas.add_image_item(overlay, QPoint(2, 2))
+        original_width = canvas._items[0].pen_width
+
+        self.assertTrue(canvas.scale_to_size(20, 4))
+        self.assertEqual(canvas._items[0].start, QPoint(4, 1))
+        self.assertEqual(canvas._items[0].end, QPoint(8, 2))
+        self.assertEqual(canvas._items[0].pen_width, original_width)
+        canvas.undo()
+        self.assertEqual(canvas._image.size(), coordinate_image(10, 8).size())
+        self.assertEqual(canvas._items[0].start, QPoint(2, 2))
 
 
 if __name__ == "__main__":

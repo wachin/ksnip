@@ -9,7 +9,7 @@ from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QRectF, QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QKeySequence, QMouseEvent, QPainter, QPalette, QPen, QPixmap, QPolygon, QTransform
-from PyQt6.QtWidgets import QApplication, QDialog, QDialogButtonBox, QFormLayout, QGraphicsDropShadowEffect, QGraphicsScene, QHBoxLayout, QLabel, QMenu, QRadioButton, QSizePolicy, QSpinBox, QVBoxLayout
+from PyQt6.QtWidgets import QApplication, QButtonGroup, QCheckBox, QDialog, QDialogButtonBox, QFormLayout, QGraphicsDropShadowEffect, QGraphicsScene, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QMenu, QRadioButton, QSizePolicy, QSpinBox, QVBoxLayout
 
 from .spellcheck import SpellCheckTextEdit, load_spellcheck_scheme
 
@@ -167,6 +167,149 @@ class CutDialog(QDialog):
         painter.drawRect(overlay.adjusted(0, 0, -1, -1))
         painter.end()
         self.preview.setPixmap(preview)
+
+
+class RotateDialog(QDialog):
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        self.setWindowTitle(self.tr("Rotate Image"))
+        self._group = QButtonGroup(self)
+
+        self.rotate_180 = self._radio(self.tr("180°"), checked=True)
+        self.rotate_clockwise = self._radio(self.tr("90° Clockwise"))
+        self.rotate_counterclockwise = self._radio(self.tr("90° Counter Clockwise"))
+        self.rotate_arbitrary = self._radio(self.tr("Arbitrary"))
+        self.arbitrary_angle = QSpinBox(self)
+        self.arbitrary_angle.setRange(-360, 360)
+        self.arbitrary_angle.setValue(45)
+        self.arbitrary_angle.setSuffix("°")
+        self.arbitrary_angle.setEnabled(False)
+        self.rotate_arbitrary.toggled.connect(self.arbitrary_angle.setEnabled)
+
+        rotate_group = QGroupBox(self.tr("Rotate"), self)
+        rotate_layout = QGridLayout(rotate_group)
+        rotate_layout.addWidget(self.rotate_180, 0, 0, 1, 2)
+        rotate_layout.addWidget(self.rotate_clockwise, 1, 0, 1, 2)
+        rotate_layout.addWidget(self.rotate_counterclockwise, 2, 0, 1, 2)
+        rotate_layout.addWidget(self.rotate_arbitrary, 3, 0, 1, 2)
+        rotate_layout.addWidget(self.arbitrary_angle, 4, 1)
+
+        self.flip_horizontal = self._radio(self.tr("Horizontal"))
+        self.flip_vertical = self._radio(self.tr("Vertical"))
+        flip_group = QGroupBox(self.tr("Flip"), self)
+        flip_layout = QVBoxLayout(flip_group)
+        flip_layout.addWidget(self.flip_horizontal)
+        flip_layout.addWidget(self.flip_vertical)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel, self)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(rotate_group)
+        layout.addWidget(flip_group)
+        layout.addWidget(buttons)
+
+    def _radio(self, text: str, *, checked: bool = False) -> QRadioButton:
+        button = QRadioButton(text, self)
+        button.setChecked(checked)
+        self._group.addButton(button)
+        return button
+
+    def operation(self) -> tuple[str, int | str]:
+        if self.rotate_180.isChecked():
+            return "rotate", 180
+        if self.rotate_clockwise.isChecked():
+            return "rotate", 90
+        if self.rotate_counterclockwise.isChecked():
+            return "rotate", -90
+        if self.rotate_arbitrary.isChecked():
+            return "rotate", self.arbitrary_angle.value()
+        if self.flip_horizontal.isChecked():
+            return "flip", "horizontal"
+        return "flip", "vertical"
+
+
+class ScaleDialog(QDialog):
+    def __init__(self, image_size: QSize, parent=None) -> None:
+        super().__init__(parent)
+        self._base_size = QSize(image_size)
+        self.setWindowTitle(self.tr("Scale Image"))
+
+        self.keep_aspect_ratio = QCheckBox(self.tr("Keep Aspect Ratio"), self)
+        self.keep_aspect_ratio.setChecked(True)
+        self.width_pixel = self._spin("px", 1, max(4000, image_size.width()), image_size.width())
+        self.height_pixel = self._spin("px", 1, max(4000, image_size.height()), image_size.height())
+        self.width_percent = self._spin("%", 1, 400, 100)
+        self.height_percent = self._spin("%", 1, 400, 100)
+
+        pixel_group = QGroupBox(self.tr("Pixel"), self)
+        pixel_layout = QFormLayout(pixel_group)
+        pixel_layout.addRow(self.tr("Width:"), self.width_pixel)
+        pixel_layout.addRow(self.tr("Height:"), self.height_pixel)
+        percent_group = QGroupBox(self.tr("Percent"), self)
+        percent_layout = QFormLayout(percent_group)
+        percent_layout.addRow(self.tr("Width:"), self.width_percent)
+        percent_layout.addRow(self.tr("Height:"), self.height_percent)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel, self)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.keep_aspect_ratio)
+        layout.addWidget(pixel_group)
+        layout.addWidget(percent_group)
+        layout.addWidget(buttons)
+
+        self.width_pixel.valueChanged.connect(self._width_pixel_changed)
+        self.height_pixel.valueChanged.connect(self._height_pixel_changed)
+        self.width_percent.valueChanged.connect(self._width_percent_changed)
+        self.height_percent.valueChanged.connect(self._height_percent_changed)
+        self.keep_aspect_ratio.toggled.connect(lambda checked: checked and self._width_pixel_changed(self.width_pixel.value()))
+
+    def new_size(self) -> QSize:
+        return QSize(self.width_pixel.value(), self.height_pixel.value())
+
+    def _spin(self, suffix: str, minimum: int, maximum: int, value: int) -> QSpinBox:
+        spin = QSpinBox(self)
+        spin.setRange(minimum, maximum)
+        spin.setSuffix(suffix)
+        spin.setValue(value)
+        return spin
+
+    @staticmethod
+    def _set_silent(spin: QSpinBox, value: int) -> None:
+        spin.blockSignals(True)
+        spin.setValue(value)
+        spin.blockSignals(False)
+
+    def _width_pixel_changed(self, width: int) -> None:
+        percent = width / self._base_size.width()
+        self._set_silent(self.width_percent, round(percent * 100))
+        if self.keep_aspect_ratio.isChecked():
+            self._set_silent(self.height_pixel, round(self._base_size.height() * percent))
+            self._set_silent(self.height_percent, round(percent * 100))
+
+    def _height_pixel_changed(self, height: int) -> None:
+        percent = height / self._base_size.height()
+        self._set_silent(self.height_percent, round(percent * 100))
+        if self.keep_aspect_ratio.isChecked():
+            self._set_silent(self.width_pixel, round(self._base_size.width() * percent))
+            self._set_silent(self.width_percent, round(percent * 100))
+
+    def _width_percent_changed(self, percent: int) -> None:
+        factor = percent / 100.0
+        self._set_silent(self.width_pixel, round(self._base_size.width() * factor))
+        if self.keep_aspect_ratio.isChecked():
+            self._set_silent(self.height_pixel, round(self._base_size.height() * factor))
+            self._set_silent(self.height_percent, percent)
+
+    def _height_percent_changed(self, percent: int) -> None:
+        factor = percent / 100.0
+        self._set_silent(self.height_pixel, round(self._base_size.height() * factor))
+        if self.keep_aspect_ratio.isChecked():
+            self._set_silent(self.width_pixel, round(self._base_size.width() * factor))
+            self._set_silent(self.width_percent, percent)
 
 
 class Tool(str, Enum):
@@ -766,33 +909,52 @@ class AnnotationCanvas(QLabel):
         self.changed.emit()
         self._refresh()
 
-    def rotate(self, angle: int) -> None:
-        if self._image.isNull():
-            return
+    def rotate(self, angle: int) -> bool:
+        if self._image.isNull() or angle % 360 == 0:
+            return False
         self._push_undo_state()
-        old_size = self._image.size()
         transform = QTransform()
         transform.rotate(angle)
         self._image = self._image.transformed(transform, Qt.TransformationMode.SmoothTransformation)
-        self._items = [self._rotated_item(item, angle % 360, old_size, self._image.size()) for item in self._items]
         self._mark_dirty()
         self._refresh()
+        return True
+
+    def flip_image(self, direction: str) -> bool:
+        if self._image.isNull() or direction not in {"horizontal", "vertical"}:
+            return False
+        self._push_undo_state()
+        self._image = self._image.mirrored(direction == "horizontal", direction == "vertical")
+        self._mark_dirty()
+        self._refresh()
+        return True
 
     def scale_image(self, factor: float) -> None:
         if self._image.isNull() or factor <= 0:
             return
+        self.scale_to_size(
+            max(1, round(self._image.width() * factor)),
+            max(1, round(self._image.height() * factor)),
+        )
+
+    def scale_to_size(self, width: int, height: int) -> bool:
+        if self._image.isNull() or width < 1 or height < 1:
+            return False
+        if width == self._image.width() and height == self._image.height():
+            return False
         self._push_undo_state()
-        width = max(1, round(self._image.width() * factor))
-        height = max(1, round(self._image.height() * factor))
+        scale_x = width / self._image.width()
+        scale_y = height / self._image.height()
         self._image = self._image.scaled(
             width,
             height,
             Qt.AspectRatioMode.IgnoreAspectRatio,
             Qt.TransformationMode.SmoothTransformation,
         )
-        self._items = [self._scaled_item(item, factor) for item in self._items]
+        self._items = [self._scaled_item(item, scale_x, scale_y) for item in self._items]
         self._mark_dirty()
         self._refresh()
+        return True
 
     def set_image_effect(self, effect: str) -> bool:
         if self._image.isNull() or effect not in {"none", "drop_shadow", "grayscale", "invert", "border"}:
@@ -1934,11 +2096,10 @@ class AnnotationCanvas(QLabel):
         item.start = rect.topLeft()
         item.end = rect.bottomRight()
 
-    def _scaled_item(self, item: OverlayItem, factor: float) -> OverlayItem:
+    def _scaled_item(self, item: OverlayItem, scale_x: float, scale_y: float) -> OverlayItem:
         scaled = item.clone()
-        scaled.start = QPoint(round(item.start.x() * factor), round(item.start.y() * factor))
-        scaled.end = QPoint(round(item.end.x() * factor), round(item.end.y() * factor))
-        scaled.pen_width = max(1, round(item.pen_width * factor))
+        scaled.start = QPoint(round(item.start.x() * scale_x), round(item.start.y() * scale_y))
+        scaled.end = QPoint(round(item.end.x() * scale_x), round(item.end.y() * scale_y))
         return scaled
 
     def _rotated_item(self, item: OverlayItem, angle: int, old_size, new_size) -> OverlayItem:

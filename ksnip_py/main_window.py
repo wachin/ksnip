@@ -33,7 +33,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from .canvas import AnnotationCanvas, CutDialog, FillMode, Tool
+from .canvas import AnnotationCanvas, CutDialog, FillMode, RotateDialog, ScaleDialog, Tool
 from .color_picker import ColorPaletteMenu
 from .capture import (
     grab_active_window,
@@ -2456,41 +2456,40 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
             return
-        angle, accepted = QInputDialog.getInt(
-            self,
-            "Rotate image",
-            "Angle:",
-            90,
-            -360,
-            360,
-            90,
-        )
-        if not accepted or angle % 360 == 0:
+        dialog = RotateDialog(self)
+        if dialog.exec() != QDialog.DialogCode.Accepted:
             return
-        canvas.rotate(angle)
+        operation, value = dialog.operation()
+        if operation == "rotate":
+            changed = canvas.rotate(int(value))
+            message = self.tr("Rotated image by %1 degrees").replace("%1", str(value))
+        else:
+            changed = canvas.flip_image(str(value))
+            direction = self.tr("Horizontal") if value == "horizontal" else self.tr("Vertical")
+            message = self.tr("Flipped image: %1").replace("%1", direction)
+        if not changed:
+            return
         self._sync_tab_title()
         self._update_actions()
-        self.status_label.setText(f"Rotated image by {angle} degrees")
+        self.status_label.setText(message)
 
     def scale_image(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
             return
-        percent, accepted = QInputDialog.getInt(
-            self,
-            "Scale image",
-            "Scale percent:",
-            100,
-            1,
-            1000,
-            10,
-        )
-        if not accepted or percent == 100:
+        dialog = ScaleDialog(canvas.background_image().size(), self)
+        if dialog.exec() != QDialog.DialogCode.Accepted:
             return
-        canvas.scale_image(percent / 100.0)
+        new_size = dialog.new_size()
+        if not canvas.scale_to_size(new_size.width(), new_size.height()):
+            return
         self._sync_tab_title()
         self._update_actions()
-        self.status_label.setText(f"Scaled image to {percent}%")
+        self.status_label.setText(
+            self.tr("Scaled image to %1 × %2 px")
+            .replace("%1", str(new_size.width()))
+            .replace("%2", str(new_size.height()))
+        )
 
     def apply_image_effect(self, effect: str) -> None:
         canvas = self.current_canvas()

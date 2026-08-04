@@ -266,27 +266,27 @@
       <source>Scale</source>
       <translation>缩放</translation></message>
     <message>
-      <location filename="../main_window.py" line="2501" />
+      <location filename="../main_window.py" line="2500" />
       <location filename="../main_window.py" line="786" />
       <source>No Effect</source>
       <translation>无滤镜</translation></message>
     <message>
-      <location filename="../main_window.py" line="2502" />
+      <location filename="../main_window.py" line="2501" />
       <location filename="../main_window.py" line="787" />
       <source>Drop Shadow</source>
       <translation>阴影</translation></message>
     <message>
-      <location filename="../main_window.py" line="2503" />
+      <location filename="../main_window.py" line="2502" />
       <location filename="../main_window.py" line="788" />
       <source>Grayscale</source>
       <translation>灰度</translation></message>
     <message>
-      <location filename="../main_window.py" line="2504" />
+      <location filename="../main_window.py" line="2503" />
       <location filename="../main_window.py" line="789" />
       <source>Invert Color</source>
       <translation>反转色</translation></message>
     <message>
-      <location filename="../main_window.py" line="2505" />
+      <location filename="../main_window.py" line="2504" />
       <location filename="../main_window.py" line="790" />
       <source>Border</source>
       <translation>描边</translation></message>
@@ -429,23 +429,43 @@
       <source>Show Docks</source>
       <translation>显示 Docks</translation></message>
     <message>
-      <location filename="../main_window.py" line="2509" />
+      <location filename="../main_window.py" line="2465" />
+      <source>Rotated image by %1 degrees</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2468" />
+      <source>Horizontal</source>
+      <translation>水平</translation></message>
+    <message>
+      <location filename="../main_window.py" line="2468" />
+      <source>Vertical</source>
+      <translation>垂直</translation></message>
+    <message>
+      <location filename="../main_window.py" line="2469" />
+      <source>Flipped image: %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2489" />
+      <source>Scaled image to %1 × %2 px</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2508" />
       <source>Image effect: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2521" />
+      <location filename="../main_window.py" line="2520" />
       <source>Image slice removed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2546" />
+      <location filename="../main_window.py" line="2545" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2840" />
+      <location filename="../main_window.py" line="2839" />
       <source>Unable to open image data.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2848" />
+      <location filename="../main_window.py" line="2847" />
       <source>Opened image from standard input</source>
       <translation type="unfinished" /></message>
     <message>
@@ -535,6 +555,74 @@
       <location filename="../capture.py" line="212" />
       <source>the returned image could not be loaded from %1.</source>
       <translation type="unfinished" /></message>
+  </context>
+  <context>
+    <name>RotateDialog</name>
+    <message>
+      <location filename="../canvas.py" line="175" />
+      <source>Rotate Image</source>
+      <translation>旋转图像</translation></message>
+    <message>
+      <location filename="../canvas.py" line="178" />
+      <source>180°</source>
+      <translation>180°</translation></message>
+    <message>
+      <location filename="../canvas.py" line="179" />
+      <source>90° Clockwise</source>
+      <translation>顺时针旋转90°</translation></message>
+    <message>
+      <location filename="../canvas.py" line="180" />
+      <source>90° Counter Clockwise</source>
+      <translation>逆时针旋转90°</translation></message>
+    <message>
+      <location filename="../canvas.py" line="181" />
+      <source>Arbitrary</source>
+      <translation>任意</translation></message>
+    <message>
+      <location filename="../canvas.py" line="189" />
+      <source>Rotate</source>
+      <translation>旋转</translation></message>
+    <message>
+      <location filename="../canvas.py" line="197" />
+      <source>Horizontal</source>
+      <translation>水平</translation></message>
+    <message>
+      <location filename="../canvas.py" line="198" />
+      <source>Vertical</source>
+      <translation>垂直</translation></message>
+    <message>
+      <location filename="../canvas.py" line="199" />
+      <source>Flip</source>
+      <translation>反转</translation></message>
+  </context>
+  <context>
+    <name>ScaleDialog</name>
+    <message>
+      <location filename="../canvas.py" line="237" />
+      <source>Scale Image</source>
+      <translation>缩放图像</translation></message>
+    <message>
+      <location filename="../canvas.py" line="239" />
+      <source>Keep Aspect Ratio</source>
+      <translation>保持长宽比</translation></message>
+    <message>
+      <location filename="../canvas.py" line="246" />
+      <source>Pixel</source>
+      <translation>像素</translation></message>
+    <message>
+      <location filename="../canvas.py" line="252" />
+      <location filename="../canvas.py" line="248" />
+      <source>Width:</source>
+      <translation>宽度：</translation></message>
+    <message>
+      <location filename="../canvas.py" line="253" />
+      <location filename="../canvas.py" line="249" />
+      <source>Height:</source>
+      <translation>高度：</translation></message>
+    <message>
+      <location filename="../canvas.py" line="250" />
+      <source>Percent</source>
+      <translation>百分比</translation></message>
   </context>
   <context>
     <name>SettingsDialog</name>

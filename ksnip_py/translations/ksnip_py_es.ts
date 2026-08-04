@@ -322,39 +322,39 @@
     <message>
       <location filename="../main_window.py" line="778" />
       <source>Rotate</source>
-      <translation type="unfinished" />
+      <translation>Rotar</translation>
     </message>
     <message>
       <location filename="../main_window.py" line="781" />
       <source>Scale</source>
-      <translation type="unfinished" />
+      <translation>Escalar</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2501" />
+      <location filename="../main_window.py" line="2500" />
       <location filename="../main_window.py" line="786" />
       <source>No Effect</source>
       <translation>Sin efecto</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2502" />
+      <location filename="../main_window.py" line="2501" />
       <location filename="../main_window.py" line="787" />
       <source>Drop Shadow</source>
       <translation>Sombra paralela</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2503" />
+      <location filename="../main_window.py" line="2502" />
       <location filename="../main_window.py" line="788" />
       <source>Grayscale</source>
       <translation>Escala de grises</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2504" />
+      <location filename="../main_window.py" line="2503" />
       <location filename="../main_window.py" line="789" />
       <source>Invert Color</source>
       <translation>Invertir color</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2505" />
+      <location filename="../main_window.py" line="2504" />
       <location filename="../main_window.py" line="790" />
       <source>Border</source>
       <translation>Borde</translation>
@@ -532,27 +532,52 @@
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2509" />
+      <location filename="../main_window.py" line="2465" />
+      <source>Rotated image by %1 degrees</source>
+      <translation>Imagen rotada %1 grados</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2468" />
+      <source>Horizontal</source>
+      <translation>Horizontal</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2468" />
+      <source>Vertical</source>
+      <translation>Vertical</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2469" />
+      <source>Flipped image: %1</source>
+      <translation>Imagen volteada: %1</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2489" />
+      <source>Scaled image to %1 × %2 px</source>
+      <translation>Imagen escalada a %1 × %2 px</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2508" />
       <source>Image effect: %1</source>
       <translation>Efecto de imagen: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2521" />
+      <location filename="../main_window.py" line="2520" />
       <source>Image slice removed</source>
       <translation>Franja de imagen eliminada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2546" />
+      <location filename="../main_window.py" line="2545" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation>El idioma ha cambiado. Reinicie ksnip para aplicarlo.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2840" />
+      <location filename="../main_window.py" line="2839" />
       <source>Unable to open image data.</source>
       <translation>No se pudieron abrir los datos de imagen.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2848" />
+      <location filename="../main_window.py" line="2847" />
       <source>Opened image from standard input</source>
       <translation>Imagen abierta desde la entrada estándar</translation>
     </message>
@@ -658,6 +683,89 @@
       <location filename="../capture.py" line="212" />
       <source>the returned image could not be loaded from %1.</source>
       <translation>no se pudo cargar la imagen devuelta desde %1.</translation>
+    </message>
+  </context>
+  <context>
+    <name>RotateDialog</name>
+    <message>
+      <location filename="../canvas.py" line="175" />
+      <source>Rotate Image</source>
+      <translation>Rotar imagen</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="178" />
+      <source>180°</source>
+      <translation>180°</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="179" />
+      <source>90° Clockwise</source>
+      <translation>90° en sentido horario</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="180" />
+      <source>90° Counter Clockwise</source>
+      <translation>90° en sentido antihorario</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="181" />
+      <source>Arbitrary</source>
+      <translation>Arbitrario</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="189" />
+      <source>Rotate</source>
+      <translation>Rotar</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="197" />
+      <source>Horizontal</source>
+      <translation>Horizontal</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="198" />
+      <source>Vertical</source>
+      <translation>Vertical</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="199" />
+      <source>Flip</source>
+      <translation>Voltear</translation>
+    </message>
+  </context>
+  <context>
+    <name>ScaleDialog</name>
+    <message>
+      <location filename="../canvas.py" line="237" />
+      <source>Scale Image</source>
+      <translation>Escalar imagen</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="239" />
+      <source>Keep Aspect Ratio</source>
+      <translation>Mantener relación de aspecto</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="246" />
+      <source>Pixel</source>
+      <translation>Píxel</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="252" />
+      <location filename="../canvas.py" line="248" />
+      <source>Width:</source>
+      <translation>Ancho:</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="253" />
+      <location filename="../canvas.py" line="249" />
+      <source>Height:</source>
+      <translation>Alto:</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="250" />
+      <source>Percent</source>
+      <translation>Porcentaje</translation>
     </message>
   </context>
   <context>

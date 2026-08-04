@@ -182,8 +182,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Primera implementación funcional de `Sticker` en PyQt6
 - [x] Deshacer
 - [x] Rehacer
-- [x] Rotar imagen
-- [x] Escalar imagen
+- [x] Diálogo de rotación alineado con kImageAnnotator: 180°, 90° horario/antihorario, ángulo arbitrario y volteo horizontal/vertical
+- [x] Diálogo de escalado alineado con kImageAnnotator: píxeles y porcentajes sincronizados, relación de aspecto opcional y límites 1–400 %
 - [x] Selección múltiple aditiva con `Ctrl`
 - [x] Mover selección
 - [x] Resize handles para rectángulo, elipse, línea, flecha y texto
