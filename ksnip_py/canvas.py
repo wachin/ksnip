@@ -1605,8 +1605,27 @@ class AnnotationCanvas(QLabel):
             elif item.kind == Tool.LINE:
                 if self._point_line_distance(point, item.start, item.end) <= max(6, item.pen_width * 2):
                     return index
-            elif item.kind in (Tool.ARROW, Tool.DOUBLE_ARROW, Tool.TEXT_ARROW, Tool.NUMBER_ARROW):
+            elif item.kind in (Tool.ARROW, Tool.DOUBLE_ARROW):
                 if self._point_line_distance(point, item.start, item.end) <= max(8, item.pen_width * 2):
+                    return index
+            elif item.kind == Tool.TEXT_ARROW:
+                if (
+                    self._point_line_distance(point, item.start, item.end) <= max(8, item.pen_width * 2)
+                    or self._text_arrow_label_rect(item).contains(point)
+                ):
+                    return index
+            elif item.kind == Tool.NUMBER_ARROW:
+                radius = max(14, item.font_point_size or self._font_point_size)
+                bubble_rect = QRect(
+                    item.start.x() - radius,
+                    item.start.y() - radius,
+                    radius * 2,
+                    radius * 2,
+                )
+                if (
+                    self._point_line_distance(point, item.start, item.end) <= max(8, item.pen_width * 2)
+                    or bubble_rect.contains(point)
+                ):
                     return index
             elif item.bounds().contains(point):
                 return index

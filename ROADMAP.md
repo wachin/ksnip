@@ -165,6 +165,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Fuente y estilos persistentes por herramienta como `Config::defaultToolFont`: fuente del sistema en negrita, tamaño 15 para `Text`, 20 para `Number`, con cursiva y subrayado independientes
 - [x] `Number`, `Number Pointer` y `Number Arrow` aplican al elemento nuevo la negrita, cursiva y subrayado configurados, sin reintroducir estilos hardcodeados al construirlo; los constructores especializados de `Number Arrow` y `Text Arrow` ya no quedan ocultos tras la rama genérica de líneas
 - [x] `Text Arrow` y `Number Arrow` conservan siempre el asta y la punta con `No Border and No Fill`; el modo de relleno sólo controla el recuadro o círculo, como en el pintado C++
+- [x] Hit-testing completo para `Text Arrow` y `Number Arrow`: se pueden seleccionar desde el asta, el recuadro de texto o el círculo numerado, incluso sin borde ni relleno
 - [x] `Fill Mode` persistente por herramienta con valores iniciales de `Config::defaultToolFillMode` y descarte seguro de modos incompatibles guardados por versiones anteriores
 - [x] Marker Pen, Marker Rectangle y Marker Ellipse renderizados con composición `Multiply`, igual que los elementos marcador del C++
 - [x] Marker Rectangle y Marker Ellipse alineados con `NoBorderAndFill`: relleno completo, sin borde, sombra, ancho ni opacidad configurables

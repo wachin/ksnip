@@ -231,6 +231,24 @@ class NumberFontParityTest(unittest.TestCase):
         finally:
             painter.end()
 
+    def test_text_and_number_arrows_can_be_selected_from_their_labels(self) -> None:
+        canvas = AnnotationCanvas()
+        text_arrow = OverlayItem(
+            kind=Tool.TEXT_ARROW, start=QPoint(30, 50), end=QPoint(180, 50),
+            color=QColor("red"), pen_width=2, text="Text",
+            font_point_size=15, fill_mode=FillMode.NO_BORDER_AND_NO_FILL,
+        )
+        number_arrow = OverlayItem(
+            kind=Tool.NUMBER_ARROW, start=QPoint(50, 120), end=QPoint(180, 120),
+            color=QColor("red"), pen_width=2, text="1",
+            font_point_size=20, fill_mode=FillMode.NO_BORDER_AND_NO_FILL,
+        )
+        canvas._items = [text_arrow, number_arrow]
+
+        self.assertEqual(canvas._find_item_at(canvas._text_arrow_label_rect(text_arrow).center()), 0)
+        self.assertEqual(canvas._find_item_at(number_arrow.start), 1)
+        self.assertIsNone(canvas._find_item_at(QPoint(10, 10)))
+
 
 class ImageEffectParityTest(unittest.TestCase):
     def setUp(self) -> None:
