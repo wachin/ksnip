@@ -9,7 +9,7 @@ from PyQt6.QtGui import QColor, QImage
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtTest import QTest
 
-from ksnip_py.canvas import AnnotationCanvas, CutDialog, ModifyCanvasDialog, RotateDialog, ScaleDialog, Tool
+from ksnip_py.canvas import AnnotationCanvas, CutDialog, FillMode, ModifyCanvasDialog, RotateDialog, ScaleDialog, Tool
 
 
 APP = QApplication.instance() or QApplication([])
@@ -163,6 +163,23 @@ class FreehandToolParityTest(unittest.TestCase):
         self.assertLessEqual(pixel.red(), source.red())
         self.assertLessEqual(pixel.green(), source.green())
         self.assertLess(pixel.blue(), source.blue())
+
+    def test_marker_shapes_are_filled_without_border_or_shadow(self) -> None:
+        background = QImage(40, 30, QImage.Format.Format_ARGB32)
+        background.fill(QColor(80, 140, 210))
+        for tool in (Tool.MARKER_RECT, Tool.MARKER_ELLIPSE):
+            canvas = AnnotationCanvas()
+            canvas.set_image(background)
+            canvas.set_color(QColor("yellow"))
+            rect = QRect(5, 5, 24, 18)
+            item = canvas._build_drag_item(tool, rect.topLeft(), rect.bottomRight(), rect)
+            self.assertEqual(item.fill_mode, FillMode.NO_BORDER_AND_FILL)
+            self.assertFalse(item.shadow)
+            self.assertEqual(item.pen_width, 1)
+            canvas._items.append(item)
+            center = canvas.image().pixelColor(rect.center())
+            source = background.pixelColor(rect.center())
+            self.assertLess(center.blue(), source.blue())
 
     def test_freehand_points_survive_clipboard_serialization(self) -> None:
         canvas = AnnotationCanvas()

@@ -1462,6 +1462,10 @@ class AnnotationCanvas(QLabel):
                 painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Multiply)
             pen = QPen(preview_color, preview_width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
             painter.setPen(pen)
+            if self._tool in (Tool.MARKER_RECT, Tool.MARKER_ELLIPSE):
+                painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Multiply)
+                painter.setPen(Qt.PenStyle.NoPen)
+                painter.setBrush(QColor(self._color))
             start_point, end_point = self._display_points()
             rect = QRect(start_point, end_point).normalized()
             if self._tool == Tool.CUT:
@@ -1644,15 +1648,9 @@ class AnnotationCanvas(QLabel):
         elif item.kind == Tool.DOUBLE_ARROW:
             self._draw_double_arrow(painter, item.start, item.end, color=item.color, pen_width=item.pen_width)
         elif item.kind in (Tool.RECT, Tool.MARKER_RECT):
-            if item.kind == Tool.MARKER_RECT:
-                pen = QPen(item.color, max(item.pen_width * 3, 8), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
-                painter.setPen(pen)
             painter.setBrush(self._brush_for_item(item))
             painter.drawRect(QRect(item.start, item.end).normalized())
         elif item.kind in (Tool.ELLIPSE, Tool.MARKER_ELLIPSE):
-            if item.kind == Tool.MARKER_ELLIPSE:
-                pen = QPen(item.color, max(item.pen_width * 3, 8), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
-                painter.setPen(pen)
             painter.setBrush(self._brush_for_item(item))
             painter.drawEllipse(QRect(item.start, item.end).normalized())
         elif item.kind == Tool.TEXT:
@@ -2630,10 +2628,9 @@ class AnnotationCanvas(QLabel):
             fill_color = QColor(self._fill_color) if tool in (Tool.RECT, Tool.ELLIPSE) else None
             fill_mode = self._fill_mode
             if tool in (Tool.MARKER_RECT, Tool.MARKER_ELLIPSE):
-                color.setAlpha(110)
-                pen_width = max(8, self._pen_width * 3)
-                fill_color = None
-                fill_mode = FillMode.BORDER_AND_NO_FILL
+                pen_width = 1
+                fill_color = QColor(color)
+                fill_mode = FillMode.NO_BORDER_AND_FILL
             return OverlayItem(
                 kind=tool,
                 start=QPoint(start),
