@@ -175,6 +175,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] `Text Pointer` usa una burbuja medida con la fuente y handles independientes para burbuja y punta; el triángulo se conecta al lado correcto según la dirección y no selecciona zonas vacías
 - [x] La creación de `Number` y los cambios de valor recalculan inmediatamente el círculo mediante métricas, conservan el centro y restauran texto y geometría con undo como `BaseAnnotationNumber::setNumber`
 - [x] Duplicar o pegar `Number`, `Number Pointer` y `Number Arrow` asigna valores nuevos y consecutivos mediante el contador local, igual que el registro de clones en `NumberManager` con `UpdateOnlyNewNumbers`
+- [x] Activada la opción `Number Tool Seed change updates all Number Items` en `Settings > Annotator`, con persistencia y modos equivalentes a `UpdateOnlyNewNumbers`/`UpdateAllNumbers`, incluida renumeración tras borrar
 - [x] `Fill Mode` persistente por herramienta con valores iniciales de `Config::defaultToolFillMode` y descarte seguro de modos incompatibles guardados por versiones anteriores
 - [x] Marker Pen, Marker Rectangle y Marker Ellipse renderizados con composición `Multiply`, igual que los elementos marcador del C++
 - [x] Marker Rectangle y Marker Ellipse alineados con `NoBorderAndFill`: relleno completo, sin borde, sombra, ancho ni opacidad configurables

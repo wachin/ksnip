@@ -193,6 +193,24 @@ class FreehandToolParityTest(unittest.TestCase):
 
 
 class NumberFontParityTest(unittest.TestCase):
+    def test_update_all_number_mode_renumbers_on_seed_change_and_delete(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(260, 160))
+        canvas._items = [
+            OverlayItem(Tool.NUMBER, QPoint(20, 20), QPoint(50, 50), QColor("red"), 2, text="3"),
+            OverlayItem(Tool.NUMBER_POINTER, QPoint(80, 20), QPoint(130, 60), QColor("red"), 1, text="4"),
+            OverlayItem(Tool.NUMBER_ARROW, QPoint(170, 50), QPoint(230, 50), QColor("red"), 2, text="5"),
+        ]
+        canvas.set_number_seed_updates_all(True)
+
+        canvas.set_number_seed(10)
+        self.assertEqual([item.text for item in canvas._items], ["10", "11", "12"])
+        self.assertTrue(canvas.can_undo())
+        canvas._select_single_item(1)
+        self.assertTrue(canvas.delete_selected_item())
+        self.assertEqual([item.text for item in canvas._items], ["10", "11"])
+        self.assertEqual(canvas._next_number_value(), 12)
+
     def test_duplicated_number_variants_receive_new_sequential_values(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_image(coordinate_image(260, 160))

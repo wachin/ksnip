@@ -1428,6 +1428,7 @@ class MainWindow(QMainWindow):
         canvas.set_underline(initial_font.underline())
         canvas.set_shadow(self.shadow_state_button.isChecked())
         canvas.set_scaling(self.scaling.value() / 100.0)
+        canvas.set_number_seed_updates_all(self._setting_bool("editor/number_seed_updates_all", False))
         canvas.set_number_seed(self.number_value.value())
         canvas.set_sticker_paths(self._default_sticker_paths())
         if self._default_sticker_paths():
@@ -3235,6 +3236,7 @@ class MainWindow(QMainWindow):
             opacity_percent=self.opacity.value(),
             bold=self.bold.isChecked(),
             italic=self.italic.isChecked(),
+            number_tool_seed_updates_all=self._setting_bool("editor/number_seed_updates_all", False),
             rotate_watermark=self.rotate_watermark_action.isChecked(),
             capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
             capture_implicit_delay_ms=self._setting_int("capture/implicit_delay_ms", 200),
@@ -3324,6 +3326,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/opacity_percent", data.opacity_percent)
         self._settings.setValue("editor/bold", data.bold)
         self._settings.setValue("editor/italic", data.italic)
+        self._settings.setValue("editor/number_seed_updates_all", data.number_tool_seed_updates_all)
         self._settings.setValue("watermark/rotate", data.rotate_watermark)
         self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
         self._settings.setValue("capture/implicit_delay_ms", data.capture_implicit_delay_ms)
@@ -3440,6 +3443,7 @@ class MainWindow(QMainWindow):
             canvas.set_bold(font.bold())
             canvas.set_italic(font.italic())
             canvas.set_underline(font.underline())
+            canvas.set_number_seed_updates_all(data.number_tool_seed_updates_all)
             canvas.set_shadow(self.shadow_state_button.isChecked())
             canvas.set_scaling(self.scaling.value() / 100.0)
             canvas.set_number_seed(self.number_value.value())

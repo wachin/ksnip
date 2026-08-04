@@ -48,6 +48,7 @@ class SettingsData:
     opacity_percent: int
     bold: bool
     italic: bool
+    number_tool_seed_updates_all: bool
     rotate_watermark: bool
     capture_delay_seconds: int
     capture_implicit_delay_ms: int
@@ -390,7 +391,6 @@ class SettingsDialog(QDialog):
         self.select_item_after_drawing = QCheckBox(self.tr("Select Item after drawing"), annotator_group)
         self.select_item_after_drawing.setEnabled(False)
         self.number_tool_seed_updates = QCheckBox(self.tr("Number Tool Seed change updates all Number Items"), annotator_group)
-        self.number_tool_seed_updates.setEnabled(False)
         self.show_controls_widget = QCheckBox(self.tr("Show Controls Widget"), annotator_group)
         self.show_controls_widget.setEnabled(False)
         self.smooth_painter_paths = QCheckBox(self.tr("Smooth Painter Paths"), annotator_group)
@@ -883,6 +883,7 @@ class SettingsDialog(QDialog):
         self.opacity.setValue(initial.opacity_percent)
         self.bold.setChecked(initial.bold)
         self.italic.setChecked(initial.italic)
+        self.number_tool_seed_updates.setChecked(initial.number_tool_seed_updates_all)
         self.rotate_watermark.setChecked(initial.rotate_watermark)
         self.capture_delay_seconds.setValue(initial.capture_delay_seconds)
         self.implicit_capture_delay.setValue(initial.capture_implicit_delay_ms)
@@ -1055,6 +1056,7 @@ class SettingsDialog(QDialog):
             opacity_percent=self.opacity.value(),
             bold=self.bold.isChecked(),
             italic=self.italic.isChecked(),
+            number_tool_seed_updates_all=self.number_tool_seed_updates.isChecked(),
             rotate_watermark=self.rotate_watermark.isChecked(),
             capture_delay_seconds=self.capture_delay_seconds.value(),
             capture_implicit_delay_ms=self.implicit_capture_delay.value(),

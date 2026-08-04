@@ -609,6 +609,7 @@ class AnnotationCanvas(QLabel):
         self._shadow = True
         self._scaling = 1.0
         self._number_seed = 1
+        self._number_seed_updates_all = False
         self._sticker_path: str | None = None
         self._available_sticker_paths: list[str] = []
         self._image = QImage()
@@ -868,7 +869,20 @@ class AnnotationCanvas(QLabel):
         self._scaling = max(0.0, scaling)
 
     def set_number_seed(self, value: int) -> None:
-        self._number_seed = max(1, int(value))
+        resolved = max(1, int(value))
+        if resolved == self._number_seed:
+            return
+        if self._number_seed_updates_all and any(self._is_number_like(item.kind) for item in self._items):
+            self._push_undo_state()
+            self._number_seed = resolved
+            self._renumber_all_items()
+            self._mark_dirty()
+            self._refresh()
+            return
+        self._number_seed = resolved
+
+    def set_number_seed_updates_all(self, enabled: bool) -> None:
+        self._number_seed_updates_all = bool(enabled)
 
     def number_seed(self) -> int:
         return self._number_seed
@@ -1780,6 +1794,8 @@ class AnnotationCanvas(QLabel):
         self._push_undo_state()
         for index in sorted(self._selected_item_indices, reverse=True):
             del self._items[index]
+        if self._number_seed_updates_all:
+            self._renumber_all_items()
         self._clear_selection()
         self._drag_start = None
         self._mark_dirty()
@@ -2864,9 +2880,21 @@ class AnnotationCanvas(QLabel):
         return None
 
     def _next_number_value(self) -> int:
+        if self._number_seed_updates_all:
+            existing = sum(1 for item in self._items if self._is_number_like(item.kind))
+            return self._number_seed + existing
         value = self._number_seed
         self._number_seed += 1
         return value
+
+    def _renumber_all_items(self) -> None:
+        value = self._number_seed
+        for item in self._items:
+            if not self._is_number_like(item.kind):
+                continue
+            item.text = str(value)
+            self._resize_number_badge_to_font(item)
+            value += 1
 
     def _assign_next_number_to_item(self, item: OverlayItem) -> None:
         if not self._is_number_like(item.kind):
