@@ -107,7 +107,7 @@ class MainWindow(QMainWindow):
         self.tabs.currentChanged.connect(self._handle_current_tab_changed)
         self.setCentralWidget(self.tabs)
 
-        self.status_label = QLabel("Ready")
+        self.status_label = QLabel(self.tr("Ready"))
         self.statusBar().addPermanentWidget(self.status_label)
 
         self._build_actions()
@@ -448,7 +448,7 @@ class MainWindow(QMainWindow):
         if canvas is None:
             return
         if canvas.tool() == Tool.SELECT and canvas.apply_sticker_to_selected_item(sticker_path):
-            self.status_label.setText("Updated selected sticker")
+            self.status_label.setText(self.tr("Updated selected sticker"))
         else:
             canvas.set_sticker_path(sticker_path)
         self._sync_sticker_button()
@@ -883,7 +883,7 @@ class MainWindow(QMainWindow):
         toolbar.addAction(self.crop_action)
         toolbar.addAction(self.cut_action)
         toolbar.addSeparator()
-        toolbar.addWidget(self._make_icon_label("clock", "Capture delay"))
+        toolbar.addWidget(self._make_icon_label("clock", self.tr("Capture delay")))
 
         self.capture_delay_toolbar = QSpinBox(self)
         self.capture_delay_toolbar.setRange(0, 60)
@@ -903,14 +903,14 @@ class MainWindow(QMainWindow):
         self.property_handle_group = self._make_property_group(QLabel("::", self))
 
         self.property_color_button = QToolButton(self)
-        self.property_color_button.setToolTip("Stroke color")
+        self.property_color_button.setToolTip(self.tr("Stroke color"))
         self.property_color_button.setFixedSize(22, 22)
         self.property_color_palette = ColorPaletteMenu(parent=self.property_color_button)
         self.property_color_palette.color_selected.connect(self._apply_selected_color)
         self.property_color_button.setMenu(self.property_color_palette)
         self.property_color_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.property_stroke_group = self._make_property_group(
-            self._make_icon_label("color", "Stroke color"),
+            self._make_icon_label("color", self.tr("Stroke color")),
             self.property_color_button,
         )
 
@@ -920,29 +920,29 @@ class MainWindow(QMainWindow):
         self.stroke_width.setFixedWidth(52)
         self.stroke_width.setFixedHeight(22)
         self.stroke_width.valueChanged.connect(self._apply_stroke_width)
-        self.property_width_group = self._make_property_group(self._make_icon_label("width", "Stroke width"), self.stroke_width)
+        self.property_width_group = self._make_property_group(self._make_icon_label("width", self.tr("Stroke width")), self.stroke_width)
 
         self.fill_mode = QComboBox()
         self.fill_mode.hide()
         self.fill_mode.currentIndexChanged.connect(self._apply_fill_mode)
         self.fill_mode_button = QToolButton(self)
-        self.fill_mode_button.setToolTip("Fill mode")
+        self.fill_mode_button.setToolTip(self.tr("Fill mode"))
         self.fill_mode_button.setFixedSize(22, 22)
         self.fill_mode_button.clicked.connect(self._cycle_fill_mode)
         self.property_fill_mode_group = self._make_property_group(
-            self._make_icon_label("fillType_borderAndFill", "Fill mode"),
+            self._make_icon_label("fillType_borderAndFill", self.tr("Fill mode")),
             self.fill_mode_button,
         )
 
         self.property_text_color_button = QToolButton(self)
-        self.property_text_color_button.setToolTip("Text color")
+        self.property_text_color_button.setToolTip(self.tr("Text color"))
         self.property_text_color_button.setFixedSize(22, 22)
         self.property_text_color_palette = ColorPaletteMenu(parent=self.property_text_color_button)
         self.property_text_color_palette.color_selected.connect(self._apply_selected_text_color)
         self.property_text_color_button.setMenu(self.property_text_color_palette)
         self.property_text_color_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.property_text_color_group = self._make_property_group(
-            self._make_icon_label("textColor", "Text color"),
+            self._make_icon_label("textColor", self.tr("Text color")),
             self.property_text_color_button,
         )
 
@@ -958,14 +958,14 @@ class MainWindow(QMainWindow):
         self.font_size.setFixedHeight(22)
         self.font_size.valueChanged.connect(self._apply_font_size)
         self.property_font_group = self._make_property_group(
-            self._make_icon_label("text", "Font"),
+            self._make_icon_label("text", self.tr("Font")),
             self.font_family,
             self.font_size,
         )
 
-        self.bold_button = self._make_tool_toggle("bold", "Bold", False, self._apply_bold)
-        self.italic_button = self._make_tool_toggle("italic", "Italic", False, self._apply_italic)
-        self.underline_button = self._make_tool_toggle("underline", "Underline", False, self._apply_underline)
+        self.bold_button = self._make_tool_toggle("bold", self.tr("Bold"), False, self._apply_bold)
+        self.italic_button = self._make_tool_toggle("italic", self.tr("Italic"), False, self._apply_italic)
+        self.underline_button = self._make_tool_toggle("underline", self.tr("Underline"), False, self._apply_underline)
         self.bold_button.setFixedSize(22, 22)
         self.italic_button.setFixedSize(22, 22)
         self.underline_button.setFixedSize(22, 22)
@@ -977,7 +977,7 @@ class MainWindow(QMainWindow):
         self.number_value.setFixedWidth(48)
         self.number_value.setFixedHeight(22)
         self.number_value.valueChanged.connect(self._apply_number_value)
-        self.property_number_group = self._make_property_group(self._make_icon_label("number", "Number"), self.number_value)
+        self.property_number_group = self._make_property_group(self._make_icon_label("number", self.tr("Number")), self.number_value)
 
         self.blur_strength = QSpinBox()
         self.blur_strength.setRange(1, 60)
@@ -985,22 +985,22 @@ class MainWindow(QMainWindow):
         self.blur_strength.setFixedWidth(52)
         self.blur_strength.setFixedHeight(22)
         self.blur_strength.valueChanged.connect(self._apply_blur_strength)
-        self.property_blur_group = self._make_property_group(self._make_icon_label("obfuscateFactor", "Effect strength"), self.blur_strength)
+        self.property_blur_group = self._make_property_group(self._make_icon_label("obfuscateFactor", self.tr("Effect strength")), self.blur_strength)
 
         self.sticker_picker_button = QToolButton(self)
         self.sticker_picker_button.setIcon(self._load_icon("sticker"))
         self.sticker_picker_button.setToolTip(self.tr("Select Sticker"))
         self.sticker_picker_button.setFixedSize(22, 22)
         self.sticker_picker_button.clicked.connect(self._open_sticker_picker)
-        self.property_sticker_group = self._make_property_group(self._make_icon_label("sticker", "Sticker"), self.sticker_picker_button)
+        self.property_sticker_group = self._make_property_group(self._make_icon_label("sticker", self.tr("Sticker")), self.sticker_picker_button)
 
         self.shadow_state_button = QToolButton(self)
         self.shadow_state_button.setCheckable(True)
         self.shadow_state_button.setChecked(self._setting_bool("editor/shadow_enabled", True))
         self.shadow_state_button.setFixedSize(22, 22)
-        self.shadow_state_button.setToolTip("Item shadow")
+        self.shadow_state_button.setToolTip(self.tr("Item shadow"))
         self.shadow_state_button.toggled.connect(self._apply_shadow_enabled)
-        self.property_shadow_group = self._make_property_group(self._make_icon_label("dropShadow", "Item shadow"), self.shadow_state_button)
+        self.property_shadow_group = self._make_property_group(self._make_icon_label("dropShadow", self.tr("Item shadow")), self.shadow_state_button)
 
         self.scaling = QSpinBox()
         self.scaling.setRange(0, 500)
@@ -1010,7 +1010,7 @@ class MainWindow(QMainWindow):
         self.scaling.setFixedWidth(62)
         self.scaling.setFixedHeight(22)
         self.scaling.valueChanged.connect(self._apply_scaling)
-        self.property_scaling_group = self._make_property_group(self._make_icon_label("scale", "Scale"), self.scaling)
+        self.property_scaling_group = self._make_property_group(self._make_icon_label("scale", self.tr("Scale")), self.scaling)
 
         self.opacity = QSpinBox()
         self.opacity.setRange(0, 100)
@@ -1019,7 +1019,7 @@ class MainWindow(QMainWindow):
         self.opacity.setFixedWidth(62)
         self.opacity.setFixedHeight(22)
         self.opacity.valueChanged.connect(self._apply_opacity)
-        self.property_opacity_group = self._make_property_group(self._make_icon_label("opacity", "Opacity"), self.opacity)
+        self.property_opacity_group = self._make_property_group(self._make_icon_label("opacity", self.tr("Opacity")), self.opacity)
         self._property_order = [
             ("handle", self.property_handle_group),
             ("stroke", self.property_stroke_group),
@@ -1070,9 +1070,9 @@ class MainWindow(QMainWindow):
         toolbox_top_layout.setContentsMargins(0, 0, 0, 0)
         toolbox_top_layout.setSpacing(6)
         toolbox_top_layout.addWidget(QLabel("::", toolbox_top))
-        toolbox_top_layout.addWidget(self._make_icon_label("opacity", "Opacity"))
+        toolbox_top_layout.addWidget(self._make_icon_label("opacity", self.tr("Opacity")))
         self.toolbox_color_button = QToolButton(toolbox_top)
-        self.toolbox_color_button.setToolTip("Stroke color")
+        self.toolbox_color_button.setToolTip(self.tr("Stroke color"))
         self.toolbox_color_palette = ColorPaletteMenu(parent=self.toolbox_color_button)
         self.toolbox_color_palette.color_selected.connect(self._apply_selected_color)
         self.toolbox_color_button.setMenu(self.toolbox_color_palette)
@@ -1179,7 +1179,7 @@ class MainWindow(QMainWindow):
         zoom_layout = QHBoxLayout(zoom_controls)
         zoom_layout.setContentsMargins(2, 0, 0, 0)
         zoom_layout.setSpacing(3)
-        zoom_layout.addWidget(self._make_icon_label("zoom", "Zoom"))
+        zoom_layout.addWidget(self._make_icon_label("zoom", self.tr("Zoom")))
         zoom_layout.addWidget(self.zoom_spinbox)
         zoom_layout.addWidget(self.zoom_fit_button)
         zoom_layout.addWidget(self.zoom_reset_button)
@@ -1505,7 +1505,7 @@ class MainWindow(QMainWindow):
         alpha = self.opacity.value() / 100.0
         color.setAlphaF(alpha)
         if canvas.tool() == Tool.SELECT and canvas.apply_fill_color_to_selected_item(color):
-            self.status_label.setText("Updated selected item fill")
+            self.status_label.setText(self.tr("Updated selected item fill"))
             self._sync_property_color_buttons()
             return
         canvas.set_fill_color(color)
@@ -1534,7 +1534,7 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is not None:
             if canvas.tool() == Tool.SELECT and canvas.apply_pen_width_to_selected_item(width):
-                self.status_label.setText(f"Updated selected item width to {width}")
+                self.status_label.setText(self.tr("Updated selected item width to %1").replace("%1", str(width)))
                 self._sync_auxiliary_property_controls()
                 return
             canvas.set_pen_width(width)
@@ -1547,7 +1547,7 @@ class MainWindow(QMainWindow):
             return
         family = font.family()
         if canvas.tool() == Tool.SELECT and canvas.apply_font_family_to_selected_text(family):
-            self.status_label.setText("Updated selected text font")
+            self.status_label.setText(self.tr("Updated selected text font"))
             return
         canvas.set_font_family(family)
         self._settings.setValue("editor/font_family", family)
@@ -1557,7 +1557,7 @@ class MainWindow(QMainWindow):
         if canvas is None:
             return
         if canvas.tool() == Tool.SELECT and canvas.apply_font_point_size_to_selected_text(size):
-            self.status_label.setText(f"Updated selected text size to {size}")
+            self.status_label.setText(self.tr("Updated selected text size to %1").replace("%1", str(size)))
             return
         canvas.set_font_point_size(size)
         self._settings.setValue("editor/font_point_size", size)
@@ -1567,7 +1567,7 @@ class MainWindow(QMainWindow):
         if canvas is None:
             return
         if canvas.tool() == Tool.SELECT and canvas.apply_opacity_to_selected_item(opacity):
-            self.status_label.setText(f"Updated selected item opacity to {opacity}%")
+            self.status_label.setText(self.tr("Updated selected item opacity to %1%").replace("%1", str(opacity)))
             return
         canvas.set_opacity(opacity / 100.0)
         self._settings.setValue("editor/opacity_percent", opacity)
@@ -1584,7 +1584,7 @@ class MainWindow(QMainWindow):
             return
         self._sync_fill_mode_button()
         if canvas.tool() == Tool.SELECT and canvas.apply_fill_mode_to_selected_item(fill_mode):
-            self.status_label.setText("Updated selected item fill mode")
+            self.status_label.setText(self.tr("Updated selected item fill mode"))
             return
         canvas.set_fill_mode(fill_mode)
         self._settings.setValue("editor/fill_mode", fill_mode.value)
@@ -1594,7 +1594,7 @@ class MainWindow(QMainWindow):
         if canvas is None:
             return
         if canvas.tool() == Tool.SELECT and canvas.apply_bold_to_selected_text(checked):
-            self.status_label.setText("Updated selected text bold style")
+            self.status_label.setText(self.tr("Updated selected text bold style"))
             return
         canvas.set_bold(checked)
         self._settings.setValue("editor/bold", checked)
@@ -1604,7 +1604,7 @@ class MainWindow(QMainWindow):
         if canvas is None:
             return
         if canvas.tool() == Tool.SELECT and canvas.apply_italic_to_selected_text(checked):
-            self.status_label.setText("Updated selected text italic style")
+            self.status_label.setText(self.tr("Updated selected text italic style"))
             return
         canvas.set_italic(checked)
         self._settings.setValue("editor/italic", checked)
@@ -1613,7 +1613,7 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is not None:
             if canvas.tool() == Tool.SELECT and canvas.apply_underline_to_selected_text(checked):
-                self.status_label.setText("Updated selected text underline style")
+                self.status_label.setText(self.tr("Updated selected text underline style"))
                 return
             canvas.set_underline(checked)
         self._settings.setValue("editor/underline", checked)
@@ -1622,7 +1622,7 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is not None:
             if canvas.tool() == Tool.SELECT and canvas.apply_shadow_to_selected_item(checked):
-                self.status_label.setText("Updated selected item shadow")
+                self.status_label.setText(self.tr("Updated selected item shadow"))
             else:
                 canvas.set_shadow(checked)
         self._sync_auxiliary_property_controls()
@@ -1632,7 +1632,7 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is not None:
             if canvas.tool() == Tool.SELECT and canvas.apply_scaling_to_selected_item(value):
-                self.status_label.setText(f"Updated selected item scale to {value}%")
+                self.status_label.setText(self.tr("Updated selected item scale to %1%").replace("%1", str(value)))
             else:
                 canvas.set_scaling(value / 100.0)
         self._settings.setValue("editor/scaling_percent", value)
@@ -1641,7 +1641,7 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is not None:
             if canvas.tool() == Tool.SELECT and canvas.apply_number_to_selected_item(value):
-                self.status_label.setText(f"Updated selected number to {value}")
+                self.status_label.setText(self.tr("Updated selected number to %1").replace("%1", str(value)))
             else:
                 canvas.set_number_seed(value)
 
@@ -1922,7 +1922,9 @@ class MainWindow(QMainWindow):
             self._auto_save_current_capture()
         if self._setting_bool("capture/auto_copy_new_captures", False):
             QGuiApplication.clipboard().setImage(result.pixmap.toImage())
-            self.status_label.setText(f"Loaded {title.lower()} capture and copied it to clipboard")
+            self.status_label.setText(
+                self.tr("Loaded %1 capture and copied it to clipboard").replace("%1", title.lower())
+            )
 
     def _process_cli_capture(self, result) -> None:
         image = self._cli_capture_image(result)
@@ -2010,7 +2012,7 @@ class MainWindow(QMainWindow):
         canvas.set_image(image, dirty=True)
         self.tabs.setTabText(self.tabs.currentIndex(), title)
         self._sync_tab_title()
-        self.status_label.setText(f"Loaded {title.lower()} capture")
+        self.status_label.setText(self.tr("Loaded %1 capture").replace("%1", title.lower()))
         self._update_actions()
         self._schedule_resize_to_content()
 
@@ -2138,7 +2140,7 @@ class MainWindow(QMainWindow):
                 return
             saved_count += 1
 
-        self.status_label.setText(f"Saved {saved_count} image(s)")
+        self.status_label.setText(self.tr("Saved %1 image(s)").replace("%1", str(saved_count)))
 
     def _save_canvas_to_path(
         self,
@@ -2156,7 +2158,7 @@ class MainWindow(QMainWindow):
         self._store_recent_image_path(path)
         self.tabs.setTabText(tab_index, Path(path).name)
         if show_status:
-            self.status_label.setText(f"Saved {path}")
+            self.status_label.setText(self.tr("Saved %1").replace("%1", str(path)))
         return True
 
     def copy_image(self) -> None:
@@ -2164,7 +2166,7 @@ class MainWindow(QMainWindow):
         if canvas is None or not canvas.has_image():
             return
         QGuiApplication.clipboard().setImage(canvas.image())
-        self.status_label.setText("Copied image to clipboard")
+        self.status_label.setText(self.tr("Copied image to clipboard"))
 
     def print_current_image(self) -> None:
         if self.current_canvas() is None or not self.current_canvas().has_image():
@@ -2173,7 +2175,7 @@ class MainWindow(QMainWindow):
         dialog = QPrintDialog(printer, self)
         if dialog.exec():
             if self._paint_current_image_to_printer(printer):
-                self.status_label.setText("Sent image to printer")
+                self.status_label.setText(self.tr("Sent image to printer"))
             else:
                 self._show_error("Unable to render the image for printing.")
 
@@ -2246,7 +2248,7 @@ class MainWindow(QMainWindow):
 
         suffix = " *" if canvas.state.dirty else ""
         self.tabs.setTabText(self.tabs.currentIndex(), f"{resolved_name}{suffix}")
-        self.status_label.setText(f"Renamed to {resolved_name}")
+        self.status_label.setText(self.tr("Renamed to %1").replace("%1", resolved_name))
         self._update_window_title()
         self._update_actions()
         return True
@@ -2278,7 +2280,7 @@ class MainWindow(QMainWindow):
         index = self.tabs.currentIndex()
         self._remove_recent_image_path(str(path))
         self.tabs.removeTab(index)
-        self.status_label.setText(f"Deleted {path.name}")
+        self.status_label.setText(self.tr("Deleted %1").replace("%1", path.name))
         if self.tabs.count() > 0:
             self._handle_current_tab_changed(self.tabs.currentIndex())
         self._update_actions()
@@ -2301,14 +2303,14 @@ class MainWindow(QMainWindow):
         finally:
             buffer.close()
         QGuiApplication.clipboard().setText(f"data:image/png;base64,{encoded}")
-        self.status_label.setText("Copied image as a base64 encoded Data URI")
+        self.status_label.setText(self.tr("Copied image as a base64 encoded Data URI"))
 
     def copy_image_path(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.state.path:
             return
         QGuiApplication.clipboard().setText(canvas.state.path)
-        self.status_label.setText(f"Copied path {canvas.state.path}")
+        self.status_label.setText(self.tr("Copied path %1").replace("%1", str(canvas.state.path)))
 
     def open_image_directory(self) -> None:
         canvas = self.current_canvas()
@@ -2318,14 +2320,14 @@ class MainWindow(QMainWindow):
         if not QDesktopServices.openUrl(QUrl.fromLocalFile(directory)):
             self._show_error(f"Unable to open directory {directory}")
             return
-        self.status_label.setText(f"Opened directory {directory}")
+        self.status_label.setText(self.tr("Opened directory %1").replace("%1", str(directory)))
 
     def copy_selected_item(self) -> None:
         canvas = self.current_canvas()
         if canvas is None:
             return
         if canvas.copy_selected_item_to_clipboard():
-            self.status_label.setText("Copied selected item(s)")
+            self.status_label.setText(self.tr("Copied selected item(s)"))
 
     def paste_image(self) -> None:
         image = QGuiApplication.clipboard().image()
@@ -2338,7 +2340,7 @@ class MainWindow(QMainWindow):
         canvas.set_image(image, dirty=True)
         self.tabs.setTabText(self.tabs.currentIndex(), "Clipboard")
         self._sync_tab_title()
-        self.status_label.setText("Loaded image from clipboard")
+        self.status_label.setText(self.tr("Loaded image from clipboard"))
         self._update_actions()
         self._schedule_resize_to_content()
 
@@ -2358,7 +2360,7 @@ class MainWindow(QMainWindow):
         if canvas.add_image_item(image, position=position):
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText("Pasted embedded image from clipboard")
+            self.status_label.setText(self.tr("Pasted embedded image from clipboard"))
 
     def modify_canvas(self) -> None:
         canvas = self.current_canvas()
@@ -2395,7 +2397,7 @@ class MainWindow(QMainWindow):
         if canvas.paste_item_from_clipboard():
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText("Pasted item from clipboard")
+            self.status_label.setText(self.tr("Pasted item from clipboard"))
             return
         self._show_error("Clipboard does not contain a ksnip PyQt6 item.")
 
@@ -2422,7 +2424,7 @@ class MainWindow(QMainWindow):
         if canvas.delete_selected_item():
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText("Deleted selected item")
+            self.status_label.setText(self.tr("Deleted selected item"))
 
     def duplicate_selected_item(self) -> None:
         canvas = self.current_canvas()
@@ -2431,7 +2433,7 @@ class MainWindow(QMainWindow):
         if canvas.duplicate_selected_item():
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText("Duplicated selected item")
+            self.status_label.setText(self.tr("Duplicated selected item"))
 
     def edit_selected_text(self) -> None:
         canvas = self.current_canvas()
@@ -2440,7 +2442,7 @@ class MainWindow(QMainWindow):
         if canvas.edit_selected_text(self):
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText("Updated text item")
+            self.status_label.setText(self.tr("Updated text item"))
 
     def bring_selected_item_to_front(self) -> None:
         canvas = self.current_canvas()
@@ -2449,7 +2451,7 @@ class MainWindow(QMainWindow):
         if canvas.bring_selected_item_to_front():
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText("Brought selected item to front")
+            self.status_label.setText(self.tr("Brought selected item to front"))
 
     def send_selected_item_to_back(self) -> None:
         canvas = self.current_canvas()
@@ -2458,7 +2460,7 @@ class MainWindow(QMainWindow):
         if canvas.send_selected_item_to_back():
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText("Sent selected item to back")
+            self.status_label.setText(self.tr("Sent selected item to back"))
 
     def rotate_image(self) -> None:
         canvas = self.current_canvas()
@@ -2540,7 +2542,7 @@ class MainWindow(QMainWindow):
         pin_window.show()
         pin_window.raise_()
         pin_window.activateWindow()
-        self.status_label.setText("Pinned current image")
+        self.status_label.setText(self.tr("Pinned current image"))
 
     def open_settings_dialog(self) -> None:
         previous_language = str(self._settings.value("application/language", ""))
@@ -2552,7 +2554,7 @@ class MainWindow(QMainWindow):
         if previous_language != settings_data.application_language:
             self.status_label.setText(self.tr("Language changed. Restart ksnip to apply it."))
         else:
-            self.status_label.setText("Settings updated")
+            self.status_label.setText(self.tr("Settings updated"))
 
     def show_from_tray(self) -> None:
         self.showNormal()
@@ -2591,7 +2593,7 @@ class MainWindow(QMainWindow):
         if canvas.add_image_item(prepared.toImage(), position=QPoint(x, y)):
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText("Added watermark")
+            self.status_label.setText(self.tr("Added watermark"))
 
     def update_watermark_image(self) -> None:
         path, _ = QFileDialog.getOpenFileName(
@@ -2606,7 +2608,7 @@ class MainWindow(QMainWindow):
             self._show_error(f"Unable to load watermark image: {path}")
             return
         self._settings.setValue("paths/last_image_dir", str(Path(path).parent))
-        self.status_label.setText("Updated watermark image")
+        self.status_label.setText(self.tr("Updated watermark image"))
 
     def upload_image(self) -> None:
         canvas = self.current_canvas()
@@ -2635,7 +2637,7 @@ class MainWindow(QMainWindow):
         if result.ok:
             if self._setting_bool("upload/copy_output", False) and result.output:
                 QGuiApplication.clipboard().setText(result.output)
-            self.status_label.setText("Upload finished successfully")
+            self.status_label.setText(self.tr("Upload finished successfully"))
             if result.output:
                 QMessageBox.information(self, "Upload Successful", result.output)
             return
@@ -2671,7 +2673,7 @@ class MainWindow(QMainWindow):
         self._ocr_progress.setWindowModality(Qt.WindowModality.WindowModal)
         self._ocr_progress.canceled.connect(self._cancel_ocr)
         self._ocr_progress.show()
-        self.status_label.setText("Running OCR...")
+        self.status_label.setText(self.tr("Running OCR..."))
         self._ocr_thread.start()
 
     def _cancel_ocr(self) -> None:
@@ -2683,14 +2685,14 @@ class MainWindow(QMainWindow):
             QGuiApplication.clipboard().setText(text)
         dialog = OcrResultDialog(text, self)
         dialog.exec()
-        self.status_label.setText("OCR finished")
+        self.status_label.setText(self.tr("OCR finished"))
 
     def _handle_ocr_failed(self, message: str) -> None:
-        self.status_label.setText("OCR failed")
+        self.status_label.setText(self.tr("OCR failed"))
         self._show_error(message)
 
     def _handle_ocr_cancelled(self) -> None:
-        self.status_label.setText("OCR canceled")
+        self.status_label.setText(self.tr("OCR canceled"))
 
     def _cleanup_ocr_thread(self, *_args) -> None:
         if self._ocr_progress is not None:
@@ -2717,7 +2719,7 @@ class MainWindow(QMainWindow):
             return
         self.tabs.removeTab(index)
         if self.tabs.count() == 0:
-            self.status_label.setText("Ready")
+            self.status_label.setText(self.tr("Ready"))
         self._update_actions()
         self._update_property_toolbar_for_tool()
 
@@ -2836,7 +2838,7 @@ class MainWindow(QMainWindow):
         self._store_recent_image_path(path)
         self.tabs.setTabText(self.tabs.currentIndex(), title)
         self._update_window_title()
-        self.status_label.setText(f"Opened {title}")
+        self.status_label.setText(self.tr("Opened %1").replace("%1", title))
         self._update_actions()
         self._schedule_resize_to_content()
         return True

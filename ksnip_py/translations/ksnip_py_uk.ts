@@ -46,6 +46,11 @@
   <context>
     <name>MainWindow</name>
     <message>
+      <location filename="../main_window.py" line="2722" />
+      <location filename="../main_window.py" line="110" />
+      <source>Ready</source>
+      <translation type="unfinished" /></message>
+    <message>
       <location filename="../main_window.py" line="200" />
       <source>New</source>
       <translation>Створити</translation></message>
@@ -53,6 +58,10 @@
       <location filename="../main_window.py" line="1201" />
       <location filename="../main_window.py" line="201" />
       <source>New Screenshot</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="451" />
+      <source>Updated selected sticker</source>
       <translation type="unfinished" /></message>
     <message>
       <location filename="../main_window.py" line="609" />
@@ -207,6 +216,7 @@
       <source>Marker Ellipse</source>
       <translation>Еліптична позначка</translation></message>
     <message>
+      <location filename="../main_window.py" line="980" />
       <location filename="../main_window.py" line="745" />
       <source>Number</source>
       <translation>Номер</translation></message>
@@ -219,6 +229,7 @@
       <source>Number Arrow</source>
       <translation>Стрілка з номером</translation></message>
     <message>
+      <location filename="../main_window.py" line="995" />
       <location filename="../main_window.py" line="748" />
       <source>Sticker</source>
       <translation>Наліпка</translation></message>
@@ -271,31 +282,32 @@
       <source>Rotate</source>
       <translation>Обертати</translation></message>
     <message>
+      <location filename="../main_window.py" line="1013" />
       <location filename="../main_window.py" line="799" />
       <source>Scale</source>
       <translation>Розмір</translation></message>
     <message>
-      <location filename="../main_window.py" line="2508" />
+      <location filename="../main_window.py" line="2510" />
       <location filename="../main_window.py" line="804" />
       <source>No Effect</source>
       <translation>Без ефектів</translation></message>
     <message>
-      <location filename="../main_window.py" line="2509" />
+      <location filename="../main_window.py" line="2511" />
       <location filename="../main_window.py" line="805" />
       <source>Drop Shadow</source>
       <translation>Відкидання тіні</translation></message>
     <message>
-      <location filename="../main_window.py" line="2510" />
+      <location filename="../main_window.py" line="2512" />
       <location filename="../main_window.py" line="806" />
       <source>Grayscale</source>
       <translation>Відтінки сірого</translation></message>
     <message>
-      <location filename="../main_window.py" line="2511" />
+      <location filename="../main_window.py" line="2513" />
       <location filename="../main_window.py" line="807" />
       <source>Invert Color</source>
       <translation>Інвертувати кольори</translation></message>
     <message>
-      <location filename="../main_window.py" line="2512" />
+      <location filename="../main_window.py" line="2514" />
       <location filename="../main_window.py" line="808" />
       <source>Border</source>
       <translation>Рамка</translation></message>
@@ -304,7 +316,7 @@
       <source>Modify Canvas...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2389" />
+      <location filename="../main_window.py" line="2391" />
       <location filename="../main_window.py" line="814" />
       <source>Hide Docks</source>
       <translation>Приховати бічні панелі</translation></message>
@@ -365,9 +377,63 @@
       <source>Fit Image</source>
       <translation>За зображенням</translation></message>
     <message>
+      <location filename="../main_window.py" line="886" />
+      <source>Capture delay</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1075" />
+      <location filename="../main_window.py" line="913" />
+      <location filename="../main_window.py" line="906" />
+      <source>Stroke color</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="923" />
+      <source>Stroke width</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="933" />
+      <location filename="../main_window.py" line="929" />
+      <source>Fill mode</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="945" />
+      <location filename="../main_window.py" line="938" />
+      <source>Text color</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="961" />
+      <source>Font</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="966" />
+      <source>Bold</source>
+      <translation>Жирний</translation></message>
+    <message>
+      <location filename="../main_window.py" line="967" />
+      <source>Italic</source>
+      <translation>Курсив</translation></message>
+    <message>
+      <location filename="../main_window.py" line="968" />
+      <source>Underline</source>
+      <translation>Підкреслення</translation></message>
+    <message>
+      <location filename="../main_window.py" line="988" />
+      <source>Effect strength</source>
+      <translation type="unfinished" /></message>
+    <message>
       <location filename="../main_window.py" line="992" />
       <source>Select Sticker</source>
       <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1003" />
+      <location filename="../main_window.py" line="1001" />
+      <source>Item shadow</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1073" />
+      <location filename="../main_window.py" line="1022" />
+      <source>Opacity</source>
+      <translation>Непрозорість</translation></message>
     <message>
       <location filename="../main_window.py" line="1143" />
       <source>Zoom Out (%1)</source>
@@ -376,6 +442,11 @@
       <location filename="../main_window.py" line="1160" />
       <source>Zoom In (%1)</source>
       <translation>Збільшити (%1)</translation></message>
+    <message>
+      <location filename="../main_window.py" line="1264" />
+      <location filename="../main_window.py" line="1182" />
+      <source>Zoom</source>
+      <translation type="unfinished" /></message>
     <message>
       <location filename="../main_window.py" line="1199" />
       <source>&amp;File</source>
@@ -400,10 +471,6 @@
       <location filename="../main_window.py" line="1260" />
       <source>&amp;View</source>
       <translation>П&amp;ерегляд</translation></message>
-    <message>
-      <location filename="../main_window.py" line="1264" />
-      <source>Zoom</source>
-      <translation type="unfinished" /></message>
     <message>
       <location filename="../main_window.py" line="1270" />
       <source>&amp;Options</source>
@@ -441,6 +508,10 @@
       <source>Updated selected item color</source>
       <translation type="unfinished" /></message>
     <message>
+      <location filename="../main_window.py" line="1508" />
+      <source>Updated selected item fill</source>
+      <translation type="unfinished" /></message>
+    <message>
       <location filename="../main_window.py" line="1518" />
       <source>Select text color</source>
       <translation type="unfinished" /></message>
@@ -449,56 +520,220 @@
       <source>Updated selected text color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1993" />
+      <location filename="../main_window.py" line="1537" />
+      <source>Updated selected item width to %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1550" />
+      <source>Updated selected text font</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1560" />
+      <source>Updated selected text size to %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1570" />
+      <source>Updated selected item opacity to %1%</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1587" />
+      <source>Updated selected item fill mode</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1597" />
+      <source>Updated selected text bold style</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1607" />
+      <source>Updated selected text italic style</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1616" />
+      <source>Updated selected text underline style</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1625" />
+      <source>Updated selected item shadow</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1635" />
+      <source>Updated selected item scale to %1%</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1644" />
+      <source>Updated selected number to %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1995" />
       <location filename="../main_window.py" line="1848" />
       <source>Portal capture canceled.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2375" />
+      <location filename="../main_window.py" line="1926" />
+      <source>Loaded %1 capture and copied it to clipboard</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2015" />
+      <source>Loaded %1 capture</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2143" />
+      <source>Saved %1 image(s)</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2161" />
+      <source>Saved %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2169" />
+      <source>Copied image to clipboard</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2178" />
+      <source>Sent image to printer</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2251" />
+      <source>Renamed to %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2283" />
+      <source>Deleted %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2306" />
+      <source>Copied image as a base64 encoded Data URI</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2313" />
+      <source>Copied path %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2323" />
+      <source>Opened directory %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2330" />
+      <source>Copied selected item(s)</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2343" />
+      <source>Loaded image from clipboard</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2363" />
+      <source>Pasted embedded image from clipboard</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2377" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2389" />
+      <location filename="../main_window.py" line="2391" />
       <source>Show Docks</source>
       <translation>Показати бічні панелі</translation></message>
     <message>
-      <location filename="../main_window.py" line="2473" />
+      <location filename="../main_window.py" line="2400" />
+      <source>Pasted item from clipboard</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2427" />
+      <source>Deleted selected item</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2436" />
+      <source>Duplicated selected item</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2445" />
+      <source>Updated text item</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2454" />
+      <source>Brought selected item to front</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2463" />
+      <source>Sent selected item to back</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2475" />
       <source>Rotated image by %1 degrees</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2476" />
+      <location filename="../main_window.py" line="2478" />
       <source>Horizontal</source>
       <translation>Горизонтально</translation></message>
     <message>
-      <location filename="../main_window.py" line="2476" />
+      <location filename="../main_window.py" line="2478" />
       <source>Vertical</source>
       <translation>Вертикально</translation></message>
     <message>
-      <location filename="../main_window.py" line="2477" />
+      <location filename="../main_window.py" line="2479" />
       <source>Flipped image: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2497" />
+      <location filename="../main_window.py" line="2499" />
       <source>Scaled image to %1 × %2 px</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2516" />
+      <location filename="../main_window.py" line="2518" />
       <source>Image effect: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2528" />
+      <location filename="../main_window.py" line="2530" />
       <source>Image slice removed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2553" />
+      <location filename="../main_window.py" line="2545" />
+      <source>Pinned current image</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2555" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2847" />
+      <location filename="../main_window.py" line="2557" />
+      <source>Settings updated</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2596" />
+      <source>Added watermark</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2611" />
+      <source>Updated watermark image</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2640" />
+      <source>Upload finished successfully</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2676" />
+      <source>Running OCR...</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2688" />
+      <source>OCR finished</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2691" />
+      <source>OCR failed</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2695" />
+      <source>OCR canceled</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2841" />
+      <source>Opened %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2849" />
       <source>Unable to open image data.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2855" />
+      <location filename="../main_window.py" line="2857" />
       <source>Opened image from standard input</source>
       <translation type="unfinished" /></message>
     <message>
