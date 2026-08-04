@@ -43,6 +43,12 @@ def desktop_environment() -> str:
     )
 
 
+def is_wayland_session() -> bool:
+    platform_name = QGuiApplication.platformName().lower() if QGuiApplication.instance() is not None else ""
+    session_type = os.environ.get("XDG_SESSION_TYPE", "").lower()
+    return platform_name.startswith("wayland") or session_type == "wayland"
+
+
 def recommended_portal_backend(desktop: str | None = None) -> str:
     normalized = (desktop or desktop_environment()).lower()
     mappings = (

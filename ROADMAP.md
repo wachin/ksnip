@@ -122,6 +122,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [ ] Paridad Wayland/X11/portal como en C++
 - [x] Captura vía portal genérico Wayland mediante QtDBus, con cancelación, timeout y carga del URI devuelto
 - [x] Preferencia funcional `Force Generic Wayland`: redirige capturas GUI al portal y distingue fullscreen no interactivo
+- [x] Detección automática de sesión Wayland mediante plataforma Qt y `XDG_SESSION_TYPE`, con redirección al portal
 - [x] Diagnóstico de entorno para fallos del portal, con recomendación del backend Debian según `XDG_CURRENT_DESKTOP`
 - [ ] Escalado específico de screenshots Wayland genéricos
 - [x] Delay implícito con la misma semántica del código C++: máximo con delay explícito sólo cuando la ventana estaba visible

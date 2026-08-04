@@ -156,7 +156,7 @@ ksnip-pyqt6 --fullscreen --save --upload
 
 Use `ksnip-pyqt6 --help` for the current option list. `--upload` uses the script configured under `Settings > Uploader > Script Uploader`. On Wayland, `--portal` delegates capture selection to `xdg-desktop-portal`.
 
-`Settings > Image Grabber > Force Generic Wayland` redirects regular GUI capture actions through `xdg-desktop-portal`. Full-screen capture is requested non-interactively; the other capture modes use the portal's interactive chooser.
+Wayland sessions are detected automatically and regular capture actions are redirected through `xdg-desktop-portal`. `Settings > Image Grabber > Force Generic Wayland` applies the same behavior manually, including on X11. Full-screen capture is requested non-interactively; the other capture modes use the portal's interactive chooser.
 
 The PyQt6 port loads Qt Linguist `.qm` catalogs using the language selected under `Settings > Application > Language`, or the system locale by default. Use `--language LOCALE` (for example, `--language es`) for a temporary command-line override. Portal diagnostics are currently translated into Spanish; untranslated locales safely fall back to English while the remaining UI is migrated to `tr()`.
 

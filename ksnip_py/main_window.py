@@ -43,6 +43,7 @@ from .capture import (
     grab_window_under_cursor,
     grab_x11_cursor,
     has_last_rectangular_area,
+    is_wayland_session,
     portal_capture_was_canceled,
     portal_failure_message,
 )
@@ -1764,9 +1765,11 @@ class MainWindow(QMainWindow):
         self._load_capture_result(result, "Portal")
 
     def _capture_with_preferences(self, capture_fn, *, portal_interactive: bool = True, allow_forced_portal: bool = True):
-        force_portal = allow_forced_portal and self._setting_bool("capture/force_generic_wayland", False)
-        self._last_capture_used_portal = force_portal or not allow_forced_portal
-        if force_portal:
+        use_portal = allow_forced_portal and (
+            self._setting_bool("capture/force_generic_wayland", False) or is_wayland_session()
+        )
+        self._last_capture_used_portal = use_portal or not allow_forced_portal
+        if use_portal:
             capture_fn = lambda: grab_portal(
                 interactive=portal_interactive,
                 scale=self._setting_bool("capture/scale_generic_wayland", False),
