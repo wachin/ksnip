@@ -250,6 +250,8 @@ class StickerInsertionParityTest(unittest.TestCase):
         self.assertEqual(canvas._items[0].kind, Tool.STICKER)
         self.assertEqual(canvas._items[0].sticker_path, str(sticker))
         self.assertFalse(canvas._items[0].image.isNull())
+        self.assertEqual(max(canvas._items[0].bounds().width(), canvas._items[0].bounds().height()), 50)
+        self.assertGreaterEqual(max(canvas._items[0].image.width(), canvas._items[0].image.height()), 256)
         self.assertTrue(canvas.state.dirty)
         self.assertNotEqual(canvas.image(), canvas.background_image())
         canvas.undo()
@@ -258,7 +260,7 @@ class StickerInsertionParityTest(unittest.TestCase):
     def test_external_svg_and_png_stickers_can_build_click_items(self) -> None:
         candidates = (
             Path("/usr/share/icons/Papirus/48x48/emotes/face-smile.svg"),
-            Path("/usr/share/icons/gnome/48x48/emotes/face-smile.png"),
+            Path("/usr/share/icons/gnome/256x256/emotes/face-smile.png"),
             Path("/usr/share/icons/Numix/48/emotes/face-smile.svg"),
         )
         canvas = AnnotationCanvas()
@@ -270,6 +272,27 @@ class StickerInsertionParityTest(unittest.TestCase):
             item = canvas._build_click_item(Tool.STICKER, QPoint(50, 40))
             self.assertIsNotNone(item, str(sticker))
             self.assertFalse(item.image.isNull(), str(sticker))
+            self.assertEqual(max(item.bounds().width(), item.bounds().height()), 50)
+            self.assertGreaterEqual(max(item.image.width(), item.image.height()), 256)
+
+    def test_sticker_scaling_uses_the_normalized_size_and_shadow_is_tinted(self) -> None:
+        sticker = Path(__file__).resolve().parents[1] / "ksnip_py" / "stickers" / "tutorial_attention.svg"
+        canvas = AnnotationCanvas()
+        background = QImage(160, 120, QImage.Format.Format_ARGB32)
+        background.fill(QColor("white"))
+        canvas.set_image(background)
+        canvas.set_sticker_path(str(sticker))
+        canvas.set_tool(Tool.STICKER)
+        QTest.mouseClick(canvas, Qt.MouseButton.LeftButton, pos=QPoint(80, 60))
+        canvas._items[0].image.fill(QColor("red"))
+
+        bounds = canvas._items[0].bounds()
+        shadow_pixel = canvas.image().pixelColor(bounds.right() + 1, bounds.center().y())
+        self.assertLessEqual(abs(shadow_pixel.red() - shadow_pixel.green()), 2)
+        self.assertLessEqual(abs(shadow_pixel.green() - shadow_pixel.blue()), 2)
+
+        self.assertTrue(canvas.apply_scaling_to_selected_item(200))
+        self.assertEqual(max(canvas._items[0].bounds().width(), canvas._items[0].bounds().height()), 100)
 
 
 if __name__ == "__main__":

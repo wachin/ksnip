@@ -95,7 +95,7 @@ class StickerPickerTest(unittest.TestCase):
         collections = sticker_collections()
         self.assertEqual([collection.name for collection in collections], ["Original", "Papirus", "GNOME", "Numix"])
         self.assertEqual(collections[1].directory, Path("/usr/share/icons/Papirus/48x48/emotes"))
-        self.assertEqual(collections[2].directory, Path("/usr/share/icons/gnome/48x48/emotes"))
+        self.assertEqual(collections[2].directory, Path("/usr/share/icons/gnome/256x256/emotes"))
         self.assertEqual(collections[3].directory, Path("/usr/share/icons/Numix/48/emotes"))
         for collection in collections[1:]:
             if collection.directory.is_dir():

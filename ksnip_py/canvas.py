@@ -523,7 +523,7 @@ class OverlayItem:
             radius = max(14, self.font_point_size or 14)
             bubble = QRect(self.start.x() - radius, self.start.y() - radius, radius * 2, radius * 2)
             return QRect(self.start, self.end).normalized().united(bubble).adjusted(-6, -6, 6, 6)
-        if self.kind == Tool.IMAGE and self.image is not None:
+        if self.kind in (Tool.IMAGE, Tool.STICKER) and self.image is not None:
             return QRect(self.start, self.end).normalized()
         return QRect(self.start, self.end).normalized().adjusted(-6, -6, 6, 6)
 
@@ -2004,7 +2004,10 @@ class AnnotationCanvas(QLabel):
             new_width = max(8, round(rect.width() * scaling / max(item.scaling, 0.01)))
             new_height = max(8, round(rect.height() * scaling / max(item.scaling, 0.01)))
             item.start = QPoint(center.x() - new_width // 2, center.y() - new_height // 2)
-            item.end = QPoint(item.start.x() + new_width, item.start.y() + new_height)
+            if item.kind == Tool.STICKER:
+                item.end = QPoint(item.start.x() + new_width - 1, item.start.y() + new_height - 1)
+            else:
+                item.end = QPoint(item.start.x() + new_width, item.start.y() + new_height)
             item.scaling = scaling
         self._mark_dirty()
         self._refresh()
@@ -2506,13 +2509,19 @@ class AnnotationCanvas(QLabel):
             image = self._load_sticker_image(self._sticker_path)
             if image is None or image.isNull():
                 return None
-            width = max(32, round(image.width() * self._scaling))
-            height = max(32, round(image.height() * self._scaling))
+            if image.width() >= image.height():
+                base_width = 50
+                base_height = max(1, round(50 * image.height() / image.width()))
+            else:
+                base_height = 50
+                base_width = max(1, round(50 * image.width() / image.height()))
+            width = max(8, round(base_width * self._scaling))
+            height = max(8, round(base_height * self._scaling))
             top_left = QPoint(point.x() - width // 2, point.y() - height // 2)
             return OverlayItem(
                 kind=Tool.STICKER,
                 start=top_left,
-                end=QPoint(top_left.x() + width, top_left.y() + height),
+                end=QPoint(top_left.x() + width - 1, top_left.y() + height - 1),
                 color=QColor(self._color),
                 pen_width=self._pen_width,
                 opacity=self._opacity,
@@ -2646,6 +2655,17 @@ class AnnotationCanvas(QLabel):
         return width, height
 
     def _draw_shadow(self, painter: QPainter, item: OverlayItem) -> None:
+        if item.kind in (Tool.IMAGE, Tool.STICKER) and item.image is not None and not item.image.isNull():
+            shadow_image = item.image.convertToFormat(QImage.Format.Format_ARGB32_Premultiplied)
+            shadow_painter = QPainter(shadow_image)
+            shadow_painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
+            shadow_painter.fillRect(shadow_image.rect(), QColor(63, 63, 63, 190))
+            shadow_painter.end()
+            painter.save()
+            painter.setOpacity(item.opacity)
+            painter.drawImage(item.bounds().translated(2, 2), shadow_image)
+            painter.restore()
+            return
         shadow = item.clone()
         shadow.start += QPoint(4, 4)
         shadow.end += QPoint(4, 4)
@@ -2662,7 +2682,12 @@ class AnnotationCanvas(QLabel):
     def _load_sticker_image(self, sticker_path: str | None) -> QImage | None:
         if not sticker_path:
             return None
-        pixmap = QIcon(sticker_path).pixmap(160, 160)
+        path = Path(sticker_path)
+        if path.suffix.lower() != ".svg":
+            image = QImage(sticker_path)
+            if not image.isNull():
+                return image
+        pixmap = QIcon(sticker_path).pixmap(512, 512)
         if pixmap.isNull():
             pixmap = QPixmap(sticker_path)
         if pixmap.isNull():

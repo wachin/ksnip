@@ -103,7 +103,7 @@ The `xdg-desktop-portal-dev` package is not a runtime dependency. It contains de
 
 Hunspell dictionaries are optional but recommended. Install the dictionary packages appropriate for your language if they differ from the English and Spanish examples above.
 
-Sticker themes are provided by `papirus-icon-theme`, `gnome-icon-theme`, and `numix-icon-theme`. The sticker selector separates the bundled, Papirus, GNOME, and Numix collections into tabs, ignores symbolic-link duplicates, and preserves pinned favorites across theme changes and application restarts.
+Sticker themes are provided by `papirus-icon-theme`, `gnome-icon-theme`, and `numix-icon-theme`. The sticker selector separates the bundled, Papirus, GNOME, and Numix collections into tabs, uses GNOME's 256×256 images, ignores symbolic-link duplicates, and preserves pinned favorites across theme changes and application restarts.
 
 ## Run from system packages
 

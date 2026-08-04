@@ -33,7 +33,7 @@ def sticker_collections(package_dir: Path | None = None) -> tuple[StickerCollect
     return (
         StickerCollection("Original", bundled),
         StickerCollection("Papirus", Path("/usr/share/icons/Papirus/48x48/emotes")),
-        StickerCollection("GNOME", Path("/usr/share/icons/gnome/48x48/emotes")),
+        StickerCollection("GNOME", Path("/usr/share/icons/gnome/256x256/emotes")),
         StickerCollection("Numix", Path("/usr/share/icons/Numix/48/emotes")),
     )
 
