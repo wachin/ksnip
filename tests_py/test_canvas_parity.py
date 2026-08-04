@@ -326,6 +326,28 @@ class NumberFontParityTest(unittest.TestCase):
 
 
 class TextVariantEditingParityTest(unittest.TestCase):
+    def test_text_pointer_handles_hit_testing_and_bounds_follow_visible_geometry(self) -> None:
+        canvas = AnnotationCanvas()
+        item = OverlayItem(
+            kind=Tool.TEXT_POINTER, start=QPoint(100, 60), end=QPoint(20, 20),
+            color=QColor("red"), pen_width=2, text="Pointer text", font_point_size=16,
+        )
+        canvas._items = [item]
+        bubble = item.text_pointer_bubble_rect()
+
+        self.assertEqual(canvas._handle_points(item), {"start": bubble.center(), "end": item.end})
+        self.assertEqual(canvas._find_item_at(bubble.center()), 0)
+        self.assertEqual(canvas._find_item_at(item.end), 0)
+        self.assertTrue(item.bounds().contains(bubble))
+        self.assertIsNone(canvas._find_item_at(QPoint(bubble.right() + 30, bubble.bottom() + 30)))
+
+        original_tip = QPoint(item.end)
+        canvas._resize_item(item, "start", QPoint(160, 90))
+        self.assertEqual(item.text_pointer_bubble_rect().center(), QPoint(160, 90))
+        self.assertEqual(item.end, original_tip)
+        canvas._resize_item(item, "end", QPoint(250, 120))
+        self.assertEqual(item.end, QPoint(250, 120))
+
     def test_text_pointer_uses_its_tool_color_as_fill(self) -> None:
         canvas = AnnotationCanvas()
         item = OverlayItem(

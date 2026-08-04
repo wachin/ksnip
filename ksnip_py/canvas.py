@@ -513,6 +513,17 @@ class OverlayItem:
         offset_x = 12 if self.end.x() >= self.start.x() else -(width + 12)
         return QRect(self.start.x() + offset_x, self.start.y() - height // 2, width, height)
 
+    def text_pointer_bubble_rect(self) -> QRect:
+        lines = (self.text or "").splitlines() or [""]
+        font = QFont(self.font_family or QApplication.font().family(), self.font_point_size or 15)
+        font.setBold(self.bold)
+        font.setItalic(self.italic)
+        font.setUnderline(self.underline)
+        metrics = QFontMetrics(font)
+        width = max(96, max(metrics.horizontalAdvance(line or " ") for line in lines) + 24)
+        height = max(34, metrics.lineSpacing() * len(lines) + 16)
+        return QRect(self.start, QSize(width, height))
+
     def number_badge_diameter(self) -> int:
         font = QFont(self.font_family or QApplication.font().family(), self.font_point_size or 20)
         font.setBold(self.bold)
@@ -551,6 +562,9 @@ class OverlayItem:
             return QRect(self.start.x(), self.start.y(), width, height)
         if self.kind == Tool.TEXT_ARROW:
             return QRect(self.start, self.end).normalized().united(self.text_arrow_label_rect()).adjusted(-6, -6, 6, 6)
+        if self.kind == Tool.TEXT_POINTER:
+            bubble = self.text_pointer_bubble_rect()
+            return bubble.united(QRect(bubble.center(), self.end).normalized()).adjusted(-6, -6, 6, 6)
         if self.kind == Tool.NUMBER_POINTER:
             bubble = self.number_pointer_bubble_rect()
             return bubble.united(QRect(bubble.center(), self.end).normalized()).adjusted(-6, -6, 6, 6)
@@ -1657,6 +1671,13 @@ class AnnotationCanvas(QLabel):
                     or self._point_line_distance(point, bubble_rect.center(), item.end) <= max(8, item.pen_width * 2)
                 ):
                     return index
+            elif item.kind == Tool.TEXT_POINTER:
+                bubble_rect = item.text_pointer_bubble_rect()
+                if (
+                    bubble_rect.contains(point)
+                    or self._point_line_distance(point, bubble_rect.center(), item.end) <= max(8, item.pen_width * 2)
+                ):
+                    return index
             elif item.bounds().contains(point):
                 return index
         return None
@@ -2226,12 +2247,17 @@ class AnnotationCanvas(QLabel):
                 "end": QPoint(item.end),
             }
 
+        if item.kind == Tool.TEXT_POINTER:
+            return {
+                "start": item.text_pointer_bubble_rect().center(),
+                "end": QPoint(item.end),
+            }
+
         if item.kind in (
             Tool.RECT,
             Tool.ELLIPSE,
             Tool.MARKER_RECT,
             Tool.MARKER_ELLIPSE,
-            Tool.TEXT_POINTER,
             Tool.NUMBER,
         ):
             rect = QRect(item.start, item.end).normalized()
@@ -2271,10 +2297,19 @@ class AnnotationCanvas(QLabel):
         }
 
     def _resize_item(self, item: OverlayItem, handle: str, point: QPoint) -> None:
+        if item.kind == Tool.TEXT_POINTER:
+            if handle == "start":
+                bubble = item.text_pointer_bubble_rect()
+                bubble.moveCenter(point)
+                item.start = bubble.topLeft()
+            elif handle == "end":
+                item.end = QPoint(point)
+            return
         if item.kind == Tool.NUMBER_POINTER:
             if handle == "start":
-                diameter = item.number_badge_diameter()
-                item.start = QPoint(point.x() - diameter // 2, point.y() - diameter // 2)
+                bubble = item.number_pointer_bubble_rect()
+                bubble.moveCenter(point)
+                item.start = bubble.topLeft()
             elif handle == "end":
                 item.end = QPoint(point)
             return
@@ -2885,17 +2920,27 @@ class AnnotationCanvas(QLabel):
         return QPoint(int(center.x() + dx / length * radius), int(center.y() + dy / length * radius))
 
     def _draw_text_pointer(self, painter: QPainter, item: OverlayItem) -> None:
-        rect = QRect(item.start, item.end).normalized()
-        bubble_rect = rect.adjusted(0, 0, -max(16, rect.width() // 6), -max(16, rect.height() // 6))
-        bubble_rect = bubble_rect.normalized()
+        bubble_rect = item.text_pointer_bubble_rect()
         painter.setBrush(item.color)
         painter.drawRoundedRect(bubble_rect, 8, 8)
-        tip = rect.bottomRight()
-        base_center = QPoint(bubble_rect.right() - 18, bubble_rect.bottom() - 10)
+        tip = item.end
+        center = bubble_rect.center()
+        dx = tip.x() - center.x()
+        dy = tip.y() - center.y()
+        if dx == 0 and dy == 0:
+            dx = 1
+        half_width = max(1.0, bubble_rect.width() / 2.0)
+        half_height = max(1.0, bubble_rect.height() / 2.0)
+        scale = min(half_width / max(abs(dx), 0.001), half_height / max(abs(dy), 0.001))
+        base_center = QPoint(round(center.x() + dx * scale), round(center.y() + dy * scale))
+        length = max(1.0, hypot(dx, dy))
+        base_half_width = max(6.0, min(bubble_rect.width(), bubble_rect.height()) * 0.18)
+        perpendicular_x = -dy / length * base_half_width
+        perpendicular_y = dx / length * base_half_width
         triangle = QPolygon(
             [
-                QPoint(base_center.x() - 8, base_center.y() - 4),
-                QPoint(base_center.x() + 8, base_center.y() + 4),
+                QPoint(round(base_center.x() + perpendicular_x), round(base_center.y() + perpendicular_y)),
+                QPoint(round(base_center.x() - perpendicular_x), round(base_center.y() - perpendicular_y)),
                 tip,
             ]
         )

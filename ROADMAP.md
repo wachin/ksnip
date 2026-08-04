@@ -172,6 +172,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] El círculo de `Number` se recalcula con `QFontMetrics` al cambiar familia, tamaño, negrita, cursiva o subrayado, conservando su centro y siendo reversible con undo como `NumberRectHelper` del C++
 - [x] `Number Pointer` y `Number Arrow` comparten el diámetro calculado por métricas tipográficas en pintura, hit-testing y bounds; la punta permanece fija al crecer el número
 - [x] `Number Pointer` reemplaza los cuatro handles del rectángulo inexistente por controles independientes para centro de burbuja y punta; el hit-testing deja de seleccionar zonas vacías entre ambos
+- [x] `Text Pointer` usa una burbuja medida con la fuente y handles independientes para burbuja y punta; el triángulo se conecta al lado correcto según la dirección y no selecciona zonas vacías
 - [x] `Fill Mode` persistente por herramienta con valores iniciales de `Config::defaultToolFillMode` y descarte seguro de modos incompatibles guardados por versiones anteriores
 - [x] Marker Pen, Marker Rectangle y Marker Ellipse renderizados con composición `Multiply`, igual que los elementos marcador del C++
 - [x] Marker Rectangle y Marker Ellipse alineados con `NoBorderAndFill`: relleno completo, sin borde, sombra, ancho ni opacidad configurables
