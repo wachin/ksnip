@@ -1409,7 +1409,7 @@ class AnnotationCanvas(QLabel):
             return
         self._select_single_item(clicked_index)
         item = self._primary_selected_item()
-        if item is not None and item.kind == Tool.TEXT:
+        if item is not None and self._is_text_like(item.kind):
             self.edit_selected_text(self)
         else:
             self.changed.emit()
@@ -1849,12 +1849,24 @@ class AnnotationCanvas(QLabel):
 
     def edit_selected_text(self, parent=None) -> bool:
         item = self._primary_selected_item()
-        if not self.has_single_selected_item() or item is None or item.kind != Tool.TEXT:
+        if not self.has_single_selected_item() or item is None or not self._is_text_like(item.kind):
             return False
         primary_index = self._primary_selected_index()
         if primary_index is None:
             return False
-        return self._start_inline_text_edit(primary_index, is_new=False, select_all=True)
+        if item.kind == Tool.TEXT:
+            return self._start_inline_text_edit(primary_index, is_new=False, select_all=True)
+        dialog = TextInputDialog(parent or self, title=self.tr("Edit text"), text=item.text or "")
+        if dialog.exec() != QDialog.DialogCode.Accepted:
+            return False
+        text = dialog.text()
+        if not text.strip() or text == (item.text or ""):
+            return False
+        self._push_undo_state()
+        item.text = text
+        self._mark_dirty()
+        self._refresh()
+        return True
 
     def contextMenuEvent(self, event: QContextMenuEvent) -> None:  # noqa: N802
         if self._inline_text_editor is not None:

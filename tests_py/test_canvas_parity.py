@@ -7,7 +7,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PyQt6.QtCore import QPoint, QRect, Qt
 from PyQt6.QtGui import QColor, QImage, QPainter
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication, QDialog
 from PyQt6.QtTest import QTest
 
 from ksnip_py.canvas import AnnotationCanvas, CutDialog, FillMode, ModifyCanvasDialog, OverlayItem, RotateDialog, ScaleDialog, Tool
@@ -261,6 +261,36 @@ class NumberFontParityTest(unittest.TestCase):
         self.assertLess(label_rect.right(), item.start.x())
         self.assertTrue(item.bounds().contains(label_rect))
         self.assertGreater(label_rect.height(), 34)
+
+
+class TextVariantEditingParityTest(unittest.TestCase):
+    def test_text_pointer_and_text_arrow_can_be_reedited_and_undone(self) -> None:
+        class AcceptedTextDialog:
+            def __init__(self, parent=None, *, title: str, text: str = "") -> None:
+                self.original_text = text
+
+            def exec(self):
+                return QDialog.DialogCode.Accepted
+
+            def text(self) -> str:
+                return "Updated text"
+
+        for tool in (Tool.TEXT_POINTER, Tool.TEXT_ARROW):
+            with self.subTest(tool=tool):
+                canvas = AnnotationCanvas()
+                canvas.set_image(coordinate_image(200, 120))
+                item = OverlayItem(
+                    kind=tool, start=QPoint(20, 20), end=QPoint(160, 80),
+                    color=QColor("red"), pen_width=2, text="Original text",
+                )
+                canvas._items = [item]
+                canvas._select_single_item(0)
+                with patch("ksnip_py.canvas.TextInputDialog", AcceptedTextDialog):
+                    self.assertTrue(canvas.edit_selected_text())
+                self.assertEqual(item.text, "Updated text")
+                self.assertTrue(canvas.can_undo())
+                canvas.undo()
+                self.assertEqual(canvas._items[0].text, "Original text")
 
 
 class ImageEffectParityTest(unittest.TestCase):
