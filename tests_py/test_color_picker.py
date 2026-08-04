@@ -49,6 +49,18 @@ class ColorPaletteMenuTest(unittest.TestCase):
 
 
 class MainWindowColorPickerTest(unittest.TestCase):
+    def test_visible_menu_actions_have_icons_even_without_a_full_desktop_theme(self) -> None:
+        window = MainWindow()
+        action_names = (
+            "copy_data_uri_action", "copy_path_action", "rename_action", "open_directory_action",
+            "copy_item_action", "close_tab_action", "paste_item_action", "edit_text_action",
+            "bring_to_front_action", "send_to_back_action", "modify_canvas_action", "toggle_docks_action",
+            "add_watermark_action", "upload_action", "ocr_action", "update_watermark_action",
+            "rotate_watermark_action", "settings_action", "about_action", "clear_recent_images_action",
+            "zoom_out_action", "zoom_in_action",
+        )
+        self.assertTrue(all(not getattr(window, name).icon().isNull() for name in action_names))
+
     def test_bundled_stickers_are_loaded_from_the_python_package(self) -> None:
         window = MainWindow()
         paths = [Path(path) for path in window._default_sticker_paths()]

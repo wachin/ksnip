@@ -306,7 +306,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Migración única de la escala antigua de stickers a 100% tras normalizar el tamaño base
 - [x] Icono principal de aplicación disponible dentro de `ksnip_py/`
 - [x] Asignar iconos de ksnip a acciones principales visibles
-- [ ] Asignar iconos de ksnip a todas las acciones visibles relevantes
+- [x] Asignar iconos locales o del tema de escritorio, con fallback empaquetado, a todas las acciones visibles relevantes
 - [x] Toolbar principal simplificada y acercada al patrón visual de Ksnip (`New`, `Save`, `Copy`, `Undo`, `Redo`, `Crop`, `Cut`, `Delay`)
 - [x] Botón desplegable `New` muestra icono y texto como en la barra principal original
 - [ ] Toolbar principal igual al original

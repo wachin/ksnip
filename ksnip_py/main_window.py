@@ -151,6 +151,10 @@ class MainWindow(QMainWindow):
                 return icon
         return QIcon()
 
+    def _themed_icon(self, theme_name: str, fallback_name: str) -> QIcon:
+        """Load a desktop icon while keeping a packaged fallback for minimal WMs."""
+        return QIcon.fromTheme(theme_name, self._load_icon(fallback_name))
+
     def _apply_window_icon(self) -> None:
         icon_path = self._icon_base_path() / "ksnip.svg"
         if icon_path.exists():
@@ -193,8 +197,8 @@ class MainWindow(QMainWindow):
 
     def _make_capture_menu_button(self) -> QToolButton:
         button = QToolButton(self)
-        button.setText("New")
-        button.setToolTip("New Screenshot")
+        button.setText(self.tr("New"))
+        button.setToolTip(self.tr("New Screenshot"))
         button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         icon = self._load_icon("drawRect")
@@ -652,27 +656,27 @@ class MainWindow(QMainWindow):
         self.copy_action.setShortcut(QKeySequence.StandardKey.Copy)
         self.copy_action.triggered.connect(self.copy_image)
 
-        self.copy_data_uri_action = QAction(self.tr("Copy as data URI"), self)
+        self.copy_data_uri_action = QAction(self._themed_icon("edit-copy", "copy"), self.tr("Copy as data URI"), self)
         self.copy_data_uri_action.triggered.connect(self.copy_image_as_data_uri)
 
-        self.copy_path_action = QAction(self.tr("Copy Path"), self)
+        self.copy_path_action = QAction(self._themed_icon("edit-copy", "copy"), self.tr("Copy Path"), self)
         self.copy_path_action.triggered.connect(self.copy_image_path)
 
-        self.rename_action = QAction(self.tr("Rename"), self)
+        self.rename_action = QAction(self._themed_icon("edit-rename", "text"), self.tr("Rename"), self)
         self.rename_action.setShortcut("F2")
         self.rename_action.triggered.connect(self.rename_current_image)
 
         self.delete_image_action = QAction(self._load_icon("delete"), self.tr("Delete Image..."), self)
         self.delete_image_action.triggered.connect(self.delete_current_image_file)
 
-        self.open_directory_action = QAction(self.tr("Open Directory"), self)
+        self.open_directory_action = QAction(self._themed_icon("folder-open", "action"), self.tr("Open Directory"), self)
         self.open_directory_action.triggered.connect(self.open_image_directory)
 
-        self.copy_item_action = QAction(self.tr("Copy Item"), self)
+        self.copy_item_action = QAction(self._themed_icon("edit-copy", "copy"), self.tr("Copy Item"), self)
         self.copy_item_action.setShortcut("Ctrl+Shift+C")
         self.copy_item_action.triggered.connect(self.copy_selected_item)
 
-        self.close_tab_action = QAction(self.tr("Close Tab"), self)
+        self.close_tab_action = QAction(self._themed_icon("window-close", "delete"), self.tr("Close Tab"), self)
         self.close_tab_action.setShortcut(QKeySequence.StandardKey.Close)
         self.close_tab_action.triggered.connect(lambda: self.close_tab(self.tabs.currentIndex()))
 
@@ -768,7 +772,7 @@ class MainWindow(QMainWindow):
         self.paste_embedded_action.setShortcut("Ctrl+Shift+V")
         self.paste_embedded_action.triggered.connect(self.paste_embedded_image)
 
-        self.paste_item_action = QAction(self.tr("Paste Item"), self)
+        self.paste_item_action = QAction(self._themed_icon("edit-paste", "paste"), self.tr("Paste Item"), self)
         self.paste_item_action.setShortcut("Ctrl+Alt+V")
         self.paste_item_action.triggered.connect(self.paste_item)
 
@@ -780,13 +784,13 @@ class MainWindow(QMainWindow):
         self.duplicate_action.setShortcut("Ctrl+D")
         self.duplicate_action.triggered.connect(self.duplicate_selected_item)
 
-        self.edit_text_action = QAction(self.tr("Edit Text..."), self)
+        self.edit_text_action = QAction(self._themed_icon("document-edit", "text"), self.tr("Edit Text..."), self)
         self.edit_text_action.triggered.connect(self.edit_selected_text)
 
-        self.bring_to_front_action = QAction(self.tr("Bring To Front"), self)
+        self.bring_to_front_action = QAction(self._themed_icon("object-raise", "action"), self.tr("Bring To Front"), self)
         self.bring_to_front_action.triggered.connect(self.bring_selected_item_to_front)
 
-        self.send_to_back_action = QAction(self.tr("Send To Back"), self)
+        self.send_to_back_action = QAction(self._themed_icon("object-lower", "action"), self.tr("Send To Back"), self)
         self.send_to_back_action.triggered.connect(self.send_selected_item_to_back)
 
         self.rotate_action = QAction(self._load_icon("rotate"), self.tr("Rotate"), self)
@@ -804,10 +808,10 @@ class MainWindow(QMainWindow):
         self.border_effect_action = self._make_image_effect_action("border", self.tr("Border"), "border")
         self.no_effect_action.setChecked(True)
 
-        self.modify_canvas_action = QAction(self.tr("Modify Canvas..."), self)
+        self.modify_canvas_action = QAction(self._load_icon("modifycanvas"), self.tr("Modify Canvas..."), self)
         self.modify_canvas_action.triggered.connect(self.modify_canvas)
 
-        self.toggle_docks_action = QAction(self.tr("Hide Docks"), self)
+        self.toggle_docks_action = QAction(self._themed_icon("view-restore", "action"), self.tr("Hide Docks"), self)
         self.toggle_docks_action.setShortcut("Tab")
         self.toggle_docks_action.triggered.connect(self.toggle_docks)
 
@@ -815,46 +819,46 @@ class MainWindow(QMainWindow):
         self.pin_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.pin_action.triggered.connect(self.pin_image)
 
-        self.add_watermark_action = QAction(self.tr("Add Watermark"), self)
+        self.add_watermark_action = QAction(self._themed_icon("insert-image", "pasteEmbedded"), self.tr("Add Watermark"), self)
         self.add_watermark_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.add_watermark_action.setShortcut("Shift+W")
         self.add_watermark_action.triggered.connect(self.add_watermark)
 
-        self.upload_action = QAction(self.tr("Upload"), self)
+        self.upload_action = QAction(self._themed_icon("network-transmit", "action"), self.tr("Upload"), self)
         self.upload_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.upload_action.triggered.connect(self.upload_image)
 
-        self.ocr_action = QAction(self.tr("OCR Text Recognition"), self)
+        self.ocr_action = QAction(self._themed_icon("edit-find", "text"), self.tr("OCR Text Recognition"), self)
         self.ocr_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.ocr_action.triggered.connect(self.run_ocr)
 
-        self.update_watermark_action = QAction(self.tr("Update Watermark Image..."), self)
+        self.update_watermark_action = QAction(self._themed_icon("document-open", "pasteEmbedded"), self.tr("Update Watermark Image..."), self)
         self.update_watermark_action.triggered.connect(self.update_watermark_image)
 
-        self.rotate_watermark_action = QAction(self.tr("Rotate Watermark"), self)
+        self.rotate_watermark_action = QAction(self._load_icon("rotate"), self.tr("Rotate Watermark"), self)
         self.rotate_watermark_action.setCheckable(True)
         self.rotate_watermark_action.setChecked(self._setting_bool("watermark/rotate", True))
         self.rotate_watermark_action.toggled.connect(self._set_rotate_watermark)
 
-        self.settings_action = QAction(self.tr("Settings"), self)
+        self.settings_action = QAction(self._themed_icon("preferences-system", "action"), self.tr("Settings"), self)
         self.settings_action.triggered.connect(self.open_settings_dialog)
 
-        self.about_action = QAction(self.tr("About"), self)
+        self.about_action = QAction(self._themed_icon("help-about", "ksnip"), self.tr("About"), self)
         self.about_action.triggered.connect(self.show_about)
 
-        self.clear_recent_images_action = QAction(self.tr("Clear Recent Images"), self)
+        self.clear_recent_images_action = QAction(self._themed_icon("edit-clear-history", "delete"), self.tr("Clear Recent Images"), self)
         self.clear_recent_images_action.triggered.connect(self.clear_recent_images)
 
         self.quit_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogCloseButton), self.tr("Quit"), self)
         self.quit_action.triggered.connect(self.quit_application)
 
-        self.zoom_out_action = QAction(self.tr("Zoom Out"), self)
+        self.zoom_out_action = QAction(self._themed_icon("zoom-out", "zoom"), self.tr("Zoom Out"), self)
         self.zoom_out_action.setShortcut(QKeySequence.StandardKey.ZoomOut)
         self.zoom_out_action.triggered.connect(self.zoom_out_current_canvas)
         self.zoom_reset_action = QAction(self._load_icon("resetZoom"), self.tr("Reset Zoom"), self)
         self.zoom_reset_action.setShortcut(QKeySequence("Ctrl+0"))
         self.zoom_reset_action.triggered.connect(self.reset_zoom_current_canvas)
-        self.zoom_in_action = QAction(self.tr("Zoom In"), self)
+        self.zoom_in_action = QAction(self._themed_icon("zoom-in", "zoom"), self.tr("Zoom In"), self)
         self.zoom_in_action.setShortcut(QKeySequence.StandardKey.ZoomIn)
         self.zoom_in_action.triggered.connect(self.zoom_in_current_canvas)
         self.zoom_fit_action = QAction(self._load_icon("fitImage"), self.tr("Fit Image"), self)
