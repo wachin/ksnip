@@ -1639,8 +1639,10 @@ class AnnotationCanvas(QLabel):
         elif item.kind == Tool.NUMBER_ARROW:
             self._draw_number_arrow(painter, item)
         elif item.kind == Tool.IMAGE and item.image is not None and not item.image.isNull():
+            painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, True)
             painter.drawImage(QRect(item.start, item.end).normalized(), item.image)
         elif item.kind == Tool.STICKER and item.image is not None and not item.image.isNull():
+            painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, True)
             painter.drawImage(QRect(item.start, item.end).normalized(), item.image)
         painter.restore()
 
@@ -2663,6 +2665,7 @@ class AnnotationCanvas(QLabel):
             shadow_painter.end()
             painter.save()
             painter.setOpacity(item.opacity)
+            painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, True)
             painter.drawImage(item.bounds().translated(2, 2), shadow_image)
             painter.restore()
             return

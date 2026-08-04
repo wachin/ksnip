@@ -294,6 +294,26 @@ class StickerInsertionParityTest(unittest.TestCase):
         self.assertTrue(canvas.apply_scaling_to_selected_item(200))
         self.assertEqual(max(canvas._items[0].bounds().width(), canvas._items[0].bounds().height()), 100)
 
+    def test_sticker_downscaling_uses_smooth_interpolation(self) -> None:
+        sticker = Path(__file__).resolve().parents[1] / "ksnip_py" / "stickers" / "tutorial_attention.svg"
+        background = QImage(100, 80, QImage.Format.Format_ARGB32)
+        background.fill(QColor("white"))
+        canvas = AnnotationCanvas()
+        canvas.set_image(background)
+        canvas.set_sticker_path(str(sticker))
+        canvas.set_tool(Tool.STICKER)
+        QTest.mouseClick(canvas, Qt.MouseButton.LeftButton, pos=QPoint(50, 40))
+
+        source = QImage(2, 1, QImage.Format.Format_ARGB32)
+        source.setPixelColor(0, 0, QColor("black"))
+        source.setPixelColor(1, 0, QColor("white"))
+        canvas._items[0].image = source
+        canvas._items[0].shadow = False
+        rendered = canvas.image()
+        bounds = canvas._items[0].bounds()
+        reds = [rendered.pixelColor(x, bounds.center().y()).red() for x in range(bounds.left(), bounds.right() + 1)]
+        self.assertTrue(any(0 < value < 255 for value in reds))
+
 
 if __name__ == "__main__":
     unittest.main()
