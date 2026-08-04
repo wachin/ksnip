@@ -161,6 +161,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Ancho persistente por herramienta con valores iniciales del C++ (`Marker Pen` 30, flechas 6, número 5 y texto 2); Marker Pen usa el ancho final sin multiplicarlo
 - [x] `Item Shadow` y `Opacity` persistentes por herramienta, con valores iniciales de sombra alineados con `Config::defaultShadowEnabled`
 - [x] Color persistente por herramienta con valores iniciales de `Config::defaultToolColor`: marcadores amarillos, línea azul, rectángulo gris, texto negro y resto rojo
+- [x] `Fill Mode` persistente por herramienta con valores iniciales de `Config::defaultToolFillMode` y descarte seguro de modos incompatibles guardados por versiones anteriores
 - [x] Marker Pen, Marker Rectangle y Marker Ellipse renderizados con composición `Multiply`, igual que los elementos marcador del C++
 - [x] Marker Rectangle y Marker Ellipse alineados con `NoBorderAndFill`: relleno completo, sin borde, sombra, ancho ni opacidad configurables
 - [x] Herramienta línea

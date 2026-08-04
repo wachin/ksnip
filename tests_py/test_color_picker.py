@@ -9,7 +9,7 @@ from PyQt6.QtCore import QSettings, Qt
 from PyQt6.QtGui import QColor, QIcon, QImage
 from PyQt6.QtWidgets import QApplication
 
-from ksnip_py.canvas import Tool
+from ksnip_py.canvas import FillMode, Tool
 from ksnip_py.color_picker import ColorPaletteMenu
 from ksnip_py.main_window import MainWindow, migrate_normalized_sticker_scaling
 from ksnip_py.sticker_picker import (
@@ -235,6 +235,43 @@ class MainWindowColorPickerTest(unittest.TestCase):
             window.set_tool(Tool.LINE)
             window.set_tool(Tool.ARROW)
             self.assertEqual(window.current_canvas().color(), custom)
+        finally:
+            for key, value in old_values.items():
+                if value is None:
+                    settings.remove(key)
+                else:
+                    settings.setValue(key, value)
+
+    def test_fill_modes_use_cpp_defaults_and_are_restored_per_tool(self) -> None:
+        window = MainWindow()
+        settings = window._settings
+        tools = (Tool.TEXT, Tool.NUMBER, Tool.NUMBER_ARROW, Tool.RECT, Tool.ELLIPSE)
+        keys = [f"editor/tool_fill_mode/{tool.value}" for tool in tools]
+        old_values = {key: settings.value(key) for key in keys}
+        try:
+            for key in keys:
+                settings.remove(key)
+            expected = {
+                Tool.TEXT: FillMode.BORDER_AND_NO_FILL,
+                Tool.NUMBER: FillMode.BORDER_AND_FILL,
+                Tool.NUMBER_ARROW: FillMode.NO_BORDER_AND_NO_FILL,
+                Tool.RECT: FillMode.BORDER_AND_FILL,
+                Tool.ELLIPSE: FillMode.BORDER_AND_NO_FILL,
+            }
+            for tool, fill_mode in expected.items():
+                window.set_tool(tool)
+                self.assertEqual(window.fill_mode.currentData(), fill_mode)
+                self.assertEqual(window.current_canvas()._fill_mode, fill_mode)
+
+            window.set_tool(Tool.TEXT)
+            window.fill_mode.setCurrentIndex(window.fill_mode.findData(FillMode.BORDER_AND_FILL))
+            window.set_tool(Tool.RECT)
+            window.set_tool(Tool.TEXT)
+            self.assertEqual(window.fill_mode.currentData(), FillMode.BORDER_AND_FILL)
+
+            settings.setValue("editor/tool_fill_mode/rect", FillMode.NO_BORDER_AND_NO_FILL.value)
+            window.set_tool(Tool.RECT)
+            self.assertEqual(window.fill_mode.currentData(), FillMode.BORDER_AND_FILL)
         finally:
             for key, value in old_values.items():
                 if value is None:

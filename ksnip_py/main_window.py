@@ -1508,10 +1508,45 @@ class MainWindow(QMainWindow):
         self.crop_action.setChecked(tool == Tool.CROP)
         self._settings.setValue("editor/tool", tool.value)
         self._update_property_toolbar_for_tool()
+        self._restore_fill_mode_for_tool(tool)
         self._restore_color_for_tool(tool)
         self._restore_width_for_tool(tool)
         self._restore_shadow_and_opacity_for_tool(tool)
         self._sync_item_controls()
+
+    @staticmethod
+    def _default_fill_mode_for_tool(tool: Tool) -> FillMode:
+        if tool in {Tool.RECT, Tool.NUMBER, Tool.TEXT_POINTER, Tool.NUMBER_POINTER}:
+            return FillMode.BORDER_AND_FILL
+        if tool in {Tool.NUMBER_ARROW, Tool.TEXT_ARROW}:
+            return FillMode.NO_BORDER_AND_NO_FILL
+        return FillMode.BORDER_AND_NO_FILL
+
+    def _restore_fill_mode_for_tool(self, tool: Tool) -> None:
+        options = self._fill_mode_options_for_tool(tool)
+        if not options:
+            return
+        allowed_modes = [mode for _, mode in options]
+        default_mode = self._default_fill_mode_for_tool(tool)
+        # Text Arrow has NoBorderAndNoFill as its C++ default, although that
+        # entry is deliberately hidden by ItemSettingsWidgetConfigurator.
+        # Fall back to the first selectable entry when a mode is unavailable.
+        fallback = default_mode if default_mode in allowed_modes else allowed_modes[0]
+        stored = self._settings.value(f"editor/tool_fill_mode/{tool.value}")
+        try:
+            fill_mode = FillMode(str(stored)) if stored is not None else fallback
+        except ValueError:
+            fill_mode = fallback
+        if fill_mode not in allowed_modes:
+            fill_mode = fallback
+        index = self.fill_mode.findData(fill_mode)
+        self.fill_mode.blockSignals(True)
+        self.fill_mode.setCurrentIndex(index if index >= 0 else 0)
+        self.fill_mode.blockSignals(False)
+        canvas = self.current_canvas()
+        if canvas is not None:
+            canvas.set_fill_mode(fill_mode)
+        self._sync_fill_mode_button()
 
     @staticmethod
     def _default_width_for_tool(tool: Tool) -> int:
@@ -1737,6 +1772,7 @@ class MainWindow(QMainWindow):
             return
         canvas.set_fill_mode(fill_mode)
         self._settings.setValue("editor/fill_mode", fill_mode.value)
+        self._settings.setValue(f"editor/tool_fill_mode/{canvas.tool().value}", fill_mode.value)
 
     def _apply_bold(self, checked: bool) -> None:
         canvas = self.current_canvas()
