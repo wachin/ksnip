@@ -160,8 +160,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Herramienta texto
 - [x] Herramienta blur
 - [x] Herramienta pixelate
-- [x] Herramienta crop
-- [x] Herramienta cut para eliminar y unir franjas verticales u horizontales, con undo/redo
+- [x] Herramienta crop que desplaza las anotaciones respecto al origen recortado, con undo/redo como `CropCommand`
+- [x] Vista dedicada de cut con orientación explícita, posición, ancho de franja, previsualización y Aplicar/Cancelar
 - [x] Editor multilinea para `Text` con re-edición por doble clic
 - [x] `Text` ahora define su caja arrastrando un rectángulo antes de insertar el contenido, más cercano al flujo original de Ksnip
 - [x] `Text` entra en edición inline sobre la captura al soltar el rectángulo, sin diálogo aparte
@@ -205,9 +205,9 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [ ] Paridad completa con `kImageAnnotator`
 - [x] Modify Canvas centrado para ampliar o recortar el lienzo, preservando y desplazando anotaciones, con undo
 - [x] Cut tool
-- [x] Efectos de imagen iniciales `Grayscale` e `Invert Color`, preservando alpha y con undo/redo
-- [x] Efecto `Border` configurable en grosor y color, con persistencia y undo/redo
-- [ ] Más efectos y pulido de efectos existentes
+- [x] Selector de efectos no destructivo y mutuamente excluyente: `No Effect`, `Drop Shadow`, `Grayscale`, `Invert Color` y `Border`
+- [x] `Drop Shadow` alineado con kImageAnnotator: negro, blur `30` y offset `(0, 2)`, incluyendo su margen en exportación y edición
+- [x] Efectos de imagen base alineados con `ImageEffectPicker` e `ImageEffectFactory` del submódulo original
 - [x] Stickers
 - [ ] Controles laterales y layout igual al original
 - [ ] Comportamiento visual fino del editor igual al C++
@@ -338,6 +338,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Incluir recursos gráficos del paquete en distribución instalada
 - [ ] Smoke tests GUI para flujos principales
 - [ ] Tests automatizados equivalentes para la parte Python
+- [x] Primera suite automatizada Python para paridad de Crop, Cut y efectos de imagen
 - [ ] Documentación de ejecución/instalación actualizada conforme crezca la paridad
 
 ## Próximo bloque recomendado

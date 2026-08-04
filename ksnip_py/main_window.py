@@ -12,6 +12,7 @@ from PyQt6.QtWidgets import (
     QApplication,
     QComboBox,
     QColorDialog,
+    QDialog,
     QFileDialog,
     QFontComboBox,
     QHBoxLayout,
@@ -32,7 +33,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from .canvas import AnnotationCanvas, FillMode, Tool
+from .canvas import AnnotationCanvas, CutDialog, FillMode, Tool
 from .capture import (
     grab_active_window,
     grab_current_screen,
@@ -205,6 +206,13 @@ class MainWindow(QMainWindow):
         else:
             action.triggered.connect(lambda: self._select_group_tool(group_name, action, tool))
         self.tool_action_group.addAction(action)
+        return action
+
+    def _make_image_effect_action(self, icon_name: str, text: str, effect: str) -> QAction:
+        action = QAction(self._load_icon(icon_name), text, self)
+        action.setCheckable(True)
+        action.triggered.connect(lambda checked=False: checked and self.apply_image_effect(effect))
+        self.image_effect_action_group.addAction(action)
         return action
 
     def _set_tool_group_default_action(self, group_name: str, action: QAction) -> None:
@@ -689,9 +697,7 @@ class MainWindow(QMainWindow):
         self.tool_action_group.addAction(self.crop_action)
 
         self.cut_action = QAction(self._load_icon("cut"), self.tr("Cut"), self)
-        self.cut_action.setCheckable(True)
-        self.cut_action.triggered.connect(lambda: self.set_tool(Tool.CUT))
-        self.tool_action_group.addAction(self.cut_action)
+        self.cut_action.triggered.connect(self.cut_image)
 
         self.select_action = QAction(self._load_icon("select"), self.tr("Select"), self)
         self.select_action.setCheckable(True)
@@ -757,14 +763,14 @@ class MainWindow(QMainWindow):
         self.scale_action = QAction(self._load_icon("scale"), self.tr("Scale"), self)
         self.scale_action.triggered.connect(self.scale_image)
 
-        self.grayscale_action = QAction(self._load_icon("grayscale"), self.tr("Grayscale"), self)
-        self.grayscale_action.triggered.connect(lambda: self.apply_image_effect("grayscale"))
-
-        self.invert_color_action = QAction(self._load_icon("invertColor"), self.tr("Invert Color"), self)
-        self.invert_color_action.triggered.connect(lambda: self.apply_image_effect("invert"))
-
-        self.border_effect_action = QAction(self._load_icon("border"), self.tr("Border..."), self)
-        self.border_effect_action.triggered.connect(self.apply_border_effect)
+        self.image_effect_action_group = QActionGroup(self)
+        self.image_effect_action_group.setExclusive(True)
+        self.no_effect_action = self._make_image_effect_action("disabled", self.tr("No Effect"), "none")
+        self.drop_shadow_effect_action = self._make_image_effect_action("dropShadow", self.tr("Drop Shadow"), "drop_shadow")
+        self.grayscale_action = self._make_image_effect_action("grayscale", self.tr("Grayscale"), "grayscale")
+        self.invert_color_action = self._make_image_effect_action("invertColor", self.tr("Invert Color"), "invert")
+        self.border_effect_action = self._make_image_effect_action("border", self.tr("Border"), "border")
+        self.no_effect_action.setChecked(True)
 
         self.modify_canvas_action = QAction(self.tr("Modify Canvas..."), self)
         self.modify_canvas_action.triggered.connect(self.modify_canvas)
@@ -1186,6 +1192,9 @@ class MainWindow(QMainWindow):
         edit_menu.addAction(self.scale_action)
         edit_menu.addAction(self.rotate_action)
         effects_menu = edit_menu.addMenu(self._load_icon("effect"), self.tr("Effects"))
+        effects_menu.addAction(self.no_effect_action)
+        effects_menu.addAction(self.drop_shadow_effect_action)
+        effects_menu.addSeparator()
         effects_menu.addAction(self.grayscale_action)
         effects_menu.addAction(self.invert_color_action)
         effects_menu.addAction(self.border_effect_action)
@@ -1413,7 +1422,6 @@ class MainWindow(QMainWindow):
         self.pixelate_action.setChecked(tool == Tool.PIXELATE)
         self.sticker_action.setChecked(tool == Tool.STICKER)
         self.crop_action.setChecked(tool == Tool.CROP)
-        self.cut_action.setChecked(tool == Tool.CUT)
         self._settings.setValue("editor/tool", tool.value)
         self._sync_item_controls()
         self._update_property_toolbar_for_tool()
@@ -2449,36 +2457,29 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None:
             return
-        if canvas.apply_image_effect(effect):
-            label = self.tr("Grayscale") if effect == "grayscale" else self.tr("Invert Color")
+        if canvas.set_image_effect(effect):
+            labels = {
+                "none": self.tr("No Effect"),
+                "drop_shadow": self.tr("Drop Shadow"),
+                "grayscale": self.tr("Grayscale"),
+                "invert": self.tr("Invert Color"),
+                "border": self.tr("Border"),
+            }
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText(self.tr("Applied effect: %1").replace("%1", label))
+            self.status_label.setText(self.tr("Image effect: %1").replace("%1", labels[effect]))
 
-    def apply_border_effect(self) -> None:
+    def cut_image(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
             return
-        width, accepted = QInputDialog.getInt(
-            self,
-            self.tr("Border"),
-            self.tr("Border width:"),
-            self._setting_int("effects/border_width", 4),
-            1,
-            min(canvas.image().width(), canvas.image().height()),
-        )
-        if not accepted:
+        dialog = CutDialog(canvas.background_image(), self)
+        if dialog.exec() != QDialog.DialogCode.Accepted:
             return
-        initial_color = QColor(str(self._settings.value("effects/border_color", "#000000")))
-        color = QColorDialog.getColor(initial_color, self, self.tr("Border color"), QColorDialog.ColorDialogOption.ShowAlphaChannel)
-        if not color.isValid():
-            return
-        if canvas.apply_border_effect(width, color):
-            self._settings.setValue("effects/border_width", width)
-            self._settings.setValue("effects/border_color", color.name(QColor.NameFormat.HexArgb))
+        if canvas.cut_slice(dialog.cut_rect()):
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText(self.tr("Border effect applied"))
+            self.status_label.setText(self.tr("Image slice removed"))
 
     def pin_image(self) -> None:
         canvas = self.current_canvas()
@@ -2738,9 +2739,22 @@ class MainWindow(QMainWindow):
         self.send_to_back_action.setEnabled(canvas is not None and canvas.can_send_selected_item_to_back())
         self.rotate_action.setEnabled(has_image)
         self.scale_action.setEnabled(has_image)
+        self.crop_action.setEnabled(has_image)
+        self.cut_action.setEnabled(has_image)
         self.grayscale_action.setEnabled(has_image)
         self.invert_color_action.setEnabled(has_image)
         self.border_effect_action.setEnabled(has_image)
+        self.no_effect_action.setEnabled(has_image)
+        self.drop_shadow_effect_action.setEnabled(has_image)
+        if canvas is not None:
+            effect_actions = {
+                "none": self.no_effect_action,
+                "drop_shadow": self.drop_shadow_effect_action,
+                "grayscale": self.grayscale_action,
+                "invert": self.invert_color_action,
+                "border": self.border_effect_action,
+            }
+            effect_actions[canvas.image_effect()].setChecked(True)
         self.modify_canvas_action.setEnabled(has_image)
         self.close_tab_action.setEnabled(canvas is not None)
         self.recent_images_menu.setEnabled(bool(self._recent_image_paths))
@@ -2967,7 +2981,6 @@ class MainWindow(QMainWindow):
             (Tool.PIXELATE, self.pixelate_action),
             (Tool.STICKER, self.sticker_action),
             (Tool.CROP, self.crop_action),
-            (Tool.CUT, self.cut_action),
         ):
             if action.isChecked():
                 return tool
@@ -3155,6 +3168,8 @@ class MainWindow(QMainWindow):
         try:
             tool = Tool(stored_tool)
         except ValueError:
+            tool = Tool.SELECT
+        if tool == Tool.CUT:
             tool = Tool.SELECT
         self.set_tool(tool)
 

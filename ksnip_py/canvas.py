@@ -7,9 +7,9 @@ from enum import Enum
 from math import hypot
 from pathlib import Path
 
-from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QSize, Qt, pyqtSignal
+from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QRectF, QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QKeySequence, QMouseEvent, QPainter, QPalette, QPen, QPixmap, QPolygon, QTransform
-from PyQt6.QtWidgets import QApplication, QDialog, QDialogButtonBox, QLabel, QMenu, QSizePolicy, QVBoxLayout
+from PyQt6.QtWidgets import QApplication, QDialog, QDialogButtonBox, QFormLayout, QGraphicsDropShadowEffect, QGraphicsScene, QHBoxLayout, QLabel, QMenu, QRadioButton, QSizePolicy, QSpinBox, QVBoxLayout
 
 from .spellcheck import SpellCheckTextEdit, load_spellcheck_scheme
 
@@ -87,6 +87,86 @@ class InlineTextEditor(SpellCheckTextEdit):
             return
         self._finished = True
         self.canceled.emit()
+
+
+class CutDialog(QDialog):
+    def __init__(self, image: QImage, parent=None) -> None:
+        super().__init__(parent)
+        self._image = image.copy()
+        self.setWindowTitle(self.tr("Cut"))
+
+        self.preview = QLabel(self)
+        self.preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.preview.setMinimumSize(480, 280)
+
+        self.vertical = QRadioButton(self.tr("Vertical"), self)
+        self.horizontal = QRadioButton(self.tr("Horizontal"), self)
+        self.vertical.setChecked(True)
+        orientation_layout = QHBoxLayout()
+        orientation_layout.addWidget(self.vertical)
+        orientation_layout.addWidget(self.horizontal)
+
+        self.position = QSpinBox(self)
+        self.width = QSpinBox(self)
+        form = QFormLayout()
+        form.addRow(self.tr("Orientation:"), orientation_layout)
+        form.addRow(self.tr("Position:"), self.position)
+        form.addRow(self.tr("Slice width:"), self.width)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Apply | QDialogButtonBox.StandardButton.Cancel, self)
+        buttons.button(QDialogButtonBox.StandardButton.Apply).setText(self.tr("Apply"))
+        buttons.button(QDialogButtonBox.StandardButton.Apply).clicked.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.preview, 1)
+        layout.addLayout(form)
+        layout.addWidget(buttons)
+
+        self.vertical.toggled.connect(self._orientation_changed)
+        self.position.valueChanged.connect(self._refresh_preview)
+        self.width.valueChanged.connect(self._width_changed)
+        self._orientation_changed()
+
+    def cut_rect(self) -> QRect:
+        if self.vertical.isChecked():
+            return QRect(self.position.value(), 0, self.width.value(), self._image.height())
+        return QRect(0, self.position.value(), self._image.width(), self.width.value())
+
+    def _orientation_changed(self) -> None:
+        extent = self._image.width() if self.vertical.isChecked() else self._image.height()
+        default_width = min(100, max(1, extent - 1))
+        self.width.blockSignals(True)
+        self.width.setRange(1, max(1, extent - 1))
+        self.width.setValue(default_width)
+        self.width.blockSignals(False)
+        self.position.setRange(0, max(0, extent - default_width))
+        self.position.setValue(max(0, (extent - default_width) // 2))
+        self._refresh_preview()
+
+    def _width_changed(self, width: int) -> None:
+        extent = self._image.width() if self.vertical.isChecked() else self._image.height()
+        self.position.setMaximum(max(0, extent - width))
+        self._refresh_preview()
+
+    def _refresh_preview(self) -> None:
+        if self._image.isNull():
+            return
+        preview = QPixmap.fromImage(self._image).scaled(
+            self.preview.size().boundedTo(QSize(760, 480)),
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
+        )
+        sx = preview.width() / self._image.width()
+        sy = preview.height() / self._image.height()
+        cut = self.cut_rect()
+        overlay = QRect(round(cut.x() * sx), round(cut.y() * sy), max(1, round(cut.width() * sx)), max(1, round(cut.height() * sy)))
+        painter = QPainter(preview)
+        painter.fillRect(overlay, QColor(0, 0, 0, 150))
+        painter.setPen(QPen(QColor("white"), 1, Qt.PenStyle.DashLine))
+        painter.drawRect(overlay.adjusted(0, 0, -1, -1))
+        painter.end()
+        self.preview.setPixmap(preview)
 
 
 class Tool(str, Enum):
@@ -243,6 +323,10 @@ class AnnotationCanvas(QLabel):
         self._sticker_path: str | None = None
         self._available_sticker_paths: list[str] = []
         self._image = QImage()
+        self._image_effect = "none"
+        self._effect_cache_key: tuple[int, str] | None = None
+        self._effect_cache_image = QImage()
+        self._effect_cache_offset = QPoint()
         self._items: list[OverlayItem] = []
         self._preview_start: QPoint | None = None
         self._preview_end: QPoint | None = None
@@ -291,6 +375,12 @@ class AnnotationCanvas(QLabel):
 
     def image(self) -> QImage:
         return self._compose_image()
+
+    def background_image(self) -> QImage:
+        return self._image.copy()
+
+    def image_effect(self) -> str:
+        return self._image_effect
 
     def add_image_item(self, image: QImage, position: QPoint | None = None) -> bool:
         if self._image.isNull() or image.isNull():
@@ -378,6 +468,7 @@ class AnnotationCanvas(QLabel):
 
     def set_image(self, image: QImage, path: str | None = None, *, dirty: bool = False) -> None:
         self._image = image.copy()
+        self._image_effect = "none"
         self._items = []
         self._undo_stack = []
         self._redo_stack = []
@@ -700,41 +791,23 @@ class AnnotationCanvas(QLabel):
         self._mark_dirty()
         self._refresh()
 
-    def apply_image_effect(self, effect: str) -> bool:
-        """Apply a whole-image effect while preserving alpha and undo history."""
-        if self._image.isNull() or effect not in {"grayscale", "invert"}:
+    def set_image_effect(self, effect: str) -> bool:
+        if self._image.isNull() or effect not in {"none", "drop_shadow", "grayscale", "invert", "border"}:
             return False
-        self._push_undo_state()
-        result = self._image.convertToFormat(QImage.Format.Format_RGBA8888)
-        if effect == "invert":
-            result.invertPixels(QImage.InvertMode.InvertRgb)
-        else:
-            data = result.bits()
-            data.setsize(result.sizeInBytes())
-            pixels = memoryview(data).cast("B")
-            for offset in range(0, len(pixels), 4):
-                gray = (77 * pixels[offset] + 150 * pixels[offset + 1] + 29 * pixels[offset + 2]) >> 8
-                pixels[offset] = gray
-                pixels[offset + 1] = gray
-                pixels[offset + 2] = gray
-        self._image = result
+        if effect == self._image_effect:
+            return False
+        self._image_effect = effect
         self._mark_dirty()
         self._refresh()
         return True
 
-    def apply_border_effect(self, width: int, color: QColor) -> bool:
-        if self._image.isNull() or width < 1 or not color.isValid():
+    def cut_slice(self, rect: QRect) -> bool:
+        if self._image.isNull():
             return False
-        width = min(width, self._image.width(), self._image.height())
         self._push_undo_state()
-        result = self._image.copy()
-        painter = QPainter(result)
-        painter.setBrush(Qt.BrushStyle.NoBrush)
-        painter.setPen(QPen(color, width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.SquareCap, Qt.PenJoinStyle.MiterJoin))
-        inset = width // 2
-        painter.drawRect(result.rect().adjusted(inset, inset, -inset, -inset))
-        painter.end()
-        self._image = result
+        if not self._cut_slice(rect):
+            self._undo_stack.pop()
+            return False
         self._mark_dirty()
         self._refresh()
         return True
@@ -788,14 +861,57 @@ class AnnotationCanvas(QLabel):
     def _compose_image(self) -> QImage:
         if self._image.isNull():
             return QImage()
-        composed = self._image.copy()
+        composed, offset = self._render_effected_background()
         painter = QPainter(composed)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
         painter.setRenderHint(QPainter.RenderHint.TextAntialiasing, True)
+        painter.translate(offset)
         for item in self._items:
             self._draw_item(painter, item, selected=False)
         painter.end()
         return composed
+
+    def _render_effected_background(self) -> tuple[QImage, QPoint]:
+        cache_key = (self._image.cacheKey(), self._image_effect)
+        if cache_key == self._effect_cache_key and not self._effect_cache_image.isNull():
+            return self._effect_cache_image.copy(), QPoint(self._effect_cache_offset)
+        if self._image_effect == "drop_shadow":
+            margin = 30
+            offset = QPoint(margin, margin)
+            result = QImage(self._image.width() + margin * 2, self._image.height() + margin * 2 + 2, QImage.Format.Format_ARGB32_Premultiplied)
+            result.fill(Qt.GlobalColor.transparent)
+            scene = QGraphicsScene()
+            item = scene.addPixmap(QPixmap.fromImage(self._image))
+            item.setPos(offset.x(), offset.y())
+            shadow = QGraphicsDropShadowEffect()
+            shadow.setColor(QColor(0, 0, 0))
+            shadow.setBlurRadius(30)
+            shadow.setOffset(0, 2)
+            item.setGraphicsEffect(shadow)
+            scene.setSceneRect(QRectF(result.rect()))
+            painter = QPainter(result)
+            scene.render(painter, QRectF(result.rect()), QRectF(result.rect()))
+            painter.end()
+            self._effect_cache_key = cache_key
+            self._effect_cache_image = result.copy()
+            self._effect_cache_offset = QPoint(offset)
+            return result, offset
+
+        result = self._image.copy()
+        if self._image_effect == "grayscale":
+            result = result.convertToFormat(QImage.Format.Format_Grayscale8)
+        elif self._image_effect == "invert":
+            result.invertPixels(QImage.InvertMode.InvertRgb)
+        elif self._image_effect == "border":
+            painter = QPainter(result)
+            painter.setBrush(Qt.BrushStyle.NoBrush)
+            painter.setPen(QPen(QColor(Qt.GlobalColor.black), 1))
+            painter.drawRect(result.rect().adjusted(0, 0, -1, -1))
+            painter.end()
+        self._effect_cache_key = cache_key
+        self._effect_cache_image = result.copy()
+        self._effect_cache_offset = QPoint()
+        return result, QPoint()
 
     def resizeEvent(self, event) -> None:  # noqa: N802
         super().resizeEvent(event)
@@ -972,8 +1088,7 @@ class AnnotationCanvas(QLabel):
                 if self._tool == Tool.TEXT:
                     self._start_inline_text_edit(len(self._items) - 1, is_new=True)
             elif self._tool == Tool.CROP:
-                self._image = self._image.copy(rect)
-                self._clear_selection()
+                self._crop_to_rect(rect)
             elif self._tool == Tool.CUT:
                 self._cut_slice(rect)
             elif self._tool in (Tool.BLUR, Tool.PIXELATE):
@@ -1016,21 +1131,23 @@ class AnnotationCanvas(QLabel):
             self.resize(self.minimumSize())
             return
 
+        background, effect_offset = self._render_effected_background()
         zoom_factor = self._zoom_percent / 100.0
-        display_width = max(1, round(self._image.width() * zoom_factor))
-        display_height = max(1, round(self._image.height() * zoom_factor))
-        display = QPixmap.fromImage(self._image).scaled(
+        display_width = max(1, round(background.width() * zoom_factor))
+        display_height = max(1, round(background.height() * zoom_factor))
+        display = QPixmap.fromImage(background).scaled(
             display_width,
             display_height,
             Qt.AspectRatioMode.IgnoreAspectRatio,
             Qt.TransformationMode.SmoothTransformation,
         )
 
-        sx = display_width / self._image.width() if self._image.width() else 1
-        sy = display_height / self._image.height() if self._image.height() else 1
+        sx = zoom_factor
+        sy = zoom_factor
         painter = QPainter(display)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
         painter.setRenderHint(QPainter.RenderHint.TextAntialiasing, True)
+        painter.translate(effect_offset.x() * sx, effect_offset.y() * sy)
         for index, item in enumerate(self._items):
             self._draw_item_preview(painter, item, sx, sy, selected=index in self._selected_item_indices, show_handles=index == self._primary_selected_index() and self.has_single_selected_item())
 
@@ -1056,6 +1173,13 @@ class AnnotationCanvas(QLabel):
             painter.setPen(pen)
             start_point, end_point = self._display_points()
             rect = QRect(start_point, end_point).normalized()
+            if self._tool == Tool.CUT:
+                if rect.height() >= rect.width():
+                    rect.setTop(0)
+                    rect.setBottom(max(0, round(self._image.height() * zoom_factor) - 1))
+                else:
+                    rect.setLeft(0)
+                    rect.setRight(max(0, round(self._image.width() * zoom_factor) - 1))
             if self._tool == Tool.LINE:
                 painter.drawLine(start_point, end_point)
             elif self._tool == Tool.ARROW:
@@ -1083,18 +1207,27 @@ class AnnotationCanvas(QLabel):
         end = QPoint(int(self._preview_end.x() * sx), int(self._preview_end.y() * sy))
         return start, end
 
-    def _cut_slice(self, rect: QRect) -> None:
+    def _effect_offset(self) -> QPoint:
+        return QPoint(30, 30) if self._image_effect == "drop_shadow" else QPoint()
+
+    def _cut_slice(self, rect: QRect) -> bool:
         """Remove the selected vertical or horizontal slice and join both sides."""
         bounds = self._image.rect()
         cut = rect.normalized().intersected(bounds)
         if cut.width() <= 0 or cut.height() <= 0:
-            return
+            return False
 
-        source = self._compose_image()
         vertical = cut.height() >= cut.width()
         if vertical:
+            cut.setTop(bounds.top())
+            cut.setBottom(bounds.bottom())
+        else:
+            cut.setLeft(bounds.left())
+            cut.setRight(bounds.right())
+        source = self._image
+        if vertical:
             if cut.width() >= source.width():
-                return
+                return False
             result = QImage(source.width() - cut.width(), source.height(), source.format())
             painter = QPainter(result)
             left_width = cut.left()
@@ -1106,7 +1239,7 @@ class AnnotationCanvas(QLabel):
                 painter.drawImage(QPoint(left_width, 0), source, QRect(right_x, 0, right_width, source.height()))
         else:
             if cut.height() >= source.height():
-                return
+                return False
             result = QImage(source.width(), source.height() - cut.height(), source.format())
             painter = QPainter(result)
             top_height = cut.top()
@@ -1118,13 +1251,31 @@ class AnnotationCanvas(QLabel):
                 painter.drawImage(QPoint(0, top_height), source, QRect(0, bottom_y, source.width(), bottom_height))
         painter.end()
         self._image = result
-        self._items = []
         self._clear_selection()
+        return True
+
+    def _crop_to_rect(self, rect: QRect) -> bool:
+        crop = rect.normalized().intersected(self._image.rect())
+        if crop.width() <= 0 or crop.height() <= 0:
+            return False
+        self._image = self._image.copy(crop)
+        offset = QPoint(-crop.left(), -crop.top())
+        for overlay in self._items:
+            overlay.move_by(offset)
+        self._clear_selection()
+        return True
 
     def _image_rect_in_widget(self) -> QRect | None:
         if self._image.isNull() or self.width() <= 0 or self.height() <= 0:
             return None
-        return QRect(0, 0, self.width(), self.height())
+        zoom = self._zoom_percent / 100.0
+        offset = self._effect_offset()
+        return QRect(
+            round(offset.x() * zoom),
+            round(offset.y() * zoom),
+            max(1, round(self._image.width() * zoom)),
+            max(1, round(self._image.height() * zoom)),
+        )
 
     def _map_to_image(self, point: QPoint) -> QPoint | None:
         image_rect = self._image_rect_in_widget()
@@ -1859,9 +2010,10 @@ class AnnotationCanvas(QLabel):
     def _item_display_rect(self, item: OverlayItem) -> QRect:
         sx = self._zoom_percent / 100.0
         sy = self._zoom_percent / 100.0
+        offset = self._effect_offset()
         bounds = item.bounds()
-        left = int(bounds.left() * sx)
-        top = int(bounds.top() * sy)
+        left = int((bounds.left() + offset.x()) * sx)
+        top = int((bounds.top() + offset.y()) * sy)
         width = max(40, int(bounds.width() * sx))
         height = max(28, int(bounds.height() * sy))
         return QRect(left, top, width, height)
