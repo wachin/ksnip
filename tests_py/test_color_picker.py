@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import QApplication
 
 from ksnip_py.canvas import Tool
 from ksnip_py.color_picker import ColorPaletteMenu
-from ksnip_py.main_window import MainWindow
+from ksnip_py.main_window import MainWindow, migrate_normalized_sticker_scaling
 from ksnip_py.sticker_picker import StickerCollection, StickerPickerDialog, discover_stickers, sticker_collections
 
 
@@ -91,6 +91,16 @@ class MainWindowColorPickerTest(unittest.TestCase):
 
 
 class StickerPickerTest(unittest.TestCase):
+    def test_legacy_sticker_scaling_is_migrated_to_the_normalized_default_once(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            settings = QSettings(str(Path(directory) / "settings.ini"), QSettings.Format.IniFormat)
+            settings.setValue("editor/scaling_percent", 160)
+            self.assertTrue(migrate_normalized_sticker_scaling(settings))
+            self.assertEqual(settings.value("editor/scaling_percent", type=int), 100)
+            settings.setValue("editor/scaling_percent", 140)
+            self.assertFalse(migrate_normalized_sticker_scaling(settings))
+            self.assertEqual(settings.value("editor/scaling_percent", type=int), 140)
+
     def test_expected_theme_directories_are_exposed(self) -> None:
         collections = sticker_collections()
         self.assertEqual([collection.name for collection in collections], ["Original", "Papirus", "GNOME", "Numix"])

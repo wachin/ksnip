@@ -46,454 +46,454 @@
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="../main_window.py" line="593" />
+      <location filename="../main_window.py" line="605" />
       <source>Rect Area</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="596" />
+      <location filename="../main_window.py" line="608" />
       <source>Last Rect Area</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="599" />
+      <location filename="../main_window.py" line="611" />
       <source>Full Screen</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="602" />
+      <location filename="../main_window.py" line="614" />
       <source>Current Screen</source>
       <translation>தற்போதைய திரை</translation></message>
     <message>
-      <location filename="../main_window.py" line="605" />
+      <location filename="../main_window.py" line="617" />
       <source>Active Window</source>
       <translation>செயலில் சாளரம்</translation></message>
     <message>
-      <location filename="../main_window.py" line="608" />
+      <location filename="../main_window.py" line="620" />
       <source>Window Under Cursor</source>
       <translation>கர்சரின் கீழ் சாளரம்</translation></message>
     <message>
-      <location filename="../main_window.py" line="611" />
+      <location filename="../main_window.py" line="623" />
       <source>Portal</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="615" />
+      <location filename="../main_window.py" line="627" />
       <source>Open</source>
       <translation>திற</translation></message>
     <message>
-      <location filename="../main_window.py" line="620" />
+      <location filename="../main_window.py" line="632" />
       <source>Save</source>
       <translation>சேமி</translation></message>
     <message>
-      <location filename="../main_window.py" line="625" />
+      <location filename="../main_window.py" line="637" />
       <source>Save As...</source>
       <translation>சேமி ...</translation></message>
     <message>
-      <location filename="../main_window.py" line="629" />
+      <location filename="../main_window.py" line="641" />
       <source>Save All</source>
       <translation>அனைத்தையும் சேமி</translation></message>
     <message>
-      <location filename="../main_window.py" line="632" />
+      <location filename="../main_window.py" line="644" />
       <source>Print</source>
       <translation>அச்சிடுக</translation></message>
     <message>
-      <location filename="../main_window.py" line="636" />
+      <location filename="../main_window.py" line="648" />
       <source>Print Preview</source>
       <translation>முன்னோட்டம் அச்சு</translation></message>
     <message>
-      <location filename="../main_window.py" line="639" />
+      <location filename="../main_window.py" line="651" />
       <source>Copy</source>
       <translation>நகலெடு</translation></message>
     <message>
-      <location filename="../main_window.py" line="643" />
+      <location filename="../main_window.py" line="655" />
       <source>Copy as data URI</source>
       <translation>தரவு யூரி ஆக நகலெடுக்கவும்</translation></message>
     <message>
-      <location filename="../main_window.py" line="646" />
+      <location filename="../main_window.py" line="658" />
       <source>Copy Path</source>
       <translation>நகல் பாதை</translation></message>
     <message>
-      <location filename="../main_window.py" line="649" />
+      <location filename="../main_window.py" line="661" />
       <source>Rename</source>
       <translation>மறுபெயரிடுங்கள்</translation></message>
     <message>
-      <location filename="../main_window.py" line="653" />
+      <location filename="../main_window.py" line="665" />
       <source>Delete Image...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="656" />
+      <location filename="../main_window.py" line="668" />
       <source>Open Directory</source>
       <translation>அடைவு திற</translation></message>
     <message>
-      <location filename="../main_window.py" line="659" />
+      <location filename="../main_window.py" line="671" />
       <source>Copy Item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="663" />
+      <location filename="../main_window.py" line="675" />
       <source>Close Tab</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="667" />
+      <location filename="../main_window.py" line="679" />
       <source>Pen</source>
       <translation>பேனா</translation></message>
     <message>
-      <location filename="../main_window.py" line="672" />
+      <location filename="../main_window.py" line="684" />
       <source>Marker Pen</source>
       <translation>மார்க் பேனா</translation></message>
     <message>
-      <location filename="../main_window.py" line="674" />
+      <location filename="../main_window.py" line="686" />
       <source>Line</source>
       <translation>வரி</translation></message>
     <message>
-      <location filename="../main_window.py" line="679" />
+      <location filename="../main_window.py" line="691" />
       <source>Arrow</source>
       <translation>அம்பு</translation></message>
     <message>
-      <location filename="../main_window.py" line="684" />
+      <location filename="../main_window.py" line="696" />
       <source>Double Arrow</source>
       <translation>இரட்டை அம்பு</translation></message>
     <message>
-      <location filename="../main_window.py" line="686" />
+      <location filename="../main_window.py" line="698" />
       <source>Rectangle</source>
       <translation>செவ்வகம்</translation></message>
     <message>
-      <location filename="../main_window.py" line="691" />
+      <location filename="../main_window.py" line="703" />
       <source>Ellipse</source>
       <translation>நீள்வட்டம்</translation></message>
     <message>
-      <location filename="../main_window.py" line="696" />
+      <location filename="../main_window.py" line="708" />
       <source>Text</source>
       <translation>உரை</translation></message>
     <message>
-      <location filename="../main_window.py" line="701" />
+      <location filename="../main_window.py" line="713" />
       <source>Text Pointer</source>
       <translation>உரை சுட்டிக்காட்டி</translation></message>
     <message>
-      <location filename="../main_window.py" line="702" />
+      <location filename="../main_window.py" line="714" />
       <source>Text Arrow</source>
       <translation>உரை அம்பு</translation></message>
     <message>
-      <location filename="../main_window.py" line="704" />
+      <location filename="../main_window.py" line="716" />
       <source>Blur</source>
       <translation>மங்கலானது</translation></message>
     <message>
-      <location filename="../main_window.py" line="709" />
+      <location filename="../main_window.py" line="721" />
       <source>Pixelate</source>
       <translation>பிக்சலேட்</translation></message>
     <message>
-      <location filename="../main_window.py" line="714" />
+      <location filename="../main_window.py" line="726" />
       <source>Crop</source>
       <translation>பயிர்</translation></message>
     <message>
-      <location filename="../main_window.py" line="719" />
+      <location filename="../main_window.py" line="731" />
       <source>Cut</source>
       <translation>வெட்டு</translation></message>
     <message>
-      <location filename="../main_window.py" line="722" />
+      <location filename="../main_window.py" line="734" />
       <source>Select</source>
       <translation>தேர்ந்தெடு</translation></message>
     <message>
-      <location filename="../main_window.py" line="727" />
+      <location filename="../main_window.py" line="739" />
       <source>Marker Rectangle</source>
       <translation>மார்க்கர் செவ்வகம்</translation></message>
     <message>
-      <location filename="../main_window.py" line="728" />
+      <location filename="../main_window.py" line="740" />
       <source>Marker Ellipse</source>
       <translation>மார்க்கர் நீள்வட்டம்</translation></message>
     <message>
-      <location filename="../main_window.py" line="729" />
+      <location filename="../main_window.py" line="741" />
       <source>Number</source>
       <translation>எண்</translation></message>
     <message>
-      <location filename="../main_window.py" line="730" />
+      <location filename="../main_window.py" line="742" />
       <source>Number Pointer</source>
       <translation>எண் சுட்டிக்காட்டி</translation></message>
     <message>
-      <location filename="../main_window.py" line="731" />
+      <location filename="../main_window.py" line="743" />
       <source>Number Arrow</source>
       <translation>எண் அம்பு</translation></message>
     <message>
-      <location filename="../main_window.py" line="732" />
+      <location filename="../main_window.py" line="744" />
       <source>Sticker</source>
       <translation>ச்டிக்கர்</translation></message>
     <message>
-      <location filename="../main_window.py" line="737" />
+      <location filename="../main_window.py" line="749" />
       <source>Color</source>
       <translation>நிறம்</translation></message>
     <message>
-      <location filename="../main_window.py" line="740" />
+      <location filename="../main_window.py" line="752" />
       <source>Undo</source>
       <translation>செயல்தவிர்</translation></message>
     <message>
-      <location filename="../main_window.py" line="745" />
+      <location filename="../main_window.py" line="757" />
       <source>Redo</source>
       <translation>மீண்டும்செய்</translation></message>
     <message>
-      <location filename="../main_window.py" line="750" />
+      <location filename="../main_window.py" line="762" />
       <source>Paste</source>
       <translation>ஒட்டு</translation></message>
     <message>
-      <location filename="../main_window.py" line="755" />
+      <location filename="../main_window.py" line="767" />
       <source>Paste Embedded</source>
       <translation>உட்பொதிக்கப்பட்ட பேச்ட்</translation></message>
     <message>
-      <location filename="../main_window.py" line="759" />
+      <location filename="../main_window.py" line="771" />
       <source>Paste Item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="763" />
+      <location filename="../main_window.py" line="775" />
       <source>Delete Item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="767" />
+      <location filename="../main_window.py" line="779" />
       <source>Duplicate Item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="771" />
+      <location filename="../main_window.py" line="783" />
       <source>Edit Text...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="774" />
+      <location filename="../main_window.py" line="786" />
       <source>Bring To Front</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="777" />
+      <location filename="../main_window.py" line="789" />
       <source>Send To Back</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="780" />
+      <location filename="../main_window.py" line="792" />
       <source>Rotate</source>
       <translation>சுழற்றுங்கள்</translation></message>
     <message>
-      <location filename="../main_window.py" line="783" />
+      <location filename="../main_window.py" line="795" />
       <source>Scale</source>
       <translation>அளவு</translation></message>
     <message>
-      <location filename="../main_window.py" line="2492" />
-      <location filename="../main_window.py" line="788" />
+      <location filename="../main_window.py" line="2504" />
+      <location filename="../main_window.py" line="800" />
       <source>No Effect</source>
       <translation>எந்த விளைவும் இல்லை</translation></message>
     <message>
-      <location filename="../main_window.py" line="2493" />
-      <location filename="../main_window.py" line="789" />
+      <location filename="../main_window.py" line="2505" />
+      <location filename="../main_window.py" line="801" />
       <source>Drop Shadow</source>
       <translation>நிழலை கைவிடுங்கள்</translation></message>
     <message>
-      <location filename="../main_window.py" line="2494" />
-      <location filename="../main_window.py" line="790" />
+      <location filename="../main_window.py" line="2506" />
+      <location filename="../main_window.py" line="802" />
       <source>Grayscale</source>
       <translation>கிரேச்கேல்</translation></message>
     <message>
-      <location filename="../main_window.py" line="2495" />
-      <location filename="../main_window.py" line="791" />
+      <location filename="../main_window.py" line="2507" />
+      <location filename="../main_window.py" line="803" />
       <source>Invert Color</source>
       <translation>வண்ணத்தை தலைகீழ்</translation></message>
     <message>
-      <location filename="../main_window.py" line="2496" />
-      <location filename="../main_window.py" line="792" />
+      <location filename="../main_window.py" line="2508" />
+      <location filename="../main_window.py" line="804" />
       <source>Border</source>
       <translation>எல்லை</translation></message>
     <message>
-      <location filename="../main_window.py" line="795" />
+      <location filename="../main_window.py" line="807" />
       <source>Modify Canvas...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2373" />
-      <location filename="../main_window.py" line="798" />
+      <location filename="../main_window.py" line="2385" />
+      <location filename="../main_window.py" line="810" />
       <source>Hide Docks</source>
       <translation>கப்பல்துறைகளை மறைக்கவும்</translation></message>
     <message>
-      <location filename="../main_window.py" line="802" />
+      <location filename="../main_window.py" line="814" />
       <source>Pin</source>
       <translation>முள்</translation></message>
     <message>
-      <location filename="../main_window.py" line="806" />
+      <location filename="../main_window.py" line="818" />
       <source>Add Watermark</source>
       <translation>வாட்டர்மார்க் சேர்க்கவும்</translation></message>
     <message>
-      <location filename="../main_window.py" line="811" />
+      <location filename="../main_window.py" line="823" />
       <source>Upload</source>
       <translation>பதிவேற்றும்</translation></message>
     <message>
-      <location filename="../main_window.py" line="815" />
+      <location filename="../main_window.py" line="827" />
       <source>OCR Text Recognition</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="819" />
+      <location filename="../main_window.py" line="831" />
       <source>Update Watermark Image...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="822" />
+      <location filename="../main_window.py" line="834" />
       <source>Rotate Watermark</source>
       <translation>வாட்டர்மார்க் சுழற்றுங்கள்</translation></message>
     <message>
-      <location filename="../main_window.py" line="827" />
+      <location filename="../main_window.py" line="839" />
       <source>Settings</source>
       <translation>அமைப்புகள்</translation></message>
     <message>
-      <location filename="../main_window.py" line="830" />
+      <location filename="../main_window.py" line="842" />
       <source>About</source>
       <translation>பற்றி</translation></message>
     <message>
-      <location filename="../main_window.py" line="833" />
+      <location filename="../main_window.py" line="845" />
       <source>Clear Recent Images</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="836" />
+      <location filename="../main_window.py" line="848" />
       <source>Quit</source>
       <translation>வெளியேறு</translation></message>
     <message>
-      <location filename="../main_window.py" line="839" />
+      <location filename="../main_window.py" line="851" />
       <source>Zoom Out</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="842" />
+      <location filename="../main_window.py" line="854" />
       <source>Reset Zoom</source>
       <translation>பெரிதாக்கு மீட்டமைக்கவும்</translation></message>
     <message>
-      <location filename="../main_window.py" line="845" />
+      <location filename="../main_window.py" line="857" />
       <source>Zoom In</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="848" />
+      <location filename="../main_window.py" line="860" />
       <source>Fit Image</source>
       <translation>படம் பொருத்தமாக இருக்கும்</translation></message>
     <message>
-      <location filename="../main_window.py" line="976" />
+      <location filename="../main_window.py" line="988" />
       <source>Select Sticker</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1127" />
+      <location filename="../main_window.py" line="1139" />
       <source>Zoom Out (%1)</source>
       <translation>பெரிதாக்கவும் (%1)</translation></message>
     <message>
-      <location filename="../main_window.py" line="1144" />
+      <location filename="../main_window.py" line="1156" />
       <source>Zoom In (%1)</source>
       <translation>பெரிதாக்க (%1)</translation></message>
     <message>
-      <location filename="../main_window.py" line="1183" />
+      <location filename="../main_window.py" line="1195" />
       <source>&amp;File</source>
       <translation>கோப்பு (&amp;f)</translation></message>
     <message>
-      <location filename="../main_window.py" line="1185" />
+      <location filename="../main_window.py" line="1197" />
       <source>New Screenshot</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1195" />
+      <location filename="../main_window.py" line="1207" />
       <source>Recent Images</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1209" />
+      <location filename="../main_window.py" line="1221" />
       <source>&amp;Edit</source>
       <translation>திருத்து (&amp;e)</translation></message>
     <message>
-      <location filename="../main_window.py" line="1224" />
+      <location filename="../main_window.py" line="1236" />
       <source>Effects</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1235" />
+      <location filename="../main_window.py" line="1247" />
       <source>Annotation Items</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1244" />
+      <location filename="../main_window.py" line="1256" />
       <source>&amp;View</source>
       <translation>காண்க (&amp;v)</translation></message>
     <message>
-      <location filename="../main_window.py" line="1248" />
+      <location filename="../main_window.py" line="1260" />
       <source>Zoom</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1254" />
+      <location filename="../main_window.py" line="1266" />
       <source>&amp;Options</source>
       <translation>&amp; விருப்பங்கள்</translation></message>
     <message>
-      <location filename="../main_window.py" line="1259" />
+      <location filename="../main_window.py" line="1271" />
       <source>Watermark</source>
       <translation>வாட்டர்மார்க்</translation></message>
     <message>
-      <location filename="../main_window.py" line="1263" />
+      <location filename="../main_window.py" line="1275" />
       <source>Annotation Tools</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1288" />
+      <location filename="../main_window.py" line="1300" />
       <source>&amp;Help</source>
       <translation>உதவி (&amp;h)</translation></message>
     <message>
-      <location filename="../main_window.py" line="1321" />
+      <location filename="../main_window.py" line="1333" />
       <source>Show Editor</source>
       <translation>சோ எடிட்டர்</translation></message>
     <message>
-      <location filename="../main_window.py" line="1346" />
+      <location filename="../main_window.py" line="1358" />
       <source>ksnip PyQt6 is still running in the system tray.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1357" />
+      <location filename="../main_window.py" line="1369" />
       <source>ksnip PyQt6 was minimized to the system tray.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1467" />
+      <location filename="../main_window.py" line="1479" />
       <source>Select color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1476" />
+      <location filename="../main_window.py" line="1488" />
       <source>Updated selected item color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1502" />
+      <location filename="../main_window.py" line="1514" />
       <source>Select text color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1512" />
+      <location filename="../main_window.py" line="1524" />
       <source>Updated selected text color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1977" />
-      <location filename="../main_window.py" line="1832" />
+      <location filename="../main_window.py" line="1989" />
+      <location filename="../main_window.py" line="1844" />
       <source>Portal capture canceled.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2359" />
+      <location filename="../main_window.py" line="2371" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2373" />
+      <location filename="../main_window.py" line="2385" />
       <source>Show Docks</source>
       <translation>கப்பல்துறைகளைக் காட்டு</translation></message>
     <message>
-      <location filename="../main_window.py" line="2457" />
+      <location filename="../main_window.py" line="2469" />
       <source>Rotated image by %1 degrees</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2460" />
+      <location filename="../main_window.py" line="2472" />
       <source>Horizontal</source>
       <translation>கிடைமட்டமாக</translation></message>
     <message>
-      <location filename="../main_window.py" line="2460" />
+      <location filename="../main_window.py" line="2472" />
       <source>Vertical</source>
       <translation>செங்குத்து</translation></message>
     <message>
-      <location filename="../main_window.py" line="2461" />
+      <location filename="../main_window.py" line="2473" />
       <source>Flipped image: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2481" />
+      <location filename="../main_window.py" line="2493" />
       <source>Scaled image to %1 × %2 px</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2500" />
+      <location filename="../main_window.py" line="2512" />
       <source>Image effect: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2512" />
+      <location filename="../main_window.py" line="2524" />
       <source>Image slice removed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2537" />
+      <location filename="../main_window.py" line="2549" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2831" />
+      <location filename="../main_window.py" line="2843" />
       <source>Unable to open image data.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2839" />
+      <location filename="../main_window.py" line="2851" />
       <source>Opened image from standard input</source>
       <translation type="unfinished" /></message>
     <message>

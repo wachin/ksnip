@@ -59,12 +59,24 @@ from .uploader import ScriptUploader
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
 
 
+def migrate_normalized_sticker_scaling(settings: QSettings) -> bool:
+    migration_key = "editor/normalized_sticker_size_v1"
+    migrated = str(settings.value(migration_key, "false")).lower() in {"true", "1", "yes"}
+    if migrated:
+        return False
+    settings.setValue("editor/scaling_percent", 100)
+    settings.setValue(migration_key, True)
+    settings.sync()
+    return True
+
+
 class MainWindow(QMainWindow):
     MAX_RECENT_IMAGES = 10
 
     def __init__(self) -> None:
         super().__init__()
         self._settings = QSettings()
+        migrate_normalized_sticker_scaling(self._settings)
         self._recent_image_paths = self._load_recent_image_paths()
         self._pin_windows: list[PinWindow] = []
         self._watermark_store = WatermarkStore()
