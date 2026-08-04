@@ -2722,7 +2722,6 @@ class AnnotationCanvas(QLabel):
                 bold=self._bold,
                 italic=self._italic,
                 underline=self._underline,
-                fill_color=QColor(255, 255, 255, 220),
                 fill_mode=FillMode.BORDER_AND_FILL,
                 text_color=QColor(self._text_color),
                 shadow=self._shadow,
@@ -2838,8 +2837,7 @@ class AnnotationCanvas(QLabel):
         rect = QRect(item.start, item.end).normalized()
         bubble_rect = rect.adjusted(0, 0, -max(16, rect.width() // 6), -max(16, rect.height() // 6))
         bubble_rect = bubble_rect.normalized()
-        fill = item.fill_color or QColor(255, 250, 245, 235)
-        painter.setBrush(fill)
+        painter.setBrush(item.color)
         painter.drawRoundedRect(bubble_rect, 8, 8)
         tip = rect.bottomRight()
         base_center = QPoint(bubble_rect.right() - 18, bubble_rect.bottom() - 10)

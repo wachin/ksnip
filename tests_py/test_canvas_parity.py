@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 import unittest
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -264,6 +264,19 @@ class NumberFontParityTest(unittest.TestCase):
 
 
 class TextVariantEditingParityTest(unittest.TestCase):
+    def test_text_pointer_uses_its_tool_color_as_fill(self) -> None:
+        canvas = AnnotationCanvas()
+        item = OverlayItem(
+            kind=Tool.TEXT_POINTER, start=QPoint(20, 20), end=QPoint(160, 80),
+            color=QColor("#d92727"), pen_width=2, text="Pointer",
+            fill_color=QColor("white"), fill_mode=FillMode.BORDER_AND_FILL,
+        )
+        painter = MagicMock()
+
+        canvas._draw_text_pointer(painter, item)
+
+        painter.setBrush.assert_called_once_with(item.color)
+
     def test_text_pointer_and_text_arrow_can_be_reedited_and_undone(self) -> None:
         class AcceptedTextDialog:
             def __init__(self, parent=None, *, title: str, text: str = "") -> None:
