@@ -535,17 +535,15 @@ class SettingsDialog(QDialog):
         self.ocr_enabled.toggled.connect(self._sync_ocr_controls)
         self.ocr_backend.currentIndexChanged.connect(self._sync_ocr_controls)
 
-        scheme_group = QGroupBox("Color scheme for misspelled words", self)
+        scheme_group = QGroupBox(self.tr("Color scheme for misspelled words"), self)
         scheme_layout = QVBoxLayout(scheme_group)
-        self.scheme_colors_hint = QLabel(
-            f"{len(default_spellcheck_scheme())} base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.",
-            scheme_group,
-        )
+        hint = self.tr("%1 base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.")
+        self.scheme_colors_hint = QLabel(hint.replace("%1", str(len(default_spellcheck_scheme()))), scheme_group)
         self.scheme_colors_hint.setWordWrap(True)
         scheme_layout.addWidget(self.scheme_colors_hint)
 
         self.scheme_colors_table = QTableWidget(0, 3, scheme_group)
-        self.scheme_colors_table.setHorizontalHeaderLabels(["Name", "Text fill color", "Underline color"])
+        self.scheme_colors_table.setHorizontalHeaderLabels([self.tr("Name"), self.tr("Text fill color"), self.tr("Underline color")])
         self.scheme_colors_table.verticalHeader().setVisible(False)
         self.scheme_colors_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
         self.scheme_colors_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
@@ -772,7 +770,7 @@ class SettingsDialog(QDialog):
             return
         current = item.data(Qt.ItemDataRole.UserRole)
         current_color = QColor(current) if isinstance(current, QColor) else QColor(item.text())
-        color = QColorDialog.getColor(current_color, self, "Select color")
+        color = QColorDialog.getColor(current_color, self, self.tr("Select color"))
         if not color.isValid():
             return
         name = self.scheme_colors_table.item(row, 0).text()

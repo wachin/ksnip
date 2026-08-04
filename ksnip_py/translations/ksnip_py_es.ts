@@ -259,5 +259,11 @@
     <message><source>Name</source><translation>Nombre</translation></message>
     <message><source>Version</source><translation>Versión</translation></message>
     <message><source>Detect</source><translation>Detectar</translation></message>
+    <message><source>Scheme colors</source><translation>Colores de esquema</translation></message>
+    <message><source>Color scheme for misspelled words</source><translation>Esquema de colores para palabras mal escritas</translation></message>
+    <message><source>%1 base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.</source><translation>%1 colores base del esquema: a la izquierda, el relleno de la herramienta Texto; a la derecha, el subrayado de palabras mal escritas.</translation></message>
+    <message><source>Text fill color</source><translation>Color de relleno del texto</translation></message>
+    <message><source>Underline color</source><translation>Color del subrayado</translation></message>
+    <message><source>Select color</source><translation>Seleccionar color</translation></message>
 </context>
 </TS>
