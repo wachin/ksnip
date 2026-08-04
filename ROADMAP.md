@@ -204,7 +204,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Pegar items seleccionados
 - [x] Soporte básico de overlay image item
 - [ ] Paridad completa con `kImageAnnotator`
-- [x] Modify Canvas centrado para ampliar o recortar el lienzo, preservando y desplazando anotaciones, con undo
+- [x] Modify Canvas alineado con `ModifyCanvasWidget`: vista previa, color, modo restringido, origen X/Y, tamaño W/H, recorte libre y undo
 - [x] Cut tool
 - [x] Selector de efectos no destructivo y mutuamente excluyente: `No Effect`, `Drop Shadow`, `Grayscale`, `Invert Color` y `Border`
 - [x] `Drop Shadow` alineado con kImageAnnotator: negro, blur `30` y offset `(0, 2)`, incluyendo su margen en exportación y edición

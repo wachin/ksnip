@@ -9,7 +9,7 @@ from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QRectF, QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QKeySequence, QMouseEvent, QPainter, QPalette, QPen, QPixmap, QPolygon, QTransform
-from PyQt6.QtWidgets import QApplication, QButtonGroup, QCheckBox, QDialog, QDialogButtonBox, QFormLayout, QGraphicsDropShadowEffect, QGraphicsScene, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QMenu, QRadioButton, QSizePolicy, QSpinBox, QVBoxLayout
+from PyQt6.QtWidgets import QApplication, QButtonGroup, QCheckBox, QColorDialog, QDialog, QDialogButtonBox, QFormLayout, QGraphicsDropShadowEffect, QGraphicsScene, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QMenu, QPushButton, QRadioButton, QSizePolicy, QSpinBox, QVBoxLayout
 
 from .spellcheck import SpellCheckTextEdit, load_spellcheck_scheme
 
@@ -310,6 +310,103 @@ class ScaleDialog(QDialog):
         if self.keep_aspect_ratio.isChecked():
             self._set_silent(self.width_pixel, round(self._base_size.width() * factor))
             self._set_silent(self.width_percent, percent)
+
+
+class ModifyCanvasDialog(QDialog):
+    def __init__(self, image: QImage, parent=None) -> None:
+        super().__init__(parent)
+        self._image = image.copy()
+        self._color = QColor(Qt.GlobalColor.white)
+        self.setWindowTitle(self.tr("Modify Canvas"))
+
+        self.preview = QLabel(self)
+        self.preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.preview.setMinimumSize(480, 280)
+        self.restricted = QCheckBox(self.tr("Restricted"), self)
+        self.restricted.setToolTip(self.tr("When enabled, the canvas must include the background image."))
+        self.restricted.setChecked(True)
+        self.color_button = QPushButton(self)
+        self.color_button.clicked.connect(self._select_color)
+
+        self.position_x = self._coordinate_spin(0)
+        self.position_y = self._coordinate_spin(0)
+        self.canvas_width = self._size_spin(image.width())
+        self.canvas_height = self._size_spin(image.height())
+
+        form = QFormLayout()
+        form.addRow(self.restricted)
+        form.addRow(self.tr("Color:"), self.color_button)
+        form.addRow(self.tr("X:"), self.position_x)
+        form.addRow(self.tr("Y:"), self.position_y)
+        form.addRow(self.tr("W:"), self.canvas_width)
+        form.addRow(self.tr("H:"), self.canvas_height)
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Apply | QDialogButtonBox.StandardButton.Cancel, self)
+        buttons.button(QDialogButtonBox.StandardButton.Apply).setText(self.tr("Apply"))
+        buttons.button(QDialogButtonBox.StandardButton.Apply).clicked.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.preview, 1)
+        layout.addLayout(form)
+        layout.addWidget(buttons)
+
+        for spin in (self.position_x, self.position_y, self.canvas_width, self.canvas_height):
+            spin.valueChanged.connect(self._values_changed)
+        self.restricted.toggled.connect(self._values_changed)
+        self._sync_color_button()
+        self._refresh_preview()
+
+    def canvas_rect(self) -> QRect:
+        return QRect(self.position_x.value(), self.position_y.value(), self.canvas_width.value(), self.canvas_height.value())
+
+    def canvas_color(self) -> QColor:
+        return QColor(self._color)
+
+    def _coordinate_spin(self, value: int) -> QSpinBox:
+        spin = QSpinBox(self)
+        spin.setRange(-9999, 9999)
+        spin.setValue(value)
+        return spin
+
+    def _size_spin(self, value: int) -> QSpinBox:
+        spin = QSpinBox(self)
+        spin.setRange(1, 32768)
+        spin.setValue(value)
+        return spin
+
+    def _values_changed(self) -> None:
+        if self.restricted.isChecked():
+            x = min(0, self.position_x.value())
+            y = min(0, self.position_y.value())
+            width = max(self.canvas_width.value(), self._image.width() - x)
+            height = max(self.canvas_height.value(), self._image.height() - y)
+            for spin, value in ((self.position_x, x), (self.position_y, y), (self.canvas_width, width), (self.canvas_height, height)):
+                ScaleDialog._set_silent(spin, value)
+        self._refresh_preview()
+
+    def _select_color(self) -> None:
+        color = QColorDialog.getColor(self._color, self, self.tr("Canvas Background Color"), QColorDialog.ColorDialogOption.ShowAlphaChannel)
+        if color.isValid():
+            self._color = QColor(color)
+            self._sync_color_button()
+            self._refresh_preview()
+
+    def _sync_color_button(self) -> None:
+        self.color_button.setText(self._color.name(QColor.NameFormat.HexArgb))
+        self.color_button.setStyleSheet(f"background: {self._color.name()};")
+
+    def _refresh_preview(self) -> None:
+        rect = self.canvas_rect()
+        preview_size = rect.size()
+        preview_size.scale(QSize(760, 480), Qt.AspectRatioMode.KeepAspectRatio)
+        preview_size = QSize(max(1, preview_size.width()), max(1, preview_size.height()))
+        preview = QImage(preview_size, QImage.Format.Format_ARGB32_Premultiplied)
+        preview.fill(self._color)
+        painter = QPainter(preview)
+        painter.scale(preview.width() / rect.width(), preview.height() / rect.height())
+        painter.drawImage(QPoint(-rect.x(), -rect.y()), self._image)
+        painter.end()
+        self.preview.setPixmap(QPixmap.fromImage(preview))
 
 
 class Tool(str, Enum):
@@ -980,15 +1077,23 @@ class AnnotationCanvas(QLabel):
     def modify_canvas_size(self, width: int, height: int, background: QColor | None = None) -> bool:
         if self._image.isNull() or width < 1 or height < 1:
             return False
-        if width == self._image.width() and height == self._image.height():
+        rect = QRect(
+            (self._image.width() - width) // 2,
+            (self._image.height() - height) // 2,
+            width,
+            height,
+        )
+        return self.modify_canvas_rect(rect, background)
+
+    def modify_canvas_rect(self, rect: QRect, background: QColor | None = None) -> bool:
+        if self._image.isNull() or rect.width() < 1 or rect.height() < 1:
+            return False
+        if rect == QRect(0, 0, self._image.width(), self._image.height()):
             return False
         self._push_undo_state()
-        resized = QImage(width, height, QImage.Format.Format_ARGB32_Premultiplied)
+        resized = QImage(rect.size(), QImage.Format.Format_ARGB32_Premultiplied)
         resized.fill(background or QColor("#ffffff"))
-        offset = QPoint(
-            (width - self._image.width()) // 2,
-            (height - self._image.height()) // 2,
-        )
+        offset = QPoint(-rect.x(), -rect.y())
         painter = QPainter(resized)
         painter.drawImage(offset, self._image)
         painter.end()

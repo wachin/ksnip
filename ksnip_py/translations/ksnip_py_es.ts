@@ -330,31 +330,31 @@
       <translation>Escalar</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2500" />
+      <location filename="../main_window.py" line="2489" />
       <location filename="../main_window.py" line="786" />
       <source>No Effect</source>
       <translation>Sin efecto</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2501" />
+      <location filename="../main_window.py" line="2490" />
       <location filename="../main_window.py" line="787" />
       <source>Drop Shadow</source>
       <translation>Sombra paralela</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2502" />
+      <location filename="../main_window.py" line="2491" />
       <location filename="../main_window.py" line="788" />
       <source>Grayscale</source>
       <translation>Escala de grises</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2503" />
+      <location filename="../main_window.py" line="2492" />
       <location filename="../main_window.py" line="789" />
       <source>Invert Color</source>
       <translation>Invertir color</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2504" />
+      <location filename="../main_window.py" line="2493" />
       <location filename="../main_window.py" line="790" />
       <source>Border</source>
       <translation>Borde</translation>
@@ -365,7 +365,7 @@
       <translation>Modificar lienzo...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2381" />
+      <location filename="../main_window.py" line="2370" />
       <location filename="../main_window.py" line="796" />
       <source>Hide Docks</source>
       <translation type="unfinished" />
@@ -527,57 +527,62 @@
       <translation>Captura mediante el portal cancelada.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2381" />
+      <location filename="../main_window.py" line="2356" />
+      <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
+      <translation>Lienzo modificado: %1 × %2 px en (%3, %4)</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2370" />
       <source>Show Docks</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2465" />
+      <location filename="../main_window.py" line="2454" />
       <source>Rotated image by %1 degrees</source>
       <translation>Imagen rotada %1 grados</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2468" />
+      <location filename="../main_window.py" line="2457" />
       <source>Horizontal</source>
       <translation>Horizontal</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2468" />
+      <location filename="../main_window.py" line="2457" />
       <source>Vertical</source>
       <translation>Vertical</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2469" />
+      <location filename="../main_window.py" line="2458" />
       <source>Flipped image: %1</source>
       <translation>Imagen volteada: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2489" />
+      <location filename="../main_window.py" line="2478" />
       <source>Scaled image to %1 × %2 px</source>
       <translation>Imagen escalada a %1 × %2 px</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2508" />
+      <location filename="../main_window.py" line="2497" />
       <source>Image effect: %1</source>
       <translation>Efecto de imagen: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2520" />
+      <location filename="../main_window.py" line="2509" />
       <source>Image slice removed</source>
       <translation>Franja de imagen eliminada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2545" />
+      <location filename="../main_window.py" line="2534" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation>El idioma ha cambiado. Reinicie ksnip para aplicarlo.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2839" />
+      <location filename="../main_window.py" line="2828" />
       <source>Unable to open image data.</source>
       <translation>No se pudieron abrir los datos de imagen.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2847" />
+      <location filename="../main_window.py" line="2836" />
       <source>Opened image from standard input</source>
       <translation>Imagen abierta desde la entrada estándar</translation>
     </message>
@@ -600,6 +605,59 @@
     <message>
       <source>Border effect applied</source>
       <translation type="vanished">Efecto de borde aplicado</translation>
+    </message>
+  </context>
+  <context>
+    <name>ModifyCanvasDialog</name>
+    <message>
+      <location filename="../canvas.py" line="320" />
+      <source>Modify Canvas</source>
+      <translation>Modificar lienzo</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="325" />
+      <source>Restricted</source>
+      <translation>Restringido</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="326" />
+      <source>When enabled, the canvas must include the background image.</source>
+      <translation>Cuando está activado, el lienzo debe incluir la imagen de fondo.</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="338" />
+      <source>Color:</source>
+      <translation>Color:</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="339" />
+      <source>X:</source>
+      <translation>X:</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="340" />
+      <source>Y:</source>
+      <translation>Y:</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="341" />
+      <source>W:</source>
+      <translation>Ancho:</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="342" />
+      <source>H:</source>
+      <translation>Alto:</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="344" />
+      <source>Apply</source>
+      <translation>Aplicar</translation>
+    </message>
+    <message>
+      <location filename="../canvas.py" line="388" />
+      <source>Canvas Background Color</source>
+      <translation>Color de fondo del lienzo</translation>
     </message>
   </context>
   <context>

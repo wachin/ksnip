@@ -7,7 +7,7 @@ from PyQt6.QtCore import QPoint, QRect
 from PyQt6.QtGui import QColor, QImage
 from PyQt6.QtWidgets import QApplication
 
-from ksnip_py.canvas import AnnotationCanvas, CutDialog, RotateDialog, ScaleDialog
+from ksnip_py.canvas import AnnotationCanvas, CutDialog, ModifyCanvasDialog, RotateDialog, ScaleDialog
 
 
 APP = QApplication.instance() or QApplication([])
@@ -157,6 +157,59 @@ class ScaleParityTest(unittest.TestCase):
         canvas.undo()
         self.assertEqual(canvas._image.size(), coordinate_image(10, 8).size())
         self.assertEqual(canvas._items[0].start, QPoint(2, 2))
+
+
+class ModifyCanvasParityTest(unittest.TestCase):
+    def test_restricted_dialog_keeps_the_background_inside_the_canvas(self) -> None:
+        dialog = ModifyCanvasDialog(coordinate_image())
+        dialog.position_x.setValue(2)
+        self.assertEqual(dialog.position_x.value(), 0)
+        dialog.canvas_width.setValue(5)
+        self.assertEqual(dialog.canvas_width.value(), 10)
+        dialog.position_x.setValue(-3)
+        self.assertEqual(dialog.canvas_width.value(), 13)
+
+    def test_unrestricted_dialog_allows_cropping_from_any_origin(self) -> None:
+        dialog = ModifyCanvasDialog(coordinate_image())
+        dialog.restricted.setChecked(False)
+        dialog.position_x.setValue(2)
+        dialog.position_y.setValue(1)
+        dialog.canvas_width.setValue(5)
+        dialog.canvas_height.setValue(4)
+        self.assertEqual(dialog.canvas_rect(), QRect(2, 1, 5, 4))
+
+    def test_preview_is_bounded_for_a_very_large_canvas(self) -> None:
+        dialog = ModifyCanvasDialog(coordinate_image())
+        dialog.canvas_width.setValue(32768)
+        dialog.canvas_height.setValue(32768)
+        self.assertLessEqual(dialog.preview.pixmap().width(), 760)
+        self.assertLessEqual(dialog.preview.pixmap().height(), 480)
+
+    def test_modify_canvas_expands_moves_items_and_supports_undo(self) -> None:
+        source = coordinate_image()
+        overlay = QImage(2, 2, QImage.Format.Format_ARGB32)
+        overlay.fill(QColor("red"))
+        canvas = AnnotationCanvas()
+        canvas.set_image(source)
+        canvas.add_image_item(overlay, QPoint(4, 3))
+
+        self.assertTrue(canvas.modify_canvas_rect(QRect(-2, -1, 14, 10), QColor("magenta")))
+        self.assertEqual(canvas._image.size(), QImage(14, 10, QImage.Format.Format_ARGB32).size())
+        self.assertEqual(canvas._image.pixelColor(2, 1), source.pixelColor(0, 0))
+        self.assertEqual(canvas._image.pixelColor(0, 0), QColor("magenta"))
+        self.assertEqual(canvas._items[0].start, QPoint(6, 4))
+        canvas.undo()
+        self.assertEqual(canvas._image, source)
+        self.assertEqual(canvas._items[0].start, QPoint(4, 3))
+
+    def test_modify_canvas_can_crop_using_an_explicit_origin(self) -> None:
+        source = coordinate_image()
+        canvas = AnnotationCanvas()
+        canvas.set_image(source)
+
+        self.assertTrue(canvas.modify_canvas_rect(QRect(2, 1, 5, 4)))
+        self.assertEqual(canvas._image.size(), QImage(5, 4, QImage.Format.Format_ARGB32).size())
+        self.assertEqual(canvas._image.pixelColor(0, 0), source.pixelColor(2, 1))
 
 
 if __name__ == "__main__":

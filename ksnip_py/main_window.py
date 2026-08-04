@@ -33,7 +33,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from .canvas import AnnotationCanvas, CutDialog, FillMode, RotateDialog, ScaleDialog, Tool
+from .canvas import AnnotationCanvas, CutDialog, FillMode, ModifyCanvasDialog, RotateDialog, ScaleDialog, Tool
 from .color_picker import ColorPaletteMenu
 from .capture import (
     grab_active_window,
@@ -2345,31 +2345,20 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
             return
-        current_size = canvas.image().size()
-        width, accepted = QInputDialog.getInt(
-            self,
-            "Modify Canvas",
-            "Width:",
-            current_size.width(),
-            1,
-            32768,
-        )
-        if not accepted:
+        dialog = ModifyCanvasDialog(canvas.background_image(), self)
+        if dialog.exec() != QDialog.DialogCode.Accepted:
             return
-        height, accepted = QInputDialog.getInt(
-            self,
-            "Modify Canvas",
-            "Height:",
-            current_size.height(),
-            1,
-            32768,
-        )
-        if not accepted:
-            return
-        if canvas.modify_canvas_size(width, height):
+        rect = dialog.canvas_rect()
+        if canvas.modify_canvas_rect(rect, dialog.canvas_color()):
             self._sync_tab_title()
             self._update_actions()
-            self.status_label.setText(f"Modified canvas to {width}x{height}")
+            self.status_label.setText(
+                self.tr("Canvas modified: %1 × %2 px at (%3, %4)")
+                .replace("%1", str(rect.width()))
+                .replace("%2", str(rect.height()))
+                .replace("%3", str(rect.x()))
+                .replace("%4", str(rect.y()))
+            )
 
     def toggle_docks(self) -> None:
         self._set_docks_collapsed(self.main_toolbar.isVisible())
