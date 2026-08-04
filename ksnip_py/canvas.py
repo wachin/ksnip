@@ -411,6 +411,7 @@ class ModifyCanvasDialog(QDialog):
 
 class Tool(str, Enum):
     SELECT = "select"
+    DUPLICATE = "duplicate"
     IMAGE = "image"
     STICKER = "sticker"
     PEN = "pen"
@@ -523,7 +524,7 @@ class OverlayItem:
             radius = max(14, self.font_point_size or 14)
             bubble = QRect(self.start.x() - radius, self.start.y() - radius, radius * 2, radius * 2)
             return QRect(self.start, self.end).normalized().united(bubble).adjusted(-6, -6, 6, 6)
-        if self.kind in (Tool.IMAGE, Tool.STICKER) and self.image is not None:
+        if self.kind in (Tool.DUPLICATE, Tool.IMAGE, Tool.STICKER) and self.image is not None:
             return QRect(self.start, self.end).normalized()
         return QRect(self.start, self.end).normalized().adjusted(-6, -6, 6, 6)
 
@@ -1240,6 +1241,7 @@ class AnnotationCanvas(QLabel):
             return
 
         if self._tool in (
+            Tool.DUPLICATE,
             Tool.PEN,
             Tool.MARKER_PEN,
             Tool.LINE,
@@ -1333,6 +1335,7 @@ class AnnotationCanvas(QLabel):
             self._preview_end = image_point
 
         if self._tool in (
+            Tool.DUPLICATE,
             Tool.LINE,
             Tool.ARROW,
             Tool.DOUBLE_ARROW,
@@ -1638,7 +1641,7 @@ class AnnotationCanvas(QLabel):
             self._draw_number_pointer(painter, item)
         elif item.kind == Tool.NUMBER_ARROW:
             self._draw_number_arrow(painter, item)
-        elif item.kind == Tool.IMAGE and item.image is not None and not item.image.isNull():
+        elif item.kind in (Tool.DUPLICATE, Tool.IMAGE) and item.image is not None and not item.image.isNull():
             painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, True)
             painter.drawImage(QRect(item.start, item.end).normalized(), item.image)
         elif item.kind == Tool.STICKER and item.image is not None and not item.image.isNull():
@@ -2123,7 +2126,7 @@ class AnnotationCanvas(QLabel):
                 "bottom_right": rect.bottomRight(),
             }
 
-        if item.kind == Tool.IMAGE:
+        if item.kind in (Tool.DUPLICATE, Tool.IMAGE):
             rect = QRect(item.start, item.end).normalized()
             return {
                 "top_left": rect.topLeft(),
@@ -2535,6 +2538,25 @@ class AnnotationCanvas(QLabel):
         return None
 
     def _build_drag_item(self, tool: Tool, start: QPoint, end: QPoint, rect: QRect) -> OverlayItem | None:
+        if tool == Tool.DUPLICATE:
+            bounded = rect.intersected(self._image.rect())
+            if bounded.width() < 2 or bounded.height() < 2:
+                return None
+            composed = self._compose_image()
+            _, effect_offset = self._render_effected_background()
+            captured = composed.copy(bounded.translated(effect_offset))
+            if captured.isNull():
+                return None
+            return OverlayItem(
+                kind=Tool.DUPLICATE,
+                start=bounded.topLeft(),
+                end=QPoint(bounded.x() + bounded.width(), bounded.y() + bounded.height()),
+                color=QColor(self._color),
+                pen_width=1,
+                opacity=self._opacity,
+                shadow=False,
+                image=captured,
+            )
         if self._is_line_like(tool) or self._is_shape_like(tool):
             pen_width = self._pen_width
             color = QColor(self._color)
@@ -2657,7 +2679,7 @@ class AnnotationCanvas(QLabel):
         return width, height
 
     def _draw_shadow(self, painter: QPainter, item: OverlayItem) -> None:
-        if item.kind in (Tool.IMAGE, Tool.STICKER) and item.image is not None and not item.image.isNull():
+        if item.kind in (Tool.DUPLICATE, Tool.IMAGE, Tool.STICKER) and item.image is not None and not item.image.isNull():
             shadow_image = item.image.convertToFormat(QImage.Format.Format_ARGB32_Premultiplied)
             shadow_painter = QPainter(shadow_image)
             shadow_painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)

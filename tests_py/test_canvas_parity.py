@@ -55,6 +55,34 @@ class CropAndCutParityTest(unittest.TestCase):
         self.assertEqual(dialog.cut_rect(), QRect(0, 40, 300, 100))
 
 
+class DuplicateToolParityTest(unittest.TestCase):
+    def test_duplicate_captures_the_composed_scene_as_a_movable_image_item(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(12, 10))
+        overlay = QImage(3, 3, QImage.Format.Format_ARGB32)
+        overlay.fill(QColor("red"))
+        canvas.add_image_item(overlay, QPoint(2, 2))
+
+        rect = QRect(1, 1, 6, 5)
+        duplicate = canvas._build_drag_item(Tool.DUPLICATE, rect.topLeft(), rect.bottomRight(), rect)
+
+        self.assertIsNotNone(duplicate)
+        self.assertEqual(duplicate.kind, Tool.DUPLICATE)
+        self.assertEqual(duplicate.image.size(), rect.size())
+        self.assertEqual(duplicate.image.pixelColor(1, 1), QColor("red"))
+        self.assertFalse(duplicate.shadow)
+
+    def test_duplicate_is_restored_by_undo(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(12, 10))
+        rect = QRect(1, 1, 5, 4)
+        canvas._push_undo_state()
+        canvas._items.append(canvas._build_drag_item(Tool.DUPLICATE, rect.topLeft(), rect.bottomRight(), rect))
+        self.assertEqual(len(canvas._items), 1)
+        canvas.undo()
+        self.assertEqual(canvas._items, [])
+
+
 class ImageEffectParityTest(unittest.TestCase):
     def setUp(self) -> None:
         self.image = QImage(20, 12, QImage.Format.Format_ARGB32)

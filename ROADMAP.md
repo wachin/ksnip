@@ -190,6 +190,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Resize handles para rectángulo, elipse, línea, flecha y texto
 - [x] Eliminar item seleccionado
 - [x] Duplicar item seleccionado
+- [x] Herramienta `Duplicate` independiente: captura una región compuesta como elemento movible, con undo y sólo `Opacity` en Item Settings
 - [x] Re-editar texto seleccionado
 - [x] Re-editar `Text` desde doble clic o menú contextual `Edit text`
 - [x] Traer selección al frente

@@ -520,6 +520,7 @@ class MainWindow(QMainWindow):
             Tool.ELLIPSE,
         }
         show_opacity = tool in {
+            Tool.DUPLICATE,
             Tool.ARROW,
             Tool.DOUBLE_ARROW,
             Tool.LINE,
@@ -745,6 +746,9 @@ class MainWindow(QMainWindow):
         self.select_action.setCheckable(True)
         self.select_action.triggered.connect(lambda: self.set_tool(Tool.SELECT))
         self.tool_action_group.addAction(self.select_action)
+
+        self.duplicate_tool_action = self._make_tool_action("duplicate", self.tr("Duplicate"), Tool.DUPLICATE)
+        self.duplicate_tool_action.setShortcut("U")
 
         self.marker_rect_action = self._make_tool_action("markerRect", self.tr("Marker Rectangle"), Tool.MARKER_RECT, "marker")
         self.marker_ellipse_action = self._make_tool_action("markerEllipse", self.tr("Marker Ellipse"), Tool.MARKER_ELLIPSE, "marker")
@@ -1087,7 +1091,7 @@ class MainWindow(QMainWindow):
         tools_layout.setContentsMargins(0, 0, 0, 0)
         tools_layout.setSpacing(4)
         tools_layout.addWidget(self._make_single_tool_widget(self.select_action))
-        tools_layout.addWidget(self._make_single_tool_widget(self.duplicate_action, enabled=False))
+        tools_layout.addWidget(self._make_single_tool_widget(self.duplicate_tool_action))
         tools_layout.addWidget(
             self._make_tool_group_widget(
                 "arrow",
@@ -1310,6 +1314,7 @@ class MainWindow(QMainWindow):
         annotation_tools_menu = options_menu.addMenu(self.tr("Annotation Tools"))
         for action in (
             self.select_action,
+            self.duplicate_tool_action,
             self.pen_action,
             self.marker_pen_action,
             self.marker_rect_action,

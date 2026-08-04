@@ -132,6 +132,17 @@ class MainWindowColorPickerTest(unittest.TestCase):
         self.assertGreater(len(window.properties_toolbar.actions()), 1)
         self.assertTrue(window.toolBarBreak(window.properties_toolbar))
 
+    def test_duplicate_tool_is_selectable_and_exposes_only_opacity(self) -> None:
+        window = MainWindow()
+        window.duplicate_tool_action.trigger()
+        self.assertEqual(window.current_canvas().tool(), Tool.DUPLICATE)
+        controls = [
+            widget for action in window.properties_toolbar.actions()
+            if (widget := window.properties_toolbar.widgetForAction(action)) in window._property_groups.values()
+        ]
+        self.assertEqual(controls, [window.property_handle_group, window.property_opacity_group])
+        self.assertEqual(window.duplicate_tool_action.shortcut().toString(), "U")
+
 
 class StickerPickerTest(unittest.TestCase):
     def test_legacy_sticker_scaling_is_migrated_to_the_normalized_default_once(self) -> None:
