@@ -2,16 +2,21 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import re
 
-from PyQt6.QtCore import QSettings, QSize, Qt
-from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import QSettings, QSize, QStandardPaths, Qt, QUrl
+from PyQt6.QtGui import QDesktopServices, QIcon, QImage, QImageReader
 from PyQt6.QtWidgets import (
     QDialog,
+    QFileDialog,
     QGridLayout,
     QGroupBox,
     QHBoxLayout,
     QLabel,
+    QMessageBox,
+    QPushButton,
     QScrollArea,
+    QStyle,
     QTabWidget,
     QToolButton,
     QVBoxLayout,
@@ -36,6 +41,7 @@ def sticker_collections(package_dir: Path | None = None) -> tuple[StickerCollect
         StickerCollection("GNOME", bundled / "themes" / "gnome"),
         StickerCollection("Numix", bundled / "themes" / "numix"),
         StickerCollection("SuperTux", bundled / "themes" / "supertux"),
+        StickerCollection("User", user_sticker_directory()),
     )
 
 
@@ -47,6 +53,39 @@ def discover_stickers(directory: Path) -> list[Path]:
         for path in directory.iterdir()
         if path.is_file() and not path.is_symlink() and path.suffix.lower() in SUPPORTED_STICKER_SUFFIXES
     )
+
+
+def user_sticker_directory() -> Path:
+    config_path = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppConfigLocation)
+    return Path(config_path) / "stickers" / "user"
+
+
+def import_user_sticker(source: Path, destination: Path, maximum_size: int = 512) -> Path | None:
+    reader = QImageReader(str(source))
+    reader.setAutoTransform(True)
+    source_size = reader.size()
+    if source_size.isValid() and max(source_size.width(), source_size.height()) > maximum_size:
+        source_size.scale(QSize(maximum_size, maximum_size), Qt.AspectRatioMode.KeepAspectRatio)
+        reader.setScaledSize(source_size)
+    image = reader.read()
+    if image.isNull():
+        return None
+    if max(image.width(), image.height()) > maximum_size:
+        image = image.scaled(
+            maximum_size,
+            maximum_size,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
+        )
+    image = image.convertToFormat(QImage.Format.Format_ARGB32)
+    destination.mkdir(parents=True, exist_ok=True)
+    safe_stem = re.sub(r"[^A-Za-z0-9._-]+", "_", source.stem).strip("._-") or "sticker"
+    target = destination / f"{safe_stem}.png"
+    suffix = 2
+    while target.exists():
+        target = destination / f"{safe_stem}_{suffix}.png"
+        suffix += 1
+    return target if image.save(str(target), "PNG") else None
 
 
 class StickerPickerDialog(QDialog):
@@ -116,15 +155,19 @@ class StickerPickerDialog(QDialog):
         else:
             self._favorites_layout.addWidget(QLabel(self.tr("Use the star button to pin frequently used stickers."), self))
 
-        current_name = self.tabs.tabText(self.tabs.currentIndex()) if self.tabs.currentIndex() >= 0 else str(
-            self._settings.value(self.LAST_TAB_KEY, "Original")
+        current_name = (
+            self.tabs.tabBar().tabData(self.tabs.currentIndex())
+            if self.tabs.currentIndex() >= 0
+            else str(self._settings.value(self.LAST_TAB_KEY, "Original"))
         )
         self.tabs.blockSignals(True)
         self.tabs.clear()
         for collection in self._collections:
-            self.tabs.addTab(self._collection_page(collection), collection.name)
+            title = self.tr("User") if collection.name == "User" else collection.name
+            index = self.tabs.addTab(self._collection_page(collection), title)
+            self.tabs.tabBar().setTabData(index, collection.name)
         matching_index = next(
-            (index for index in range(self.tabs.count()) if self.tabs.tabText(index) == current_name),
+            (index for index in range(self.tabs.count()) if self.tabs.tabBar().tabData(index) == current_name),
             0,
         )
         self.tabs.setCurrentIndex(matching_index)
@@ -133,15 +176,30 @@ class StickerPickerDialog(QDialog):
     def _remember_current_tab(self, index: int) -> None:
         if index < 0:
             return
-        self._settings.setValue(self.LAST_TAB_KEY, self.tabs.tabText(index))
+        self._settings.setValue(self.LAST_TAB_KEY, self.tabs.tabBar().tabData(index))
         self._settings.sync()
 
     def _collection_page(self, collection: StickerCollection) -> QWidget:
         stickers = discover_stickers(collection.directory)
         page = QWidget(self.tabs)
         layout = QVBoxLayout(page)
+        if collection.name == "User":
+            controls = QHBoxLayout()
+            add_button = QPushButton(self.tr("Add Images..."), page)
+            add_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogOpenButton))
+            add_button.clicked.connect(lambda checked=False, directory=collection.directory: self._add_user_images(directory))
+            open_button = QPushButton(self.tr("Open Here with File Manager"), page)
+            open_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DirOpenIcon))
+            open_button.clicked.connect(lambda checked=False, directory=collection.directory: self._open_user_directory(directory))
+            controls.addWidget(add_button)
+            controls.addWidget(open_button)
+            controls.addStretch(1)
+            layout.addLayout(controls)
         if not stickers:
-            message = self.tr("Sticker theme is not installed: %1").replace("%1", str(collection.directory))
+            if collection.name == "User":
+                message = self.tr("Add your own images to use them as stickers.")
+            else:
+                message = self.tr("Sticker theme is not installed: %1").replace("%1", str(collection.directory))
             label = QLabel(message, page)
             label.setWordWrap(True)
             layout.addWidget(label)
@@ -158,6 +216,28 @@ class StickerPickerDialog(QDialog):
         scroll.setWidget(content)
         layout.addWidget(scroll)
         return page
+
+    def _add_user_images(self, directory: Path) -> None:
+        paths, _ = QFileDialog.getOpenFileNames(
+            self,
+            self.tr("Add Sticker Images"),
+            str(Path.home()),
+            self.tr("Images (*.png *.jpg *.jpeg *.webp *.bmp *.gif *.svg *.xpm);;All Files (*)"),
+        )
+        if not paths:
+            return
+        failures = [path for path in paths if import_user_sticker(Path(path), directory) is None]
+        if failures:
+            QMessageBox.warning(
+                self,
+                self.tr("Unable to Add Images"),
+                self.tr("Some files could not be imported as stickers."),
+            )
+        self._rebuild()
+
+    def _open_user_directory(self, directory: Path) -> None:
+        directory.mkdir(parents=True, exist_ok=True)
+        QDesktopServices.openUrl(QUrl.fromLocalFile(str(directory)))
 
     def _favorite_card(self, path: Path) -> QWidget:
         card = QWidget(self)

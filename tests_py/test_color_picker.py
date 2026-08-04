@@ -12,7 +12,14 @@ from PyQt6.QtWidgets import QApplication
 from ksnip_py.canvas import Tool
 from ksnip_py.color_picker import ColorPaletteMenu
 from ksnip_py.main_window import MainWindow, migrate_normalized_sticker_scaling
-from ksnip_py.sticker_picker import StickerCollection, StickerPickerDialog, discover_stickers, sticker_collections
+from ksnip_py.sticker_picker import (
+    StickerCollection,
+    StickerPickerDialog,
+    discover_stickers,
+    import_user_sticker,
+    sticker_collections,
+    user_sticker_directory,
+)
 
 
 APP = QApplication.instance() or QApplication([])
@@ -103,13 +110,17 @@ class StickerPickerTest(unittest.TestCase):
 
     def test_expected_theme_directories_are_exposed(self) -> None:
         collections = sticker_collections()
-        self.assertEqual([collection.name for collection in collections], ["Original", "Papirus", "GNOME", "Numix", "SuperTux"])
+        self.assertEqual(
+            [collection.name for collection in collections],
+            ["Original", "Papirus", "GNOME", "Numix", "SuperTux", "User"],
+        )
         self.assertEqual(collections[1].directory, collections[0].directory / "themes" / "papirus")
         self.assertEqual(collections[2].directory, collections[0].directory / "themes" / "gnome")
         self.assertEqual(collections[3].directory, collections[0].directory / "themes" / "numix")
         self.assertEqual(collections[4].directory, collections[0].directory / "themes" / "supertux")
+        self.assertEqual(collections[5].directory, user_sticker_directory())
         self.assertEqual([len(discover_stickers(collection.directory)) for collection in collections[1:4]], [25, 20, 34])
-        for collection in collections[1:]:
+        for collection in collections[1:5]:
             names = {path.name for path in discover_stickers(collection.directory)}
             self.assertIn("check_mark.svg", names)
             self.assertIn("cross_mark.svg", names)
@@ -117,7 +128,7 @@ class StickerPickerTest(unittest.TestCase):
         self.assertEqual(len(supertux_names), 26)
         self.assertIn("smiling_face_with_sunglasses.svg", supertux_names)
         self.assertIn("tutorial_terminal.svg", supertux_names)
-        for collection in collections[1:]:
+        for collection in collections[1:5]:
             if collection.directory.is_dir():
                 self.assertTrue(all(not path.is_symlink() for path in discover_stickers(collection.directory)))
 
@@ -129,6 +140,30 @@ class StickerPickerTest(unittest.TestCase):
             (root / "duplicate.svg").symlink_to(real.name)
             (root / "notes.txt").write_text("not a sticker", encoding="utf-8")
             self.assertEqual(discover_stickers(root), [real])
+
+    def test_user_sticker_import_is_png_bounded_and_uniquely_named(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "Mi imagen grande.webp"
+            image = QImage(1024, 256, QImage.Format.Format_ARGB32)
+            image.fill(QColor(20, 40, 60, 128))
+            self.assertTrue(image.save(str(source), "WEBP"))
+
+            first = import_user_sticker(source, root / "saved")
+            second = import_user_sticker(source, root / "saved")
+
+            self.assertEqual(first, root / "saved" / "Mi_imagen_grande.png")
+            self.assertEqual(second, root / "saved" / "Mi_imagen_grande_2.png")
+            imported = QImage(str(first))
+            self.assertEqual((imported.width(), imported.height()), (512, 128))
+            self.assertTrue(imported.hasAlphaChannel())
+
+    def test_invalid_user_sticker_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "broken.png"
+            source.write_text("not an image", encoding="utf-8")
+            self.assertIsNone(import_user_sticker(source, root / "saved"))
 
     def test_favorites_are_persistent_and_visible_independently_of_tabs(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

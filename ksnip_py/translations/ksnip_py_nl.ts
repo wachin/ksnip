@@ -1505,28 +1505,60 @@
   <context>
     <name>StickerPickerDialog</name>
     <message>
-      <location filename="../sticker_picker.py" line="70" />
+      <location filename="../sticker_picker.py" line="109" />
       <source>Select Sticker</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="73" />
+      <location filename="../sticker_picker.py" line="112" />
       <source>Pinned Stickers</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="117" />
+      <location filename="../sticker_picker.py" line="156" />
       <source>Use the star button to pin frequently used stickers.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="144" />
+      <location filename="../sticker_picker.py" line="166" />
+      <source>User</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../sticker_picker.py" line="188" />
+      <source>Add Images...</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../sticker_picker.py" line="191" />
+      <source>Open Here with File Manager</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../sticker_picker.py" line="200" />
+      <source>Add your own images to use them as stickers.</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../sticker_picker.py" line="202" />
       <source>Sticker theme is not installed: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="185" />
-      <location filename="../sticker_picker.py" line="170" />
+      <location filename="../sticker_picker.py" line="223" />
+      <source>Add Sticker Images</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../sticker_picker.py" line="225" />
+      <source>Images (*.png *.jpg *.jpeg *.webp *.bmp *.gif *.svg *.xpm);;All Files (*)</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../sticker_picker.py" line="233" />
+      <source>Unable to Add Images</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../sticker_picker.py" line="234" />
+      <source>Some files could not be imported as stickers.</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../sticker_picker.py" line="265" />
+      <location filename="../sticker_picker.py" line="250" />
       <source>Unpin Sticker</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="185" />
+      <location filename="../sticker_picker.py" line="265" />
       <source>Pin Sticker</source>
       <translation type="unfinished" /></message>
   </context>
