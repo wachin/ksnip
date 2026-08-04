@@ -78,6 +78,8 @@
     <message><source>Fit</source><translation>Ajustar</translation></message>
     <message><source>New Screenshot</source><translation>Nueva captura de pantalla</translation></message>
     <message><source>Portal</source><translation>Portal</translation></message>
+    <message><source>Unable to open image data.</source><translation>No se pudieron abrir los datos de imagen.</translation></message>
+    <message><source>Opened image from standard input</source><translation>Imagen abierta desde la entrada estándar</translation></message>
     <message><source>Show Editor</source><translation>Mostrar editor</translation></message>
     <message><source>ksnip PyQt6 is still running in the system tray.</source><translation>ksnip PyQt6 continúa ejecutándose en la bandeja del sistema.</translation></message>
     <message><source>ksnip PyQt6 was minimized to the system tray.</source><translation>ksnip PyQt6 se minimizó a la bandeja del sistema.</translation></message>

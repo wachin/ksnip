@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import base64
 from collections.abc import Callable
 
 from PyQt6.QtCore import QObject
@@ -13,17 +14,18 @@ class SingleInstanceController(QObject):
         super().__init__(parent)
         self.server_name = server_name or f"ksnip-pyqt6-{os.getuid()}"
         self._server = QLocalServer(self)
-        self._handler: Callable[[list[str]], None] | None = None
+        self._handler: Callable[[list[str], bytes | None], None] | None = None
         self._sockets: set[QLocalSocket] = set()
         self._buffers: dict[QLocalSocket, bytearray] = {}
         self._server.newConnection.connect(self._accept_connections)
 
-    def forward_to_running(self, arguments: list[str], timeout_ms: int = 500) -> bool:
+    def forward_to_running(self, arguments: list[str], image_data: bytes | None = None, timeout_ms: int = 500) -> bool:
         socket = QLocalSocket(self)
         socket.connectToServer(self.server_name)
         if not socket.waitForConnected(timeout_ms):
             return False
-        payload = json.dumps({"arguments": arguments}).encode("utf-8") + b"\n"
+        encoded_image = base64.b64encode(image_data).decode("ascii") if image_data is not None else None
+        payload = json.dumps({"arguments": arguments, "image_data": encoded_image}).encode("utf-8") + b"\n"
         socket.write(payload)
         if not socket.waitForBytesWritten(timeout_ms):
             socket.abort()
@@ -32,7 +34,7 @@ class SingleInstanceController(QObject):
         socket.disconnectFromServer()
         return True
 
-    def listen(self, handler: Callable[[list[str]], None]) -> bool:
+    def listen(self, handler: Callable[[list[str], bytes | None], None]) -> bool:
         self._handler = handler
         if self._server.listen(self.server_name):
             return True
@@ -60,11 +62,13 @@ class SingleInstanceController(QObject):
         try:
             payload = json.loads(raw_payload.decode("utf-8"))
             arguments = payload.get("arguments", [])
+            encoded_image = payload.get("image_data")
+            image_data = base64.b64decode(encoded_image, validate=True) if isinstance(encoded_image, str) else None
             if self._handler is not None and isinstance(arguments, list) and all(isinstance(arg, str) for arg in arguments):
-                self._handler(arguments)
+                self._handler(arguments, image_data)
             socket.write(b"ok")
             socket.flush()
-        except (UnicodeDecodeError, json.JSONDecodeError, AttributeError):
+        except (UnicodeDecodeError, json.JSONDecodeError, AttributeError, ValueError):
             socket.write(b"error")
             socket.flush()
 

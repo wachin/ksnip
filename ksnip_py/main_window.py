@@ -2722,6 +2722,22 @@ class MainWindow(QMainWindow):
         self._schedule_resize_to_content()
         return True
 
+    def _open_image_data(self, data: bytes, title: str = "stdin") -> bool:
+        image = QImage.fromData(data)
+        if image.isNull():
+            self._show_error(self.tr("Unable to open image data."))
+            return False
+        canvas = self.current_canvas()
+        if canvas is None or canvas.has_image():
+            canvas = self.new_tab()
+        canvas.set_image(image, dirty=True)
+        self.tabs.setTabText(self.tabs.currentIndex(), title)
+        self._update_window_title()
+        self.status_label.setText(self.tr("Opened image from standard input"))
+        self._update_actions()
+        self._schedule_resize_to_content()
+        return True
+
     def _schedule_resize_to_content(self) -> None:
         if not self._setting_bool("application/auto_resize_to_content", True):
             return

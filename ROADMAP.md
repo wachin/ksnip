@@ -99,6 +99,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Single-instance / IPC local mediante `QLocalServer`: reenvío de argumentos para mostrar, abrir, capturar, guardar y subir
 - [ ] Integración completa con argumentos de línea de comandos del binario C++
 - [x] Integración CLI inicial para abrir imágenes, seleccionar los seis modos de captura, delay temporal, ayuda y versión
+- [x] Apertura CLI de imágenes desde `stdin` usando `-`, incluida transferencia de bytes a la instancia activa por IPC
 - [x] CLI `--save` y `--saveto` para capturar y guardar directamente sin abrir el editor
 - [x] CLI `--cursor` para incluir el puntero en capturas solicitadas por línea de comandos
 - [x] CLI `--upload` para capturar y ejecutar el uploader por script sin abrir el editor; combinable con `--save`

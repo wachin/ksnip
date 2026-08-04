@@ -139,6 +139,7 @@ QT_QPA_PLATFORMTHEME=gtk3 python3 -m ksnip_py
 ```text
 ksnip-pyqt6 [IMAGE]
 ksnip-pyqt6 --edit IMAGE
+cat image.png | ksnip-pyqt6 --edit -
 ksnip-pyqt6 --rectarea
 ksnip-pyqt6 --lastrectarea
 ksnip-pyqt6 --fullscreen
@@ -159,6 +160,7 @@ Use `ksnip-pyqt6 --help` for the current option list. `--upload` uses the script
 Wayland sessions are detected automatically and regular capture actions are redirected through `xdg-desktop-portal`. `Settings > Image Grabber > Force Generic Wayland` applies the same behavior manually, including on X11. Full-screen capture is requested non-interactively; the other capture modes use the portal's interactive chooser.
 
 Single-instance mode is enabled by default and can be changed under `Settings > Application`. Additional invocations forward their command-line arguments to the existing process through a per-user Qt local socket, allowing it to show the editor, open an image, or perform a capture without starting a second GUI instance.
+Images supplied through standard input are forwarded as image bytes when another instance is already running.
 
 The PyQt6 port loads Qt Linguist `.qm` catalogs using the language selected under `Settings > Application > Language`, or the system locale by default. Use `--language LOCALE` (for example, `--language es`) for a temporary command-line override. Portal diagnostics are currently translated into Spanish; untranslated locales safely fall back to English while the remaining UI is migrated to `tr()`.
 

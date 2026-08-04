@@ -42,9 +42,12 @@ def build_argument_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def apply_startup_request(window: MainWindow, arguments: argparse.Namespace) -> bool:
+def apply_startup_request(window: MainWindow, arguments: argparse.Namespace, stdin_image: bytes | None = None) -> bool:
     image_path = arguments.image or arguments.edit
     if image_path:
+        if image_path == "-":
+            image_data = stdin_image if stdin_image is not None else sys.stdin.buffer.read()
+            return window._open_image_data(image_data, "stdin")
         return window._open_image_path(str(Path(image_path).expanduser()))
     if arguments.delay is not None:
         window._capture_delay_override_seconds = arguments.delay
@@ -91,11 +94,13 @@ def main(argv: list[str] | None = None) -> int:
     app.setOrganizationDomain("ksnip.ksnip.org")
     app.setApplicationName("ksnip-pyqt6")
     app.setApplicationVersion("0.1.0")
+    image_argument = arguments.image or arguments.edit
+    stdin_image = sys.stdin.buffer.read() if image_argument == "-" else None
     configured_language = arguments.language or str(QSettings().value("application/language", "")) or None
     load_translation(app, configured_language)
     single_instance_enabled = str(QSettings().value("application/single_instance", "true")).lower() not in {"false", "0", "no"}
     instance_controller = SingleInstanceController(parent=app)
-    if single_instance_enabled and instance_controller.forward_to_running(raw_arguments):
+    if single_instance_enabled and instance_controller.forward_to_running(raw_arguments, stdin_image):
         return 0
     app_icon_path = Path(__file__).resolve().parent / "icons" / "ksnip.svg"
     if app_icon_path.exists():
@@ -103,7 +108,7 @@ def main(argv: list[str] | None = None) -> int:
 
     window = MainWindow()
     if single_instance_enabled:
-        def handle_remote_request(remote_arguments: list[str]) -> None:
+        def handle_remote_request(remote_arguments: list[str], remote_image: bytes | None) -> None:
             if not remote_arguments:
                 window.show_from_tray()
                 return
@@ -111,13 +116,13 @@ def main(argv: list[str] | None = None) -> int:
                 remote = parser.parse_args(remote_arguments)
             except SystemExit:
                 return
-            apply_startup_request(window, remote)
+            apply_startup_request(window, remote, remote_image)
             window._quit_after_capture = False
             if not (remote.save or remote.saveto or remote.upload):
                 window.show_from_tray()
 
         instance_controller.listen(handle_remote_request)
-    if not apply_startup_request(window, arguments):
+    if not apply_startup_request(window, arguments, stdin_image):
         return 1
     if window._quit_after_capture:
         window.hide()
