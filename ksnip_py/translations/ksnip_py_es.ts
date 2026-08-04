@@ -181,5 +181,18 @@
     <message><source>Backend</source><translation>Backend</translation></message>
     <message><source>Script Path</source><translation>Ruta del script</translation></message>
     <message><source>Select OCR script</source><translation>Seleccionar script de OCR</translation></message>
+    <message><source>Snipping Area</source><translation>Área de recorte</translation></message>
+    <message><source>Snipping Area Settings</source><translation>Configuración del área de recorte</translation></message>
+    <message><source>Freeze Image while snipping</source><translation>Congelar la imagen durante el recorte</translation></message>
+    <message><source>Show magnifying glass on snipping area</source><translation>Mostrar una lupa en el área de recorte</translation></message>
+    <message><source>Show Snipping Area rulers</source><translation>Mostrar reglas en el área de recorte</translation></message>
+    <message><source>Show Snipping Area position and size info</source><translation>Mostrar la posición y el tamaño del área de recorte</translation></message>
+    <message><source>Allow resizing rect area selection by default</source><translation>Permitir redimensionar la selección rectangular de forma predeterminada</translation></message>
+    <message><source>Show Snipping Area info text</source><translation>Mostrar texto informativo en el área de recorte</translation></message>
+    <message><source>Appearance</source><translation>Apariencia</translation></message>
+    <message><source>Snipping Area adorner color</source><translation>Color del borde del área de recorte</translation></message>
+    <message><source>Snipping Area cursor color</source><translation>Color del cursor del área de recorte</translation></message>
+    <message><source>Snipping Area cursor thickness</source><translation>Grosor del cursor del área de recorte</translation></message>
+    <message><source>Snipping Area Transparency</source><translation>Transparencia del área de recorte</translation></message>
 </context>
 </TS>
