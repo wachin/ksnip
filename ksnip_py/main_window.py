@@ -1891,7 +1891,12 @@ class MainWindow(QMainWindow):
         return True
 
     def _finish_cli_capture(self) -> None:
-        if self._quit_after_capture:
+        should_quit = self._quit_after_capture
+        self._cli_direct_save = False
+        self._cli_save_path = None
+        self._cli_upload = False
+        self._quit_after_capture = False
+        if should_quit:
             QTimer.singleShot(0, QApplication.quit)
 
     def _handle_capture_failure(self, message: str, *, critical: bool = True) -> None:
@@ -2826,6 +2831,7 @@ class MainWindow(QMainWindow):
             application_capture_on_startup=self._setting_bool("application/capture_on_startup", False),
             application_auto_hide_docks=self._setting_bool("application/auto_hide_docks", False),
             application_auto_resize_to_content=self._setting_bool("application/auto_resize_to_content", True),
+            application_single_instance=self._setting_bool("application/single_instance", True),
             application_resize_delay_ms=self._setting_int("application/resize_delay_ms", 10),
             application_language=str(self._settings.value("application/language", "")),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
@@ -2914,6 +2920,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("application/capture_on_startup", data.application_capture_on_startup)
         self._settings.setValue("application/auto_hide_docks", data.application_auto_hide_docks)
         self._settings.setValue("application/auto_resize_to_content", data.application_auto_resize_to_content)
+        self._settings.setValue("application/single_instance", data.application_single_instance)
         self._settings.setValue("application/resize_delay_ms", data.application_resize_delay_ms)
         self._settings.setValue("application/language", data.application_language)
         if not data.application_remember_position:

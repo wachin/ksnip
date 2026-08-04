@@ -10,6 +10,7 @@ from PyQt6.QtWidgets import QApplication
 
 from .main_window import MainWindow
 from .i18n import load_translation
+from .single_instance import SingleInstanceController
 
 
 def _non_negative_int(value: str) -> int:
@@ -79,8 +80,9 @@ def apply_startup_request(window: MainWindow, arguments: argparse.Namespace) -> 
 
 
 def main(argv: list[str] | None = None) -> int:
+    raw_arguments = sys.argv[1:] if argv is None else argv
     parser = build_argument_parser()
-    arguments = parser.parse_args(sys.argv[1:] if argv is None else argv)
+    arguments = parser.parse_args(raw_arguments)
     if arguments.image and arguments.edit:
         parser.error("use either IMAGE or --edit, not both")
 
@@ -91,11 +93,30 @@ def main(argv: list[str] | None = None) -> int:
     app.setApplicationVersion("0.1.0")
     configured_language = arguments.language or str(QSettings().value("application/language", "")) or None
     load_translation(app, configured_language)
+    single_instance_enabled = str(QSettings().value("application/single_instance", "true")).lower() not in {"false", "0", "no"}
+    instance_controller = SingleInstanceController(parent=app)
+    if single_instance_enabled and instance_controller.forward_to_running(raw_arguments):
+        return 0
     app_icon_path = Path(__file__).resolve().parent / "icons" / "ksnip.svg"
     if app_icon_path.exists():
         app.setWindowIcon(QIcon(str(app_icon_path)))
 
     window = MainWindow()
+    if single_instance_enabled:
+        def handle_remote_request(remote_arguments: list[str]) -> None:
+            if not remote_arguments:
+                window.show_from_tray()
+                return
+            try:
+                remote = parser.parse_args(remote_arguments)
+            except SystemExit:
+                return
+            apply_startup_request(window, remote)
+            window._quit_after_capture = False
+            if not (remote.save or remote.saveto or remote.upload):
+                window.show_from_tray()
+
+        instance_controller.listen(handle_remote_request)
     if not apply_startup_request(window, arguments):
         return 1
     if window._quit_after_capture:

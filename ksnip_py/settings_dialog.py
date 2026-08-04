@@ -61,6 +61,7 @@ class SettingsData:
     application_capture_on_startup: bool
     application_auto_hide_docks: bool
     application_auto_resize_to_content: bool
+    application_single_instance: bool
     application_resize_delay_ms: int
     application_language: str
     saver_prompt_discard: bool
@@ -217,7 +218,6 @@ class SettingsDialog(QDialog):
         application_layout.addWidget(self.auto_hide_tabs)
 
         self.run_single_instance = QCheckBox(self.tr("Run ksnip as single instance"), application_group)
-        self.run_single_instance.setEnabled(False)
         application_layout.addWidget(self.run_single_instance)
 
         self.auto_hide_docks = QCheckBox(self.tr("Auto hide Docks"), application_group)
@@ -895,6 +895,7 @@ class SettingsDialog(QDialog):
         self.capture_on_startup.setChecked(initial.application_capture_on_startup)
         self.auto_hide_docks.setChecked(initial.application_auto_hide_docks)
         self.auto_resize_to_content.setChecked(initial.application_auto_resize_to_content)
+        self.run_single_instance.setChecked(initial.application_single_instance)
         self.resize_delay.setValue(initial.application_resize_delay_ms)
         language_index = self.application_language.findData(initial.application_language)
         if language_index >= 0:
@@ -1066,6 +1067,7 @@ class SettingsDialog(QDialog):
             application_capture_on_startup=self.capture_on_startup.isChecked(),
             application_auto_hide_docks=self.auto_hide_docks.isChecked(),
             application_auto_resize_to_content=self.auto_resize_to_content.isChecked(),
+            application_single_instance=self.run_single_instance.isChecked(),
             application_resize_delay_ms=self.resize_delay.value(),
             application_language=str(self.application_language.currentData()),
             saver_prompt_discard=self.saver_prompt_discard.isChecked(),
