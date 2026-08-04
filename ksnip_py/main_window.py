@@ -54,6 +54,7 @@ from .ocr_result_dialog import OcrResultDialog
 from .pin_window import PinWindow
 from .settings_dialog import SettingsData, SettingsDialog
 from .spellcheck import load_spellcheck_scheme, save_spellcheck_scheme
+from .sticker_picker import StickerPickerDialog
 from .uploader import ScriptUploader
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
 
@@ -406,14 +407,14 @@ class MainWindow(QMainWindow):
         next_index = (self.fill_mode.currentIndex() + 1) % self.fill_mode.count()
         self.fill_mode.setCurrentIndex(next_index)
 
-    def _populate_sticker_menu(self) -> None:
-        self._sticker_menu.clear()
-        for sticker_path in self._default_sticker_paths():
-            label = Path(sticker_path).stem.removeprefix("tutorial_").replace("_", " ")
-            action = QAction(QIcon(sticker_path), label, self._sticker_menu)
-            action.triggered.connect(lambda checked=False, path=sticker_path: self._select_sticker(path))
-            self._sticker_menu.addAction(action)
-        self._sync_sticker_button()
+    def _open_sticker_picker(self) -> None:
+        canvas = self.current_canvas()
+        current_path = None
+        if canvas is not None:
+            current_path = canvas.selected_item_sticker_path() or canvas.sticker_path()
+        dialog = StickerPickerDialog(self, settings=self._settings, current_path=current_path)
+        if dialog.exec() == QDialog.DialogCode.Accepted and dialog.selected_path():
+            self._select_sticker(dialog.selected_path())
 
     def _sync_sticker_button(self) -> None:
         canvas = self.current_canvas()
@@ -972,11 +973,9 @@ class MainWindow(QMainWindow):
 
         self.sticker_picker_button = QToolButton(self)
         self.sticker_picker_button.setIcon(self._load_icon("sticker"))
-        self.sticker_picker_button.setToolTip("Sticker")
+        self.sticker_picker_button.setToolTip(self.tr("Select Sticker"))
         self.sticker_picker_button.setFixedSize(22, 22)
-        self.sticker_picker_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
-        self._sticker_menu = QMenu(self.sticker_picker_button)
-        self.sticker_picker_button.setMenu(self._sticker_menu)
+        self.sticker_picker_button.clicked.connect(self._open_sticker_picker)
         self.property_sticker_group = self._make_property_group(self._make_icon_label("sticker", "Sticker"), self.sticker_picker_button)
 
         self.shadow_state_button = QToolButton(self)
@@ -1035,7 +1034,6 @@ class MainWindow(QMainWindow):
             "scaling": self.property_scaling_group,
             "opacity": self.property_opacity_group,
         }
-        self._populate_sticker_menu()
         self._sync_property_color_buttons()
         self._sync_fill_mode_button()
         self._sync_auxiliary_property_controls()

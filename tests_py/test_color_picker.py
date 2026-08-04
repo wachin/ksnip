@@ -1,16 +1,18 @@
 import os
 from pathlib import Path
+import tempfile
 import unittest
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import QSettings, Qt
 from PyQt6.QtGui import QColor, QIcon, QImage
 from PyQt6.QtWidgets import QApplication
 
 from ksnip_py.canvas import Tool
 from ksnip_py.color_picker import ColorPaletteMenu
 from ksnip_py.main_window import MainWindow
+from ksnip_py.sticker_picker import StickerCollection, StickerPickerDialog, discover_stickers, sticker_collections
 
 
 APP = QApplication.instance() or QApplication([])
@@ -51,7 +53,6 @@ class MainWindowColorPickerTest(unittest.TestCase):
         self.assertIn("smiling_face_with_sunglasses.svg", {path.name for path in paths})
         self.assertIn("tutorial_attention.svg", {path.name for path in paths})
         self.assertIn("tutorial_terminal.svg", {path.name for path in paths})
-        self.assertTrue(any(action.text() == "attention" for action in window._sticker_menu.actions()))
 
     def test_palette_applies_and_synchronizes_stroke_color(self) -> None:
         window = MainWindow()
@@ -87,6 +88,42 @@ class MainWindowColorPickerTest(unittest.TestCase):
         self.assertEqual(window.zoom_spinbox.value(), 110)
         window.zoom_reset_action.trigger()
         self.assertEqual(canvas.zoom_percent(), 100)
+
+
+class StickerPickerTest(unittest.TestCase):
+    def test_expected_theme_directories_are_exposed(self) -> None:
+        collections = sticker_collections()
+        self.assertEqual([collection.name for collection in collections], ["Original", "Papirus", "GNOME", "Numix"])
+        self.assertEqual(collections[1].directory, Path("/usr/share/icons/Papirus/48x48/emotes"))
+        self.assertEqual(collections[2].directory, Path("/usr/share/icons/gnome/48x48/emotes"))
+        self.assertEqual(collections[3].directory, Path("/usr/share/icons/Numix/48/emotes"))
+        for collection in collections[1:]:
+            if collection.directory.is_dir():
+                self.assertTrue(all(not path.is_symlink() for path in discover_stickers(collection.directory)))
+
+    def test_discovery_excludes_symbolic_links_and_unsupported_files(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            real = root / "real.svg"
+            real.write_text('<svg xmlns="http://www.w3.org/2000/svg"/>', encoding="utf-8")
+            (root / "duplicate.svg").symlink_to(real.name)
+            (root / "notes.txt").write_text("not a sticker", encoding="utf-8")
+            self.assertEqual(discover_stickers(root), [real])
+
+    def test_favorites_are_persistent_and_visible_independently_of_tabs(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            sticker = root / "favorite.svg"
+            sticker.write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>', encoding="utf-8")
+            settings = QSettings(str(root / "settings.ini"), QSettings.Format.IniFormat)
+            collections = (StickerCollection("Test", root),)
+            dialog = StickerPickerDialog(settings=settings, collections=collections)
+            dialog._toggle_favorite(str(sticker), True)
+            restored = StickerPickerDialog(settings=settings, collections=collections)
+            self.assertEqual(restored.favorite_paths(), [str(sticker)])
+            self.assertGreater(restored._favorites_layout.count(), 0)
+            restored._toggle_favorite(str(sticker), False)
+            self.assertEqual(StickerPickerDialog(settings=settings, collections=collections).favorite_paths(), [])
 
 
 if __name__ == "__main__":

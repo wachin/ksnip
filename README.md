@@ -75,6 +75,9 @@ sudo apt install \
   hunspell-es \
   libxcb-cursor0 \
   libxfixes3 \
+  gnome-icon-theme \
+  numix-icon-theme \
+  papirus-icon-theme \
   xdg-desktop-portal \
   xdg-desktop-portal-gtk \
   x11-utils \
@@ -99,6 +102,8 @@ Portal dependencies:
 The `xdg-desktop-portal-dev` package is not a runtime dependency. It contains development files used to build portal backend implementations; this PyQt6 port is a portal client over D-Bus and does not need it.
 
 Hunspell dictionaries are optional but recommended. Install the dictionary packages appropriate for your language if they differ from the English and Spanish examples above.
+
+Sticker themes are provided by `papirus-icon-theme`, `gnome-icon-theme`, and `numix-icon-theme`. The sticker selector separates the bundled, Papirus, GNOME, and Numix collections into tabs, ignores symbolic-link duplicates, and preserves pinned favorites across theme changes and application restarts.
 
 ## Run from system packages
 
