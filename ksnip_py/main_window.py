@@ -1222,6 +1222,23 @@ class MainWindow(QMainWindow):
         bottom_tools_layout.addWidget(self.bottom_effect_button)
         self.statusBar().addPermanentWidget(bottom_tools)
 
+        self.controls_toolbar = QToolBar(self.tr("Controls"), self)
+        self.controls_toolbar.setObjectName("annotationControlsToolbar")
+        self.controls_toolbar.setMovable(False)
+        self._configure_toolbar(self.controls_toolbar, icon_size=20, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
+        for action in (
+            self.undo_action,
+            self.redo_action,
+            self.crop_action,
+            self.scale_action,
+            self.rotate_action,
+            self.modify_canvas_action,
+            self.cut_action,
+        ):
+            self.controls_toolbar.addAction(action)
+        self.addToolBar(Qt.ToolBarArea.BottomToolBarArea, self.controls_toolbar)
+        self.controls_toolbar.setVisible(self._setting_bool("editor/show_controls_widget", False))
+
         self.bold = self.bold_button
         self.italic = self.italic_button
         self.select_action.setChecked(True)
@@ -3243,6 +3260,7 @@ class MainWindow(QMainWindow):
             switch_to_select_after_drawing=self._setting_bool("editor/switch_to_select_after_drawing", False),
             select_item_after_drawing=self._setting_bool("editor/select_item_after_drawing", True),
             remember_annotation_tool=self._setting_bool("editor/remember_tool", False),
+            show_controls_widget=self._setting_bool("editor/show_controls_widget", False),
             rotate_watermark=self.rotate_watermark_action.isChecked(),
             capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
             capture_implicit_delay_ms=self._setting_int("capture/implicit_delay_ms", 200),
@@ -3336,6 +3354,8 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/switch_to_select_after_drawing", data.switch_to_select_after_drawing)
         self._settings.setValue("editor/select_item_after_drawing", data.select_item_after_drawing)
         self._settings.setValue("editor/remember_tool", data.remember_annotation_tool)
+        self._settings.setValue("editor/show_controls_widget", data.show_controls_widget)
+        self.controls_toolbar.setVisible(data.show_controls_widget)
         self._settings.setValue("watermark/rotate", data.rotate_watermark)
         self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
         self._settings.setValue("capture/implicit_delay_ms", data.capture_implicit_delay_ms)

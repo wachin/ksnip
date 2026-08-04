@@ -49,6 +49,18 @@ class ColorPaletteMenuTest(unittest.TestCase):
 
 
 class MainWindowColorPickerTest(unittest.TestCase):
+    def test_controls_widget_exposes_the_cpp_actions_in_a_hidden_bottom_toolbar(self) -> None:
+        window = MainWindow()
+        self.assertEqual(
+            window.controls_toolbar.actions(),
+            [
+                window.undo_action, window.redo_action, window.crop_action,
+                window.scale_action, window.rotate_action,
+                window.modify_canvas_action, window.cut_action,
+            ],
+        )
+        self.assertEqual(window.toolBarArea(window.controls_toolbar), Qt.ToolBarArea.BottomToolBarArea)
+
     def test_annotation_tool_is_restored_only_when_remembering_is_enabled(self) -> None:
         window = MainWindow()
         settings = window._settings

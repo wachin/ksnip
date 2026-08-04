@@ -52,6 +52,7 @@ class SettingsData:
     switch_to_select_after_drawing: bool
     select_item_after_drawing: bool
     remember_annotation_tool: bool
+    show_controls_widget: bool
     rotate_watermark: bool
     capture_delay_seconds: int
     capture_implicit_delay_ms: int
@@ -393,7 +394,6 @@ class SettingsDialog(QDialog):
         self.switch_to_select_tool.toggled.connect(self.select_item_after_drawing.setEnabled)
         self.number_tool_seed_updates = QCheckBox(self.tr("Number Tool Seed change updates all Number Items"), annotator_group)
         self.show_controls_widget = QCheckBox(self.tr("Show Controls Widget"), annotator_group)
-        self.show_controls_widget.setEnabled(False)
         self.smooth_painter_paths = QCheckBox(self.tr("Smooth Painter Paths"), annotator_group)
         self.smooth_painter_paths.setEnabled(False)
         for widget in (
@@ -889,6 +889,7 @@ class SettingsDialog(QDialog):
         self.select_item_after_drawing.setChecked(initial.select_item_after_drawing)
         self.select_item_after_drawing.setEnabled(initial.switch_to_select_after_drawing)
         self.remember_annotation_tool.setChecked(initial.remember_annotation_tool)
+        self.show_controls_widget.setChecked(initial.show_controls_widget)
         self.rotate_watermark.setChecked(initial.rotate_watermark)
         self.capture_delay_seconds.setValue(initial.capture_delay_seconds)
         self.implicit_capture_delay.setValue(initial.capture_implicit_delay_ms)
@@ -1065,6 +1066,7 @@ class SettingsDialog(QDialog):
             switch_to_select_after_drawing=self.switch_to_select_tool.isChecked(),
             select_item_after_drawing=self.select_item_after_drawing.isChecked(),
             remember_annotation_tool=self.remember_annotation_tool.isChecked(),
+            show_controls_widget=self.show_controls_widget.isChecked(),
             rotate_watermark=self.rotate_watermark.isChecked(),
             capture_delay_seconds=self.capture_delay_seconds.value(),
             capture_implicit_delay_ms=self.implicit_capture_delay.value(),
