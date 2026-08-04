@@ -82,6 +82,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Traducción inicial de `Settings > Application` e `Image Grabber`, incluidos controles de portal, captura y apariencia
 - [x] Traducción de `Settings > Saver`, incluida calidad, plantilla de ruta, autoguardado y sobrescritura
 - [x] Traducción de `Settings > Tray Icon`, menú real de bandeja, acciones predeterminadas y notificaciones
+- [x] Traducción de `Settings > HotKeys`, nombres de acciones y botones para limpiar atajos
 - [ ] Migrar todos los textos de la interfaz PyQt6 a `tr()` y completar los catálogos de los idiomas soportados
 - [x] Restauración de geometría de ventana
 - [x] Pestañas para múltiples capturas/imágenes

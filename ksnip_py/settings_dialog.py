@@ -444,30 +444,30 @@ class SettingsDialog(QDialog):
         self.tray_default_capture_mode.addItem(self.tr("Window Under Cursor"), "under_cursor")
         tray_defaults_layout.addRow(self.tr("Capture Mode"), self.tray_default_capture_mode)
         self.tray_default_action.currentIndexChanged.connect(self._sync_tray_default_controls)
-        shortcuts_group = QGroupBox("Global HotKeys", self)
+        shortcuts_group = QGroupBox(self.tr("Global HotKeys"), self)
         shortcuts_layout = QFormLayout(shortcuts_group)
-        self.enable_global_hotkeys = QCheckBox("Enable Global HotKeys", shortcuts_group)
+        self.enable_global_hotkeys = QCheckBox(self.tr("Enable Global HotKeys"), shortcuts_group)
         shortcuts_layout.addRow(self.enable_global_hotkeys)
         self.shortcut_edits: dict[str, QKeySequenceEdit] = {}
         self.shortcut_clear_buttons: list[QPushButton] = []
         for key, label in (
-            ("capture_rect", "Rect Area Capture"),
-            ("capture_last_rect", "Last Rect Area Capture"),
-            ("capture_full", "Full Screen Capture"),
-            ("capture_current", "Current Screen Capture"),
-            ("capture_active", "Active Window Capture"),
-            ("capture_under_cursor", "Window Under Cursor Capture"),
-            ("open", "Open Image"),
-            ("save", "Save"),
-            ("paste", "Paste Image"),
-            ("pin", "Pin Image"),
-            ("watermark", "Add Watermark"),
-            ("upload", "Upload Image"),
-            ("ocr", "OCR Text Recognition"),
+            ("capture_rect", self.tr("Rect Area Capture")),
+            ("capture_last_rect", self.tr("Last Rect Area Capture")),
+            ("capture_full", self.tr("Full Screen Capture")),
+            ("capture_current", self.tr("Current Screen Capture")),
+            ("capture_active", self.tr("Active Window Capture")),
+            ("capture_under_cursor", self.tr("Window Under Cursor Capture")),
+            ("open", self.tr("Open Image")),
+            ("save", self.tr("Save")),
+            ("paste", self.tr("Paste Image")),
+            ("pin", self.tr("Pin Image")),
+            ("watermark", self.tr("Add Watermark")),
+            ("upload", self.tr("Upload Image")),
+            ("ocr", self.tr("OCR Text Recognition")),
         ):
             editor = QKeySequenceEdit(shortcuts_group)
             self.shortcut_edits[key] = editor
-            clear_button = QPushButton("Clear", shortcuts_group)
+            clear_button = QPushButton(self.tr("Clear"), shortcuts_group)
             clear_button.clicked.connect(lambda _checked=False, target=editor: target.clear())
             self.shortcut_clear_buttons.append(clear_button)
             row_layout = QHBoxLayout()

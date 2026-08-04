@@ -145,5 +145,22 @@
     <message><source>Active Window</source><translation>Ventana activa</translation></message>
     <message><source>Window Under Cursor</source><translation>Ventana bajo el cursor</translation></message>
     <message><source>Capture Mode</source><translation>Modo de captura</translation></message>
+    <message><source>HotKeys</source><translation>Atajos</translation></message>
+    <message><source>Global HotKeys</source><translation>Atajos globales</translation></message>
+    <message><source>Enable Global HotKeys</source><translation>Activar atajos globales</translation></message>
+    <message><source>Rect Area Capture</source><translation>Captura de área rectangular</translation></message>
+    <message><source>Last Rect Area Capture</source><translation>Captura de la última área rectangular</translation></message>
+    <message><source>Full Screen Capture</source><translation>Captura de pantalla completa</translation></message>
+    <message><source>Current Screen Capture</source><translation>Captura de la pantalla actual</translation></message>
+    <message><source>Active Window Capture</source><translation>Captura de la ventana activa</translation></message>
+    <message><source>Window Under Cursor Capture</source><translation>Captura de la ventana bajo el cursor</translation></message>
+    <message><source>Open Image</source><translation>Abrir imagen</translation></message>
+    <message><source>Save</source><translation>Guardar</translation></message>
+    <message><source>Paste Image</source><translation>Pegar imagen</translation></message>
+    <message><source>Pin Image</source><translation>Fijar imagen</translation></message>
+    <message><source>Add Watermark</source><translation>Añadir marca de agua</translation></message>
+    <message><source>Upload Image</source><translation>Subir imagen</translation></message>
+    <message><source>OCR Text Recognition</source><translation>Reconocimiento de texto OCR</translation></message>
+    <message><source>Clear</source><translation>Limpiar</translation></message>
 </context>
 </TS>
