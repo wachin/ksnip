@@ -513,6 +513,14 @@ class OverlayItem:
         offset_x = 12 if self.end.x() >= self.start.x() else -(width + 12)
         return QRect(self.start.x() + offset_x, self.start.y() - height // 2, width, height)
 
+    def number_badge_diameter(self) -> int:
+        font = QFont(self.font_family or QApplication.font().family(), self.font_point_size or 20)
+        font.setBold(self.bold)
+        font.setItalic(self.italic)
+        font.setUnderline(self.underline)
+        text_rect = QFontMetrics(font).boundingRect(self.text or " ").adjusted(-5, -5, 5, 5)
+        return max(16, text_rect.width(), text_rect.height())
+
     def bounds(self) -> QRect:
         if self.kind in (Tool.PEN, Tool.MARKER_PEN) and self.points:
             left = min(point.x() for point in self.points)
@@ -539,8 +547,12 @@ class OverlayItem:
             return QRect(self.start.x(), self.start.y(), width, height)
         if self.kind == Tool.TEXT_ARROW:
             return QRect(self.start, self.end).normalized().united(self.text_arrow_label_rect()).adjusted(-6, -6, 6, 6)
+        if self.kind == Tool.NUMBER_POINTER:
+            diameter = self.number_badge_diameter()
+            bubble = QRect(self.start, QSize(diameter, diameter))
+            return bubble.united(QRect(bubble.center(), self.end).normalized()).adjusted(-6, -6, 6, 6)
         if self.kind == Tool.NUMBER_ARROW:
-            radius = max(14, self.font_point_size or 14)
+            radius = (self.number_badge_diameter() + 1) // 2
             bubble = QRect(self.start.x() - radius, self.start.y() - radius, radius * 2, radius * 2)
             return QRect(self.start, self.end).normalized().united(bubble).adjusted(-6, -6, 6, 6)
         if self.kind in (Tool.DUPLICATE, Tool.IMAGE, Tool.STICKER) and self.image is not None:
@@ -1623,7 +1635,7 @@ class AnnotationCanvas(QLabel):
                 ):
                     return index
             elif item.kind == Tool.NUMBER_ARROW:
-                radius = max(14, item.font_point_size or self._font_point_size)
+                radius = (item.number_badge_diameter() + 1) // 2
                 bubble_rect = QRect(
                     item.start.x() - radius,
                     item.start.y() - radius,
@@ -2382,9 +2394,7 @@ class AnnotationCanvas(QLabel):
             return
         rect = QRect(item.start, item.end).normalized()
         center = rect.center()
-        metrics = QFontMetrics(self._text_font(item))
-        text_rect = metrics.boundingRect(item.text or " ").adjusted(-5, -5, 5, 5)
-        diameter = max(16, text_rect.width(), text_rect.height())
+        diameter = item.number_badge_diameter()
         item.start = QPoint(center.x() - diameter // 2, center.y() - diameter // 2)
         item.end = QPoint(item.start.x() + diameter, item.start.y() + diameter)
 
@@ -2913,11 +2923,10 @@ class AnnotationCanvas(QLabel):
         painter.drawText(rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
 
     def _draw_number_pointer(self, painter: QPainter, item: OverlayItem) -> None:
-        rect = QRect(item.start, item.end).normalized()
-        diameter = min(rect.width(), rect.height())
-        bubble_rect = QRect(rect.left(), rect.top(), diameter, diameter)
+        diameter = item.number_badge_diameter()
+        bubble_rect = QRect(item.start, QSize(diameter, diameter))
         center = bubble_rect.center()
-        tail_tip = rect.bottomRight()
+        tail_tip = item.end
         tail_base = self._circle_edge_point(center, diameter // 2 - 2, tail_tip)
         tail_left = QPoint(tail_base.x() - 5, tail_base.y() + 7)
         tail_right = QPoint(tail_base.x() + 7, tail_base.y() - 5)
@@ -2935,7 +2944,7 @@ class AnnotationCanvas(QLabel):
         painter.drawText(bubble_rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
 
     def _draw_number_arrow(self, painter: QPainter, item: OverlayItem) -> None:
-        bubble_radius = max(14, item.font_point_size or self._font_point_size)
+        bubble_radius = (item.number_badge_diameter() + 1) // 2
         bubble_rect = QRect(item.start.x() - bubble_radius, item.start.y() - bubble_radius, bubble_radius * 2, bubble_radius * 2)
         bubble_center = bubble_rect.center()
         arrow_start = self._circle_edge_point(bubble_center, bubble_radius - 2, item.end)

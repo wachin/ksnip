@@ -170,6 +170,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] `Text Pointer` y `Text Arrow` se pueden reeditar desde doble clic, menú contextual y acción `Edit text`, conservando undo y evitando cambios vacíos o cancelados
 - [x] `Text Pointer` usa el color principal de la herramienta para borde, relleno y puntero, en vez del blanco semitransparente hardcodeado; el color del texto continúa siendo independiente
 - [x] El círculo de `Number` se recalcula con `QFontMetrics` al cambiar familia, tamaño, negrita, cursiva o subrayado, conservando su centro y siendo reversible con undo como `NumberRectHelper` del C++
+- [x] `Number Pointer` y `Number Arrow` comparten el diámetro calculado por métricas tipográficas en pintura, hit-testing y bounds; la punta permanece fija al crecer el número
 - [x] `Fill Mode` persistente por herramienta con valores iniciales de `Config::defaultToolFillMode` y descarte seguro de modos incompatibles guardados por versiones anteriores
 - [x] Marker Pen, Marker Rectangle y Marker Ellipse renderizados con composición `Multiply`, igual que los elementos marcador del C++
 - [x] Marker Rectangle y Marker Ellipse alineados con `NoBorderAndFill`: relleno completo, sin borde, sombra, ancho ni opacidad configurables

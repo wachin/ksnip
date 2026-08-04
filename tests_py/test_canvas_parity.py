@@ -214,6 +214,26 @@ class NumberFontParityTest(unittest.TestCase):
         restored_rect = QRect(canvas._items[0].start, canvas._items[0].end).normalized()
         self.assertEqual(restored_rect, original_rect)
 
+    def test_number_pointer_and_arrow_bounds_follow_the_font_metrics(self) -> None:
+        pointer = OverlayItem(
+            kind=Tool.NUMBER_POINTER, start=QPoint(20, 20), end=QPoint(50, 30),
+            color=QColor("red"), pen_width=1, text="88", font_point_size=12,
+        )
+        arrow = OverlayItem(
+            kind=Tool.NUMBER_ARROW, start=QPoint(70, 70), end=QPoint(180, 70),
+            color=QColor("red"), pen_width=2, text="88", font_point_size=12,
+        )
+        small_pointer_width = pointer.bounds().width()
+        small_arrow_height = arrow.bounds().height()
+        pointer.font_point_size = 36
+        arrow.font_point_size = 36
+
+        self.assertGreater(pointer.number_badge_diameter(), 40)
+        self.assertGreater(pointer.bounds().width(), small_pointer_width)
+        self.assertGreater(arrow.bounds().height(), small_arrow_height)
+        self.assertTrue(pointer.bounds().contains(pointer.start))
+        self.assertTrue(arrow.bounds().contains(arrow.start))
+
     def test_number_tools_use_the_configured_font_styles(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_bold(False)
