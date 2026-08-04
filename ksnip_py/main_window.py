@@ -688,6 +688,11 @@ class MainWindow(QMainWindow):
         self.crop_action.triggered.connect(lambda: self.set_tool(Tool.CROP))
         self.tool_action_group.addAction(self.crop_action)
 
+        self.cut_action = QAction(self._load_icon("cut"), self.tr("Cut"), self)
+        self.cut_action.setCheckable(True)
+        self.cut_action.triggered.connect(lambda: self.set_tool(Tool.CUT))
+        self.tool_action_group.addAction(self.cut_action)
+
         self.select_action = QAction(self._load_icon("select"), self.tr("Select"), self)
         self.select_action.setCheckable(True)
         self.select_action.triggered.connect(lambda: self.set_tool(Tool.SELECT))
@@ -821,6 +826,7 @@ class MainWindow(QMainWindow):
         toolbar.addAction(self.undo_action)
         toolbar.addAction(self.redo_action)
         toolbar.addAction(self.crop_action)
+        toolbar.addAction(self.cut_action)
         toolbar.addSeparator()
         toolbar.addWidget(self._make_icon_label("clock", "Capture delay"))
 
@@ -1167,6 +1173,7 @@ class MainWindow(QMainWindow):
         edit_menu.addAction(self.paste_embedded_action)
         edit_menu.addSeparator()
         edit_menu.addAction(self.crop_action)
+        edit_menu.addAction(self.cut_action)
         edit_menu.addAction(self.scale_action)
         edit_menu.addAction(self.rotate_action)
         edit_menu.addAction(self.add_watermark_action)
@@ -1393,6 +1400,7 @@ class MainWindow(QMainWindow):
         self.pixelate_action.setChecked(tool == Tool.PIXELATE)
         self.sticker_action.setChecked(tool == Tool.STICKER)
         self.crop_action.setChecked(tool == Tool.CROP)
+        self.cut_action.setChecked(tool == Tool.CUT)
         self._settings.setValue("editor/tool", tool.value)
         self._sync_item_controls()
         self._update_property_toolbar_for_tool()
@@ -2908,6 +2916,7 @@ class MainWindow(QMainWindow):
             (Tool.PIXELATE, self.pixelate_action),
             (Tool.STICKER, self.sticker_action),
             (Tool.CROP, self.crop_action),
+            (Tool.CUT, self.cut_action),
         ):
             if action.isChecked():
                 return tool

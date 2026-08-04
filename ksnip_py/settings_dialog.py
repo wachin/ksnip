@@ -149,6 +149,7 @@ class SettingsDialog(QDialog):
         self.tool_combo.addItem(self.tr("Pixelate"), Tool.PIXELATE)
         self.tool_combo.addItem(self.tr("Sticker"), Tool.STICKER)
         self.tool_combo.addItem(self.tr("Crop"), Tool.CROP)
+        self.tool_combo.addItem(self.tr("Cut"), Tool.CUT)
         editor_layout.addRow(self.tr("Default Tool"), self.tool_combo)
 
         self.pen_width = QSpinBox(editor_group)

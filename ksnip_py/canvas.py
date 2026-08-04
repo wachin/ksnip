@@ -111,6 +111,7 @@ class Tool(str, Enum):
     BLUR = "blur"
     PIXELATE = "pixelate"
     CROP = "crop"
+    CUT = "cut"
 
 
 class FillMode(str, Enum):
@@ -831,6 +832,7 @@ class AnnotationCanvas(QLabel):
             Tool.BLUR,
             Tool.PIXELATE,
             Tool.CROP,
+            Tool.CUT,
         ):
             self._push_undo_state()
         self._preview_start = image_point
@@ -921,6 +923,7 @@ class AnnotationCanvas(QLabel):
             Tool.BLUR,
             Tool.PIXELATE,
             Tool.CROP,
+            Tool.CUT,
         ) and self._preview_end is not None:
             rect = QRect(self._preview_start, self._preview_end).normalized()
             item = self._build_drag_item(self._tool, QPoint(self._preview_start), QPoint(self._preview_end), rect)
@@ -932,10 +935,12 @@ class AnnotationCanvas(QLabel):
             elif self._tool == Tool.CROP:
                 self._image = self._image.copy(rect)
                 self._clear_selection()
+            elif self._tool == Tool.CUT:
+                self._cut_slice(rect)
             elif self._tool in (Tool.BLUR, Tool.PIXELATE):
                 self._apply_region_effect(rect, self._tool)
                 self._clear_selection()
-            if item is not None or self._tool in (Tool.CROP, Tool.BLUR, Tool.PIXELATE):
+            if item is not None or self._tool in (Tool.CROP, Tool.CUT, Tool.BLUR, Tool.PIXELATE):
                 self._mark_dirty()
 
         self._preview_start = None
@@ -1006,6 +1011,7 @@ class AnnotationCanvas(QLabel):
             Tool.BLUR,
             Tool.PIXELATE,
             Tool.CROP,
+            Tool.CUT,
         ) and self._preview_start is not None and self._preview_end is not None:
             pen = QPen(self._color, max(1, self._pen_width))
             painter.setPen(pen)
@@ -1017,11 +1023,11 @@ class AnnotationCanvas(QLabel):
                 self._draw_arrow(painter, start_point, end_point)
             elif self._tool == Tool.DOUBLE_ARROW:
                 self._draw_double_arrow(painter, start_point, end_point)
-            elif self._tool in (Tool.RECT, Tool.CROP, Tool.BLUR, Tool.PIXELATE, Tool.TEXT, Tool.TEXT_POINTER, Tool.NUMBER_POINTER, Tool.MARKER_RECT):
+            elif self._tool in (Tool.RECT, Tool.CROP, Tool.CUT, Tool.BLUR, Tool.PIXELATE, Tool.TEXT, Tool.TEXT_POINTER, Tool.NUMBER_POINTER, Tool.MARKER_RECT):
                 painter.drawRect(rect)
             elif self._tool in (Tool.ELLIPSE, Tool.MARKER_ELLIPSE):
                 painter.drawEllipse(rect)
-            if self._tool in (Tool.BLUR, Tool.PIXELATE, Tool.CROP):
+            if self._tool in (Tool.BLUR, Tool.PIXELATE, Tool.CROP, Tool.CUT):
                 painter.fillRect(rect, QColor(255, 255, 255, 40))
         painter.end()
 
@@ -1037,6 +1043,44 @@ class AnnotationCanvas(QLabel):
         start = QPoint(int(self._preview_start.x() * sx), int(self._preview_start.y() * sy))
         end = QPoint(int(self._preview_end.x() * sx), int(self._preview_end.y() * sy))
         return start, end
+
+    def _cut_slice(self, rect: QRect) -> None:
+        """Remove the selected vertical or horizontal slice and join both sides."""
+        bounds = self._image.rect()
+        cut = rect.normalized().intersected(bounds)
+        if cut.width() <= 0 or cut.height() <= 0:
+            return
+
+        source = self._compose_image()
+        vertical = cut.height() >= cut.width()
+        if vertical:
+            if cut.width() >= source.width():
+                return
+            result = QImage(source.width() - cut.width(), source.height(), source.format())
+            painter = QPainter(result)
+            left_width = cut.left()
+            if left_width > 0:
+                painter.drawImage(QPoint(0, 0), source, QRect(0, 0, left_width, source.height()))
+            right_x = cut.right() + 1
+            right_width = source.width() - right_x
+            if right_width > 0:
+                painter.drawImage(QPoint(left_width, 0), source, QRect(right_x, 0, right_width, source.height()))
+        else:
+            if cut.height() >= source.height():
+                return
+            result = QImage(source.width(), source.height() - cut.height(), source.format())
+            painter = QPainter(result)
+            top_height = cut.top()
+            if top_height > 0:
+                painter.drawImage(QPoint(0, 0), source, QRect(0, 0, source.width(), top_height))
+            bottom_y = cut.bottom() + 1
+            bottom_height = source.height() - bottom_y
+            if bottom_height > 0:
+                painter.drawImage(QPoint(0, top_height), source, QRect(0, bottom_y, source.width(), bottom_height))
+        painter.end()
+        self._image = result
+        self._items = []
+        self._clear_selection()
 
     def _image_rect_in_widget(self) -> QRect | None:
         if self._image.isNull() or self.width() <= 0 or self.height() <= 0:

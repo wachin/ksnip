@@ -161,6 +161,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Herramienta blur
 - [x] Herramienta pixelate
 - [x] Herramienta crop
+- [x] Herramienta cut para eliminar y unir franjas verticales u horizontales, con undo/redo
 - [x] Editor multilinea para `Text` con re-edición por doble clic
 - [x] `Text` ahora define su caja arrastrando un rectángulo antes de insertar el contenido, más cercano al flujo original de Ksnip
 - [x] `Text` entra en edición inline sobre la captura al soltar el rectángulo, sin diálogo aparte
@@ -290,7 +291,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Icono principal de aplicación disponible dentro de `ksnip_py/`
 - [x] Asignar iconos de ksnip a acciones principales visibles
 - [ ] Asignar iconos de ksnip a todas las acciones visibles relevantes
-- [x] Toolbar principal simplificada y acercada al patrón visual de Ksnip (`New`, `Save`, `Copy`, `Undo`, `Redo`, `Crop`, `Delay`)
+- [x] Toolbar principal simplificada y acercada al patrón visual de Ksnip (`New`, `Save`, `Copy`, `Undo`, `Redo`, `Crop`, `Cut`, `Delay`)
 - [x] Botón desplegable `New` muestra icono y texto como en la barra principal original
 - [ ] Toolbar principal igual al original
 - [x] Menú principal reestructurado según el C++ a `File / Edit / View / Options / Help`, sin duplicar `Settings`
