@@ -177,6 +177,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Duplicar o pegar `Number`, `Number Pointer` y `Number Arrow` asigna valores nuevos y consecutivos mediante el contador local, igual que el registro de clones en `NumberManager` con `UpdateOnlyNewNumbers`
 - [x] Activada la opción `Number Tool Seed change updates all Number Items` en `Settings > Annotator`, con persistencia y modos equivalentes a `UpdateOnlyNewNumbers`/`UpdateAllNumbers`, incluida renumeración tras borrar
 - [x] En modo `UpdateAllNumbers`, crear, duplicar o pegar cualquier variante numérica normaliza toda la secuencia desde la semilla; undo restaura también los valores previos de los elementos existentes
+- [x] Activada y persistida la opción `Switch to Select Tool after drawing Item`; el canvas solicita el cambio al terminar una anotación y `MainWindow` sincroniza herramienta y acciones
 - [x] `Fill Mode` persistente por herramienta con valores iniciales de `Config::defaultToolFillMode` y descarte seguro de modos incompatibles guardados por versiones anteriores
 - [x] Marker Pen, Marker Rectangle y Marker Ellipse renderizados con composición `Multiply`, igual que los elementos marcador del C++
 - [x] Marker Rectangle y Marker Ellipse alineados con `NoBorderAndFill`: relleno completo, sin borde, sombra, ancho ni opacidad configurables

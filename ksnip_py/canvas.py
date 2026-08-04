@@ -586,6 +586,7 @@ class CanvasSnapshot:
 class AnnotationCanvas(QLabel):
     changed = pyqtSignal()
     zoom_changed = pyqtSignal(int)
+    select_tool_requested = pyqtSignal()
 
     def __init__(self) -> None:
         super().__init__()
@@ -610,6 +611,7 @@ class AnnotationCanvas(QLabel):
         self._scaling = 1.0
         self._number_seed = 1
         self._number_seed_updates_all = False
+        self._switch_to_select_after_drawing = False
         self._sticker_path: str | None = None
         self._available_sticker_paths: list[str] = []
         self._image = QImage()
@@ -883,6 +885,9 @@ class AnnotationCanvas(QLabel):
 
     def set_number_seed_updates_all(self, enabled: bool) -> None:
         self._number_seed_updates_all = bool(enabled)
+
+    def set_switch_to_select_after_drawing(self, enabled: bool) -> None:
+        self._switch_to_select_after_drawing = bool(enabled)
 
     def number_seed(self) -> int:
         return self._number_seed
@@ -1306,6 +1311,7 @@ class AnnotationCanvas(QLabel):
                 self._select_single_item(len(self._items) - 1)
                 self._mark_dirty()
                 self._refresh()
+                self._request_select_tool_after_drawing()
             return
 
         if self._tool in (
@@ -1433,6 +1439,8 @@ class AnnotationCanvas(QLabel):
                 self._clear_selection()
             if item is not None or self._tool in (Tool.CROP, Tool.CUT, Tool.BLUR, Tool.PIXELATE):
                 self._mark_dirty()
+            if item is not None:
+                self._request_select_tool_after_drawing()
 
         self._preview_start = None
         self._preview_end = None
@@ -2894,6 +2902,10 @@ class AnnotationCanvas(QLabel):
         value = self._number_seed
         self._number_seed += 1
         return value
+
+    def _request_select_tool_after_drawing(self) -> None:
+        if self._switch_to_select_after_drawing:
+            self.select_tool_requested.emit()
 
     def _renumber_all_items(self) -> None:
         value = self._number_seed

@@ -1417,6 +1417,7 @@ class MainWindow(QMainWindow):
         canvas.changed.connect(self._update_actions)
         canvas.changed.connect(self._sync_item_controls)
         canvas.zoom_changed.connect(self._sync_zoom_controls)
+        canvas.select_tool_requested.connect(lambda: self.set_tool(Tool.SELECT))
         canvas.set_pen_width(self.stroke_width.value())
         initial_font = self._stored_font_for_tool(self._current_tool())
         canvas.set_font_family(initial_font.family())
@@ -1429,6 +1430,7 @@ class MainWindow(QMainWindow):
         canvas.set_shadow(self.shadow_state_button.isChecked())
         canvas.set_scaling(self.scaling.value() / 100.0)
         canvas.set_number_seed_updates_all(self._setting_bool("editor/number_seed_updates_all", False))
+        canvas.set_switch_to_select_after_drawing(self._setting_bool("editor/switch_to_select_after_drawing", False))
         canvas.set_number_seed(self.number_value.value())
         canvas.set_sticker_paths(self._default_sticker_paths())
         if self._default_sticker_paths():
@@ -3237,6 +3239,7 @@ class MainWindow(QMainWindow):
             bold=self.bold.isChecked(),
             italic=self.italic.isChecked(),
             number_tool_seed_updates_all=self._setting_bool("editor/number_seed_updates_all", False),
+            switch_to_select_after_drawing=self._setting_bool("editor/switch_to_select_after_drawing", False),
             rotate_watermark=self.rotate_watermark_action.isChecked(),
             capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
             capture_implicit_delay_ms=self._setting_int("capture/implicit_delay_ms", 200),
@@ -3327,6 +3330,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/bold", data.bold)
         self._settings.setValue("editor/italic", data.italic)
         self._settings.setValue("editor/number_seed_updates_all", data.number_tool_seed_updates_all)
+        self._settings.setValue("editor/switch_to_select_after_drawing", data.switch_to_select_after_drawing)
         self._settings.setValue("watermark/rotate", data.rotate_watermark)
         self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
         self._settings.setValue("capture/implicit_delay_ms", data.capture_implicit_delay_ms)
@@ -3444,6 +3448,7 @@ class MainWindow(QMainWindow):
             canvas.set_italic(font.italic())
             canvas.set_underline(font.underline())
             canvas.set_number_seed_updates_all(data.number_tool_seed_updates_all)
+            canvas.set_switch_to_select_after_drawing(data.switch_to_select_after_drawing)
             canvas.set_shadow(self.shadow_state_button.isChecked())
             canvas.set_scaling(self.scaling.value() / 100.0)
             canvas.set_number_seed(self.number_value.value())

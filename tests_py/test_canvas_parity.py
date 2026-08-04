@@ -227,6 +227,19 @@ class NumberFontParityTest(unittest.TestCase):
         canvas.undo()
         self.assertEqual([item.text for item in canvas._items], ["99", "42"])
 
+
+class AnnotatorBehaviorParityTest(unittest.TestCase):
+    def test_switch_to_select_request_is_emitted_only_when_enabled(self) -> None:
+        canvas = AnnotationCanvas()
+        requests: list[bool] = []
+        canvas.select_tool_requested.connect(lambda: requests.append(True))
+
+        canvas._request_select_tool_after_drawing()
+        self.assertEqual(requests, [])
+        canvas.set_switch_to_select_after_drawing(True)
+        canvas._request_select_tool_after_drawing()
+        self.assertEqual(requests, [True])
+
     def test_duplicated_number_variants_receive_new_sequential_values(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_image(coordinate_image(260, 160))
