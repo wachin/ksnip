@@ -33,6 +33,7 @@ from PyQt6.QtWidgets import (
 )
 
 from .canvas import FillMode, Tool
+from .i18n import available_languages
 from .spellcheck import default_spellcheck_scheme, load_spellcheck_scheme
 from .watermark import WatermarkStore
 
@@ -242,7 +243,8 @@ class SettingsDialog(QDialog):
         self.application_language = QComboBox(application_details_group)
         self.application_language.addItem(self.tr("System default"), "")
         self.application_language.addItem(self.tr("English"), "en")
-        self.application_language.addItem(self.tr("Spanish"), "es")
+        for label, locale_name in available_languages():
+            self.application_language.addItem(label, locale_name)
         application_details_layout.addRow(self.tr("Language"), self.application_language)
 
         self.application_style = QComboBox(application_details_group)

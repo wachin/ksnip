@@ -162,15 +162,14 @@ Wayland sessions are detected automatically and regular capture actions are redi
 Single-instance mode is enabled by default and can be changed under `Settings > Application`. Additional invocations forward their command-line arguments to the existing process through a per-user Qt local socket, allowing it to show the editor, open an image, or perform a capture without starting a second GUI instance.
 Images supplied through standard input are forwarded as image bytes when another instance is already running.
 
-The PyQt6 port loads Qt Linguist `.qm` catalogs using the language selected under `Settings > Application > Language`, or the system locale by default. Use `--language LOCALE` (for example, `--language es`) for a temporary command-line override. Portal diagnostics are currently translated into Spanish; untranslated locales safely fall back to English while the remaining UI is migrated to `tr()`.
+The PyQt6 port loads Qt Linguist `.qm` catalogs using the language selected under `Settings > Application > Language`, or the system locale by default. Use `--language LOCALE` (for example, `--language es`, `de`, `pt_BR` or `zh_Hant`) for a temporary command-line override. The language selector is generated from the 41 catalogs shipped with the package. Missing messages safely fall back to English.
 
 Compatible strings from the original C++ `ksnip` catalogs are reused by the port. The `ksnip_py` catalog contains messages that only exist in the Python implementation.
 
-Translation workflow for contributors:
+Translation workflow for contributors. The synchronization script extracts the Python messages, reuses matching translations from the original `ksnip` and `kImageAnnotator` catalogs, and compiles every `.qm` file:
 
 ```bash
-pylupdate6 ksnip_py/*.py -ts ksnip_py/translations/ksnip_py_es.ts
-lrelease ksnip_py/translations/ksnip_py_es.ts -qm ksnip_py/translations/ksnip_py_es.qm
+python3 tools/update_pyqt_translations.py
 ```
 
 ## Text tool
