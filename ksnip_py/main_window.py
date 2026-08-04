@@ -74,6 +74,7 @@ class MainWindow(QMainWindow):
         self._allow_quit = False
         self._capture_delay_override_seconds: int | None = None
         self._capture_cursor_override: bool | None = None
+        self._last_capture_used_portal = False
         self._cli_direct_save = False
         self._cli_save_path: str | None = None
         self._cli_upload = False
@@ -1695,7 +1696,7 @@ class MainWindow(QMainWindow):
 
     def capture_fullscreen(self) -> None:
         self._settings.setValue("capture/default_mode", "full")
-        result = self._capture_with_preferences(grab_fullscreen)
+        result = self._capture_with_preferences(grab_fullscreen, portal_interactive=False)
         if result is None:
             self._handle_capture_failure("Unable to capture full screen.")
             return
@@ -1750,7 +1751,8 @@ class MainWindow(QMainWindow):
             lambda: grab_portal(
                 interactive=True,
                 scale=self._setting_bool("capture/scale_generic_wayland", False),
-            )
+            ),
+            allow_forced_portal=False,
         )
         if result is None:
             message = portal_failure_message()
@@ -1761,7 +1763,14 @@ class MainWindow(QMainWindow):
             return
         self._load_capture_result(result, "Portal")
 
-    def _capture_with_preferences(self, capture_fn):
+    def _capture_with_preferences(self, capture_fn, *, portal_interactive: bool = True, allow_forced_portal: bool = True):
+        force_portal = allow_forced_portal and self._setting_bool("capture/force_generic_wayland", False)
+        self._last_capture_used_portal = force_portal or not allow_forced_portal
+        if force_portal:
+            capture_fn = lambda: grab_portal(
+                interactive=portal_interactive,
+                scale=self._setting_bool("capture/scale_generic_wayland", False),
+            )
         was_visible = self.isVisible() and not self.isMinimized()
         should_hide = self._setting_bool("capture/hide_main_window", True) and was_visible
         if should_hide:
@@ -1883,6 +1892,14 @@ class MainWindow(QMainWindow):
             QTimer.singleShot(0, QApplication.quit)
 
     def _handle_capture_failure(self, message: str, *, critical: bool = True) -> None:
+        if self._last_capture_used_portal:
+            self._last_capture_used_portal = False
+            if portal_capture_was_canceled():
+                message = self.tr("Portal capture canceled.")
+                critical = False
+            else:
+                message = portal_failure_message()
+                critical = True
         if self._quit_after_capture:
             print(message, file=sys.stderr)
             self._finish_cli_capture()
@@ -2796,6 +2813,7 @@ class MainWindow(QMainWindow):
             capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
             capture_implicit_delay_ms=self._setting_int("capture/implicit_delay_ms", 200),
             capture_include_cursor=self._setting_bool("capture/include_cursor", True),
+            force_generic_wayland=self._setting_bool("capture/force_generic_wayland", False),
             scale_generic_wayland=self._setting_bool("capture/scale_generic_wayland", False),
             hide_main_window_during_capture=self._setting_bool("capture/hide_main_window", True),
             show_main_window_after_capture=self._setting_bool("capture/show_main_window_after_capture", True),
@@ -2883,6 +2901,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
         self._settings.setValue("capture/implicit_delay_ms", data.capture_implicit_delay_ms)
         self._settings.setValue("capture/include_cursor", data.capture_include_cursor)
+        self._settings.setValue("capture/force_generic_wayland", data.force_generic_wayland)
         self._settings.setValue("capture/scale_generic_wayland", data.scale_generic_wayland)
         self._settings.setValue("capture/hide_main_window", data.hide_main_window_during_capture)
         self._settings.setValue("capture/show_main_window_after_capture", data.show_main_window_after_capture)

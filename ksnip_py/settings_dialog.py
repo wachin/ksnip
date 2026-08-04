@@ -51,6 +51,7 @@ class SettingsData:
     capture_delay_seconds: int
     capture_implicit_delay_ms: int
     capture_include_cursor: bool
+    force_generic_wayland: bool
     scale_generic_wayland: bool
     hide_main_window_during_capture: bool
     show_main_window_after_capture: bool
@@ -319,7 +320,6 @@ class SettingsDialog(QDialog):
         self.hide_main_window_during_capture_checkbox = QCheckBox(self.tr("Hide Main Window during screenshot"), image_grabber_group)
         self.hide_main_window_during_capture_checkbox.setChecked(True)
         self.force_generic_wayland = QCheckBox(self.tr("Force Generic Wayland (xdg-desktop-portal) Screenshot"), image_grabber_group)
-        self.force_generic_wayland.setEnabled(False)
         self.scale_generic_wayland = QCheckBox(self.tr("Scale Generic Wayland (xdg-desktop-portal) Screenshots"), image_grabber_group)
         image_grabber_layout.addWidget(self.capture_mouse_cursor)
         image_grabber_layout.addWidget(self.show_main_window_after_capture_checkbox)
@@ -885,6 +885,7 @@ class SettingsDialog(QDialog):
         self.capture_delay_seconds.setValue(initial.capture_delay_seconds)
         self.implicit_capture_delay.setValue(initial.capture_implicit_delay_ms)
         self.capture_mouse_cursor.setChecked(initial.capture_include_cursor)
+        self.force_generic_wayland.setChecked(initial.force_generic_wayland)
         self.scale_generic_wayland.setChecked(initial.scale_generic_wayland)
         self.hide_main_window_during_capture.setChecked(initial.hide_main_window_during_capture)
         self.show_main_window_after_capture.setChecked(initial.show_main_window_after_capture)
@@ -1055,6 +1056,7 @@ class SettingsDialog(QDialog):
             capture_delay_seconds=self.capture_delay_seconds.value(),
             capture_implicit_delay_ms=self.implicit_capture_delay.value(),
             capture_include_cursor=self.capture_mouse_cursor.isChecked(),
+            force_generic_wayland=self.force_generic_wayland.isChecked(),
             scale_generic_wayland=self.scale_generic_wayland.isChecked(),
             hide_main_window_during_capture=self.hide_main_window_during_capture.isChecked(),
             show_main_window_after_capture=self.show_main_window_after_capture.isChecked(),
