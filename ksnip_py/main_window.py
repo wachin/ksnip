@@ -3242,6 +3242,7 @@ class MainWindow(QMainWindow):
             number_tool_seed_updates_all=self._setting_bool("editor/number_seed_updates_all", False),
             switch_to_select_after_drawing=self._setting_bool("editor/switch_to_select_after_drawing", False),
             select_item_after_drawing=self._setting_bool("editor/select_item_after_drawing", True),
+            remember_annotation_tool=self._setting_bool("editor/remember_tool", False),
             rotate_watermark=self.rotate_watermark_action.isChecked(),
             capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
             capture_implicit_delay_ms=self._setting_int("capture/implicit_delay_ms", 200),
@@ -3334,6 +3335,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/number_seed_updates_all", data.number_tool_seed_updates_all)
         self._settings.setValue("editor/switch_to_select_after_drawing", data.switch_to_select_after_drawing)
         self._settings.setValue("editor/select_item_after_drawing", data.select_item_after_drawing)
+        self._settings.setValue("editor/remember_tool", data.remember_annotation_tool)
         self._settings.setValue("watermark/rotate", data.rotate_watermark)
         self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
         self._settings.setValue("capture/implicit_delay_ms", data.capture_implicit_delay_ms)
@@ -3507,11 +3509,14 @@ class MainWindow(QMainWindow):
             self._tray_icon.hide()
 
     def _apply_tool_selection_from_settings(self) -> None:
-        stored_tool = self._settings.value("editor/tool", Tool.SELECT.value)
+        if not self._setting_bool("editor/remember_tool", False):
+            self.set_tool(Tool.PEN)
+            return
+        stored_tool = self._settings.value("editor/tool", Tool.PEN.value)
         try:
             tool = Tool(stored_tool)
         except ValueError:
-            tool = Tool.SELECT
+            tool = Tool.PEN
         if tool == Tool.CUT:
             tool = Tool.SELECT
         self.set_tool(tool)

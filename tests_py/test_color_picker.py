@@ -49,6 +49,28 @@ class ColorPaletteMenuTest(unittest.TestCase):
 
 
 class MainWindowColorPickerTest(unittest.TestCase):
+    def test_annotation_tool_is_restored_only_when_remembering_is_enabled(self) -> None:
+        window = MainWindow()
+        settings = window._settings
+        keys = ("editor/remember_tool", "editor/tool")
+        old_values = {key: settings.value(key) for key in keys}
+        try:
+            settings.setValue("editor/remember_tool", False)
+            settings.setValue("editor/tool", Tool.ELLIPSE.value)
+            window._apply_tool_selection_from_settings()
+            self.assertEqual(window.current_canvas().tool(), Tool.PEN)
+
+            settings.setValue("editor/remember_tool", True)
+            settings.setValue("editor/tool", Tool.ELLIPSE.value)
+            window._apply_tool_selection_from_settings()
+            self.assertEqual(window.current_canvas().tool(), Tool.ELLIPSE)
+        finally:
+            for key, value in old_values.items():
+                if value is None:
+                    settings.remove(key)
+                else:
+                    settings.setValue(key, value)
+
     def test_visible_menu_actions_have_icons_even_without_a_full_desktop_theme(self) -> None:
         window = MainWindow()
         action_names = (

@@ -51,6 +51,7 @@ class SettingsData:
     number_tool_seed_updates_all: bool
     switch_to_select_after_drawing: bool
     select_item_after_drawing: bool
+    remember_annotation_tool: bool
     rotate_watermark: bool
     capture_delay_seconds: int
     capture_implicit_delay_ms: int
@@ -387,7 +388,6 @@ class SettingsDialog(QDialog):
         annotator_group = QGroupBox(self.tr("Annotator"), self)
         annotator_layout = QVBoxLayout(annotator_group)
         self.remember_annotation_tool = QCheckBox(self.tr("Remember annotation tool selection and load on startup"), annotator_group)
-        self.remember_annotation_tool.setEnabled(False)
         self.switch_to_select_tool = QCheckBox(self.tr("Switch to Select Tool after drawing Item"), annotator_group)
         self.select_item_after_drawing = QCheckBox(self.tr("Select Item after drawing"), annotator_group)
         self.switch_to_select_tool.toggled.connect(self.select_item_after_drawing.setEnabled)
@@ -888,6 +888,7 @@ class SettingsDialog(QDialog):
         self.switch_to_select_tool.setChecked(initial.switch_to_select_after_drawing)
         self.select_item_after_drawing.setChecked(initial.select_item_after_drawing)
         self.select_item_after_drawing.setEnabled(initial.switch_to_select_after_drawing)
+        self.remember_annotation_tool.setChecked(initial.remember_annotation_tool)
         self.rotate_watermark.setChecked(initial.rotate_watermark)
         self.capture_delay_seconds.setValue(initial.capture_delay_seconds)
         self.implicit_capture_delay.setValue(initial.capture_implicit_delay_ms)
@@ -1063,6 +1064,7 @@ class SettingsDialog(QDialog):
             number_tool_seed_updates_all=self.number_tool_seed_updates.isChecked(),
             switch_to_select_after_drawing=self.switch_to_select_tool.isChecked(),
             select_item_after_drawing=self.select_item_after_drawing.isChecked(),
+            remember_annotation_tool=self.remember_annotation_tool.isChecked(),
             rotate_watermark=self.rotate_watermark.isChecked(),
             capture_delay_seconds=self.capture_delay_seconds.value(),
             capture_implicit_delay_ms=self.implicit_capture_delay.value(),

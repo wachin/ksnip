@@ -179,6 +179,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] En modo `UpdateAllNumbers`, crear, duplicar o pegar cualquier variante numérica normaliza toda la secuencia desde la semilla; undo restaura también los valores previos de los elementos existentes
 - [x] Activada y persistida la opción `Switch to Select Tool after drawing Item`; el canvas solicita el cambio al terminar una anotación y `MainWindow` sincroniza herramienta y acciones
 - [x] Activada `Select Item after drawing`, dependiente visualmente de `Switch to Select Tool`; permite cambiar a Selección sin mantener el item seleccionado, salvo `Duplicate`, que requiere selección tras crearse
+- [x] Activada `Remember annotation tool selection and load on startup`: restaura la última herramienta sólo al habilitarla y usa `Pen` como valor inicial del C++ en caso contrario o ante configuración inválida
 - [x] `Fill Mode` persistente por herramienta con valores iniciales de `Config::defaultToolFillMode` y descarte seguro de modos incompatibles guardados por versiones anteriores
 - [x] Marker Pen, Marker Rectangle y Marker Ellipse renderizados con composición `Multiply`, igual que los elementos marcador del C++
 - [x] Marker Rectangle y Marker Ellipse alineados con `NoBorderAndFill`: relleno completo, sin borde, sombra, ancho ni opacidad configurables
