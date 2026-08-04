@@ -1301,6 +1301,8 @@ class AnnotationCanvas(QLabel):
             if item is not None:
                 self._push_undo_state()
                 self._items.append(item)
+                if self._number_seed_updates_all and self._is_number_like(item.kind):
+                    self._renumber_all_items()
                 self._select_single_item(len(self._items) - 1)
                 self._mark_dirty()
                 self._refresh()
@@ -1417,6 +1419,8 @@ class AnnotationCanvas(QLabel):
             item = self._build_drag_item(self._tool, QPoint(self._preview_start), QPoint(self._preview_end), rect)
             if item is not None:
                 self._items.append(item)
+                if self._number_seed_updates_all and self._is_number_like(item.kind):
+                    self._renumber_all_items()
                 self._select_single_item(len(self._items) - 1)
                 if self._tool == Tool.TEXT:
                     self._start_inline_text_edit(len(self._items) - 1, is_new=True)
@@ -1813,6 +1817,8 @@ class AnnotationCanvas(QLabel):
             duplicated.move_by(QPoint(12, 12))
             self._items.append(duplicated)
             new_indices.append(len(self._items) - 1)
+        if self._number_seed_updates_all:
+            self._renumber_all_items()
         self._selected_item_indices = new_indices
         self._primary_selected_item_index = new_indices[-1] if new_indices else None
         self._drag_start = None
@@ -1857,6 +1863,8 @@ class AnnotationCanvas(QLabel):
             item.move_by(QPoint(12, 12))
             self._items.append(item)
             new_indices.append(len(self._items) - 1)
+        if self._number_seed_updates_all:
+            self._renumber_all_items()
         self._selected_item_indices = new_indices
         self._primary_selected_item_index = new_indices[-1] if new_indices else None
         self._drag_start = None
