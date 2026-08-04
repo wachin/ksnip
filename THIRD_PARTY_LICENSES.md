@@ -30,7 +30,7 @@ The Debian machine-readable copyright declarations are in `debian/copyright`. Ex
 
 The bundled kImageAnnotator icons and original sticker set remain under GNU LGPL version 3; its complete text is provided in `LICENSES/LGPL-3.0.txt`.
 
-The `check_mark.svg` and `cross_mark.svg` files added to each theme directory are original ksnip PyQt6 artwork under GPL-3.0. They use theme-compatible palettes but are not copied or modified from Papirus, GNOME, or Numix artwork.
+The `check_mark.svg`, `cross_mark.svg`, and the files matching the Original tab's names that were added to each theme directory are original ksnip PyQt6 artwork under GPL-3.0. They use theme-compatible palettes but are not copied or modified from Papirus, GNOME, or Numix artwork. The additional themed files can be reproduced with `tools/generate_themed_original_stickers.py`.
 
 ## SuperTux-inspired collection
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Original ksnip_py artwork, GPL-3.0. Theme-compatible palette; no upstream artwork copied. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 64 64">
+  <defs><linearGradient id="face" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff08a"/><stop offset="1" stop-color="#f5b928"/></linearGradient></defs><ellipse cx="32" cy="34" rx="27" ry="27" fill="#2e3436" opacity=".2"/>
+  <circle cx="32" cy="31" r="27" fill="url(#face)" stroke="#c17d11" stroke-width="2.5"/>
+  <path d="M14 18q18-17 36 0" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="3" stroke-linecap="round"/>
+  <g color="#2e3436" fill="#2e3436"><path d="M16 27q7-8 14 0m4 0q7-8 14 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M20 40q12 16 24 0z" fill="#fff" stroke="currentColor" stroke-width="2"/><path d="M52 8q-10 12 0 17 10-5 0-17z" fill="#42a5f5" stroke="currentColor" stroke-width="1.5"/></g>
+</svg>

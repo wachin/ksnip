@@ -71,6 +71,36 @@ Copyright: 2026 Wachin <wachin.id@gmail.com>
 License: GPL-3
 Comment: Original artwork designed for ksnip PyQt6; no upstream theme file was copied or modified.
 
+Files: ksnip_py/stickers/themes/*/confused_face.svg
+       ksnip_py/stickers/themes/*/cursor.svg
+       ksnip_py/stickers/themes/*/face_blowing_a_kiss.svg
+       ksnip_py/stickers/themes/*/face_savoring_food.svg
+       ksnip_py/stickers/themes/*/face_with_symbols_on_mouth.svg
+       ksnip_py/stickers/themes/*/grinning_face_with_big_eyes.svg
+       ksnip_py/stickers/themes/*/grinning_face_with_smiling_eyes.svg
+       ksnip_py/stickers/themes/*/grinning_face_with_sweat.svg
+       ksnip_py/stickers/themes/*/grinning_squinting_face.svg
+       ksnip_py/stickers/themes/*/hushed_face.svg
+       ksnip_py/stickers/themes/*/nerd_face.svg
+       ksnip_py/stickers/themes/*/neutral_face.svg
+       ksnip_py/stickers/themes/*/pouting_face.svg
+       ksnip_py/stickers/themes/*/smiling_face_with_heart_eyes.svg
+       ksnip_py/stickers/themes/*/smiling_face_with_hearts.svg
+       ksnip_py/stickers/themes/*/smiling_face_with_sunglasses.svg
+       ksnip_py/stickers/themes/*/tutorial_attention.svg
+       ksnip_py/stickers/themes/*/tutorial_information.svg
+       ksnip_py/stickers/themes/*/tutorial_keyboard.svg
+       ksnip_py/stickers/themes/*/tutorial_mouse_click.svg
+       ksnip_py/stickers/themes/*/tutorial_next_step.svg
+       ksnip_py/stickers/themes/*/tutorial_question.svg
+       ksnip_py/stickers/themes/*/tutorial_terminal.svg
+       ksnip_py/stickers/themes/*/tutorial_tip.svg
+Copyright: 2026 Wachin <wachin.id@gmail.com>
+           ksnip PyQt6 contributors
+License: GPL-3
+Comment: Original, reproducible ksnip PyQt6 artwork. Theme-compatible palettes are used,
+ but no Papirus, GNOME, Numix, or SuperTux artwork was copied or modified.
+
 Files: ksnip_py/stickers/themes/supertux/*
 Copyright: 2026 Wachin <wachin.id@gmail.com>
            ksnip PyQt6 contributors

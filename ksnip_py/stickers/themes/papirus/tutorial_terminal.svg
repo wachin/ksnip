@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Original ksnip_py artwork, GPL-3.0. Theme-compatible palette; no upstream artwork copied. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 64 64">
+  <rect x="7" y="7" width="50" height="50" rx="13" fill="#546e7a"/><path d="M14 14h36" stroke="#fff" stroke-opacity=".25" stroke-width="3" stroke-linecap="round"/><g color="#424242"><rect x="11" y="15" width="42" height="34" rx="4" fill="#263238" stroke="#fff" stroke-width="2"/><path d="m18 26 7 6-7 6m12 0h14" fill="none" stroke="#80cbc4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>

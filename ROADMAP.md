@@ -297,6 +297,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Restauración persistente de la última pestaña utilizada en el selector de stickers
 - [x] Papirus/GNOME/Numix vendorizados sin enlaces simbólicos, con atribución, licencias completas, package-data y cobertura DEP-5
 - [x] Visto bueno y X originales para Papirus/GNOME/Numix, adaptados visualmente a cada paleta y declarados GPL-3 en DEP-5
+- [x] Papirus/GNOME/Numix completados con las 24 expresiones y utilidades de Original que faltaban, mediante 72 SVG propios y reproducibles
 - [x] Pestaña SuperTux con 26 stickers SVG originales y reproducibles: expresiones, marcas y utilidades para tutoriales
 - [x] Pestaña Usuario con importación multiformato, conversión PNG, límite de 512 px, nombres únicos y acceso a su carpeta de configuración
 - [x] Inserción de stickers mediante clic en el lienzo, compatible con SVG/PNG externos y con undo

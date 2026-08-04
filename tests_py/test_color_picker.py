@@ -119,9 +119,11 @@ class StickerPickerTest(unittest.TestCase):
         self.assertEqual(collections[3].directory, collections[0].directory / "themes" / "numix")
         self.assertEqual(collections[4].directory, collections[0].directory / "themes" / "supertux")
         self.assertEqual(collections[5].directory, user_sticker_directory())
-        self.assertEqual([len(discover_stickers(collection.directory)) for collection in collections[1:4]], [25, 20, 34])
+        self.assertEqual([len(discover_stickers(collection.directory)) for collection in collections[1:4]], [49, 44, 58])
+        original_names = {path.name for path in discover_stickers(collections[0].directory)}
         for collection in collections[1:5]:
             names = {path.name for path in discover_stickers(collection.directory)}
+            self.assertTrue(original_names.issubset(names))
             self.assertIn("check_mark.svg", names)
             self.assertIn("cross_mark.svg", names)
         supertux_names = {path.name for path in discover_stickers(collections[4].directory)}
