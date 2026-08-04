@@ -87,6 +87,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Traducción de `Settings > Image Grabber > Snipping Area`, comportamiento y apariencia
 - [x] Traducción de `Settings > Annotator`, herramientas predeterminadas, estilos y placeholders de paridad avanzada
 - [x] Traducción de `Settings > Annotator > Watermark`, estados dinámicos y diálogos de selección/error
+- [x] Traducción de las páginas placeholder `Settings > Actions` y `Plugins`, conservando su estado pendiente/deshabilitado
 - [ ] Migrar todos los textos de la interfaz PyQt6 a `tr()` y completar los catálogos de los idiomas soportados
 - [x] Restauración de geometría de ventana
 - [x] Pestañas para múltiples capturas/imágenes

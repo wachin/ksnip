@@ -681,17 +681,17 @@ class SettingsDialog(QDialog):
         return group
 
     def _build_actions_page(self) -> QGroupBox:
-        group = QGroupBox("Actions", self)
+        group = QGroupBox(self.tr("Actions"), self)
         layout = QVBoxLayout(group)
 
         add_button_row = QHBoxLayout()
-        self.actions_add_button = QPushButton("Add", group)
+        self.actions_add_button = QPushButton(self.tr("Add"), group)
         self.actions_add_button.setEnabled(False)
         add_button_row.addWidget(self.actions_add_button, 0)
         add_button_row.addStretch(1)
         layout.addLayout(add_button_row)
 
-        self.actions_placeholder = QLabel("Add new actions by pressing the 'Add' tab button.", group)
+        self.actions_placeholder = QLabel(self.tr("Add new actions by pressing the 'Add' tab button."), group)
         self.actions_placeholder.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.actions_placeholder.setStyleSheet("color: palette(mid);")
         self.actions_placeholder.setMinimumHeight(260)
@@ -699,12 +699,12 @@ class SettingsDialog(QDialog):
         return group
 
     def _build_plugins_page(self) -> QGroupBox:
-        group = QGroupBox("Plugins", self)
+        group = QGroupBox(self.tr("Plugins"), self)
         layout = QVBoxLayout(group)
 
-        search_path_group = QGroupBox("Search Path", group)
+        search_path_group = QGroupBox(self.tr("Search Path"), group)
         search_path_layout = QVBoxLayout(search_path_group)
-        self.plugin_default_path = QRadioButton("Default", search_path_group)
+        self.plugin_default_path = QRadioButton(self.tr("Default"), search_path_group)
         self.plugin_default_path.setChecked(True)
         self.plugin_default_path.setEnabled(False)
         self.plugin_custom_path = QRadioButton(search_path_group)
@@ -714,7 +714,7 @@ class SettingsDialog(QDialog):
         self.plugin_custom_path_edit = QLineEdit(search_path_group)
         self.plugin_custom_path_edit.setEnabled(False)
         custom_path_row.addWidget(self.plugin_custom_path_edit, 1)
-        self.plugin_browse_button = QPushButton("Browse", search_path_group)
+        self.plugin_browse_button = QPushButton(self.tr("Browse"), search_path_group)
         self.plugin_browse_button.setEnabled(False)
         custom_path_row.addWidget(self.plugin_browse_button, 0)
         search_path_layout.addWidget(self.plugin_default_path)
@@ -723,7 +723,7 @@ class SettingsDialog(QDialog):
 
         plugins_row = QHBoxLayout()
         self.plugins_table = QTableWidget(6, 2, group)
-        self.plugins_table.setHorizontalHeaderLabels(["Name", "Version"])
+        self.plugins_table.setHorizontalHeaderLabels([self.tr("Name"), self.tr("Version")])
         self.plugins_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self.plugins_table.verticalHeader().setVisible(False)
         self.plugins_table.horizontalHeader().setStretchLastSection(True)
@@ -733,7 +733,7 @@ class SettingsDialog(QDialog):
         plugins_row.addWidget(self.plugins_table, 1)
 
         detect_column = QVBoxLayout()
-        self.plugin_detect_button = QPushButton("Detect", group)
+        self.plugin_detect_button = QPushButton(self.tr("Detect"), group)
         self.plugin_detect_button.setEnabled(False)
         detect_column.addWidget(self.plugin_detect_button)
         detect_column.addStretch(1)

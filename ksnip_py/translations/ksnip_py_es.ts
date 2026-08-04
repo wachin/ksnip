@@ -249,5 +249,15 @@
     <message><source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source><translation>Imágenes (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation></message>
     <message><source>Unable to load watermark image: %1</source><translation>No se pudo cargar la imagen de marca de agua: %1</translation></message>
     <message><source>Settings</source><translation>Configuración</translation></message>
+    <message><source>Actions</source><translation>Acciones</translation></message>
+    <message><source>Action Settings</source><translation>Configuración de acciones</translation></message>
+    <message><source>Add</source><translation>Añadir</translation></message>
+    <message><source>Add new actions by pressing the 'Add' tab button.</source><translation>Añada acciones nuevas pulsando el botón «Añadir».</translation></message>
+    <message><source>Plugins</source><translation>Plugins</translation></message>
+    <message><source>Plugin Settings</source><translation>Configuración de plugins</translation></message>
+    <message><source>Search Path</source><translation>Ruta de búsqueda</translation></message>
+    <message><source>Name</source><translation>Nombre</translation></message>
+    <message><source>Version</source><translation>Versión</translation></message>
+    <message><source>Detect</source><translation>Detectar</translation></message>
 </context>
 </TS>
