@@ -1793,6 +1793,7 @@ class AnnotationCanvas(QLabel):
         new_indices: list[int] = []
         for index in self._selected_item_indices:
             duplicated = self._items[index].clone()
+            self._assign_next_number_to_item(duplicated)
             duplicated.move_by(QPoint(12, 12))
             self._items.append(duplicated)
             new_indices.append(len(self._items) - 1)
@@ -1836,6 +1837,7 @@ class AnnotationCanvas(QLabel):
         new_indices: list[int] = []
         for item_payload in items_payload:
             item = self._deserialize_item(item_payload)
+            self._assign_next_number_to_item(item)
             item.move_by(QPoint(12, 12))
             self._items.append(item)
             new_indices.append(len(self._items) - 1)
@@ -2865,6 +2867,12 @@ class AnnotationCanvas(QLabel):
         value = self._number_seed
         self._number_seed += 1
         return value
+
+    def _assign_next_number_to_item(self, item: OverlayItem) -> None:
+        if not self._is_number_like(item.kind):
+            return
+        item.text = str(self._next_number_value())
+        self._resize_number_badge_to_font(item)
 
     def _text_box_size(self, item: OverlayItem) -> tuple[int, int]:
         width = max(96, len(item.text or "") * max(8, (item.font_point_size or self._font_point_size) - 2) + 24)

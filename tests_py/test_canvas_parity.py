@@ -193,6 +193,28 @@ class FreehandToolParityTest(unittest.TestCase):
 
 
 class NumberFontParityTest(unittest.TestCase):
+    def test_duplicated_number_variants_receive_new_sequential_values(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(260, 160))
+        canvas.set_number_seed(7)
+        canvas._items = [
+            OverlayItem(Tool.NUMBER, QPoint(20, 20), QPoint(50, 50), QColor("red"), 2, text="1"),
+            OverlayItem(Tool.NUMBER_POINTER, QPoint(80, 20), QPoint(130, 60), QColor("red"), 1, text="2"),
+            OverlayItem(Tool.NUMBER_ARROW, QPoint(170, 50), QPoint(230, 50), QColor("red"), 2, text="3"),
+        ]
+        canvas._selected_item_indices = [0, 1, 2]
+        canvas._primary_selected_item_index = 2
+
+        self.assertTrue(canvas.duplicate_selected_item())
+        self.assertEqual([item.text for item in canvas._items[3:]], ["7", "8", "9"])
+        self.assertEqual(canvas.number_seed(), 10)
+        duplicated_badge = canvas._items[3]
+        self.assertEqual(QRect(duplicated_badge.start, duplicated_badge.end).normalized().width(), duplicated_badge.number_badge_diameter())
+
+        canvas.undo()
+        self.assertEqual(len(canvas._items), 3)
+        self.assertEqual(canvas.number_seed(), 10)
+
     def test_number_creation_and_value_changes_recalculate_the_badge(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_image(coordinate_image(240, 140))
