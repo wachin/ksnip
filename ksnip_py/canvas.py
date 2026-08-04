@@ -722,6 +722,23 @@ class AnnotationCanvas(QLabel):
         self._refresh()
         return True
 
+    def apply_border_effect(self, width: int, color: QColor) -> bool:
+        if self._image.isNull() or width < 1 or not color.isValid():
+            return False
+        width = min(width, self._image.width(), self._image.height())
+        self._push_undo_state()
+        result = self._image.copy()
+        painter = QPainter(result)
+        painter.setBrush(Qt.BrushStyle.NoBrush)
+        painter.setPen(QPen(color, width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.SquareCap, Qt.PenJoinStyle.MiterJoin))
+        inset = width // 2
+        painter.drawRect(result.rect().adjusted(inset, inset, -inset, -inset))
+        painter.end()
+        self._image = result
+        self._mark_dirty()
+        self._refresh()
+        return True
+
     def modify_canvas_size(self, width: int, height: int, background: QColor | None = None) -> bool:
         if self._image.isNull() or width < 1 or height < 1:
             return False

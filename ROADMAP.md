@@ -206,6 +206,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Modify Canvas centrado para ampliar o recortar el lienzo, preservando y desplazando anotaciones, con undo
 - [x] Cut tool
 - [x] Efectos de imagen iniciales `Grayscale` e `Invert Color`, preservando alpha y con undo/redo
+- [x] Efecto `Border` configurable en grosor y color, con persistencia y undo/redo
 - [ ] Más efectos y pulido de efectos existentes
 - [x] Stickers
 - [ ] Controles laterales y layout igual al original

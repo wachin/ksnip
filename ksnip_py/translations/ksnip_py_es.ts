@@ -279,186 +279,211 @@
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2449" />
+      <location filename="../main_window.py" line="2453" />
       <location filename="../main_window.py" line="760" />
       <source>Grayscale</source>
       <translation>Escala de grises</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2449" />
+      <location filename="../main_window.py" line="2453" />
       <location filename="../main_window.py" line="763" />
       <source>Invert Color</source>
       <translation>Invertir color</translation>
     </message>
     <message>
       <location filename="../main_window.py" line="766" />
+      <source>Border...</source>
+      <translation>Borde...</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="769" />
       <source>Modify Canvas...</source>
       <translation>Modificar lienzo...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2330" />
-      <location filename="../main_window.py" line="769" />
+      <location filename="../main_window.py" line="2334" />
+      <location filename="../main_window.py" line="772" />
       <source>Hide Docks</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="773" />
+      <location filename="../main_window.py" line="776" />
       <source>Pin</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="777" />
+      <location filename="../main_window.py" line="780" />
       <source>Add Watermark</source>
       <translation type="unfinished">Añadir marca de agua</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="782" />
+      <location filename="../main_window.py" line="785" />
       <source>Upload</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="786" />
+      <location filename="../main_window.py" line="789" />
       <source>OCR Text Recognition</source>
       <translation>Reconocimiento de texto OCR</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="790" />
+      <location filename="../main_window.py" line="793" />
       <source>Update Watermark Image...</source>
       <translation>Actualizar imagen de marca de agua...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="793" />
+      <location filename="../main_window.py" line="796" />
       <source>Rotate Watermark</source>
       <translation>Rotar marca de agua</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="798" />
+      <location filename="../main_window.py" line="801" />
       <source>Settings</source>
       <translation type="unfinished">Configuración</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="801" />
+      <location filename="../main_window.py" line="804" />
       <source>About</source>
       <translation>Acerca de</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="804" />
+      <location filename="../main_window.py" line="807" />
       <source>Clear Recent Images</source>
       <translation>Limpiar imágenes recientes</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="807" />
+      <location filename="../main_window.py" line="810" />
       <source>Quit</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="816" />
+      <location filename="../main_window.py" line="819" />
       <source>Fit</source>
       <translation>Ajustar</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1144" />
+      <location filename="../main_window.py" line="1147" />
       <source>&amp;File</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1146" />
+      <location filename="../main_window.py" line="1149" />
       <source>New Screenshot</source>
       <translation>Nueva captura de pantalla</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1156" />
+      <location filename="../main_window.py" line="1159" />
       <source>Recent Images</source>
       <translation>Imágenes recientes</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1170" />
+      <location filename="../main_window.py" line="1173" />
       <source>&amp;Edit</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1185" />
+      <location filename="../main_window.py" line="1188" />
       <source>Effects</source>
       <translation>Efectos</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1192" />
+      <location filename="../main_window.py" line="1196" />
       <source>Annotation Items</source>
       <translation>Elementos de anotación</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1201" />
+      <location filename="../main_window.py" line="1205" />
       <source>&amp;View</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1205" />
+      <location filename="../main_window.py" line="1209" />
       <source>Zoom</source>
       <translation>Zoom</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1211" />
+      <location filename="../main_window.py" line="1215" />
       <source>&amp;Options</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1216" />
+      <location filename="../main_window.py" line="1220" />
       <source>Watermark</source>
       <translation>Marca de agua</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1220" />
+      <location filename="../main_window.py" line="1224" />
       <source>Annotation Tools</source>
       <translation>Herramientas de anotación</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1245" />
+      <location filename="../main_window.py" line="1249" />
       <source>&amp;Help</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1278" />
+      <location filename="../main_window.py" line="1282" />
       <source>Show Editor</source>
       <translation>Mostrar editor</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1303" />
+      <location filename="../main_window.py" line="1307" />
       <source>ksnip PyQt6 is still running in the system tray.</source>
       <translation>ksnip PyQt6 continúa ejecutándose en la bandeja del sistema.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1314" />
+      <location filename="../main_window.py" line="1318" />
       <source>ksnip PyQt6 was minimized to the system tray.</source>
       <translation>ksnip PyQt6 se minimizó a la bandeja del sistema.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1923" />
-      <location filename="../main_window.py" line="1778" />
+      <location filename="../main_window.py" line="1927" />
+      <location filename="../main_window.py" line="1782" />
       <source>Portal capture canceled.</source>
       <translation>Captura mediante el portal cancelada.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2330" />
+      <location filename="../main_window.py" line="2334" />
       <source>Show Docks</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2452" />
+      <location filename="../main_window.py" line="2456" />
       <source>Applied effect: %1</source>
       <translation>Efecto aplicado: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2477" />
+      <location filename="../main_window.py" line="2464" />
+      <source>Border</source>
+      <translation>Borde</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2465" />
+      <source>Border width:</source>
+      <translation>Grosor del borde:</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2473" />
+      <source>Border color</source>
+      <translation>Color del borde</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2481" />
+      <source>Border effect applied</source>
+      <translation>Efecto de borde aplicado</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2506" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation>El idioma ha cambiado. Reinicie ksnip para aplicarlo.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2757" />
+      <location filename="../main_window.py" line="2787" />
       <source>Unable to open image data.</source>
       <translation>No se pudieron abrir los datos de imagen.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2765" />
+      <location filename="../main_window.py" line="2795" />
       <source>Opened image from standard input</source>
       <translation>Imagen abierta desde la entrada estándar</translation>
     </message>

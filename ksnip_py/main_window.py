@@ -763,6 +763,9 @@ class MainWindow(QMainWindow):
         self.invert_color_action = QAction(self._load_icon("invertColor"), self.tr("Invert Color"), self)
         self.invert_color_action.triggered.connect(lambda: self.apply_image_effect("invert"))
 
+        self.border_effect_action = QAction(self._load_icon("border"), self.tr("Border..."), self)
+        self.border_effect_action.triggered.connect(self.apply_border_effect)
+
         self.modify_canvas_action = QAction(self.tr("Modify Canvas..."), self)
         self.modify_canvas_action.triggered.connect(self.modify_canvas)
 
@@ -1185,6 +1188,7 @@ class MainWindow(QMainWindow):
         effects_menu = edit_menu.addMenu(self._load_icon("effect"), self.tr("Effects"))
         effects_menu.addAction(self.grayscale_action)
         effects_menu.addAction(self.invert_color_action)
+        effects_menu.addAction(self.border_effect_action)
         edit_menu.addAction(self.add_watermark_action)
         edit_menu.addSeparator()
         edit_menu.addAction(self.delete_image_action)
@@ -2451,6 +2455,31 @@ class MainWindow(QMainWindow):
             self._update_actions()
             self.status_label.setText(self.tr("Applied effect: %1").replace("%1", label))
 
+    def apply_border_effect(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        width, accepted = QInputDialog.getInt(
+            self,
+            self.tr("Border"),
+            self.tr("Border width:"),
+            self._setting_int("effects/border_width", 4),
+            1,
+            min(canvas.image().width(), canvas.image().height()),
+        )
+        if not accepted:
+            return
+        initial_color = QColor(str(self._settings.value("effects/border_color", "#000000")))
+        color = QColorDialog.getColor(initial_color, self, self.tr("Border color"), QColorDialog.ColorDialogOption.ShowAlphaChannel)
+        if not color.isValid():
+            return
+        if canvas.apply_border_effect(width, color):
+            self._settings.setValue("effects/border_width", width)
+            self._settings.setValue("effects/border_color", color.name(QColor.NameFormat.HexArgb))
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText(self.tr("Border effect applied"))
+
     def pin_image(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
@@ -2711,6 +2740,7 @@ class MainWindow(QMainWindow):
         self.scale_action.setEnabled(has_image)
         self.grayscale_action.setEnabled(has_image)
         self.invert_color_action.setEnabled(has_image)
+        self.border_effect_action.setEnabled(has_image)
         self.modify_canvas_action.setEnabled(has_image)
         self.close_tab_action.setEnabled(canvas is not None)
         self.recent_images_menu.setEnabled(bool(self._recent_image_paths))
