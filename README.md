@@ -5,7 +5,7 @@
 [![PyQt6](https://img.shields.io/badge/PyQt6-6.6%2B-41CD52?logo=qt&logoColor=white)](pyproject.toml)
 [![Debian 13](https://img.shields.io/badge/Debian-13-A81D33?logo=debian&logoColor=white)](#debian-13--mx-linux-25)
 [![MX Linux 25](https://img.shields.io/badge/MX%20Linux-25-222222)](#debian-13--mx-linux-25)
-[![License: GPL-2.0](https://img.shields.io/badge/license-GPL--2.0-blue)](LICENSE.txt)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE.txt)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)](#contributing)
 [![GitHub issues](https://img.shields.io/github/issues/wachin/ksnip)](https://github.com/wachin/ksnip/issues)
 [![GitHub stars](https://img.shields.io/github/stars/wachin/ksnip?style=flat)](https://github.com/wachin/ksnip/stargazers)

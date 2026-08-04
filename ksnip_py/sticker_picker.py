@@ -50,6 +50,7 @@ def discover_stickers(directory: Path) -> list[Path]:
 
 class StickerPickerDialog(QDialog):
     FAVORITES_KEY = "editor/favorite_stickers"
+    LAST_TAB_KEY = "editor/sticker_picker_last_tab"
 
     def __init__(
         self,
@@ -77,6 +78,7 @@ class StickerPickerDialog(QDialog):
         layout.addWidget(self._favorites_box)
         layout.addWidget(self.tabs, 1)
         self._rebuild()
+        self.tabs.currentChanged.connect(self._remember_current_tab)
 
     def selected_path(self) -> str | None:
         return self._selected_path
@@ -113,12 +115,25 @@ class StickerPickerDialog(QDialog):
         else:
             self._favorites_layout.addWidget(QLabel(self.tr("Use the star button to pin frequently used stickers."), self))
 
-        current_tab = self.tabs.currentIndex()
+        current_name = self.tabs.tabText(self.tabs.currentIndex()) if self.tabs.currentIndex() >= 0 else str(
+            self._settings.value(self.LAST_TAB_KEY, "Original")
+        )
+        self.tabs.blockSignals(True)
         self.tabs.clear()
         for collection in self._collections:
             self.tabs.addTab(self._collection_page(collection), collection.name)
-        if current_tab >= 0:
-            self.tabs.setCurrentIndex(min(current_tab, self.tabs.count() - 1))
+        matching_index = next(
+            (index for index in range(self.tabs.count()) if self.tabs.tabText(index) == current_name),
+            0,
+        )
+        self.tabs.setCurrentIndex(matching_index)
+        self.tabs.blockSignals(False)
+
+    def _remember_current_tab(self, index: int) -> None:
+        if index < 0:
+            return
+        self._settings.setValue(self.LAST_TAB_KEY, self.tabs.tabText(index))
+        self._settings.sync()
 
     def _collection_page(self, collection: StickerCollection) -> QWidget:
         stickers = discover_stickers(collection.directory)

@@ -135,6 +135,16 @@ class StickerPickerTest(unittest.TestCase):
             restored._toggle_favorite(str(sticker), False)
             self.assertEqual(StickerPickerDialog(settings=settings, collections=collections).favorite_paths(), [])
 
+    def test_last_theme_tab_is_restored(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            settings = QSettings(str(Path(directory) / "settings.ini"), QSettings.Format.IniFormat)
+            collections = tuple(StickerCollection(name, Path(directory)) for name in ("Original", "Papirus", "GNOME", "Numix"))
+            dialog = StickerPickerDialog(settings=settings, collections=collections)
+            dialog.tabs.setCurrentIndex(2)
+            self.assertEqual(settings.value(StickerPickerDialog.LAST_TAB_KEY), "GNOME")
+            restored = StickerPickerDialog(settings=settings, collections=collections)
+            self.assertEqual(restored.tabs.tabText(restored.tabs.currentIndex()), "GNOME")
+
 
 if __name__ == "__main__":
     unittest.main()
