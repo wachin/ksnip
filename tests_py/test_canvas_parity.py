@@ -258,10 +258,11 @@ class StickerInsertionParityTest(unittest.TestCase):
         self.assertEqual(canvas._items, [])
 
     def test_external_svg_and_png_stickers_can_build_click_items(self) -> None:
+        themes = Path(__file__).resolve().parents[1] / "ksnip_py" / "stickers" / "themes"
         candidates = (
-            Path("/usr/share/icons/Papirus/48x48/emotes/face-smile.svg"),
-            Path("/usr/share/icons/gnome/256x256/emotes/face-smile.png"),
-            Path("/usr/share/icons/Numix/48/emotes/face-smile.svg"),
+            themes / "papirus" / "face-smile.svg",
+            themes / "gnome" / "face-smile.png",
+            themes / "numix" / "face-smile.svg",
         )
         canvas = AnnotationCanvas()
         canvas.set_image(coordinate_image(100, 80))

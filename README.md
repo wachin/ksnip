@@ -75,9 +75,6 @@ sudo apt install \
   hunspell-es \
   libxcb-cursor0 \
   libxfixes3 \
-  gnome-icon-theme \
-  numix-icon-theme \
-  papirus-icon-theme \
   xdg-desktop-portal \
   xdg-desktop-portal-gtk \
   x11-utils \
@@ -103,7 +100,7 @@ The `xdg-desktop-portal-dev` package is not a runtime dependency. It contains de
 
 Hunspell dictionaries are optional but recommended. Install the dictionary packages appropriate for your language if they differ from the English and Spanish examples above.
 
-Sticker themes are provided by `papirus-icon-theme`, `gnome-icon-theme`, and `numix-icon-theme`. The sticker selector separates the bundled, Papirus, GNOME, and Numix collections into tabs, uses GNOME's 256×256 images, ignores symbolic-link duplicates, and preserves pinned favorites across theme changes and application restarts.
+The sticker selector bundles curated emotes from Papirus, GNOME, and Numix in separate tabs, uses GNOME's 256×256 images, excludes symbolic-link duplicates, remembers the last tab, and preserves pinned favorites across theme changes and application restarts. Their copyright notices and GPL licenses are documented in `THIRD_PARTY_LICENSES.md`, `LICENSES/`, and `debian/copyright`.
 
 ## Run from system packages
 

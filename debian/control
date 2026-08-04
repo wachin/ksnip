@@ -20,10 +20,7 @@ Depends:
  hunspell,
  hunspell-en-us,
  libxcb-cursor0,
- libxfixes3,
- gnome-icon-theme,
- numix-icon-theme,
- papirus-icon-theme
+ libxfixes3
 Description: PyQt6 port of the ksnip screenshot and annotation tool
  A Debian package for the PyQt6 port of ksnip located in ksnip_py/.
  It provides screenshot capture, annotation tools, inline text editing,
