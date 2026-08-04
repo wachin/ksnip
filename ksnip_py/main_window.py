@@ -834,13 +834,17 @@ class MainWindow(QMainWindow):
         self.quit_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogCloseButton), self.tr("Quit"), self)
         self.quit_action.triggered.connect(self.quit_application)
 
-        self.zoom_out_action = QAction("-", self)
+        self.zoom_out_action = QAction(self.tr("Zoom Out"), self)
+        self.zoom_out_action.setShortcut(QKeySequence.StandardKey.ZoomOut)
         self.zoom_out_action.triggered.connect(self.zoom_out_current_canvas)
-        self.zoom_reset_action = QAction("100%", self)
+        self.zoom_reset_action = QAction(self._load_icon("resetZoom"), self.tr("Reset Zoom"), self)
+        self.zoom_reset_action.setShortcut(QKeySequence("Ctrl+0"))
         self.zoom_reset_action.triggered.connect(self.reset_zoom_current_canvas)
-        self.zoom_in_action = QAction("+", self)
+        self.zoom_in_action = QAction(self.tr("Zoom In"), self)
+        self.zoom_in_action.setShortcut(QKeySequence.StandardKey.ZoomIn)
         self.zoom_in_action.triggered.connect(self.zoom_in_current_canvas)
-        self.zoom_fit_action = QAction(self._load_icon("fitImage"), self.tr("Fit"), self)
+        self.zoom_fit_action = QAction(self._load_icon("fitImage"), self.tr("Fit Image"), self)
+        self.zoom_fit_action.setShortcut(QKeySequence("Ctrl+F"))
         self.zoom_fit_action.triggered.connect(self.fit_current_canvas)
 
     def _build_toolbar(self) -> None:
@@ -1121,17 +1125,15 @@ class MainWindow(QMainWindow):
 
         self.zoom_out_button = QToolButton(self)
         self.zoom_out_button.setText("-")
-        self.zoom_out_button.setToolTip("Zoom out")
+        self.zoom_out_button.setToolTip(self.tr("Zoom Out (%1)").replace("%1", self.zoom_out_action.shortcut().toString()))
         self.zoom_out_button.setFixedSize(22, 22)
         self.zoom_out_button.clicked.connect(self.zoom_out_current_canvas)
         self.zoom_out_button.hide()
 
         self.zoom_reset_button = QToolButton(self)
         self.zoom_reset_button.setDefaultAction(self.zoom_reset_action)
-        self.zoom_reset_button.setText("100%")
-        self.zoom_reset_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextOnly)
-        self.zoom_reset_button.setFixedHeight(22)
-        self.zoom_reset_button.hide()
+        self.zoom_reset_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.zoom_reset_button.setFixedSize(22, 22)
 
         self.zoom_fit_button = QToolButton(self)
         self.zoom_fit_button.setDefaultAction(self.zoom_fit_action)
@@ -1140,13 +1142,14 @@ class MainWindow(QMainWindow):
 
         self.zoom_in_button = QToolButton(self)
         self.zoom_in_button.setText("+")
-        self.zoom_in_button.setToolTip("Zoom in")
+        self.zoom_in_button.setToolTip(self.tr("Zoom In (%1)").replace("%1", self.zoom_in_action.shortcut().toString()))
         self.zoom_in_button.setFixedSize(22, 22)
         self.zoom_in_button.clicked.connect(self.zoom_in_current_canvas)
         self.zoom_in_button.hide()
 
         self.zoom_spinbox = QSpinBox(self)
         self.zoom_spinbox.setRange(10, 800)
+        self.zoom_spinbox.setSingleStep(10)
         self.zoom_spinbox.setSuffix("%")
         self.zoom_spinbox.setValue(100)
         self.zoom_spinbox.setButtonSymbols(QSpinBox.ButtonSymbols.UpDownArrows)
@@ -1164,6 +1167,7 @@ class MainWindow(QMainWindow):
         zoom_layout.addWidget(self._make_icon_label("zoom", "Zoom"))
         zoom_layout.addWidget(self.zoom_spinbox)
         zoom_layout.addWidget(self.zoom_fit_button)
+        zoom_layout.addWidget(self.zoom_reset_button)
         self.statusBar().addWidget(zoom_controls)
 
         self.bold = self.bold_button

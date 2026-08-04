@@ -266,27 +266,27 @@
       <source>Scale</source>
       <translation>அளவு</translation></message>
     <message>
-      <location filename="../main_window.py" line="2489" />
+      <location filename="../main_window.py" line="2493" />
       <location filename="../main_window.py" line="786" />
       <source>No Effect</source>
       <translation>எந்த விளைவும் இல்லை</translation></message>
     <message>
-      <location filename="../main_window.py" line="2490" />
+      <location filename="../main_window.py" line="2494" />
       <location filename="../main_window.py" line="787" />
       <source>Drop Shadow</source>
       <translation>நிழலை கைவிடுங்கள்</translation></message>
     <message>
-      <location filename="../main_window.py" line="2491" />
+      <location filename="../main_window.py" line="2495" />
       <location filename="../main_window.py" line="788" />
       <source>Grayscale</source>
       <translation>கிரேச்கேல்</translation></message>
     <message>
-      <location filename="../main_window.py" line="2492" />
+      <location filename="../main_window.py" line="2496" />
       <location filename="../main_window.py" line="789" />
       <source>Invert Color</source>
       <translation>வண்ணத்தை தலைகீழ்</translation></message>
     <message>
-      <location filename="../main_window.py" line="2493" />
+      <location filename="../main_window.py" line="2497" />
       <location filename="../main_window.py" line="790" />
       <source>Border</source>
       <translation>எல்லை</translation></message>
@@ -295,7 +295,7 @@
       <source>Modify Canvas...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2370" />
+      <location filename="../main_window.py" line="2374" />
       <location filename="../main_window.py" line="796" />
       <source>Hide Docks</source>
       <translation>கப்பல்துறைகளை மறைக்கவும்</translation></message>
@@ -340,138 +340,162 @@
       <source>Quit</source>
       <translation>வெளியேறு</translation></message>
     <message>
-      <location filename="../main_window.py" line="843" />
-      <source>Fit</source>
+      <location filename="../main_window.py" line="837" />
+      <source>Zoom Out</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1180" />
+      <location filename="../main_window.py" line="840" />
+      <source>Reset Zoom</source>
+      <translation>பெரிதாக்கு மீட்டமைக்கவும்</translation></message>
+    <message>
+      <location filename="../main_window.py" line="843" />
+      <source>Zoom In</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="846" />
+      <source>Fit Image</source>
+      <translation>படம் பொருத்தமாக இருக்கும்</translation></message>
+    <message>
+      <location filename="../main_window.py" line="1128" />
+      <source>Zoom Out (%1)</source>
+      <translation>பெரிதாக்கவும் (%1)</translation></message>
+    <message>
+      <location filename="../main_window.py" line="1145" />
+      <source>Zoom In (%1)</source>
+      <translation>பெரிதாக்க (%1)</translation></message>
+    <message>
+      <location filename="../main_window.py" line="1184" />
       <source>&amp;File</source>
       <translation>கோப்பு (&amp;f)</translation></message>
     <message>
-      <location filename="../main_window.py" line="1182" />
+      <location filename="../main_window.py" line="1186" />
       <source>New Screenshot</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1192" />
+      <location filename="../main_window.py" line="1196" />
       <source>Recent Images</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1206" />
+      <location filename="../main_window.py" line="1210" />
       <source>&amp;Edit</source>
       <translation>திருத்து (&amp;e)</translation></message>
     <message>
-      <location filename="../main_window.py" line="1221" />
+      <location filename="../main_window.py" line="1225" />
       <source>Effects</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1232" />
+      <location filename="../main_window.py" line="1236" />
       <source>Annotation Items</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1241" />
+      <location filename="../main_window.py" line="1245" />
       <source>&amp;View</source>
       <translation>காண்க (&amp;v)</translation></message>
     <message>
-      <location filename="../main_window.py" line="1245" />
+      <location filename="../main_window.py" line="1249" />
       <source>Zoom</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1251" />
+      <location filename="../main_window.py" line="1255" />
       <source>&amp;Options</source>
       <translation>&amp; விருப்பங்கள்</translation></message>
     <message>
-      <location filename="../main_window.py" line="1256" />
+      <location filename="../main_window.py" line="1260" />
       <source>Watermark</source>
       <translation>வாட்டர்மார்க்</translation></message>
     <message>
-      <location filename="../main_window.py" line="1260" />
+      <location filename="../main_window.py" line="1264" />
       <source>Annotation Tools</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1285" />
+      <location filename="../main_window.py" line="1289" />
       <source>&amp;Help</source>
       <translation>உதவி (&amp;h)</translation></message>
     <message>
-      <location filename="../main_window.py" line="1318" />
+      <location filename="../main_window.py" line="1322" />
       <source>Show Editor</source>
       <translation>சோ எடிட்டர்</translation></message>
     <message>
-      <location filename="../main_window.py" line="1343" />
+      <location filename="../main_window.py" line="1347" />
       <source>ksnip PyQt6 is still running in the system tray.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1354" />
+      <location filename="../main_window.py" line="1358" />
       <source>ksnip PyQt6 was minimized to the system tray.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1464" />
+      <location filename="../main_window.py" line="1468" />
       <source>Select color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1473" />
+      <location filename="../main_window.py" line="1477" />
       <source>Updated selected item color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1499" />
+      <location filename="../main_window.py" line="1503" />
       <source>Select text color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1509" />
+      <location filename="../main_window.py" line="1513" />
       <source>Updated selected text color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1974" />
-      <location filename="../main_window.py" line="1829" />
+      <location filename="../main_window.py" line="1978" />
+      <location filename="../main_window.py" line="1833" />
       <source>Portal capture canceled.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2356" />
+      <location filename="../main_window.py" line="2360" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2370" />
+      <location filename="../main_window.py" line="2374" />
       <source>Show Docks</source>
       <translation>கப்பல்துறைகளைக் காட்டு</translation></message>
     <message>
-      <location filename="../main_window.py" line="2454" />
+      <location filename="../main_window.py" line="2458" />
       <source>Rotated image by %1 degrees</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2457" />
+      <location filename="../main_window.py" line="2461" />
       <source>Horizontal</source>
       <translation>கிடைமட்டமாக</translation></message>
     <message>
-      <location filename="../main_window.py" line="2457" />
+      <location filename="../main_window.py" line="2461" />
       <source>Vertical</source>
       <translation>செங்குத்து</translation></message>
     <message>
-      <location filename="../main_window.py" line="2458" />
+      <location filename="../main_window.py" line="2462" />
       <source>Flipped image: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2478" />
+      <location filename="../main_window.py" line="2482" />
       <source>Scaled image to %1 × %2 px</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2497" />
+      <location filename="../main_window.py" line="2501" />
       <source>Image effect: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2509" />
+      <location filename="../main_window.py" line="2513" />
       <source>Image slice removed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2534" />
+      <location filename="../main_window.py" line="2538" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2828" />
+      <location filename="../main_window.py" line="2832" />
       <source>Unable to open image data.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2836" />
+      <location filename="../main_window.py" line="2840" />
       <source>Opened image from standard input</source>
       <translation type="unfinished" /></message>
+    <message>
+      <source>Fit</source>
+      <translation type="vanished">Ajustar</translation>
+    </message>
     <message>
       <source>Border...</source>
       <translation type="vanished">Borde...</translation>

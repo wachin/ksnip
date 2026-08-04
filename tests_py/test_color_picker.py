@@ -54,6 +54,26 @@ class MainWindowColorPickerTest(unittest.TestCase):
         window.set_tool(Tool.MARKER_PEN)
         self.assertTrue(all(color.alpha() == 255 for color in window.property_color_palette._colors))
 
+    def test_zoom_picker_matches_the_original_controls_and_shortcuts(self) -> None:
+        window = MainWindow()
+        self.assertEqual(window.zoom_spinbox.minimum(), 10)
+        self.assertEqual(window.zoom_spinbox.maximum(), 800)
+        self.assertEqual(window.zoom_spinbox.singleStep(), 10)
+        self.assertFalse(window.zoom_fit_button.isHidden())
+        self.assertFalse(window.zoom_reset_button.isHidden())
+        self.assertEqual(window.zoom_reset_action.shortcut().toString(), "Ctrl+0")
+        self.assertEqual(window.zoom_fit_action.shortcut().toString(), "Ctrl+F")
+        self.assertFalse(window.zoom_in_action.shortcut().isEmpty())
+        self.assertFalse(window.zoom_out_action.shortcut().isEmpty())
+        canvas = window.current_canvas()
+        canvas.set_image(QImage(20, 20, QImage.Format.Format_ARGB32))
+        window._update_actions()
+        window.zoom_in_action.trigger()
+        self.assertEqual(canvas.zoom_percent(), 110)
+        self.assertEqual(window.zoom_spinbox.value(), 110)
+        window.zoom_reset_action.trigger()
+        self.assertEqual(canvas.zoom_percent(), 100)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -212,5 +212,27 @@ class ModifyCanvasParityTest(unittest.TestCase):
         self.assertEqual(canvas._image.pixelColor(0, 0), source.pixelColor(2, 1))
 
 
+class ZoomParityTest(unittest.TestCase):
+    def test_zoom_uses_ten_percent_steps_and_original_limits(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image())
+        canvas.set_zoom_percent(795)
+        canvas.zoom_in()
+        self.assertEqual(canvas.zoom_percent(), 800)
+        canvas.set_zoom_percent(15)
+        canvas.zoom_out()
+        self.assertEqual(canvas.zoom_percent(), 10)
+        canvas.reset_zoom()
+        self.assertEqual(canvas.zoom_percent(), 100)
+
+    def test_fit_zoom_keeps_aspect_ratio_and_stays_in_range(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(400, 200))
+        canvas.fit_to_size(QImage(200, 200, QImage.Format.Format_ARGB32).size())
+        self.assertEqual(canvas.zoom_percent(), 50)
+        canvas.fit_to_size(QImage(10000, 10000, QImage.Format.Format_ARGB32).size())
+        self.assertEqual(canvas.zoom_percent(), 800)
+
+
 if __name__ == "__main__":
     unittest.main()
