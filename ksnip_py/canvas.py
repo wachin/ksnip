@@ -501,6 +501,18 @@ class OverlayItem:
         if self.points is not None:
             self.points = [point + delta for point in self.points]
 
+    def text_arrow_label_rect(self) -> QRect:
+        lines = (self.text or "").splitlines() or [""]
+        font = QFont(self.font_family or QApplication.font().family(), self.font_point_size or 15)
+        font.setBold(self.bold)
+        font.setItalic(self.italic)
+        font.setUnderline(self.underline)
+        metrics = QFontMetrics(font)
+        width = max(96, max(metrics.horizontalAdvance(line or " ") for line in lines) + 24)
+        height = max(34, metrics.lineSpacing() * len(lines) + 10)
+        offset_x = 12 if self.end.x() >= self.start.x() else -(width + 12)
+        return QRect(self.start.x() + offset_x, self.start.y() - height // 2, width, height)
+
     def bounds(self) -> QRect:
         if self.kind in (Tool.PEN, Tool.MARKER_PEN) and self.points:
             left = min(point.x() for point in self.points)
@@ -526,11 +538,7 @@ class OverlayItem:
             height = max(28, line_height * len(lines) + 10)
             return QRect(self.start.x(), self.start.y(), width, height)
         if self.kind == Tool.TEXT_ARROW:
-            lines = (self.text or "").splitlines() or [""]
-            width = max(96, max(len(line) for line in lines) * 10 + 24)
-            height = max(34, ((self.font_point_size or 14) + 8) * len(lines) + 10)
-            label = QRect(self.start.x() + 8, self.start.y() - height // 2, width, height)
-            return QRect(self.start, self.end).normalized().united(label).adjusted(-6, -6, 6, 6)
+            return QRect(self.start, self.end).normalized().united(self.text_arrow_label_rect()).adjusted(-6, -6, 6, 6)
         if self.kind == Tool.NUMBER_ARROW:
             radius = max(14, self.font_point_size or 14)
             bubble = QRect(self.start.x() - radius, self.start.y() - radius, radius * 2, radius * 2)
@@ -2804,11 +2812,7 @@ class AnnotationCanvas(QLabel):
         return pixmap.toImage()
 
     def _text_arrow_label_rect(self, item: OverlayItem) -> QRect:
-        width, height = self._text_box_size(item)
-        dx = item.end.x() - item.start.x()
-        offset_x = 12 if dx >= 0 else -(width + 12)
-        top = item.start.y() - height // 2
-        return QRect(item.start.x() + offset_x, top, width, height)
+        return item.text_arrow_label_rect()
 
     def _circle_edge_point(self, center: QPoint, radius: int, target: QPoint) -> QPoint:
         dx = target.x() - center.x()

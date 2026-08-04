@@ -249,6 +249,19 @@ class NumberFontParityTest(unittest.TestCase):
         self.assertEqual(canvas._find_item_at(number_arrow.start), 1)
         self.assertIsNone(canvas._find_item_at(QPoint(10, 10)))
 
+    def test_left_text_arrow_bounds_contain_the_rendered_multiline_label(self) -> None:
+        canvas = AnnotationCanvas()
+        item = OverlayItem(
+            kind=Tool.TEXT_ARROW, start=QPoint(180, 60), end=QPoint(20, 60),
+            color=QColor("red"), pen_width=2, text="First line\nSecond line",
+            font_point_size=18, italic=True,
+        )
+        label_rect = canvas._text_arrow_label_rect(item)
+
+        self.assertLess(label_rect.right(), item.start.x())
+        self.assertTrue(item.bounds().contains(label_rect))
+        self.assertGreater(label_rect.height(), 34)
+
 
 class ImageEffectParityTest(unittest.TestCase):
     def setUp(self) -> None:
