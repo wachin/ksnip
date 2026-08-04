@@ -162,5 +162,24 @@
     <message><source>Upload Image</source><translation>Subir imagen</translation></message>
     <message><source>OCR Text Recognition</source><translation>Reconocimiento de texto OCR</translation></message>
     <message><source>Clear</source><translation>Limpiar</translation></message>
+    <message><source>Uploader</source><translation>Subidor</translation></message>
+    <message><source>Uploader Settings</source><translation>Configuración del subidor</translation></message>
+    <message><source>Ask for confirmation before uploading</source><translation>Pedir confirmación antes de subir</translation></message>
+    <message><source>Uploader Type</source><translation>Tipo de subidor</translation></message>
+    <message><source>Script Uploader</source><translation>Subidor mediante script</translation></message>
+    <message><source>Script Uploader Settings</source><translation>Configuración del subidor mediante script</translation></message>
+    <message><source>Script</source><translation>Script</translation></message>
+    <message><source>Copy script output to clipboard</source><translation>Copiar la salida del script al portapapeles</translation></message>
+    <message><source>Filter</source><translation>Filtro</translation></message>
+    <message><source>Treat stderr as failure</source><translation>Tratar la salida de error como un fallo</translation></message>
+    <message><source>Select upload script</source><translation>Seleccionar script de subida</translation></message>
+    <message><source>OCR</source><translation>OCR</translation></message>
+    <message><source>OCR Settings</source><translation>Configuración de OCR</translation></message>
+    <message><source>Enable OCR actions</source><translation>Activar acciones de OCR</translation></message>
+    <message><source>Spanish + English (script backend recommended)</source><translation>Español e inglés (se recomienda el backend por script)</translation></message>
+    <message><source>Copy OCR result to clipboard automatically</source><translation>Copiar automáticamente el resultado de OCR al portapapeles</translation></message>
+    <message><source>Backend</source><translation>Backend</translation></message>
+    <message><source>Script Path</source><translation>Ruta del script</translation></message>
+    <message><source>Select OCR script</source><translation>Seleccionar script de OCR</translation></message>
 </context>
 </TS>
