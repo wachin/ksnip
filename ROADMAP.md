@@ -315,6 +315,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Grupos de `Color` y `Fill Mode` en `Item Settings` con icono visible a la izquierda, más cercanos a la disposición original de Ksnip
 - [x] Grupo de `Font` con icono inicial en `Item Settings`, más cercano al patrón visual de `Text` y `Number` en Ksnip
 - [x] Selector de color de marcadores (`Marker Pen`, `Marker Rectangle`, `Marker Ellipse`) sin canal alpha, como en el configurador C++ original
+- [x] Selector emergente inspirado directamente en `kColorPicker`: cuadrícula de colores rápidos, muestras alpha sobre tablero ajedrezado, color personalizado y sincronización entre barras
 - [x] Toolbar de `Item Settings` con separadores reales entre grupos visibles y espaciado interno más compacto
 - [x] Ajuste fino de densidad visual en controles superiores: `Font`, `Scaling` y `Opacity` con anchura más cercana a las capturas de Ksnip
 - [ ] Igualar exactamente los controles visibles de `Item Settings` para cada herramienta según las capturas en `/images/Ksnip-Tools-selected/`

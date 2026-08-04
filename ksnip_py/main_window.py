@@ -34,6 +34,7 @@ from PyQt6.QtWidgets import (
 )
 
 from .canvas import AnnotationCanvas, CutDialog, FillMode, Tool
+from .color_picker import ColorPaletteMenu
 from .capture import (
     grab_active_window,
     grab_current_screen,
@@ -301,6 +302,8 @@ class MainWindow(QMainWindow):
         self.toolbox_color_button.setStyleSheet(
             f"QToolButton {{ background: {resolved.name()}; border: 1px solid #666; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; }}"
         )
+        if hasattr(self, "toolbox_color_palette"):
+            self.toolbox_color_palette.select_color(resolved)
 
     def _sync_property_color_buttons(self) -> None:
         if not hasattr(self, "property_color_button"):
@@ -313,10 +316,15 @@ class MainWindow(QMainWindow):
                 selected_color = canvas.selected_item_color()
                 if selected_color is not None:
                     stroke = QColor(selected_color)
+                else:
+                    stroke = canvas.color()
                 selected_text_color = canvas.selected_item_text_color()
                 if selected_text_color is not None:
                     secondary = QColor(selected_text_color)
+                else:
+                    secondary = canvas.text_color()
             else:
+                stroke = canvas.color()
                 secondary = canvas.text_color()
             self.property_color_button.setStyleSheet(
                 f"QToolButton {{ background: {stroke.name()}; border: 1px solid #666; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; }}"
@@ -325,6 +333,10 @@ class MainWindow(QMainWindow):
                 self.property_text_color_button.setStyleSheet(
                     f"QToolButton {{ background: {secondary.name()}; border: 1px solid #666; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; }}"
                 )
+            if hasattr(self, "property_color_palette"):
+                self.property_color_palette.select_color(stroke)
+            if hasattr(self, "property_text_color_palette"):
+                self.property_text_color_palette.select_color(secondary)
 
     def _fill_mode_icon_name(self, fill_mode: FillMode | None) -> str:
         if fill_mode == FillMode.BORDER_AND_NO_FILL:
@@ -552,6 +564,12 @@ class MainWindow(QMainWindow):
             self.stroke_width.setMaximum(100)
         else:
             self.stroke_width.setMaximum(20 if tool not in {Tool.BLUR, Tool.PIXELATE} else 60)
+
+        show_alpha = tool not in {Tool.MARKER_PEN, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE}
+        if hasattr(self, "property_color_palette"):
+            self.property_color_palette.set_show_alpha(show_alpha)
+        if hasattr(self, "toolbox_color_palette"):
+            self.toolbox_color_palette.set_show_alpha(show_alpha)
 
         self._render_property_toolbar(visibility)
 
@@ -865,7 +883,10 @@ class MainWindow(QMainWindow):
         self.property_color_button = QToolButton(self)
         self.property_color_button.setToolTip("Stroke color")
         self.property_color_button.setFixedSize(22, 22)
-        self.property_color_button.clicked.connect(self.select_color)
+        self.property_color_palette = ColorPaletteMenu(parent=self.property_color_button)
+        self.property_color_palette.color_selected.connect(self._apply_selected_color)
+        self.property_color_button.setMenu(self.property_color_palette)
+        self.property_color_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.property_stroke_group = self._make_property_group(
             self._make_icon_label("color", "Stroke color"),
             self.property_color_button,
@@ -894,7 +915,10 @@ class MainWindow(QMainWindow):
         self.property_text_color_button = QToolButton(self)
         self.property_text_color_button.setToolTip("Text color")
         self.property_text_color_button.setFixedSize(22, 22)
-        self.property_text_color_button.clicked.connect(self.select_text_color)
+        self.property_text_color_palette = ColorPaletteMenu(parent=self.property_text_color_button)
+        self.property_text_color_palette.color_selected.connect(self._apply_selected_text_color)
+        self.property_text_color_button.setMenu(self.property_text_color_palette)
+        self.property_text_color_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.property_text_color_group = self._make_property_group(
             self._make_icon_label("textColor", "Text color"),
             self.property_text_color_button,
@@ -1030,7 +1054,10 @@ class MainWindow(QMainWindow):
         toolbox_top_layout.addWidget(self._make_icon_label("opacity", "Opacity"))
         self.toolbox_color_button = QToolButton(toolbox_top)
         self.toolbox_color_button.setToolTip("Stroke color")
-        self.toolbox_color_button.clicked.connect(self.select_color)
+        self.toolbox_color_palette = ColorPaletteMenu(parent=self.toolbox_color_button)
+        self.toolbox_color_palette.color_selected.connect(self._apply_selected_color)
+        self.toolbox_color_button.setMenu(self.toolbox_color_palette)
+        self.toolbox_color_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.toolbox_color_button.setFixedSize(24, 24)
         toolbox_top_layout.addWidget(self.toolbox_color_button)
         toolbox_top_layout.addStretch(1)
@@ -1434,14 +1461,20 @@ class MainWindow(QMainWindow):
         effective_tool = self._effective_property_tool()
         if effective_tool not in {Tool.MARKER_PEN, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE}:
             options |= QColorDialog.ColorDialogOption.ShowAlphaChannel
-        color = QColorDialog.getColor(parent=self, options=options)
+        color = QColorDialog.getColor(canvas.color(), self, self.tr("Select color"), options)
         if color.isValid():
-            if canvas.tool() == Tool.SELECT and canvas.apply_color_to_selected_item(color):
-                self.status_label.setText("Updated selected item color")
-                self._sync_toolbox_color_button(color)
-                return
+            self._apply_selected_color(color)
+
+    def _apply_selected_color(self, color: QColor) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not color.isValid():
+            return
+        if canvas.tool() == Tool.SELECT and canvas.apply_color_to_selected_item(color):
+            self.status_label.setText(self.tr("Updated selected item color"))
+        else:
             canvas.set_color(color)
-            self._sync_toolbox_color_button(color)
+        self._sync_toolbox_color_button(color)
+        self._sync_property_color_buttons()
 
     def select_fill_color(self) -> None:
         canvas = self.current_canvas()
@@ -1463,11 +1496,17 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None:
             return
-        color = QColorDialog.getColor(parent=self)
+        color = QColorDialog.getColor(canvas.text_color(), self, self.tr("Select text color"), QColorDialog.ColorDialogOption.ShowAlphaChannel)
         if not color.isValid():
             return
+        self._apply_selected_text_color(color)
+
+    def _apply_selected_text_color(self, color: QColor) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not color.isValid():
+            return
         if canvas.tool() == Tool.SELECT and canvas.apply_text_color_to_selected_item(color):
-            self.status_label.setText("Updated selected text color")
+            self.status_label.setText(self.tr("Updated selected text color"))
         else:
             canvas.set_text_color(color)
         self._sync_property_color_buttons()

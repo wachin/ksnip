@@ -532,6 +532,9 @@ class AnnotationCanvas(QLabel):
     def set_color(self, color: QColor) -> None:
         self._color = QColor(color)
 
+    def color(self) -> QColor:
+        return QColor(self._color)
+
     def set_pen_width(self, width: int) -> None:
         self._pen_width = max(1, width)
 
