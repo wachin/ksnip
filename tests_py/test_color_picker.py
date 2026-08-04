@@ -309,6 +309,48 @@ class MainWindowColorPickerTest(unittest.TestCase):
                 else:
                     settings.setValue(key, value)
 
+    def test_fonts_use_cpp_defaults_and_are_restored_per_tool(self) -> None:
+        window = MainWindow()
+        settings = window._settings
+        tools = (Tool.TEXT, Tool.NUMBER)
+        suffixes = ("family", "size", "bold", "italic", "underline")
+        keys = [f"editor/tool_font/{tool.value}/{suffix}" for tool in tools for suffix in suffixes]
+        old_values = {key: settings.value(key) for key in keys}
+        try:
+            for key in keys:
+                settings.remove(key)
+            window.set_tool(Tool.TEXT)
+            self.assertEqual(window.font_size.value(), 15)
+            self.assertTrue(window.bold_button.isChecked())
+            self.assertFalse(window.italic_button.isChecked())
+            window.font_size.setValue(17)
+            window.bold_button.setChecked(False)
+            window.italic_button.setChecked(True)
+            window.underline_button.setChecked(True)
+
+            window.set_tool(Tool.NUMBER)
+            self.assertEqual(window.font_size.value(), 20)
+            self.assertTrue(window.bold_button.isChecked())
+            self.assertFalse(window.italic_button.isChecked())
+            self.assertFalse(window.underline_button.isChecked())
+
+            window.set_tool(Tool.TEXT)
+            self.assertEqual(window.font_size.value(), 17)
+            self.assertFalse(window.bold_button.isChecked())
+            self.assertTrue(window.italic_button.isChecked())
+            self.assertTrue(window.underline_button.isChecked())
+            canvas = window.current_canvas()
+            self.assertEqual(canvas._font_point_size, 17)
+            self.assertFalse(canvas._bold)
+            self.assertTrue(canvas._italic)
+            self.assertTrue(canvas._underline)
+        finally:
+            for key, value in old_values.items():
+                if value is None:
+                    settings.remove(key)
+                else:
+                    settings.setValue(key, value)
+
 
 class StickerPickerTest(unittest.TestCase):
     def test_legacy_sticker_scaling_is_migrated_to_the_normalized_default_once(self) -> None:

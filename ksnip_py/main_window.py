@@ -1418,13 +1418,14 @@ class MainWindow(QMainWindow):
         canvas.changed.connect(self._sync_item_controls)
         canvas.zoom_changed.connect(self._sync_zoom_controls)
         canvas.set_pen_width(self.stroke_width.value())
-        canvas.set_font_family(self.font_family.currentFont().family())
-        canvas.set_font_point_size(self.font_size.value())
+        initial_font = self._stored_font_for_tool(self._current_tool())
+        canvas.set_font_family(initial_font.family())
+        canvas.set_font_point_size(initial_font.pointSize())
         canvas.set_text_color(self._stored_text_color_for_tool(self._current_tool()))
         canvas.set_fill_mode(self._current_fill_mode_value())
-        canvas.set_bold(self.bold.isChecked())
-        canvas.set_italic(self.italic.isChecked())
-        canvas.set_underline(self.underline_button.isChecked())
+        canvas.set_bold(initial_font.bold())
+        canvas.set_italic(initial_font.italic())
+        canvas.set_underline(initial_font.underline())
         canvas.set_shadow(self.shadow_state_button.isChecked())
         canvas.set_scaling(self.scaling.value() / 100.0)
         canvas.set_number_seed(self.number_value.value())
@@ -1511,6 +1512,7 @@ class MainWindow(QMainWindow):
         self._restore_fill_mode_for_tool(tool)
         self._restore_color_for_tool(tool)
         self._restore_text_color_for_tool(tool)
+        self._restore_font_for_tool(tool)
         self._restore_width_for_tool(tool)
         self._restore_shadow_and_opacity_for_tool(tool)
         self._sync_item_controls()
@@ -1623,6 +1625,48 @@ class MainWindow(QMainWindow):
         if canvas is not None:
             canvas.set_text_color(color)
         self._sync_property_color_buttons()
+
+    def _stored_font_for_tool(self, tool: Tool) -> QFont:
+        point_size = 20 if tool in {Tool.NUMBER, Tool.NUMBER_POINTER, Tool.NUMBER_ARROW} else 15
+        font = QFont(QGuiApplication.font().family(), point_size)
+        font.setBold(True)
+        if tool not in self._text_color_tools():
+            return font
+        prefix = f"editor/tool_font/{tool.value}"
+        family = self._settings.value(f"{prefix}/family")
+        if isinstance(family, str) and family:
+            font.setFamily(family)
+        font.setPointSize(max(6, min(144, self._setting_int(f"{prefix}/size", point_size))))
+        font.setBold(self._setting_bool(f"{prefix}/bold", True))
+        font.setItalic(self._setting_bool(f"{prefix}/italic", False))
+        font.setUnderline(self._setting_bool(f"{prefix}/underline", False))
+        return font
+
+    def _restore_font_for_tool(self, tool: Tool) -> None:
+        if tool not in self._text_color_tools():
+            return
+        font = self._stored_font_for_tool(tool)
+        self.font_family.blockSignals(True)
+        self.font_family.setCurrentFont(font)
+        self.font_family.blockSignals(False)
+        self.font_size.blockSignals(True)
+        self.font_size.setValue(font.pointSize())
+        self.font_size.blockSignals(False)
+        for button, checked in (
+            (self.bold_button, font.bold()),
+            (self.italic_button, font.italic()),
+            (self.underline_button, font.underline()),
+        ):
+            button.blockSignals(True)
+            button.setChecked(checked)
+            button.blockSignals(False)
+        canvas = self.current_canvas()
+        if canvas is not None:
+            canvas.set_font_family(font.family())
+            canvas.set_font_point_size(font.pointSize())
+            canvas.set_bold(font.bold())
+            canvas.set_italic(font.italic())
+            canvas.set_underline(font.underline())
 
     def _restore_width_for_tool(self, tool: Tool) -> None:
         width_tools = {
@@ -1764,6 +1808,8 @@ class MainWindow(QMainWindow):
             return
         canvas.set_font_family(family)
         self._settings.setValue("editor/font_family", family)
+        if canvas.tool() in self._text_color_tools():
+            self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/family", family)
 
     def _apply_font_size(self, size: int) -> None:
         canvas = self.current_canvas()
@@ -1774,6 +1820,8 @@ class MainWindow(QMainWindow):
             return
         canvas.set_font_point_size(size)
         self._settings.setValue("editor/font_point_size", size)
+        if canvas.tool() in self._text_color_tools():
+            self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/size", size)
 
     def _apply_opacity(self, opacity: int) -> None:
         canvas = self.current_canvas()
@@ -1813,6 +1861,8 @@ class MainWindow(QMainWindow):
             return
         canvas.set_bold(checked)
         self._settings.setValue("editor/bold", checked)
+        if canvas.tool() in self._text_color_tools():
+            self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/bold", checked)
 
     def _apply_italic(self, checked: bool) -> None:
         canvas = self.current_canvas()
@@ -1823,6 +1873,8 @@ class MainWindow(QMainWindow):
             return
         canvas.set_italic(checked)
         self._settings.setValue("editor/italic", checked)
+        if canvas.tool() in self._text_color_tools():
+            self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/italic", checked)
 
     def _apply_underline(self, checked: bool) -> None:
         canvas = self.current_canvas()
@@ -1832,6 +1884,8 @@ class MainWindow(QMainWindow):
                 return
             canvas.set_underline(checked)
         self._settings.setValue("editor/underline", checked)
+        if canvas is not None and canvas.tool() in self._text_color_tools():
+            self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/underline", checked)
 
     def _apply_shadow_enabled(self, checked: bool) -> None:
         canvas = self.current_canvas()
@@ -3378,13 +3432,14 @@ class MainWindow(QMainWindow):
                 continue
             canvas.set_pen_width(data.pen_width)
             canvas.set_text_color(self._stored_text_color_for_tool(data.tool))
-            canvas.set_font_family(data.font_family)
-            canvas.set_font_point_size(data.font_point_size)
+            font = self._stored_font_for_tool(data.tool)
+            canvas.set_font_family(font.family())
+            canvas.set_font_point_size(font.pointSize())
             canvas.set_fill_mode(data.fill_mode)
             canvas.set_opacity(data.opacity_percent / 100.0)
-            canvas.set_bold(data.bold)
-            canvas.set_italic(data.italic)
-            canvas.set_underline(self.underline_button.isChecked())
+            canvas.set_bold(font.bold())
+            canvas.set_italic(font.italic())
+            canvas.set_underline(font.underline())
             canvas.set_shadow(self.shadow_state_button.isChecked())
             canvas.set_scaling(self.scaling.value() / 100.0)
             canvas.set_number_seed(self.number_value.value())
