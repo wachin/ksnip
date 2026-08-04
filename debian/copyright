@@ -71,6 +71,13 @@ Copyright: 2026 Wachin <wachin.id@gmail.com>
 License: GPL-3
 Comment: Original artwork designed for ksnip PyQt6; no upstream theme file was copied or modified.
 
+Files: ksnip_py/stickers/themes/supertux/*
+Copyright: 2026 Wachin <wachin.id@gmail.com>
+           ksnip PyQt6 contributors
+License: GPL-3
+Comment: Original SuperTux-inspired artwork generated from tools/generate_supertux_stickers.py.
+ No sprite or other artwork from the SuperTux game was copied or modified.
+
 License: GPL-2+
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

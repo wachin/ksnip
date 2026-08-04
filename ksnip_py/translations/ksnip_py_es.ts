@@ -1845,33 +1845,33 @@
   <context>
     <name>StickerPickerDialog</name>
     <message>
-      <location filename="../sticker_picker.py" line="69" />
+      <location filename="../sticker_picker.py" line="70" />
       <source>Select Sticker</source>
       <translation>Seleccionar sticker</translation>
     </message>
     <message>
-      <location filename="../sticker_picker.py" line="72" />
+      <location filename="../sticker_picker.py" line="73" />
       <source>Pinned Stickers</source>
       <translation>Stickers anclados</translation>
     </message>
     <message>
-      <location filename="../sticker_picker.py" line="116" />
+      <location filename="../sticker_picker.py" line="117" />
       <source>Use the star button to pin frequently used stickers.</source>
       <translation>Use el botón de estrella para anclar los stickers utilizados con frecuencia.</translation>
     </message>
     <message>
-      <location filename="../sticker_picker.py" line="143" />
+      <location filename="../sticker_picker.py" line="144" />
       <source>Sticker theme is not installed: %1</source>
       <translation>El tema de stickers no está instalado: %1</translation>
     </message>
     <message>
-      <location filename="../sticker_picker.py" line="184" />
-      <location filename="../sticker_picker.py" line="169" />
+      <location filename="../sticker_picker.py" line="185" />
+      <location filename="../sticker_picker.py" line="170" />
       <source>Unpin Sticker</source>
       <translation>Desanclar sticker</translation>
     </message>
     <message>
-      <location filename="../sticker_picker.py" line="184" />
+      <location filename="../sticker_picker.py" line="185" />
       <source>Pin Sticker</source>
       <translation>Anclar sticker</translation>
     </message>

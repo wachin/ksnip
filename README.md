@@ -100,7 +100,7 @@ The `xdg-desktop-portal-dev` package is not a runtime dependency. It contains de
 
 Hunspell dictionaries are optional but recommended. Install the dictionary packages appropriate for your language if they differ from the English and Spanish examples above.
 
-The sticker selector bundles curated emotes from Papirus, GNOME, and Numix in separate tabs, uses GNOME's 256×256 images, excludes symbolic-link duplicates, remembers the last tab, and preserves pinned favorites across theme changes and application restarts. Their copyright notices and GPL licenses are documented in `THIRD_PARTY_LICENSES.md`, `LICENSES/`, and `debian/copyright`.
+The sticker selector bundles curated emotes from Papirus, GNOME, and Numix plus an original 26-sticker SuperTux-inspired collection in separate tabs. It uses GNOME's 256×256 images, excludes symbolic-link duplicates, remembers the last tab, and preserves pinned favorites across theme changes and application restarts. Copyright notices and GPL licenses are documented in `THIRD_PARTY_LICENSES.md`, `LICENSES/`, and `debian/copyright`.
 
 ## Run from system packages
 

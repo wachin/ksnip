@@ -31,3 +31,13 @@ The Debian machine-readable copyright declarations are in `debian/copyright`. Ex
 The bundled kImageAnnotator icons and original sticker set remain under GNU LGPL version 3; its complete text is provided in `LICENSES/LGPL-3.0.txt`.
 
 The `check_mark.svg` and `cross_mark.svg` files added to each theme directory are original ksnip PyQt6 artwork under GPL-3.0. They use theme-compatible palettes but are not copied or modified from Papirus, GNOME, or Numix artwork.
+
+## SuperTux-inspired collection
+
+- Packaged files: `ksnip_py/stickers/themes/supertux/*.svg`
+- Generator source: `tools/generate_supertux_stickers.py`
+- Inspiration: the GPL-3.0 SuperTux free-software game and the Tux penguin
+- Copyright: 2026 Wachin and ksnip PyQt6 contributors
+- License: GNU GPL version 3 (`LICENSES/GPL-3.0.txt`)
+
+All 26 SVGs are original ksnip PyQt6 drawings. They share a stylized penguin face and red cape motif, but no SuperTux sprite, logo, texture, or other game asset was copied or modified.
