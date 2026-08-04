@@ -193,6 +193,30 @@ class FreehandToolParityTest(unittest.TestCase):
 
 
 class NumberFontParityTest(unittest.TestCase):
+    def test_number_creation_and_value_changes_recalculate_the_badge(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(240, 140))
+        canvas.set_font_point_size(20)
+        canvas.set_bold(True)
+        item = canvas._build_click_item(Tool.NUMBER, QPoint(100, 70))
+        self.assertIsNotNone(item)
+        initial_rect = QRect(item.start, item.end).normalized()
+        self.assertEqual(initial_rect.center(), QPoint(100, 70))
+        self.assertEqual(initial_rect.width(), item.number_badge_diameter())
+        canvas._items = [item]
+        canvas._select_single_item(0)
+
+        self.assertTrue(canvas.apply_number_to_selected_item(100))
+        changed_rect = QRect(item.start, item.end).normalized()
+        self.assertEqual(changed_rect.center(), initial_rect.center())
+        self.assertGreater(changed_rect.width(), initial_rect.width())
+        self.assertEqual(changed_rect.width(), item.number_badge_diameter())
+
+        canvas.undo()
+        restored = canvas._items[0]
+        self.assertEqual(restored.text, "1")
+        self.assertEqual(QRect(restored.start, restored.end).normalized(), initial_rect)
+
     def test_number_badge_resizes_around_its_center_when_font_changes(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_image(coordinate_image(200, 120))

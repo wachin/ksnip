@@ -2157,6 +2157,7 @@ class AnnotationCanvas(QLabel):
             return False
         self._push_undo_state()
         item.text = str(resolved)
+        self._resize_number_badge_to_font(item)
         self._mark_dirty()
         self._refresh()
         return True
@@ -2452,8 +2453,10 @@ class AnnotationCanvas(QLabel):
         rect = QRect(item.start, item.end).normalized()
         center = rect.center()
         diameter = item.number_badge_diameter()
-        item.start = QPoint(center.x() - diameter // 2, center.y() - diameter // 2)
-        item.end = QPoint(item.start.x() + diameter, item.start.y() + diameter)
+        resized = QRect(QPoint(), QSize(diameter, diameter))
+        resized.moveCenter(center)
+        item.start = resized.topLeft()
+        item.end = resized.bottomRight()
 
     def _item_display_rect(self, item: OverlayItem) -> QRect:
         sx = self._zoom_percent / 100.0
@@ -2662,12 +2665,11 @@ class AnnotationCanvas(QLabel):
                 fill_mode=self._fill_mode,
             )
         if tool == Tool.NUMBER:
-            radius = max(16, self._font_point_size)
             value = self._next_number_value()
-            return OverlayItem(
+            item = OverlayItem(
                 kind=Tool.NUMBER,
-                start=QPoint(point.x() - radius, point.y() - radius),
-                end=QPoint(point.x() + radius, point.y() + radius),
+                start=QPoint(point),
+                end=QPoint(point),
                 color=QColor(self._color),
                 pen_width=self._pen_width,
                 text=str(value),
@@ -2681,6 +2683,8 @@ class AnnotationCanvas(QLabel):
                 shadow=self._shadow,
                 fill_mode=self._fill_mode,
             )
+            self._resize_number_badge_to_font(item)
+            return item
         if tool == Tool.STICKER:
             image = self._load_sticker_image(self._sticker_path)
             if image is None or image.isNull():
