@@ -1902,6 +1902,7 @@ class AnnotationCanvas(QLabel):
             return False
         self._push_undo_state()
         item.font_family = family
+        self._resize_number_badge_to_font(item)
         self._mark_dirty()
         self._refresh()
         return True
@@ -1915,6 +1916,7 @@ class AnnotationCanvas(QLabel):
             return False
         self._push_undo_state()
         item.font_point_size = point_size
+        self._resize_number_badge_to_font(item)
         self._mark_dirty()
         self._refresh()
         return True
@@ -2020,7 +2022,9 @@ class AnnotationCanvas(QLabel):
             return False
         self._push_undo_state()
         for index in text_indices:
-            self._items[index].bold = bold
+            item = self._items[index]
+            item.bold = bold
+            self._resize_number_badge_to_font(item)
         self._mark_dirty()
         self._refresh()
         return True
@@ -2037,7 +2041,9 @@ class AnnotationCanvas(QLabel):
             return False
         self._push_undo_state()
         for index in text_indices:
-            self._items[index].italic = italic
+            item = self._items[index]
+            item.italic = italic
+            self._resize_number_badge_to_font(item)
         self._mark_dirty()
         self._refresh()
         return True
@@ -2054,7 +2060,9 @@ class AnnotationCanvas(QLabel):
             return False
         self._push_undo_state()
         for index in text_indices:
-            self._items[index].underline = underline
+            item = self._items[index]
+            item.underline = underline
+            self._resize_number_badge_to_font(item)
         self._mark_dirty()
         self._refresh()
         return True
@@ -2368,6 +2376,17 @@ class AnnotationCanvas(QLabel):
         width = max(60, max(metrics.horizontalAdvance(line or " ") for line in lines) + 18)
         height = max(28, metrics.lineSpacing() * len(lines) + 10)
         return width, height
+
+    def _resize_number_badge_to_font(self, item: OverlayItem) -> None:
+        if item.kind != Tool.NUMBER:
+            return
+        rect = QRect(item.start, item.end).normalized()
+        center = rect.center()
+        metrics = QFontMetrics(self._text_font(item))
+        text_rect = metrics.boundingRect(item.text or " ").adjusted(-5, -5, 5, 5)
+        diameter = max(16, text_rect.width(), text_rect.height())
+        item.start = QPoint(center.x() - diameter // 2, center.y() - diameter // 2)
+        item.end = QPoint(item.start.x() + diameter, item.start.y() + diameter)
 
     def _item_display_rect(self, item: OverlayItem) -> QRect:
         sx = self._zoom_percent / 100.0

@@ -193,6 +193,27 @@ class FreehandToolParityTest(unittest.TestCase):
 
 
 class NumberFontParityTest(unittest.TestCase):
+    def test_number_badge_resizes_around_its_center_when_font_changes(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(200, 120))
+        item = OverlayItem(
+            kind=Tool.NUMBER, start=QPoint(40, 40), end=QPoint(70, 70),
+            color=QColor("red"), pen_width=2, text="88", font_point_size=12,
+        )
+        canvas._items = [item]
+        canvas._select_single_item(0)
+        original_rect = QRect(item.start, item.end).normalized()
+
+        self.assertTrue(canvas.apply_font_point_size_to_selected_text(36))
+        resized_rect = QRect(item.start, item.end).normalized()
+        self.assertEqual(resized_rect.center(), original_rect.center())
+        self.assertGreater(resized_rect.width(), original_rect.width())
+        self.assertEqual(resized_rect.width(), resized_rect.height())
+
+        canvas.undo()
+        restored_rect = QRect(canvas._items[0].start, canvas._items[0].end).normalized()
+        self.assertEqual(restored_rect, original_rect)
+
     def test_number_tools_use_the_configured_font_styles(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_bold(False)
