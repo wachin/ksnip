@@ -103,6 +103,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] CLI `--cursor` para incluir el puntero en capturas solicitadas por línea de comandos
 - [x] CLI `--upload` para capturar y ejecutar el uploader por script sin abrir el editor; combinable con `--save`
 - [x] CLI `--portal` conectado al backend genérico de `xdg-desktop-portal`
+- [x] Captura Portal accesible desde toolbar, menú Archivo, bandeja, acción predeterminada y atajo configurable
 
 ## Captura de Pantalla
 

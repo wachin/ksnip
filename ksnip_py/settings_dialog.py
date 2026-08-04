@@ -442,6 +442,7 @@ class SettingsDialog(QDialog):
         self.tray_default_capture_mode.addItem(self.tr("Current Screen"), "current")
         self.tray_default_capture_mode.addItem(self.tr("Active Window"), "active")
         self.tray_default_capture_mode.addItem(self.tr("Window Under Cursor"), "under_cursor")
+        self.tray_default_capture_mode.addItem(self.tr("Portal"), "portal")
         tray_defaults_layout.addRow(self.tr("Capture Mode"), self.tray_default_capture_mode)
         self.tray_default_action.currentIndexChanged.connect(self._sync_tray_default_controls)
         shortcuts_group = QGroupBox(self.tr("Global HotKeys"), self)
@@ -457,6 +458,7 @@ class SettingsDialog(QDialog):
             ("capture_current", self.tr("Current Screen Capture")),
             ("capture_active", self.tr("Active Window Capture")),
             ("capture_under_cursor", self.tr("Window Under Cursor Capture")),
+            ("capture_portal", self.tr("Portal Capture")),
             ("open", self.tr("Open Image")),
             ("save", self.tr("Save")),
             ("paste", self.tr("Paste Image")),

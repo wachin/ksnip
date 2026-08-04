@@ -77,6 +77,7 @@
     <message><source>Clear Recent Images</source><translation>Limpiar imágenes recientes</translation></message>
     <message><source>Fit</source><translation>Ajustar</translation></message>
     <message><source>New Screenshot</source><translation>Nueva captura de pantalla</translation></message>
+    <message><source>Portal</source><translation>Portal</translation></message>
     <message><source>Show Editor</source><translation>Mostrar editor</translation></message>
     <message><source>ksnip PyQt6 is still running in the system tray.</source><translation>ksnip PyQt6 continúa ejecutándose en la bandeja del sistema.</translation></message>
     <message><source>ksnip PyQt6 was minimized to the system tray.</source><translation>ksnip PyQt6 se minimizó a la bandeja del sistema.</translation></message>
@@ -145,6 +146,8 @@
     <message><source>Active Window</source><translation>Ventana activa</translation></message>
     <message><source>Window Under Cursor</source><translation>Ventana bajo el cursor</translation></message>
     <message><source>Capture Mode</source><translation>Modo de captura</translation></message>
+    <message><source>Portal</source><translation>Portal</translation></message>
+    <message><source>Portal Capture</source><translation>Captura mediante el portal</translation></message>
     <message><source>HotKeys</source><translation>Atajos</translation></message>
     <message><source>Global HotKeys</source><translation>Atajos globales</translation></message>
     <message><source>Enable Global HotKeys</source><translation>Activar atajos globales</translation></message>

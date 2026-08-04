@@ -191,6 +191,7 @@ class MainWindow(QMainWindow):
         menu.addAction(self.new_capture_current_action)
         menu.addAction(self.new_capture_active_action)
         menu.addAction(self.new_capture_under_cursor_action)
+        menu.addAction(self.new_capture_portal_action)
         button.setMenu(menu)
         return button
 
@@ -577,6 +578,9 @@ class MainWindow(QMainWindow):
         self.new_capture_under_cursor_action = QAction(self._load_icon("windowUnderCursor"), self.tr("Window Under Cursor"), self)
         self.new_capture_under_cursor_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_under_cursor_action.triggered.connect(self.capture_window_under_cursor)
+        self.new_capture_portal_action = QAction(self._load_icon("wayland"), self.tr("Portal"), self)
+        self.new_capture_portal_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.new_capture_portal_action.triggered.connect(self.capture_portal)
 
         self.open_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogOpenButton), self.tr("Open"), self)
         self.open_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
@@ -1132,6 +1136,7 @@ class MainWindow(QMainWindow):
         new_capture_menu.addAction(self.new_capture_current_action)
         new_capture_menu.addAction(self.new_capture_active_action)
         new_capture_menu.addAction(self.new_capture_under_cursor_action)
+        new_capture_menu.addAction(self.new_capture_portal_action)
         file_menu.addSeparator()
         file_menu.addAction(self.open_action)
         self.recent_images_menu = file_menu.addMenu(self.tr("Recent Images"))
@@ -1260,6 +1265,7 @@ class MainWindow(QMainWindow):
         menu.addAction(self.new_capture_current_action)
         menu.addAction(self.new_capture_active_action)
         menu.addAction(self.new_capture_under_cursor_action)
+        menu.addAction(self.new_capture_portal_action)
         menu.addSeparator()
         menu.addAction(self.open_action)
         menu.addAction(self.save_action)
@@ -3055,6 +3061,7 @@ class MainWindow(QMainWindow):
             "capture_current": QKeySequence("Ctrl+Shift+S"),
             "capture_active": QKeySequence("Ctrl+Shift+A"),
             "capture_under_cursor": QKeySequence("Ctrl+Shift+U"),
+            "capture_portal": QKeySequence("Alt+Shift+T"),
             "open": QKeySequence(QKeySequence.StandardKey.Open),
             "save": QKeySequence(QKeySequence.StandardKey.Save),
             "paste": QKeySequence(QKeySequence.StandardKey.Paste),
@@ -3072,6 +3079,7 @@ class MainWindow(QMainWindow):
             "capture_current": self.new_capture_current_action,
             "capture_active": self.new_capture_active_action,
             "capture_under_cursor": self.new_capture_under_cursor_action,
+            "capture_portal": self.new_capture_portal_action,
             "open": self.open_action,
             "save": self.save_action,
             "paste": self.paste_action,
@@ -3139,6 +3147,7 @@ class MainWindow(QMainWindow):
             "current": self.new_capture_current_action,
             "active": self.new_capture_active_action,
             "under_cursor": self.new_capture_under_cursor_action,
+            "portal": self.new_capture_portal_action,
         }.get(mode, self.new_capture_rect_action)
 
     def _trigger_tray_default_action(self) -> None:
