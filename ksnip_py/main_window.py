@@ -1420,7 +1420,7 @@ class MainWindow(QMainWindow):
         canvas.set_pen_width(self.stroke_width.value())
         canvas.set_font_family(self.font_family.currentFont().family())
         canvas.set_font_point_size(self.font_size.value())
-        canvas.set_text_color(QColor("#ffffff"))
+        canvas.set_text_color(self._stored_text_color_for_tool(self._current_tool()))
         canvas.set_fill_mode(self._current_fill_mode_value())
         canvas.set_bold(self.bold.isChecked())
         canvas.set_italic(self.italic.isChecked())
@@ -1510,6 +1510,7 @@ class MainWindow(QMainWindow):
         self._update_property_toolbar_for_tool()
         self._restore_fill_mode_for_tool(tool)
         self._restore_color_for_tool(tool)
+        self._restore_text_color_for_tool(tool)
         self._restore_width_for_tool(tool)
         self._restore_shadow_and_opacity_for_tool(tool)
         self._sync_item_controls()
@@ -1597,6 +1598,30 @@ class MainWindow(QMainWindow):
         if canvas is not None:
             canvas.set_color(color)
         self._sync_toolbox_color_button(color)
+        self._sync_property_color_buttons()
+
+    @staticmethod
+    def _text_color_tools() -> set[Tool]:
+        return {
+            Tool.TEXT, Tool.TEXT_POINTER, Tool.TEXT_ARROW,
+            Tool.NUMBER, Tool.NUMBER_POINTER, Tool.NUMBER_ARROW,
+        }
+
+    def _stored_text_color_for_tool(self, tool: Tool) -> QColor:
+        default = QColor(Qt.GlobalColor.white)
+        if tool not in self._text_color_tools():
+            return default
+        stored = self._settings.value(f"editor/tool_text_color/{tool.value}")
+        color = QColor(stored) if stored is not None else default
+        return color if color.isValid() else default
+
+    def _restore_text_color_for_tool(self, tool: Tool) -> None:
+        if tool not in self._text_color_tools():
+            return
+        color = self._stored_text_color_for_tool(tool)
+        canvas = self.current_canvas()
+        if canvas is not None:
+            canvas.set_text_color(color)
         self._sync_property_color_buttons()
 
     def _restore_width_for_tool(self, tool: Tool) -> None:
@@ -1709,6 +1734,11 @@ class MainWindow(QMainWindow):
             self.status_label.setText(self.tr("Updated selected text color"))
         else:
             canvas.set_text_color(color)
+            if canvas.tool() in self._text_color_tools():
+                self._settings.setValue(
+                    f"editor/tool_text_color/{canvas.tool().value}",
+                    color.name(QColor.NameFormat.HexArgb),
+                )
         self._sync_property_color_buttons()
 
     def _apply_stroke_width(self, width: int) -> None:
@@ -3347,7 +3377,7 @@ class MainWindow(QMainWindow):
             if canvas is None:
                 continue
             canvas.set_pen_width(data.pen_width)
-            canvas.set_text_color(QColor("#ffffff"))
+            canvas.set_text_color(self._stored_text_color_for_tool(data.tool))
             canvas.set_font_family(data.font_family)
             canvas.set_font_point_size(data.font_point_size)
             canvas.set_fill_mode(data.fill_mode)

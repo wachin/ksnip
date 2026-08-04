@@ -279,6 +279,36 @@ class MainWindowColorPickerTest(unittest.TestCase):
                 else:
                     settings.setValue(key, value)
 
+    def test_text_colors_use_cpp_default_and_are_restored_per_tool(self) -> None:
+        window = MainWindow()
+        settings = window._settings
+        tools = (Tool.TEXT, Tool.TEXT_POINTER, Tool.TEXT_ARROW, Tool.NUMBER, Tool.NUMBER_POINTER, Tool.NUMBER_ARROW)
+        keys = [f"editor/tool_text_color/{tool.value}" for tool in tools]
+        old_values = {key: settings.value(key) for key in keys}
+        try:
+            for key in keys:
+                settings.remove(key)
+            for tool in tools:
+                window.set_tool(tool)
+                self.assertEqual(window.current_canvas().text_color(), QColor(Qt.GlobalColor.white))
+
+            text_color = QColor(20, 40, 60, 180)
+            number_color = QColor(210, 190, 170, 150)
+            window.set_tool(Tool.TEXT)
+            window._apply_selected_text_color(text_color)
+            window.set_tool(Tool.NUMBER)
+            window._apply_selected_text_color(number_color)
+            window.set_tool(Tool.TEXT)
+            self.assertEqual(window.current_canvas().text_color(), text_color)
+            window.set_tool(Tool.NUMBER)
+            self.assertEqual(window.current_canvas().text_color(), number_color)
+        finally:
+            for key, value in old_values.items():
+                if value is None:
+                    settings.remove(key)
+                else:
+                    settings.setValue(key, value)
+
 
 class StickerPickerTest(unittest.TestCase):
     def test_legacy_sticker_scaling_is_migrated_to_the_normalized_default_once(self) -> None:
