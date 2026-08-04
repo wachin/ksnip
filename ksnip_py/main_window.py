@@ -757,6 +757,12 @@ class MainWindow(QMainWindow):
         self.scale_action = QAction(self._load_icon("scale"), self.tr("Scale"), self)
         self.scale_action.triggered.connect(self.scale_image)
 
+        self.grayscale_action = QAction(self._load_icon("grayscale"), self.tr("Grayscale"), self)
+        self.grayscale_action.triggered.connect(lambda: self.apply_image_effect("grayscale"))
+
+        self.invert_color_action = QAction(self._load_icon("invertColor"), self.tr("Invert Color"), self)
+        self.invert_color_action.triggered.connect(lambda: self.apply_image_effect("invert"))
+
         self.modify_canvas_action = QAction(self.tr("Modify Canvas..."), self)
         self.modify_canvas_action.triggered.connect(self.modify_canvas)
 
@@ -1176,6 +1182,9 @@ class MainWindow(QMainWindow):
         edit_menu.addAction(self.cut_action)
         edit_menu.addAction(self.scale_action)
         edit_menu.addAction(self.rotate_action)
+        effects_menu = edit_menu.addMenu(self._load_icon("effect"), self.tr("Effects"))
+        effects_menu.addAction(self.grayscale_action)
+        effects_menu.addAction(self.invert_color_action)
         edit_menu.addAction(self.add_watermark_action)
         edit_menu.addSeparator()
         edit_menu.addAction(self.delete_image_action)
@@ -2432,6 +2441,16 @@ class MainWindow(QMainWindow):
         self._update_actions()
         self.status_label.setText(f"Scaled image to {percent}%")
 
+    def apply_image_effect(self, effect: str) -> None:
+        canvas = self.current_canvas()
+        if canvas is None:
+            return
+        if canvas.apply_image_effect(effect):
+            label = self.tr("Grayscale") if effect == "grayscale" else self.tr("Invert Color")
+            self._sync_tab_title()
+            self._update_actions()
+            self.status_label.setText(self.tr("Applied effect: %1").replace("%1", label))
+
     def pin_image(self) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
@@ -2690,6 +2709,8 @@ class MainWindow(QMainWindow):
         self.send_to_back_action.setEnabled(canvas is not None and canvas.can_send_selected_item_to_back())
         self.rotate_action.setEnabled(has_image)
         self.scale_action.setEnabled(has_image)
+        self.grayscale_action.setEnabled(has_image)
+        self.invert_color_action.setEnabled(has_image)
         self.modify_canvas_action.setEnabled(has_image)
         self.close_tab_action.setEnabled(canvas is not None)
         self.recent_images_menu.setEnabled(bool(self._recent_image_paths))

@@ -700,6 +700,28 @@ class AnnotationCanvas(QLabel):
         self._mark_dirty()
         self._refresh()
 
+    def apply_image_effect(self, effect: str) -> bool:
+        """Apply a whole-image effect while preserving alpha and undo history."""
+        if self._image.isNull() or effect not in {"grayscale", "invert"}:
+            return False
+        self._push_undo_state()
+        result = self._image.convertToFormat(QImage.Format.Format_RGBA8888)
+        if effect == "invert":
+            result.invertPixels(QImage.InvertMode.InvertRgb)
+        else:
+            data = result.bits()
+            data.setsize(result.sizeInBytes())
+            pixels = memoryview(data).cast("B")
+            for offset in range(0, len(pixels), 4):
+                gray = (77 * pixels[offset] + 150 * pixels[offset + 1] + 29 * pixels[offset + 2]) >> 8
+                pixels[offset] = gray
+                pixels[offset + 1] = gray
+                pixels[offset + 2] = gray
+        self._image = result
+        self._mark_dirty()
+        self._refresh()
+        return True
+
     def modify_canvas_size(self, width: int, height: int, background: QColor | None = None) -> bool:
         if self._image.isNull() or width < 1 or height < 1:
             return False
