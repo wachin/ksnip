@@ -238,5 +238,16 @@
     <message><source>Canvas</source><translation>Lienzo</translation></message>
     <message><source>Smooth Factor</source><translation>Factor de suavizado</translation></message>
     <message><source>Canvas Color</source><translation>Color del lienzo</translation></message>
+    <message><source>Watermark</source><translation>Marca de agua</translation></message>
+    <message><source>Watermark Settings</source><translation>Configuración de marca de agua</translation></message>
+    <message><source>Rotate Watermark 45°</source><translation>Rotar la marca de agua 45°</translation></message>
+    <message><source>Update Image...</source><translation>Actualizar imagen...</translation></message>
+    <message><source>Stored Image</source><translation>Imagen almacenada</translation></message>
+    <message><source>No watermark image configured</source><translation>No hay una imagen de marca de agua configurada</translation></message>
+    <message><source>%1x%2 image configured</source><translation>Imagen de %1x%2 configurada</translation></message>
+    <message><source>Select watermark image</source><translation>Seleccionar imagen de marca de agua</translation></message>
+    <message><source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source><translation>Imágenes (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation></message>
+    <message><source>Unable to load watermark image: %1</source><translation>No se pudo cargar la imagen de marca de agua: %1</translation></message>
+    <message><source>Settings</source><translation>Configuración</translation></message>
 </context>
 </TS>

@@ -179,21 +179,21 @@ class SettingsDialog(QDialog):
         style_host.setLayout(style_row)
         editor_layout.addRow(self.tr("Text Style"), style_host)
 
-        watermark_group = QGroupBox("Watermark", self)
+        watermark_group = QGroupBox(self.tr("Watermark"), self)
         watermark_layout = QFormLayout(watermark_group)
 
-        self.rotate_watermark = QCheckBox("Rotate Watermark 45°", watermark_group)
+        self.rotate_watermark = QCheckBox(self.tr("Rotate Watermark 45°"), watermark_group)
         watermark_layout.addRow(self.rotate_watermark)
 
         image_row = QHBoxLayout()
         self.watermark_status = QLabel(watermark_group)
-        self.update_watermark_button = QPushButton("Update Image…", watermark_group)
+        self.update_watermark_button = QPushButton(self.tr("Update Image..."), watermark_group)
         self.update_watermark_button.clicked.connect(self._update_watermark_image)
         image_row.addWidget(self.watermark_status, 1)
         image_row.addWidget(self.update_watermark_button)
         image_host = QWidget(watermark_group)
         image_host.setLayout(image_row)
-        watermark_layout.addRow("Stored Image", image_host)
+        watermark_layout.addRow(self.tr("Stored Image"), image_host)
 
         application_group = QGroupBox(self.tr("Application"), self)
         application_layout = QVBoxLayout(application_group)
@@ -946,23 +946,25 @@ class SettingsDialog(QDialog):
     def _refresh_watermark_status(self) -> None:
         pixmap = self._watermark_store.load()
         if pixmap.isNull():
-            self.watermark_status.setText("No watermark image configured")
+            self.watermark_status.setText(self.tr("No watermark image configured"))
             return
-        self.watermark_status.setText(f"{pixmap.width()}x{pixmap.height()} image configured")
+        status = self.tr("%1x%2 image configured")
+        self.watermark_status.setText(status.replace("%1", str(pixmap.width())).replace("%2", str(pixmap.height())))
 
     def _update_watermark_image(self) -> None:
         from PyQt6.QtWidgets import QFileDialog, QMessageBox
 
         path, _ = QFileDialog.getOpenFileName(
             self,
-            "Select watermark image",
+            self.tr("Select watermark image"),
             "",
-            "Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)",
+            self.tr("Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)"),
         )
         if not path:
             return
         if not self._watermark_store.save_from_path(path):
-            QMessageBox.critical(self, "Settings", f"Unable to load watermark image: {path}")
+            message = self.tr("Unable to load watermark image: %1").replace("%1", path)
+            QMessageBox.critical(self, self.tr("Settings"), message)
             return
         self._refresh_watermark_status()
 
