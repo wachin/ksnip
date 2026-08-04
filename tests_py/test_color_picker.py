@@ -122,6 +122,16 @@ class MainWindowColorPickerTest(unittest.TestCase):
         self.assertEqual(canvas.image_effect(), "grayscale")
         self.assertEqual(window.bottom_effect_button.icon().cacheKey(), window.grayscale_action.icon().cacheKey())
 
+    def test_item_settings_uses_a_second_toolbar_row_and_keeps_only_handle_when_empty(self) -> None:
+        window = MainWindow()
+        window.set_tool(Tool.SELECT)
+        self.assertFalse(window.properties_toolbar.isHidden())
+        self.assertEqual(len(window.properties_toolbar.actions()), 1)
+        window.set_tool(Tool.ARROW)
+        self.assertFalse(window.properties_toolbar.isHidden())
+        self.assertGreater(len(window.properties_toolbar.actions()), 1)
+        self.assertTrue(window.toolBarBreak(window.properties_toolbar))
+
 
 class StickerPickerTest(unittest.TestCase):
     def test_legacy_sticker_scaling_is_migrated_to_the_normalized_default_once(self) -> None:

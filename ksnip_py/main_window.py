@@ -76,6 +76,8 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self._settings = QSettings()
+        self._docks_collapsed = False
+        self._property_toolbar_has_controls = False
         migrate_normalized_sticker_scaling(self._settings)
         self._recent_image_paths = self._load_recent_image_paths()
         self._pin_windows: list[PinWindow] = []
@@ -576,7 +578,9 @@ class MainWindow(QMainWindow):
             "scaling": show_scaling,
             "opacity": show_opacity,
         }
-        visibility["handle"] = any(visibility.values())
+        # KImageAnnotator keeps the Item Settings row and its drag handle
+        # visible even when Selection has no configurable item.
+        visibility["handle"] = True
 
         if tool == Tool.MARKER_PEN:
             self.stroke_width.setMaximum(100)
@@ -601,6 +605,8 @@ class MainWindow(QMainWindow):
                     self.properties_toolbar.addSeparator()
                 self.properties_toolbar.addWidget(widget)
                 first_visible = False
+        self._property_toolbar_has_controls = not first_visible
+        self.properties_toolbar.setVisible(self._property_toolbar_has_controls and not self._docks_collapsed)
 
     def _build_actions(self) -> None:
         self.tool_action_group = QActionGroup(self)
@@ -897,6 +903,7 @@ class MainWindow(QMainWindow):
         properties_toolbar = QToolBar("Properties", self)
         properties_toolbar.setMovable(False)
         self._configure_toolbar(properties_toolbar, icon_size=16, style=Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.addToolBarBreak(Qt.ToolBarArea.TopToolBarArea)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, properties_toolbar)
         self.properties_toolbar = properties_toolbar
 
@@ -1065,22 +1072,15 @@ class MainWindow(QMainWindow):
         toolbox_layout.setContentsMargins(4, 4, 4, 4)
         toolbox_layout.setSpacing(4)
 
-        toolbox_top = QWidget(toolbox_host)
-        toolbox_top_layout = QHBoxLayout(toolbox_top)
-        toolbox_top_layout.setContentsMargins(0, 0, 0, 0)
-        toolbox_top_layout.setSpacing(6)
-        toolbox_top_layout.addWidget(QLabel("::", toolbox_top))
-        toolbox_top_layout.addWidget(self._make_icon_label("opacity", self.tr("Opacity")))
-        self.toolbox_color_button = QToolButton(toolbox_top)
+        # Keep the synchronized palette object for programmatic color changes,
+        # but do not render the old duplicate header above the vertical tools.
+        self.toolbox_color_button = QToolButton(toolbox_host)
         self.toolbox_color_button.setToolTip(self.tr("Stroke color"))
         self.toolbox_color_palette = ColorPaletteMenu(parent=self.toolbox_color_button)
         self.toolbox_color_palette.color_selected.connect(self._apply_selected_color)
         self.toolbox_color_button.setMenu(self.toolbox_color_palette)
         self.toolbox_color_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.toolbox_color_button.setFixedSize(24, 24)
-        toolbox_top_layout.addWidget(self.toolbox_color_button)
-        toolbox_top_layout.addStretch(1)
-        toolbox_layout.addWidget(toolbox_top)
 
         tools_panel = QWidget(toolbox_host)
         tools_layout = QVBoxLayout(tools_panel)
@@ -2416,8 +2416,9 @@ class MainWindow(QMainWindow):
         self._set_docks_collapsed(self.main_toolbar.isVisible())
 
     def _set_docks_collapsed(self, collapsed: bool) -> None:
+        self._docks_collapsed = collapsed
         self.main_toolbar.setVisible(not collapsed)
-        self.properties_toolbar.setVisible(not collapsed)
+        self.properties_toolbar.setVisible(not collapsed and self._property_toolbar_has_controls)
         self.left_toolbar.setVisible(not collapsed)
         self.toggle_docks_action.setText(self.tr("Show Docks") if collapsed else self.tr("Hide Docks"))
 
