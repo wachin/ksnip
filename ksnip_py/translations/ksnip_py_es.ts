@@ -194,5 +194,49 @@
     <message><source>Snipping Area cursor color</source><translation>Color del cursor del área de recorte</translation></message>
     <message><source>Snipping Area cursor thickness</source><translation>Grosor del cursor del área de recorte</translation></message>
     <message><source>Snipping Area Transparency</source><translation>Transparencia del área de recorte</translation></message>
+    <message><source>Annotator</source><translation>Anotador</translation></message>
+    <message><source>Annotator Settings</source><translation>Configuración del anotador</translation></message>
+    <message><source>Editor Defaults</source><translation>Valores predeterminados del editor</translation></message>
+    <message><source>Select</source><translation>Seleccionar</translation></message>
+    <message><source>Pen</source><translation>Lápiz</translation></message>
+    <message><source>Marker Pen</source><translation>Marcador</translation></message>
+    <message><source>Line</source><translation>Línea</translation></message>
+    <message><source>Arrow</source><translation>Flecha</translation></message>
+    <message><source>Double Arrow</source><translation>Flecha doble</translation></message>
+    <message><source>Rectangle</source><translation>Rectángulo</translation></message>
+    <message><source>Ellipse</source><translation>Elipse</translation></message>
+    <message><source>Marker Rectangle</source><translation>Rectángulo marcador</translation></message>
+    <message><source>Marker Ellipse</source><translation>Elipse marcadora</translation></message>
+    <message><source>Text</source><translation>Texto</translation></message>
+    <message><source>Text Pointer</source><translation>Puntero de texto</translation></message>
+    <message><source>Text Arrow</source><translation>Flecha de texto</translation></message>
+    <message><source>Number</source><translation>Número</translation></message>
+    <message><source>Number Pointer</source><translation>Puntero numérico</translation></message>
+    <message><source>Number Arrow</source><translation>Flecha numérica</translation></message>
+    <message><source>Blur</source><translation>Desenfocar</translation></message>
+    <message><source>Pixelate</source><translation>Pixelar</translation></message>
+    <message><source>Sticker</source><translation>Adhesivo</translation></message>
+    <message><source>Crop</source><translation>Recortar</translation></message>
+    <message><source>Default Tool</source><translation>Herramienta predeterminada</translation></message>
+    <message><source>Stroke Width</source><translation>Grosor del trazo</translation></message>
+    <message><source>Font Family</source><translation>Familia tipográfica</translation></message>
+    <message><source>Font Size</source><translation>Tamaño de fuente</translation></message>
+    <message><source>Border and Fill</source><translation>Borde y relleno</translation></message>
+    <message><source>Border and No Fill</source><translation>Borde sin relleno</translation></message>
+    <message><source>No Border and No Fill</source><translation>Sin borde ni relleno</translation></message>
+    <message><source>Shape Fill Mode</source><translation>Modo de relleno de figuras</translation></message>
+    <message><source>Opacity %</source><translation>Opacidad %</translation></message>
+    <message><source>Bold</source><translation>Negrita</translation></message>
+    <message><source>Italic</source><translation>Cursiva</translation></message>
+    <message><source>Text Style</source><translation>Estilo de texto</translation></message>
+    <message><source>Remember annotation tool selection and load on startup</source><translation>Recordar la herramienta de anotación y restaurarla al iniciar</translation></message>
+    <message><source>Switch to Select Tool after drawing Item</source><translation>Cambiar a la herramienta Seleccionar después de dibujar un elemento</translation></message>
+    <message><source>Select Item after drawing</source><translation>Seleccionar el elemento después de dibujarlo</translation></message>
+    <message><source>Number Tool Seed change updates all Number Items</source><translation>Al cambiar el inicio numérico, actualizar todos los elementos numéricos</translation></message>
+    <message><source>Show Controls Widget</source><translation>Mostrar panel de controles</translation></message>
+    <message><source>Smooth Painter Paths</source><translation>Suavizar trazos dibujados</translation></message>
+    <message><source>Canvas</source><translation>Lienzo</translation></message>
+    <message><source>Smooth Factor</source><translation>Factor de suavizado</translation></message>
+    <message><source>Canvas Color</source><translation>Color del lienzo</translation></message>
 </context>
 </TS>
