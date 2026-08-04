@@ -89,6 +89,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Traducción de `Settings > Annotator > Watermark`, estados dinámicos y diálogos de selección/error
 - [x] Traducción de las páginas placeholder `Settings > Actions` y `Plugins`, conservando su estado pendiente/deshabilitado
 - [x] Traducción de `Settings > Annotator > Scheme colors`, cabeceras, explicación dinámica y selector de color
+- [x] Cierre inicial de traducción de Settings: título, búsqueda, botones y placeholders de Imgur, FTP y Stickers
 - [ ] Migrar todos los textos de la interfaz PyQt6 a `tr()` y completar los catálogos de los idiomas soportados
 - [x] Restauración de geometría de ventana
 - [x] Pestañas para múltiples capturas/imágenes

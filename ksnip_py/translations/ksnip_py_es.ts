@@ -265,5 +265,17 @@
     <message><source>Text fill color</source><translation>Color de relleno del texto</translation></message>
     <message><source>Underline color</source><translation>Color del subrayado</translation></message>
     <message><source>Select color</source><translation>Seleccionar color</translation></message>
+    <message><source>Search Settings...</source><translation>Buscar en la configuración...</translation></message>
+    <message><source>OK</source><translation>Aceptar</translation></message>
+    <message><source>Cancel</source><translation>Cancelar</translation></message>
+    <message><source>Imgur Uploader</source><translation>Subidor de Imgur</translation></message>
+    <message><source>Imgur Uploader Settings</source><translation>Configuración del subidor de Imgur</translation></message>
+    <message><source>Native Imgur uploader parity is still pending.</source><translation>La paridad con el subidor nativo de Imgur sigue pendiente.</translation></message>
+    <message><source>FTP Uploader</source><translation>Subidor FTP</translation></message>
+    <message><source>FTP Uploader Settings</source><translation>Configuración del subidor FTP</translation></message>
+    <message><source>Native FTP uploader parity is still pending.</source><translation>La paridad con el subidor FTP nativo sigue pendiente.</translation></message>
+    <message><source>Stickers</source><translation>Adhesivos</translation></message>
+    <message><source>Sticker Settings</source><translation>Configuración de adhesivos</translation></message>
+    <message><source>Sticker management and picker parity are still pending.</source><translation>La paridad del selector y la gestión de adhesivos sigue pendiente.</translation></message>
 </context>
 </TS>

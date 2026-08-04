@@ -95,7 +95,7 @@ class SettingsDialog(QDialog):
     def __init__(self, initial: SettingsData, watermark_store: WatermarkStore, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self._watermark_store = watermark_store
-        self.setWindowTitle("Settings")
+        self.setWindowTitle(self.tr("Settings"))
         self.resize(900, 700)
 
         layout = QVBoxLayout(self)
@@ -103,7 +103,7 @@ class SettingsDialog(QDialog):
         layout.addLayout(content_layout, 1)
 
         self.search_line_edit = QLineEdit(self)
-        self.search_line_edit.setPlaceholderText("Search Settings...")
+        self.search_line_edit.setPlaceholderText(self.tr("Search Settings..."))
         self.navigation_tree = QTreeWidget(self)
         self.navigation_tree.setHeaderHidden(True)
         self.navigation_tree.setFixedWidth(170)
@@ -593,9 +593,9 @@ class SettingsDialog(QDialog):
             "Imgur Uploader Settings",
             [
                 self._create_placeholder_group(
-                    "Imgur Uploader",
+                    self.tr("Imgur Uploader"),
                     [
-                        "Native Imgur uploader parity is still pending.",
+                        self.tr("Native Imgur uploader parity is still pending."),
                     ],
                 ),
             ],
@@ -606,9 +606,9 @@ class SettingsDialog(QDialog):
             "FTP Uploader Settings",
             [
                 self._create_placeholder_group(
-                    "FTP Uploader",
+                    self.tr("FTP Uploader"),
                     [
-                        "Native FTP uploader parity is still pending.",
+                        self.tr("Native FTP uploader parity is still pending."),
                     ],
                 ),
             ],
@@ -626,9 +626,9 @@ class SettingsDialog(QDialog):
             "Sticker Settings",
             [
                 self._create_placeholder_group(
-                    "Stickers",
+                    self.tr("Stickers"),
                     [
-                        "Sticker management and picker parity are still pending.",
+                        self.tr("Sticker management and picker parity are still pending."),
                     ],
                 ),
             ],
@@ -659,6 +659,8 @@ class SettingsDialog(QDialog):
         )
 
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel, self)
+        buttons.button(QDialogButtonBox.StandardButton.Ok).setText(self.tr("OK"))
+        buttons.button(QDialogButtonBox.StandardButton.Cancel).setText(self.tr("Cancel"))
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons)
