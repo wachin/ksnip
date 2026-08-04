@@ -107,7 +107,11 @@ class StickerPickerTest(unittest.TestCase):
         self.assertEqual(collections[1].directory, collections[0].directory / "themes" / "papirus")
         self.assertEqual(collections[2].directory, collections[0].directory / "themes" / "gnome")
         self.assertEqual(collections[3].directory, collections[0].directory / "themes" / "numix")
-        self.assertEqual([len(discover_stickers(collection.directory)) for collection in collections[1:]], [23, 18, 32])
+        self.assertEqual([len(discover_stickers(collection.directory)) for collection in collections[1:]], [25, 20, 34])
+        for collection in collections[1:]:
+            names = {path.name for path in discover_stickers(collection.directory)}
+            self.assertIn("check_mark.svg", names)
+            self.assertIn("cross_mark.svg", names)
         for collection in collections[1:]:
             if collection.directory.is_dir():
                 self.assertTrue(all(not path.is_symlink() for path in discover_stickers(collection.directory)))

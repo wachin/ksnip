@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Original ksnip_py artwork, GPL-3.0. Numix-compatible palette. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <circle cx="24" cy="24" r="20" fill="#7bc96f"/>
+  <path d="m13 24 8 8 15-17" fill="none" stroke="#656565" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m14 23 7 7 14-16" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

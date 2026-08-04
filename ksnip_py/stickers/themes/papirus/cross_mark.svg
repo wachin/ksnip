@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Original ksnip_py artwork, GPL-3.0. Papirus-compatible palette. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <path d="m11 11 26 26M37 11 11 37" fill="none" stroke="#000" stroke-opacity=".2" stroke-width="10" stroke-linecap="round" transform="translate(0 1)"/>
+  <path d="m11 11 26 26M37 11 11 37" fill="none" stroke="#ef5350" stroke-width="9" stroke-linecap="round"/>
+  <path d="m11 10 26 26M37 10 11 36" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width="2" stroke-linecap="round"/>
+</svg>
