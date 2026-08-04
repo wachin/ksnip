@@ -2576,6 +2576,7 @@ class AnnotationCanvas(QLabel):
                 fill_color=fill_color,
                 opacity=self._opacity,
                 fill_mode=fill_mode,
+                shadow=self._shadow and tool not in (Tool.MARKER_RECT, Tool.MARKER_ELLIPSE),
             )
         if tool == Tool.TEXT:
             top_left = rect.topLeft()

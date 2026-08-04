@@ -325,6 +325,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Segunda pasada de `Item Settings`: visibilidad por herramienta afinada para `Selection`, `Duplicate/Image`, `Arrow`, `Pen`, `Marker Pen`, `Text`, `Number`, `Blur/Pixelate` y `Rectangle`
 - [x] Barra de `Item Settings` reordenada para seguir la secuencia base del C++ original: `Color`, `Width`, `Fill Mode`, `Text Color`, `Font`, `Number Seed`, `Obfuscation Factor`, `Sticker`, `Item Shadow`, `Scaling`, `Opacity`
 - [x] Primera conexión funcional en Python para controles de `Item Settings`: `Text Color`, `Underline`, `Item Shadow`, `Scaling`, `Number Seed` y `Sticker`
+- [x] `Item Shadow` aplicado al crear líneas, flechas, rectángulos y elipses, excluyendo marcadores, y editable con undo
 - [x] `Fill Mode` adaptado a la semántica real del C++ original para la UI PyQt6: `Border and Fill`, `Border and No Fill`, `No Border and No Fill`
 - [x] Toolbar de `Item Settings` sin separador visible cuando la herramienta no expone controles
 - [x] `Item Settings` colocado en una segunda fila real; para `Selection` sin elemento conserva sólo el asa y el área vacía, como en la referencia

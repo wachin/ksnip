@@ -83,6 +83,35 @@ class DuplicateToolParityTest(unittest.TestCase):
         self.assertEqual(canvas._items, [])
 
 
+class ItemShadowParityTest(unittest.TestCase):
+    def test_new_line_and_shape_items_keep_the_selected_shadow_setting(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(40, 30))
+        rect = QRect(5, 5, 20, 12)
+        canvas.set_shadow(True)
+
+        for tool in (Tool.LINE, Tool.ARROW, Tool.DOUBLE_ARROW, Tool.RECT, Tool.ELLIPSE):
+            item = canvas._build_drag_item(tool, rect.topLeft(), rect.bottomRight(), rect)
+            self.assertTrue(item.shadow, tool)
+
+        for tool in (Tool.MARKER_RECT, Tool.MARKER_ELLIPSE):
+            item = canvas._build_drag_item(tool, rect.topLeft(), rect.bottomRight(), rect)
+            self.assertFalse(item.shadow, tool)
+
+    def test_changing_item_shadow_is_undoable(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(40, 30))
+        rect = QRect(5, 5, 20, 12)
+        item = canvas._build_drag_item(Tool.RECT, rect.topLeft(), rect.bottomRight(), rect)
+        canvas._items.append(item)
+        canvas._select_single_item(0)
+
+        self.assertTrue(canvas.apply_shadow_to_selected_item(False))
+        self.assertFalse(canvas._items[0].shadow)
+        canvas.undo()
+        self.assertTrue(canvas._items[0].shadow)
+
+
 class ImageEffectParityTest(unittest.TestCase):
     def setUp(self) -> None:
         self.image = QImage(20, 12, QImage.Format.Format_ARGB32)
