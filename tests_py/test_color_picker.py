@@ -172,6 +172,43 @@ class MainWindowColorPickerTest(unittest.TestCase):
             else:
                 settings.setValue(arrow_key, old_arrow)
 
+    def test_shadow_and_opacity_are_restored_per_tool_with_cpp_defaults(self) -> None:
+        window = MainWindow()
+        settings = window._settings
+        keys = [
+            "editor/tool_shadow/pen", "editor/tool_opacity/pen",
+            "editor/tool_shadow/arrow", "editor/tool_opacity/arrow",
+            "editor/tool_shadow/text_arrow", "editor/tool_opacity/text_arrow",
+        ]
+        old_values = {key: settings.value(key) for key in keys}
+        try:
+            for key in keys:
+                settings.remove(key)
+            window.set_tool(Tool.PEN)
+            self.assertTrue(window.shadow_state_button.isChecked())
+            self.assertEqual(window.opacity.value(), 100)
+            window.shadow_state_button.setChecked(False)
+            window.opacity.setValue(35)
+
+            window.set_tool(Tool.ARROW)
+            self.assertTrue(window.shadow_state_button.isChecked())
+            self.assertEqual(window.opacity.value(), 100)
+            window.set_tool(Tool.TEXT_ARROW)
+            self.assertFalse(window.shadow_state_button.isChecked())
+            self.assertEqual(window.opacity.value(), 100)
+
+            window.set_tool(Tool.PEN)
+            self.assertFalse(window.shadow_state_button.isChecked())
+            self.assertEqual(window.opacity.value(), 35)
+            self.assertFalse(window.current_canvas()._shadow)
+            self.assertEqual(window.current_canvas()._opacity, 0.35)
+        finally:
+            for key, value in old_values.items():
+                if value is None:
+                    settings.remove(key)
+                else:
+                    settings.setValue(key, value)
+
 
 class StickerPickerTest(unittest.TestCase):
     def test_legacy_sticker_scaling_is_migrated_to_the_normalized_default_once(self) -> None:

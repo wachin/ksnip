@@ -1509,6 +1509,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/tool", tool.value)
         self._update_property_toolbar_for_tool()
         self._restore_width_for_tool(tool)
+        self._restore_shadow_and_opacity_for_tool(tool)
         self._sync_item_controls()
 
     @staticmethod
@@ -1542,6 +1543,40 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is not None:
             canvas.set_pen_width(width)
+
+    @staticmethod
+    def _default_shadow_for_tool(tool: Tool) -> bool:
+        return tool in {
+            Tool.PEN, Tool.LINE, Tool.NUMBER, Tool.NUMBER_POINTER, Tool.NUMBER_ARROW,
+            Tool.ARROW, Tool.DOUBLE_ARROW, Tool.RECT, Tool.ELLIPSE, Tool.STICKER, Tool.TEXT,
+        }
+
+    def _restore_shadow_and_opacity_for_tool(self, tool: Tool) -> None:
+        shadow_tools = {
+            Tool.ARROW, Tool.DOUBLE_ARROW, Tool.LINE, Tool.PEN, Tool.TEXT, Tool.TEXT_POINTER,
+            Tool.TEXT_ARROW, Tool.NUMBER, Tool.NUMBER_POINTER, Tool.NUMBER_ARROW,
+            Tool.RECT, Tool.ELLIPSE, Tool.IMAGE, Tool.STICKER,
+        }
+        opacity_tools = shadow_tools | {Tool.DUPLICATE}
+        canvas = self.current_canvas()
+        if tool in shadow_tools:
+            shadow = self._setting_bool(
+                f"editor/tool_shadow/{tool.value}", self._default_shadow_for_tool(tool)
+            )
+            self.shadow_state_button.blockSignals(True)
+            self.shadow_state_button.setChecked(shadow)
+            self.shadow_state_button.blockSignals(False)
+            if canvas is not None:
+                canvas.set_shadow(shadow)
+        if tool in opacity_tools:
+            opacity = self._setting_int(f"editor/tool_opacity/{tool.value}", 100)
+            opacity = max(self.opacity.minimum(), min(self.opacity.maximum(), opacity))
+            self.opacity.blockSignals(True)
+            self.opacity.setValue(opacity)
+            self.opacity.blockSignals(False)
+            if canvas is not None:
+                canvas.set_opacity(opacity / 100.0)
+        self._sync_auxiliary_property_controls()
 
     def select_color(self) -> None:
         canvas = self.current_canvas()
@@ -1644,6 +1679,7 @@ class MainWindow(QMainWindow):
             return
         canvas.set_opacity(opacity / 100.0)
         self._settings.setValue("editor/opacity_percent", opacity)
+        self._settings.setValue(f"editor/tool_opacity/{canvas.tool().value}", opacity)
 
     def _apply_capture_delay(self, seconds: int) -> None:
         self._settings.setValue("capture/delay_seconds", max(0, int(seconds)))
@@ -1700,6 +1736,8 @@ class MainWindow(QMainWindow):
                 canvas.set_shadow(checked)
         self._sync_auxiliary_property_controls()
         self._settings.setValue("editor/shadow_enabled", checked)
+        if canvas is not None and canvas.tool() != Tool.SELECT:
+            self._settings.setValue(f"editor/tool_shadow/{canvas.tool().value}", checked)
 
     def _apply_scaling(self, value: int) -> None:
         canvas = self.current_canvas()
