@@ -145,7 +145,24 @@ class FreehandToolParityTest(unittest.TestCase):
         self.assertEqual(item.opacity, 1.0)
         self.assertFalse(item.shadow)
         self.assertEqual(item.color.alpha(), 110)
-        self.assertEqual(item.pen_width, 12)
+        self.assertEqual(item.pen_width, 4)
+
+    def test_marker_pen_uses_multiply_composition_like_cpp(self) -> None:
+        background = QImage(30, 20, QImage.Format.Format_ARGB32)
+        background.fill(QColor(80, 140, 210))
+        canvas = AnnotationCanvas()
+        canvas.set_image(background)
+        canvas.set_color(QColor("yellow"))
+        canvas.set_pen_width(6)
+        canvas._preview_points = [QPoint(4, 10), QPoint(25, 10)]
+        item = canvas._build_drag_item(Tool.MARKER_PEN, QPoint(4, 10), QPoint(25, 10), QRect(4, 10, 22, 1))
+        canvas._items.append(item)
+
+        pixel = canvas.image().pixelColor(15, 10)
+        source = background.pixelColor(15, 10)
+        self.assertLessEqual(pixel.red(), source.red())
+        self.assertLessEqual(pixel.green(), source.green())
+        self.assertLess(pixel.blue(), source.blue())
 
     def test_freehand_points_survive_clipboard_serialization(self) -> None:
         canvas = AnnotationCanvas()

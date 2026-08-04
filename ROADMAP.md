@@ -158,6 +158,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Herramienta de selección
 - [x] Herramienta lápiz
 - [x] Pen y Marker Pen convertidos en trazos no destructivos: puntos serializables, selección, movimiento, undo y soporte real de Opacity/Item Shadow para Pen
+- [x] Ancho persistente por herramienta con valores iniciales del C++ (`Marker Pen` 30, flechas 6, número 5 y texto 2); Marker Pen usa el ancho final sin multiplicarlo
+- [x] Marker Pen, Marker Rectangle y Marker Ellipse renderizados con composición `Multiply`, igual que los elementos marcador del C++
 - [x] Herramienta línea
 - [x] Herramienta flecha
 - [x] Herramienta rectángulo

@@ -1458,7 +1458,8 @@ class AnnotationCanvas(QLabel):
             preview_width = max(1, self._pen_width)
             if self._tool == Tool.MARKER_PEN:
                 preview_color.setAlpha(110)
-                preview_width = max(8, self._pen_width * 3)
+                preview_width = self._pen_width
+                painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Multiply)
             pen = QPen(preview_color, preview_width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
             painter.setPen(pen)
             start_point, end_point = self._display_points()
@@ -1625,6 +1626,8 @@ class AnnotationCanvas(QLabel):
             self._draw_shadow(painter, item)
         painter.save()
         painter.setOpacity(item.opacity)
+        if item.kind in (Tool.MARKER_PEN, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE):
+            painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Multiply)
         pen_color = item.color if self._has_border(item.fill_mode) else QColor(item.color.red(), item.color.green(), item.color.blue(), 0)
         pen = QPen(pen_color, item.pen_width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
         painter.setPen(pen)
@@ -2591,7 +2594,7 @@ class AnnotationCanvas(QLabel):
             pen_width = self._pen_width
             if tool == Tool.MARKER_PEN:
                 color.setAlpha(110)
-                pen_width = max(8, self._pen_width * 3)
+                pen_width = self._pen_width
             return OverlayItem(
                 kind=tool,
                 start=QPoint(points[0]),

@@ -583,10 +583,12 @@ class MainWindow(QMainWindow):
         # visible even when Selection has no configurable item.
         visibility["handle"] = True
 
+        self.stroke_width.blockSignals(True)
         if tool == Tool.MARKER_PEN:
             self.stroke_width.setMaximum(100)
         else:
             self.stroke_width.setMaximum(20 if tool not in {Tool.BLUR, Tool.PIXELATE} else 60)
+        self.stroke_width.blockSignals(False)
 
         show_alpha = tool not in {Tool.MARKER_PEN, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE}
         if hasattr(self, "property_color_palette"):
@@ -1505,8 +1507,41 @@ class MainWindow(QMainWindow):
         self.sticker_action.setChecked(tool == Tool.STICKER)
         self.crop_action.setChecked(tool == Tool.CROP)
         self._settings.setValue("editor/tool", tool.value)
-        self._sync_item_controls()
         self._update_property_toolbar_for_tool()
+        self._restore_width_for_tool(tool)
+        self._sync_item_controls()
+
+    @staticmethod
+    def _default_width_for_tool(tool: Tool) -> int:
+        defaults = {
+            Tool.MARKER_PEN: 30,
+            Tool.ARROW: 6,
+            Tool.DOUBLE_ARROW: 6,
+            Tool.NUMBER: 5,
+            Tool.TEXT: 2,
+            Tool.TEXT_ARROW: 2,
+            Tool.NUMBER_POINTER: 1,
+            Tool.TEXT_POINTER: 1,
+            Tool.DUPLICATE: 1,
+        }
+        return defaults.get(tool, 3)
+
+    def _restore_width_for_tool(self, tool: Tool) -> None:
+        width_tools = {
+            Tool.ARROW, Tool.DOUBLE_ARROW, Tool.LINE, Tool.PEN, Tool.MARKER_PEN,
+            Tool.TEXT, Tool.TEXT_ARROW, Tool.NUMBER, Tool.NUMBER_ARROW,
+            Tool.RECT, Tool.ELLIPSE,
+        }
+        if tool not in width_tools:
+            return
+        width = self._setting_int(f"editor/tool_width/{tool.value}", self._default_width_for_tool(tool))
+        width = max(self.stroke_width.minimum(), min(self.stroke_width.maximum(), width))
+        self.stroke_width.blockSignals(True)
+        self.stroke_width.setValue(width)
+        self.stroke_width.blockSignals(False)
+        canvas = self.current_canvas()
+        if canvas is not None:
+            canvas.set_pen_width(width)
 
     def select_color(self) -> None:
         canvas = self.current_canvas()
@@ -1576,6 +1611,8 @@ class MainWindow(QMainWindow):
             canvas.set_pen_width(width)
         self._sync_auxiliary_property_controls()
         self._settings.setValue("editor/pen_width", width)
+        if canvas is not None and canvas.tool() != Tool.SELECT:
+            self._settings.setValue(f"editor/tool_width/{canvas.tool().value}", width)
 
     def _apply_font_family(self, font) -> None:
         canvas = self.current_canvas()

@@ -143,6 +143,35 @@ class MainWindowColorPickerTest(unittest.TestCase):
         self.assertEqual(controls, [window.property_handle_group, window.property_opacity_group])
         self.assertEqual(window.duplicate_tool_action.shortcut().toString(), "U")
 
+    def test_tool_widths_use_cpp_defaults_and_are_restored_per_tool(self) -> None:
+        window = MainWindow()
+        settings = window._settings
+        marker_key = "editor/tool_width/marker_pen"
+        arrow_key = "editor/tool_width/arrow"
+        old_marker = settings.value(marker_key)
+        old_arrow = settings.value(arrow_key)
+        try:
+            settings.remove(marker_key)
+            settings.remove(arrow_key)
+            window.set_tool(Tool.MARKER_PEN)
+            self.assertEqual(window.stroke_width.maximum(), 100)
+            self.assertEqual(window.stroke_width.value(), 30)
+            window.stroke_width.setValue(44)
+            window.set_tool(Tool.ARROW)
+            self.assertEqual(window.stroke_width.maximum(), 20)
+            self.assertEqual(window.stroke_width.value(), 6)
+            window.set_tool(Tool.MARKER_PEN)
+            self.assertEqual(window.stroke_width.value(), 44)
+        finally:
+            if old_marker is None:
+                settings.remove(marker_key)
+            else:
+                settings.setValue(marker_key, old_marker)
+            if old_arrow is None:
+                settings.remove(arrow_key)
+            else:
+                settings.setValue(arrow_key, old_arrow)
+
 
 class StickerPickerTest(unittest.TestCase):
     def test_legacy_sticker_scaling_is_migrated_to_the_normalized_default_once(self) -> None:

@@ -25,6 +25,10 @@ class ColorPaletteMenu(QMenu):
 
     def set_show_alpha(self, enabled: bool) -> None:
         if self._show_alpha == enabled:
+            if not enabled and any(color.alpha() < 255 for color in self._colors):
+                if self._selected.isValid():
+                    self._selected.setAlpha(255)
+                self._reset_colors()
             return
         self._show_alpha = enabled
         if not enabled and self._selected.isValid() and self._selected.alpha() < 255:
