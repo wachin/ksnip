@@ -21,7 +21,7 @@ class TextInputDialog(QDialog):
         self.resize(420, 220)
 
         layout = QVBoxLayout(self)
-        hint = QLabel("Shift+Enter adds a new line. Ctrl+Enter accepts.", self)
+        hint = QLabel(self.tr("Shift+Enter adds a new line. Ctrl+Enter accepts."), self)
         layout.addWidget(hint)
 
         self.editor = SpellCheckTextEdit(self)
@@ -1410,7 +1410,7 @@ class AnnotationCanvas(QLabel):
     def _refresh(self) -> None:
         if self._image.isNull():
             self.clear()
-            self.setText("Take a screenshot or open an image.")
+            self.setText(self.tr("Take a screenshot or open an image."))
             self.resize(self.minimumSize())
             return
 
@@ -1849,7 +1849,7 @@ class AnnotationCanvas(QLabel):
             super().contextMenuEvent(event)
             return
         menu = QMenu(self)
-        edit_action = QAction("Edit text", menu)
+        edit_action = QAction(self.tr("Edit text"), menu)
         edit_action.triggered.connect(lambda: self.edit_selected_text(self))
         menu.addAction(edit_action)
         menu.exec(event.globalPos())
@@ -2494,7 +2494,7 @@ class AnnotationCanvas(QLabel):
 
     def _build_click_item(self, tool: Tool, point: QPoint) -> OverlayItem | None:
         if tool == Tool.TEXT:
-            dialog = TextInputDialog(self, title="Insert text")
+            dialog = TextInputDialog(self, title=self.tr("Insert text"))
             if dialog.exec() != QDialog.DialogCode.Accepted:
                 return None
             text = dialog.text()
@@ -2664,7 +2664,7 @@ class AnnotationCanvas(QLabel):
                 fill_mode=self._fill_mode,
             )
         if tool == Tool.TEXT_POINTER:
-            dialog = TextInputDialog(self, title="Insert text")
+            dialog = TextInputDialog(self, title=self.tr("Insert text"))
             if dialog.exec() != QDialog.DialogCode.Accepted:
                 return None
             text = dialog.text()
@@ -2689,7 +2689,7 @@ class AnnotationCanvas(QLabel):
                 shadow=self._shadow,
             )
         if tool == Tool.TEXT_ARROW:
-            dialog = TextInputDialog(self, title="Insert text")
+            dialog = TextInputDialog(self, title=self.tr("Insert text"))
             if dialog.exec() != QDialog.DialogCode.Accepted:
                 return None
             text = dialog.text()

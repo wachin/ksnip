@@ -2220,7 +2220,7 @@ class MainWindow(QMainWindow):
             return
         printer = QPrinter(QPrinter.PrinterMode.HighResolution)
         preview = QPrintPreviewDialog(printer, self)
-        preview.setWindowTitle("Print Preview")
+        preview.setWindowTitle(self.tr("Print Preview"))
         preview.paintRequested.connect(self._paint_current_image_to_printer)
         preview.exec()
 
@@ -2713,7 +2713,7 @@ class MainWindow(QMainWindow):
         self._ocr_worker.failed.connect(self._cleanup_ocr_thread)
         self._ocr_worker.cancelled.connect(self._cleanup_ocr_thread)
         self._ocr_progress = QProgressDialog("Running OCR text recognition...", "Cancel", 0, 0, self)
-        self._ocr_progress.setWindowTitle("OCR")
+        self._ocr_progress.setWindowTitle(self.tr("OCR"))
         self._ocr_progress.setWindowModality(Qt.WindowModality.WindowModal)
         self._ocr_progress.canceled.connect(self._cancel_ocr)
         self._ocr_progress.show()

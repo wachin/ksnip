@@ -2,6 +2,23 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de">
   <context>
+    <name>AnnotationCanvas</name>
+    <message>
+      <location filename="../canvas.py" line="1413" />
+      <source>Take a screenshot or open an image.</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../canvas.py" line="1852" />
+      <source>Edit text</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../canvas.py" line="2692" />
+      <location filename="../canvas.py" line="2667" />
+      <location filename="../canvas.py" line="2497" />
+      <source>Insert text</source>
+      <translation type="unfinished" /></message>
+  </context>
+  <context>
     <name>ColorPaletteMenu</name>
     <message>
       <location filename="../color_picker.py" line="87" />
@@ -112,6 +129,7 @@
       <source>Print</source>
       <translation>Drucken</translation></message>
     <message>
+      <location filename="../main_window.py" line="2223" />
       <location filename="../main_window.py" line="659" />
       <source>Print Preview</source>
       <translation>Druckvorschau</translation></message>
@@ -717,6 +735,10 @@
       <source>Upload finished successfully</source>
       <translation type="unfinished" /></message>
     <message>
+      <location filename="../main_window.py" line="2716" />
+      <source>OCR</source>
+      <translation>OCR</translation></message>
+    <message>
       <location filename="../main_window.py" line="2720" />
       <source>Running OCR...</source>
       <translation type="unfinished" /></message>
@@ -811,6 +833,17 @@
       <location filename="../canvas.py" line="388" />
       <source>Canvas Background Color</source>
       <translation>Hintergrundfarbe der Zeichenfläche</translation></message>
+  </context>
+  <context>
+    <name>OcrResultDialog</name>
+    <message>
+      <location filename="../ocr_result_dialog.py" line="10" />
+      <source>OCR Text Recognition</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../ocr_result_dialog.py" line="19" />
+      <source>Copy to Clipboard</source>
+      <translation type="unfinished" /></message>
   </context>
   <context>
     <name>PortalDiagnostics</name>
@@ -1751,6 +1784,13 @@
     </message>
   </context>
   <context>
+    <name>SpellCheckTextEdit</name>
+    <message>
+      <location filename="../spellcheck.py" line="262" />
+      <source>No suggestions</source>
+      <translation type="unfinished" /></message>
+  </context>
+  <context>
     <name>StickerPickerDialog</name>
     <message>
       <location filename="../sticker_picker.py" line="109" />
@@ -1808,6 +1848,13 @@
     <message>
       <location filename="../sticker_picker.py" line="265" />
       <source>Pin Sticker</source>
+      <translation type="unfinished" /></message>
+  </context>
+  <context>
+    <name>TextInputDialog</name>
+    <message>
+      <location filename="../canvas.py" line="24" />
+      <source>Shift+Enter adds a new line. Ctrl+Enter accepts.</source>
       <translation type="unfinished" /></message>
   </context>
 </TS>

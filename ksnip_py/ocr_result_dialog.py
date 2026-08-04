@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QPushButton, QTextEdit, Q
 class OcrResultDialog(QDialog):
     def __init__(self, text: str, parent=None) -> None:
         super().__init__(parent)
-        self.setWindowTitle("OCR Text Recognition")
+        self.setWindowTitle(self.tr("OCR Text Recognition"))
         self.resize(720, 520)
 
         layout = QVBoxLayout(self)
@@ -16,7 +16,7 @@ class OcrResultDialog(QDialog):
         layout.addWidget(self.text_edit)
 
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Close, self)
-        copy_button = QPushButton("Copy to Clipboard", self)
+        copy_button = QPushButton(self.tr("Copy to Clipboard"), self)
         buttons.addButton(copy_button, QDialogButtonBox.ButtonRole.ActionRole)
         copy_button.clicked.connect(self.copy_to_clipboard)
         buttons.rejected.connect(self.reject)

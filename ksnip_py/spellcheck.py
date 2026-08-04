@@ -259,7 +259,7 @@ class SpellCheckTextEdit(QPlainTextEdit):
                         else:
                             menu.insertAction(insert_before, action)
                 else:
-                    action = QAction("No suggestions", menu)
+                    action = QAction(self.tr("No suggestions"), menu)
                     action.setEnabled(False)
                     if insert_before is None:
                         menu.addAction(action)
