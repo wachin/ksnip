@@ -1229,7 +1229,7 @@ class AnnotationCanvas(QLabel):
             self._refresh()
             return
 
-        if self._tool == Tool.NUMBER:
+        if self._tool in (Tool.NUMBER, Tool.STICKER):
             item = self._build_click_item(self._tool, image_point)
             if item is not None:
                 self._push_undo_state()

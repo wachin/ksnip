@@ -294,6 +294,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Stickers originales copiados a `ksnip_py/stickers/`, incluidos en el paquete y desacoplados del submódulo en tiempo de ejecución
 - [x] Colección SVG original para tutoriales: atención, información, consejo, pregunta, siguiente paso, clic, teclado y terminal
 - [x] Selector de stickers con pestañas Original/Papirus/GNOME/Numix, exclusión de enlaces simbólicos y favoritos persistentes
+- [x] Inserción de stickers mediante clic en el lienzo, compatible con SVG/PNG externos y con undo
 - [x] Icono principal de aplicación disponible dentro de `ksnip_py/`
 - [x] Asignar iconos de ksnip a acciones principales visibles
 - [ ] Asignar iconos de ksnip a todas las acciones visibles relevantes

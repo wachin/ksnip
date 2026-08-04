@@ -1,13 +1,15 @@
 import os
+from pathlib import Path
 import unittest
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PyQt6.QtCore import QPoint, QRect
+from PyQt6.QtCore import QPoint, QRect, Qt
 from PyQt6.QtGui import QColor, QImage
 from PyQt6.QtWidgets import QApplication
+from PyQt6.QtTest import QTest
 
-from ksnip_py.canvas import AnnotationCanvas, CutDialog, ModifyCanvasDialog, RotateDialog, ScaleDialog
+from ksnip_py.canvas import AnnotationCanvas, CutDialog, ModifyCanvasDialog, RotateDialog, ScaleDialog, Tool
 
 
 APP = QApplication.instance() or QApplication([])
@@ -232,6 +234,42 @@ class ZoomParityTest(unittest.TestCase):
         self.assertEqual(canvas.zoom_percent(), 50)
         canvas.fit_to_size(QImage(10000, 10000, QImage.Format.Format_ARGB32).size())
         self.assertEqual(canvas.zoom_percent(), 800)
+
+
+class StickerInsertionParityTest(unittest.TestCase):
+    def test_click_inserts_selected_sticker_and_undo_removes_it(self) -> None:
+        sticker = Path(__file__).resolve().parents[1] / "ksnip_py" / "stickers" / "tutorial_attention.svg"
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(100, 80))
+        canvas.set_sticker_path(str(sticker))
+        canvas.set_tool(Tool.STICKER)
+
+        QTest.mouseClick(canvas, Qt.MouseButton.LeftButton, pos=QPoint(50, 40))
+
+        self.assertEqual(len(canvas._items), 1)
+        self.assertEqual(canvas._items[0].kind, Tool.STICKER)
+        self.assertEqual(canvas._items[0].sticker_path, str(sticker))
+        self.assertFalse(canvas._items[0].image.isNull())
+        self.assertTrue(canvas.state.dirty)
+        self.assertNotEqual(canvas.image(), canvas.background_image())
+        canvas.undo()
+        self.assertEqual(canvas._items, [])
+
+    def test_external_svg_and_png_stickers_can_build_click_items(self) -> None:
+        candidates = (
+            Path("/usr/share/icons/Papirus/48x48/emotes/face-smile.svg"),
+            Path("/usr/share/icons/gnome/48x48/emotes/face-smile.png"),
+            Path("/usr/share/icons/Numix/48/emotes/face-smile.svg"),
+        )
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(100, 80))
+        for sticker in candidates:
+            if not sticker.is_file() or sticker.is_symlink():
+                continue
+            canvas.set_sticker_path(str(sticker))
+            item = canvas._build_click_item(Tool.STICKER, QPoint(50, 40))
+            self.assertIsNotNone(item, str(sticker))
+            self.assertFalse(item.image.isNull(), str(sticker))
 
 
 if __name__ == "__main__":
