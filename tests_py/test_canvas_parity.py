@@ -1,15 +1,16 @@
 import os
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PyQt6.QtCore import QPoint, QRect, Qt
-from PyQt6.QtGui import QColor, QImage
+from PyQt6.QtGui import QColor, QImage, QPainter
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtTest import QTest
 
-from ksnip_py.canvas import AnnotationCanvas, CutDialog, FillMode, ModifyCanvasDialog, RotateDialog, ScaleDialog, Tool
+from ksnip_py.canvas import AnnotationCanvas, CutDialog, FillMode, ModifyCanvasDialog, OverlayItem, RotateDialog, ScaleDialog, Tool
 
 
 APP = QApplication.instance() or QApplication([])
@@ -208,6 +209,27 @@ class NumberFontParityTest(unittest.TestCase):
             self.assertFalse(item.bold)
             self.assertTrue(item.italic)
             self.assertTrue(item.underline)
+
+    def test_text_and_number_arrows_remain_visible_without_label_border(self) -> None:
+        canvas = AnnotationCanvas()
+        image = QImage(200, 100, QImage.Format.Format_ARGB32_Premultiplied)
+        image.fill(Qt.GlobalColor.transparent)
+        painter = QPainter(image)
+        text_arrow = OverlayItem(
+            kind=Tool.TEXT_ARROW, start=QPoint(20, 50), end=QPoint(170, 50),
+            color=QColor("red"), pen_width=2, text="Text", fill_mode=FillMode.NO_BORDER_AND_NO_FILL,
+        )
+        number_arrow = OverlayItem(
+            kind=Tool.NUMBER_ARROW, start=QPoint(40, 50), end=QPoint(170, 50),
+            color=QColor("red"), pen_width=2, text="1", fill_mode=FillMode.NO_BORDER_AND_NO_FILL,
+        )
+        try:
+            with patch.object(canvas, "_draw_arrow") as draw_arrow:
+                canvas._draw_text_arrow(painter, text_arrow)
+                canvas._draw_number_arrow(painter, number_arrow)
+                self.assertEqual(draw_arrow.call_count, 2)
+        finally:
+            painter.end()
 
 
 class ImageEffectParityTest(unittest.TestCase):

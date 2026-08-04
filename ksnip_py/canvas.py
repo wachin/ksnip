@@ -2831,8 +2831,7 @@ class AnnotationCanvas(QLabel):
     def _draw_text_arrow(self, painter: QPainter, item: OverlayItem) -> None:
         label_rect = self._text_arrow_label_rect(item)
         arrow_start = QPoint(label_rect.right(), label_rect.center().y()) if item.end.x() >= item.start.x() else QPoint(label_rect.left(), label_rect.center().y())
-        if self._has_border(item.fill_mode):
-            self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
+        self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
         painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
         if self._has_border(item.fill_mode):
             painter.drawRoundedRect(label_rect, 8, 8)
@@ -2891,7 +2890,7 @@ class AnnotationCanvas(QLabel):
         painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
         if self._has_border(item.fill_mode):
             painter.drawEllipse(bubble_rect)
-            self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
+        self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
         font = QFont(item.font_family or self._font_family, max(8, (item.font_point_size or self._font_point_size) - 1))
         font.setBold(item.bold)
         font.setItalic(item.italic)
