@@ -191,6 +191,25 @@ class FreehandToolParityTest(unittest.TestCase):
         self.assertEqual(restored.kind, Tool.PEN)
 
 
+class NumberFontParityTest(unittest.TestCase):
+    def test_number_tools_use_the_configured_font_styles(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_bold(False)
+        canvas.set_italic(True)
+        canvas.set_underline(True)
+
+        number = canvas._build_click_item(Tool.NUMBER, QPoint(40, 40))
+        rect = QRect(QPoint(10, 10), QPoint(60, 50)).normalized()
+        number_pointer = canvas._build_drag_item(Tool.NUMBER_POINTER, QPoint(10, 10), QPoint(60, 50), rect)
+        number_arrow = canvas._build_drag_item(Tool.NUMBER_ARROW, QPoint(10, 10), QPoint(60, 50), rect)
+
+        for item in (number, number_pointer, number_arrow):
+            self.assertIsNotNone(item)
+            self.assertFalse(item.bold)
+            self.assertTrue(item.italic)
+            self.assertTrue(item.underline)
+
+
 class ImageEffectParityTest(unittest.TestCase):
     def setUp(self) -> None:
         self.image = QImage(20, 12, QImage.Format.Format_ARGB32)

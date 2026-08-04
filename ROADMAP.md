@@ -163,6 +163,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Color persistente por herramienta con valores iniciales de `Config::defaultToolColor`: marcadores amarillos, línea azul, rectángulo gris, texto negro y resto rojo
 - [x] Color de texto persistente e independiente para `Text`, punteros, flechas y herramientas `Number`, usando blanco como valor inicial de `Config::defaultToolTextColor`
 - [x] Fuente y estilos persistentes por herramienta como `Config::defaultToolFont`: fuente del sistema en negrita, tamaño 15 para `Text`, 20 para `Number`, con cursiva y subrayado independientes
+- [x] `Number`, `Number Pointer` y `Number Arrow` aplican al elemento nuevo la negrita, cursiva y subrayado configurados, sin reintroducir estilos hardcodeados al construirlo; los constructores especializados de `Number Arrow` y `Text Arrow` ya no quedan ocultos tras la rama genérica de líneas
 - [x] `Fill Mode` persistente por herramienta con valores iniciales de `Config::defaultToolFillMode` y descarte seguro de modos incompatibles guardados por versiones anteriores
 - [x] Marker Pen, Marker Rectangle y Marker Ellipse renderizados con composición `Multiply`, igual que los elementos marcador del C++
 - [x] Marker Rectangle y Marker Ellipse alineados con `NoBorderAndFill`: relleno completo, sin borde, sombra, ancho ni opacidad configurables

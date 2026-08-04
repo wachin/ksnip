@@ -2549,8 +2549,8 @@ class AnnotationCanvas(QLabel):
                 font_family=self._font_family,
                 font_point_size=self._font_point_size,
                 opacity=self._opacity,
-                bold=True,
-                italic=False,
+                bold=self._bold,
+                italic=self._italic,
                 underline=self._underline,
                 text_color=QColor(self._text_color),
                 shadow=self._shadow,
@@ -2622,7 +2622,7 @@ class AnnotationCanvas(QLabel):
                 shadow=False,
                 image=captured,
             )
-        if self._is_line_like(tool) or self._is_shape_like(tool):
+        if (self._is_line_like(tool) and tool not in (Tool.TEXT_ARROW, Tool.NUMBER_ARROW)) or self._is_shape_like(tool):
             pen_width = self._pen_width
             color = QColor(self._color)
             fill_color = QColor(self._fill_color) if tool in (Tool.RECT, Tool.ELLIPSE) else None
@@ -2724,8 +2724,8 @@ class AnnotationCanvas(QLabel):
                 font_family=self._font_family,
                 font_point_size=self._font_point_size,
                 opacity=self._opacity,
-                bold=True,
-                italic=False,
+                bold=self._bold,
+                italic=self._italic,
                 underline=self._underline,
                 fill_mode=self._fill_mode if tool == Tool.NUMBER_ARROW else FillMode.BORDER_AND_FILL,
                 text_color=QColor(self._text_color),
