@@ -49,6 +49,38 @@ class ColorPaletteMenuTest(unittest.TestCase):
 
 
 class MainWindowColorPickerTest(unittest.TestCase):
+    def test_saving_project_also_saves_configured_companion_image(self) -> None:
+        window = MainWindow()
+        setting_key = "saver/project_companion_format"
+        old_value = window._settings.value(setting_key)
+        try:
+            window._settings.setValue(setting_key, "png")
+            with tempfile.TemporaryDirectory() as directory:
+                project_path = Path(directory) / "tutorial.ksnip"
+                canvas = window.current_canvas()
+                image = QImage(80, 50, QImage.Format.Format_ARGB32)
+                image.fill(QColor("white"))
+                canvas.set_image(image)
+                self.assertTrue(
+                    window._save_canvas_to_path(
+                        canvas,
+                        window.tabs.currentIndex(),
+                        str(project_path),
+                        show_status=False,
+                    )
+                )
+                companion_path = project_path.with_suffix(".png")
+                self.assertTrue(project_path.is_file())
+                self.assertTrue(companion_path.is_file())
+                companion = QImage(str(companion_path))
+                self.assertFalse(companion.isNull())
+                self.assertEqual(companion.size(), canvas.image().size())
+        finally:
+            if old_value is None:
+                window._settings.remove(setting_key)
+            else:
+                window._settings.setValue(setting_key, old_value)
+
     def test_controls_widget_exposes_the_cpp_actions_in_a_hidden_bottom_toolbar(self) -> None:
         window = MainWindow()
         self.assertEqual(

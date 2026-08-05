@@ -2476,11 +2476,32 @@ class MainWindow(QMainWindow):
             except (OSError, ValueError) as error:
                 self._show_error(self.tr("Unable to save Ksnip project: %1").replace("%1", str(error)))
                 return False
+            companion_format = str(self._settings.value("saver/project_companion_format", "png")).lower()
+            companion_specs = {
+                "png": (".png", "PNG"),
+                "jpg": (".jpg", "JPEG"),
+                "jpeg": (".jpg", "JPEG"),
+                "webp": (".webp", "WEBP"),
+                "bmp": (".bmp", "BMP"),
+            }
+            companion_suffix, qt_format = companion_specs.get(companion_format, companion_specs["png"])
+            companion_path = str(Path(path).with_suffix(companion_suffix))
+            quality = self._setting_int("saver/quality_factor", 50) if self._setting_bool("saver/quality_enabled", False) else -1
+            if not canvas.image().save(companion_path, qt_format, quality):
+                self._show_error(
+                    self.tr("The Ksnip project was saved, but its companion image could not be saved to %1")
+                    .replace("%1", companion_path)
+                )
+                return False
             canvas.mark_saved(path)
             self._store_recent_image_path(path)
             self.tabs.setTabText(tab_index, Path(path).name)
             if show_status:
-                self.status_label.setText(self.tr("Saved %1").replace("%1", str(path)))
+                self.status_label.setText(
+                    self.tr("Saved %1 and companion image %2")
+                    .replace("%1", str(path))
+                    .replace("%2", companion_path)
+                )
             return True
         quality = self._setting_int("saver/quality_factor", 50) if self._setting_bool("saver/quality_enabled", False) else -1
         if not canvas.image().save(path, None, quality):
@@ -3353,6 +3374,7 @@ class MainWindow(QMainWindow):
             saver_auto_save=self._setting_bool("saver/auto_save", False),
             saver_location=str(self._settings.value("saver/location", str(Path.home() / "Pictures" / "$Y$M$D-$T.png"))),
             saver_overwrite=self._setting_bool("saver/overwrite", False),
+            saver_project_companion_format=str(self._settings.value("saver/project_companion_format", "png")),
             use_tray_icon=self._setting_bool("tray/use", True),
             minimize_to_tray=self._setting_bool("tray/minimize", True),
             close_to_tray=self._setting_bool("tray/close", True),
@@ -3451,6 +3473,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("saver/auto_save", data.saver_auto_save)
         self._settings.setValue("saver/location", data.saver_location)
         self._settings.setValue("saver/overwrite", data.saver_overwrite)
+        self._settings.setValue("saver/project_companion_format", data.saver_project_companion_format)
         self._settings.setValue("tray/use", data.use_tray_icon)
         self._settings.setValue("tray/minimize", data.minimize_to_tray)
         self._settings.setValue("tray/close", data.close_to_tray)
