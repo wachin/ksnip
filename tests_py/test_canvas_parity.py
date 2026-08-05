@@ -1,7 +1,9 @@
 import os
 from pathlib import Path
+import tempfile
 import unittest
 from unittest.mock import MagicMock, patch
+from zipfile import ZipFile
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -11,6 +13,7 @@ from PyQt6.QtWidgets import QApplication, QDialog
 from PyQt6.QtTest import QTest
 
 from ksnip_py.canvas import AnnotationCanvas, CutDialog, FillMode, ModifyCanvasDialog, OverlayItem, RotateDialog, ScaleDialog, Tool
+from ksnip_py.project_io import export_svg, load_project, save_project
 
 
 APP = QApplication.instance() or QApplication([])
@@ -22,6 +25,62 @@ def coordinate_image(width: int = 10, height: int = 8) -> QImage:
         for x in range(width):
             image.setPixelColor(x, y, QColor((x * 20) % 256, (y * 20) % 256, 0))
     return image
+
+
+class EditableProjectParityTest(unittest.TestCase):
+    def test_ksnip_project_round_trip_preserves_background_items_and_state(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(120, 80))
+        canvas._items = [
+            OverlayItem(Tool.ARROW, QPoint(10, 15), QPoint(90, 25), QColor("red"), 4),
+            OverlayItem(
+                Tool.TEXT, QPoint(20, 35), QPoint(100, 65), QColor("black"), 2,
+                text="Editable", font_family="Sans", font_point_size=18,
+                text_color=QColor("white"), fill_mode=FillMode.BORDER_AND_FILL,
+            ),
+        ]
+        canvas._number_seed = 9
+        canvas._zoom_percent = 140
+        canvas._image_effect = "border"
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = str(Path(directory) / "tutorial.ksnip")
+            save_project(path, canvas)
+            with ZipFile(path) as archive:
+                self.assertEqual(set(archive.namelist()), {"project.json", "background.png"})
+            image, metadata = load_project(path)
+            restored = AnnotationCanvas()
+            restored.restore_project(image, metadata, path)
+
+            self.assertEqual(restored.background_image(), canvas.background_image())
+            self.assertEqual([item.kind for item in restored._items], [Tool.ARROW, Tool.TEXT])
+            self.assertEqual(restored._items[1].text, "Editable")
+            self.assertEqual(restored.number_seed(), 9)
+            self.assertEqual(restored.zoom_percent(), 140)
+            self.assertEqual(restored.image_effect(), "border")
+            self.assertFalse(restored.state.dirty)
+
+    def test_svg_export_contains_embedded_background_and_editable_vectors(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(120, 80))
+        canvas._items = [
+            OverlayItem(Tool.ARROW, QPoint(10, 15), QPoint(90, 25), QColor("red"), 4),
+            OverlayItem(
+                Tool.TEXT, QPoint(20, 35), QPoint(100, 65), QColor("black"), 2,
+                text="Editable", font_family="Sans", font_point_size=18,
+                text_color=QColor("white"), fill_mode=FillMode.BORDER_AND_FILL,
+            ),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "tutorial.svg"
+            export_svg(str(path), canvas)
+            svg = path.read_text(encoding="utf-8")
+
+        self.assertIn("data:image/png;base64,", svg)
+        self.assertIn("<line", svg)
+        self.assertIn("marker-end=", svg)
+        self.assertIn("<text", svg)
+        self.assertIn("Editable", svg)
 
 
 class CropAndCutParityTest(unittest.TestCase):

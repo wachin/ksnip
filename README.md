@@ -36,6 +36,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 - Optional real X11 cursor capture through XFixes, inserted as an editable image item.
 - Capture delay, implicit delay, startup capture, auto-copy, and auto-save preferences.
 - Open, paste, embedded paste, save, save as, save all, rename, delete, print, and print preview.
+- Editable `.ksnip` project files and SVG export for continued editing in Inkscape.
 - Multiple image tabs with dirty-state tracking and dynamic window titles.
 - Recent images, containing-directory access, path copying, and Data URI copying.
 - Annotation tools for selection, pen, markers, lines, arrows, shapes, text, numbers, blur, pixelate, stickers, and crop.
@@ -101,6 +102,12 @@ The `xdg-desktop-portal-dev` package is not a runtime dependency. It contains de
 Hunspell dictionaries are optional but recommended. Install the dictionary packages appropriate for your language if they differ from the English and Spanish examples above.
 
 The sticker selector provides six tabs: Original, Papirus, GNOME, Numix, SuperTux, and User. The bundled themes use high-resolution sources, exclude symbolic-link duplicates, remember the last tab, and preserve pinned favorites across theme changes and application restarts. The User tab imports common image formats, preserves transparency and aspect ratio, converts them to PNG with a maximum dimension of 512 px, and stores them in the application's configuration directory; that directory can also be opened directly in the file manager. Copyright notices and GPL licenses for bundled artwork are documented in `THIRD_PARTY_LICENSES.md`, `LICENSES/`, and `debian/copyright`.
+
+## Editable projects and SVG
+
+Choose `File > Save As... > Ksnip Project` to save a `.ksnip` project. The format is a ZIP container with `project.json` and `background.png`; it preserves editable annotations, embedded images and stickers, the image effect, zoom, and number-tool state. Opening the `.ksnip` file restores the editor rather than flattening the annotations.
+
+Choose `File > Export as SVG...` to create a document for Inkscape. The screenshot is embedded as PNG while supported annotations remain SVG vectors and text. Raster overlays are embedded as PNG. SVG is intended for interchange with vector editors; use `.ksnip` as the lossless working project format.
 
 ## Run from system packages
 

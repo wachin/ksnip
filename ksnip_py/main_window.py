@@ -52,6 +52,7 @@ from .capture import (
 from .ocr_backend import OcrBackend, OcrOptions, OcrWorker
 from .ocr_result_dialog import OcrResultDialog
 from .pin_window import PinWindow
+from .project_io import export_svg, load_project, save_project
 from .settings_dialog import SettingsData, SettingsDialog
 from .spellcheck import load_spellcheck_scheme, save_spellcheck_scheme
 from .sticker_picker import StickerPickerDialog
@@ -653,6 +654,9 @@ class MainWindow(QMainWindow):
 
         self.save_all_action = QAction(self._load_icon("save"), self.tr("Save All"), self)
         self.save_all_action.triggered.connect(self.save_all_images)
+
+        self.export_svg_action = QAction(self._themed_icon("image-x-generic", "saveAs"), self.tr("Export as SVG..."), self)
+        self.export_svg_action.triggered.connect(self.export_current_svg)
 
         self.print_action = QAction(QIcon.fromTheme("document-print"), self.tr("Print"), self)
         self.print_action.setShortcut(QKeySequence.StandardKey.Print)
@@ -1267,6 +1271,7 @@ class MainWindow(QMainWindow):
         file_menu.addAction(self.save_action)
         file_menu.addAction(self.save_as_action)
         file_menu.addAction(self.save_all_action)
+        file_menu.addAction(self.export_svg_action)
         file_menu.addAction(self.upload_action)
         file_menu.addSeparator()
         file_menu.addAction(self.print_action)
@@ -2372,7 +2377,7 @@ class MainWindow(QMainWindow):
             self,
             "Open image",
             self._default_image_directory(),
-            "Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)",
+            "Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)",
         )
         if not path:
             return
@@ -2391,15 +2396,38 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
             return
-        path, _ = QFileDialog.getSaveFileName(
+        path, selected_filter = QFileDialog.getSaveFileName(
             self,
             "Save image as",
             canvas.state.path or self._default_image_directory(),
-            "PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
+            "Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
         )
         if not path:
             return
+        if not Path(path).suffix:
+            suffix_by_filter = {
+                "Ksnip Project": ".ksnip", "PNG": ".png", "JPEG": ".jpg",
+                "BMP": ".bmp", "WebP": ".webp",
+            }
+            path += next((suffix for name, suffix in suffix_by_filter.items() if selected_filter.startswith(name)), ".png")
         self._save_canvas_to_path(canvas, self.tabs.currentIndex(), path)
+
+    def export_current_svg(self) -> None:
+        canvas = self.current_canvas()
+        if canvas is None or not canvas.has_image():
+            return
+        suggested = Path(canvas.state.path).with_suffix(".svg") if canvas.state.path else Path(self._default_image_directory()) / "Untitled.svg"
+        path, _ = QFileDialog.getSaveFileName(self, self.tr("Export as SVG"), str(suggested), "SVG (*.svg)")
+        if not path:
+            return
+        if not Path(path).suffix:
+            path += ".svg"
+        try:
+            export_svg(path, canvas)
+        except (OSError, ValueError) as error:
+            self._show_error(self.tr("Unable to export SVG: %1").replace("%1", str(error)))
+            return
+        self.status_label.setText(self.tr("Exported SVG to %1").replace("%1", path))
 
     def save_all_images(self) -> None:
         saved_count = 0
@@ -2442,6 +2470,18 @@ class MainWindow(QMainWindow):
         *,
         show_status: bool = True,
     ) -> bool:
+        if Path(path).suffix.lower() == ".ksnip":
+            try:
+                save_project(path, canvas)
+            except (OSError, ValueError) as error:
+                self._show_error(self.tr("Unable to save Ksnip project: %1").replace("%1", str(error)))
+                return False
+            canvas.mark_saved(path)
+            self._store_recent_image_path(path)
+            self.tabs.setTabText(tab_index, Path(path).name)
+            if show_status:
+                self.status_label.setText(self.tr("Saved %1").replace("%1", str(path)))
+            return True
         quality = self._setting_int("saver/quality_factor", 50) if self._setting_bool("saver/quality_enabled", False) else -1
         if not canvas.image().save(path, None, quality):
             self._show_error(f"Unable to save image to {path}")
@@ -3050,6 +3090,7 @@ class MainWindow(QMainWindow):
         can_edit_text = canvas is not None and canvas.selected_item_kind() in (Tool.TEXT, Tool.TEXT_POINTER, Tool.TEXT_ARROW)
         self.save_action.setEnabled(has_image)
         self.save_as_action.setEnabled(has_image)
+        self.export_svg_action.setEnabled(has_image)
         self.save_all_action.setEnabled(
             any(
                 (tab_canvas := self._canvas_from_tab_widget(self.tabs.widget(index))) is not None
@@ -3127,6 +3168,8 @@ class MainWindow(QMainWindow):
             self._sync_zoom_controls(canvas.zoom_percent())
 
     def _open_image_path(self, path: str) -> bool:
+        if Path(path).suffix.lower() == ".ksnip":
+            return self._open_project_path(path)
         image = QImage(path)
         if image.isNull():
             self._remove_recent_image_path(path)
@@ -3143,6 +3186,31 @@ class MainWindow(QMainWindow):
         self.status_label.setText(self.tr("Opened %1").replace("%1", title))
         self._update_actions()
         self._schedule_resize_to_content()
+        return True
+
+    def _open_project_path(self, path: str) -> bool:
+        try:
+            image, metadata = load_project(path)
+        except (OSError, ValueError) as error:
+            self._remove_recent_image_path(path)
+            self._show_error(self.tr("Unable to open Ksnip project: %1").replace("%1", str(error)))
+            return False
+        canvas = self.current_canvas()
+        if canvas is None or canvas.has_image():
+            canvas = self.new_tab()
+        try:
+            canvas.restore_project(image, metadata, path)
+        except (TypeError, ValueError, KeyError) as error:
+            self._show_error(self.tr("Unable to restore Ksnip project: %1").replace("%1", str(error)))
+            return False
+        title = Path(path).name
+        self._store_recent_image_path(path)
+        self.tabs.setTabText(self.tabs.currentIndex(), title)
+        self._update_window_title()
+        self._update_actions()
+        self._sync_bottom_effect_button()
+        self._schedule_resize_to_content()
+        self.status_label.setText(self.tr("Opened %1").replace("%1", title))
         return True
 
     def _open_image_data(self, data: bytes, title: str = "stdin") -> bool:

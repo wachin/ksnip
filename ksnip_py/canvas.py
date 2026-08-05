@@ -673,6 +673,40 @@ class AnnotationCanvas(QLabel):
     def background_image(self) -> QImage:
         return self._image.copy()
 
+    def project_metadata(self) -> dict:
+        items = []
+        for item in self._items:
+            payload = self._serialize_item(item)
+            bounds = item.bounds()
+            payload["svg_bounds"] = [bounds.x(), bounds.y(), bounds.width(), bounds.height()]
+            items.append(payload)
+        return {
+            "image_effect": self._image_effect,
+            "zoom_percent": self._zoom_percent,
+            "number_seed": self._number_seed,
+            "items": items,
+        }
+
+    def restore_project(self, image: QImage, metadata: dict, path: str) -> None:
+        self.set_image(image, path)
+        items_payload = metadata.get("items", [])
+        if not isinstance(items_payload, list):
+            raise ValueError("Invalid project annotation list")
+        self._items = [self._deserialize_item(payload) for payload in items_payload]
+        effect = str(metadata.get("image_effect", "none"))
+        self._image_effect = effect if effect in {"none", "drop_shadow", "grayscale", "invert", "border"} else "none"
+        self._number_seed = max(1, int(metadata.get("number_seed", 1)))
+        self._zoom_percent = max(10, min(800, int(metadata.get("zoom_percent", 100))))
+        self.state = CanvasState(path=path, dirty=False)
+        self._undo_stack = []
+        self._redo_stack = []
+        self._clear_selection()
+        self._effect_cache_key = None
+        self._effect_cache_image = QImage()
+        self._effect_cache_offset = QPoint()
+        self._refresh()
+        self.zoom_changed.emit(self._zoom_percent)
+
     def image_effect(self) -> str:
         return self._image_effect
 

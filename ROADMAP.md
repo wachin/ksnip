@@ -152,6 +152,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Copiar ruta del archivo
 - [x] Copy as Data URI / base64
 - [x] Paste Embedded image como `Image Item` centrado, con `Ctrl+Shift+V`, undo y edición mediante selección
+- [x] Formato de proyecto editable `.ksnip` basado en ZIP (`project.json` + `background.png`) con anotaciones, imágenes incrustadas, efecto, zoom y contador restaurables
+- [x] Exportación SVG para Inkscape con fondo PNG incrustado y anotaciones vectoriales editables; overlays raster se conservan como imágenes PNG embebidas
 
 ## Anotación y Edición
 
