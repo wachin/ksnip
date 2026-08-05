@@ -167,6 +167,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] `Text Arrow` y `Number Arrow` conservan siempre el asta y la punta con `No Border and No Fill`; el modo de relleno sólo controla el recuadro o círculo, como en el pintado C++
 - [x] Hit-testing completo para `Text Arrow` y `Number Arrow`: se pueden seleccionar desde el asta, el recuadro de texto o el círculo numerado, incluso sin borde ni relleno
 - [x] Geometría unificada de `Text Arrow`: pintura, selección, sombra y bounds comparten una etiqueta medida con la fuente real, multilínea y colocada correctamente al apuntar hacia izquierda o derecha
+- [x] Corregido el mapeo ratón→imagen cuando Qt centra capturas menores que el canvas mínimo: flechas, formas y demás herramientas comienzan exactamente bajo el clic, incluyendo zoom y margen de Drop Shadow
 - [x] `Text Pointer` y `Text Arrow` se pueden reeditar desde doble clic, menú contextual y acción `Edit text`, conservando undo y evitando cambios vacíos o cancelados
 - [x] `Text Pointer` usa el color principal de la herramienta para borde, relleno y puntero, en vez del blanco semitransparente hardcodeado; el color del texto continúa siendo independiente
 - [x] El círculo de `Number` se recalcula con `QFontMetrics` al cambiar familia, tamaño, negrita, cursiva o subrayado, conservando su centro y siendo reversible con undo como `NumberRectHelper` del C++

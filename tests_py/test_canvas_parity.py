@@ -518,8 +518,20 @@ class ImageEffectParityTest(unittest.TestCase):
         self.assertEqual(rendered.size(), QImage(80, 74, QImage.Format.Format_ARGB32).size())
         self.assertEqual(self.canvas.background_image().size(), self.image.size())
         self.canvas._refresh()
-        self.assertEqual(self.canvas._map_to_image(QPoint(30, 30)), QPoint(0, 0))
-        self.assertIsNone(self.canvas._map_to_image(QPoint(10, 10)))
+        image_rect = self.canvas._image_rect_in_widget()
+        self.assertEqual(self.canvas._map_to_image(image_rect.topLeft()), QPoint(0, 0))
+        self.assertIsNone(self.canvas._map_to_image(image_rect.topLeft() - QPoint(1, 1)))
+
+    def test_mouse_mapping_uses_the_centered_pixmap_origin(self) -> None:
+        self.canvas._refresh()
+        image_rect = self.canvas._image_rect_in_widget()
+        self.assertGreater(image_rect.left(), 0)
+        self.assertGreater(image_rect.top(), 0)
+        self.assertEqual(self.canvas._map_to_image(image_rect.topLeft()), QPoint(0, 0))
+        center = image_rect.center()
+        mapped_center = self.canvas._map_to_image(center)
+        self.assertLessEqual(abs(mapped_center.x() - self.image.width() // 2), 1)
+        self.assertLessEqual(abs(mapped_center.y() - self.image.height() // 2), 1)
 
 
 class RotateAndFlipParityTest(unittest.TestCase):
@@ -687,7 +699,7 @@ class StickerInsertionParityTest(unittest.TestCase):
         canvas.set_sticker_path(str(sticker))
         canvas.set_tool(Tool.STICKER)
 
-        QTest.mouseClick(canvas, Qt.MouseButton.LeftButton, pos=QPoint(50, 40))
+        QTest.mouseClick(canvas, Qt.MouseButton.LeftButton, pos=canvas._image_rect_in_widget().center())
 
         self.assertEqual(len(canvas._items), 1)
         self.assertEqual(canvas._items[0].kind, Tool.STICKER)
@@ -727,7 +739,7 @@ class StickerInsertionParityTest(unittest.TestCase):
         canvas.set_image(background)
         canvas.set_sticker_path(str(sticker))
         canvas.set_tool(Tool.STICKER)
-        QTest.mouseClick(canvas, Qt.MouseButton.LeftButton, pos=QPoint(80, 60))
+        QTest.mouseClick(canvas, Qt.MouseButton.LeftButton, pos=canvas._image_rect_in_widget().center())
         canvas._items[0].image.fill(QColor("red"))
 
         bounds = canvas._items[0].bounds()
@@ -746,7 +758,7 @@ class StickerInsertionParityTest(unittest.TestCase):
         canvas.set_image(background)
         canvas.set_sticker_path(str(sticker))
         canvas.set_tool(Tool.STICKER)
-        QTest.mouseClick(canvas, Qt.MouseButton.LeftButton, pos=QPoint(50, 40))
+        QTest.mouseClick(canvas, Qt.MouseButton.LeftButton, pos=canvas._image_rect_in_widget().center())
 
         source = QImage(2, 1, QImage.Format.Format_ARGB32)
         source.setPixelColor(0, 0, QColor("black"))

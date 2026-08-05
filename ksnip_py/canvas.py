@@ -1639,9 +1639,17 @@ class AnnotationCanvas(QLabel):
             return None
         zoom = self._zoom_percent / 100.0
         offset = self._effect_offset()
+        pixmap = self.pixmap()
+        if pixmap is None or pixmap.isNull():
+            return None
+        contents = self.contentsRect()
+        pixmap_width = pixmap.width()
+        pixmap_height = pixmap.height()
+        pixmap_left = contents.left() + max(0, (contents.width() - pixmap_width) // 2)
+        pixmap_top = contents.top() + max(0, (contents.height() - pixmap_height) // 2)
         return QRect(
-            round(offset.x() * zoom),
-            round(offset.y() * zoom),
+            pixmap_left + round(offset.x() * zoom),
+            pixmap_top + round(offset.y() * zoom),
             max(1, round(self._image.width() * zoom)),
             max(1, round(self._image.height() * zoom)),
         )
