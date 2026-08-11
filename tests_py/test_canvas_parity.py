@@ -252,6 +252,53 @@ class FreehandToolParityTest(unittest.TestCase):
 
 
 class NumberFontParityTest(unittest.TestCase):
+    def test_number_pointer_preview_has_real_geometry_without_consuming_number(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(120, 80))
+        canvas.set_tool(Tool.NUMBER_POINTER)
+        canvas._preview_start = QPoint(15, 20)
+        canvas._preview_end = QPoint(90, 65)
+
+        with patch.object(canvas, "_draw_item_preview", wraps=canvas._draw_item_preview) as draw_preview:
+            canvas._refresh()
+
+        preview_items = [call.args[1] for call in draw_preview.call_args_list]
+        self.assertEqual(len(preview_items), 1)
+        self.assertEqual(preview_items[0].kind, Tool.NUMBER_POINTER)
+        self.assertEqual(preview_items[0].text, "1")
+        self.assertEqual(canvas.number_seed(), 1)
+
+    def test_number_pointer_preserves_right_to_left_drag_direction(self) -> None:
+        canvas = AnnotationCanvas()
+        start = QPoint(100, 70)
+        end = QPoint(20, 25)
+        item = canvas._build_drag_item(
+            Tool.NUMBER_POINTER,
+            start,
+            end,
+            QRect(start, end).normalized(),
+        )
+
+        self.assertIsNotNone(item)
+        self.assertEqual(item.number_pointer_bubble_rect().center(), start)
+        self.assertEqual(item.end, end)
+        self.assertGreater(item.number_pointer_bubble_rect().center().x(), item.end.x())
+
+    def test_number_pointer_centers_its_circle_on_initial_click(self) -> None:
+        canvas = AnnotationCanvas()
+        click = QPoint(45, 35)
+        destination = QPoint(105, 70)
+        item = canvas._build_drag_item(
+            Tool.NUMBER_POINTER,
+            click,
+            destination,
+            QRect(click, destination).normalized(),
+        )
+
+        self.assertIsNotNone(item)
+        self.assertEqual(item.number_pointer_bubble_rect().center(), click)
+        self.assertEqual(item.end, destination)
+
     def test_number_pointer_and_arrow_start_at_one_on_new_canvases(self) -> None:
         rect = QRect(QPoint(10, 10), QPoint(60, 50)).normalized()
 

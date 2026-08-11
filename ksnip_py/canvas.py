@@ -1589,7 +1589,15 @@ class AnnotationCanvas(QLabel):
                 self._draw_arrow(painter, start_point, end_point)
             elif self._tool == Tool.DOUBLE_ARROW:
                 self._draw_double_arrow(painter, start_point, end_point)
-            elif self._tool in (Tool.RECT, Tool.CROP, Tool.CUT, Tool.BLUR, Tool.PIXELATE, Tool.TEXT, Tool.TEXT_POINTER, Tool.NUMBER_POINTER, Tool.MARKER_RECT):
+            elif self._tool in (Tool.NUMBER_POINTER, Tool.NUMBER_ARROW):
+                preview_item = self._build_number_drag_item(
+                    self._tool,
+                    QPoint(self._preview_start),
+                    QPoint(self._preview_end),
+                    self._peek_next_number_value(),
+                )
+                self._draw_item_preview(painter, preview_item, sx, sy, selected=False)
+            elif self._tool in (Tool.RECT, Tool.CROP, Tool.CUT, Tool.BLUR, Tool.PIXELATE, Tool.TEXT, Tool.TEXT_POINTER, Tool.MARKER_RECT):
                 painter.drawRect(rect)
             elif self._tool in (Tool.ELLIPSE, Tool.MARKER_ELLIPSE):
                 painter.drawEllipse(rect)
@@ -2921,31 +2929,48 @@ class AnnotationCanvas(QLabel):
                 fill_mode=self._fill_mode,
             )
         if tool in (Tool.NUMBER_POINTER, Tool.NUMBER_ARROW):
-            value = self._next_number_value()
-            return OverlayItem(
-                kind=tool,
-                start=QPoint(start if tool == Tool.NUMBER_ARROW else rect.topLeft()),
-                end=QPoint(end if tool == Tool.NUMBER_ARROW else rect.bottomRight()),
-                color=QColor(self._color),
-                pen_width=self._pen_width,
-                text=str(value),
-                font_family=self._font_family,
-                font_point_size=self._font_point_size,
-                opacity=self._opacity,
-                bold=self._bold,
-                italic=self._italic,
-                underline=self._underline,
-                fill_mode=self._fill_mode if tool == Tool.NUMBER_ARROW else FillMode.BORDER_AND_FILL,
-                text_color=QColor(self._text_color),
-                shadow=self._shadow,
-            )
+            return self._build_number_drag_item(tool, start, end, self._next_number_value())
         return None
+
+    def _build_number_drag_item(
+        self,
+        tool: Tool,
+        start: QPoint,
+        end: QPoint,
+        value: int,
+    ) -> OverlayItem:
+        item = OverlayItem(
+            kind=tool,
+            start=QPoint(start),
+            end=QPoint(end),
+            color=QColor(self._color),
+            pen_width=self._pen_width,
+            text=str(value),
+            font_family=self._font_family,
+            font_point_size=self._font_point_size,
+            opacity=self._opacity,
+            bold=self._bold,
+            italic=self._italic,
+            underline=self._underline,
+            fill_mode=self._fill_mode if tool == Tool.NUMBER_ARROW else FillMode.BORDER_AND_FILL,
+            text_color=QColor(self._text_color),
+            shadow=self._shadow,
+        )
+        if tool == Tool.NUMBER_POINTER:
+            bubble = item.number_pointer_bubble_rect()
+            bubble.moveCenter(start)
+            item.start = bubble.topLeft()
+        return item
+
+    def _peek_next_number_value(self) -> int:
+        if self._number_seed_updates_all:
+            return self._number_seed + sum(1 for item in self._items if self._is_number_like(item.kind))
+        return self._number_seed
 
     def _next_number_value(self) -> int:
         if self._number_seed_updates_all:
-            existing = sum(1 for item in self._items if self._is_number_like(item.kind))
-            return self._number_seed + existing
-        value = self._number_seed
+            return self._peek_next_number_value()
+        value = self._peek_next_number_value()
         self._number_seed += 1
         return value
 
@@ -3103,8 +3128,22 @@ class AnnotationCanvas(QLabel):
         center = bubble_rect.center()
         tail_tip = item.end
         tail_base = self._circle_edge_point(center, diameter // 2 - 2, tail_tip)
-        tail_left = QPoint(tail_base.x() - 5, tail_base.y() + 7)
-        tail_right = QPoint(tail_base.x() + 7, tail_base.y() - 5)
+        dx = tail_tip.x() - center.x()
+        dy = tail_tip.y() - center.y()
+        if dx == 0 and dy == 0:
+            dx = 1
+        length = max(1.0, hypot(dx, dy))
+        half_width = max(4.0, diameter * 0.18)
+        perpendicular_x = -dy / length * half_width
+        perpendicular_y = dx / length * half_width
+        tail_left = QPoint(
+            round(tail_base.x() + perpendicular_x),
+            round(tail_base.y() + perpendicular_y),
+        )
+        tail_right = QPoint(
+            round(tail_base.x() - perpendicular_x),
+            round(tail_base.y() - perpendicular_y),
+        )
         painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
         if self._has_border(item.fill_mode):
             painter.drawEllipse(bubble_rect)

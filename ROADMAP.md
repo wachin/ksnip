@@ -156,6 +156,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Copia raster automática junto a cada proyecto `.ksnip`, PNG por defecto y formato PNG/JPEG/WebP/BMP configurable desde `Settings > Saver`
 - [x] Formato principal de guardado configurable entre PNG (predeterminado) y proyecto `.ksnip`, aplicado a `Save As` y `Save All`
 - [x] Numeración aislada por lienzo: las capturas nuevas empiezan siempre en 1 y los proyectos `.ksnip` restauran su propia secuencia
+- [x] Previsualización fiel durante el arrastre de `Number Pointer` y `Number Arrow`, mostrando círculo, número y puntero/flecha en lugar de un rectángulo genérico
+- [x] Círculo de `Number Pointer` centrado exactamente en el clic inicial para evitar el desplazamiento visual hacia una esquina
 - [x] Exportación SVG para Inkscape con fondo PNG incrustado y anotaciones vectoriales editables; overlays raster se conservan como imágenes PNG embebidas
 
 ## Anotación y Edición
