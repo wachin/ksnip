@@ -766,6 +766,31 @@ class MainWindow(QMainWindow):
         self.sticker_action.triggered.connect(lambda: self.set_tool(Tool.STICKER))
         self.tool_action_group.addAction(self.sticker_action)
 
+        # Match the single-key annotation shortcuts exposed by kImageAnnotator.
+        for action, shortcut in (
+            (self.select_action, "S"),
+            (self.duplicate_tool_action, "U"),
+            (self.arrow_action, "A"),
+            (self.double_arrow_action, "D"),
+            (self.line_action, "L"),
+            (self.pen_action, "P"),
+            (self.marker_pen_action, "M"),
+            (self.marker_rect_action, "J"),
+            (self.marker_ellipse_action, "K"),
+            (self.text_action, "T"),
+            (self.text_pointer_action, "C"),
+            (self.text_arrow_action, "H"),
+            (self.number_action, "N"),
+            (self.number_pointer_action, "O"),
+            (self.number_arrow_action, "W"),
+            (self.blur_action, "B"),
+            (self.pixelate_action, "X"),
+            (self.rect_action, "R"),
+            (self.ellipse_action, "E"),
+            (self.sticker_action, "I"),
+        ):
+            action.setShortcut(shortcut)
+
         self.color_action = QAction(self._load_icon("color"), self.tr("Color"), self)
         self.color_action.triggered.connect(self.select_color)
 
@@ -1545,9 +1570,9 @@ class MainWindow(QMainWindow):
 
     @staticmethod
     def _default_fill_mode_for_tool(tool: Tool) -> FillMode:
-        if tool in {Tool.RECT, Tool.NUMBER, Tool.TEXT_POINTER, Tool.NUMBER_POINTER}:
+        if tool in {Tool.RECT, Tool.NUMBER, Tool.NUMBER_ARROW, Tool.TEXT_POINTER, Tool.NUMBER_POINTER}:
             return FillMode.BORDER_AND_FILL
-        if tool in {Tool.NUMBER_ARROW, Tool.TEXT_ARROW}:
+        if tool == Tool.TEXT_ARROW:
             return FillMode.NO_BORDER_AND_NO_FILL
         return FillMode.BORDER_AND_NO_FILL
 
@@ -3710,6 +3735,21 @@ class MainWindow(QMainWindow):
         for key, action in self._shortcut_actions().items():
             value = mapping.get(key, defaults[key].toString(QKeySequence.SequenceFormat.NativeText))
             action.setShortcut(QKeySequence(value) if value and shortcuts_enabled else QKeySequence())
+        self._refresh_shortcut_tooltips()
+
+    def _refresh_shortcut_tooltips(self) -> None:
+        for action in self.findChildren(QAction):
+            base = action.property("ksnip_tooltip_base")
+            if not isinstance(base, str) or not base:
+                base = (action.toolTip() or action.text()).replace("&", "")
+                action.setProperty("ksnip_tooltip_base", base)
+            shortcut = action.shortcut().toString(QKeySequence.SequenceFormat.NativeText)
+            action.setToolTip(f"{base} ({shortcut})" if shortcut else base)
+
+        if hasattr(self, "capture_menu_button"):
+            base = self.tr("New Screenshot")
+            shortcut = self.new_capture_rect_action.shortcut().toString(QKeySequence.SequenceFormat.NativeText)
+            self.capture_menu_button.setToolTip(f"{base} ({shortcut})" if shortcut else base)
 
     def _save_ui_settings(self) -> None:
         if self._setting_bool("application/remember_position", True):

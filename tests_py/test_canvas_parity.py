@@ -252,6 +252,32 @@ class FreehandToolParityTest(unittest.TestCase):
 
 
 class NumberFontParityTest(unittest.TestCase):
+    def test_number_arrow_reuses_number_circle_centered_at_drag_origin(self) -> None:
+        canvas = AnnotationCanvas()
+        item = OverlayItem(
+            kind=Tool.NUMBER_ARROW,
+            start=QPoint(80, 55),
+            end=QPoint(170, 90),
+            color=QColor("red"),
+            pen_width=3,
+            text="1",
+            font_point_size=20,
+            fill_mode=FillMode.BORDER_AND_FILL,
+        )
+        image = QImage(200, 120, QImage.Format.Format_ARGB32_Premultiplied)
+        image.fill(Qt.GlobalColor.transparent)
+        painter = QPainter(image)
+        try:
+            with patch.object(canvas, "_draw_number_circle", wraps=canvas._draw_number_circle) as draw_circle:
+                canvas._draw_number_arrow(painter, item)
+                draw_circle.assert_called_once()
+                circle_rect = draw_circle.call_args.args[2]
+                self.assertEqual(circle_rect.center(), item.start)
+                self.assertEqual(circle_rect.width(), item.number_badge_diameter())
+                self.assertEqual(circle_rect.height(), item.number_badge_diameter())
+        finally:
+            painter.end()
+
     def test_number_pointer_preview_has_real_geometry_without_consuming_number(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_image(coordinate_image(120, 80))

@@ -3111,7 +3111,19 @@ class AnnotationCanvas(QLabel):
 
     def _draw_number_badge(self, painter: QPainter, item: OverlayItem) -> None:
         rect = QRect(item.start, item.end).normalized()
+        self._draw_number_circle(painter, item, rect)
+
+    def _draw_number_circle(self, painter: QPainter, item: OverlayItem, rect: QRect) -> None:
         painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
+        painter.setPen(
+            QPen(
+                item.color if self._has_border(item.fill_mode) else Qt.GlobalColor.transparent,
+                item.pen_width,
+                Qt.PenStyle.SolidLine,
+                Qt.PenCapStyle.RoundCap,
+                Qt.PenJoinStyle.RoundJoin,
+            )
+        )
         if self._has_border(item.fill_mode):
             painter.drawEllipse(rect)
         font = QFont(item.font_family or self._font_family, item.font_point_size or self._font_point_size)
@@ -3158,21 +3170,15 @@ class AnnotationCanvas(QLabel):
         painter.drawText(bubble_rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
 
     def _draw_number_arrow(self, painter: QPainter, item: OverlayItem) -> None:
-        bubble_radius = (item.number_badge_diameter() + 1) // 2
-        bubble_rect = QRect(item.start.x() - bubble_radius, item.start.y() - bubble_radius, bubble_radius * 2, bubble_radius * 2)
+        diameter = item.number_badge_diameter()
+        bubble_rect = QRect(QPoint(), QSize(diameter, diameter))
+        bubble_rect.moveCenter(item.start)
         bubble_center = bubble_rect.center()
-        arrow_start = self._circle_edge_point(bubble_center, bubble_radius - 2, item.end)
-        painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
-        if self._has_border(item.fill_mode):
-            painter.drawEllipse(bubble_rect)
+        arrow_start = self._circle_edge_point(bubble_center, max(1, diameter // 2 - 2), item.end)
         self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
-        font = QFont(item.font_family or self._font_family, max(8, (item.font_point_size or self._font_point_size) - 1))
-        font.setBold(item.bold)
-        font.setItalic(item.italic)
-        font.setUnderline(item.underline)
-        painter.setFont(font)
-        painter.setPen(QPen(item.text_color or QColor("white"), max(1, item.pen_width // 2)))
-        painter.drawText(bubble_rect, Qt.AlignmentFlag.AlignCenter, item.text or "")
+        # Paint the shared Number badge last so the shaft begins cleanly at its
+        # edge and never crosses the circle or the number.
+        self._draw_number_circle(painter, item, bubble_rect)
 
     def _apply_region_effect(self, rect: QRect, tool: Tool) -> None:
         rect = rect.intersected(self._image.rect())

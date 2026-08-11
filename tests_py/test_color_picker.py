@@ -49,6 +49,18 @@ class ColorPaletteMenuTest(unittest.TestCase):
 
 
 class MainWindowColorPickerTest(unittest.TestCase):
+    def test_tooltips_show_original_and_configurable_shortcuts(self) -> None:
+        window = MainWindow()
+        self.assertEqual(window.number_pointer_action.shortcut().toString(), "O")
+        self.assertEqual(window.number_pointer_action.toolTip(), "Number Pointer (O)")
+        self.assertEqual(window.pen_action.toolTip(), "Pen (P)")
+        window._set_tool_group_default_action("number", window.number_pointer_action)
+        self.assertEqual(window._tool_group_buttons["number"].toolTip(), "Number Pointer (O)")
+
+        window._apply_shortcuts_from_mapping({"save": "Ctrl+Alt+S", "capture_rect": "Alt+R"})
+        self.assertEqual(window.save_action.toolTip(), "Save (Ctrl+Alt+S)")
+        self.assertEqual(window.capture_menu_button.toolTip(), "New Screenshot (Alt+R)")
+
     def test_new_canvas_numbering_starts_at_one_despite_legacy_setting(self) -> None:
         window = MainWindow()
         window._settings.setValue("editor/number_seed", 10)
@@ -339,7 +351,7 @@ class MainWindowColorPickerTest(unittest.TestCase):
                 else:
                     settings.setValue(key, value)
 
-    def test_fill_modes_use_cpp_defaults_and_are_restored_per_tool(self) -> None:
+    def test_fill_modes_use_port_defaults_and_are_restored_per_tool(self) -> None:
         window = MainWindow()
         settings = window._settings
         tools = (Tool.TEXT, Tool.NUMBER, Tool.NUMBER_ARROW, Tool.RECT, Tool.ELLIPSE)
@@ -351,7 +363,7 @@ class MainWindowColorPickerTest(unittest.TestCase):
             expected = {
                 Tool.TEXT: FillMode.BORDER_AND_NO_FILL,
                 Tool.NUMBER: FillMode.BORDER_AND_FILL,
-                Tool.NUMBER_ARROW: FillMode.NO_BORDER_AND_NO_FILL,
+                Tool.NUMBER_ARROW: FillMode.BORDER_AND_FILL,
                 Tool.RECT: FillMode.BORDER_AND_FILL,
                 Tool.ELLIPSE: FillMode.BORDER_AND_NO_FILL,
             }
