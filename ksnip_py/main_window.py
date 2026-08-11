@@ -1876,12 +1876,12 @@ class MainWindow(QMainWindow):
     def _apply_arrow_head_size(self, size: int) -> None:
         canvas = self.current_canvas()
         if canvas is not None:
-            if canvas.tool() == Tool.SELECT and canvas.apply_arrow_head_size_to_selected_item(size):
+            updated_selected = canvas.apply_arrow_head_size_to_selected_item(size)
+            canvas.set_arrow_head_size(size)
+            if updated_selected:
                 self.status_label.setText(
                     self.tr("Updated selected arrowhead size to %1").replace("%1", str(size))
                 )
-                return
-            canvas.set_arrow_head_size(size)
         self._settings.setValue("editor/number_arrow_head_size", size)
 
     def _apply_font_family(self, font) -> None:

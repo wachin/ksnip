@@ -5,7 +5,7 @@ import unittest
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PyQt6.QtCore import QSettings, Qt
+from PyQt6.QtCore import QPoint, QRect, QSettings, Qt
 from PyQt6.QtGui import QColor, QIcon, QImage
 from PyQt6.QtWidgets import QApplication
 
@@ -78,6 +78,36 @@ class MainWindowColorPickerTest(unittest.TestCase):
         self.assertEqual(len(arrow_head_actions), 1)
         self.assertTrue(arrow_head_actions[0].isVisible())
         self.assertEqual(window.current_canvas()._arrow_head_size, window.arrow_head_size.value())
+
+    def test_arrowhead_control_updates_freshly_drawn_selected_number_arrow(self) -> None:
+        window = MainWindow()
+        setting_key = "editor/number_arrow_head_size"
+        old_value = window._settings.value(setting_key)
+        canvas = window.current_canvas()
+        try:
+            canvas.set_image(QImage(200, 120, QImage.Format.Format_ARGB32))
+            window.set_tool(Tool.NUMBER_ARROW)
+            item = canvas._build_drag_item(
+                Tool.NUMBER_ARROW,
+                QPoint(40, 60),
+                QPoint(170, 60),
+                QRect(QPoint(40, 60), QPoint(170, 60)).normalized(),
+            )
+            canvas._items = [item]
+            canvas._select_single_item(0)
+
+            window._apply_arrow_head_size(11)
+
+            self.assertEqual(canvas.tool(), Tool.NUMBER_ARROW)
+            self.assertEqual(canvas._items[0].arrow_head_size, 11)
+            self.assertEqual(canvas._arrow_head_size, 11)
+            canvas.undo()
+            self.assertNotEqual(canvas._items[0].arrow_head_size, 11)
+        finally:
+            if old_value is None:
+                window._settings.remove(setting_key)
+            else:
+                window._settings.setValue(setting_key, old_value)
 
     def test_new_canvas_numbering_starts_at_one_despite_legacy_setting(self) -> None:
         window = MainWindow()
