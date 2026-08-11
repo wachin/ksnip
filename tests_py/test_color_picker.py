@@ -49,6 +49,26 @@ class ColorPaletteMenuTest(unittest.TestCase):
 
 
 class MainWindowColorPickerTest(unittest.TestCase):
+    def test_default_save_format_can_switch_between_png_and_ksnip(self) -> None:
+        window = MainWindow()
+        setting_key = "saver/default_format"
+        old_value = window._settings.value(setting_key)
+        try:
+            window._settings.remove(setting_key)
+            self.assertEqual(window._default_save_spec(), (".png", "PNG (*.png)"))
+            window._settings.setValue(setting_key, "ksnip")
+            self.assertEqual(
+                window._default_save_spec(),
+                (".ksnip", "Ksnip Project (*.ksnip)"),
+            )
+            window._settings.setValue(setting_key, "unsupported")
+            self.assertEqual(window._default_save_spec(), (".png", "PNG (*.png)"))
+        finally:
+            if old_value is None:
+                window._settings.remove(setting_key)
+            else:
+                window._settings.setValue(setting_key, old_value)
+
     def test_saving_project_also_saves_configured_companion_image(self) -> None:
         window = MainWindow()
         setting_key = "saver/project_companion_format"

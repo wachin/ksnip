@@ -154,6 +154,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Paste Embedded image como `Image Item` centrado, con `Ctrl+Shift+V`, undo y edición mediante selección
 - [x] Formato de proyecto editable `.ksnip` basado en ZIP (`project.json` + `background.png`) con anotaciones, imágenes incrustadas, efecto, zoom y contador restaurables
 - [x] Copia raster automática junto a cada proyecto `.ksnip`, PNG por defecto y formato PNG/JPEG/WebP/BMP configurable desde `Settings > Saver`
+- [x] Formato principal de guardado configurable entre PNG (predeterminado) y proyecto `.ksnip`, aplicado a `Save As` y `Save All`
 - [x] Exportación SVG para Inkscape con fondo PNG incrustado y anotaciones vectoriales editables; overlays raster se conservan como imágenes PNG embebidas
 
 ## Anotación y Edición

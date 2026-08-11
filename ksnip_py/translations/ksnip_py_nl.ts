@@ -64,7 +64,7 @@
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="../main_window.py" line="3083" />
+      <location filename="../main_window.py" line="3104" />
       <location filename="../main_window.py" line="113" />
       <source>Ready</source>
       <translation type="unfinished" /></message>
@@ -134,7 +134,7 @@
       <source>Print</source>
       <translation>Afdrukken</translation></message>
     <message>
-      <location filename="../main_window.py" line="2540" />
+      <location filename="../main_window.py" line="2561" />
       <location filename="../main_window.py" line="665" />
       <source>Print Preview</source>
       <translation>Afdrukvoorbeeld</translation></message>
@@ -314,27 +314,27 @@
       <source>Scale</source>
       <translation>Grootte aanpassen</translation></message>
     <message>
-      <location filename="../main_window.py" line="2864" />
+      <location filename="../main_window.py" line="2885" />
       <location filename="../main_window.py" line="820" />
       <source>No Effect</source>
       <translation>Geen effect</translation></message>
     <message>
-      <location filename="../main_window.py" line="2865" />
+      <location filename="../main_window.py" line="2886" />
       <location filename="../main_window.py" line="821" />
       <source>Drop Shadow</source>
       <translation>Vallende schaduw</translation></message>
     <message>
-      <location filename="../main_window.py" line="2866" />
+      <location filename="../main_window.py" line="2887" />
       <location filename="../main_window.py" line="822" />
       <source>Grayscale</source>
       <translation>Grijswaarden</translation></message>
     <message>
-      <location filename="../main_window.py" line="2867" />
+      <location filename="../main_window.py" line="2888" />
       <location filename="../main_window.py" line="823" />
       <source>Invert Color</source>
       <translation>Kleuren omkeren</translation></message>
     <message>
-      <location filename="../main_window.py" line="2868" />
+      <location filename="../main_window.py" line="2889" />
       <location filename="../main_window.py" line="824" />
       <source>Border</source>
       <translation>Rand</translation></message>
@@ -343,7 +343,7 @@
       <source>Modify Canvas...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2745" />
+      <location filename="../main_window.py" line="2766" />
       <location filename="../main_window.py" line="830" />
       <source>Hide Docks</source>
       <translation>Panelen verbergen</translation></message>
@@ -474,7 +474,7 @@
       <source>Zoom</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2879" />
+      <location filename="../main_window.py" line="2900" />
       <location filename="../main_window.py" line="1214" />
       <source>Image Effect: %1</source>
       <translation type="unfinished" /></message>
@@ -612,200 +612,200 @@
       <source>Loaded %1 capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2420" />
+      <location filename="../main_window.py" line="2430" />
       <source>Export as SVG</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2428" />
+      <location filename="../main_window.py" line="2438" />
       <source>Unable to export SVG: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2430" />
+      <location filename="../main_window.py" line="2440" />
       <source>Exported SVG to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2463" />
+      <location filename="../main_window.py" line="2484" />
       <source>Saved %1 image(s)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2477" />
+      <location filename="../main_window.py" line="2498" />
       <source>Unable to save Ksnip project: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2492" />
+      <location filename="../main_window.py" line="2513" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2501" />
+      <location filename="../main_window.py" line="2522" />
       <source>Saved %1 and companion image %2</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2514" />
+      <location filename="../main_window.py" line="2535" />
       <source>Saved %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2522" />
+      <location filename="../main_window.py" line="2543" />
       <source>Copied image to clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2531" />
+      <location filename="../main_window.py" line="2552" />
       <source>Sent image to printer</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2604" />
+      <location filename="../main_window.py" line="2625" />
       <source>Renamed to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2636" />
+      <location filename="../main_window.py" line="2657" />
       <source>Deleted %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2659" />
+      <location filename="../main_window.py" line="2680" />
       <source>Copied image as a base64 encoded Data URI</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2666" />
+      <location filename="../main_window.py" line="2687" />
       <source>Copied path %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2676" />
+      <location filename="../main_window.py" line="2697" />
       <source>Opened directory %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2683" />
+      <location filename="../main_window.py" line="2704" />
       <source>Copied selected item(s)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2696" />
+      <location filename="../main_window.py" line="2717" />
       <source>Loaded image from clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2716" />
+      <location filename="../main_window.py" line="2737" />
       <source>Pasted embedded image from clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2730" />
+      <location filename="../main_window.py" line="2751" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2745" />
+      <location filename="../main_window.py" line="2766" />
       <source>Show Docks</source>
       <translation>Panelen tonen</translation></message>
     <message>
-      <location filename="../main_window.py" line="2754" />
+      <location filename="../main_window.py" line="2775" />
       <source>Pasted item from clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2781" />
+      <location filename="../main_window.py" line="2802" />
       <source>Deleted selected item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2790" />
+      <location filename="../main_window.py" line="2811" />
       <source>Duplicated selected item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2799" />
+      <location filename="../main_window.py" line="2820" />
       <source>Updated text item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2808" />
+      <location filename="../main_window.py" line="2829" />
       <source>Brought selected item to front</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2817" />
+      <location filename="../main_window.py" line="2838" />
       <source>Sent selected item to back</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2829" />
+      <location filename="../main_window.py" line="2850" />
       <source>Rotated image by %1 degrees</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2832" />
+      <location filename="../main_window.py" line="2853" />
       <source>Horizontal</source>
       <translation>Horizontaal</translation></message>
     <message>
-      <location filename="../main_window.py" line="2832" />
+      <location filename="../main_window.py" line="2853" />
       <source>Vertical</source>
       <translation>Verticaal</translation></message>
     <message>
-      <location filename="../main_window.py" line="2833" />
+      <location filename="../main_window.py" line="2854" />
       <source>Flipped image: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2853" />
+      <location filename="../main_window.py" line="2874" />
       <source>Scaled image to %1 × %2 px</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2872" />
+      <location filename="../main_window.py" line="2893" />
       <source>Image effect: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2891" />
+      <location filename="../main_window.py" line="2912" />
       <source>Image slice removed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2906" />
+      <location filename="../main_window.py" line="2927" />
       <source>Pinned current image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2916" />
+      <location filename="../main_window.py" line="2937" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2918" />
+      <location filename="../main_window.py" line="2939" />
       <source>Settings updated</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2957" />
+      <location filename="../main_window.py" line="2978" />
       <source>Added watermark</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2972" />
+      <location filename="../main_window.py" line="2993" />
       <source>Updated watermark image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3001" />
+      <location filename="../main_window.py" line="3022" />
       <source>Upload finished successfully</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3033" />
+      <location filename="../main_window.py" line="3054" />
       <source>OCR</source>
       <translation>Ocr</translation></message>
     <message>
-      <location filename="../main_window.py" line="3037" />
+      <location filename="../main_window.py" line="3058" />
       <source>Running OCR...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3049" />
+      <location filename="../main_window.py" line="3070" />
       <source>OCR finished</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3052" />
+      <location filename="../main_window.py" line="3073" />
       <source>OCR failed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3056" />
+      <location filename="../main_window.py" line="3077" />
       <source>OCR canceled</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3234" />
-      <location filename="../main_window.py" line="3207" />
+      <location filename="../main_window.py" line="3255" />
+      <location filename="../main_window.py" line="3228" />
       <source>Opened %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3217" />
+      <location filename="../main_window.py" line="3238" />
       <source>Unable to open Ksnip project: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3225" />
+      <location filename="../main_window.py" line="3246" />
       <source>Unable to restore Ksnip project: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3240" />
+      <location filename="../main_window.py" line="3261" />
       <source>Unable to open image data.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3248" />
+      <location filename="../main_window.py" line="3269" />
       <source>Opened image from standard input</source>
       <translation type="unfinished" /></message>
     <message>
@@ -1025,751 +1025,760 @@
   <context>
     <name>SettingsDialog</name>
     <message>
-      <location filename="../settings_dialog.py" line="992" />
-      <location filename="../settings_dialog.py" line="107" />
+      <location filename="../settings_dialog.py" line="1002" />
+      <location filename="../settings_dialog.py" line="108" />
       <source>Settings</source>
       <translation>Instellingen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="115" />
+      <location filename="../settings_dialog.py" line="116" />
       <source>Search Settings...</source>
       <translation>Zoekinstellingen…</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="135" />
+      <location filename="../settings_dialog.py" line="136" />
       <source>Editor Defaults</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="139" />
+      <location filename="../settings_dialog.py" line="140" />
       <source>Select</source>
       <translation>Kiezen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="140" />
+      <location filename="../settings_dialog.py" line="141" />
       <source>Pen</source>
       <translation>Pen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="141" />
+      <location filename="../settings_dialog.py" line="142" />
       <source>Marker Pen</source>
       <translation>Markeerstift</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="142" />
+      <location filename="../settings_dialog.py" line="143" />
       <source>Line</source>
       <translation>Lijn</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="143" />
+      <location filename="../settings_dialog.py" line="144" />
       <source>Arrow</source>
       <translation>Pijl</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="144" />
+      <location filename="../settings_dialog.py" line="145" />
       <source>Double Arrow</source>
       <translation>Dubbele pijl</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="145" />
+      <location filename="../settings_dialog.py" line="146" />
       <source>Rectangle</source>
       <translation>Rechthoek</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="146" />
+      <location filename="../settings_dialog.py" line="147" />
       <source>Ellipse</source>
       <translation>Ellips</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="147" />
+      <location filename="../settings_dialog.py" line="148" />
       <source>Marker Rectangle</source>
       <translation>Markeerrechthoek</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="148" />
+      <location filename="../settings_dialog.py" line="149" />
       <source>Marker Ellipse</source>
       <translation>Markeerellips</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="149" />
+      <location filename="../settings_dialog.py" line="150" />
       <source>Text</source>
       <translation>Tekst</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="150" />
+      <location filename="../settings_dialog.py" line="151" />
       <source>Text Pointer</source>
       <translation>Tekstaanwijzer</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="151" />
+      <location filename="../settings_dialog.py" line="152" />
       <source>Text Arrow</source>
       <translation>Tekstuele pijl</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="152" />
+      <location filename="../settings_dialog.py" line="153" />
       <source>Number</source>
       <translation>Getal</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="153" />
+      <location filename="../settings_dialog.py" line="154" />
       <source>Number Pointer</source>
       <translation>Getalaanwijzer</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="154" />
+      <location filename="../settings_dialog.py" line="155" />
       <source>Number Arrow</source>
       <translation>Getalpijl</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="155" />
+      <location filename="../settings_dialog.py" line="156" />
       <source>Blur</source>
       <translation>Vervaging</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="156" />
+      <location filename="../settings_dialog.py" line="157" />
       <source>Pixelate</source>
       <translation>Pixelvorming</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="157" />
+      <location filename="../settings_dialog.py" line="158" />
       <source>Sticker</source>
       <translation>Sticker</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="158" />
+      <location filename="../settings_dialog.py" line="159" />
       <source>Crop</source>
       <translation>Bijsnijden</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="159" />
+      <location filename="../settings_dialog.py" line="160" />
       <source>Default Tool</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="163" />
+      <location filename="../settings_dialog.py" line="164" />
       <source>Stroke Width</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="166" />
+      <location filename="../settings_dialog.py" line="167" />
       <source>Font Family</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="170" />
+      <location filename="../settings_dialog.py" line="171" />
       <source>Font Size</source>
       <translation>Tekstgrootte</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="173" />
+      <location filename="../settings_dialog.py" line="174" />
       <source>Border and Fill</source>
       <translation>Rand met opvulling</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="174" />
+      <location filename="../settings_dialog.py" line="175" />
       <source>Border and No Fill</source>
       <translation>Rand zonder opvulling</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="175" />
+      <location filename="../settings_dialog.py" line="176" />
       <source>No Border and No Fill</source>
       <translation>Geen rand, geen opvulling</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="176" />
+      <location filename="../settings_dialog.py" line="177" />
       <source>Shape Fill Mode</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="180" />
+      <location filename="../settings_dialog.py" line="181" />
       <source>Opacity %</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="183" />
+      <location filename="../settings_dialog.py" line="184" />
       <source>Bold</source>
       <translation>Vetgedrukt</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="184" />
+      <location filename="../settings_dialog.py" line="185" />
       <source>Italic</source>
       <translation>Cursief</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="189" />
+      <location filename="../settings_dialog.py" line="190" />
       <source>Text Style</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="191" />
+      <location filename="../settings_dialog.py" line="192" />
       <source>Watermark</source>
       <translation>Watermerk</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="194" />
+      <location filename="../settings_dialog.py" line="195" />
       <source>Rotate Watermark 45°</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="199" />
+      <location filename="../settings_dialog.py" line="200" />
       <source>Update Image...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="205" />
+      <location filename="../settings_dialog.py" line="206" />
       <source>Stored Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="207" />
+      <location filename="../settings_dialog.py" line="208" />
       <source>Application</source>
       <translation>Programma</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="210" />
+      <location filename="../settings_dialog.py" line="211" />
       <source>Automatically copy new captures to clipboard</source>
       <translation>Nieuwe schermfoto's automatisch kopiëren naar klembord</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="213" />
+      <location filename="../settings_dialog.py" line="214" />
       <source>Remember Main Window position on move and load on startup</source>
       <translation>Automatisch opstarten met vorige schermpositie van hoofdvenster</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="216" />
+      <location filename="../settings_dialog.py" line="217" />
       <source>Capture screenshot at startup with default mode</source>
       <translation>Schermfoto vastleggen met standaardmodus bij opstarten</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="219" />
+      <location filename="../settings_dialog.py" line="220" />
       <source>Use Tabs</source>
       <translation>Tabbladen gebruiken</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="224" />
+      <location filename="../settings_dialog.py" line="225" />
       <source>Auto hide Tabs</source>
       <translation>Tabbladen automatisch verbergen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="227" />
+      <location filename="../settings_dialog.py" line="228" />
       <source>Run ksnip as single instance</source>
       <translation>Slechts één ksnip-proces toestaan</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="230" />
+      <location filename="../settings_dialog.py" line="231" />
       <source>Auto hide Docks</source>
       <translation>Panelen automatisch verbergen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="233" />
+      <location filename="../settings_dialog.py" line="234" />
       <source>Auto resize to content</source>
       <translation>Automatisch aanpassen aan inhoud</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="236" />
+      <location filename="../settings_dialog.py" line="237" />
       <source>Enable Debugging</source>
       <translation>Foutopsporing inschakelen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="240" />
+      <location filename="../settings_dialog.py" line="241" />
       <source>Appearance and Paths</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="247" />
+      <location filename="../settings_dialog.py" line="248" />
       <source>Resize delay</source>
       <translation>Grootte-aanpassingsvertraging</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="250" />
+      <location filename="../settings_dialog.py" line="251" />
       <source>System default</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="533" />
-      <location filename="../settings_dialog.py" line="251" />
+      <location filename="../settings_dialog.py" line="541" />
+      <location filename="../settings_dialog.py" line="252" />
       <source>English</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="547" />
-      <location filename="../settings_dialog.py" line="254" />
+      <location filename="../settings_dialog.py" line="555" />
+      <location filename="../settings_dialog.py" line="255" />
       <source>Language</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="259" />
+      <location filename="../settings_dialog.py" line="260" />
       <source>Application Style</source>
       <translation>Programmastijl</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="732" />
-      <location filename="../settings_dialog.py" line="264" />
+      <location filename="../settings_dialog.py" line="740" />
+      <location filename="../settings_dialog.py" line="265" />
       <source>Browse</source>
       <translation>Bladeren</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="270" />
+      <location filename="../settings_dialog.py" line="271" />
       <source>Temp Directory</source>
       <translation>Tijdelijke map</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="448" />
-      <location filename="../settings_dialog.py" line="272" />
+      <location filename="../settings_dialog.py" line="456" />
+      <location filename="../settings_dialog.py" line="273" />
       <source>Capture</source>
       <translation>Vastleggen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="278" />
+      <location filename="../settings_dialog.py" line="279" />
       <source>Capture Delay</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="280" />
+      <location filename="../settings_dialog.py" line="281" />
       <source>Hide Main Window During Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="281" />
+      <location filename="../settings_dialog.py" line="282" />
       <source>Show Main Window After Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="285" />
+      <location filename="../settings_dialog.py" line="286" />
       <source>Saver</source>
       <translation>Opslaan</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="287" />
+      <location filename="../settings_dialog.py" line="288" />
       <source>Automatically save new captures to default location</source>
       <translation>Nieuwe schermfoto's automatisch opslaan op standaardlocatie</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="288" />
+      <location filename="../settings_dialog.py" line="289" />
       <source>Prompt to save before discarding unsaved changes</source>
       <translation>Altijd vragen om aanpassingen op te slaan</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="289" />
+      <location filename="../settings_dialog.py" line="290" />
       <source>Remember last Save Directory</source>
       <translation>Recentste opslagmap onthouden</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="291" />
+      <location filename="../settings_dialog.py" line="298" />
+      <location filename="../settings_dialog.py" line="292" />
       <source>PNG image (*.png)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="292" />
+      <location filename="../settings_dialog.py" line="293" />
+      <source>Ksnip project (*.ksnip)</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../settings_dialog.py" line="295" />
+      <source>Default save format:</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../settings_dialog.py" line="299" />
       <source>JPEG image (*.jpg)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="293" />
+      <location filename="../settings_dialog.py" line="300" />
       <source>WebP image (*.webp)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="294" />
+      <location filename="../settings_dialog.py" line="301" />
       <source>BMP image (*.bmp)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="296" />
+      <location filename="../settings_dialog.py" line="303" />
       <source>Image saved alongside Ksnip projects:</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="303" />
+      <location filename="../settings_dialog.py" line="311" />
       <source>Save Quality</source>
       <translation>Opslagkwaliteit</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="722" />
-      <location filename="../settings_dialog.py" line="305" />
+      <location filename="../settings_dialog.py" line="730" />
+      <location filename="../settings_dialog.py" line="313" />
       <source>Default</source>
       <translation>Standaard</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="307" />
+      <location filename="../settings_dialog.py" line="315" />
       <source>Factor</source>
       <translation>Factor</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="1028" />
-      <location filename="../settings_dialog.py" line="319" />
+      <location filename="../settings_dialog.py" line="1038" />
+      <location filename="../settings_dialog.py" line="327" />
       <source>Capture save location and filename</source>
       <translation>Opslaglocatie en bestandsnaam</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="322" />
+      <location filename="../settings_dialog.py" line="330" />
       <source>Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="539" />
-      <location filename="../settings_dialog.py" line="510" />
-      <location filename="../settings_dialog.py" line="323" />
+      <location filename="../settings_dialog.py" line="547" />
+      <location filename="../settings_dialog.py" line="518" />
+      <location filename="../settings_dialog.py" line="331" />
       <source>Browse...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="328" />
+      <location filename="../settings_dialog.py" line="336" />
       <source>Overwrite file with same name</source>
       <translation>Bestand met dezelfde naam overschrijven</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="332" />
+      <location filename="../settings_dialog.py" line="340" />
       <source>Image Grabber</source>
       <translation>Vastleggen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="334" />
+      <location filename="../settings_dialog.py" line="342" />
       <source>Capture mouse cursor on screenshot</source>
       <translation>Cursor vastleggen bij maken van schermfoto</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="335" />
+      <location filename="../settings_dialog.py" line="343" />
       <source>Show Main Window after capturing screenshot</source>
       <translation>Hoofdvenster tonen na maken van schermfoto</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="337" />
+      <location filename="../settings_dialog.py" line="345" />
       <source>Hide Main Window during screenshot</source>
       <translation>Hoofdvenster verbergen tijdens maken van schermfoto</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="339" />
+      <location filename="../settings_dialog.py" line="347" />
       <source>Force Generic Wayland (xdg-desktop-portal) Screenshot</source>
       <translation>Algemene Wayland (xdg-desktop-portal)-schermfoto afdwingen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="340" />
+      <location filename="../settings_dialog.py" line="348" />
       <source>Scale Generic Wayland (xdg-desktop-portal) Screenshots</source>
       <translation>Algemene Wayland (xdg-desktop-portal)-schermfoto's schalen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="347" />
+      <location filename="../settings_dialog.py" line="355" />
       <source>Delays</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="354" />
+      <location filename="../settings_dialog.py" line="362" />
       <source>Implicit capture delay</source>
       <translation>Wachttijd</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="356" />
+      <location filename="../settings_dialog.py" line="364" />
       <source>Snipping Area</source>
       <translation>Vastleggebied</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="358" />
+      <location filename="../settings_dialog.py" line="366" />
       <source>Freeze Image while snipping</source>
       <translation>Schermfoto bevriezen tijdens vastleggen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="360" />
+      <location filename="../settings_dialog.py" line="368" />
       <source>Show magnifying glass on snipping area</source>
       <translation>Vergrootglas tonen op vastleggebied</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="362" />
+      <location filename="../settings_dialog.py" line="370" />
       <source>Show Snipping Area rulers</source>
       <translation>Linialen tonen op vastleggebied</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="364" />
+      <location filename="../settings_dialog.py" line="372" />
       <source>Show Snipping Area position and size info</source>
       <translation>Positie- en afmetingsinformatie tonen op vastleggebied</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="366" />
+      <location filename="../settings_dialog.py" line="374" />
       <source>Allow resizing rect area selection by default</source>
       <translation>Vergroten/Verkleinen van selectiegebied toestaan</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="368" />
+      <location filename="../settings_dialog.py" line="376" />
       <source>Show Snipping Area info text</source>
       <translation>Informatietekst tonen op vastleggebied</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="380" />
+      <location filename="../settings_dialog.py" line="388" />
       <source>Appearance</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="394" />
+      <location filename="../settings_dialog.py" line="402" />
       <source>Snipping Area adorner color</source>
       <translation>Versierkleur van vastleggebied</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="395" />
+      <location filename="../settings_dialog.py" line="403" />
       <source>Snipping Area cursor color</source>
       <translation>Cursorkleur binnen vastleggebied</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="396" />
+      <location filename="../settings_dialog.py" line="404" />
       <source>Snipping Area cursor thickness</source>
       <translation>Cursordikte binnen vastleggebied</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="397" />
+      <location filename="../settings_dialog.py" line="405" />
       <source>Snipping Area Transparency</source>
       <translation>Doorzichtigheid van vastleggebied</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="399" />
+      <location filename="../settings_dialog.py" line="407" />
       <source>Annotator</source>
       <translation>Aantekeningen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="401" />
+      <location filename="../settings_dialog.py" line="409" />
       <source>Remember annotation tool selection and load on startup</source>
       <translation>Aantekeningsgereedschap onthouden en laden na opstarten</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="402" />
+      <location filename="../settings_dialog.py" line="410" />
       <source>Switch to Select Tool after drawing Item</source>
       <translation>Overschakelen naar selectiegereedschap na tekenen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="403" />
+      <location filename="../settings_dialog.py" line="411" />
       <source>Select Item after drawing</source>
       <translation>Item selecteren na tekenen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="405" />
+      <location filename="../settings_dialog.py" line="413" />
       <source>Number Tool Seed change updates all Number Items</source>
       <translation>Getalwijziging werkt alle items met getallen bij</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="406" />
+      <location filename="../settings_dialog.py" line="414" />
       <source>Show Controls Widget</source>
       <translation>Bedieningspaneel tonen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="407" />
+      <location filename="../settings_dialog.py" line="415" />
       <source>Smooth Painter Paths</source>
       <translation>Gladvegen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="419" />
+      <location filename="../settings_dialog.py" line="427" />
       <source>Canvas</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="427" />
+      <location filename="../settings_dialog.py" line="435" />
       <source>Smooth Factor</source>
       <translation>Gladveegfactor</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="428" />
+      <location filename="../settings_dialog.py" line="436" />
       <source>Canvas Color</source>
       <translation>Canvaskleur</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="429" />
+      <location filename="../settings_dialog.py" line="437" />
       <source>Tray Icon</source>
       <translation>Systeemvakpictogram</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="432" />
+      <location filename="../settings_dialog.py" line="440" />
       <source>Use Tray Icon</source>
       <translation>Systeemvakpictogram gebruiken</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="433" />
+      <location filename="../settings_dialog.py" line="441" />
       <source>Minimize To Tray</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="434" />
+      <location filename="../settings_dialog.py" line="442" />
       <source>Close To Tray</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="435" />
+      <location filename="../settings_dialog.py" line="443" />
       <source>Start Minimized To Tray</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="436" />
+      <location filename="../settings_dialog.py" line="444" />
       <source>Display Tray Notifications</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="444" />
+      <location filename="../settings_dialog.py" line="452" />
       <source>Default Action</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="447" />
+      <location filename="../settings_dialog.py" line="455" />
       <source>Show Editor</source>
       <translation>Bewerker tonen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="449" />
+      <location filename="../settings_dialog.py" line="457" />
       <source>Action</source>
       <translation>Actie</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="452" />
+      <location filename="../settings_dialog.py" line="460" />
       <source>Rect Area</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="453" />
+      <location filename="../settings_dialog.py" line="461" />
       <source>Last Rect Area</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="454" />
+      <location filename="../settings_dialog.py" line="462" />
       <source>Full Screen</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="455" />
+      <location filename="../settings_dialog.py" line="463" />
       <source>Current Screen</source>
       <translation>Huidig scherm</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="456" />
+      <location filename="../settings_dialog.py" line="464" />
       <source>Active Window</source>
       <translation>Actief venster</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="457" />
+      <location filename="../settings_dialog.py" line="465" />
       <source>Window Under Cursor</source>
       <translation>Venster onder cursor</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="458" />
+      <location filename="../settings_dialog.py" line="466" />
       <source>Portal</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="459" />
+      <location filename="../settings_dialog.py" line="467" />
       <source>Capture Mode</source>
       <translation>Modus</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="461" />
+      <location filename="../settings_dialog.py" line="469" />
       <source>Global HotKeys</source>
       <translation>Algemene sneltoetsen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="463" />
+      <location filename="../settings_dialog.py" line="471" />
       <source>Enable Global HotKeys</source>
       <translation>Algemene sneltoetsen inschakelen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="468" />
+      <location filename="../settings_dialog.py" line="476" />
       <source>Rect Area Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="469" />
+      <location filename="../settings_dialog.py" line="477" />
       <source>Last Rect Area Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="470" />
+      <location filename="../settings_dialog.py" line="478" />
       <source>Full Screen Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="471" />
+      <location filename="../settings_dialog.py" line="479" />
       <source>Current Screen Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="472" />
+      <location filename="../settings_dialog.py" line="480" />
       <source>Active Window Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="473" />
+      <location filename="../settings_dialog.py" line="481" />
       <source>Window Under Cursor Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="474" />
+      <location filename="../settings_dialog.py" line="482" />
       <source>Portal Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="475" />
+      <location filename="../settings_dialog.py" line="483" />
       <source>Open Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="476" />
+      <location filename="../settings_dialog.py" line="484" />
       <source>Save</source>
       <translation>Opslaan</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="477" />
+      <location filename="../settings_dialog.py" line="485" />
       <source>Paste Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="478" />
+      <location filename="../settings_dialog.py" line="486" />
       <source>Pin Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="479" />
+      <location filename="../settings_dialog.py" line="487" />
       <source>Add Watermark</source>
       <translation>Watermerk toevoegen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="480" />
+      <location filename="../settings_dialog.py" line="488" />
       <source>Upload Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="481" />
+      <location filename="../settings_dialog.py" line="489" />
       <source>OCR Text Recognition</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="485" />
+      <location filename="../settings_dialog.py" line="493" />
       <source>Clear</source>
       <translation>Wissen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="495" />
+      <location filename="../settings_dialog.py" line="503" />
       <source>Uploader</source>
       <translation>Uploader</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="497" />
+      <location filename="../settings_dialog.py" line="505" />
       <source>Ask for confirmation before uploading</source>
       <translation>Vragen alvorens te uploaden</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="531" />
-      <location filename="../settings_dialog.py" line="516" />
-      <location filename="../settings_dialog.py" line="502" />
+      <location filename="../settings_dialog.py" line="539" />
+      <location filename="../settings_dialog.py" line="524" />
+      <location filename="../settings_dialog.py" line="510" />
       <source>Script</source>
       <translation>Script</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="504" />
+      <location filename="../settings_dialog.py" line="512" />
       <source>Uploader Type</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="506" />
+      <location filename="../settings_dialog.py" line="514" />
       <source>Script Uploader</source>
       <translation>Script-uploader</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="518" />
+      <location filename="../settings_dialog.py" line="526" />
       <source>Copy script output to clipboard</source>
       <translation>Scriptuitvoer kopiëren naar klembord</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="522" />
+      <location filename="../settings_dialog.py" line="530" />
       <source>Filter</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="524" />
+      <location filename="../settings_dialog.py" line="532" />
       <source>Treat stderr as failure</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="526" />
+      <location filename="../settings_dialog.py" line="534" />
       <source>OCR</source>
       <translation>Ocr</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="528" />
+      <location filename="../settings_dialog.py" line="536" />
       <source>Enable OCR actions</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="534" />
+      <location filename="../settings_dialog.py" line="542" />
       <source>Spanish</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="535" />
+      <location filename="../settings_dialog.py" line="543" />
       <source>Spanish + English (script backend recommended)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="536" />
+      <location filename="../settings_dialog.py" line="544" />
       <source>Copy OCR result to clipboard automatically</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="546" />
+      <location filename="../settings_dialog.py" line="554" />
       <source>Backend</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="549" />
+      <location filename="../settings_dialog.py" line="557" />
       <source>Script Path</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="553" />
+      <location filename="../settings_dialog.py" line="561" />
       <source>Color scheme for misspelled words</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="555" />
+      <location filename="../settings_dialog.py" line="563" />
       <source>%1 base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="741" />
-      <location filename="../settings_dialog.py" line="561" />
+      <location filename="../settings_dialog.py" line="749" />
+      <location filename="../settings_dialog.py" line="569" />
       <source>Name</source>
       <translation>Naam</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="561" />
+      <location filename="../settings_dialog.py" line="569" />
       <source>Text fill color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="561" />
+      <location filename="../settings_dialog.py" line="569" />
       <source>Underline color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="611" />
+      <location filename="../settings_dialog.py" line="619" />
       <source>Imgur Uploader</source>
       <translation>Imgur-uploader</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="613" />
+      <location filename="../settings_dialog.py" line="621" />
       <source>Native Imgur uploader parity is still pending.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="624" />
+      <location filename="../settings_dialog.py" line="632" />
       <source>FTP Uploader</source>
       <translation>FTP-upload</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="626" />
+      <location filename="../settings_dialog.py" line="634" />
       <source>Native FTP uploader parity is still pending.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="644" />
+      <location filename="../settings_dialog.py" line="652" />
       <source>Stickers</source>
       <translation>Stickers</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="646" />
+      <location filename="../settings_dialog.py" line="654" />
       <source>Sticker management and picker parity are still pending.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="677" />
+      <location filename="../settings_dialog.py" line="685" />
       <source>OK</source>
       <translation>Oké</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="678" />
+      <location filename="../settings_dialog.py" line="686" />
       <source>Cancel</source>
       <translation>Annuleren</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="699" />
+      <location filename="../settings_dialog.py" line="707" />
       <source>Actions</source>
       <translation>Acties</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="703" />
+      <location filename="../settings_dialog.py" line="711" />
       <source>Add</source>
       <translation>Toevoegen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="709" />
+      <location filename="../settings_dialog.py" line="717" />
       <source>Add new actions by pressing the 'Add' tab button.</source>
       <translation>Voeg nieuwe acties toe door de knop ‘Toevoegen’ aan te klikken.</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="717" />
+      <location filename="../settings_dialog.py" line="725" />
       <source>Plugins</source>
       <translation>Plug-ins</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="720" />
+      <location filename="../settings_dialog.py" line="728" />
       <source>Search Path</source>
       <translation>Zoeklocatie</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="741" />
+      <location filename="../settings_dialog.py" line="749" />
       <source>Version</source>
       <translation>Versie</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="751" />
+      <location filename="../settings_dialog.py" line="759" />
       <source>Detect</source>
       <translation>Automatisch vaststellen</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="790" />
+      <location filename="../settings_dialog.py" line="798" />
       <source>Select color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="974" />
+      <location filename="../settings_dialog.py" line="984" />
       <source>No watermark image configured</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="976" />
+      <location filename="../settings_dialog.py" line="986" />
       <source>%1x%2 image configured</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="984" />
+      <location filename="../settings_dialog.py" line="994" />
       <source>Select watermark image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="986" />
+      <location filename="../settings_dialog.py" line="996" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="991" />
+      <location filename="../settings_dialog.py" line="1001" />
       <source>Unable to load watermark image: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="1018" />
+      <location filename="../settings_dialog.py" line="1028" />
       <source>Select upload script</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="1038" />
+      <location filename="../settings_dialog.py" line="1048" />
       <source>Select OCR script</source>
       <translation type="unfinished" /></message>
     <message>

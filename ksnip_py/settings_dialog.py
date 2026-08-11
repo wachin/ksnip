@@ -77,6 +77,7 @@ class SettingsData:
     saver_auto_save: bool
     saver_location: str
     saver_overwrite: bool
+    saver_default_format: str
     saver_project_companion_format: str
     use_tray_icon: bool
     minimize_to_tray: bool
@@ -287,6 +288,12 @@ class SettingsDialog(QDialog):
         self.saver_auto_save = QCheckBox(self.tr("Automatically save new captures to default location"), saver_group)
         self.saver_prompt_discard = QCheckBox(self.tr("Prompt to save before discarding unsaved changes"), saver_group)
         self.saver_remember_directory = QCheckBox(self.tr("Remember last Save Directory"), saver_group)
+        self.saver_default_format = QComboBox(saver_group)
+        self.saver_default_format.addItem(self.tr("PNG image (*.png)"), "png")
+        self.saver_default_format.addItem(self.tr("Ksnip project (*.ksnip)"), "ksnip")
+        default_format_row = QHBoxLayout()
+        default_format_row.addWidget(QLabel(self.tr("Default save format:"), saver_group))
+        default_format_row.addWidget(self.saver_default_format, 1)
         self.saver_project_companion_format = QComboBox(saver_group)
         self.saver_project_companion_format.addItem(self.tr("PNG image (*.png)"), "png")
         self.saver_project_companion_format.addItem(self.tr("JPEG image (*.jpg)"), "jpg")
@@ -298,6 +305,7 @@ class SettingsDialog(QDialog):
         saver_layout.addWidget(self.saver_auto_save)
         saver_layout.addWidget(self.saver_prompt_discard)
         saver_layout.addWidget(self.saver_remember_directory)
+        saver_layout.addLayout(default_format_row)
         saver_layout.addLayout(project_companion_row)
 
         saver_quality_group = QGroupBox(self.tr("Save Quality"), self)
@@ -928,6 +936,8 @@ class SettingsDialog(QDialog):
         self.saver_auto_save.setChecked(initial.saver_auto_save)
         self.saver_location.setText(initial.saver_location)
         self.saver_overwrite.setChecked(initial.saver_overwrite)
+        default_format_index = self.saver_default_format.findData(initial.saver_default_format)
+        self.saver_default_format.setCurrentIndex(default_format_index if default_format_index >= 0 else 0)
         companion_index = self.saver_project_companion_format.findData(initial.saver_project_companion_format)
         self.saver_project_companion_format.setCurrentIndex(companion_index if companion_index >= 0 else 0)
         self.use_tray_icon.setChecked(initial.use_tray_icon)
@@ -1103,6 +1113,7 @@ class SettingsDialog(QDialog):
             saver_auto_save=self.saver_auto_save.isChecked(),
             saver_location=self.saver_location.text().strip(),
             saver_overwrite=self.saver_overwrite.isChecked(),
+            saver_default_format=str(self.saver_default_format.currentData()),
             saver_project_companion_format=str(self.saver_project_companion_format.currentData()),
             use_tray_icon=self.use_tray_icon.isChecked(),
             minimize_to_tray=self.minimize_to_tray.isChecked(),

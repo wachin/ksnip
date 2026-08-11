@@ -2396,11 +2396,16 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
             return
+        default_suffix, default_filter = self._default_save_spec()
+        suggested_path = canvas.state.path or str(
+            Path(self._default_image_directory()) / f"Untitled{default_suffix}"
+        )
         path, selected_filter = QFileDialog.getSaveFileName(
             self,
             "Save image as",
-            canvas.state.path or self._default_image_directory(),
+            suggested_path,
             "Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
+            default_filter,
         )
         if not path:
             return
@@ -2411,6 +2416,11 @@ class MainWindow(QMainWindow):
             }
             path += next((suffix for name, suffix in suffix_by_filter.items() if selected_filter.startswith(name)), ".png")
         self._save_canvas_to_path(canvas, self.tabs.currentIndex(), path)
+
+    def _default_save_spec(self) -> tuple[str, str]:
+        if str(self._settings.value("saver/default_format", "png")).lower() == "ksnip":
+            return ".ksnip", "Ksnip Project (*.ksnip)"
+        return ".png", "PNG (*.png)"
 
     def export_current_svg(self) -> None:
         canvas = self.current_canvas()
@@ -2442,19 +2452,30 @@ class MainWindow(QMainWindow):
             if not path:
                 self.tabs.setCurrentIndex(index)
                 suggested_name = self.tabs.tabText(index).replace(" *", "").strip()
+                default_suffix, default_filter = self._default_save_spec()
                 if not Path(suggested_name).suffix:
-                    suggested_name = f"{suggested_name or 'Untitled'}.png"
-                path, _ = QFileDialog.getSaveFileName(
+                    suggested_name = f"{suggested_name or 'Untitled'}{default_suffix}"
+                path, selected_filter = QFileDialog.getSaveFileName(
                     self,
                     "Save image as",
                     str(Path(self._default_image_directory()) / suggested_name),
-                    "PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
+                    "Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
+                    default_filter,
                 )
                 if not path:
                     self.status_label.setText(
                         f"Save All canceled after saving {saved_count} image(s)"
                     )
                     return
+                if not Path(path).suffix:
+                    suffix_by_filter = {
+                        "Ksnip Project": ".ksnip", "PNG": ".png", "JPEG": ".jpg",
+                        "BMP": ".bmp", "WebP": ".webp",
+                    }
+                    path += next(
+                        (suffix for name, suffix in suffix_by_filter.items() if selected_filter.startswith(name)),
+                        default_suffix,
+                    )
 
             if not self._save_canvas_to_path(canvas, index, path, show_status=False):
                 return
@@ -3374,6 +3395,7 @@ class MainWindow(QMainWindow):
             saver_auto_save=self._setting_bool("saver/auto_save", False),
             saver_location=str(self._settings.value("saver/location", str(Path.home() / "Pictures" / "$Y$M$D-$T.png"))),
             saver_overwrite=self._setting_bool("saver/overwrite", False),
+            saver_default_format=str(self._settings.value("saver/default_format", "png")),
             saver_project_companion_format=str(self._settings.value("saver/project_companion_format", "png")),
             use_tray_icon=self._setting_bool("tray/use", True),
             minimize_to_tray=self._setting_bool("tray/minimize", True),
@@ -3473,6 +3495,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("saver/auto_save", data.saver_auto_save)
         self._settings.setValue("saver/location", data.saver_location)
         self._settings.setValue("saver/overwrite", data.saver_overwrite)
+        self._settings.setValue("saver/default_format", data.saver_default_format)
         self._settings.setValue("saver/project_companion_format", data.saver_project_companion_format)
         self._settings.setValue("tray/use", data.use_tray_icon)
         self._settings.setValue("tray/minimize", data.minimize_to_tray)
