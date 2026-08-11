@@ -252,6 +252,25 @@ class FreehandToolParityTest(unittest.TestCase):
 
 
 class NumberFontParityTest(unittest.TestCase):
+    def test_number_pointer_and_arrow_start_at_one_on_new_canvases(self) -> None:
+        rect = QRect(QPoint(10, 10), QPoint(60, 50)).normalized()
+
+        pointer_canvas = AnnotationCanvas()
+        number_pointer = pointer_canvas._build_drag_item(
+            Tool.NUMBER_POINTER, QPoint(10, 10), QPoint(60, 50), rect
+        )
+        self.assertIsNotNone(number_pointer)
+        self.assertEqual(number_pointer.text, "1")
+        self.assertEqual(pointer_canvas.number_seed(), 2)
+
+        arrow_canvas = AnnotationCanvas()
+        number_arrow = arrow_canvas._build_drag_item(
+            Tool.NUMBER_ARROW, QPoint(10, 10), QPoint(60, 50), rect
+        )
+        self.assertIsNotNone(number_arrow)
+        self.assertEqual(number_arrow.text, "1")
+        self.assertEqual(arrow_canvas.number_seed(), 2)
+
     def test_update_all_number_mode_renumbers_on_seed_change_and_delete(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_image(coordinate_image(260, 160))
