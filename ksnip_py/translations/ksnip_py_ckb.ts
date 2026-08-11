@@ -4,18 +4,18 @@
   <context>
     <name>AnnotationCanvas</name>
     <message>
-      <location filename="../canvas.py" line="1514" />
+      <location filename="../canvas.py" line="1528" />
       <source>Take a screenshot or open an image.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../canvas.py" line="2015" />
-      <location filename="../canvas.py" line="1982" />
+      <location filename="../canvas.py" line="2039" />
+      <location filename="../canvas.py" line="2006" />
       <source>Edit text</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../canvas.py" line="2900" />
-      <location filename="../canvas.py" line="2876" />
-      <location filename="../canvas.py" line="2706" />
+      <location filename="../canvas.py" line="2937" />
+      <location filename="../canvas.py" line="2913" />
+      <location filename="../canvas.py" line="2743" />
       <source>Insert text</source>
       <translation type="unfinished" /></message>
   </context>
@@ -64,7 +64,7 @@
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="../main_window.py" line="3104" />
+      <location filename="../main_window.py" line="3170" />
       <location filename="../main_window.py" line="113" />
       <source>Ready</source>
       <translation type="unfinished" /></message>
@@ -73,7 +73,8 @@
       <source>New</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1259" />
+      <location filename="../main_window.py" line="3793" />
+      <location filename="../main_window.py" line="1307" />
       <location filename="../main_window.py" line="204" />
       <source>New Screenshot</source>
       <translation type="unfinished" /></message>
@@ -82,730 +83,770 @@
       <source>Updated selected sticker</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="619" />
+      <location filename="../main_window.py" line="620" />
       <source>Rect Area</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="622" />
+      <location filename="../main_window.py" line="623" />
       <source>Last Rect Area</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="625" />
+      <location filename="../main_window.py" line="626" />
       <source>Full Screen</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="628" />
+      <location filename="../main_window.py" line="629" />
       <source>Current Screen</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="631" />
+      <location filename="../main_window.py" line="632" />
       <source>Active Window</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="634" />
+      <location filename="../main_window.py" line="635" />
       <source>Window Under Cursor</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="637" />
+      <location filename="../main_window.py" line="638" />
       <source>Portal</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="641" />
+      <location filename="../main_window.py" line="642" />
       <source>Open</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="646" />
+      <location filename="../main_window.py" line="647" />
       <source>Save</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="651" />
+      <location filename="../main_window.py" line="652" />
       <source>Save As...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="655" />
+      <location filename="../main_window.py" line="656" />
       <source>Save All</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="658" />
+      <location filename="../main_window.py" line="659" />
       <source>Export as SVG...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="661" />
+      <location filename="../main_window.py" line="662" />
       <source>Print</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2561" />
-      <location filename="../main_window.py" line="665" />
+      <location filename="../main_window.py" line="2627" />
+      <location filename="../main_window.py" line="666" />
       <source>Print Preview</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="668" />
+      <location filename="../main_window.py" line="669" />
       <source>Copy</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="672" />
+      <location filename="../main_window.py" line="673" />
       <source>Copy as data URI</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="675" />
+      <location filename="../main_window.py" line="676" />
       <source>Copy Path</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="678" />
+      <location filename="../main_window.py" line="679" />
       <source>Rename</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="682" />
+      <location filename="../main_window.py" line="683" />
       <source>Delete Image...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="685" />
+      <location filename="../main_window.py" line="686" />
       <source>Open Directory</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="688" />
+      <location filename="../main_window.py" line="689" />
       <source>Copy Item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="692" />
+      <location filename="../main_window.py" line="693" />
       <source>Close Tab</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="696" />
+      <location filename="../main_window.py" line="697" />
       <source>Pen</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="701" />
+      <location filename="../main_window.py" line="702" />
       <source>Marker Pen</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="703" />
+      <location filename="../main_window.py" line="704" />
       <source>Line</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="708" />
+      <location filename="../main_window.py" line="709" />
       <source>Arrow</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="713" />
+      <location filename="../main_window.py" line="714" />
       <source>Double Arrow</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="715" />
+      <location filename="../main_window.py" line="716" />
       <source>Rectangle</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="720" />
+      <location filename="../main_window.py" line="721" />
       <source>Ellipse</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="725" />
+      <location filename="../main_window.py" line="726" />
       <source>Text</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="730" />
+      <location filename="../main_window.py" line="731" />
       <source>Text Pointer</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="731" />
+      <location filename="../main_window.py" line="732" />
       <source>Text Arrow</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="733" />
+      <location filename="../main_window.py" line="734" />
       <source>Blur</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="738" />
+      <location filename="../main_window.py" line="739" />
       <source>Pixelate</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="743" />
+      <location filename="../main_window.py" line="744" />
       <source>Crop</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="748" />
+      <location filename="../main_window.py" line="749" />
       <source>Cut</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="751" />
+      <location filename="../main_window.py" line="752" />
       <source>Select</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="756" />
+      <location filename="../main_window.py" line="757" />
       <source>Duplicate</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="759" />
+      <location filename="../main_window.py" line="760" />
       <source>Marker Rectangle</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="760" />
+      <location filename="../main_window.py" line="761" />
       <source>Marker Ellipse</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="997" />
-      <location filename="../main_window.py" line="761" />
+      <location filename="../main_window.py" line="1040" />
+      <location filename="../main_window.py" line="762" />
       <source>Number</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="762" />
+      <location filename="../main_window.py" line="763" />
       <source>Number Pointer</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="763" />
+      <location filename="../main_window.py" line="764" />
       <source>Number Arrow</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1012" />
-      <location filename="../main_window.py" line="764" />
+      <location filename="../main_window.py" line="1056" />
+      <location filename="../main_window.py" line="765" />
       <source>Sticker</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="769" />
+      <location filename="../main_window.py" line="795" />
       <source>Color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="772" />
+      <location filename="../main_window.py" line="798" />
       <source>Undo</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="777" />
+      <location filename="../main_window.py" line="803" />
       <source>Redo</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="782" />
+      <location filename="../main_window.py" line="808" />
       <source>Paste</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="787" />
+      <location filename="../main_window.py" line="813" />
       <source>Paste Embedded</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="791" />
+      <location filename="../main_window.py" line="817" />
       <source>Paste Item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="795" />
+      <location filename="../main_window.py" line="821" />
       <source>Delete Item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="799" />
+      <location filename="../main_window.py" line="825" />
       <source>Duplicate Item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="803" />
+      <location filename="../main_window.py" line="829" />
       <source>Edit Text...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="806" />
+      <location filename="../main_window.py" line="832" />
       <source>Bring To Front</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="809" />
+      <location filename="../main_window.py" line="835" />
       <source>Send To Back</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="812" />
+      <location filename="../main_window.py" line="838" />
       <source>Rotate</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1030" />
-      <location filename="../main_window.py" line="815" />
+      <location filename="../main_window.py" line="1075" />
+      <location filename="../main_window.py" line="841" />
       <source>Scale</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2885" />
-      <location filename="../main_window.py" line="820" />
+      <location filename="../main_window.py" line="2951" />
+      <location filename="../main_window.py" line="846" />
       <source>No Effect</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2886" />
-      <location filename="../main_window.py" line="821" />
+      <location filename="../main_window.py" line="2952" />
+      <location filename="../main_window.py" line="847" />
       <source>Drop Shadow</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2887" />
-      <location filename="../main_window.py" line="822" />
+      <location filename="../main_window.py" line="2953" />
+      <location filename="../main_window.py" line="848" />
       <source>Grayscale</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2888" />
-      <location filename="../main_window.py" line="823" />
+      <location filename="../main_window.py" line="2954" />
+      <location filename="../main_window.py" line="849" />
       <source>Invert Color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2889" />
-      <location filename="../main_window.py" line="824" />
+      <location filename="../main_window.py" line="2955" />
+      <location filename="../main_window.py" line="850" />
       <source>Border</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="827" />
+      <location filename="../main_window.py" line="853" />
       <source>Modify Canvas...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2766" />
-      <location filename="../main_window.py" line="830" />
+      <location filename="../main_window.py" line="2832" />
+      <location filename="../main_window.py" line="856" />
       <source>Hide Docks</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="834" />
+      <location filename="../main_window.py" line="860" />
       <source>Pin</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="838" />
+      <location filename="../main_window.py" line="864" />
       <source>Add Watermark</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="843" />
+      <location filename="../main_window.py" line="869" />
       <source>Upload</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="847" />
+      <location filename="../main_window.py" line="873" />
       <source>OCR Text Recognition</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="851" />
+      <location filename="../main_window.py" line="877" />
       <source>Update Watermark Image...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="854" />
+      <location filename="../main_window.py" line="880" />
       <source>Rotate Watermark</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="859" />
+      <location filename="../main_window.py" line="885" />
       <source>Settings</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="862" />
+      <location filename="../main_window.py" line="888" />
       <source>About</source>
       <translation>دەربارە</translation></message>
     <message>
-      <location filename="../main_window.py" line="865" />
+      <location filename="../main_window.py" line="891" />
       <source>Clear Recent Images</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="868" />
+      <location filename="../main_window.py" line="894" />
       <source>Quit</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="871" />
+      <location filename="../main_window.py" line="897" />
       <source>Zoom Out</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="874" />
+      <location filename="../main_window.py" line="900" />
       <source>Reset Zoom</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="877" />
+      <location filename="../main_window.py" line="903" />
       <source>Zoom In</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="880" />
+      <location filename="../main_window.py" line="906" />
       <source>Fit Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="902" />
+      <location filename="../main_window.py" line="928" />
       <source>Capture delay</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1088" />
-      <location filename="../main_window.py" line="930" />
-      <location filename="../main_window.py" line="923" />
+      <location filename="../main_window.py" line="1136" />
+      <location filename="../main_window.py" line="956" />
+      <location filename="../main_window.py" line="949" />
       <source>Stroke color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="940" />
+      <location filename="../main_window.py" line="965" />
+      <source>Stroke width: changes the thickness of the line or arrow shaft.</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="967" />
       <source>Stroke width</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="950" />
-      <location filename="../main_window.py" line="946" />
-      <source>Fill mode</source>
-      <translation type="unfinished" /></message>
-    <message>
-      <location filename="../main_window.py" line="962" />
-      <location filename="../main_window.py" line="955" />
-      <source>Text color</source>
+      <location filename="../main_window.py" line="975" />
+      <source>Arrowhead size: changes the size of the triangular arrow tip.</source>
       <translation type="unfinished" /></message>
     <message>
       <location filename="../main_window.py" line="978" />
-      <source>Font</source>
+      <source>Arrowhead size</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="983" />
-      <source>Bold</source>
+      <location filename="../main_window.py" line="990" />
+      <location filename="../main_window.py" line="986" />
+      <source>Fill mode</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="984" />
-      <source>Italic</source>
-      <translation type="unfinished" /></message>
-    <message>
-      <location filename="../main_window.py" line="985" />
-      <source>Underline</source>
-      <translation type="unfinished" /></message>
-    <message>
-      <location filename="../main_window.py" line="1005" />
-      <source>Effect strength</source>
+      <location filename="../main_window.py" line="1002" />
+      <location filename="../main_window.py" line="995" />
+      <source>Text color</source>
       <translation type="unfinished" /></message>
     <message>
       <location filename="../main_window.py" line="1009" />
-      <source>Select Sticker</source>
+      <source>Font family used by the text or number.</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1017" />
+      <source>Font size of the text or number.</source>
       <translation type="unfinished" /></message>
     <message>
       <location filename="../main_window.py" line="1020" />
-      <location filename="../main_window.py" line="1018" />
+      <source>Font</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1025" />
+      <source>Bold</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1026" />
+      <source>Italic</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1027" />
+      <source>Underline</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1038" />
+      <source>Number value used by the next numbered annotation.</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1047" />
+      <source>Effect strength: controls the intensity of blur or pixelation.</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1049" />
+      <source>Effect strength</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1053" />
+      <source>Select Sticker</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1064" />
+      <location filename="../main_window.py" line="1062" />
       <source>Item shadow</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1039" />
+      <location filename="../main_window.py" line="1073" />
+      <source>Sticker scale as a percentage of its original insertion size.</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1083" />
+      <source>Opacity: 0% is transparent and 100% is fully visible.</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1085" />
       <source>Opacity</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1153" />
+      <location filename="../main_window.py" line="1201" />
       <source>Zoom Out (%1)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1170" />
+      <location filename="../main_window.py" line="1218" />
       <source>Zoom In (%1)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1323" />
-      <location filename="../main_window.py" line="1192" />
+      <location filename="../main_window.py" line="1371" />
+      <location filename="../main_window.py" line="1240" />
       <source>Zoom</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2900" />
-      <location filename="../main_window.py" line="1214" />
+      <location filename="../main_window.py" line="2966" />
+      <location filename="../main_window.py" line="1262" />
       <source>Image Effect: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1229" />
+      <location filename="../main_window.py" line="1277" />
       <source>Controls</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1257" />
+      <location filename="../main_window.py" line="1305" />
       <source>&amp;File</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1269" />
+      <location filename="../main_window.py" line="1317" />
       <source>Recent Images</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1284" />
+      <location filename="../main_window.py" line="1332" />
       <source>&amp;Edit</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1299" />
+      <location filename="../main_window.py" line="1347" />
       <source>Effects</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1310" />
+      <location filename="../main_window.py" line="1358" />
       <source>Annotation Items</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1319" />
+      <location filename="../main_window.py" line="1367" />
       <source>&amp;View</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1329" />
+      <location filename="../main_window.py" line="1377" />
       <source>&amp;Options</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1334" />
+      <location filename="../main_window.py" line="1382" />
       <source>Watermark</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1338" />
+      <location filename="../main_window.py" line="1386" />
       <source>Annotation Tools</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1364" />
+      <location filename="../main_window.py" line="1412" />
       <source>&amp;Help</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1397" />
+      <location filename="../main_window.py" line="1445" />
       <source>Show Editor</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1422" />
+      <location filename="../main_window.py" line="1470" />
       <source>ksnip PyQt6 is still running in the system tray.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1433" />
+      <location filename="../main_window.py" line="1481" />
       <source>ksnip PyQt6 was minimized to the system tray.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1756" />
+      <location filename="../main_window.py" line="1805" />
       <source>Select color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1765" />
+      <location filename="../main_window.py" line="1814" />
       <source>Updated selected item color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1784" />
+      <location filename="../main_window.py" line="1833" />
       <source>Updated selected item fill</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1794" />
+      <location filename="../main_window.py" line="1843" />
       <source>Select text color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1804" />
+      <location filename="../main_window.py" line="1853" />
       <source>Updated selected text color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1818" />
+      <location filename="../main_window.py" line="1867" />
       <source>Updated selected item width to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1833" />
+      <location filename="../main_window.py" line="1881" />
+      <source>Updated selected arrowhead size to %1</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="1893" />
       <source>Updated selected text font</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1845" />
+      <location filename="../main_window.py" line="1905" />
       <source>Updated selected text size to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1857" />
+      <location filename="../main_window.py" line="1917" />
       <source>Updated selected item opacity to %1%</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1875" />
+      <location filename="../main_window.py" line="1935" />
       <source>Updated selected item fill mode</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1886" />
+      <location filename="../main_window.py" line="1946" />
       <source>Updated selected text bold style</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1898" />
+      <location filename="../main_window.py" line="1958" />
       <source>Updated selected text italic style</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1909" />
+      <location filename="../main_window.py" line="1969" />
       <source>Updated selected text underline style</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1920" />
+      <location filename="../main_window.py" line="1980" />
       <source>Updated selected item shadow</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1932" />
+      <location filename="../main_window.py" line="1992" />
       <source>Updated selected item scale to %1%</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1941" />
+      <location filename="../main_window.py" line="2001" />
       <source>Updated selected number to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2292" />
-      <location filename="../main_window.py" line="2145" />
+      <location filename="../main_window.py" line="2358" />
+      <location filename="../main_window.py" line="2211" />
       <source>Portal capture canceled.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2223" />
+      <location filename="../main_window.py" line="2289" />
       <source>Loaded %1 capture and copied it to clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2312" />
+      <location filename="../main_window.py" line="2378" />
       <source>Loaded %1 capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2430" />
+      <location filename="../main_window.py" line="2496" />
       <source>Export as SVG</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2438" />
+      <location filename="../main_window.py" line="2504" />
       <source>Unable to export SVG: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2440" />
+      <location filename="../main_window.py" line="2506" />
       <source>Exported SVG to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2484" />
+      <location filename="../main_window.py" line="2550" />
       <source>Saved %1 image(s)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2498" />
+      <location filename="../main_window.py" line="2564" />
       <source>Unable to save Ksnip project: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2513" />
+      <location filename="../main_window.py" line="2579" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2522" />
+      <location filename="../main_window.py" line="2588" />
       <source>Saved %1 and companion image %2</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2535" />
+      <location filename="../main_window.py" line="2601" />
       <source>Saved %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2543" />
+      <location filename="../main_window.py" line="2609" />
       <source>Copied image to clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2552" />
+      <location filename="../main_window.py" line="2618" />
       <source>Sent image to printer</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2625" />
+      <location filename="../main_window.py" line="2691" />
       <source>Renamed to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2657" />
+      <location filename="../main_window.py" line="2723" />
       <source>Deleted %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2680" />
+      <location filename="../main_window.py" line="2746" />
       <source>Copied image as a base64 encoded Data URI</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2687" />
+      <location filename="../main_window.py" line="2753" />
       <source>Copied path %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2697" />
+      <location filename="../main_window.py" line="2763" />
       <source>Opened directory %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2704" />
+      <location filename="../main_window.py" line="2770" />
       <source>Copied selected item(s)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2717" />
+      <location filename="../main_window.py" line="2783" />
       <source>Loaded image from clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2737" />
+      <location filename="../main_window.py" line="2803" />
       <source>Pasted embedded image from clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2751" />
+      <location filename="../main_window.py" line="2817" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2766" />
+      <location filename="../main_window.py" line="2832" />
       <source>Show Docks</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2775" />
+      <location filename="../main_window.py" line="2841" />
       <source>Pasted item from clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2802" />
+      <location filename="../main_window.py" line="2868" />
       <source>Deleted selected item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2811" />
+      <location filename="../main_window.py" line="2877" />
       <source>Duplicated selected item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2820" />
+      <location filename="../main_window.py" line="2886" />
       <source>Updated text item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2829" />
+      <location filename="../main_window.py" line="2895" />
       <source>Brought selected item to front</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2838" />
+      <location filename="../main_window.py" line="2904" />
       <source>Sent selected item to back</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2850" />
+      <location filename="../main_window.py" line="2916" />
       <source>Rotated image by %1 degrees</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2853" />
+      <location filename="../main_window.py" line="2919" />
       <source>Horizontal</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2853" />
+      <location filename="../main_window.py" line="2919" />
       <source>Vertical</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2854" />
+      <location filename="../main_window.py" line="2920" />
       <source>Flipped image: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2874" />
+      <location filename="../main_window.py" line="2940" />
       <source>Scaled image to %1 × %2 px</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2893" />
+      <location filename="../main_window.py" line="2959" />
       <source>Image effect: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2912" />
+      <location filename="../main_window.py" line="2978" />
       <source>Image slice removed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2927" />
+      <location filename="../main_window.py" line="2993" />
       <source>Pinned current image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2937" />
+      <location filename="../main_window.py" line="3003" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2939" />
+      <location filename="../main_window.py" line="3005" />
       <source>Settings updated</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2978" />
+      <location filename="../main_window.py" line="3044" />
       <source>Added watermark</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2993" />
+      <location filename="../main_window.py" line="3059" />
       <source>Updated watermark image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3022" />
+      <location filename="../main_window.py" line="3088" />
       <source>Upload finished successfully</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3054" />
+      <location filename="../main_window.py" line="3120" />
       <source>OCR</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3058" />
+      <location filename="../main_window.py" line="3124" />
       <source>Running OCR...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3070" />
+      <location filename="../main_window.py" line="3136" />
       <source>OCR finished</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3073" />
+      <location filename="../main_window.py" line="3139" />
       <source>OCR failed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3077" />
+      <location filename="../main_window.py" line="3143" />
       <source>OCR canceled</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3255" />
-      <location filename="../main_window.py" line="3228" />
+      <location filename="../main_window.py" line="3321" />
+      <location filename="../main_window.py" line="3294" />
       <source>Opened %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3238" />
+      <location filename="../main_window.py" line="3304" />
       <source>Unable to open Ksnip project: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3246" />
+      <location filename="../main_window.py" line="3312" />
       <source>Unable to restore Ksnip project: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3261" />
+      <location filename="../main_window.py" line="3327" />
       <source>Unable to open image data.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3269" />
+      <location filename="../main_window.py" line="3335" />
       <source>Opened image from standard input</source>
       <translation type="unfinished" /></message>
     <message>

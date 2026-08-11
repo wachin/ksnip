@@ -160,6 +160,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Círculo de `Number Pointer` centrado exactamente en el clic inicial para evitar el desplazamiento visual hacia una esquina
 - [x] Tooltips de acciones y herramientas con sus atajos activos, actualizados al cambiar `Settings > HotKeys`, más las teclas de anotación originales de kImageAnnotator
 - [x] `Number Arrow` compuesto por la misma insignia circular de `Number` y una flecha que nace limpiamente en su borde, con círculo centrado en el clic inicial
+- [x] Tamaño independiente de punta y grosor del palito en `Number Arrow`, editable con undo, persistente en `.ksnip`/SVG y acompañado de tooltips descriptivos en los controles
 - [x] Exportación SVG para Inkscape con fondo PNG incrustado y anotaciones vectoriales editables; overlays raster se conservan como imágenes PNG embebidas
 
 ## Anotación y Edición

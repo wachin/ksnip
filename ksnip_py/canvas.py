@@ -455,6 +455,7 @@ class OverlayItem:
     end: QPoint
     color: QColor
     pen_width: int
+    arrow_head_size: int = 0
     text: str | None = None
     font_family: str | None = None
     font_point_size: int | None = None
@@ -478,6 +479,7 @@ class OverlayItem:
             end=QPoint(self.end),
             color=QColor(self.color),
             pen_width=self.pen_width,
+            arrow_head_size=self.arrow_head_size,
             text=self.text,
             font_family=self.font_family,
             font_point_size=self.font_point_size,
@@ -598,6 +600,7 @@ class AnnotationCanvas(QLabel):
         self._tool = Tool.SELECT
         self._color = QColor("#df5a17")
         self._pen_width = 3
+        self._arrow_head_size = 18
         self._font_family = QFont().family()
         self._font_point_size = 14
         self._fill_color = QColor(246, 189, 96, 80)
@@ -749,6 +752,7 @@ class AnnotationCanvas(QLabel):
             "end": [item.end.x(), item.end.y()],
             "color": item.color.name(QColor.NameFormat.HexArgb),
             "pen_width": item.pen_width,
+            "arrow_head_size": item.arrow_head_size,
             "text": item.text,
             "font_family": item.font_family,
             "font_point_size": item.font_point_size,
@@ -779,6 +783,7 @@ class AnnotationCanvas(QLabel):
             end=QPoint(payload["end"][0], payload["end"][1]),
             color=QColor(payload["color"]),
             pen_width=payload["pen_width"],
+            arrow_head_size=max(0, int(payload.get("arrow_head_size", 0))),
             text=payload.get("text"),
             font_family=payload.get("font_family"),
             font_point_size=payload.get("font_point_size"),
@@ -868,6 +873,9 @@ class AnnotationCanvas(QLabel):
 
     def set_pen_width(self, width: int) -> None:
         self._pen_width = max(1, width)
+
+    def set_arrow_head_size(self, size: int) -> None:
+        self._arrow_head_size = max(6, int(size))
 
     def set_font_family(self, family: str) -> None:
         self._font_family = family
@@ -980,6 +988,12 @@ class AnnotationCanvas(QLabel):
         if item is None:
             return None
         return item.pen_width
+
+    def selected_item_arrow_head_size(self) -> int | None:
+        item = self._primary_selected_item()
+        if item is None or item.kind != Tool.NUMBER_ARROW:
+            return None
+        return item.arrow_head_size or max(12, item.pen_width * 5)
 
     def selected_item_font_family(self) -> str | None:
         item = self._primary_selected_item()
@@ -1852,6 +1866,8 @@ class AnnotationCanvas(QLabel):
         if item.points is not None:
             scaled.points = [QPoint(round(point.x() * sx), round(point.y() * sy)) for point in item.points]
         scaled.pen_width = max(1, int(item.pen_width * max(sx, sy)))
+        if item.arrow_head_size:
+            scaled.arrow_head_size = max(1, int(item.arrow_head_size * max(sx, sy)))
         self._draw_item(painter, scaled, selected, show_handles=show_handles)
 
     def delete_selected_item(self) -> bool:
@@ -2073,6 +2089,19 @@ class AnnotationCanvas(QLabel):
         self._push_undo_state()
         for index in self._selected_item_indices:
             self._items[index].pen_width = width
+        self._mark_dirty()
+        self._refresh()
+        return True
+
+    def apply_arrow_head_size_to_selected_item(self, size: int) -> bool:
+        item = self._primary_selected_item()
+        if item is None or item.kind != Tool.NUMBER_ARROW:
+            return False
+        size = max(6, int(size))
+        if item.arrow_head_size == size:
+            return False
+        self._push_undo_state()
+        item.arrow_head_size = size
         self._mark_dirty()
         self._refresh()
         return True
@@ -2483,11 +2512,11 @@ class AnnotationCanvas(QLabel):
             return QPoint(y, new_size.height() - 1 - x)
         return QPoint(x, y)
 
-    def _draw_arrow(self, painter: QPainter, start: QPoint, end: QPoint, color: QColor | None = None, pen_width: int | None = None) -> None:
+    def _draw_arrow(self, painter: QPainter, start: QPoint, end: QPoint, color: QColor | None = None, pen_width: int | None = None, arrow_head_size: int | None = None) -> None:
         painter.drawLine(start, end)
-        self._draw_arrow_head(painter, start, end, color=color, pen_width=pen_width)
+        self._draw_arrow_head(painter, start, end, color=color, pen_width=pen_width, arrow_head_size=arrow_head_size)
 
-    def _draw_arrow_head(self, painter: QPainter, start: QPoint, end: QPoint, color: QColor | None = None, pen_width: int | None = None) -> None:
+    def _draw_arrow_head(self, painter: QPainter, start: QPoint, end: QPoint, color: QColor | None = None, pen_width: int | None = None, arrow_head_size: int | None = None) -> None:
         dx = end.x() - start.x()
         dy = end.y() - start.y()
         if dx == 0 and dy == 0:
@@ -2497,7 +2526,7 @@ class AnnotationCanvas(QLabel):
         ux = dx / length
         uy = dy / length
         resolved_pen_width = self._pen_width if pen_width is None else pen_width
-        arrow_size = max(12, resolved_pen_width * 5)
+        arrow_size = max(6, int(arrow_head_size)) if arrow_head_size else max(12, resolved_pen_width * 5)
         px = -uy
         py = ux
 
@@ -2945,6 +2974,7 @@ class AnnotationCanvas(QLabel):
             end=QPoint(end),
             color=QColor(self._color),
             pen_width=self._pen_width,
+            arrow_head_size=self._arrow_head_size if tool == Tool.NUMBER_ARROW else 0,
             text=str(value),
             font_family=self._font_family,
             font_point_size=self._font_point_size,
@@ -3093,7 +3123,14 @@ class AnnotationCanvas(QLabel):
     def _draw_text_arrow(self, painter: QPainter, item: OverlayItem) -> None:
         label_rect = self._text_arrow_label_rect(item)
         arrow_start = QPoint(label_rect.right(), label_rect.center().y()) if item.end.x() >= item.start.x() else QPoint(label_rect.left(), label_rect.center().y())
-        self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
+        self._draw_arrow(
+            painter,
+            arrow_start,
+            item.end,
+            color=item.color,
+            pen_width=item.pen_width,
+            arrow_head_size=item.arrow_head_size or None,
+        )
         painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
         if self._has_border(item.fill_mode):
             painter.drawRoundedRect(label_rect, 8, 8)

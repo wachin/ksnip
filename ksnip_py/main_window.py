@@ -569,6 +569,7 @@ class MainWindow(QMainWindow):
         visibility = {
             "stroke": show_stroke,
             "width": show_width,
+            "arrow_head": tool == Tool.NUMBER_ARROW,
             "text_color": show_text_color,
             "fill_mode": show_fill_mode,
             "font": show_font,
@@ -961,8 +962,22 @@ class MainWindow(QMainWindow):
         self.stroke_width.setValue(3)
         self.stroke_width.setFixedWidth(52)
         self.stroke_width.setFixedHeight(22)
+        self.stroke_width.setToolTip(self.tr("Stroke width: changes the thickness of the line or arrow shaft."))
         self.stroke_width.valueChanged.connect(self._apply_stroke_width)
         self.property_width_group = self._make_property_group(self._make_icon_label("width", self.tr("Stroke width")), self.stroke_width)
+
+        self.arrow_head_size = QSpinBox()
+        self.arrow_head_size.setRange(6, 100)
+        self.arrow_head_size.setValue(self._setting_int("editor/number_arrow_head_size", 18))
+        self.arrow_head_size.setSuffix(" px")
+        self.arrow_head_size.setFixedWidth(68)
+        self.arrow_head_size.setFixedHeight(22)
+        self.arrow_head_size.setToolTip(self.tr("Arrowhead size: changes the size of the triangular arrow tip."))
+        self.arrow_head_size.valueChanged.connect(self._apply_arrow_head_size)
+        self.property_arrow_head_group = self._make_property_group(
+            self._make_icon_label("arrow", self.tr("Arrowhead size")),
+            self.arrow_head_size,
+        )
 
         self.fill_mode = QComboBox()
         self.fill_mode.hide()
@@ -991,6 +1006,7 @@ class MainWindow(QMainWindow):
         self.font_family = QFontComboBox()
         self.font_family.setMaximumWidth(132)
         self.font_family.setFixedHeight(22)
+        self.font_family.setToolTip(self.tr("Font family used by the text or number."))
         self.font_family.currentFontChanged.connect(self._apply_font_family)
 
         self.font_size = QSpinBox()
@@ -998,6 +1014,7 @@ class MainWindow(QMainWindow):
         self.font_size.setValue(14)
         self.font_size.setFixedWidth(52)
         self.font_size.setFixedHeight(22)
+        self.font_size.setToolTip(self.tr("Font size of the text or number."))
         self.font_size.valueChanged.connect(self._apply_font_size)
         self.property_font_group = self._make_property_group(
             self._make_icon_label("text", self.tr("Font")),
@@ -1018,6 +1035,7 @@ class MainWindow(QMainWindow):
         self.number_value.setValue(1)
         self.number_value.setFixedWidth(48)
         self.number_value.setFixedHeight(22)
+        self.number_value.setToolTip(self.tr("Number value used by the next numbered annotation."))
         self.number_value.valueChanged.connect(self._apply_number_value)
         self.property_number_group = self._make_property_group(self._make_icon_label("number", self.tr("Number")), self.number_value)
 
@@ -1026,6 +1044,7 @@ class MainWindow(QMainWindow):
         self.blur_strength.setValue(10)
         self.blur_strength.setFixedWidth(52)
         self.blur_strength.setFixedHeight(22)
+        self.blur_strength.setToolTip(self.tr("Effect strength: controls the intensity of blur or pixelation."))
         self.blur_strength.valueChanged.connect(self._apply_blur_strength)
         self.property_blur_group = self._make_property_group(self._make_icon_label("obfuscateFactor", self.tr("Effect strength")), self.blur_strength)
 
@@ -1051,6 +1070,7 @@ class MainWindow(QMainWindow):
         self.scaling.setSingleStep(10)
         self.scaling.setFixedWidth(62)
         self.scaling.setFixedHeight(22)
+        self.scaling.setToolTip(self.tr("Sticker scale as a percentage of its original insertion size."))
         self.scaling.valueChanged.connect(self._apply_scaling)
         self.property_scaling_group = self._make_property_group(self._make_icon_label("scale", self.tr("Scale")), self.scaling)
 
@@ -1060,12 +1080,14 @@ class MainWindow(QMainWindow):
         self.opacity.setSuffix("%")
         self.opacity.setFixedWidth(62)
         self.opacity.setFixedHeight(22)
+        self.opacity.setToolTip(self.tr("Opacity: 0% is transparent and 100% is fully visible."))
         self.opacity.valueChanged.connect(self._apply_opacity)
         self.property_opacity_group = self._make_property_group(self._make_icon_label("opacity", self.tr("Opacity")), self.opacity)
         self._property_order = [
             ("handle", self.property_handle_group),
             ("stroke", self.property_stroke_group),
             ("width", self.property_width_group),
+            ("arrow_head", self.property_arrow_head_group),
             ("fill_mode", self.property_fill_mode_group),
             ("text_color", self.property_text_color_group),
             ("font", self.property_font_group),
@@ -1081,6 +1103,7 @@ class MainWindow(QMainWindow):
             "handle": self.property_handle_group,
             "stroke": self.property_stroke_group,
             "width": self.property_width_group,
+            "arrow_head": self.property_arrow_head_group,
             "fill_mode": self.property_fill_mode_group,
             "text_color": self.property_text_color_group,
             "font": self.property_font_group,
@@ -1476,6 +1499,7 @@ class MainWindow(QMainWindow):
         canvas.set_underline(initial_font.underline())
         canvas.set_shadow(self.shadow_state_button.isChecked())
         canvas.set_scaling(self.scaling.value() / 100.0)
+        canvas.set_arrow_head_size(self.arrow_head_size.value())
         canvas.set_number_seed_updates_all(self._setting_bool("editor/number_seed_updates_all", False))
         canvas.set_switch_to_select_after_drawing(self._setting_bool("editor/switch_to_select_after_drawing", False))
         canvas.set_select_item_after_drawing(self._setting_bool("editor/select_item_after_drawing", True))
@@ -1849,6 +1873,17 @@ class MainWindow(QMainWindow):
         if canvas is not None and canvas.tool() != Tool.SELECT:
             self._settings.setValue(f"editor/tool_width/{canvas.tool().value}", width)
 
+    def _apply_arrow_head_size(self, size: int) -> None:
+        canvas = self.current_canvas()
+        if canvas is not None:
+            if canvas.tool() == Tool.SELECT and canvas.apply_arrow_head_size_to_selected_item(size):
+                self.status_label.setText(
+                    self.tr("Updated selected arrowhead size to %1").replace("%1", str(size))
+                )
+                return
+            canvas.set_arrow_head_size(size)
+        self._settings.setValue("editor/number_arrow_head_size", size)
+
     def _apply_font_family(self, font) -> None:
         canvas = self.current_canvas()
         if canvas is None:
@@ -1987,6 +2022,12 @@ class MainWindow(QMainWindow):
                 self.stroke_width.blockSignals(True)
                 self.stroke_width.setValue(selected_width)
                 self.stroke_width.blockSignals(False)
+
+            selected_arrow_head_size = canvas.selected_item_arrow_head_size()
+            if selected_arrow_head_size is not None and self.arrow_head_size.value() != selected_arrow_head_size:
+                self.arrow_head_size.blockSignals(True)
+                self.arrow_head_size.setValue(selected_arrow_head_size)
+                self.arrow_head_size.blockSignals(False)
 
             selected_font_size = canvas.selected_item_font_point_size()
             if selected_font_size is not None and self.font_size.value() != selected_font_size:
@@ -3585,6 +3626,7 @@ class MainWindow(QMainWindow):
         self.underline_button.setChecked(self._setting_bool("editor/underline", False))
         self.shadow_state_button.setChecked(self._setting_bool("editor/shadow_enabled", True))
         self.scaling.setValue(self._setting_int("editor/scaling_percent", 100))
+        self.arrow_head_size.setValue(self._setting_int("editor/number_arrow_head_size", 18))
 
         self.rotate_watermark_action.blockSignals(True)
         self.rotate_watermark_action.setChecked(data.rotate_watermark)
@@ -3616,6 +3658,7 @@ class MainWindow(QMainWindow):
             canvas.set_select_item_after_drawing(data.select_item_after_drawing)
             canvas.set_shadow(self.shadow_state_button.isChecked())
             canvas.set_scaling(self.scaling.value() / 100.0)
+            canvas.set_arrow_head_size(self.arrow_head_size.value())
             canvas.set_sticker_paths(sticker_paths)
             if sticker_paths and canvas.sticker_path() is None:
                 canvas.set_sticker_path(sticker_paths[0])
@@ -3764,6 +3807,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/underline", self.underline_button.isChecked())
         self._settings.setValue("editor/shadow_enabled", self.shadow_state_button.isChecked())
         self._settings.setValue("editor/scaling_percent", self.scaling.value())
+        self._settings.setValue("editor/number_arrow_head_size", self.arrow_head_size.value())
 
     def _should_minimize_to_tray(self) -> bool:
         return (

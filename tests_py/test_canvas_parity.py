@@ -82,6 +82,30 @@ class EditableProjectParityTest(unittest.TestCase):
         self.assertIn("<text", svg)
         self.assertIn("Editable", svg)
 
+    def test_svg_export_preserves_number_arrow_head_size(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(120, 80))
+        canvas._items = [
+            OverlayItem(
+                Tool.NUMBER_ARROW,
+                QPoint(25, 40),
+                QPoint(100, 40),
+                QColor("red"),
+                3,
+                arrow_head_size=37,
+                text="1",
+                font_point_size=20,
+            )
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "number-arrow.svg"
+            export_svg(str(path), canvas)
+            svg = path.read_text(encoding="utf-8")
+
+        self.assertIn('id="arrow-end-37"', svg)
+        self.assertIn('markerWidth="37"', svg)
+        self.assertIn('marker-end="url(#arrow-end-37)"', svg)
+
 
 class CropAndCutParityTest(unittest.TestCase):
     def test_crop_moves_overlays_and_undo_restores_them(self) -> None:
@@ -252,6 +276,32 @@ class FreehandToolParityTest(unittest.TestCase):
 
 
 class NumberFontParityTest(unittest.TestCase):
+    def test_number_arrow_head_size_is_independent_from_shaft_width_and_undoable(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(200, 120))
+        canvas.set_pen_width(3)
+        canvas.set_arrow_head_size(42)
+        item = canvas._build_drag_item(
+            Tool.NUMBER_ARROW,
+            QPoint(50, 60),
+            QPoint(170, 60),
+            QRect(QPoint(50, 60), QPoint(170, 60)).normalized(),
+        )
+        self.assertIsNotNone(item)
+        self.assertEqual(item.pen_width, 3)
+        self.assertEqual(item.arrow_head_size, 42)
+
+        canvas._items = [item]
+        canvas._select_single_item(0)
+        self.assertTrue(canvas.apply_arrow_head_size_to_selected_item(28))
+        self.assertEqual(canvas._items[0].arrow_head_size, 28)
+        self.assertEqual(canvas._items[0].pen_width, 3)
+        canvas.undo()
+        self.assertEqual(canvas._items[0].arrow_head_size, 42)
+
+        restored = canvas._deserialize_item(canvas._serialize_item(canvas._items[0]))
+        self.assertEqual(restored.arrow_head_size, 42)
+
     def test_number_arrow_reuses_number_circle_centered_at_drag_origin(self) -> None:
         canvas = AnnotationCanvas()
         item = OverlayItem(

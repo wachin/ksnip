@@ -73,6 +73,22 @@ def export_svg(path: str, canvas) -> None:
             "markerWidth": "4", "markerHeight": "4", "orient": orient,
         })
         ET.SubElement(marker, f"{{{SVG_NS}}}path", {"d": "M 0 0 L 10 5 L 0 10 z", "fill": "context-stroke"})
+    sized_markers: set[int] = set()
+
+    def sized_arrow_marker(size: int) -> str:
+        resolved = max(6, int(size))
+        marker_id = f"arrow-end-{resolved}"
+        if resolved not in sized_markers:
+            sized_markers.add(resolved)
+            marker = ET.SubElement(defs, f"{{{SVG_NS}}}marker", {
+                "id": marker_id, "viewBox": "0 0 10 10", "refX": "9", "refY": "5",
+                "markerWidth": str(resolved), "markerHeight": str(resolved),
+                "markerUnits": "userSpaceOnUse", "orient": "auto",
+            })
+            ET.SubElement(marker, f"{{{SVG_NS}}}path", {
+                "d": "M 0 0 L 10 5 L 0 10 z", "fill": "context-stroke",
+            })
+        return marker_id
     background_uri = "data:image/png;base64," + base64.b64encode(_image_png_bytes(image)).decode("ascii")
     ET.SubElement(root, f"{{{SVG_NS}}}image", {
         "x": "0", "y": "0", "width": str(image.width()), "height": str(image.height()),
@@ -120,7 +136,10 @@ def export_svg(path: str, canvas) -> None:
             bounds = item.get("svg_bounds") or [min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1)]
             bx, by, bw, bh = bounds
             if kind.endswith("arrow"):
-                ET.SubElement(root, f"{{{SVG_NS}}}line", {**line_style, "x1": str(x1), "y1": str(y1), "x2": str(x2), "y2": str(y2), "marker-end": "url(#arrow-end)"})
+                marker_id = "arrow-end"
+                if kind == "number_arrow" and int(item.get("arrow_head_size", 0)) > 0:
+                    marker_id = sized_arrow_marker(int(item["arrow_head_size"]))
+                ET.SubElement(root, f"{{{SVG_NS}}}line", {**line_style, "x1": str(x1), "y1": str(y1), "x2": str(x2), "y2": str(y2), "marker-end": f"url(#{marker_id})"})
             shape = "ellipse" if kind.startswith("number") else "rect"
             shape_attrs = {**common, "stroke": stroke if has_border else "none", "stroke-width": str(width), "fill": stroke if has_fill else "none"}
             if shape == "ellipse":

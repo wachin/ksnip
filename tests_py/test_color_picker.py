@@ -61,6 +61,24 @@ class MainWindowColorPickerTest(unittest.TestCase):
         self.assertEqual(window.save_action.toolTip(), "Save (Ctrl+Alt+S)")
         self.assertEqual(window.capture_menu_button.toolTip(), "New Screenshot (Alt+R)")
 
+    def test_property_controls_explain_their_effects(self) -> None:
+        window = MainWindow()
+        self.assertIn("Font size", window.font_size.toolTip())
+        self.assertEqual(window.bold_button.toolTip(), "Bold")
+        self.assertIn("thickness", window.stroke_width.toolTip())
+        self.assertIn("triangular arrow tip", window.arrow_head_size.toolTip())
+        self.assertIn("next numbered annotation", window.number_value.toolTip())
+
+        window.set_tool(Tool.NUMBER_ARROW)
+        arrow_head_actions = [
+            action for action in window.properties_toolbar.actions()
+            if hasattr(action, "defaultWidget")
+            and action.defaultWidget() is window.property_arrow_head_group
+        ]
+        self.assertEqual(len(arrow_head_actions), 1)
+        self.assertTrue(arrow_head_actions[0].isVisible())
+        self.assertEqual(window.current_canvas()._arrow_head_size, window.arrow_head_size.value())
+
     def test_new_canvas_numbering_starts_at_one_despite_legacy_setting(self) -> None:
         window = MainWindow()
         window._settings.setValue("editor/number_seed", 10)
