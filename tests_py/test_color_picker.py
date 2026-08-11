@@ -49,6 +49,17 @@ class ColorPaletteMenuTest(unittest.TestCase):
 
 
 class MainWindowColorPickerTest(unittest.TestCase):
+    def test_new_canvas_numbering_starts_at_one_despite_legacy_setting(self) -> None:
+        window = MainWindow()
+        window._settings.setValue("editor/number_seed", 10)
+        window._restore_ui_settings()
+        self.assertEqual(window.number_value.value(), 1)
+        self.assertFalse(window._settings.contains("editor/number_seed"))
+
+        window.current_canvas().set_number_seed(10)
+        new_canvas = window.new_tab()
+        self.assertEqual(new_canvas.number_seed(), 1)
+
     def test_default_save_format_can_switch_between_png_and_ksnip(self) -> None:
         window = MainWindow()
         setting_key = "saver/default_format"

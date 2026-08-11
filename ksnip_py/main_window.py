@@ -1454,7 +1454,7 @@ class MainWindow(QMainWindow):
         canvas.set_number_seed_updates_all(self._setting_bool("editor/number_seed_updates_all", False))
         canvas.set_switch_to_select_after_drawing(self._setting_bool("editor/switch_to_select_after_drawing", False))
         canvas.set_select_item_after_drawing(self._setting_bool("editor/select_item_after_drawing", True))
-        canvas.set_number_seed(self.number_value.value())
+        canvas.set_number_seed(1)
         canvas.set_sticker_paths(self._default_sticker_paths())
         if self._default_sticker_paths():
             canvas.set_sticker_path(self._default_sticker_paths()[0])
@@ -3591,7 +3591,6 @@ class MainWindow(QMainWindow):
             canvas.set_select_item_after_drawing(data.select_item_after_drawing)
             canvas.set_shadow(self.shadow_state_button.isChecked())
             canvas.set_scaling(self.scaling.value() / 100.0)
-            canvas.set_number_seed(self.number_value.value())
             canvas.set_sticker_paths(sticker_paths)
             if sticker_paths and canvas.sticker_path() is None:
                 canvas.set_sticker_path(sticker_paths[0])
@@ -3612,7 +3611,11 @@ class MainWindow(QMainWindow):
         self.underline_button.setChecked(self._setting_bool("editor/underline", False))
         self.shadow_state_button.setChecked(self._setting_bool("editor/shadow_enabled", True))
         self.scaling.setValue(self._setting_int("editor/scaling_percent", 100))
-        self.number_value.setValue(self._setting_int("editor/number_seed", 1))
+        # Numbering belongs to each canvas/project. Older versions persisted the
+        # last used value globally, causing every new capture to continue at 10,
+        # 20, etc. Discard that legacy preference and start new canvases at 1.
+        self._settings.remove("editor/number_seed")
+        self.number_value.setValue(1)
 
         stored_font_family = self._settings.value("editor/font_family", "")
         if isinstance(stored_font_family, str) and stored_font_family:
@@ -3721,7 +3724,6 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/underline", self.underline_button.isChecked())
         self._settings.setValue("editor/shadow_enabled", self.shadow_state_button.isChecked())
         self._settings.setValue("editor/scaling_percent", self.scaling.value())
-        self._settings.setValue("editor/number_seed", self.number_value.value())
 
     def _should_minimize_to_tray(self) -> bool:
         return (
