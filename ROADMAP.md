@@ -163,6 +163,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Tamaño independiente de punta y grosor del palito en `Number Arrow`, editable con undo, persistente en `.ksnip`/SVG y acompañado de tooltips descriptivos en los controles
 - [x] Edición inmediata del tamaño de punta de la `Number Arrow` recién creada y seleccionada, sin exigir cambiar primero a la herramienta `Select`
 - [x] Controles independientes de `Number Arrow` corregidos sobre el elemento recién dibujado: grosor sólo para el palito y tamaño de punta sólo para el triángulo
+- [x] Tamaño de fuente aplicado inmediatamente al número de la `Number Arrow` recién creada y seleccionada, manteniendo el valor para la siguiente y soporte de undo
 - [x] Exportación SVG para Inkscape con fondo PNG incrustado y anotaciones vectoriales editables; overlays raster se conservan como imágenes PNG embebidas
 
 ## Anotación y Edición

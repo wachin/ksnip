@@ -144,6 +144,30 @@ class MainWindowColorPickerTest(unittest.TestCase):
         finally:
             painter.end()
 
+    def test_font_size_control_updates_freshly_drawn_number_arrow(self) -> None:
+        window = MainWindow()
+        canvas = window.current_canvas()
+        canvas.set_image(QImage(240, 140, QImage.Format.Format_ARGB32))
+        window.set_tool(Tool.NUMBER_ARROW)
+        item = canvas._build_drag_item(
+            Tool.NUMBER_ARROW,
+            QPoint(45, 70),
+            QPoint(190, 70),
+            QRect(QPoint(45, 70), QPoint(190, 70)).normalized(),
+        )
+        canvas._items = [item]
+        canvas._select_single_item(0)
+        original_size = item.font_point_size
+
+        window._apply_font_size(36)
+
+        self.assertEqual(canvas.tool(), Tool.NUMBER_ARROW)
+        self.assertEqual(item.font_point_size, 36)
+        self.assertEqual(canvas._font_point_size, 36)
+        self.assertGreater(item.number_badge_diameter(), 30)
+        canvas.undo()
+        self.assertEqual(canvas._items[0].font_point_size, original_size)
+
     def test_new_canvas_numbering_starts_at_one_despite_legacy_setting(self) -> None:
         window = MainWindow()
         window._settings.setValue("editor/number_seed", 10)

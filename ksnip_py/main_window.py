@@ -1900,10 +1900,10 @@ class MainWindow(QMainWindow):
         canvas = self.current_canvas()
         if canvas is None:
             return
-        if canvas.tool() == Tool.SELECT and canvas.apply_font_point_size_to_selected_text(size):
-            self.status_label.setText(self.tr("Updated selected text size to %1").replace("%1", str(size)))
-            return
+        updated_selected = canvas.apply_font_point_size_to_selected_text(size)
         canvas.set_font_point_size(size)
+        if updated_selected:
+            self.status_label.setText(self.tr("Updated selected text size to %1").replace("%1", str(size)))
         self._settings.setValue("editor/font_point_size", size)
         if canvas.tool() in self._text_color_tools():
             self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/size", size)
