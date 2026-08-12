@@ -3129,7 +3129,6 @@ class AnnotationCanvas(QLabel):
             item.end,
             color=item.color,
             pen_width=item.pen_width,
-            arrow_head_size=item.arrow_head_size or None,
         )
         painter.setBrush(item.color if self._has_fill(item.fill_mode) else Qt.BrushStyle.NoBrush)
         if self._has_border(item.fill_mode):
@@ -3212,7 +3211,14 @@ class AnnotationCanvas(QLabel):
         bubble_rect.moveCenter(item.start)
         bubble_center = bubble_rect.center()
         arrow_start = self._circle_edge_point(bubble_center, max(1, diameter // 2 - 2), item.end)
-        self._draw_arrow(painter, arrow_start, item.end, color=item.color, pen_width=item.pen_width)
+        self._draw_arrow(
+            painter,
+            arrow_start,
+            item.end,
+            color=item.color,
+            pen_width=item.pen_width,
+            arrow_head_size=item.arrow_head_size or None,
+        )
         # Paint the shared Number badge last so the shaft begins cleanly at its
         # edge and never crosses the circle or the number.
         self._draw_number_circle(painter, item, bubble_rect)

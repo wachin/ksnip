@@ -2,11 +2,12 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PyQt6.QtCore import QPoint, QRect, QSettings, Qt
-from PyQt6.QtGui import QColor, QIcon, QImage
+from PyQt6.QtGui import QColor, QIcon, QImage, QPainter
 from PyQt6.QtWidgets import QApplication
 
 from ksnip_py.canvas import FillMode, Tool
@@ -108,6 +109,40 @@ class MainWindowColorPickerTest(unittest.TestCase):
                 window._settings.remove(setting_key)
             else:
                 window._settings.setValue(setting_key, old_value)
+
+    def test_number_arrow_shaft_and_head_controls_update_independently(self) -> None:
+        window = MainWindow()
+        canvas = window.current_canvas()
+        canvas.set_image(QImage(240, 140, QImage.Format.Format_ARGB32))
+        window.set_tool(Tool.NUMBER_ARROW)
+        item = canvas._build_drag_item(
+            Tool.NUMBER_ARROW,
+            QPoint(45, 70),
+            QPoint(190, 70),
+            QRect(QPoint(45, 70), QPoint(190, 70)).normalized(),
+        )
+        canvas._items = [item]
+        canvas._select_single_item(0)
+        original_head = item.arrow_head_size
+
+        window._apply_stroke_width(1)
+        self.assertEqual(item.pen_width, 1)
+        self.assertEqual(item.arrow_head_size, original_head)
+
+        window._apply_arrow_head_size(36)
+        self.assertEqual(item.pen_width, 1)
+        self.assertEqual(item.arrow_head_size, 36)
+
+        rendered = QImage(240, 140, QImage.Format.Format_ARGB32_Premultiplied)
+        rendered.fill(Qt.GlobalColor.transparent)
+        painter = QPainter(rendered)
+        try:
+            with patch.object(canvas, "_draw_arrow", wraps=canvas._draw_arrow) as draw_arrow:
+                canvas._draw_number_arrow(painter, item)
+                self.assertEqual(draw_arrow.call_args.kwargs["pen_width"], 1)
+                self.assertEqual(draw_arrow.call_args.kwargs["arrow_head_size"], 36)
+        finally:
+            painter.end()
 
     def test_new_canvas_numbering_starts_at_one_despite_legacy_setting(self) -> None:
         window = MainWindow()

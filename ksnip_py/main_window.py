@@ -1863,11 +1863,10 @@ class MainWindow(QMainWindow):
     def _apply_stroke_width(self, width: int) -> None:
         canvas = self.current_canvas()
         if canvas is not None:
-            if canvas.tool() == Tool.SELECT and canvas.apply_pen_width_to_selected_item(width):
-                self.status_label.setText(self.tr("Updated selected item width to %1").replace("%1", str(width)))
-                self._sync_auxiliary_property_controls()
-                return
+            updated_selected = canvas.apply_pen_width_to_selected_item(width)
             canvas.set_pen_width(width)
+            if updated_selected:
+                self.status_label.setText(self.tr("Updated selected item width to %1").replace("%1", str(width)))
         self._sync_auxiliary_property_controls()
         self._settings.setValue("editor/pen_width", width)
         if canvas is not None and canvas.tool() != Tool.SELECT:
