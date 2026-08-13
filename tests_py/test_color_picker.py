@@ -583,15 +583,20 @@ class StickerPickerTest(unittest.TestCase):
         collections = sticker_collections()
         self.assertEqual(
             [collection.name for collection in collections],
-            ["Original", "Papirus", "GNOME", "Numix", "SuperTux", "TuxBaby", "User"],
+            [
+                "Original", "Papirus", "GNOME", "Numix", "SuperTux",
+                "TuxBaby", "Konqi & Katie", "Geeko", "User",
+            ],
         )
         self.assertEqual(collections[1].directory, collections[0].directory / "themes" / "papirus")
         self.assertEqual(collections[2].directory, collections[0].directory / "themes" / "gnome")
         self.assertEqual(collections[3].directory, collections[0].directory / "themes" / "numix")
         self.assertEqual(collections[4].directory, collections[0].directory / "themes" / "supertux")
         self.assertEqual(collections[5].directory, collections[0].directory / "themes" / "tuxbaby")
-        self.assertEqual(collections[6].directory, user_sticker_directory())
-        self.assertTrue(all(discover_stickers(collection.directory) for collection in collections[1:6]))
+        self.assertEqual(collections[6].directory, collections[0].directory / "themes" / "konqi&katie")
+        self.assertEqual(collections[7].directory, collections[0].directory / "themes" / "geeko")
+        self.assertEqual(collections[8].directory, user_sticker_directory())
+        self.assertTrue(all(discover_stickers(collection.directory) for collection in collections[1:8]))
         supertux_names = {path.name for path in discover_stickers(collections[4].directory)}
         self.assertEqual(len(supertux_names), 26)
         self.assertIn("smiling_face_with_sunglasses.svg", supertux_names)
@@ -600,7 +605,15 @@ class StickerPickerTest(unittest.TestCase):
         self.assertEqual(len(tuxbaby_names), 33)
         self.assertIn("smiling_face.png", tuxbaby_names)
         self.assertIn("tutorial_terminal.png", tuxbaby_names)
-        for collection in collections[1:5]:
+        konqi_katie_names = {path.name for path in discover_stickers(collections[6].directory)}
+        self.assertEqual(len(konqi_katie_names), 47)
+        self.assertIn("konqi_approval.png", konqi_katie_names)
+        self.assertIn("katie_question.png", konqi_katie_names)
+        geeko_names = {path.name for path in discover_stickers(collections[7].directory)}
+        self.assertEqual(len(geeko_names), 73)
+        self.assertIn("geeko_approval.png", geeko_names)
+        self.assertIn("geeko_terminal.png", geeko_names)
+        for collection in collections[1:8]:
             if collection.directory.is_dir():
                 self.assertTrue(all(not path.is_symlink() for path in discover_stickers(collection.directory)))
 
