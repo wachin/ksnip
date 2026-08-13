@@ -18,6 +18,24 @@ Both the source sheet and the resulting TuxBaby stickers are covered by the
 copyright, generation disclosure, attribution, and CC BY-SA 4.0 terms in
 `ksnip_py/licenses/TUXBABY_LICENSE.md`.
 
+## Geeko
+
+`Geeko/Geeko.png` is the original ChatGPT-generated contact sheet from which
+the individual Geeko stickers were prepared. The 73 optimized, transparent
+application assets are stored in `ksnip_py/stickers/themes/geeko/` and can be
+regenerated from the repository root with:
+
+```sh
+python3 tools/extract_geeko_stickers.py \
+  artwork-sources/Geeko/Geeko.png \
+  ksnip_py/stickers/themes/geeko
+```
+
+The source sheet and extracted stickers are unofficial fan artwork licensed
+under CC BY-SA 4.0. Copyright, generation disclosure, Geeko acknowledgement,
+and trademark information are recorded in
+`ksnip_py/licenses/GEEKO_LICENSE.md`.
+
 ## Konqi and Katie
 
 The contact sheet is stored at `konqi-katie/Konqi-and-Katie.png`. Regenerate

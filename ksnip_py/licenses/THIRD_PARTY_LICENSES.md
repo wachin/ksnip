@@ -65,3 +65,17 @@ The 33 transparent 256×256 PNG files are distributed under CC BY-SA 4.0. No end
 The 47 transparent 256×256 PNG files are unofficial fan artwork distributed
 under CC BY-SA 4.0. No endorsement by KDE e.V., the KDE community, Tyson Tan,
 or OpenAI is claimed or implied.
+
+## Geeko collection
+
+- Packaged files: `ksnip_py/stickers/themes/geeko/*.png`
+- Source artwork: `artwork-sources/Geeko/Geeko.png`
+- Copyright: 2026 Washington Indacochea Delgado
+- Creation: generated under the creative direction of Washington Indacochea Delgado with assistance from ChatGPT's image-generation capabilities
+- License: Creative Commons Attribution-ShareAlike 4.0 International (`GEEKO_LICENSE.md`)
+- Mascot acknowledgement: unofficial fan artwork based on Geeko, the SUSE and openSUSE chameleon mascot
+
+The 73 transparent 256×256 PNG files are distributed under CC BY-SA 4.0.
+Geeko and the SUSE and openSUSE names and logos may also be protected
+trademarks. No endorsement by SUSE S.A., the openSUSE Project, the openSUSE
+community, or OpenAI is claimed or implied.

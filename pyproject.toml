@@ -20,4 +20,4 @@ ksnip-pyqt6 = "ksnip_py.app:main"
 packages = ["ksnip_py"]
 
 [tool.setuptools.package-data]
-ksnip_py = ["icons/*.svg", "icons/light/*.svg", "icons/dark/*.svg", "icons/kimageannotator/light/*.svg", "icons/kimageannotator/dark/*.svg", "stickers/*.svg", "stickers/themes/papirus/*.svg", "stickers/themes/gnome/*.png", "stickers/themes/gnome/*.svg", "stickers/themes/numix/*.svg", "stickers/themes/supertux/*.svg", "stickers/themes/tuxbaby/*.png", "stickers/themes/konqi&katie/*.png", "licenses/*.md", "licenses/*.txt", "translations/*.ts", "translations/*.qm"]
+ksnip_py = ["icons/*.svg", "icons/light/*.svg", "icons/dark/*.svg", "icons/kimageannotator/light/*.svg", "icons/kimageannotator/dark/*.svg", "stickers/*.svg", "stickers/themes/papirus/*.svg", "stickers/themes/gnome/*.png", "stickers/themes/gnome/*.svg", "stickers/themes/numix/*.svg", "stickers/themes/supertux/*.svg", "stickers/themes/tuxbaby/*.png", "stickers/themes/konqi&katie/*.png", "stickers/themes/geeko/*.png", "licenses/*.md", "licenses/*.txt", "translations/*.ts", "translations/*.qm"]
