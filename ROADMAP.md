@@ -2,16 +2,28 @@
 
 Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como implementación actual.
 
-## Estado para retomar después del formateo
+## Estado actual y forma de retomar
 
-- [x] Este `ROADMAP.md` quedó preparado como documento de continuidad para retomar el port sin depender de este chat
+- [x] Este `ROADMAP.md` es el documento de continuidad del port y no depende del historial del chat
 - [x] El `README` activo del proyecto es `README.md`
 - [x] El `README` anterior del repositorio fue preservado como `README_Old.md`
 - [x] La implementación activa del port sigue concentrada en `ksnip_py/`
 - [x] Ya existe una base funcional real sobre la que se puede seguir afinando sin reiniciar el trabajo
 - [x] Ya existe esqueleto inicial de empaquetado Debian en `debian/`, pero todavía no debe considerarse terminado
-- [ ] Al retomar después del formateo, leer primero `README.md`, luego este `ROADMAP.md`, y después ejecutar `python3 -m ksnip_py`
-- [ ] Al retomar, priorizar primero la paridad visual/funcional fina y dejar el cierre Debian para el tramo final
+- [x] Para retomar: leer `README.md` y este archivo; ejecutar las pruebas antes de modificar código
+- [x] Comando de desarrollo principal: `python3 -m ksnip_py`
+- [x] Prioridad vigente: cerrar primero la paridad funcional verificable, después la paridad visual y finalmente Debian
+- [x] El árbol C++ continúa siendo material de referencia; no debe eliminarse mientras existan tareas de port que remitan a él
+
+## Política temporal para el código C++ original
+
+- [x] Conservar `src/`, `tests/`, `libraries/`, `cmake/`, `CMakeLists.txt` y las traducciones originales durante el port
+- [x] No mezclar la eliminación del C++ con cambios funcionales del port PyQt6
+- [ ] Crear una matriz final de equivalencia C++ → Python por subsistema y cerrar o descartar explícitamente cada diferencia
+- [ ] Sustituir en CI y empaquetado las rutas CMake/Snap/RPM/AppImage/Windows/macOS que todavía construyen el programa C++
+- [ ] Crear una etiqueta o rama histórica que preserve la última revisión C++ antes de retirarla de la rama principal
+- [ ] Confirmar que ningún recurso, traducción, prueba, aviso de copyright o comportamiento del port depende de `src/` o `libraries/`
+- [ ] Eliminar el árbol C++ sólo en un cambio independiente, revisable y reversible después de cumplir las condiciones anteriores
 
 ## Regla de Interfaz
 
@@ -338,7 +350,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Iconos de `kImageAnnotator` copiados a `ksnip_py/icons/kimageannotator/`
 - [x] Stickers originales copiados a `ksnip_py/stickers/`, incluidos en el paquete y desacoplados del submódulo en tiempo de ejecución
 - [x] Colección SVG original para tutoriales: atención, información, consejo, pregunta, siguiente paso, clic, teclado y terminal
-- [x] Selector de stickers con pestañas Original/Papirus/GNOME/Numix/SuperTux/TuxBaby/Usuario, exclusión de enlaces simbólicos y favoritos persistentes
+- [x] Selector de stickers con nueve pestañas, exclusión de enlaces simbólicos y favoritos persistentes
 - [x] Restauración persistente de la última pestaña utilizada en el selector de stickers
 - [x] Papirus/GNOME/Numix vendorizados sin enlaces simbólicos, con atribución, licencias completas, package-data y cobertura DEP-5
 - [x] Visto bueno y X originales para Papirus/GNOME/Numix, adaptados visualmente a cada paleta y declarados GPL-3 en DEP-5
@@ -346,6 +358,12 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Pestaña SuperTux con 26 stickers SVG originales y reproducibles: expresiones, marcas y utilidades para tutoriales
 - [x] Pestaña TuxBaby con 33 stickers PNG transparentes de 256×256, incluida en la instalación del paquete
 - [x] TuxBaby documentado en inglés bajo CC BY-SA 4.0 a nombre de Washington Indacochea Delgado, con divulgación de asistencia de ChatGPT y reconocimiento de Tux/Larry Ewing/The GIMP
+- [x] Pestaña Konqi & Katie con 47 stickers PNG transparentes de 256×256 y nombres descriptivos en inglés
+- [x] Fuente de Konqi & Katie separada en `artwork-sources/`, extractor reproducible y licencia CC BY-SA 4.0 con reconocimiento de KDE/Tyson Tan
+- [x] Pestaña Geeko con 73 stickers PNG transparentes de 256×256 y nombres descriptivos en inglés
+- [x] Fuente de Geeko separada en `artwork-sources/`, extractor reproducible y licencia CC BY-SA 4.0 con reconocimiento y aviso de marcas SUSE/openSUSE
+- [x] Selector actualizado a nueve pestañas: Original, Papirus, GNOME, Numix, SuperTux, TuxBaby, Konqi & Katie, Geeko y Usuario
+- [x] Verificado el recuerdo de la última pestaña para Geeko y el funcionamiento común de favoritos en las colecciones nuevas
 - [x] Pestaña Usuario con importación multiformato, conversión PNG, límite de 512 px, nombres únicos y acceso a su carpeta de configuración
 - [x] Inserción de stickers mediante clic en el lienzo, compatible con SVG/PNG externos y con undo
 - [x] Tamaño inicial de stickers normalizado a 50 px, fuentes de alta resolución para ampliación y sombra tintada sin duplicar la imagen
@@ -407,10 +425,48 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Primera suite automatizada Python para paridad de Crop, Cut y efectos de imagen
 - [ ] Documentación de ejecución/instalación actualizada conforme crezca la paridad
 
-## Próximo bloque recomendado
+## Plan de cierre priorizado
 
-- [ ] Afinar todavía más la paridad visual del toolbar principal, barra de propiedades y barra inferior frente a Ksnip original
-- [ ] Igualar con más precisión los `Item Settings` visibles por herramienta según `/images/Ksnip-Tools-selected/`
-- [ ] Seguir puliendo `Text` hasta acercarlo lo más posible al comportamiento visual y de edición del C++ original
-- [ ] Completar más categorías y semántica fina de `Settings`
-- [ ] Dejar el empaquetado Debian listo sólo cuando la UI y el comportamiento ya estén estabilizados
+### Fase 1 — Auditoría funcional contra C++
+
+- [ ] Comparar todos los argumentos de `CommandLine.cpp` con `ksnip_py/app.py` y documentar los que falten o no se portarán
+- [ ] Comparar el flujo de arranque, reapertura, single-instance y cierre con `MainWindow.cpp` y los bootstrapper C++
+- [ ] Auditar captura X11, Wayland y portal; reproducir y cubrir el escalado de capturas Wayland
+- [ ] Evaluar una implementación mantenible de hotkeys globales en X11 y Wayland, con fallback y diagnóstico claros
+- [ ] Comparar todas las herramientas y propiedades de kImageAnnotator mediante una matriz de creación, selección, edición, undo, serialización y SVG
+- [ ] Auditar menú y acciones de bandeja, ventanas modeless, OCR, uploader y watermark contra la implementación original
+
+### Fase 2 — Funciones pendientes que requieren decisión
+
+- [ ] Decidir e implementar o descartar explícitamente el uploader nativo de Imgur
+- [ ] Decidir e implementar o descartar explícitamente el uploader FTP nativo
+- [ ] Definir el alcance del sistema de plugins y de `Settings > Plugins`
+- [ ] Definir el alcance de `Settings > Actions` y portar las acciones configurables que se conservarán
+- [ ] Completar las opciones funcionales restantes de Application, Image Grabber, Annotator, Saver y Tray Icon
+
+### Fase 3 — Paridad visual y traducciones
+
+- [ ] Igualar toolbar principal, menús, panel lateral, `Item Settings`, barra inferior y estado contra las capturas de referencia
+- [ ] Afinar `Text`, punteros, handles, selección y densidad visual del editor mediante pruebas manuales comparativas
+- [ ] Igualar navegación, categorías, controles y densidad de `Settings`
+- [ ] Localizar cualquier literal visible restante, regenerar los catálogos Qt Linguist y comprobar idiomas sin traducciones rotas
+
+### Fase 4 — Calidad y Debian
+
+- [ ] Ampliar pruebas unitarias para captura, CLI, IPC, proyectos `.ksnip`, SVG, settings, stickers y uploaders
+- [ ] Añadir smoke tests GUI offscreen para abrir, capturar/importar, anotar, guardar, reabrir y exportar
+- [ ] Ejecutar la suite completa en Debian 13/MX Linux 25 sobre X11 y Wayland/portal
+- [ ] Revisar `debian/control`, `debian/copyright`, instalación de recursos, desktop file, AppStream, manpage y dependencias
+- [ ] Construir paquete fuente y binario limpios y corregir resultados de `lintian`
+- [ ] Actualizar completamente README, instalación, resolución de problemas del portal y documentación de formatos
+
+### Fase 5 — Retirada del legado C++
+
+- [ ] Completar la matriz de equivalencia y las condiciones de la política temporal indicada al inicio
+- [ ] Migrar o retirar los workflows y empaquetados que aún esperan CMake/C++
+- [ ] Preservar el C++ en una etiqueta o rama histórica
+- [ ] Eliminar `src/`, `tests/`, `libraries/`, `cmake/` y archivos CMake únicamente después de verificar que el paquete PyQt6 es autosuficiente
+
+## Próxima tarea recomendada
+
+- [ ] Empezar por la matriz de argumentos CLI (`src/backend/commandLine/CommandLine.cpp` frente a `ksnip_py/app.py`), porque es una comparación acotada, automatizable y necesaria antes de retirar `src/`
