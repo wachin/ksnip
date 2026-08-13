@@ -1,8 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Original ksnip_py artwork, GPL-3.0. Theme-compatible palette; no upstream artwork copied. -->
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 64 64">
-  <ellipse cx="32" cy="34" rx="27" ry="27" fill="#000" opacity=".2"/>
-  <circle cx="32" cy="31" r="27" fill="#ffd54f" stroke="#ef9a28" stroke-width="2.5"/>
-  <path d="M14 18q18-17 36 0" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="3" stroke-linecap="round"/>
-  <g color="#424242" fill="#424242"><path d="M16 27q7-8 14 0m4 0q7-8 14 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M20 40q12 16 24 0z" fill="#fff" stroke="currentColor" stroke-width="2"/><path d="M52 8q-10 12 0 17 10-5 0-17z" fill="#42a5f5" stroke="currentColor" stroke-width="1.5"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" version="1">
+
+ <path style="opacity:0.2" d="M24 5C12.92 5 4 13.92 4 25s8.92 20 20 20 20-8.92 20-20S35.08 5 24 5z"/>
+ <path style="fill:#ffa50c" d="M24 4C12.92 4 4 12.92 4 24s8.92 20 20 20 20-8.92 20-20S35.08 4 24 4z"/>
+ <path style="opacity:0.2;fill:#fff" d="M24 4C12.92 4 4 12.92 4 24c0 .168-.004.333 0 .5C4.264 13.654 13.088 5 24 5s19.736 8.654 20 19.5c.004-.167 0-.332 0-.5C44 12.92 35.08 4 24 4z"/>
+ 
+ <path style="fill:#3f3f3f" d="M20 20c0 1.657-1.343 0-3 0s-3 1.657-3 0 1.343-3 3-3 3 1.343 3 3zm14 0c0 1.657-1.343 0-3 0s-3 1.657-3 0 1.343-3 3-3 3 1.343 3 3z"/>
+ <path style="fill:none;stroke:#3f3f3f;stroke-width:2;stroke-linecap:round" d="M15 30s3 4 9 4 9-4 9-4"/>
+ <path style="opacity:.2" d="M39 8c-3 4-5 7-5 10a5 5 0 0 0 10 0c0-3-2-6-5-10z" transform="translate(0 1)"/>
+ <path style="fill:#2e84d7" d="M39 8c-3 4-5 7-5 10a5 5 0 0 0 10 0c0-3-2-6-5-10z"/>
+ <path style="opacity:.2;fill:#fff" d="M38 12c-1.5 2.2-2 3.3-2 4.4 0 .9.4 1.7 1 2.3-.2-2.2.5-4.2 2-6.7z"/>
+
+
 </svg>

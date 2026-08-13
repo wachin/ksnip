@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Original ksnip_py artwork, GPL-3.0. Theme-compatible palette; no upstream artwork copied. -->
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 64 64">
-  <ellipse cx="32" cy="34" rx="27" ry="27" fill="#000" opacity=".2"/>
-  <circle cx="32" cy="31" r="27" fill="#ffd54f" stroke="#ef9a28" stroke-width="2.5"/>
-  <path d="M14 18q18-17 36 0" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="3" stroke-linecap="round"/>
-  <g color="#424242" fill="#424242"><path d="M16 27q7-8 14 0m4 0q7-8 14 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M23 42q9 10 18 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M10 10C3 4-2 13 10 22 22 13 17 4 10 10zm45 5c-6-5-11 3 0 11 11-8 6-16 0-11z" fill="#ec407a" stroke="currentColor"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" version="1">
+
+ <path style="opacity:0.2" d="M24 5C12.92 5 4 13.92 4 25s8.92 20 20 20 20-8.92 20-20S35.08 5 24 5z"/>
+ <path style="fill:#ffa50c" d="M24 4C12.92 4 4 12.92 4 24s8.92 20 20 20 20-8.92 20-20S35.08 4 24 4z"/>
+ <path style="opacity:0.2;fill:#fff" d="M24 4C12.92 4 4 12.92 4 24c0 .168-.004.333 0 .5C4.264 13.654 13.088 5 24 5s19.736 8.654 20 19.5c.004-.167 0-.332 0-.5C44 12.92 35.08 4 24 4z"/>
+ 
+ <path style="fill:#3f3f3f" d="M20 20c0 1.657-1.343 0-3 0s-3 1.657-3 0 1.343-3 3-3 3 1.343 3 3zm14 0c0 1.657-1.343 0-3 0s-3 1.657-3 0 1.343-3 3-3 3 1.343 3 3z"/>
+ <path style="fill:none;stroke:#3f3f3f;stroke-width:2;stroke-linecap:round" d="M15 30s3 4 9 4 9-4 9-4"/>
+ <path style="fill:#c2352a" d="M8 8c-2.3-3-6.5 0-1 5.5C12.5 8 8.3 5 6 8c.8-1.3 1.2-1.3 2 0zm34 5c-2-2.5-5.5 0-1 4.5 4.5-4.5 1-7-1-4.5.7-1.1 1.3-1.1 2 0zm-1 20c-2.5-3.2-7 0-1 6 6-6 1.5-9.2-1-6 1-1.5 1-1.5 2 0z"/>
+
+
 </svg>
