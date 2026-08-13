@@ -47,15 +47,17 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 - Script uploader and experimental PaddleOCR/script OCR backends.
 - System tray workflow and configurable application shortcuts.
 - Hierarchical settings dialog modeled after the original C++ application.
-- Command-line image opening and capture-mode selection.
+- Command-line image opening, standard-input images, capture-mode selection, direct saving, cursor capture, and script upload.
+- Generic `xdg-desktop-portal` capture with desktop/session diagnostics and backend recommendations.
+- Nine sticker collections with persistent favorites and last-tab restoration, including user-imported images.
 
 ## Known gaps
 
-- Generic Wayland portal capture and Wayland-specific screenshot scaling.
+- Wayland-specific screenshot scaling and complete backend parity across desktop environments.
 - Native OS-global hotkey registration.
 - Complete C++ plugin-system parity.
 - Native Imgur and FTP uploaders.
-- Full `Cut` tool parity.
+- Complete startup, tray-menu, OCR modeless-window, and command-line parity with the C++ application.
 - Exact visual and behavioral parity across every editor control.
 - Final Debian packaging and automated GUI coverage.
 
@@ -101,6 +103,12 @@ The `xdg-desktop-portal-dev` package is not a runtime dependency. It contains de
 
 Hunspell dictionaries are optional but recommended. Install the dictionary packages appropriate for your language if they differ from the English and Spanish examples above.
 
+The source-artwork extraction tools are development utilities, not runtime
+requirements. Regenerating the Geeko or Konqi & Katie collections additionally
+requires `python3-pil`, `python3-numpy`, and `python3-scipy`.
+
+## Sticker collections and artwork sources
+
 The sticker selector provides nine tabs: Original, Papirus, GNOME, Numix, SuperTux, TuxBaby, Konqi & Katie, Geeko, and User. The bundled themes use high-resolution sources, exclude symbolic-link duplicates, remember the last tab, and preserve pinned favorites across theme changes and application restarts. The User tab imports common image formats, preserves transparency and aspect ratio, converts them to PNG with a maximum dimension of 512 px, and stores them in the application's configuration directory; that directory can also be opened directly in the file manager. Copyright notices and licenses for bundled artwork are documented in `THIRD_PARTY_LICENSES.md`, `LICENSES/`, and `debian/copyright`.
 
 The TuxBaby collection is © 2026 Washington Indacochea Delgado and licensed under CC BY-SA 4.0. It was generated under his creative direction with assistance from ChatGPT's image-generation capabilities and is inspired by Tux, created by Larry Ewing using The GIMP. See `ksnip_py/licenses/TUXBABY_LICENSE.md` for the complete attribution and license notice.
@@ -108,6 +116,11 @@ The TuxBaby collection is © 2026 Washington Indacochea Delgado and licensed und
 The unofficial Konqi and Katie sticker collection is © 2026 Washington Indacochea Delgado and licensed under CC BY-SA 4.0. It was generated under his creative direction with assistance from ChatGPT and is based on KDE's Konqi and Katie mascot designs by Tyson Tan. See `ksnip_py/licenses/KONQI_KATIE_LICENSE.md` for attribution, licensing, and trademark notices.
 
 The unofficial Geeko sticker collection is © 2026 Washington Indacochea Delgado and licensed under CC BY-SA 4.0. It was generated under his creative direction with assistance from ChatGPT and is based on Geeko, the SUSE and openSUSE chameleon mascot. See `ksnip_py/licenses/GEEKO_LICENSE.md` for attribution, licensing, and trademark notices.
+
+Large contact sheets and other working artwork are kept under
+`artwork-sources/`, outside the installed Python package. Reproducible
+extractors under `tools/` generate the optimized 256×256 transparent PNGs used
+by the application. See `artwork-sources/README.md` for the exact commands.
 
 ## Editable projects and SVG
 
@@ -225,6 +238,8 @@ Current limitations:
 ```text
 ksnip_py/       Active PyQt6 implementation
 src/            Original C++ ksnip reference implementation
+libraries/      kImageAnnotator and kColorPicker reference submodules
+artwork-sources/ Source sheets used to generate packaged sticker assets
 images/         UI and behavior reference screenshots
 debian/         Initial Debian packaging scaffold
 ROADMAP.md      Detailed port status and next work blocks
@@ -239,7 +254,13 @@ git submodule update --init --recursive
 
 ## Development checks
 
-At minimum, run:
+Run the complete Python test suite before and after a change:
+
+```bash
+python3 -m pytest tests_py -q
+```
+
+For quick syntax and CLI checks:
 
 ```bash
 python3 -m compileall -q ksnip_py
@@ -252,10 +273,33 @@ For a headless startup smoke test:
 timeout 8s env QT_QPA_PLATFORM=offscreen python3 -m ksnip_py
 ```
 
+The current suite contains 92 tests covering the canvas, settings, capture
+helpers, projects, sticker selection, upload helpers, translation behavior,
+and other port infrastructure. The exact count may grow over time; a clean run
+is more important than the number.
+
+## Port completion and C++ reference policy
+
+The original C++ implementation is still required as a behavioral and visual
+reference. Do not remove `src/`, `tests/`, `libraries/`, `cmake/`, the root
+`CMakeLists.txt`, or the original translation catalogs while unchecked porting
+tasks still depend on them.
+
+The prioritized completion sequence is:
+
+1. Audit command-line, startup, capture, annotation, tray, OCR, and uploader behavior against C++.
+2. Implement or explicitly reject the remaining Imgur, FTP, plugin, and configurable-action features.
+3. Finish visual parity and migrate every visible string through Qt Linguist.
+4. Expand GUI tests and complete Debian packaging and policy review.
+5. Preserve the last C++ revision in a historical branch or tag, migrate legacy CI/package jobs, and only then remove the C++ tree in an independent change.
+
+The next bounded audit is `src/backend/commandLine/CommandLine.cpp` versus
+`ksnip_py/app.py`. See [ROADMAP.md](ROADMAP.md) for the authoritative checklist.
+
 ## Contributing
 
 1. Read [ROADMAP.md](ROADMAP.md).
-2. Pick one small unchecked behavior or visual-parity item.
+2. Pick one small unchecked item from the prioritized completion plan.
 3. Compare against the C++ sources and the reference screenshots before changing behavior.
 4. Keep unrelated user changes intact.
 5. Add a focused smoke test or reproducible verification when possible.
@@ -265,7 +309,12 @@ Please mention your desktop environment, display protocol (`X11` or `Wayland`), 
 
 ## Packaging status
 
-The `debian/` directory contains an initial scaffold only. The package should not be considered policy-complete or ready for Debian submission until UI behavior, dependencies, tests, copyright metadata, and installation paths have been reviewed.
+The `debian/` directory contains an initial scaffold only. The Python wheel
+already includes the application icons, translations, licenses, and bundled
+stickers, but the Debian package should not be considered policy-complete or
+ready for submission until runtime dependencies, desktop integration,
+AppStream metadata, manual pages, copyright coverage, clean builds, and
+`lintian` results have been reviewed.
 
 ## License
 
