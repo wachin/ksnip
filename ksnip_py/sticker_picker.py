@@ -41,6 +41,7 @@ def sticker_collections(package_dir: Path | None = None) -> tuple[StickerCollect
         StickerCollection("GNOME", bundled / "themes" / "gnome"),
         StickerCollection("Numix", bundled / "themes" / "numix"),
         StickerCollection("SuperTux", bundled / "themes" / "supertux"),
+        StickerCollection("TuxBaby", bundled / "themes" / "tuxbaby"),
         StickerCollection("User", user_sticker_directory()),
     )
 

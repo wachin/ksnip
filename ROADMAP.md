@@ -338,12 +338,13 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Iconos de `kImageAnnotator` copiados a `ksnip_py/icons/kimageannotator/`
 - [x] Stickers originales copiados a `ksnip_py/stickers/`, incluidos en el paquete y desacoplados del submódulo en tiempo de ejecución
 - [x] Colección SVG original para tutoriales: atención, información, consejo, pregunta, siguiente paso, clic, teclado y terminal
-- [x] Selector de stickers con pestañas Original/Papirus/GNOME/Numix/SuperTux/Usuario, exclusión de enlaces simbólicos y favoritos persistentes
+- [x] Selector de stickers con pestañas Original/Papirus/GNOME/Numix/SuperTux/TuxBaby/Usuario, exclusión de enlaces simbólicos y favoritos persistentes
 - [x] Restauración persistente de la última pestaña utilizada en el selector de stickers
 - [x] Papirus/GNOME/Numix vendorizados sin enlaces simbólicos, con atribución, licencias completas, package-data y cobertura DEP-5
 - [x] Visto bueno y X originales para Papirus/GNOME/Numix, adaptados visualmente a cada paleta y declarados GPL-3 en DEP-5
 - [x] Papirus/GNOME/Numix completados con las 24 expresiones y utilidades de Original que faltaban, mediante 72 SVG propios y reproducibles
 - [x] Pestaña SuperTux con 26 stickers SVG originales y reproducibles: expresiones, marcas y utilidades para tutoriales
+- [x] Pestaña TuxBaby con 33 stickers PNG transparentes de 256×256, incluida en la instalación del paquete
 - [x] Pestaña Usuario con importación multiformato, conversión PNG, límite de 512 px, nombres únicos y acceso a su carpeta de configuración
 - [x] Inserción de stickers mediante clic en el lienzo, compatible con SVG/PNG externos y con undo
 - [x] Tamaño inicial de stickers normalizado a 50 px, fuentes de alta resolución para ampliación y sombra tintada sin duplicar la imagen
