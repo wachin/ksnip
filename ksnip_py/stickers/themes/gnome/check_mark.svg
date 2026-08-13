@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Original ksnip_py artwork, GPL-3.0. GNOME/Tango-compatible palette. -->
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b7f774"/><stop offset="1" stop-color="#4e9a06"/></linearGradient></defs>
-  <path d="m31 132 57 58L225 52l-34-34L88 122 65 98z" fill="#000" opacity=".28" transform="translate(0 10)"/>
-  <path d="m31 132 57 58L225 52l-34-34L88 122 65 98z" fill="url(#g)" stroke="#2e6800" stroke-width="10" stroke-linejoin="round"/>
-  <path d="m43 130 45 45L211 51l-20-20L88 136l-24-24z" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="7" stroke-linejoin="round"/>
-</svg>
