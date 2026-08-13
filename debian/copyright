@@ -118,6 +118,16 @@ Comment: Generated under the creative direction of Washington Indacochea Delgado
  OpenAI, Larry Ewing, The GIMP project, the Linux Foundation, or the Linux
  kernel project is claimed or implied.
 
+Files: artwork-sources/konqi-katie/Konqi-and-Katie.png
+       ksnip_py/stickers/themes/konqi&katie/*.png
+Copyright: 2026 Washington Indacochea Delgado
+License: CC-BY-SA-4.0
+Comment: Unofficial fan artwork generated under the creative direction of
+ Washington Indacochea Delgado with assistance from ChatGPT's image-generation
+ capabilities. Based on KDE's Konqi and Katie mascot designs by Tyson Tan.
+ No endorsement by KDE e.V., the KDE community, Tyson Tan, or OpenAI is claimed
+ or implied. KDE and the KDE logo are trademarks of KDE e.V.
+
 License: GPL-2+
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -153,7 +163,7 @@ License: GPL-3+
  version 3 can be found in /usr/share/common-licenses/GPL-3.
 
 License: CC-BY-SA-4.0
- The TuxBaby artwork is licensed under the Creative Commons
+ The TuxBaby and Konqi and Katie artwork collections are licensed under the Creative Commons
  Attribution-ShareAlike 4.0 International Public License.
  .
  You may share and adapt the material, including for commercial purposes,

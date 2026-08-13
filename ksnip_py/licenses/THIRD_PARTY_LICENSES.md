@@ -52,3 +52,16 @@ All 26 SVGs are original ksnip PyQt6 drawings. They share a stylized penguin fac
 - Tux acknowledgement: inspired by Tux, created by Larry Ewing using The GIMP
 
 The 33 transparent 256×256 PNG files are distributed under CC BY-SA 4.0. No endorsement by OpenAI, Larry Ewing, The GIMP project, the Linux Foundation, or the Linux kernel project is claimed or implied.
+
+## Konqi and Katie collection
+
+- Packaged files: `ksnip_py/stickers/themes/konqi&katie/*.png`
+- Source artwork: `artwork-sources/konqi-katie/Konqi-and-Katie.png`
+- Copyright: 2026 Washington Indacochea Delgado
+- Creation: generated under the creative direction of Washington Indacochea Delgado with assistance from ChatGPT's image-generation capabilities
+- License: Creative Commons Attribution-ShareAlike 4.0 International (`KONQI_KATIE_LICENSE.md`)
+- Mascot acknowledgement: based on KDE's Konqi and Katie designs by Tyson Tan
+
+The 47 transparent 256×256 PNG files are unofficial fan artwork distributed
+under CC BY-SA 4.0. No endorsement by KDE e.V., the KDE community, Tyson Tan,
+or OpenAI is claimed or implied.

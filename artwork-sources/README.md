@@ -28,3 +28,7 @@ python3 tools/extract_konqi_katie_stickers.py \
   artwork-sources/konqi-katie/Konqi-and-Katie.png \
   'ksnip_py/stickers/themes/konqi&katie'
 ```
+
+The source sheet and all extracted stickers are licensed under CC BY-SA 4.0.
+Copyright, generation disclosure, KDE mascot acknowledgement, and attribution
+details are recorded in `ksnip_py/licenses/KONQI_KATIE_LICENSE.md`.
