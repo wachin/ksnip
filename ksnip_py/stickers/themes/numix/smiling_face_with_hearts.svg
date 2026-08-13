@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Original ksnip_py artwork, GPL-3.0. Theme-compatible palette; no upstream artwork copied. -->
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 64 64">
-  <ellipse cx="32" cy="34" rx="27" ry="27" fill="#4d4d4d" opacity=".2"/>
-  <circle cx="32" cy="31" r="27" fill="#f6d267" stroke="#d9a441" stroke-width="2.5"/>
-  <path d="M14 18q18-17 36 0" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="3" stroke-linecap="round"/>
-  <g color="#656565" fill="#656565"><path d="M16 27q7-8 14 0m4 0q7-8 14 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M23 42q9 10 18 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M10 10C3 4-2 13 10 22 22 13 17 4 10 10zm45 5c-6-5-11 3 0 11 11-8 6-16 0-11z" fill="#ec407a" stroke="currentColor"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+
+ <ellipse cx="24" cy="25" rx="17" ry="14.5" fill="#ffda5e"/>
+ <circle cx="18" cy="22" r="2.3" fill="#656565"/><circle cx="29" cy="22" r="2.3" fill="#656565"/>
+ <path d="M17 28c1 3 3.5 5 7 5s6-2 7-5" fill="none" stroke="#656565" stroke-width="1.8" stroke-linecap="round"/>
+ <path d="M9 8c-4-5-10 1 0 8 10-7 4-13 0-8zM38 11c-3-4-8 1 0 7 8-6 3-11 0-7zM38 32c-4-5-10 1 0 8 10-7 4-13 0-8z" fill="#e74c3c"/>
+
 </svg>
