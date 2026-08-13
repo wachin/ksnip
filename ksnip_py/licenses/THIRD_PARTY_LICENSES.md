@@ -41,3 +41,13 @@ The `check_mark.svg` and `cross_mark.svg` files added to each theme directory ar
 - License: GNU GPL version 3 (`LICENSES/GPL-3.0.txt`)
 
 All 26 SVGs are original ksnip PyQt6 drawings. They share a stylized penguin face and red cape motif, but no SuperTux sprite, logo, texture, or other game asset was copied or modified.
+
+## TuxBaby collection
+
+- Packaged files: `ksnip_py/stickers/themes/tuxbaby/*.png`
+- Copyright: 2026 Washington Indacochea Delgado
+- Creation: generated under the creative direction of Washington Indacochea Delgado with assistance from ChatGPT's image-generation capabilities
+- License: Creative Commons Attribution-ShareAlike 4.0 International (`TUXBABY_LICENSE.md`)
+- Tux acknowledgement: inspired by Tux, created by Larry Ewing using The GIMP
+
+The 33 transparent 256×256 PNG files are distributed under CC BY-SA 4.0. No endorsement by OpenAI, Larry Ewing, The GIMP project, the Linux Foundation, or the Linux kernel project is claimed or implied.

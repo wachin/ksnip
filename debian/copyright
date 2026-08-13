@@ -108,6 +108,15 @@ License: GPL-3
 Comment: Original SuperTux-inspired artwork generated from tools/generate_supertux_stickers.py.
  No sprite or other artwork from the SuperTux game was copied or modified.
 
+Files: ksnip_py/stickers/themes/tuxbaby/*.png
+Copyright: 2026 Washington Indacochea Delgado
+License: CC-BY-SA-4.0
+Comment: Generated under the creative direction of Washington Indacochea Delgado
+ with assistance from ChatGPT's image-generation capabilities. Inspired by Tux,
+ the Linux mascot created by Larry Ewing using The GIMP. No endorsement by
+ OpenAI, Larry Ewing, The GIMP project, the Linux Foundation, or the Linux
+ kernel project is claimed or implied.
+
 License: GPL-2+
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -141,3 +150,15 @@ License: GPL-3+
  .
  On Debian systems, the complete text of the GNU General Public License
  version 3 can be found in /usr/share/common-licenses/GPL-3.
+
+License: CC-BY-SA-4.0
+ The TuxBaby artwork is licensed under the Creative Commons
+ Attribution-ShareAlike 4.0 International Public License.
+ .
+ You may share and adapt the material, including for commercial purposes,
+ provided that appropriate credit is given, a link to the license is supplied,
+ changes are indicated, and adapted material is distributed under the same or
+ a compatible license.
+ .
+ The complete license text is available at:
+ https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt
