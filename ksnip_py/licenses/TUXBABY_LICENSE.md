@@ -6,6 +6,10 @@ This notice applies to every PNG file in:
 
 `ksnip_py/stickers/themes/tuxbaby/`
 
+and to the original contact sheet:
+
+`artwork-sources/TuxBaby/TuxBaby.png`
+
 ## Copyright and generation disclosure
 
 Copyright © 2026 Washington Indacochea Delgado.

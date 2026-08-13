@@ -108,7 +108,8 @@ License: GPL-3
 Comment: Original SuperTux-inspired artwork generated from tools/generate_supertux_stickers.py.
  No sprite or other artwork from the SuperTux game was copied or modified.
 
-Files: ksnip_py/stickers/themes/tuxbaby/*.png
+Files: artwork-sources/TuxBaby/TuxBaby.png
+       ksnip_py/stickers/themes/tuxbaby/*.png
 Copyright: 2026 Washington Indacochea Delgado
 License: CC-BY-SA-4.0
 Comment: Generated under the creative direction of Washington Indacochea Delgado

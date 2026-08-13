@@ -45,6 +45,7 @@ All 26 SVGs are original ksnip PyQt6 drawings. They share a stylized penguin fac
 ## TuxBaby collection
 
 - Packaged files: `ksnip_py/stickers/themes/tuxbaby/*.png`
+- Source artwork: `artwork-sources/TuxBaby/TuxBaby.png`
 - Copyright: 2026 Washington Indacochea Delgado
 - Creation: generated under the creative direction of Washington Indacochea Delgado with assistance from ChatGPT's image-generation capabilities
 - License: Creative Commons Attribution-ShareAlike 4.0 International (`TUXBABY_LICENSE.md`)

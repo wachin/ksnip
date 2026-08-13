@@ -7,6 +7,17 @@ working files are not installed as part of the Python package.
 Generated, optimized assets that the application uses belong under
 `ksnip_py/stickers/`.
 
+## TuxBaby
+
+`TuxBaby/TuxBaby.png` is the original ChatGPT-generated contact sheet from
+which the individual TuxBaby stickers were prepared. The 33 optimized,
+transparent application assets are stored in
+`ksnip_py/stickers/themes/tuxbaby/`.
+
+Both the source sheet and the resulting TuxBaby stickers are covered by the
+copyright, generation disclosure, attribution, and CC BY-SA 4.0 terms in
+`ksnip_py/licenses/TUXBABY_LICENSE.md`.
+
 ## Konqi and Katie
 
 The contact sheet is stored at `konqi-katie/Konqi-and-Katie.png`. Regenerate
