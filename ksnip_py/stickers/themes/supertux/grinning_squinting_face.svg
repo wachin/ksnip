@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Original ksnip_py artwork, GPL-3.0. No SuperTux game asset was copied. -->
+<!-- SuperTux-inspired ksnip_py theme artwork, GPL-3.0. Original vector artwork; no SuperTux game asset copied. -->
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <path d="M9 58 20 39h24l11 19-13-5-10 7-10-7z" fill="#e53935" stroke="#7f1715" stroke-width="2" stroke-linejoin="round"/>
-  <ellipse cx="32" cy="30" rx="24" ry="27" fill="#202124"/>
-  <ellipse cx="23" cy="28" rx="12" ry="16" fill="#f5f5dc"/><ellipse cx="41" cy="28" rx="12" ry="16" fill="#f5f5dc"/>
-  <ellipse cx="32" cy="43" rx="17" ry="12" fill="#f5f5dc"/>
-  <path d="m17 21 10 5-10 5m30-10-10 5 10 5" fill="none" stroke="#202124" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="m25 34 7-5 7 5-7 7z" fill="#ff9800" stroke="#8a4b08" stroke-width="1.5" stroke-linejoin="round"/>
-  <path d="M20 41q12 15 24 0z" fill="#fff" stroke="#202124" stroke-width="2"/>
-  <circle cx="32" cy="55" r="3" fill="#ffd54f" stroke="#8a6500" stroke-width="1"/>
+
+  <!-- compact Tux body -->
+  <ellipse cx="32" cy="50" rx="16" ry="12" fill="#202124"/>
+  <ellipse cx="25" cy="58" rx="8" ry="3.2" fill="#ff9800" stroke="#8a4b08" stroke-width="1.2" transform="rotate(-8 25 58)"/>
+  <ellipse cx="39" cy="58" rx="8" ry="3.2" fill="#ff9800" stroke="#8a4b08" stroke-width="1.2" transform="rotate(8 39 58)"/>
+  
+  <!-- head -->
+  <ellipse cx="32" cy="29" rx="23.5" ry="26" fill="#202124"/>
+  <!-- characteristic pale eye patches -->
+  <ellipse cx="23" cy="27" rx="11.5" ry="15.5" fill="#f7f4d7"/>
+  <ellipse cx="41" cy="27" rx="11.5" ry="15.5" fill="#f7f4d7"/>
+  <ellipse cx="32" cy="42" rx="16.5" ry="11.5" fill="#f7f4d7"/>
+  
+  <path d="M16 21 L28 28 M28 21 L16 28" stroke="#202124" stroke-width="2.8" stroke-linecap="round"/><path d="M36 21 L48 28 M48 21 L36 28" stroke="#202124" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M23.5 36 Q32 29 40.5 36 Q32 37.2 23.5 36Z" fill="#ff9800" stroke="#8a4b08" stroke-width="1.4" stroke-linejoin="round"/>
+<path d="M24.5 36.5 Q32 45.5 39.5 36.5 Q32 40.8 24.5 36.5Z" fill="#ffc14d" stroke="#8a4b08" stroke-width="1.4" stroke-linejoin="round"/>
+<path d="M25.3 36.8 Q32 41.5 38.7 36.8" fill="none" stroke="#202124" stroke-width="1.8" stroke-linecap="round"/>
   
 </svg>

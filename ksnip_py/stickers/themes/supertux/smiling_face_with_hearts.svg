@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Original ksnip_py artwork, GPL-3.0. No SuperTux game asset was copied. -->
+<!-- SuperTux-inspired ksnip_py theme artwork, GPL-3.0. Original vector artwork; no SuperTux game asset copied. -->
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <path d="M9 58 20 39h24l11 19-13-5-10 7-10-7z" fill="#e53935" stroke="#7f1715" stroke-width="2" stroke-linejoin="round"/>
-  <ellipse cx="32" cy="30" rx="24" ry="27" fill="#202124"/>
-  <ellipse cx="23" cy="28" rx="12" ry="16" fill="#f5f5dc"/><ellipse cx="41" cy="28" rx="12" ry="16" fill="#f5f5dc"/>
-  <ellipse cx="32" cy="43" rx="17" ry="12" fill="#f5f5dc"/>
-  <path d="M17 26q6-7 12 0m6 0q6-7 12 0" fill="none" stroke="#202124" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="m25 34 7-5 7 5-7 7z" fill="#ff9800" stroke="#8a4b08" stroke-width="1.5" stroke-linejoin="round"/>
-  <path d="M24 43q8 7 16 0" fill="none" stroke="#202124" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="32" cy="55" r="3" fill="#ffd54f" stroke="#8a6500" stroke-width="1"/>
-  <path d="M10 12c-6-5-10 2 1 10 11-8 7-15-1-10zm44 2c-6-5-10 2 1 10 11-8 7-15-1-10z" fill="#ff6f91" stroke="#8f2946"/>
+
+  <!-- compact Tux body -->
+  <ellipse cx="32" cy="50" rx="16" ry="12" fill="#202124"/>
+  <ellipse cx="25" cy="58" rx="8" ry="3.2" fill="#ff9800" stroke="#8a4b08" stroke-width="1.2" transform="rotate(-8 25 58)"/>
+  <ellipse cx="39" cy="58" rx="8" ry="3.2" fill="#ff9800" stroke="#8a4b08" stroke-width="1.2" transform="rotate(8 39 58)"/>
+  
+  <!-- head -->
+  <ellipse cx="32" cy="29" rx="23.5" ry="26" fill="#202124"/>
+  <!-- characteristic pale eye patches -->
+  <ellipse cx="23" cy="27" rx="11.5" ry="15.5" fill="#f7f4d7"/>
+  <ellipse cx="41" cy="27" rx="11.5" ry="15.5" fill="#f7f4d7"/>
+  <ellipse cx="32" cy="42" rx="16.5" ry="11.5" fill="#f7f4d7"/>
+  
+  <path d="M16 26 Q23 18 30 26" fill="none" stroke="#202124" stroke-width="2.7" stroke-linecap="round"/><path d="M34 26 Q41 18 48 26" fill="none" stroke="#202124" stroke-width="2.7" stroke-linecap="round"/>
+  <path d="M25 37 Q32 30 39 37 Q32 38.2 25 37Z" fill="#ff9800" stroke="#8a4b08" stroke-width="1.4" stroke-linejoin="round"/>
+<path d="M26 37.5 Q32 44.5 38 37.5 Q32 39.8 26 37.5Z" fill="#ffc14d" stroke="#8a4b08" stroke-width="1.4" stroke-linejoin="round"/>
+<path d="M26.8 37.8 Q32 40.5 37.2 37.8" fill="none" stroke="#202124" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M12 19.48 C7.04 16.38,8.9 12.66,12 15.14 C15.1 12.66,16.96 16.38,12 19.48Z" fill="#ef5b83" stroke="#9b2f52" stroke-width="0.806"/><path d="M52 19.48 C47.04 16.38,48.9 12.66,52 15.14 C55.1 12.66,56.96 16.38,52 19.48Z" fill="#ef5b83" stroke="#9b2f52" stroke-width="0.806"/><path d="M50 46.2 C45.6 43.45,47.25 40.15,50 42.35 C52.75 40.15,54.4 43.45,50 46.2Z" fill="#ef5b83" stroke="#9b2f52" stroke-width="0.7150000000000001"/>
 </svg>

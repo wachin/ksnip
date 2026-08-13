@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Original ksnip_py tutorial sticker. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect x="20" y="10" width="28" height="45" rx="14" fill="#eceff1" stroke="#202124" stroke-width="3"/>
+  <path d="M34 11v18H21" fill="#ff7043" stroke="#202124" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M34 11v18h13M34 6V1M13 11 9 7m8 15h-6" fill="none" stroke="#ff7043" stroke-width="3" stroke-linecap="round"/>
+</svg>
