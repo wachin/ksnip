@@ -347,6 +347,10 @@ class SettingsDialog(QDialog):
         self.hide_main_window_during_capture_checkbox.setChecked(True)
         self.force_generic_wayland = QCheckBox(self.tr("Force Generic Wayland (xdg-desktop-portal) Screenshot"), image_grabber_group)
         self.scale_generic_wayland = QCheckBox(self.tr("Scale Generic Wayland (xdg-desktop-portal) Screenshots"), image_grabber_group)
+        self.force_generic_wayland.setToolTip(self.tr("Use the desktop screenshot portal for every capture mode, including on X11."))
+        self.scale_generic_wayland.setToolTip(
+            self.tr("Apply the primary screen scale factor to portal screenshots without resampling their pixels.")
+        )
         image_grabber_layout.addWidget(self.capture_mouse_cursor)
         image_grabber_layout.addWidget(self.show_main_window_after_capture_checkbox)
         image_grabber_layout.addWidget(self.hide_main_window_during_capture_checkbox)

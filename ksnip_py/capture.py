@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ctypes
 import ctypes.util
+import math
 import os
 import re
 import subprocess
@@ -85,6 +86,37 @@ def portal_failure_message() -> str:
 
 def portal_capture_was_canceled() -> bool:
     return _portal_was_canceled
+
+
+def portal_result_path(value: object) -> str:
+    """Return a local path from the URI/path supplied by the screenshot portal."""
+    source = str(value or "")
+    url = QUrl(source)
+    return url.toLocalFile() if url.isLocalFile() else source
+
+
+def apply_generic_wayland_scaling(
+    pixmap: QPixmap,
+    enabled: bool,
+    device_pixel_ratio: float | None = None,
+) -> QPixmap:
+    """Apply Qt high-DPI metadata without resampling the portal image.
+
+    The generic portal does not report which monitor produced the image.  As
+    in the C++ implementation, the primary screen DPR is therefore used when
+    no explicit ratio is supplied.
+    """
+    if not enabled or pixmap.isNull():
+        return pixmap
+    if device_pixel_ratio is None:
+        screen = QApplication.primaryScreen()
+        if screen is None:
+            return pixmap
+        device_pixel_ratio = screen.devicePixelRatio()
+    ratio = float(device_pixel_ratio)
+    if math.isfinite(ratio) and ratio > 0:
+        pixmap.setDevicePixelRatio(ratio)
+    return pixmap
 
 
 def grab_fullscreen() -> CaptureResult | None:
@@ -204,18 +236,13 @@ def grab_portal(*, interactive: bool = True, scale: bool = False) -> CaptureResu
             else QCoreApplication.translate("PortalDiagnostics", "portal error code %1.").replace("%1", str(response.response_code))
         )
         return None
-    uri = str(response.results.get("uri") or response.results.get("path") or "")
-    path = QUrl(uri).toLocalFile() if uri.startswith("file:") else uri
+    path = portal_result_path(response.results.get("uri") or response.results.get("path"))
     image = QImage(path)
     if image.isNull():
         source = path or QCoreApplication.translate("PortalDiagnostics", "an empty path")
         _portal_last_error = QCoreApplication.translate("PortalDiagnostics", "the returned image could not be loaded from %1.").replace("%1", source)
         return None
-    pixmap = QPixmap.fromImage(image)
-    if scale:
-        screen = QApplication.primaryScreen()
-        if screen is not None:
-            pixmap.setDevicePixelRatio(screen.devicePixelRatio())
+    pixmap = apply_generic_wayland_scaling(QPixmap.fromImage(image), scale)
     return CaptureResult(pixmap, "portal")
 
 

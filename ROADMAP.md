@@ -143,7 +143,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Preferencia funcional `Force Generic Wayland`: redirige capturas GUI al portal y distingue fullscreen no interactivo
 - [x] Detección automática de sesión Wayland mediante plataforma Qt y `XDG_SESSION_TYPE`, con redirección al portal
 - [x] Diagnóstico de entorno para fallos del portal, con recomendación del backend Debian según `XDG_CURRENT_DESKTOP`
-- [ ] Escalado específico de screenshots Wayland genéricos
+- [x] Escalado específico de screenshots Wayland genéricos: paridad con `HdpiScaler` del C++, DPR primario sin remuestreo, URI Unicode y pruebas automatizadas
 - [x] Delay implícito con la misma semántica del código C++: máximo con delay explícito sólo cuando la ventana estaba visible
 - [ ] Hotkeys globales nativos para capturas
 
@@ -436,7 +436,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 
 - [x] Comparar todos los argumentos de `CommandLine.cpp` con `ksnip_py/app.py`: las 14 opciones, ayuda y argumento posicional están portados; `--language` y stdin son extensiones documentadas
 - [x] Comparar el flujo de arranque, reapertura, single-instance y cierre con `MainWindow.cpp` y los bootstrapper C++; matriz y diferencias documentadas en `docs/STARTUP_LIFECYCLE_PARITY.md`
-- [ ] Auditar captura X11, Wayland y portal; reproducir y cubrir el escalado de capturas Wayland
+- [x] Auditar captura X11, Wayland y portal; matriz en `docs/CAPTURE_BACKEND_PARITY.md` y escalado Wayland cubierto por pruebas; queda validación real multiplataforma en Fase 4
 - [ ] Evaluar una implementación mantenible de hotkeys globales en X11 y Wayland, con fallback y diagnóstico claros
 - [ ] Comparar todas las herramientas y propiedades de kImageAnnotator mediante una matriz de creación, selección, edición, undo, serialización y SVG
 - [ ] Auditar menú y acciones de bandeja, ventanas modeless, OCR, uploader y watermark contra la implementación original
@@ -474,4 +474,4 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 
 ## Próxima tarea recomendada
 
-- [ ] Auditar captura X11, Wayland y portal; reproducir y cubrir el escalado de capturas Wayland genéricas antes de evaluar hotkeys globales
+- [ ] Evaluar una implementación mantenible de hotkeys globales en X11 y Wayland, con fallback y diagnóstico claros
