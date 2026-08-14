@@ -435,7 +435,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 ### Fase 1 — Auditoría funcional contra C++
 
 - [x] Comparar todos los argumentos de `CommandLine.cpp` con `ksnip_py/app.py`: las 14 opciones, ayuda y argumento posicional están portados; `--language` y stdin son extensiones documentadas
-- [ ] Comparar el flujo de arranque, reapertura, single-instance y cierre con `MainWindow.cpp` y los bootstrapper C++
+- [x] Comparar el flujo de arranque, reapertura, single-instance y cierre con `MainWindow.cpp` y los bootstrapper C++; matriz y diferencias documentadas en `docs/STARTUP_LIFECYCLE_PARITY.md`
 - [ ] Auditar captura X11, Wayland y portal; reproducir y cubrir el escalado de capturas Wayland
 - [ ] Evaluar una implementación mantenible de hotkeys globales en X11 y Wayland, con fallback y diagnóstico claros
 - [ ] Comparar todas las herramientas y propiedades de kImageAnnotator mediante una matriz de creación, selección, edición, undo, serialización y SVG
@@ -474,4 +474,4 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 
 ## Próxima tarea recomendada
 
-- [ ] Comparar el flujo de arranque, reapertura, single-instance y cierre con `MainWindow.cpp` y los bootstrapper C++, documentando la matriz y cubriendo las diferencias con pruebas
+- [ ] Auditar captura X11, Wayland y portal; reproducir y cubrir el escalado de capturas Wayland genéricas antes de evaluar hotkeys globales

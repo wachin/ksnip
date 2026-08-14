@@ -82,6 +82,13 @@ def apply_startup_request(window: MainWindow, arguments: argparse.Namespace, std
     return True
 
 
+def should_show_for_remote_request(arguments: argparse.Namespace) -> bool:
+    """Return whether an IPC request should bring the editor to the front."""
+
+    direct_processing = arguments.save or arguments.saveto or arguments.upload
+    return arguments.capture_mode is None and not direct_processing
+
+
 def main(argv: list[str] | None = None) -> int:
     raw_arguments = sys.argv[1:] if argv is None else argv
     parser = build_argument_parser()
@@ -118,10 +125,15 @@ def main(argv: list[str] | None = None) -> int:
                 return
             apply_startup_request(window, remote, remote_image)
             window._quit_after_capture = False
-            if not (remote.save or remote.saveto or remote.upload):
+            if should_show_for_remote_request(remote):
                 window.show_from_tray()
 
-        instance_controller.listen(handle_remote_request)
+        if not instance_controller.listen(handle_remote_request):
+            # Another process can win the startup race after our initial
+            # forwarding attempt but before this process starts listening.
+            if instance_controller.forward_to_running(raw_arguments, stdin_image):
+                return 0
+            return 1
     if not apply_startup_request(window, arguments, stdin_image):
         return 1
     if window._quit_after_capture:

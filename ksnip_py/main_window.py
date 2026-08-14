@@ -3015,10 +3015,13 @@ class MainWindow(QMainWindow):
 
     def quit_application(self) -> None:
         self._allow_quit = True
+        if not self.close():
+            # The user canceled the unsaved-changes confirmation. Keep the
+            # process and tray workflow alive instead of calling app.quit().
+            self._allow_quit = False
+            return
         if self._tray_icon is not None:
             self._tray_icon.hide()
-        self.close_all_pin_windows()
-        self.close()
         app = QGuiApplication.instance()
         if app is not None:
             app.quit()

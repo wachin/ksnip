@@ -38,6 +38,16 @@ class SingleInstanceController(QObject):
         self._handler = handler
         if self._server.listen(self.server_name):
             return True
+
+        # A failed listen can mean either a live server or a stale local-socket
+        # entry. Never remove the endpoint until a connection probe proves that
+        # no other process currently owns it.
+        probe = QLocalSocket(self)
+        probe.connectToServer(self.server_name)
+        if probe.waitForConnected(250):
+            probe.disconnectFromServer()
+            return False
+
         QLocalServer.removeServer(self.server_name)
         return self._server.listen(self.server_name)
 
