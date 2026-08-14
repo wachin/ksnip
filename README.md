@@ -266,6 +266,11 @@ PaddlePaddle. Newer Protobuf releases can make PaddleOCR fail while loading its
 generated descriptors and can then leave `paddle` partially initialized until
 the application is restarted.
 
+On its first use PaddleOCR downloads its models into the user's PaddleX cache,
+so the initial recognition takes longer and needs network access. Later runs
+reuse those files. ksnip_py disables oneDNN for this tested CPU configuration
+and omits document-orientation models that are unnecessary for screenshots.
+
 For later sessions, either activate the environment before starting ksnip:
 
 ```bash

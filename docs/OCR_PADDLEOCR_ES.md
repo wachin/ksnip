@@ -45,6 +45,15 @@ Después de ese primer fallo, Python puede mostrar además un error engañoso de
 `partially initialized module 'paddle'`; hay que cerrar ksnip_py, corregir las
 versiones y volver a iniciarlo.
 
+En el primer reconocimiento PaddleOCR descarga sus modelos en la caché de
+PaddleX del usuario, normalmente bajo `~/.paddlex/official_models`. Por eso esa
+primera ejecución necesita conexión y tarda bastante más; las siguientes
+reutilizan los archivos descargados. Para capturas de pantalla ksnip_py carga
+solamente los modelos de detección y reconocimiento: desactiva los modelos de
+orientación y enderezado de documentos que no son necesarios. También
+desactiva oneDNN/MKL-DNN porque el backend CPU de esta combinación produce el
+error `ConvertPirAttribute2RuntimeAttribute` con PP-OCRv6 cuando está activo.
+
 La instalación de PaddleOCR y PaddlePaddle solamente se realiza una vez, salvo
 que se borre o se vuelva a crear `.venv`.
 

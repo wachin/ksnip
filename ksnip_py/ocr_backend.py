@@ -85,16 +85,26 @@ class OcrBackend:
             "spanish": "es",
         }
         try:
-            ocr = PaddleOCR(lang=lang_map.get(language, "en"))
+            # Screenshots are already oriented, flat images, so the document
+            # orientation, unwarping, and text-line orientation models only
+            # add startup cost here.  oneDNN must remain disabled with the
+            # currently supported PaddlePaddle CPU runtime: PP-OCRv6 otherwise
+            # fails in ConvertPirAttribute2RuntimeAttribute before inference.
+            ocr = PaddleOCR(
+                lang=lang_map.get(language, "en"),
+                enable_mkldnn=False,
+                use_doc_orientation_classify=False,
+                use_doc_unwarping=False,
+                use_textline_orientation=False,
+            )
             result = ocr.predict(image_path)
         except Exception as exc:  # noqa: BLE001
             if self._is_paddle_protobuf_error(exc):
                 raise self._paddle_protobuf_error() from exc
             if "ConvertPirAttribute2RuntimeAttribute" in str(exc):
                 raise OcrError(
-                    "PaddleOCR started but PaddlePaddle failed at runtime with the installed backend. "
-                    "This appears to be a PaddleOCR/PaddlePaddle runtime compatibility issue in the current environment. "
-                    "Try the OCR script backend, or test a different PaddlePaddle/PaddleOCR combination in the virtual environment."
+                    "PaddleOCR reached an unsupported oneDNN operation even though ksnip_py disabled its MKL-DNN backend. "
+                    "Please report the installed PaddlePaddle, PaddleOCR, and CPU details."
                 ) from exc
             raise OcrError(f"PaddleOCR failed: {exc}") from exc
 
