@@ -438,7 +438,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Comparar el flujo de arranque, reapertura, single-instance y cierre con `MainWindow.cpp` y los bootstrapper C++; matriz y diferencias documentadas en `docs/STARTUP_LIFECYCLE_PARITY.md`
 - [x] Auditar captura X11, Wayland y portal; matriz en `docs/CAPTURE_BACKEND_PARITY.md` y escalado Wayland cubierto por pruebas; queda validación real multiplataforma en Fase 4
 - [x] Evaluar hotkeys globales en X11 y Wayland: diferencias del C++ y portal documentadas en `docs/GLOBAL_HOTKEYS.md`; fallback mantenible mediante comandos CLI gestionados por el escritorio
-- [ ] Comparar todas las herramientas y propiedades de kImageAnnotator mediante una matriz de creación, selección, edición, undo, serialización y SVG
+- [x] Comparar todas las herramientas y propiedades de kImageAnnotator mediante una matriz de creación, selección, edición, undo, serialización y SVG, sin modificar las personalizaciones (`docs/KIMAGEANNOTATOR_TOOL_PARITY.md`)
 - [ ] Auditar menú y acciones de bandeja, ventanas modeless, OCR, uploader y watermark contra la implementación original
 
 ### Fase 2 — Funciones pendientes que requieren decisión
@@ -474,4 +474,4 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 
 ## Próxima tarea recomendada
 
-- [ ] Comparar todas las herramientas y propiedades de kImageAnnotator mediante una matriz de creación, selección, edición, undo, serialización y SVG
+- [ ] Añadir pruebas de caracterización por herramienta para congelar el comportamiento personalizado actual, sin cambiar su funcionamiento
