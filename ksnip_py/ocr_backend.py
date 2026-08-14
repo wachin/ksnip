@@ -62,11 +62,17 @@ class OcrBackend:
         try:
             from paddleocr import PaddleOCR
         except ImportError as exc:
+            if self._is_paddle_protobuf_error(exc):
+                raise self._paddle_protobuf_error() from exc
             raise OcrMissingDependencyError(
                 "PaddleOCR is not installed.\n\n"
                 "In your virtual environment run:\n"
-                "pip install paddlepaddle paddleocr"
+                "pip install -r requirements-ocr.txt"
             ) from exc
+        except Exception as exc:  # noqa: BLE001
+            if self._is_paddle_protobuf_error(exc):
+                raise self._paddle_protobuf_error() from exc
+            raise OcrError(f"PaddleOCR could not be loaded: {exc}") from exc
 
         if language == "spanish_english":
             raise OcrError(
@@ -82,6 +88,8 @@ class OcrBackend:
             ocr = PaddleOCR(lang=lang_map.get(language, "en"))
             result = ocr.predict(image_path)
         except Exception as exc:  # noqa: BLE001
+            if self._is_paddle_protobuf_error(exc):
+                raise self._paddle_protobuf_error() from exc
             if "ConvertPirAttribute2RuntimeAttribute" in str(exc):
                 raise OcrError(
                     "PaddleOCR started but PaddlePaddle failed at runtime with the installed backend. "
@@ -94,6 +102,24 @@ class OcrBackend:
         if not lines:
             raise OcrError("PaddleOCR finished but returned no recognized text.")
         return "\n".join(lines).strip()
+
+    @staticmethod
+    def _is_paddle_protobuf_error(exc: BaseException) -> bool:
+        message = str(exc).lower()
+        return (
+            "couldn't build proto file into descriptor pool" in message
+            or "partially initialized module 'paddle'" in message
+            or "partially initialized module \"paddle\"" in message
+        )
+
+    @staticmethod
+    def _paddle_protobuf_error() -> OcrError:
+        return OcrError(
+            "PaddleOCR and the installed Protobuf version are incompatible. "
+            "Close ksnip_py, activate its virtual environment, run "
+            "`python -m pip install -r requirements-ocr.txt`, and restart ksnip_py. "
+            "A restart is required because Paddle may remain partially loaded after this failure."
+        )
 
     def _extract_paddleocr_text(self, result) -> list[str]:
         lines: list[str] = []

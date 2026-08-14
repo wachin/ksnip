@@ -34,8 +34,16 @@ source .venv/bin/activate
 
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -e .
-python -m pip install paddlepaddle paddleocr
+python -m pip install -r requirements-ocr.txt
 ```
+
+El archivo `requirements-ocr.txt` fija también la versión compatible de
+`protobuf`. No conviene omitirlo e instalar solamente los dos paquetes OCR:
+una versión más nueva de Protobuf puede rechazar los descriptores generados de
+PaddlePaddle con el mensaje `Couldn't build proto file into descriptor pool`.
+Después de ese primer fallo, Python puede mostrar además un error engañoso de
+`partially initialized module 'paddle'`; hay que cerrar ksnip_py, corregir las
+versiones y volver a iniciarlo.
 
 La instalación de PaddleOCR y PaddlePaddle solamente se realiza una vez, salvo
 que se borre o se vuelva a crear `.venv`.
@@ -43,7 +51,7 @@ que se borre o se vuelva a crear `.venv`.
 Puede comprobarla así:
 
 ```bash
-python -c "import paddle; import paddleocr; print('PaddleOCR disponible')"
+python -c "from paddleocr import PaddleOCR; import paddle.base.proto.distributed_strategy_pb2; print('PaddleOCR disponible')"
 ```
 
 ## Opción 1: activar manualmente el entorno
@@ -79,9 +87,10 @@ cd /home/wachin/Dev/ksnip-dev/ksnip
 ./scripts/run-ksnip-with-paddleocr.sh
 ```
 
-El lanzador usa directamente `.venv/bin/python`, comprueba que `paddle` y
-`paddleocr` estén instalados y abre ksnip_py. Si falta algo, termina sin tocar
-el Python del sistema y muestra las instrucciones de instalación.
+El lanzador usa directamente `.venv/bin/python`, comprueba tanto la importación
+de PaddleOCR como sus descriptores Protobuf y abre ksnip_py. Si falta algo o las
+versiones son incompatibles, termina sin tocar el Python del sistema y muestra
+las instrucciones de instalación.
 
 El script también transmite argumentos de línea de comandos:
 

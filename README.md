@@ -258,8 +258,13 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -e .
-python -m pip install paddlepaddle paddleocr
+python -m pip install -r requirements-ocr.txt
 ```
+
+The requirements file pins Protobuf to the version currently compatible with
+PaddlePaddle. Newer Protobuf releases can make PaddleOCR fail while loading its
+generated descriptors and can then leave `paddle` partially initialized until
+the application is restarted.
 
 For later sessions, either activate the environment before starting ksnip:
 
