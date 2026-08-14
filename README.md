@@ -53,7 +53,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 
 ## Known gaps
 
-- Wayland-specific screenshot scaling and complete backend parity across desktop environments.
+- Live capture validation across X11, Wayland, mixed-DPI systems, and different portal backends.
 - Native OS-global hotkey registration.
 - Complete C++ plugin-system parity.
 - Native Imgur and FTP uploaders.
@@ -213,6 +213,8 @@ legacy parser defects are recorded in `docs/CLI_PARITY.md`.
 Wayland sessions are detected automatically and regular capture actions are redirected through `xdg-desktop-portal`. `Settings > Image Grabber > Force Generic Wayland` applies the same behavior manually, including on X11. Full-screen capture is requested non-interactively; the other capture modes use the portal's interactive chooser.
 
 `Scale Generic Wayland Screenshots` applies the primary screen's Qt device-pixel ratio to the portal image without resampling its pixels, matching the C++ implementation. Because the screenshot portal does not identify the source monitor, mixed-DPI systems may need this option left disabled. The capture backend audit and live-validation matrix are documented in `docs/CAPTURE_BACKEND_PARITY.md`.
+
+The shortcuts edited under `Settings > HotKeys` are application shortcuts and work while ksnip is active. For reliable system-wide shortcuts on both X11 and Wayland, configure the desktop or window manager to execute ksnip's command-line capture actions. Suggested commands and the native-hotkey design decision are documented in `docs/GLOBAL_HOTKEYS.md`.
 
 Single-instance mode is enabled by default and can be changed under `Settings > Application`. Additional invocations forward their command-line arguments to the existing process through a per-user Qt local socket, allowing it to show the editor, open an image, or perform a capture without starting a second GUI instance.
 Images supplied through standard input are forwarded as image bytes when another instance is already running.

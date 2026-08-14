@@ -145,7 +145,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Diagnóstico de entorno para fallos del portal, con recomendación del backend Debian según `XDG_CURRENT_DESKTOP`
 - [x] Escalado específico de screenshots Wayland genéricos: paridad con `HdpiScaler` del C++, DPR primario sin remuestreo, URI Unicode y pruebas automatizadas
 - [x] Delay implícito con la misma semántica del código C++: máximo con delay explícito sólo cuando la ventana estaba visible
-- [ ] Hotkeys globales nativos para capturas
+- [ ] Hotkeys globales nativos para capturas; los atajos actuales son de aplicación y el método portable documentado usa la CLI desde los atajos del escritorio
 
 ## Archivo e Imagen
 
@@ -437,7 +437,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Comparar todos los argumentos de `CommandLine.cpp` con `ksnip_py/app.py`: las 14 opciones, ayuda y argumento posicional están portados; `--language` y stdin son extensiones documentadas
 - [x] Comparar el flujo de arranque, reapertura, single-instance y cierre con `MainWindow.cpp` y los bootstrapper C++; matriz y diferencias documentadas en `docs/STARTUP_LIFECYCLE_PARITY.md`
 - [x] Auditar captura X11, Wayland y portal; matriz en `docs/CAPTURE_BACKEND_PARITY.md` y escalado Wayland cubierto por pruebas; queda validación real multiplataforma en Fase 4
-- [ ] Evaluar una implementación mantenible de hotkeys globales en X11 y Wayland, con fallback y diagnóstico claros
+- [x] Evaluar hotkeys globales en X11 y Wayland: diferencias del C++ y portal documentadas en `docs/GLOBAL_HOTKEYS.md`; fallback mantenible mediante comandos CLI gestionados por el escritorio
 - [ ] Comparar todas las herramientas y propiedades de kImageAnnotator mediante una matriz de creación, selección, edición, undo, serialización y SVG
 - [ ] Auditar menú y acciones de bandeja, ventanas modeless, OCR, uploader y watermark contra la implementación original
 
@@ -474,4 +474,4 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 
 ## Próxima tarea recomendada
 
-- [ ] Evaluar una implementación mantenible de hotkeys globales en X11 y Wayland, con fallback y diagnóstico claros
+- [ ] Comparar todas las herramientas y propiedades de kImageAnnotator mediante una matriz de creación, selección, edición, undo, serialización y SVG

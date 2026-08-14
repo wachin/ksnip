@@ -1092,7 +1092,7 @@
   <context>
     <name>SettingsDialog</name>
     <message>
-      <location filename="../settings_dialog.py" line="1007" />
+      <location filename="../settings_dialog.py" line="1015" />
       <location filename="../settings_dialog.py" line="109" />
       <source>Settings</source>
       <translation>設定</translation></message>
@@ -1301,12 +1301,12 @@
       <source>System default</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="546" />
+      <location filename="../settings_dialog.py" line="554" />
       <location filename="../settings_dialog.py" line="253" />
       <source>English</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="560" />
+      <location filename="../settings_dialog.py" line="568" />
       <location filename="../settings_dialog.py" line="256" />
       <source>Language</source>
       <translation type="unfinished" /></message>
@@ -1315,7 +1315,7 @@
       <source>Application Style</source>
       <translation>應用程式樣式</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="745" />
+      <location filename="../settings_dialog.py" line="753" />
       <location filename="../settings_dialog.py" line="266" />
       <source>Browse</source>
       <translation>瀏覽</translation></message>
@@ -1390,7 +1390,7 @@
       <source>Save Quality</source>
       <translation>儲存品質</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="735" />
+      <location filename="../settings_dialog.py" line="743" />
       <location filename="../settings_dialog.py" line="314" />
       <source>Default</source>
       <translation>預設</translation></message>
@@ -1399,7 +1399,7 @@
       <source>Factor</source>
       <translation>係數</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="1039" />
+      <location filename="../settings_dialog.py" line="1047" />
       <location filename="../settings_dialog.py" line="328" />
       <source>Capture save location and filename</source>
       <translation>擷取儲存位置和檔名</translation></message>
@@ -1408,8 +1408,8 @@
       <source>Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="552" />
-      <location filename="../settings_dialog.py" line="523" />
+      <location filename="../settings_dialog.py" line="560" />
+      <location filename="../settings_dialog.py" line="531" />
       <location filename="../settings_dialog.py" line="332" />
       <source>Browse...</source>
       <translation type="unfinished" /></message>
@@ -1615,247 +1615,259 @@
       <translation>擷取模式</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="474" />
-      <source>Global HotKeys</source>
-      <translation>全域快捷鍵</translation></message>
+      <source>Application Shortcuts</source>
+      <translation type="unfinished" /></message>
     <message>
       <location filename="../settings_dialog.py" line="476" />
-      <source>Enable Global HotKeys</source>
-      <translation>啟用全域快捷鍵</translation></message>
-    <message>
-      <location filename="../settings_dialog.py" line="481" />
-      <source>Rect Area Capture</source>
+      <source>Enable Application Shortcuts</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="482" />
-      <source>Last Rect Area Capture</source>
-      <translation type="unfinished" /></message>
-    <message>
-      <location filename="../settings_dialog.py" line="483" />
-      <source>Full Screen Capture</source>
-      <translation type="unfinished" /></message>
-    <message>
-      <location filename="../settings_dialog.py" line="484" />
-      <source>Current Screen Capture</source>
-      <translation type="unfinished" /></message>
-    <message>
-      <location filename="../settings_dialog.py" line="485" />
-      <source>Active Window Capture</source>
-      <translation type="unfinished" /></message>
-    <message>
-      <location filename="../settings_dialog.py" line="486" />
-      <source>Window Under Cursor Capture</source>
-      <translation type="unfinished" /></message>
-    <message>
-      <location filename="../settings_dialog.py" line="487" />
-      <source>Portal Capture</source>
-      <translation type="unfinished" /></message>
-    <message>
-      <location filename="../settings_dialog.py" line="488" />
-      <source>Open Image</source>
+      <location filename="../settings_dialog.py" line="479" />
+      <source>These shortcuts work while ksnip is active. For system-wide shortcuts, configure your desktop to run the ksnip command-line capture actions.</source>
       <translation type="unfinished" /></message>
     <message>
       <location filename="../settings_dialog.py" line="489" />
-      <source>Save</source>
-      <translation>儲存</translation></message>
+      <source>Rect Area Capture</source>
+      <translation type="unfinished" /></message>
     <message>
       <location filename="../settings_dialog.py" line="490" />
-      <source>Paste Image</source>
+      <source>Last Rect Area Capture</source>
       <translation type="unfinished" /></message>
     <message>
       <location filename="../settings_dialog.py" line="491" />
-      <source>Pin Image</source>
+      <source>Full Screen Capture</source>
       <translation type="unfinished" /></message>
     <message>
       <location filename="../settings_dialog.py" line="492" />
-      <source>Add Watermark</source>
-      <translation>新增浮水印</translation></message>
+      <source>Current Screen Capture</source>
+      <translation type="unfinished" /></message>
     <message>
       <location filename="../settings_dialog.py" line="493" />
-      <source>Upload Image</source>
+      <source>Active Window Capture</source>
       <translation type="unfinished" /></message>
     <message>
       <location filename="../settings_dialog.py" line="494" />
+      <source>Window Under Cursor Capture</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../settings_dialog.py" line="495" />
+      <source>Portal Capture</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../settings_dialog.py" line="496" />
+      <source>Open Image</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../settings_dialog.py" line="497" />
+      <source>Save</source>
+      <translation>儲存</translation></message>
+    <message>
+      <location filename="../settings_dialog.py" line="498" />
+      <source>Paste Image</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../settings_dialog.py" line="499" />
+      <source>Pin Image</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../settings_dialog.py" line="500" />
+      <source>Add Watermark</source>
+      <translation>新增浮水印</translation></message>
+    <message>
+      <location filename="../settings_dialog.py" line="501" />
+      <source>Upload Image</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../settings_dialog.py" line="502" />
       <source>OCR Text Recognition</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="498" />
+      <location filename="../settings_dialog.py" line="506" />
       <source>Clear</source>
       <translation>清除</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="508" />
+      <location filename="../settings_dialog.py" line="516" />
       <source>Uploader</source>
       <translation>上傳工具</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="510" />
+      <location filename="../settings_dialog.py" line="518" />
       <source>Ask for confirmation before uploading</source>
       <translation>上傳前請求確認</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="544" />
-      <location filename="../settings_dialog.py" line="529" />
-      <location filename="../settings_dialog.py" line="515" />
+      <location filename="../settings_dialog.py" line="552" />
+      <location filename="../settings_dialog.py" line="537" />
+      <location filename="../settings_dialog.py" line="523" />
       <source>Script</source>
       <translation>腳本</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="517" />
+      <location filename="../settings_dialog.py" line="525" />
       <source>Uploader Type</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="519" />
+      <location filename="../settings_dialog.py" line="527" />
       <source>Script Uploader</source>
       <translation>腳本上傳工具</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="531" />
+      <location filename="../settings_dialog.py" line="539" />
       <source>Copy script output to clipboard</source>
       <translation>將腳本輸出複製到剪貼簿</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="535" />
+      <location filename="../settings_dialog.py" line="543" />
       <source>Filter</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="537" />
+      <location filename="../settings_dialog.py" line="545" />
       <source>Treat stderr as failure</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="539" />
+      <location filename="../settings_dialog.py" line="547" />
       <source>OCR</source>
       <translation>光學字元辨識 (OCR)</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="541" />
+      <location filename="../settings_dialog.py" line="549" />
       <source>Enable OCR actions</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="547" />
+      <location filename="../settings_dialog.py" line="555" />
       <source>Spanish</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="548" />
+      <location filename="../settings_dialog.py" line="556" />
       <source>Spanish + English (script backend recommended)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="549" />
+      <location filename="../settings_dialog.py" line="557" />
       <source>Copy OCR result to clipboard automatically</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="559" />
+      <location filename="../settings_dialog.py" line="567" />
       <source>Backend</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="562" />
+      <location filename="../settings_dialog.py" line="570" />
       <source>Script Path</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="566" />
+      <location filename="../settings_dialog.py" line="574" />
       <source>Color scheme for misspelled words</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="568" />
+      <location filename="../settings_dialog.py" line="576" />
       <source>%1 base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="754" />
-      <location filename="../settings_dialog.py" line="574" />
+      <location filename="../settings_dialog.py" line="762" />
+      <location filename="../settings_dialog.py" line="582" />
       <source>Name</source>
       <translation>名稱</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="574" />
+      <location filename="../settings_dialog.py" line="582" />
       <source>Text fill color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="574" />
+      <location filename="../settings_dialog.py" line="582" />
       <source>Underline color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="624" />
+      <location filename="../settings_dialog.py" line="632" />
       <source>Imgur Uploader</source>
       <translation>Imgur 上傳工具</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="626" />
+      <location filename="../settings_dialog.py" line="634" />
       <source>Native Imgur uploader parity is still pending.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="637" />
+      <location filename="../settings_dialog.py" line="645" />
       <source>FTP Uploader</source>
       <translation>FTP 上傳工具</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="639" />
+      <location filename="../settings_dialog.py" line="647" />
       <source>Native FTP uploader parity is still pending.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="657" />
+      <location filename="../settings_dialog.py" line="665" />
       <source>Stickers</source>
       <translation>貼圖</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="659" />
+      <location filename="../settings_dialog.py" line="667" />
       <source>Sticker management and picker parity are still pending.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="690" />
+      <location filename="../settings_dialog.py" line="698" />
       <source>OK</source>
       <translation>確定</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="691" />
+      <location filename="../settings_dialog.py" line="699" />
       <source>Cancel</source>
       <translation>取消</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="712" />
+      <location filename="../settings_dialog.py" line="720" />
       <source>Actions</source>
       <translation>動作</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="716" />
+      <location filename="../settings_dialog.py" line="724" />
       <source>Add</source>
       <translation>新增</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="722" />
+      <location filename="../settings_dialog.py" line="730" />
       <source>Add new actions by pressing the 'Add' tab button.</source>
       <translation>按下「新增」分頁按鈕來新增動作。</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="730" />
+      <location filename="../settings_dialog.py" line="738" />
       <source>Plugins</source>
       <translation>外掛程式</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="733" />
+      <location filename="../settings_dialog.py" line="741" />
       <source>Search Path</source>
       <translation>搜尋路徑</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="754" />
+      <location filename="../settings_dialog.py" line="762" />
       <source>Version</source>
       <translation>版本</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="764" />
+      <location filename="../settings_dialog.py" line="772" />
       <source>Detect</source>
       <translation>偵測</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="803" />
+      <location filename="../settings_dialog.py" line="811" />
       <source>Select color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="989" />
+      <location filename="../settings_dialog.py" line="997" />
       <source>No watermark image configured</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="991" />
+      <location filename="../settings_dialog.py" line="999" />
       <source>%1x%2 image configured</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="999" />
+      <location filename="../settings_dialog.py" line="1007" />
       <source>Select watermark image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="1001" />
+      <location filename="../settings_dialog.py" line="1009" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="1006" />
+      <location filename="../settings_dialog.py" line="1014" />
       <source>Unable to load watermark image: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="1031" />
+      <location filename="../settings_dialog.py" line="1039" />
       <source>Select upload script</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="1047" />
+      <location filename="../settings_dialog.py" line="1055" />
       <source>Select OCR script</source>
       <translation type="unfinished" /></message>
+    <message>
+      <source>Global HotKeys</source>
+      <translation type="vanished">Atajos globales</translation>
+    </message>
+    <message>
+      <source>Enable Global HotKeys</source>
+      <translation type="vanished">Activar atajos globales</translation>
+    </message>
     <message>
       <source>Cut</source>
       <translation type="vanished">Cortar</translation>

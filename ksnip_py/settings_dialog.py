@@ -471,10 +471,18 @@ class SettingsDialog(QDialog):
         self.tray_default_capture_mode.addItem(self.tr("Portal"), "portal")
         tray_defaults_layout.addRow(self.tr("Capture Mode"), self.tray_default_capture_mode)
         self.tray_default_action.currentIndexChanged.connect(self._sync_tray_default_controls)
-        shortcuts_group = QGroupBox(self.tr("Global HotKeys"), self)
+        shortcuts_group = QGroupBox(self.tr("Application Shortcuts"), self)
         shortcuts_layout = QFormLayout(shortcuts_group)
-        self.enable_global_hotkeys = QCheckBox(self.tr("Enable Global HotKeys"), shortcuts_group)
+        self.enable_global_hotkeys = QCheckBox(self.tr("Enable Application Shortcuts"), shortcuts_group)
         shortcuts_layout.addRow(self.enable_global_hotkeys)
+        shortcuts_notice = QLabel(
+            self.tr(
+                "These shortcuts work while ksnip is active. For system-wide shortcuts, configure your desktop to run the ksnip command-line capture actions."
+            ),
+            shortcuts_group,
+        )
+        shortcuts_notice.setWordWrap(True)
+        shortcuts_layout.addRow(shortcuts_notice)
         self.shortcut_edits: dict[str, QKeySequenceEdit] = {}
         self.shortcut_clear_buttons: list[QPushButton] = []
         for key, label in (
