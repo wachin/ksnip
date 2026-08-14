@@ -78,6 +78,7 @@ sudo apt install \
   hunspell-es \
   libxcb-cursor0 \
   libxfixes3 \
+  qt6-translations-l10n \
   xdg-desktop-portal \
   xdg-desktop-portal-gtk \
   x11-utils \
@@ -90,6 +91,9 @@ Important X11 dependencies:
 - `libxfixes3` is used to capture the real mouse cursor.
 - `x11-utils` supplies helpers used for active-window geometry.
 - `xdotool` is used to identify the window under the cursor.
+- `qt6-translations-l10n` provides the official translations for standard Qt6
+  controls such as file-dialog buttons, menus, and labels. It is separate from
+  the translation catalogs maintained by ksnip_py itself.
 
 Portal dependencies:
 
@@ -162,6 +166,15 @@ ksnip-pyqt6
 
 The spell checker continues to use the system `hunspell` executable and dictionaries when the application runs inside a virtual environment.
 
+Qt's standard translations are resolved from the Qt runtime selected by
+PyQt6 through `QLibraryInfo.TranslationsPath`. A pip installation therefore
+does not assume Debian's `/usr/share/qt6/translations` path. On Windows and
+macOS there is no `qt6-translations-l10n` package: the PyQt6/Qt deployment must
+ship the desired `qtbase_<locale>.qm` catalogs in its own Qt translations
+directory. On Linux, ksnip_py additionally checks the standard XDG data
+directories, allowing a pip PyQt6 environment to use distribution-provided
+Qt6 catalogs when compatible ones are available.
+
 ## Desktop theme integration
 
 On GTK-based desktops, the following can help Qt use the desktop file-dialog and menu theme:
@@ -203,6 +216,12 @@ Single-instance mode is enabled by default and can be changed under `Settings > 
 Images supplied through standard input are forwarded as image bytes when another instance is already running.
 
 The PyQt6 port loads Qt Linguist `.qm` catalogs using the language selected under `Settings > Application > Language`, or the system locale by default. Use `--language LOCALE` (for example, `--language es`, `de`, `pt_BR` or `zh_Hant`) for a temporary command-line override. The language selector is generated from the 41 catalogs shipped with the package. Missing messages safely fall back to English.
+
+The official `qtbase_*.qm` catalog is loaded separately for standard Qt6
+widgets, including the Open and Save dialogs. Its location comes primarily
+from `QLibraryInfo.TranslationsPath`; see `docs/FILE_DIALOGS.md` for the
+Unicode bookmark diagnosis, Linux fallback, and Windows/macOS deployment
+behavior.
 
 Compatible strings from the original C++ `ksnip` catalogs are reused by the port. The `ksnip_py` catalog contains messages that only exist in the Python implementation.
 

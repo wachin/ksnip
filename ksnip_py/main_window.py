@@ -13,7 +13,6 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QColorDialog,
     QDialog,
-    QFileDialog,
     QFontComboBox,
     QHBoxLayout,
     QInputDialog,
@@ -35,6 +34,7 @@ from PyQt6.QtWidgets import (
 
 from .canvas import AnnotationCanvas, CutDialog, FillMode, ModifyCanvasDialog, RotateDialog, ScaleDialog, Tool
 from .color_picker import ColorPaletteMenu
+from .file_dialogs import get_open_file_name, get_save_file_name
 from .capture import (
     grab_active_window,
     grab_current_screen,
@@ -2438,11 +2438,11 @@ class MainWindow(QMainWindow):
         return candidate
 
     def open_image(self) -> None:
-        path, _ = QFileDialog.getOpenFileName(
+        path, _ = get_open_file_name(
             self,
-            "Open image",
+            self.tr("Open image"),
             self._default_image_directory(),
-            "Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)",
+            self.tr("Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)"),
         )
         if not path:
             return
@@ -2465,11 +2465,11 @@ class MainWindow(QMainWindow):
         suggested_path = canvas.state.path or str(
             Path(self._default_image_directory()) / f"Untitled{default_suffix}"
         )
-        path, selected_filter = QFileDialog.getSaveFileName(
+        path, selected_filter = get_save_file_name(
             self,
-            "Save image as",
+            self.tr("Save image as"),
             suggested_path,
-            "Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
+            self.tr("Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)"),
             default_filter,
         )
         if not path:
@@ -2492,7 +2492,7 @@ class MainWindow(QMainWindow):
         if canvas is None or not canvas.has_image():
             return
         suggested = Path(canvas.state.path).with_suffix(".svg") if canvas.state.path else Path(self._default_image_directory()) / "Untitled.svg"
-        path, _ = QFileDialog.getSaveFileName(self, self.tr("Export as SVG"), str(suggested), "SVG (*.svg)")
+        path, _ = get_save_file_name(self, self.tr("Export as SVG"), str(suggested), "SVG (*.svg)")
         if not path:
             return
         if not Path(path).suffix:
@@ -2520,11 +2520,11 @@ class MainWindow(QMainWindow):
                 default_suffix, default_filter = self._default_save_spec()
                 if not Path(suggested_name).suffix:
                     suggested_name = f"{suggested_name or 'Untitled'}{default_suffix}"
-                path, selected_filter = QFileDialog.getSaveFileName(
+                path, selected_filter = get_save_file_name(
                     self,
-                    "Save image as",
+                    self.tr("Save image as"),
                     str(Path(self._default_image_directory()) / suggested_name),
-                    "Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)",
+                    self.tr("Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)"),
                     default_filter,
                 )
                 if not path:
@@ -3043,11 +3043,11 @@ class MainWindow(QMainWindow):
             self.status_label.setText(self.tr("Added watermark"))
 
     def update_watermark_image(self) -> None:
-        path, _ = QFileDialog.getOpenFileName(
+        path, _ = get_open_file_name(
             self,
-            "Select watermark image",
+            self.tr("Select watermark image"),
             self._default_image_directory(),
-            "Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)",
+            self.tr("Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)"),
         )
         if not path:
             return

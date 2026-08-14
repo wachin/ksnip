@@ -8,7 +8,6 @@ from PyQt6.QtCore import QSettings, QSize, QStandardPaths, Qt, QUrl
 from PyQt6.QtGui import QDesktopServices, QIcon, QImage, QImageReader
 from PyQt6.QtWidgets import (
     QDialog,
-    QFileDialog,
     QGridLayout,
     QGroupBox,
     QHBoxLayout,
@@ -22,6 +21,8 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+
+from .file_dialogs import get_open_file_names
 
 
 SUPPORTED_STICKER_SUFFIXES = {".svg", ".png", ".xpm"}
@@ -222,7 +223,7 @@ class StickerPickerDialog(QDialog):
         return page
 
     def _add_user_images(self, directory: Path) -> None:
-        paths, _ = QFileDialog.getOpenFileNames(
+        paths, _ = get_open_file_names(
             self,
             self.tr("Add Sticker Images"),
             str(Path.home()),

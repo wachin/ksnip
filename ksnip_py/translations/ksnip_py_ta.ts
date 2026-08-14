@@ -64,7 +64,7 @@
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="../main_window.py" line="3170" />
+      <location filename="../main_window.py" line="3169" />
       <location filename="../main_window.py" line="113" />
       <source>Ready</source>
       <translation type="unfinished" /></message>
@@ -73,7 +73,7 @@
       <source>New</source>
       <translation>புதிய</translation></message>
     <message>
-      <location filename="../main_window.py" line="3793" />
+      <location filename="../main_window.py" line="3792" />
       <location filename="../main_window.py" line="1307" />
       <location filename="../main_window.py" line="204" />
       <source>New Screenshot</source>
@@ -135,7 +135,7 @@
       <source>Print</source>
       <translation>அச்சிடுக</translation></message>
     <message>
-      <location filename="../main_window.py" line="2627" />
+      <location filename="../main_window.py" line="2626" />
       <location filename="../main_window.py" line="666" />
       <source>Print Preview</source>
       <translation>முன்னோட்டம் அச்சு</translation></message>
@@ -315,27 +315,27 @@
       <source>Scale</source>
       <translation>அளவு</translation></message>
     <message>
-      <location filename="../main_window.py" line="2951" />
+      <location filename="../main_window.py" line="2950" />
       <location filename="../main_window.py" line="846" />
       <source>No Effect</source>
       <translation>எந்த விளைவும் இல்லை</translation></message>
     <message>
-      <location filename="../main_window.py" line="2952" />
+      <location filename="../main_window.py" line="2951" />
       <location filename="../main_window.py" line="847" />
       <source>Drop Shadow</source>
       <translation>நிழலை கைவிடுங்கள்</translation></message>
     <message>
-      <location filename="../main_window.py" line="2953" />
+      <location filename="../main_window.py" line="2952" />
       <location filename="../main_window.py" line="848" />
       <source>Grayscale</source>
       <translation>கிரேச்கேல்</translation></message>
     <message>
-      <location filename="../main_window.py" line="2954" />
+      <location filename="../main_window.py" line="2953" />
       <location filename="../main_window.py" line="849" />
       <source>Invert Color</source>
       <translation>வண்ணத்தை தலைகீழ்</translation></message>
     <message>
-      <location filename="../main_window.py" line="2955" />
+      <location filename="../main_window.py" line="2954" />
       <location filename="../main_window.py" line="850" />
       <source>Border</source>
       <translation>எல்லை</translation></message>
@@ -344,7 +344,7 @@
       <source>Modify Canvas...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2832" />
+      <location filename="../main_window.py" line="2831" />
       <location filename="../main_window.py" line="856" />
       <source>Hide Docks</source>
       <translation>கப்பல்துறைகளை மறைக்கவும்</translation></message>
@@ -511,7 +511,7 @@
       <source>Zoom</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2966" />
+      <location filename="../main_window.py" line="2965" />
       <location filename="../main_window.py" line="1262" />
       <source>Image Effect: %1</source>
       <translation type="unfinished" /></message>
@@ -592,261 +592,287 @@
       <source>Updated selected text color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1867" />
+      <location filename="../main_window.py" line="1869" />
       <source>Updated selected item width to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1881" />
+      <location filename="../main_window.py" line="1882" />
       <source>Updated selected arrowhead size to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1893" />
+      <location filename="../main_window.py" line="1892" />
       <source>Updated selected text font</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1905" />
+      <location filename="../main_window.py" line="1906" />
       <source>Updated selected text size to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1917" />
+      <location filename="../main_window.py" line="1916" />
       <source>Updated selected item opacity to %1%</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1935" />
+      <location filename="../main_window.py" line="1934" />
       <source>Updated selected item fill mode</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1946" />
+      <location filename="../main_window.py" line="1945" />
       <source>Updated selected text bold style</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1958" />
+      <location filename="../main_window.py" line="1957" />
       <source>Updated selected text italic style</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1969" />
+      <location filename="../main_window.py" line="1968" />
       <source>Updated selected text underline style</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1980" />
+      <location filename="../main_window.py" line="1979" />
       <source>Updated selected item shadow</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="1992" />
+      <location filename="../main_window.py" line="1991" />
       <source>Updated selected item scale to %1%</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2001" />
+      <location filename="../main_window.py" line="2000" />
       <source>Updated selected number to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2358" />
-      <location filename="../main_window.py" line="2211" />
+      <location filename="../main_window.py" line="2357" />
+      <location filename="../main_window.py" line="2210" />
       <source>Portal capture canceled.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2289" />
+      <location filename="../main_window.py" line="2288" />
       <source>Loaded %1 capture and copied it to clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2378" />
+      <location filename="../main_window.py" line="2377" />
       <source>Loaded %1 capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2496" />
+      <location filename="../main_window.py" line="2443" />
+      <source>Open image</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2445" />
+      <source>Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2525" />
+      <location filename="../main_window.py" line="2470" />
+      <source>Save image as</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2527" />
+      <location filename="../main_window.py" line="2472" />
+      <source>Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="2495" />
       <source>Export as SVG</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2504" />
+      <location filename="../main_window.py" line="2503" />
       <source>Unable to export SVG: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2506" />
+      <location filename="../main_window.py" line="2505" />
       <source>Exported SVG to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2550" />
+      <location filename="../main_window.py" line="2549" />
       <source>Saved %1 image(s)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2564" />
+      <location filename="../main_window.py" line="2563" />
       <source>Unable to save Ksnip project: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2579" />
+      <location filename="../main_window.py" line="2578" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2588" />
+      <location filename="../main_window.py" line="2587" />
       <source>Saved %1 and companion image %2</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2601" />
+      <location filename="../main_window.py" line="2600" />
       <source>Saved %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2609" />
+      <location filename="../main_window.py" line="2608" />
       <source>Copied image to clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2618" />
+      <location filename="../main_window.py" line="2617" />
       <source>Sent image to printer</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2691" />
+      <location filename="../main_window.py" line="2690" />
       <source>Renamed to %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2723" />
+      <location filename="../main_window.py" line="2722" />
       <source>Deleted %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2746" />
+      <location filename="../main_window.py" line="2745" />
       <source>Copied image as a base64 encoded Data URI</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2753" />
+      <location filename="../main_window.py" line="2752" />
       <source>Copied path %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2763" />
+      <location filename="../main_window.py" line="2762" />
       <source>Opened directory %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2770" />
+      <location filename="../main_window.py" line="2769" />
       <source>Copied selected item(s)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2783" />
+      <location filename="../main_window.py" line="2782" />
       <source>Loaded image from clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2803" />
+      <location filename="../main_window.py" line="2802" />
       <source>Pasted embedded image from clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2817" />
+      <location filename="../main_window.py" line="2816" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2832" />
+      <location filename="../main_window.py" line="2831" />
       <source>Show Docks</source>
       <translation>கப்பல்துறைகளைக் காட்டு</translation></message>
     <message>
-      <location filename="../main_window.py" line="2841" />
+      <location filename="../main_window.py" line="2840" />
       <source>Pasted item from clipboard</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2868" />
+      <location filename="../main_window.py" line="2867" />
       <source>Deleted selected item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2877" />
+      <location filename="../main_window.py" line="2876" />
       <source>Duplicated selected item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2886" />
+      <location filename="../main_window.py" line="2885" />
       <source>Updated text item</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2895" />
+      <location filename="../main_window.py" line="2894" />
       <source>Brought selected item to front</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2904" />
+      <location filename="../main_window.py" line="2903" />
       <source>Sent selected item to back</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2916" />
+      <location filename="../main_window.py" line="2915" />
       <source>Rotated image by %1 degrees</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2919" />
+      <location filename="../main_window.py" line="2918" />
       <source>Horizontal</source>
       <translation>கிடைமட்டமாக</translation></message>
     <message>
-      <location filename="../main_window.py" line="2919" />
+      <location filename="../main_window.py" line="2918" />
       <source>Vertical</source>
       <translation>செங்குத்து</translation></message>
     <message>
-      <location filename="../main_window.py" line="2920" />
+      <location filename="../main_window.py" line="2919" />
       <source>Flipped image: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2940" />
+      <location filename="../main_window.py" line="2939" />
       <source>Scaled image to %1 × %2 px</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2959" />
+      <location filename="../main_window.py" line="2958" />
       <source>Image effect: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2978" />
+      <location filename="../main_window.py" line="2977" />
       <source>Image slice removed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="2993" />
+      <location filename="../main_window.py" line="2992" />
       <source>Pinned current image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3003" />
+      <location filename="../main_window.py" line="3002" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3005" />
+      <location filename="../main_window.py" line="3004" />
       <source>Settings updated</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3044" />
+      <location filename="../main_window.py" line="3043" />
       <source>Added watermark</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3059" />
+      <location filename="../main_window.py" line="3048" />
+      <source>Select watermark image</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="3050" />
+      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
+      <translation type="unfinished" /></message>
+    <message>
+      <location filename="../main_window.py" line="3058" />
       <source>Updated watermark image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3088" />
+      <location filename="../main_window.py" line="3087" />
       <source>Upload finished successfully</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3120" />
+      <location filename="../main_window.py" line="3119" />
       <source>OCR</source>
       <translation>OCR</translation></message>
     <message>
-      <location filename="../main_window.py" line="3124" />
+      <location filename="../main_window.py" line="3123" />
       <source>Running OCR...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3136" />
+      <location filename="../main_window.py" line="3135" />
       <source>OCR finished</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3139" />
+      <location filename="../main_window.py" line="3138" />
       <source>OCR failed</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3143" />
+      <location filename="../main_window.py" line="3142" />
       <source>OCR canceled</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3321" />
-      <location filename="../main_window.py" line="3294" />
+      <location filename="../main_window.py" line="3320" />
+      <location filename="../main_window.py" line="3293" />
       <source>Opened %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3304" />
+      <location filename="../main_window.py" line="3303" />
       <source>Unable to open Ksnip project: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3312" />
+      <location filename="../main_window.py" line="3311" />
       <source>Unable to restore Ksnip project: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3327" />
+      <location filename="../main_window.py" line="3326" />
       <source>Unable to open image data.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../main_window.py" line="3335" />
+      <location filename="../main_window.py" line="3334" />
       <source>Opened image from standard input</source>
       <translation type="unfinished" /></message>
     <message>
@@ -1066,760 +1092,760 @@
   <context>
     <name>SettingsDialog</name>
     <message>
-      <location filename="../settings_dialog.py" line="1002" />
-      <location filename="../settings_dialog.py" line="108" />
+      <location filename="../settings_dialog.py" line="1003" />
+      <location filename="../settings_dialog.py" line="109" />
       <source>Settings</source>
       <translation>அமைப்புகள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="116" />
+      <location filename="../settings_dialog.py" line="117" />
       <source>Search Settings...</source>
       <translation>அமைப்புகளைத் தேடுங்கள் ...</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="136" />
+      <location filename="../settings_dialog.py" line="137" />
       <source>Editor Defaults</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="140" />
+      <location filename="../settings_dialog.py" line="141" />
       <source>Select</source>
       <translation>தேர்ந்தெடு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="141" />
+      <location filename="../settings_dialog.py" line="142" />
       <source>Pen</source>
       <translation>பேனா</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="142" />
+      <location filename="../settings_dialog.py" line="143" />
       <source>Marker Pen</source>
       <translation>மார்க் பேனா</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="143" />
+      <location filename="../settings_dialog.py" line="144" />
       <source>Line</source>
       <translation>வரி</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="144" />
+      <location filename="../settings_dialog.py" line="145" />
       <source>Arrow</source>
       <translation>அம்பு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="145" />
+      <location filename="../settings_dialog.py" line="146" />
       <source>Double Arrow</source>
       <translation>இரட்டை அம்பு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="146" />
+      <location filename="../settings_dialog.py" line="147" />
       <source>Rectangle</source>
       <translation>செவ்வகம்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="147" />
+      <location filename="../settings_dialog.py" line="148" />
       <source>Ellipse</source>
       <translation>நீள்வட்டம்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="148" />
+      <location filename="../settings_dialog.py" line="149" />
       <source>Marker Rectangle</source>
       <translation>மார்க்கர் செவ்வகம்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="149" />
+      <location filename="../settings_dialog.py" line="150" />
       <source>Marker Ellipse</source>
       <translation>மார்க்கர் நீள்வட்டம்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="150" />
+      <location filename="../settings_dialog.py" line="151" />
       <source>Text</source>
       <translation>உரை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="151" />
+      <location filename="../settings_dialog.py" line="152" />
       <source>Text Pointer</source>
       <translation>உரை சுட்டிக்காட்டி</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="152" />
+      <location filename="../settings_dialog.py" line="153" />
       <source>Text Arrow</source>
       <translation>உரை அம்பு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="153" />
+      <location filename="../settings_dialog.py" line="154" />
       <source>Number</source>
       <translation>எண்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="154" />
+      <location filename="../settings_dialog.py" line="155" />
       <source>Number Pointer</source>
       <translation>எண் சுட்டிக்காட்டி</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="155" />
+      <location filename="../settings_dialog.py" line="156" />
       <source>Number Arrow</source>
       <translation>எண் அம்பு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="156" />
+      <location filename="../settings_dialog.py" line="157" />
       <source>Blur</source>
       <translation>மங்கலானது</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="157" />
+      <location filename="../settings_dialog.py" line="158" />
       <source>Pixelate</source>
       <translation>பிக்சலேட்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="158" />
+      <location filename="../settings_dialog.py" line="159" />
       <source>Sticker</source>
       <translation>ச்டிக்கர்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="159" />
+      <location filename="../settings_dialog.py" line="160" />
       <source>Crop</source>
       <translation>பயிர்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="160" />
+      <location filename="../settings_dialog.py" line="161" />
       <source>Default Tool</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="164" />
+      <location filename="../settings_dialog.py" line="165" />
       <source>Stroke Width</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="167" />
+      <location filename="../settings_dialog.py" line="168" />
       <source>Font Family</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="171" />
+      <location filename="../settings_dialog.py" line="172" />
       <source>Font Size</source>
       <translation>எழுத்துரு அளவு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="174" />
+      <location filename="../settings_dialog.py" line="175" />
       <source>Border and Fill</source>
       <translation>எல்லை மற்றும் நிரப்பவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="175" />
+      <location filename="../settings_dialog.py" line="176" />
       <source>Border and No Fill</source>
       <translation>எல்லை மற்றும் நிரப்பு இல்லை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="176" />
+      <location filename="../settings_dialog.py" line="177" />
       <source>No Border and No Fill</source>
       <translation>எல்லை இல்லை, நிரப்பு இல்லை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="177" />
+      <location filename="../settings_dialog.py" line="178" />
       <source>Shape Fill Mode</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="181" />
+      <location filename="../settings_dialog.py" line="182" />
       <source>Opacity %</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="184" />
+      <location filename="../settings_dialog.py" line="185" />
       <source>Bold</source>
       <translation>தடிமான</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="185" />
+      <location filename="../settings_dialog.py" line="186" />
       <source>Italic</source>
       <translation>சாய்வு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="190" />
+      <location filename="../settings_dialog.py" line="191" />
       <source>Text Style</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="192" />
+      <location filename="../settings_dialog.py" line="193" />
       <source>Watermark</source>
       <translation>வாட்டர்மார்க்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="195" />
+      <location filename="../settings_dialog.py" line="196" />
       <source>Rotate Watermark 45°</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="200" />
+      <location filename="../settings_dialog.py" line="201" />
       <source>Update Image...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="206" />
+      <location filename="../settings_dialog.py" line="207" />
       <source>Stored Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="208" />
+      <location filename="../settings_dialog.py" line="209" />
       <source>Application</source>
       <translation>பயன்பாடு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="211" />
+      <location filename="../settings_dialog.py" line="212" />
       <source>Automatically copy new captures to clipboard</source>
       <translation>இடைநிலைப்பலகைக்கு புதிய கைப்பிடிகளை தானாக நகலெடுக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="214" />
+      <location filename="../settings_dialog.py" line="215" />
       <source>Remember Main Window position on move and load on startup</source>
       <translation>நகர்வில் முதன்மையான சாளர நிலையை நினைவில் வைத்துக் கொள்ளுங்கள் மற்றும் தொடக்கத்தில் ஏற்றவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="217" />
+      <location filename="../settings_dialog.py" line="218" />
       <source>Capture screenshot at startup with default mode</source>
       <translation>இயல்புநிலை பயன்முறையுடன் தொடக்கத்தில் திரை சாட்டைப் பிடிக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="220" />
+      <location filename="../settings_dialog.py" line="221" />
       <source>Use Tabs</source>
       <translation>தாவல்களைப் பயன்படுத்தவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="225" />
+      <location filename="../settings_dialog.py" line="226" />
       <source>Auto hide Tabs</source>
       <translation>தானாக மறை தாவல்கள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="228" />
+      <location filename="../settings_dialog.py" line="229" />
       <source>Run ksnip as single instance</source>
       <translation>ஒற்றை நிகழ்வாக KSNIP ஐ இயக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="231" />
+      <location filename="../settings_dialog.py" line="232" />
       <source>Auto hide Docks</source>
       <translation>ஆட்டோ மறை கப்பல்துறைகள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="234" />
+      <location filename="../settings_dialog.py" line="235" />
       <source>Auto resize to content</source>
       <translation>உள்ளடக்கத்திற்கு தானாக மறுஅளவிடுதல்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="237" />
+      <location filename="../settings_dialog.py" line="238" />
       <source>Enable Debugging</source>
       <translation>பிழைத்திருத்தத்தை இயக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="241" />
+      <location filename="../settings_dialog.py" line="242" />
       <source>Appearance and Paths</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="248" />
+      <location filename="../settings_dialog.py" line="249" />
       <source>Resize delay</source>
       <translation>மறுஅளவிடுதல் நேரந்தவறுகை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="251" />
+      <location filename="../settings_dialog.py" line="252" />
       <source>System default</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="541" />
-      <location filename="../settings_dialog.py" line="252" />
+      <location filename="../settings_dialog.py" line="542" />
+      <location filename="../settings_dialog.py" line="253" />
       <source>English</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="555" />
-      <location filename="../settings_dialog.py" line="255" />
+      <location filename="../settings_dialog.py" line="556" />
+      <location filename="../settings_dialog.py" line="256" />
       <source>Language</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="260" />
+      <location filename="../settings_dialog.py" line="261" />
       <source>Application Style</source>
       <translation>பயன்பாட்டு நடை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="740" />
-      <location filename="../settings_dialog.py" line="265" />
+      <location filename="../settings_dialog.py" line="741" />
+      <location filename="../settings_dialog.py" line="266" />
       <source>Browse</source>
       <translation>உலாவு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="271" />
+      <location filename="../settings_dialog.py" line="272" />
       <source>Temp Directory</source>
       <translation>தற்காலிக அடைவு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="456" />
-      <location filename="../settings_dialog.py" line="273" />
+      <location filename="../settings_dialog.py" line="457" />
+      <location filename="../settings_dialog.py" line="274" />
       <source>Capture</source>
       <translation>பிடிப்பு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="279" />
+      <location filename="../settings_dialog.py" line="280" />
       <source>Capture Delay</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="281" />
+      <location filename="../settings_dialog.py" line="282" />
       <source>Hide Main Window During Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="282" />
+      <location filename="../settings_dialog.py" line="283" />
       <source>Show Main Window After Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="286" />
+      <location filename="../settings_dialog.py" line="287" />
       <source>Saver</source>
       <translation>சேமிப்பாளர்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="288" />
+      <location filename="../settings_dialog.py" line="289" />
       <source>Automatically save new captures to default location</source>
       <translation>இயல்புநிலை இருப்பிடத்திற்கு புதிய பிடிப்புகளை தானாக சேமிக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="289" />
+      <location filename="../settings_dialog.py" line="290" />
       <source>Prompt to save before discarding unsaved changes</source>
       <translation>சேமிக்கப்படாத மாற்றங்களை நிராகரிப்பதற்கு முன் சேமிக்க தூண்டுதல்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="290" />
+      <location filename="../settings_dialog.py" line="291" />
       <source>Remember last Save Directory</source>
       <translation>கடைசியாக சேமி கோப்பகத்தை நினைவில் கொள்க</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="298" />
-      <location filename="../settings_dialog.py" line="292" />
+      <location filename="../settings_dialog.py" line="299" />
+      <location filename="../settings_dialog.py" line="293" />
       <source>PNG image (*.png)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="293" />
+      <location filename="../settings_dialog.py" line="294" />
       <source>Ksnip project (*.ksnip)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="295" />
+      <location filename="../settings_dialog.py" line="296" />
       <source>Default save format:</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="299" />
+      <location filename="../settings_dialog.py" line="300" />
       <source>JPEG image (*.jpg)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="300" />
+      <location filename="../settings_dialog.py" line="301" />
       <source>WebP image (*.webp)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="301" />
+      <location filename="../settings_dialog.py" line="302" />
       <source>BMP image (*.bmp)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="303" />
+      <location filename="../settings_dialog.py" line="304" />
       <source>Image saved alongside Ksnip projects:</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="311" />
+      <location filename="../settings_dialog.py" line="312" />
       <source>Save Quality</source>
       <translation>தரத்தை சேமிக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="730" />
-      <location filename="../settings_dialog.py" line="313" />
+      <location filename="../settings_dialog.py" line="731" />
+      <location filename="../settings_dialog.py" line="314" />
       <source>Default</source>
       <translation>இயல்புநிலை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="315" />
+      <location filename="../settings_dialog.py" line="316" />
       <source>Factor</source>
       <translation>காரணி</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="1038" />
-      <location filename="../settings_dialog.py" line="327" />
+      <location filename="../settings_dialog.py" line="1035" />
+      <location filename="../settings_dialog.py" line="328" />
       <source>Capture save location and filename</source>
       <translation>சேமி இருப்பிடம் மற்றும் கோப்பு பெயரை பிடிக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="330" />
+      <location filename="../settings_dialog.py" line="331" />
       <source>Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="547" />
-      <location filename="../settings_dialog.py" line="518" />
-      <location filename="../settings_dialog.py" line="331" />
+      <location filename="../settings_dialog.py" line="548" />
+      <location filename="../settings_dialog.py" line="519" />
+      <location filename="../settings_dialog.py" line="332" />
       <source>Browse...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="336" />
+      <location filename="../settings_dialog.py" line="337" />
       <source>Overwrite file with same name</source>
       <translation>அதே பெயருடன் கோப்பை மேலெழுதும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="340" />
+      <location filename="../settings_dialog.py" line="341" />
       <source>Image Grabber</source>
       <translation>பட கிராப்பர்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="342" />
+      <location filename="../settings_dialog.py" line="343" />
       <source>Capture mouse cursor on screenshot</source>
       <translation>ச்கிரீன்சாட்டில் மவுச் கர்சரைப் பிடிக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="343" />
+      <location filename="../settings_dialog.py" line="344" />
       <source>Show Main Window after capturing screenshot</source>
       <translation>ச்கிரீன்சாட்டைக் கைப்பற்றிய பின் முதன்மையான சாளரத்தைக் காட்டு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="345" />
+      <location filename="../settings_dialog.py" line="346" />
       <source>Hide Main Window during screenshot</source>
       <translation>ச்கிரீன்சாட்டின் போது முதன்மையான சாளரத்தை மறைக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="347" />
+      <location filename="../settings_dialog.py" line="348" />
       <source>Force Generic Wayland (xdg-desktop-portal) Screenshot</source>
       <translation>ஃபோர்ச் செனரிக் வேலேண்ட் (எக்ச்டிசி-டெச்க்டாப்-போர்ட்டல்) திரை காட்சி</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="348" />
+      <location filename="../settings_dialog.py" line="349" />
       <source>Scale Generic Wayland (xdg-desktop-portal) Screenshots</source>
       <translation>அளவிலான பொதுவான வேலண்ட் (XDG-DESKTOP-PORTAL) திரை சாட்கள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="355" />
+      <location filename="../settings_dialog.py" line="356" />
       <source>Delays</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="362" />
+      <location filename="../settings_dialog.py" line="363" />
       <source>Implicit capture delay</source>
       <translation>மறைமுக பிடிப்பு நேரந்தவறுகை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="364" />
+      <location filename="../settings_dialog.py" line="365" />
       <source>Snipping Area</source>
       <translation>ச்னிப்பிங் பகுதி</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="366" />
+      <location filename="../settings_dialog.py" line="367" />
       <source>Freeze Image while snipping</source>
       <translation>ச்னிப்பிங் செய்யும் போது படத்தை உறைய வைக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="368" />
+      <location filename="../settings_dialog.py" line="369" />
       <source>Show magnifying glass on snipping area</source>
       <translation>ச்னிப்பிங் பகுதியில் பெரிதாக்கும் கண்ணாடியைக் காட்டுங்கள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="370" />
+      <location filename="../settings_dialog.py" line="371" />
       <source>Show Snipping Area rulers</source>
       <translation>ச்னிப்பிங் பகுதி ஆட்சியாளர்களைக் காட்டு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="372" />
+      <location filename="../settings_dialog.py" line="373" />
       <source>Show Snipping Area position and size info</source>
       <translation>ச்னிப்பிங் பகுதி நிலை மற்றும் அளவு தகவலைக் காட்டுங்கள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="374" />
+      <location filename="../settings_dialog.py" line="375" />
       <source>Allow resizing rect area selection by default</source>
       <translation>முன்னிருப்பாக செவ்வக பகுதி தேர்வை மறுஅளவிடுவதை அனுமதிக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="376" />
+      <location filename="../settings_dialog.py" line="377" />
       <source>Show Snipping Area info text</source>
       <translation>ச்னிப்பிங் பகுதி செய்தி உரையைக் காட்டு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="388" />
+      <location filename="../settings_dialog.py" line="389" />
       <source>Appearance</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="402" />
+      <location filename="../settings_dialog.py" line="403" />
       <source>Snipping Area adorner color</source>
       <translation>ச்னிப்பிங் ஏரியா அலங்கார வண்ணம்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="403" />
+      <location filename="../settings_dialog.py" line="404" />
       <source>Snipping Area cursor color</source>
       <translation>ச்னிப்பிங் பகுதி கர்சர் நிறம்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="404" />
+      <location filename="../settings_dialog.py" line="405" />
       <source>Snipping Area cursor thickness</source>
       <translation>ச்னிப்பிங் பகுதி கர்சர் தடிமன்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="405" />
+      <location filename="../settings_dialog.py" line="406" />
       <source>Snipping Area Transparency</source>
       <translation>ச்னிப்பிங் பகுதி வெளிப்படைத்தன்மை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="407" />
+      <location filename="../settings_dialog.py" line="408" />
       <source>Annotator</source>
       <translation>சிறுகுறிப்பு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="409" />
+      <location filename="../settings_dialog.py" line="410" />
       <source>Remember annotation tool selection and load on startup</source>
       <translation>சிறுகுறிப்பு கருவி தேர்வை நினைவில் வைத்துக் கொள்ளுங்கள் மற்றும் தொடக்கத்தில் ஏற்றவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="410" />
+      <location filename="../settings_dialog.py" line="411" />
       <source>Switch to Select Tool after drawing Item</source>
       <translation>உருப்படியை வரைந்த பிறகு தேர்ந்தெடுக்கப்பட்ட கருவிக்கு மாறவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="411" />
+      <location filename="../settings_dialog.py" line="412" />
       <source>Select Item after drawing</source>
       <translation>வரைந்த பிறகு உருப்படியைத் தேர்ந்தெடுக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="413" />
+      <location filename="../settings_dialog.py" line="414" />
       <source>Number Tool Seed change updates all Number Items</source>
       <translation>எண் கருவி விதை மாற்றம் அனைத்து எண் உருப்படிகளையும் புதுப்பிக்கிறது</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="414" />
+      <location filename="../settings_dialog.py" line="415" />
       <source>Show Controls Widget</source>
       <translation>கட்டுப்பாடுகள் விட்செட்டைக் காட்டு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="415" />
+      <location filename="../settings_dialog.py" line="416" />
       <source>Smooth Painter Paths</source>
       <translation>மென்மையான ஓவியர் பாதைகள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="427" />
+      <location filename="../settings_dialog.py" line="428" />
       <source>Canvas</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="435" />
+      <location filename="../settings_dialog.py" line="436" />
       <source>Smooth Factor</source>
       <translation>மென்மையான காரணி</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="436" />
+      <location filename="../settings_dialog.py" line="437" />
       <source>Canvas Color</source>
       <translation>கேன்வாச் நிறம்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="437" />
+      <location filename="../settings_dialog.py" line="438" />
       <source>Tray Icon</source>
       <translation>தட்டு படவுரு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="440" />
+      <location filename="../settings_dialog.py" line="441" />
       <source>Use Tray Icon</source>
       <translation>தட்டு ஐகானைப் பயன்படுத்தவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="441" />
+      <location filename="../settings_dialog.py" line="442" />
       <source>Minimize To Tray</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="442" />
+      <location filename="../settings_dialog.py" line="443" />
       <source>Close To Tray</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="443" />
+      <location filename="../settings_dialog.py" line="444" />
       <source>Start Minimized To Tray</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="444" />
+      <location filename="../settings_dialog.py" line="445" />
       <source>Display Tray Notifications</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="452" />
+      <location filename="../settings_dialog.py" line="453" />
       <source>Default Action</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="455" />
+      <location filename="../settings_dialog.py" line="456" />
       <source>Show Editor</source>
       <translation>சோ எடிட்டர்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="457" />
+      <location filename="../settings_dialog.py" line="458" />
       <source>Action</source>
       <translation>செயல்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="460" />
+      <location filename="../settings_dialog.py" line="461" />
       <source>Rect Area</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="461" />
+      <location filename="../settings_dialog.py" line="462" />
       <source>Last Rect Area</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="462" />
+      <location filename="../settings_dialog.py" line="463" />
       <source>Full Screen</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="463" />
+      <location filename="../settings_dialog.py" line="464" />
       <source>Current Screen</source>
       <translation>தற்போதைய திரை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="464" />
+      <location filename="../settings_dialog.py" line="465" />
       <source>Active Window</source>
       <translation>செயலில் சாளரம்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="465" />
+      <location filename="../settings_dialog.py" line="466" />
       <source>Window Under Cursor</source>
       <translation>கர்சரின் கீழ் சாளரம்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="466" />
+      <location filename="../settings_dialog.py" line="467" />
       <source>Portal</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="467" />
+      <location filename="../settings_dialog.py" line="468" />
       <source>Capture Mode</source>
       <translation>பிடிப்பு முறை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="469" />
+      <location filename="../settings_dialog.py" line="470" />
       <source>Global HotKeys</source>
       <translation>உலகளாவிய ஆட்கீச்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="471" />
+      <location filename="../settings_dialog.py" line="472" />
       <source>Enable Global HotKeys</source>
       <translation>உலகளாவிய ஆட்கீசை இயக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="476" />
+      <location filename="../settings_dialog.py" line="477" />
       <source>Rect Area Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="477" />
+      <location filename="../settings_dialog.py" line="478" />
       <source>Last Rect Area Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="478" />
+      <location filename="../settings_dialog.py" line="479" />
       <source>Full Screen Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="479" />
+      <location filename="../settings_dialog.py" line="480" />
       <source>Current Screen Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="480" />
+      <location filename="../settings_dialog.py" line="481" />
       <source>Active Window Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="481" />
+      <location filename="../settings_dialog.py" line="482" />
       <source>Window Under Cursor Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="482" />
+      <location filename="../settings_dialog.py" line="483" />
       <source>Portal Capture</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="483" />
+      <location filename="../settings_dialog.py" line="484" />
       <source>Open Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="484" />
+      <location filename="../settings_dialog.py" line="485" />
       <source>Save</source>
       <translation>சேமி</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="485" />
+      <location filename="../settings_dialog.py" line="486" />
       <source>Paste Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="486" />
+      <location filename="../settings_dialog.py" line="487" />
       <source>Pin Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="487" />
+      <location filename="../settings_dialog.py" line="488" />
       <source>Add Watermark</source>
       <translation>வாட்டர்மார்க் சேர்க்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="488" />
+      <location filename="../settings_dialog.py" line="489" />
       <source>Upload Image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="489" />
+      <location filename="../settings_dialog.py" line="490" />
       <source>OCR Text Recognition</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="493" />
+      <location filename="../settings_dialog.py" line="494" />
       <source>Clear</source>
       <translation>தெளிவான</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="503" />
+      <location filename="../settings_dialog.py" line="504" />
       <source>Uploader</source>
       <translation>பதிவேற்றுபவர்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="505" />
+      <location filename="../settings_dialog.py" line="506" />
       <source>Ask for confirmation before uploading</source>
       <translation>பதிவேற்றுவதற்கு முன் உறுதிப்படுத்தலைக் கேளுங்கள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="539" />
-      <location filename="../settings_dialog.py" line="524" />
-      <location filename="../settings_dialog.py" line="510" />
+      <location filename="../settings_dialog.py" line="540" />
+      <location filename="../settings_dialog.py" line="525" />
+      <location filename="../settings_dialog.py" line="511" />
       <source>Script</source>
       <translation>ச்கிரிப்ட்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="512" />
+      <location filename="../settings_dialog.py" line="513" />
       <source>Uploader Type</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="514" />
+      <location filename="../settings_dialog.py" line="515" />
       <source>Script Uploader</source>
       <translation>ச்கிரிப்ட் பதிவேற்றுபவர்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="526" />
+      <location filename="../settings_dialog.py" line="527" />
       <source>Copy script output to clipboard</source>
       <translation>ச்கிரிப்ட் வெளியீட்டை இடைநிலைப்பலகைக்கு நகலெடுக்கவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="530" />
+      <location filename="../settings_dialog.py" line="531" />
       <source>Filter</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="532" />
+      <location filename="../settings_dialog.py" line="533" />
       <source>Treat stderr as failure</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="534" />
+      <location filename="../settings_dialog.py" line="535" />
       <source>OCR</source>
       <translation>OCR</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="536" />
+      <location filename="../settings_dialog.py" line="537" />
       <source>Enable OCR actions</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="542" />
+      <location filename="../settings_dialog.py" line="543" />
       <source>Spanish</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="543" />
+      <location filename="../settings_dialog.py" line="544" />
       <source>Spanish + English (script backend recommended)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="544" />
+      <location filename="../settings_dialog.py" line="545" />
       <source>Copy OCR result to clipboard automatically</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="554" />
+      <location filename="../settings_dialog.py" line="555" />
       <source>Backend</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="557" />
+      <location filename="../settings_dialog.py" line="558" />
       <source>Script Path</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="561" />
+      <location filename="../settings_dialog.py" line="562" />
       <source>Color scheme for misspelled words</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="563" />
+      <location filename="../settings_dialog.py" line="564" />
       <source>%1 base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="749" />
-      <location filename="../settings_dialog.py" line="569" />
+      <location filename="../settings_dialog.py" line="750" />
+      <location filename="../settings_dialog.py" line="570" />
       <source>Name</source>
       <translation>பெயர்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="569" />
+      <location filename="../settings_dialog.py" line="570" />
       <source>Text fill color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="569" />
+      <location filename="../settings_dialog.py" line="570" />
       <source>Underline color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="619" />
+      <location filename="../settings_dialog.py" line="620" />
       <source>Imgur Uploader</source>
       <translation>இம்குர் பதிவேற்றியவர்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="621" />
+      <location filename="../settings_dialog.py" line="622" />
       <source>Native Imgur uploader parity is still pending.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="632" />
+      <location filename="../settings_dialog.py" line="633" />
       <source>FTP Uploader</source>
       <translation>FTP பதிவேற்றுபவர்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="634" />
+      <location filename="../settings_dialog.py" line="635" />
       <source>Native FTP uploader parity is still pending.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="652" />
+      <location filename="../settings_dialog.py" line="653" />
       <source>Stickers</source>
       <translation>ச்டிக்கர்கள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="654" />
+      <location filename="../settings_dialog.py" line="655" />
       <source>Sticker management and picker parity are still pending.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="685" />
+      <location filename="../settings_dialog.py" line="686" />
       <source>OK</source>
       <translation>சரி</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="686" />
+      <location filename="../settings_dialog.py" line="687" />
       <source>Cancel</source>
       <translation>ரத்துசெய்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="707" />
+      <location filename="../settings_dialog.py" line="708" />
       <source>Actions</source>
       <translation>செயல்கள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="711" />
+      <location filename="../settings_dialog.py" line="712" />
       <source>Add</source>
       <translation>கூட்டு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="717" />
+      <location filename="../settings_dialog.py" line="718" />
       <source>Add new actions by pressing the 'Add' tab button.</source>
       <translation>'சேர்' தாவல் பொத்தானை அழுத்துவதன் மூலம் புதிய செயல்களைச் சேர்க்கவும்.</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="725" />
+      <location filename="../settings_dialog.py" line="726" />
       <source>Plugins</source>
       <translation>செருகுநிரல்கள்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="728" />
+      <location filename="../settings_dialog.py" line="729" />
       <source>Search Path</source>
       <translation>தேடல் பாதை</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="749" />
+      <location filename="../settings_dialog.py" line="750" />
       <source>Version</source>
       <translation>பதிப்பு</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="759" />
+      <location filename="../settings_dialog.py" line="760" />
       <source>Detect</source>
       <translation>கண்டறியவும்</translation></message>
     <message>
-      <location filename="../settings_dialog.py" line="798" />
+      <location filename="../settings_dialog.py" line="799" />
       <source>Select color</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="984" />
+      <location filename="../settings_dialog.py" line="985" />
       <source>No watermark image configured</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="986" />
+      <location filename="../settings_dialog.py" line="987" />
       <source>%1x%2 image configured</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="994" />
+      <location filename="../settings_dialog.py" line="995" />
       <source>Select watermark image</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="996" />
+      <location filename="../settings_dialog.py" line="997" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="1001" />
+      <location filename="../settings_dialog.py" line="1002" />
       <source>Unable to load watermark image: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="1028" />
+      <location filename="../settings_dialog.py" line="1027" />
       <source>Select upload script</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../settings_dialog.py" line="1048" />
+      <location filename="../settings_dialog.py" line="1043" />
       <source>Select OCR script</source>
       <translation type="unfinished" /></message>
     <message>
@@ -1905,60 +1931,60 @@
   <context>
     <name>StickerPickerDialog</name>
     <message>
-      <location filename="../sticker_picker.py" line="109" />
+      <location filename="../sticker_picker.py" line="114" />
       <source>Select Sticker</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="112" />
+      <location filename="../sticker_picker.py" line="117" />
       <source>Pinned Stickers</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="156" />
+      <location filename="../sticker_picker.py" line="161" />
       <source>Use the star button to pin frequently used stickers.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="166" />
+      <location filename="../sticker_picker.py" line="171" />
       <source>User</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="188" />
+      <location filename="../sticker_picker.py" line="193" />
       <source>Add Images...</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="191" />
+      <location filename="../sticker_picker.py" line="196" />
       <source>Open Here with File Manager</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="200" />
+      <location filename="../sticker_picker.py" line="205" />
       <source>Add your own images to use them as stickers.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="202" />
+      <location filename="../sticker_picker.py" line="207" />
       <source>Sticker theme is not installed: %1</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="223" />
+      <location filename="../sticker_picker.py" line="228" />
       <source>Add Sticker Images</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="225" />
+      <location filename="../sticker_picker.py" line="230" />
       <source>Images (*.png *.jpg *.jpeg *.webp *.bmp *.gif *.svg *.xpm);;All Files (*)</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="233" />
+      <location filename="../sticker_picker.py" line="238" />
       <source>Unable to Add Images</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="234" />
+      <location filename="../sticker_picker.py" line="239" />
       <source>Some files could not be imported as stickers.</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="265" />
-      <location filename="../sticker_picker.py" line="250" />
+      <location filename="../sticker_picker.py" line="270" />
+      <location filename="../sticker_picker.py" line="255" />
       <source>Unpin Sticker</source>
       <translation type="unfinished" /></message>
     <message>
-      <location filename="../sticker_picker.py" line="265" />
+      <location filename="../sticker_picker.py" line="270" />
       <source>Pin Sticker</source>
       <translation type="unfinished" /></message>
   </context>

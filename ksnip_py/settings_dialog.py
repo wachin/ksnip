@@ -33,6 +33,7 @@ from PyQt6.QtWidgets import (
 )
 
 from .canvas import FillMode, Tool
+from .file_dialogs import get_open_file_name, get_save_file_name
 from .i18n import available_languages
 from .spellcheck import default_spellcheck_scheme, load_spellcheck_scheme
 from .watermark import WatermarkStore
@@ -987,9 +988,9 @@ class SettingsDialog(QDialog):
         self.watermark_status.setText(status.replace("%1", str(pixmap.width())).replace("%2", str(pixmap.height())))
 
     def _update_watermark_image(self) -> None:
-        from PyQt6.QtWidgets import QFileDialog, QMessageBox
+        from PyQt6.QtWidgets import QMessageBox
 
-        path, _ = QFileDialog.getOpenFileName(
+        path, _ = get_open_file_name(
             self,
             self.tr("Select watermark image"),
             "",
@@ -1023,17 +1024,13 @@ class SettingsDialog(QDialog):
             button.setEnabled(enabled)
 
     def _select_upload_script(self) -> None:
-        from PyQt6.QtWidgets import QFileDialog
-
-        path, _ = QFileDialog.getOpenFileName(self, self.tr("Select upload script"), self.upload_script_path.text() or "")
+        path, _ = get_open_file_name(self, self.tr("Select upload script"), self.upload_script_path.text() or "")
         if path:
             self.upload_script_path.setText(path)
 
     def _select_saver_location(self) -> None:
-        from PyQt6.QtWidgets import QFileDialog
-
         current = self.saver_location.text().strip() or str(Path.home() / "Pictures" / "$Y$M$D-$T.png")
-        path, _ = QFileDialog.getSaveFileName(
+        path, _ = get_save_file_name(
             self,
             self.tr("Capture save location and filename"),
             current,
@@ -1043,9 +1040,7 @@ class SettingsDialog(QDialog):
             self.saver_location.setText(path)
 
     def _select_ocr_script(self) -> None:
-        from PyQt6.QtWidgets import QFileDialog
-
-        path, _ = QFileDialog.getOpenFileName(self, self.tr("Select OCR script"), self.ocr_script_path.text() or "")
+        path, _ = get_open_file_name(self, self.tr("Select OCR script"), self.ocr_script_path.text() or "")
         if path:
             self.ocr_script_path.setText(path)
 
