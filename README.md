@@ -193,6 +193,10 @@ ksnip-pyqt6 --fullscreen --save --upload
 
 Use `ksnip-pyqt6 --help` for the current option list. `--upload` uses the script configured under `Settings > Uploader > Script Uploader`. On Wayland, `--portal` delegates capture selection to `xdg-desktop-portal`.
 
+All command-line options from the C++ implementation are supported. The
+detailed C++ → PyQt6 option audit, intentional extensions, and corrected
+legacy parser defects are recorded in `docs/CLI_PARITY.md`.
+
 Wayland sessions are detected automatically and regular capture actions are redirected through `xdg-desktop-portal`. `Settings > Image Grabber > Force Generic Wayland` applies the same behavior manually, including on X11. Full-screen capture is requested non-interactively; the other capture modes use the portal's interactive chooser.
 
 Single-instance mode is enabled by default and can be changed under `Settings > Application`. Additional invocations forward their command-line arguments to the existing process through a per-user Qt local socket, allowing it to show the editor, open an image, or perform a capture without starting a second GUI instance.

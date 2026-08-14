@@ -113,7 +113,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [ ] Paridad completa con el flujo de arranque y comportamiento general de `MainWindow.cpp`
 - [x] Título dinámico de ventana alineado con `ApplicationTitleProvider`: ruta, prefijo de cambios y estado `Unsaved`
 - [x] Single-instance / IPC local mediante `QLocalServer`: reenvío de argumentos para mostrar, abrir, capturar, guardar y subir
-- [ ] Integración completa con argumentos de línea de comandos del binario C++
+- [x] Integración completa con argumentos de línea de comandos del binario C++, verificada mediante `docs/CLI_PARITY.md` y pruebas automatizadas
 - [x] Integración CLI inicial para abrir imágenes, seleccionar los seis modos de captura, delay temporal, ayuda y versión
 - [x] Apertura CLI de imágenes desde `stdin` usando `-`, incluida transferencia de bytes a la instancia activa por IPC
 - [x] CLI `--save` y `--saveto` para capturar y guardar directamente sin abrir el editor
@@ -432,7 +432,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 
 ### Fase 1 — Auditoría funcional contra C++
 
-- [ ] Comparar todos los argumentos de `CommandLine.cpp` con `ksnip_py/app.py` y documentar los que falten o no se portarán
+- [x] Comparar todos los argumentos de `CommandLine.cpp` con `ksnip_py/app.py`: las 14 opciones, ayuda y argumento posicional están portados; `--language` y stdin son extensiones documentadas
 - [ ] Comparar el flujo de arranque, reapertura, single-instance y cierre con `MainWindow.cpp` y los bootstrapper C++
 - [ ] Auditar captura X11, Wayland y portal; reproducir y cubrir el escalado de capturas Wayland
 - [ ] Evaluar una implementación mantenible de hotkeys globales en X11 y Wayland, con fallback y diagnóstico claros
@@ -472,4 +472,4 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 
 ## Próxima tarea recomendada
 
-- [ ] Empezar por la matriz de argumentos CLI (`src/backend/commandLine/CommandLine.cpp` frente a `ksnip_py/app.py`), porque es una comparación acotada, automatizable y necesaria antes de retirar `src/`
+- [ ] Comparar el flujo de arranque, reapertura, single-instance y cierre con `MainWindow.cpp` y los bootstrapper C++, documentando la matriz y cubriendo las diferencias con pruebas
