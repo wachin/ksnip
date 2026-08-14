@@ -350,7 +350,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Iconos de `kImageAnnotator` copiados a `ksnip_py/icons/kimageannotator/`
 - [x] Stickers originales copiados a `ksnip_py/stickers/`, incluidos en el paquete y desacoplados del submódulo en tiempo de ejecución
 - [x] Colección SVG original para tutoriales: atención, información, consejo, pregunta, siguiente paso, clic, teclado y terminal
-- [x] Selector de stickers con nueve pestañas, exclusión de enlaces simbólicos y favoritos persistentes
+- [x] Selector de stickers con diez pestañas, exclusión de enlaces simbólicos y favoritos persistentes
 - [x] Restauración persistente de la última pestaña utilizada en el selector de stickers
 - [x] Papirus/GNOME/Numix vendorizados sin enlaces simbólicos, con atribución, licencias completas, package-data y cobertura DEP-5
 - [x] Visto bueno y X originales para Papirus/GNOME/Numix, adaptados visualmente a cada paleta y declarados GPL-3 en DEP-5
@@ -362,8 +362,11 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Fuente de Konqi & Katie separada en `artwork-sources/`, extractor reproducible y licencia CC BY-SA 4.0 con reconocimiento de KDE/Tyson Tan
 - [x] Pestaña Geeko con 73 stickers PNG transparentes de 256×256 y nombres descriptivos en inglés
 - [x] Fuente de Geeko separada en `artwork-sources/`, extractor reproducible y licencia CC BY-SA 4.0 con reconocimiento y aviso de marcas SUSE/openSUSE
-- [x] Selector actualizado a nueve pestañas: Original, Papirus, GNOME, Numix, SuperTux, TuxBaby, Konqi & Katie, Geeko y Usuario
-- [x] Verificado el recuerdo de la última pestaña para Geeko y el funcionamiento común de favoritos en las colecciones nuevas
+- [x] Pestaña GNU Baby con 57 stickers PNG transparentes de 256×256 y nombres descriptivos en inglés
+- [x] Las 16 utilidades solapadas de GNU Baby fueron regeneradas individualmente, conservando sus fuentes editables fuera del paquete instalado
+- [x] GNU Baby documentado en inglés bajo CC BY-SA 2.0, con atribución a Etienne Suvasa y aviso de marca del Proyecto GNU
+- [x] Selector actualizado a diez pestañas: Original, Papirus, GNOME, Numix, SuperTux, TuxBaby, Konqi & Katie, Geeko, GNU Baby y Usuario
+- [x] Verificado el recuerdo de la última pestaña para Geeko/GNU Baby y el funcionamiento común de favoritos en las colecciones nuevas
 - [x] Pestaña Usuario con importación multiformato, conversión PNG, límite de 512 px, nombres únicos y acceso a su carpeta de configuración
 - [x] Inserción de stickers mediante clic en el lienzo, compatible con SVG/PNG externos y con undo
 - [x] Tamaño inicial de stickers normalizado a 50 px, fuentes de alta resolución para ampliación y sombra tintada sin duplicar la imagen

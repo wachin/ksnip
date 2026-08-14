@@ -44,6 +44,7 @@ def sticker_collections(package_dir: Path | None = None) -> tuple[StickerCollect
         StickerCollection("TuxBaby", bundled / "themes" / "tuxbaby"),
         StickerCollection("Konqi & Katie", bundled / "themes" / "konqi&katie"),
         StickerCollection("Geeko", bundled / "themes" / "geeko"),
+        StickerCollection("GNU Baby", bundled / "themes" / "gnubaby"),
         StickerCollection("User", user_sticker_directory()),
     )
 

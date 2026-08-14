@@ -139,6 +139,19 @@ Comment: Unofficial fan artwork generated under the creative direction of
  or OpenAI is claimed or implied. This copyright license does not grant rights
  to the Geeko, SUSE, or openSUSE trademarks.
 
+Files: artwork-sources/GNUBaby/gnubaby.png
+       artwork-sources/GNUBaby/generated-utilities/*.png
+       ksnip_py/stickers/themes/gnubaby/*.png
+Copyright: 2026 Washington Indacochea Delgado
+License: CC-BY-SA-2.0
+Comment: Unofficial fan artwork generated under the creative direction of
+ Washington Indacochea Delgado with assistance from ChatGPT's image-generation
+ capabilities. Inspired by the GNU Head created by Etienne Suvasa, Copyright
+ 1992 Etienne Suvasa. No endorsement by the GNU Project, the Free Software
+ Foundation, Etienne Suvasa, or OpenAI is claimed or implied. The GNU Head is
+ a trademark of the GNU Project; this copyright license grants no additional
+ trademark rights.
+
 License: GPL-2+
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -184,3 +197,15 @@ License: CC-BY-SA-4.0
  .
  The complete license text is available at:
  https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt
+
+License: CC-BY-SA-2.0
+ The GNU Baby artwork collection is licensed under the Creative Commons
+ Attribution-ShareAlike 2.0 Generic License.
+ .
+ You may share and adapt the material, including for commercial purposes,
+ provided that appropriate credit is given, a link to the license is supplied,
+ changes are indicated, and adapted material is distributed under the same
+ license.
+ .
+ The complete license text is available at:
+ https://creativecommons.org/licenses/by-sa/2.0/legalcode

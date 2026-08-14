@@ -79,3 +79,17 @@ The 73 transparent 256×256 PNG files are distributed under CC BY-SA 4.0.
 Geeko and the SUSE and openSUSE names and logos may also be protected
 trademarks. No endorsement by SUSE S.A., the openSUSE Project, the openSUSE
 community, or OpenAI is claimed or implied.
+
+## GNU Baby collection
+
+- Packaged files: `ksnip_py/stickers/themes/gnubaby/*.png`
+- Source artwork: `artwork-sources/GNUBaby/gnubaby.png` and `artwork-sources/GNUBaby/generated-utilities/*.png`
+- Copyright: 2026 Washington Indacochea Delgado
+- Creation: generated under the creative direction of Washington Indacochea Delgado with assistance from ChatGPT's image-generation capabilities
+- License: Creative Commons Attribution-ShareAlike 2.0 Generic (`GNUBABY_LICENSE.md`)
+- Mascot acknowledgement: unofficial fan artwork inspired by the GNU Head created by Etienne Suvasa
+
+The 57 transparent 256×256 PNG files are distributed under CC BY-SA 2.0.
+The GNU Head is also a trademark of the GNU Project. No endorsement by the
+GNU Project, the Free Software Foundation, Etienne Suvasa, or OpenAI is
+claimed or implied.
