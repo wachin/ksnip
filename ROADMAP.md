@@ -283,6 +283,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Copia opcional de salida del uploader al portapapeles
 - [x] OCR experimental
 - [x] Backend opcional PaddleOCR
+- [x] Lanzador comprobable `scripts/run-ksnip-with-paddleocr.sh` y guía en español para usar PaddleOCR siempre aislado en `venv`
 - [x] Backend OCR por script
 - [x] Diálogo para mostrar el resultado OCR
 - [ ] Paridad con el sistema de plugins de C++

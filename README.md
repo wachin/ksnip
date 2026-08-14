@@ -249,12 +249,36 @@ Hunspell automatically detects installed dictionaries, underlines misspelled wor
 
 OCR is experimental and does not prevent the application from starting when PaddleOCR is unavailable. A script backend can also be configured in Settings.
 
-To install PaddleOCR in the project virtual environment:
+On Debian and derivatives, the supported installation method for PaddleOCR is
+a Python virtual environment. Do not install it with `sudo pip` or
+`--break-system-packages`. Create and prepare the environment once:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -e .
+python -m pip install paddlepaddle paddleocr
+```
+
+For later sessions, either activate the environment before starting ksnip:
 
 ```bash
 source .venv/bin/activate
-python -m pip install paddlepaddle paddleocr
+python -m ksnip_py
 ```
+
+or use the included launcher, which selects `.venv/bin/python` automatically
+and verifies that PaddleOCR is available:
+
+```bash
+./scripts/run-ksnip-with-paddleocr.sh
+```
+
+The launcher does not install packages automatically; the initial virtual
+environment setup is still required. Detailed Spanish instructions, command
+line examples, and support for a custom environment location are available in
+[`docs/OCR_PADDLEOCR_ES.md`](docs/OCR_PADDLEOCR_ES.md).
 
 Current limitations:
 
