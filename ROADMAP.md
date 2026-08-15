@@ -445,7 +445,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 
 ### Fase 2 — Funciones pendientes que requieren decisión
 
-- [ ] Decidir e implementar o descartar explícitamente el uploader nativo de Imgur
+- [ ] Implementar el uploader nativo de Imgur cuando se registre la aplicación y se disponga de un `Client ID`; alcance y pasos documentados en `docs/imgur/README_ES.md` (aplazado deliberadamente)
 - [ ] Decidir e implementar o descartar explícitamente el uploader FTP nativo
 - [ ] Definir el alcance del sistema de plugins y de `Settings > Plugins`
 - [ ] Definir el alcance de `Settings > Actions` y portar las acciones configurables que se conservarán
