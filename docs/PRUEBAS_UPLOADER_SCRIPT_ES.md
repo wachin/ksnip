@@ -56,7 +56,7 @@ https://example.com/uploads/captura-prueba.png
 Inicie el programa:
 
 ```bash
-python -m ksnip_py
+python3 -m ksnip_py
 ```
 
 Después:
