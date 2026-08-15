@@ -15,6 +15,40 @@ romper paquetes que utiliza Debian.
 El OCR es opcional. ksnip_py puede seguir ejecutándose con los paquetes del
 sistema cuando no se necesite PaddleOCR.
 
+## Entorno Linux en el que se validó
+
+La implementación integrada de PaddleOCR fue creada y probada con éxito en
+este entorno de referencia real:
+
+| Componente | Versión probada |
+| --- | --- |
+| Distribución | AV Linux MXe (`AVL-MXe 25.2 Ease`), de la familia MX Linux 25 |
+| Base del sistema | Debian GNU/Linux 13.6 (`trixie`) |
+| Arquitectura | x86_64 |
+| Python del sistema | 3.13.5 |
+| Python del entorno `.venv` | 3.13.5 |
+| PyQt6 | 6.11.0 |
+| Qt utilizado por PyQt6 | 6.11.0 |
+| PaddleOCR | 3.7.0 |
+| PaddlePaddle | 3.3.1 |
+| Protobuf | 3.20.2 |
+
+Esta tabla es la configuración conocida que funciona y sirve a desarrolladores
+y empaquetadores como referencia para reproducir el entorno. Se espera que el
+OCR funcione también en sistemas Linux comparables basados en Debian 13 y en
+derivados compatibles de MX Linux, AV Linux, Ubuntu o Linux Mint, siempre que
+estén disponibles las mismas dependencias Python. Esto no significa que todas
+las versiones de esas distribuciones ya hayan sido probadas: hasta recibir una
+confirmación deben considerarse candidatas compatibles, no entornos validados.
+
+Para obtener las versiones del entorno activo se pueden utilizar:
+
+```bash
+python --version
+python -c "from PyQt6.QtCore import PYQT_VERSION_STR, QT_VERSION_STR; print('PyQt6', PYQT_VERSION_STR); print('Qt', QT_VERSION_STR)"
+python -c "from importlib.metadata import version; print('PaddleOCR', version('paddleocr')); print('PaddlePaddle', version('paddlepaddle')); print('Protobuf', version('protobuf'))"
+```
+
 ## Instalación inicial, una sola vez
 
 Instale primero las herramientas de entornos virtuales:

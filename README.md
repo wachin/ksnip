@@ -249,6 +249,30 @@ Hunspell automatically detects installed dictionaries, underlines misspelled wor
 
 OCR is experimental and does not prevent the application from starting when PaddleOCR is unavailable. A script backend can also be configured in Settings.
 
+### Tested Linux OCR environment
+
+The integrated PaddleOCR backend has been successfully tested on the following
+reference system:
+
+| Component | Tested version |
+| --- | --- |
+| Distribution | AV Linux MXe (`AVL-MXe 25.2 Ease`), from the MX Linux 25 family |
+| Debian base | Debian GNU/Linux 13.6 (`trixie`) |
+| Architecture | x86_64 |
+| Python (system and virtual environment) | 3.13.5 |
+| PyQt6 | 6.11.0 |
+| Qt runtime | 6.11.0 |
+| PaddleOCR | 3.7.0 |
+| PaddlePaddle | 3.3.1 |
+| Protobuf | 3.20.2 |
+
+This is the known-working reference configuration used to implement and test
+OCR. It is expected to work on comparable Debian 13 and derivative systems,
+including compatible MX Linux, AV Linux, Ubuntu, and Linux Mint releases, when
+the same Python OCR dependencies are available. Those other distributions and
+versions should be treated as compatible candidates rather than as tested
+configurations until somebody reports a successful test.
+
 On Debian and derivatives, the supported installation method for PaddleOCR is
 a Python virtual environment. Do not install it with `sudo pip` or
 `--break-system-packages`. Create and prepare the environment once:
