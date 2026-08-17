@@ -217,21 +217,60 @@ class SpellCheckTextEdit(QPlainTextEdit):
     def set_spellcheck_color_scheme(self, rows: list[tuple[str, QColor, QColor]]) -> None:
         self._spellcheck_scheme = [(name, QColor(fill), QColor(underline)) for name, fill, underline in rows]
 
-    def _resolve_underline_color(self, color: QColor) -> QColor:
-        if not color.isValid():
+    @staticmethod
+    def _relative_luminance(color: QColor) -> float:
+        def linear(channel: int) -> float:
+            value = channel / 255.0
+            return value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
+
+        return 0.2126 * linear(color.red()) + 0.7152 * linear(color.green()) + 0.0722 * linear(color.blue())
+
+    @classmethod
+    def _contrast_ratio(cls, first: QColor, second: QColor) -> float:
+        lighter, darker = sorted((cls._relative_luminance(first), cls._relative_luminance(second)), reverse=True)
+        return (lighter + 0.05) / (darker + 0.05)
+
+    def _resolve_underline_color(self, background: QColor, text: QColor | None = None) -> QColor:
+        if not background.isValid():
             return QColor("#0b7285")
         best_distance: float | None = None
         best_color: QColor | None = None
         for _name, fill, underline in self._spellcheck_scheme:
             distance = (
-                (fill.red() - color.red()) ** 2
-                + (fill.green() - color.green()) ** 2
-                + (fill.blue() - color.blue()) ** 2
+                (fill.red() - background.red()) ** 2
+                + (fill.green() - background.green()) ** 2
+                + (fill.blue() - background.blue()) ** 2
             )
             if best_distance is None or distance < best_distance:
                 best_distance = distance
                 best_color = underline
-        return QColor(best_color) if best_color is not None else self._complementary_color(color)
+        preferred = QColor(best_color) if best_color is not None else self._complementary_color(background)
+        foreground = QColor(text) if text is not None and text.isValid() else QColor()
+        if not foreground.isValid() or (
+            self._contrast_ratio(preferred, background) >= 3.0
+            and self._contrast_ratio(preferred, foreground) >= 3.0
+        ):
+            return preferred
+
+        candidates = [
+            preferred,
+            self._complementary_color(background),
+            QColor("#000000"),
+            QColor("#ffffff"),
+            QColor("#ffff00"),
+            QColor("#00ffff"),
+            QColor("#ff00ff"),
+        ]
+        return max(
+            candidates,
+            key=lambda candidate: min(
+                self._contrast_ratio(candidate, background),
+                self._contrast_ratio(candidate, foreground),
+            ),
+        )
+
+    def set_spellcheck_reference_colors(self, background: QColor, text: QColor) -> None:
+        self._spell_highlighter.set_error_color(self._resolve_underline_color(background, text))
 
     def set_spellcheck_reference_color(self, color: QColor) -> None:
         self._spell_highlighter.set_error_color(self._resolve_underline_color(color))

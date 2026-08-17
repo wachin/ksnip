@@ -2611,7 +2611,7 @@ class AnnotationCanvas(QLabel):
         selection_background.setAlpha(180)
         self._inline_text_editor.setFont(self._text_font(item))
         self._inline_text_editor.set_spellcheck_color_scheme(load_spellcheck_scheme())
-        self._inline_text_editor.set_spellcheck_reference_color(item.color)
+        self._inline_text_editor.set_spellcheck_reference_colors(background_color, text_color)
         palette = self._inline_text_editor.palette()
         palette.setColor(QPalette.ColorRole.Base, background_color)
         palette.setColor(QPalette.ColorRole.Text, text_color)
