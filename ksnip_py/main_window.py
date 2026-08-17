@@ -2441,7 +2441,7 @@ class MainWindow(QMainWindow):
         path, _ = get_open_file_name(
             self,
             self.tr("Open image"),
-            self._default_image_directory(),
+            self._default_open_directory(),
             self.tr("Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)"),
         )
         if not path:
@@ -3398,6 +3398,7 @@ class MainWindow(QMainWindow):
         self._recent_image_paths = self._recent_image_paths[: self.MAX_RECENT_IMAGES]
         self._settings.setValue("recent_images/paths", self._recent_image_paths)
         self._settings.setValue("paths/last_image_dir", str(Path(resolved).parent))
+        self._settings.setValue("paths/last_opened_image_dir", str(Path(resolved).parent))
         self._update_actions()
 
     def _remove_recent_image_path(self, path: str) -> None:
@@ -3416,13 +3417,46 @@ class MainWindow(QMainWindow):
             return [str(path) for path in raw_paths if path]
         return []
 
+    def _default_open_directory(self) -> str:
+        mode = str(self._settings.value("open/initial_directory_mode", "capture_location"))
+        if mode == "last_opened":
+            configured = self._settings.value("paths/last_opened_image_dir", "")
+            if isinstance(configured, str) and configured and Path(configured).is_dir():
+                return configured
+        return self._capture_save_directory()
+
+    def _capture_save_directory(self) -> str:
+        configured = str(
+            self._settings.value(
+                "saver/location",
+                str(Path.home() / "Pictures" / "$Y$M$D-$T.png"),
+            )
+        ).strip()
+        if not configured:
+            return str(Path.home())
+        now = datetime.now()
+        for token, value in {
+            "$Y": now.strftime("%Y"),
+            "$M": now.strftime("%m"),
+            "$D": now.strftime("%d"),
+            "$h": now.strftime("%H"),
+            "$m": now.strftime("%M"),
+            "$s": now.strftime("%S"),
+            "$T": now.strftime("%H%M%S"),
+        }.items():
+            configured = configured.replace(token, value)
+        configured = re.sub(r"#+", "1", configured)
+        path = Path(configured).expanduser()
+        directory = path if configured.endswith(("/", "\\")) or path.is_dir() else path.parent
+        return str(directory)
+
     def _default_image_directory(self) -> str:
         if not self._setting_bool("saver/remember_directory", False):
-            return str(Path.home())
+            return self._capture_save_directory()
         configured = self._settings.value("paths/last_image_dir", "")
         if isinstance(configured, str) and configured:
             return configured
-        return str(Path.home())
+        return self._capture_save_directory()
 
     def _current_settings_data(self) -> SettingsData:
         return SettingsData(
@@ -3458,6 +3492,7 @@ class MainWindow(QMainWindow):
             application_language=str(self._settings.value("application/language", "")),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", False),
+            open_initial_directory_mode=str(self._settings.value("open/initial_directory_mode", "capture_location")),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
             saver_quality_factor=self._setting_int("saver/quality_factor", 50),
             saver_auto_save=self._setting_bool("saver/auto_save", False),
@@ -3558,6 +3593,7 @@ class MainWindow(QMainWindow):
         self.tabs.tabBar().setAutoHide(data.application_auto_hide_tabs)
         self._settings.setValue("saver/prompt_discard", data.saver_prompt_discard)
         self._settings.setValue("saver/remember_directory", data.saver_remember_directory)
+        self._settings.setValue("open/initial_directory_mode", data.open_initial_directory_mode)
         self._settings.setValue("saver/quality_enabled", data.saver_quality_enabled)
         self._settings.setValue("saver/quality_factor", data.saver_quality_factor)
         self._settings.setValue("saver/auto_save", data.saver_auto_save)

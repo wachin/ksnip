@@ -87,7 +87,7 @@
       <translation>Nuevo</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3795" />
+      <location filename="../main_window.py" line="3831" />
       <location filename="../main_window.py" line="1307" />
       <location filename="../main_window.py" line="204" />
       <source>New Screenshot</source>
@@ -1344,960 +1344,975 @@
   <context>
     <name>SettingsDialog</name>
     <message>
-      <location filename="../settings_dialog.py" line="1015" />
-      <location filename="../settings_dialog.py" line="109" />
+      <location filename="../settings_dialog.py" line="1029" />
+      <location filename="../settings_dialog.py" line="110" />
       <source>Settings</source>
       <translation>Configuración</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="117" />
+      <location filename="../settings_dialog.py" line="118" />
       <source>Search Settings...</source>
       <translation>Buscar en la configuración...</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="137" />
+      <location filename="../settings_dialog.py" line="138" />
       <source>Editor Defaults</source>
       <translation>Valores predeterminados del editor</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="141" />
+      <location filename="../settings_dialog.py" line="142" />
       <source>Select</source>
       <translation>Seleccionar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="142" />
+      <location filename="../settings_dialog.py" line="143" />
       <source>Pen</source>
       <translation>Lápiz</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="143" />
+      <location filename="../settings_dialog.py" line="144" />
       <source>Marker Pen</source>
       <translation>Marcador</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="144" />
+      <location filename="../settings_dialog.py" line="145" />
       <source>Line</source>
       <translation>Línea</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="145" />
+      <location filename="../settings_dialog.py" line="146" />
       <source>Arrow</source>
       <translation>Flecha</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="146" />
+      <location filename="../settings_dialog.py" line="147" />
       <source>Double Arrow</source>
       <translation>Flecha doble</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="147" />
+      <location filename="../settings_dialog.py" line="148" />
       <source>Rectangle</source>
       <translation>Rectángulo</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="148" />
+      <location filename="../settings_dialog.py" line="149" />
       <source>Ellipse</source>
       <translation>Elipse</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="149" />
+      <location filename="../settings_dialog.py" line="150" />
       <source>Marker Rectangle</source>
       <translation>Rectángulo marcador</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="150" />
+      <location filename="../settings_dialog.py" line="151" />
       <source>Marker Ellipse</source>
       <translation>Elipse marcadora</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="151" />
+      <location filename="../settings_dialog.py" line="152" />
       <source>Text</source>
       <translation>Texto</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="152" />
+      <location filename="../settings_dialog.py" line="153" />
       <source>Text Pointer</source>
       <translation>Puntero de texto</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="153" />
+      <location filename="../settings_dialog.py" line="154" />
       <source>Text Arrow</source>
       <translation>Flecha de texto</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="154" />
+      <location filename="../settings_dialog.py" line="155" />
       <source>Number</source>
       <translation>Número</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="155" />
+      <location filename="../settings_dialog.py" line="156" />
       <source>Number Pointer</source>
       <translation>Puntero numérico</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="156" />
+      <location filename="../settings_dialog.py" line="157" />
       <source>Number Arrow</source>
       <translation>Flecha numérica</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="157" />
+      <location filename="../settings_dialog.py" line="158" />
       <source>Blur</source>
       <translation>Desenfocar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="158" />
+      <location filename="../settings_dialog.py" line="159" />
       <source>Pixelate</source>
       <translation>Pixelar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="159" />
+      <location filename="../settings_dialog.py" line="160" />
       <source>Sticker</source>
       <translation>Adhesivo</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="160" />
+      <location filename="../settings_dialog.py" line="161" />
       <source>Crop</source>
       <translation>Recortar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="161" />
+      <location filename="../settings_dialog.py" line="162" />
       <source>Default Tool</source>
       <translation>Herramienta predeterminada</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="165" />
+      <location filename="../settings_dialog.py" line="166" />
       <source>Stroke Width</source>
       <translation>Grosor del trazo</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="168" />
+      <location filename="../settings_dialog.py" line="169" />
       <source>Font Family</source>
       <translation>Familia tipográfica</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="172" />
+      <location filename="../settings_dialog.py" line="173" />
       <source>Font Size</source>
       <translation>Tamaño de fuente</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="175" />
+      <location filename="../settings_dialog.py" line="176" />
       <source>Border and Fill</source>
       <translation>Borde y relleno</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="176" />
+      <location filename="../settings_dialog.py" line="177" />
       <source>Border and No Fill</source>
       <translation>Borde sin relleno</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="177" />
+      <location filename="../settings_dialog.py" line="178" />
       <source>No Border and No Fill</source>
       <translation>Sin borde ni relleno</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="178" />
+      <location filename="../settings_dialog.py" line="179" />
       <source>Shape Fill Mode</source>
       <translation>Modo de relleno de figuras</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="182" />
+      <location filename="../settings_dialog.py" line="183" />
       <source>Opacity %</source>
       <translation>Opacidad %</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="185" />
+      <location filename="../settings_dialog.py" line="186" />
       <source>Bold</source>
       <translation>Negrita</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="186" />
+      <location filename="../settings_dialog.py" line="187" />
       <source>Italic</source>
       <translation>Cursiva</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="191" />
+      <location filename="../settings_dialog.py" line="192" />
       <source>Text Style</source>
       <translation>Estilo de texto</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="193" />
+      <location filename="../settings_dialog.py" line="194" />
       <source>Watermark</source>
       <translation>Marca de agua</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="196" />
+      <location filename="../settings_dialog.py" line="197" />
       <source>Rotate Watermark 45°</source>
       <translation>Rotar la marca de agua 45°</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="201" />
+      <location filename="../settings_dialog.py" line="202" />
       <source>Update Image...</source>
       <translation>Actualizar imagen...</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="207" />
+      <location filename="../settings_dialog.py" line="208" />
       <source>Stored Image</source>
       <translation>Imagen almacenada</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="209" />
+      <location filename="../settings_dialog.py" line="210" />
       <source>Application</source>
       <translation>Aplicación</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="212" />
+      <location filename="../settings_dialog.py" line="213" />
       <source>Automatically copy new captures to clipboard</source>
       <translation>Copiar automáticamente las capturas nuevas al portapapeles</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="215" />
+      <location filename="../settings_dialog.py" line="216" />
       <source>Remember Main Window position on move and load on startup</source>
       <translation>Recordar la posición de la ventana principal y restaurarla al iniciar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="218" />
+      <location filename="../settings_dialog.py" line="219" />
       <source>Capture screenshot at startup with default mode</source>
       <translation>Realizar una captura al iniciar con el modo predeterminado</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="221" />
+      <location filename="../settings_dialog.py" line="222" />
       <source>Use Tabs</source>
       <translation>Usar pestañas</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="226" />
+      <location filename="../settings_dialog.py" line="227" />
       <source>Auto hide Tabs</source>
       <translation>Ocultar automáticamente las pestañas</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="229" />
+      <location filename="../settings_dialog.py" line="230" />
       <source>Run ksnip as single instance</source>
       <translation>Ejecutar ksnip como instancia única</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="232" />
+      <location filename="../settings_dialog.py" line="233" />
       <source>Auto hide Docks</source>
       <translation>Ocultar automáticamente los paneles</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="235" />
+      <location filename="../settings_dialog.py" line="236" />
       <source>Auto resize to content</source>
       <translation>Ajustar automáticamente al contenido</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="238" />
+      <location filename="../settings_dialog.py" line="239" />
       <source>Enable Debugging</source>
       <translation>Activar depuración</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="242" />
+      <location filename="../settings_dialog.py" line="243" />
       <source>Appearance and Paths</source>
       <translation>Apariencia y rutas</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="249" />
+      <location filename="../settings_dialog.py" line="250" />
       <source>Resize delay</source>
       <translation>Retardo de redimensionamiento</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="252" />
+      <location filename="../settings_dialog.py" line="253" />
       <source>System default</source>
       <translation>Predeterminado del sistema</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="554" />
-      <location filename="../settings_dialog.py" line="253" />
+      <location filename="../settings_dialog.py" line="566" />
+      <location filename="../settings_dialog.py" line="254" />
       <source>English</source>
       <translation>Inglés</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="568" />
-      <location filename="../settings_dialog.py" line="256" />
+      <location filename="../settings_dialog.py" line="580" />
+      <location filename="../settings_dialog.py" line="257" />
       <source>Language</source>
       <translation>Idioma</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="261" />
+      <location filename="../settings_dialog.py" line="262" />
       <source>Application Style</source>
       <translation>Estilo de la aplicación</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="753" />
-      <location filename="../settings_dialog.py" line="266" />
+      <location filename="../settings_dialog.py" line="765" />
+      <location filename="../settings_dialog.py" line="267" />
       <source>Browse</source>
       <translation>Examinar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="272" />
+      <location filename="../settings_dialog.py" line="273" />
       <source>Temp Directory</source>
       <translation>Directorio temporal</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="461" />
-      <location filename="../settings_dialog.py" line="274" />
+      <location filename="../settings_dialog.py" line="473" />
+      <location filename="../settings_dialog.py" line="275" />
       <source>Capture</source>
       <translation>Captura</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="280" />
+      <location filename="../settings_dialog.py" line="281" />
       <source>Capture Delay</source>
       <translation>Retardo de captura</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="282" />
+      <location filename="../settings_dialog.py" line="283" />
       <source>Hide Main Window During Capture</source>
       <translation>Ocultar la ventana principal durante la captura</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="283" />
+      <location filename="../settings_dialog.py" line="284" />
       <source>Show Main Window After Capture</source>
       <translation>Mostrar la ventana principal después de la captura</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="287" />
+      <location filename="../settings_dialog.py" line="288" />
       <source>Saver</source>
       <translation>Guardado</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="289" />
+      <location filename="../settings_dialog.py" line="290" />
       <source>Automatically save new captures to default location</source>
       <translation>Guardar automáticamente las capturas nuevas en la ubicación predeterminada</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="290" />
+      <location filename="../settings_dialog.py" line="291" />
       <source>Prompt to save before discarding unsaved changes</source>
       <translation>Preguntar antes de descartar cambios no guardados</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="291" />
+      <location filename="../settings_dialog.py" line="292" />
       <source>Remember last Save Directory</source>
       <translation>Recordar el último directorio de guardado</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="299" />
-      <location filename="../settings_dialog.py" line="293" />
+      <location filename="../settings_dialog.py" line="295" />
+      <source>Capture save location</source>
+      <translation>Ubicación de guardado de las capturas</translation>
+    </message>
+    <message>
+      <location filename="../settings_dialog.py" line="298" />
+      <source>Directory of the last opened file</source>
+      <translation>Carpeta del último archivo abierto</translation>
+    </message>
+    <message>
+      <location filename="../settings_dialog.py" line="307" />
+      <location filename="../settings_dialog.py" line="301" />
       <source>PNG image (*.png)</source>
       <translation>Imagen PNG (*.png)</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="294" />
+      <location filename="../settings_dialog.py" line="302" />
       <source>Ksnip project (*.ksnip)</source>
       <translation>Proyecto Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="296" />
+      <location filename="../settings_dialog.py" line="304" />
       <source>Default save format:</source>
       <translation>Formato de guardado predeterminado:</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="300" />
+      <location filename="../settings_dialog.py" line="308" />
       <source>JPEG image (*.jpg)</source>
       <translation>Imagen JPEG (*.jpg)</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="301" />
+      <location filename="../settings_dialog.py" line="309" />
       <source>WebP image (*.webp)</source>
       <translation>Imagen WebP (*.webp)</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="302" />
+      <location filename="../settings_dialog.py" line="310" />
       <source>BMP image (*.bmp)</source>
       <translation>Imagen BMP (*.bmp)</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="304" />
+      <location filename="../settings_dialog.py" line="312" />
       <source>Image saved alongside Ksnip projects:</source>
       <translation>Imagen guardada junto a los proyectos Ksnip:</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="312" />
+      <location filename="../settings_dialog.py" line="318" />
+      <source>Open file dialogs in:</source>
+      <translation>Abrir los diálogos de archivos en:</translation>
+    </message>
+    <message>
+      <location filename="../settings_dialog.py" line="324" />
       <source>Save Quality</source>
       <translation>Calidad de guardado</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="743" />
-      <location filename="../settings_dialog.py" line="314" />
+      <location filename="../settings_dialog.py" line="755" />
+      <location filename="../settings_dialog.py" line="326" />
       <source>Default</source>
       <translation>Predeterminada</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="316" />
+      <location filename="../settings_dialog.py" line="328" />
       <source>Factor</source>
       <translation>Factor</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="1047" />
-      <location filename="../settings_dialog.py" line="328" />
+      <location filename="../settings_dialog.py" line="1061" />
+      <location filename="../settings_dialog.py" line="340" />
       <source>Capture save location and filename</source>
       <translation>Ubicación y nombre de archivo de las capturas</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="331" />
+      <location filename="../settings_dialog.py" line="343" />
       <source>Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter.</source>
       <translation>Admite $Y, $M, $D, $h, $m, $s, $T y caracteres # consecutivos como contador.</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="560" />
-      <location filename="../settings_dialog.py" line="531" />
-      <location filename="../settings_dialog.py" line="332" />
+      <location filename="../settings_dialog.py" line="572" />
+      <location filename="../settings_dialog.py" line="543" />
+      <location filename="../settings_dialog.py" line="344" />
       <source>Browse...</source>
       <translation>Examinar...</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="337" />
+      <location filename="../settings_dialog.py" line="349" />
       <source>Overwrite file with same name</source>
       <translation>Sobrescribir archivos con el mismo nombre</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="341" />
+      <location filename="../settings_dialog.py" line="353" />
       <source>Image Grabber</source>
       <translation>Capturador de imágenes</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="343" />
+      <location filename="../settings_dialog.py" line="355" />
       <source>Capture mouse cursor on screenshot</source>
       <translation>Capturar el cursor del ratón en la imagen</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="344" />
+      <location filename="../settings_dialog.py" line="356" />
       <source>Show Main Window after capturing screenshot</source>
       <translation>Mostrar la ventana principal después de realizar la captura</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="346" />
+      <location filename="../settings_dialog.py" line="358" />
       <source>Hide Main Window during screenshot</source>
       <translation>Ocultar la ventana principal durante la captura</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="348" />
+      <location filename="../settings_dialog.py" line="360" />
       <source>Force Generic Wayland (xdg-desktop-portal) Screenshot</source>
       <translation>Forzar captura genérica de Wayland (xdg-desktop-portal)</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="349" />
+      <location filename="../settings_dialog.py" line="361" />
       <source>Scale Generic Wayland (xdg-desktop-portal) Screenshots</source>
       <translation>Escalar capturas genéricas de Wayland (xdg-desktop-portal)</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="350" />
+      <location filename="../settings_dialog.py" line="362" />
       <source>Use the desktop screenshot portal for every capture mode, including on X11.</source>
       <translation>Usar el portal de capturas del escritorio para todos los modos de captura, incluso en X11.</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="352" />
+      <location filename="../settings_dialog.py" line="364" />
       <source>Apply the primary screen scale factor to portal screenshots without resampling their pixels.</source>
       <translation>Aplicar el factor de escala de la pantalla principal a las capturas del portal sin remuestrear sus píxeles.</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="360" />
+      <location filename="../settings_dialog.py" line="372" />
       <source>Delays</source>
       <translation>Retardos</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="367" />
+      <location filename="../settings_dialog.py" line="379" />
       <source>Implicit capture delay</source>
       <translation>Retardo implícito de captura</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="369" />
+      <location filename="../settings_dialog.py" line="381" />
       <source>Snipping Area</source>
       <translation>Área de recorte</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="371" />
+      <location filename="../settings_dialog.py" line="383" />
       <source>Freeze Image while snipping</source>
       <translation>Congelar la imagen durante el recorte</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="373" />
+      <location filename="../settings_dialog.py" line="385" />
       <source>Show magnifying glass on snipping area</source>
       <translation>Mostrar una lupa en el área de recorte</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="375" />
+      <location filename="../settings_dialog.py" line="387" />
       <source>Show Snipping Area rulers</source>
       <translation>Mostrar reglas en el área de recorte</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="377" />
+      <location filename="../settings_dialog.py" line="389" />
       <source>Show Snipping Area position and size info</source>
       <translation>Mostrar la posición y el tamaño del área de recorte</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="379" />
+      <location filename="../settings_dialog.py" line="391" />
       <source>Allow resizing rect area selection by default</source>
       <translation>Permitir redimensionar la selección rectangular de forma predeterminada</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="381" />
+      <location filename="../settings_dialog.py" line="393" />
       <source>Show Snipping Area info text</source>
       <translation>Mostrar texto informativo en el área de recorte</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="393" />
+      <location filename="../settings_dialog.py" line="405" />
       <source>Appearance</source>
       <translation>Apariencia</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="407" />
+      <location filename="../settings_dialog.py" line="419" />
       <source>Snipping Area adorner color</source>
       <translation>Color del borde del área de recorte</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="408" />
+      <location filename="../settings_dialog.py" line="420" />
       <source>Snipping Area cursor color</source>
       <translation>Color del cursor del área de recorte</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="409" />
+      <location filename="../settings_dialog.py" line="421" />
       <source>Snipping Area cursor thickness</source>
       <translation>Grosor del cursor del área de recorte</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="410" />
+      <location filename="../settings_dialog.py" line="422" />
       <source>Snipping Area Transparency</source>
       <translation>Transparencia del área de recorte</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="412" />
+      <location filename="../settings_dialog.py" line="424" />
       <source>Annotator</source>
       <translation>Anotador</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="414" />
+      <location filename="../settings_dialog.py" line="426" />
       <source>Remember annotation tool selection and load on startup</source>
       <translation>Recordar la herramienta de anotación y restaurarla al iniciar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="415" />
+      <location filename="../settings_dialog.py" line="427" />
       <source>Switch to Select Tool after drawing Item</source>
       <translation>Cambiar a la herramienta Seleccionar después de dibujar un elemento</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="416" />
+      <location filename="../settings_dialog.py" line="428" />
       <source>Select Item after drawing</source>
       <translation>Seleccionar el elemento después de dibujarlo</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="418" />
+      <location filename="../settings_dialog.py" line="430" />
       <source>Number Tool Seed change updates all Number Items</source>
       <translation>Al cambiar el inicio numérico, actualizar todos los elementos numéricos</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="419" />
+      <location filename="../settings_dialog.py" line="431" />
       <source>Show Controls Widget</source>
       <translation>Mostrar panel de controles</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="420" />
+      <location filename="../settings_dialog.py" line="432" />
       <source>Smooth Painter Paths</source>
       <translation>Suavizar trazos dibujados</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="432" />
+      <location filename="../settings_dialog.py" line="444" />
       <source>Canvas</source>
       <translation>Lienzo</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="440" />
+      <location filename="../settings_dialog.py" line="452" />
       <source>Smooth Factor</source>
       <translation>Factor de suavizado</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="441" />
+      <location filename="../settings_dialog.py" line="453" />
       <source>Canvas Color</source>
       <translation>Color del lienzo</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="442" />
+      <location filename="../settings_dialog.py" line="454" />
       <source>Tray Icon</source>
       <translation>Icono de bandeja</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="445" />
+      <location filename="../settings_dialog.py" line="457" />
       <source>Use Tray Icon</source>
       <translation>Usar icono de bandeja</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="446" />
+      <location filename="../settings_dialog.py" line="458" />
       <source>Minimize To Tray</source>
       <translation>Minimizar a la bandeja</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="447" />
+      <location filename="../settings_dialog.py" line="459" />
       <source>Close To Tray</source>
       <translation>Cerrar a la bandeja</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="448" />
+      <location filename="../settings_dialog.py" line="460" />
       <source>Start Minimized To Tray</source>
       <translation>Iniciar minimizado en la bandeja</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="449" />
+      <location filename="../settings_dialog.py" line="461" />
       <source>Display Tray Notifications</source>
       <translation>Mostrar notificaciones de la bandeja</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="457" />
+      <location filename="../settings_dialog.py" line="469" />
       <source>Default Action</source>
       <translation>Acción predeterminada</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="460" />
+      <location filename="../settings_dialog.py" line="472" />
       <source>Show Editor</source>
       <translation>Mostrar editor</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="462" />
+      <location filename="../settings_dialog.py" line="474" />
       <source>Action</source>
       <translation>Acción</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="465" />
+      <location filename="../settings_dialog.py" line="477" />
       <source>Rect Area</source>
       <translation>Área rectangular</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="466" />
+      <location filename="../settings_dialog.py" line="478" />
       <source>Last Rect Area</source>
       <translation>Última área rectangular</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="467" />
+      <location filename="../settings_dialog.py" line="479" />
       <source>Full Screen</source>
       <translation>Pantalla completa</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="468" />
+      <location filename="../settings_dialog.py" line="480" />
       <source>Current Screen</source>
       <translation>Pantalla actual</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="469" />
+      <location filename="../settings_dialog.py" line="481" />
       <source>Active Window</source>
       <translation>Ventana activa</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="470" />
+      <location filename="../settings_dialog.py" line="482" />
       <source>Window Under Cursor</source>
       <translation>Ventana bajo el cursor</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="471" />
+      <location filename="../settings_dialog.py" line="483" />
       <source>Portal</source>
       <translation>Portal</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="472" />
+      <location filename="../settings_dialog.py" line="484" />
       <source>Capture Mode</source>
       <translation>Modo de captura</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="474" />
+      <location filename="../settings_dialog.py" line="486" />
       <source>Application Shortcuts</source>
       <translation>Atajos de la aplicación</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="476" />
+      <location filename="../settings_dialog.py" line="488" />
       <source>Enable Application Shortcuts</source>
       <translation>Activar atajos de la aplicación</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="479" />
+      <location filename="../settings_dialog.py" line="491" />
       <source>These shortcuts work while ksnip is active. For system-wide shortcuts, configure your desktop to run the ksnip command-line capture actions.</source>
       <translation>Estos atajos funcionan mientras ksnip está activo. Para usar atajos globales, configure su escritorio para ejecutar las acciones de captura de la línea de comandos de ksnip.</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="489" />
+      <location filename="../settings_dialog.py" line="501" />
       <source>Rect Area Capture</source>
       <translation>Captura de área rectangular</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="490" />
+      <location filename="../settings_dialog.py" line="502" />
       <source>Last Rect Area Capture</source>
       <translation>Captura de la última área rectangular</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="491" />
+      <location filename="../settings_dialog.py" line="503" />
       <source>Full Screen Capture</source>
       <translation>Captura de pantalla completa</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="492" />
+      <location filename="../settings_dialog.py" line="504" />
       <source>Current Screen Capture</source>
       <translation>Captura de la pantalla actual</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="493" />
+      <location filename="../settings_dialog.py" line="505" />
       <source>Active Window Capture</source>
       <translation>Captura de la ventana activa</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="494" />
+      <location filename="../settings_dialog.py" line="506" />
       <source>Window Under Cursor Capture</source>
       <translation>Captura de la ventana bajo el cursor</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="495" />
+      <location filename="../settings_dialog.py" line="507" />
       <source>Portal Capture</source>
       <translation>Captura mediante el portal</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="496" />
+      <location filename="../settings_dialog.py" line="508" />
       <source>Open Image</source>
       <translation>Abrir imagen</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="497" />
+      <location filename="../settings_dialog.py" line="509" />
       <source>Save</source>
       <translation>Guardar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="498" />
+      <location filename="../settings_dialog.py" line="510" />
       <source>Paste Image</source>
       <translation>Pegar imagen</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="499" />
+      <location filename="../settings_dialog.py" line="511" />
       <source>Pin Image</source>
       <translation>Fijar imagen</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="500" />
+      <location filename="../settings_dialog.py" line="512" />
       <source>Add Watermark</source>
       <translation>Añadir marca de agua</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="501" />
+      <location filename="../settings_dialog.py" line="513" />
       <source>Upload Image</source>
       <translation>Subir imagen</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="502" />
+      <location filename="../settings_dialog.py" line="514" />
       <source>OCR Text Recognition</source>
       <translation>Reconocimiento de texto OCR</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="506" />
+      <location filename="../settings_dialog.py" line="518" />
       <source>Clear</source>
       <translation>Limpiar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="516" />
+      <location filename="../settings_dialog.py" line="528" />
       <source>Uploader</source>
       <translation>Subidor</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="518" />
+      <location filename="../settings_dialog.py" line="530" />
       <source>Ask for confirmation before uploading</source>
       <translation>Pedir confirmación antes de subir</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="552" />
-      <location filename="../settings_dialog.py" line="537" />
-      <location filename="../settings_dialog.py" line="523" />
+      <location filename="../settings_dialog.py" line="564" />
+      <location filename="../settings_dialog.py" line="549" />
+      <location filename="../settings_dialog.py" line="535" />
       <source>Script</source>
       <translation>Script</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="525" />
+      <location filename="../settings_dialog.py" line="537" />
       <source>Uploader Type</source>
       <translation>Tipo de subidor</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="527" />
+      <location filename="../settings_dialog.py" line="539" />
       <source>Script Uploader</source>
       <translation>Subidor mediante script</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="539" />
+      <location filename="../settings_dialog.py" line="551" />
       <source>Copy script output to clipboard</source>
       <translation>Copiar la salida del script al portapapeles</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="543" />
+      <location filename="../settings_dialog.py" line="555" />
       <source>Filter</source>
       <translation>Filtro</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="545" />
+      <location filename="../settings_dialog.py" line="557" />
       <source>Treat stderr as failure</source>
       <translation>Tratar la salida de error como un fallo</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="547" />
+      <location filename="../settings_dialog.py" line="559" />
       <source>OCR</source>
       <translation>OCR</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="549" />
+      <location filename="../settings_dialog.py" line="561" />
       <source>Enable OCR actions</source>
       <translation>Activar acciones de OCR</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="555" />
+      <location filename="../settings_dialog.py" line="567" />
       <source>Spanish</source>
       <translation>Español</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="556" />
+      <location filename="../settings_dialog.py" line="568" />
       <source>Spanish + English (script backend recommended)</source>
       <translation>Español e inglés (se recomienda el backend por script)</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="557" />
+      <location filename="../settings_dialog.py" line="569" />
       <source>Copy OCR result to clipboard automatically</source>
       <translation>Copiar automáticamente el resultado de OCR al portapapeles</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="567" />
+      <location filename="../settings_dialog.py" line="579" />
       <source>Backend</source>
       <translation>Backend</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="570" />
+      <location filename="../settings_dialog.py" line="582" />
       <source>Script Path</source>
       <translation>Ruta del script</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="574" />
+      <location filename="../settings_dialog.py" line="586" />
       <source>Color scheme for misspelled words</source>
       <translation>Esquema de colores para palabras mal escritas</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="576" />
+      <location filename="../settings_dialog.py" line="588" />
       <source>%1 base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.</source>
       <translation>%1 colores base del esquema: a la izquierda, el relleno de la herramienta Texto; a la derecha, el subrayado de palabras mal escritas.</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="762" />
-      <location filename="../settings_dialog.py" line="582" />
+      <location filename="../settings_dialog.py" line="774" />
+      <location filename="../settings_dialog.py" line="594" />
       <source>Name</source>
       <translation>Nombre</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="582" />
+      <location filename="../settings_dialog.py" line="594" />
       <source>Text fill color</source>
       <translation>Color de relleno del texto</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="582" />
+      <location filename="../settings_dialog.py" line="594" />
       <source>Underline color</source>
       <translation>Color del subrayado</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="632" />
+      <location filename="../settings_dialog.py" line="644" />
       <source>Imgur Uploader</source>
       <translation>Subidor de Imgur</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="634" />
+      <location filename="../settings_dialog.py" line="646" />
       <source>Native Imgur uploader parity is still pending.</source>
       <translation>La paridad con el subidor nativo de Imgur sigue pendiente.</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="645" />
+      <location filename="../settings_dialog.py" line="657" />
       <source>FTP Uploader</source>
       <translation>Subidor FTP</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="647" />
+      <location filename="../settings_dialog.py" line="659" />
       <source>Native FTP uploader parity is still pending.</source>
       <translation>La paridad con el subidor FTP nativo sigue pendiente.</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="665" />
+      <location filename="../settings_dialog.py" line="677" />
       <source>Stickers</source>
       <translation>Adhesivos</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="667" />
+      <location filename="../settings_dialog.py" line="679" />
       <source>Sticker management and picker parity are still pending.</source>
       <translation>La paridad del selector y la gestión de adhesivos sigue pendiente.</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="698" />
+      <location filename="../settings_dialog.py" line="710" />
       <source>OK</source>
       <translation>Aceptar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="699" />
+      <location filename="../settings_dialog.py" line="711" />
       <source>Cancel</source>
       <translation>Cancelar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="720" />
+      <location filename="../settings_dialog.py" line="732" />
       <source>Actions</source>
       <translation>Acciones</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="724" />
+      <location filename="../settings_dialog.py" line="736" />
       <source>Add</source>
       <translation>Añadir</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="730" />
+      <location filename="../settings_dialog.py" line="742" />
       <source>Add new actions by pressing the 'Add' tab button.</source>
       <translation>Añada acciones nuevas pulsando el botón «Añadir».</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="738" />
+      <location filename="../settings_dialog.py" line="750" />
       <source>Plugins</source>
       <translation>Plugins</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="741" />
+      <location filename="../settings_dialog.py" line="753" />
       <source>Search Path</source>
       <translation>Ruta de búsqueda</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="762" />
+      <location filename="../settings_dialog.py" line="774" />
       <source>Version</source>
       <translation>Versión</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="772" />
+      <location filename="../settings_dialog.py" line="784" />
       <source>Detect</source>
       <translation>Detectar</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="811" />
+      <location filename="../settings_dialog.py" line="823" />
       <source>Select color</source>
       <translation>Seleccionar color</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="997" />
+      <location filename="../settings_dialog.py" line="1011" />
       <source>No watermark image configured</source>
       <translation>No hay una imagen de marca de agua configurada</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="999" />
+      <location filename="../settings_dialog.py" line="1013" />
       <source>%1x%2 image configured</source>
       <translation>Imagen de %1x%2 configurada</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="1007" />
+      <location filename="../settings_dialog.py" line="1021" />
       <source>Select watermark image</source>
       <translation>Seleccionar imagen de marca de agua</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="1009" />
+      <location filename="../settings_dialog.py" line="1023" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>Imágenes (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="1014" />
+      <location filename="../settings_dialog.py" line="1028" />
       <source>Unable to load watermark image: %1</source>
       <translation>No se pudo cargar la imagen de marca de agua: %1</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="1039" />
+      <location filename="../settings_dialog.py" line="1053" />
       <source>Select upload script</source>
       <translation>Seleccionar script de subida</translation>
     </message>
     <message>
-      <location filename="../settings_dialog.py" line="1055" />
+      <location filename="../settings_dialog.py" line="1069" />
       <source>Select OCR script</source>
       <translation>Seleccionar script de OCR</translation>
     </message>
