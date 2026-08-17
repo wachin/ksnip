@@ -98,10 +98,11 @@ class MainWindow(QMainWindow):
         self._cli_save_path: str | None = None
         self._cli_upload = False
         self._quit_after_capture = False
+        self._first_image_window_adjusted = False
         self._tool_group_buttons: dict[str, QToolButton] = {}
 
         self.setWindowTitle("ksnip")
-        self.resize(1200, 800)
+        self.resize(760, 520)
         self._apply_window_icon()
 
         self.tabs = QTabWidget()
@@ -3339,7 +3340,13 @@ class MainWindow(QMainWindow):
         return True
 
     def _schedule_resize_to_content(self) -> None:
-        if not self._setting_bool("application/auto_resize_to_content", True):
+        mode = str(self._settings.value("application/first_image_window_mode", "maximize"))
+        if mode == "maximize":
+            if self._first_image_window_adjusted:
+                return
+            self._first_image_window_adjusted = True
+            delay = max(0, self._setting_int("application/resize_delay_ms", 10))
+            QTimer.singleShot(delay, self.showMaximized)
             return
         delay = max(0, self._setting_int("application/resize_delay_ms", 10))
         QTimer.singleShot(delay, self._resize_window_to_content)
@@ -3361,8 +3368,12 @@ class MainWindow(QMainWindow):
         chrome_height = self.menuBar().sizeHint().height() + toolbar_height + self.statusBar().sizeHint().height() + 96
         max_width = max(480, int(available.width() * 0.95))
         max_height = max(320, int(available.height() * 0.95))
-        desired_width = min(max(480, image_size.width() + chrome_width), max_width)
-        desired_height = min(max(320, image_size.height() + chrome_height), max_height)
+        controls_width = max(self.main_toolbar.sizeHint().width(), self.properties_toolbar.sizeHint().width()) + side_width + 48
+        controls_height = self.menuBar().sizeHint().height() + toolbar_height + self.statusBar().sizeHint().height() + 240
+        desired_width = min(max(760, controls_width, image_size.width() + chrome_width), max_width)
+        desired_height = min(max(520, controls_height, image_size.height() + chrome_height), max_height)
+        if self.isMaximized() or self.isFullScreen():
+            self.showNormal()
         self.resize(desired_width, desired_height)
 
     def open_recent_image(self, path: str) -> None:
@@ -3485,7 +3496,9 @@ class MainWindow(QMainWindow):
             application_auto_hide_tabs=self._setting_bool("application/auto_hide_tabs", False),
             application_capture_on_startup=self._setting_bool("application/capture_on_startup", False),
             application_auto_hide_docks=self._setting_bool("application/auto_hide_docks", False),
-            application_auto_resize_to_content=self._setting_bool("application/auto_resize_to_content", True),
+            application_first_image_window_mode=str(
+                self._settings.value("application/first_image_window_mode", "maximize")
+            ),
             application_single_instance=self._setting_bool("application/single_instance", True),
             application_resize_delay_ms=self._setting_int("application/resize_delay_ms", 10),
             application_language=str(self._settings.value("application/language", "")),
@@ -3583,7 +3596,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("application/auto_hide_tabs", data.application_auto_hide_tabs)
         self._settings.setValue("application/capture_on_startup", data.application_capture_on_startup)
         self._settings.setValue("application/auto_hide_docks", data.application_auto_hide_docks)
-        self._settings.setValue("application/auto_resize_to_content", data.application_auto_resize_to_content)
+        self._settings.setValue("application/first_image_window_mode", data.application_first_image_window_mode)
         self._settings.setValue("application/single_instance", data.application_single_instance)
         self._settings.setValue("application/resize_delay_ms", data.application_resize_delay_ms)
         self._settings.setValue("application/language", data.application_language)

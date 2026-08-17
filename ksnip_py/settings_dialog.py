@@ -67,7 +67,7 @@ class SettingsData:
     application_auto_hide_tabs: bool
     application_capture_on_startup: bool
     application_auto_hide_docks: bool
-    application_auto_resize_to_content: bool
+    application_first_image_window_mode: str
     application_single_instance: bool
     application_resize_delay_ms: int
     application_language: str
@@ -233,8 +233,16 @@ class SettingsDialog(QDialog):
         self.auto_hide_docks = QCheckBox(self.tr("Auto hide Docks"), application_group)
         application_layout.addWidget(self.auto_hide_docks)
 
-        self.auto_resize_to_content = QCheckBox(self.tr("Auto resize to content"), application_group)
-        application_layout.addWidget(self.auto_resize_to_content)
+        first_image_mode_row = QHBoxLayout()
+        first_image_mode_row.addWidget(QLabel(self.tr("When the first image is loaded:"), application_group))
+        self.first_image_window_mode = QComboBox(application_group)
+        self.first_image_window_mode.addItem(self.tr("Maximize the window"), "maximize")
+        self.first_image_window_mode.addItem(self.tr("Fit the window intelligently to the image"), "fit")
+        self.first_image_window_mode.setToolTip(
+            self.tr("Maximize keeps the editor maximized for later images. Smart fit preserves enough room for the tool controls.")
+        )
+        first_image_mode_row.addWidget(self.first_image_window_mode, 1)
+        application_layout.addLayout(first_image_mode_row)
 
         self.enable_debugging = QCheckBox(self.tr("Enable Debugging"), application_group)
         self.enable_debugging.setEnabled(False)
@@ -946,7 +954,8 @@ class SettingsDialog(QDialog):
         self.auto_hide_tabs.setChecked(initial.application_auto_hide_tabs)
         self.capture_on_startup.setChecked(initial.application_capture_on_startup)
         self.auto_hide_docks.setChecked(initial.application_auto_hide_docks)
-        self.auto_resize_to_content.setChecked(initial.application_auto_resize_to_content)
+        first_image_mode_index = self.first_image_window_mode.findData(initial.application_first_image_window_mode)
+        self.first_image_window_mode.setCurrentIndex(first_image_mode_index if first_image_mode_index >= 0 else 0)
         self.run_single_instance.setChecked(initial.application_single_instance)
         self.resize_delay.setValue(initial.application_resize_delay_ms)
         language_index = self.application_language.findData(initial.application_language)
@@ -1123,7 +1132,7 @@ class SettingsDialog(QDialog):
             application_auto_hide_tabs=self.auto_hide_tabs.isChecked(),
             application_capture_on_startup=self.capture_on_startup.isChecked(),
             application_auto_hide_docks=self.auto_hide_docks.isChecked(),
-            application_auto_resize_to_content=self.auto_resize_to_content.isChecked(),
+            application_first_image_window_mode=str(self.first_image_window_mode.currentData()),
             application_single_instance=self.run_single_instance.isChecked(),
             application_resize_delay_ms=self.resize_delay.value(),
             application_language=str(self.application_language.currentData()),
