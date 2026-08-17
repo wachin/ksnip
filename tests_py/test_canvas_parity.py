@@ -891,6 +891,36 @@ class ZoomParityTest(unittest.TestCase):
         canvas.fit_to_size(QImage(10000, 10000, QImage.Format.Format_ARGB32).size())
         self.assertEqual(canvas.zoom_percent(), 800)
 
+    def test_ctrl_wheel_zooms_in_and_out(self) -> None:
+        class WheelEvent:
+            def __init__(self, delta: int) -> None:
+                self._delta = delta
+                self.accepted = False
+
+            def modifiers(self):
+                return Qt.KeyboardModifier.ControlModifier
+
+            def angleDelta(self):
+                return QPoint(0, self._delta)
+
+            def pixelDelta(self):
+                return QPoint()
+
+            def accept(self) -> None:
+                self.accepted = True
+
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image())
+        zoom_in_event = WheelEvent(120)
+        canvas.wheelEvent(zoom_in_event)
+        self.assertEqual(canvas.zoom_percent(), 110)
+        self.assertTrue(zoom_in_event.accepted)
+
+        zoom_out_event = WheelEvent(-120)
+        canvas.wheelEvent(zoom_out_event)
+        self.assertEqual(canvas.zoom_percent(), 100)
+        self.assertTrue(zoom_out_event.accepted)
+
 
 class StickerInsertionParityTest(unittest.TestCase):
     def test_click_inserts_selected_sticker_and_undo_removes_it(self) -> None:

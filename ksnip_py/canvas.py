@@ -8,7 +8,7 @@ from math import hypot
 from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QRectF, QSize, Qt, pyqtSignal
-from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QKeySequence, QMouseEvent, QPainter, QPainterPath, QPalette, QPen, QPixmap, QPolygon, QTransform
+from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QKeySequence, QMouseEvent, QPainter, QPainterPath, QPalette, QPen, QPixmap, QPolygon, QTransform, QWheelEvent
 from PyQt6.QtWidgets import QApplication, QButtonGroup, QCheckBox, QColorDialog, QDialog, QDialogButtonBox, QFormLayout, QGraphicsDropShadowEffect, QGraphicsScene, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QMenu, QPushButton, QRadioButton, QSizePolicy, QSpinBox, QVBoxLayout
 
 from .spellcheck import SpellCheckTextEdit, load_spellcheck_scheme
@@ -1310,6 +1310,21 @@ class AnnotationCanvas(QLabel):
     def resizeEvent(self, event) -> None:  # noqa: N802
         super().resizeEvent(event)
         self._refresh()
+
+    def wheelEvent(self, event: QWheelEvent) -> None:  # noqa: N802
+        if event.modifiers() & Qt.KeyboardModifier.ControlModifier and self.has_image():
+            delta = event.angleDelta().y()
+            if delta == 0:
+                delta = event.pixelDelta().y()
+            if delta > 0:
+                self.zoom_in()
+                event.accept()
+                return
+            if delta < 0:
+                self.zoom_out()
+                event.accept()
+                return
+        super().wheelEvent(event)
 
     def mousePressEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if self._inline_text_editor is not None:
