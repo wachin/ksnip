@@ -1,20 +1,64 @@
-# ksnip PyQt6 Port
+<div align="center">
+  <img src="ksnip_py/icons/ksnip.svg" alt="ksnip logo" width="96" height="96">
+  <h1>ksnip PyQt6 Port</h1>
+  <p><strong>A modern Python/PyQt6 port of the ksnip screenshot and annotation application.</strong></p>
+  <p>
+    <a href="ROADMAP.md"><img alt="Port status: active development" src="https://img.shields.io/badge/status-active%20development-F59E0B"></a>
+    <a href="pyproject.toml"><img alt="Python 3.11 or newer" src="https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&amp;logoColor=white"></a>
+    <a href="pyproject.toml"><img alt="PyQt6 6.6 or newer" src="https://img.shields.io/badge/PyQt6-6.6%2B-41CD52?logo=qt&amp;logoColor=white"></a>
+    <a href="#debian-13--mx-linux-25"><img alt="Tested on Debian 13" src="https://img.shields.io/badge/tested-Debian%2013-A81D33?logo=debian&amp;logoColor=white"></a>
+  </p>
+  <p>
+    <a href="LICENSE.txt"><img alt="License: GPL 3.0" src="https://img.shields.io/badge/license-GPL--3.0-blue"></a>
+    <a href="#contributing"><img alt="Contributions welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen"></a>
+    <a href="https://github.com/wachin/ksnip/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/wachin/ksnip"></a>
+    <a href="https://github.com/wachin/ksnip/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/wachin/ksnip?style=flat"></a>
+  </p>
+</div>
 
-[![Port status](https://img.shields.io/badge/status-active%20port-orange)](ROADMAP.md)
-[![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
-[![PyQt6](https://img.shields.io/badge/PyQt6-6.6%2B-41CD52?logo=qt&logoColor=white)](pyproject.toml)
-[![Debian 13](https://img.shields.io/badge/Debian-13-A81D33?logo=debian&logoColor=white)](#debian-13--mx-linux-25)
-[![MX Linux 25](https://img.shields.io/badge/MX%20Linux-25-222222)](#debian-13--mx-linux-25)
-[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE.txt)
-[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)](#contributing)
-[![GitHub issues](https://img.shields.io/github/issues/wachin/ksnip)](https://github.com/wachin/ksnip/issues)
-[![GitHub stars](https://img.shields.io/github/stars/wachin/ksnip?style=flat)](https://github.com/wachin/ksnip/stargazers)
+This repository ports [ksnip](https://github.com/ksnip/ksnip) from C++/Qt to
+Python/PyQt6 while preserving its familiar workflow, icons, settings hierarchy,
+editable annotations, and kImageAnnotator-inspired behavior. The active Python
+implementation lives in `ksnip_py/`.
 
-An active port of the [ksnip](https://github.com/ksnip/ksnip) screenshot and annotation application from C++/Qt to Python/PyQt6.
+> [!IMPORTANT]
+> ksnip_py is already usable for daily screenshot and annotation work, but it
+> remains under active development and is not yet a finished replacement for
+> upstream ksnip. Consult the [roadmap](ROADMAP.md) before packaging it for
+> production environments.
 
-The port lives in `ksnip_py/` and aims to preserve the original application structure, workflow, icons, settings hierarchy, and kImageAnnotator behavior. It is already usable, but it is still under development and is not a finished replacement for upstream ksnip.
+## Navigation
 
-![Current ksnip interface reference](images/02-ksnip-cuando-a-hecho-su-primer-captura-de-pantalla.png)
+- [Features](#current-features)
+- [Quick start](#quick-start)
+- [Known gaps](#known-gaps)
+- [Documentation](#documentation)
+- [Debian and MX Linux dependencies](#debian-13--mx-linux-25)
+- [Run from system packages](#run-from-system-packages)
+- [Run from a virtual environment](#run-from-a-virtual-environment)
+- [Command line](#command-line)
+- [Optional OCR](#optional-ocr)
+- [Development checks](#development-checks)
+- [Contributing](#contributing)
+- [License](#license)
+
+<p align="center">
+  <img src="images/02-ksnip-cuando-a-hecho-su-primer-captura-de-pantalla.png" alt="ksnip PyQt6 interface after taking a screenshot">
+</p>
+
+## Quick start
+
+After installing the [Debian/MX Linux dependencies](#debian-13--mx-linux-25),
+run the port directly from the repository:
+
+```bash
+git clone https://github.com/wachin/ksnip.git
+cd ksnip
+python3 -m ksnip_py
+```
+
+For optional Python dependencies such as PaddleOCR, use the
+[virtual-environment installation](#run-from-a-virtual-environment).
 
 ## Help wanted
 
@@ -24,7 +68,7 @@ Developers, testers, designers, Debian packagers, and translators are welcome. T
 - Native global hotkeys.
 - Fine visual parity with the original toolbar, editor, and settings dialog.
 - Remaining kImageAnnotator behavior and effects.
-- Imgur, FTP, OCR, and plugin-system parity.
+- Imgur, FTP, and plugin-system parity.
 - Automated GUI tests.
 - Debian packaging and policy review.
 
@@ -44,22 +88,37 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 - Multiple selection, move, resize, duplicate, ordering, copy/paste, undo, and redo.
 - Rotate, scale, crop, and modify-canvas operations.
 - Watermarks and always-on-top pin windows.
-- Script uploader and experimental PaddleOCR/script OCR backends.
+- Script uploader and optional PaddleOCR/script OCR backends.
 - System tray workflow and configurable application shortcuts.
 - Hierarchical settings dialog modeled after the original C++ application.
 - Command-line image opening, standard-input images, capture-mode selection, direct saving, cursor capture, and script upload.
 - Generic `xdg-desktop-portal` capture with desktop/session diagnostics and backend recommendations.
-- Nine sticker collections with persistent favorites and last-tab restoration, including user-imported images.
+- Ten sticker collections with persistent favorites and last-tab restoration, including user-imported images.
 
 ## Known gaps
 
 - Live capture validation across X11, Wayland, mixed-DPI systems, and different portal backends.
 - Native OS-global hotkey registration.
 - Complete C++ plugin-system parity.
-- Native Imgur and FTP uploaders.
-- Complete startup, tray-menu, OCR modeless-window, and command-line parity with the C++ application.
+- Native Imgur and FTP uploaders. The deferred Imgur design and API registration requirements are documented in [`docs/imgur/README_ES.md`](docs/imgur/README_ES.md).
+- Complete startup, tray-menu, and OCR modeless-window parity with the C++ application.
 - Exact visual and behavioral parity across every editor control.
 - Final Debian packaging and automated GUI coverage.
+
+## Documentation
+
+| Topic | Document |
+| --- | --- |
+| Port status and priorities | [ROADMAP.md](ROADMAP.md) |
+| Capture backends and Wayland | [Capture backend parity](docs/CAPTURE_BACKEND_PARITY.md) |
+| Command-line compatibility | [CLI parity](docs/CLI_PARITY.md) |
+| Unicode QFileDialog bookmarks and Qt translations | [File dialogs](docs/FILE_DIALOGS.md) |
+| Global shortcut integration | [Global hotkeys](docs/GLOBAL_HOTKEYS.md) |
+| Annotation-tool behavior | [kImageAnnotator tool parity](docs/KIMAGEANNOTATOR_TOOL_PARITY.md) |
+| Startup and single-instance behavior | [Startup lifecycle parity](docs/STARTUP_LIFECYCLE_PARITY.md) |
+| OCR installation on Debian derivatives | [PaddleOCR guide (Spanish)](docs/OCR_PADDLEOCR_ES.md) |
+| Script uploader verification | [Script uploader tests (Spanish)](docs/PRUEBAS_UPLOADER_SCRIPT_ES.md) |
+| Deferred Imgur implementation | [Imgur port notes (Spanish)](docs/imgur/README_ES.md) |
 
 ## Debian 13 / MX Linux 25
 
@@ -247,7 +306,10 @@ Hunspell automatically detects installed dictionaries, underlines misspelled wor
 
 ## Optional OCR
 
-OCR is experimental and does not prevent the application from starting when PaddleOCR is unavailable. A script backend can also be configured in Settings.
+OCR is optional and does not prevent the application from starting when
+PaddleOCR is unavailable. The integrated PaddleOCR backend is validated on the
+reference Linux environment below; a script backend can also be configured in
+Settings.
 
 ### Tested Linux OCR environment
 
@@ -360,7 +422,7 @@ For a headless startup smoke test:
 timeout 8s env QT_QPA_PLATFORM=offscreen python3 -m ksnip_py
 ```
 
-The current suite contains 92 tests covering the canvas, settings, capture
+The current suite contains 120 tests covering the canvas, settings, capture
 helpers, projects, sticker selection, upload helpers, translation behavior,
 and other port infrastructure. The exact count may grow over time; a clean run
 is more important than the number.
@@ -380,8 +442,8 @@ The prioritized completion sequence is:
 4. Expand GUI tests and complete Debian packaging and policy review.
 5. Preserve the last C++ revision in a historical branch or tag, migrate legacy CI/package jobs, and only then remove the C++ tree in an independent change.
 
-The next bounded audit is `src/backend/commandLine/CommandLine.cpp` versus
-`ksnip_py/app.py`. See [ROADMAP.md](ROADMAP.md) for the authoritative checklist.
+See [ROADMAP.md](ROADMAP.md) for the authoritative, current checklist and the
+next bounded porting task.
 
 ## Contributing
 
