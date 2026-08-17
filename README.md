@@ -37,6 +37,7 @@ implementation lives in `ksnip_py/`.
 - [Run from system packages](#run-from-system-packages)
 - [Run from a virtual environment](#run-from-a-virtual-environment)
 - [Command line](#command-line)
+- [Keyboard shortcuts](#keyboard-shortcuts)
 - [Zoom controls](#zoom-controls)
 - [Optional OCR](#optional-ocr)
 - [Development checks](#development-checks)
@@ -310,6 +311,95 @@ Translation workflow for contributors. The synchronization script extracts the P
 ```bash
 python3 tools/update_pyqt_translations.py
 ```
+
+## Keyboard shortcuts
+
+The tables below list the defaults on Linux. Standard Qt shortcuts may follow
+the native convention of another operating system. Shortcuts in the first
+table can be changed or disabled under `Settings > HotKeys`; the remaining
+application and tool shortcuts are currently fixed.
+
+### Configurable application shortcuts
+
+| Action | Default shortcut |
+| --- | --- |
+| Capture rectangular area | `Ctrl+Shift+R` |
+| Capture last rectangular area | `Ctrl+Shift+L` |
+| Capture full screen | `Ctrl+Shift+F` |
+| Capture current screen | `Ctrl+Shift+S` |
+| Capture active window | `Ctrl+Shift+A` |
+| Capture window under cursor | `Ctrl+Shift+U` |
+| Capture through the desktop portal | `Alt+Shift+T` |
+| Open image or project | `Ctrl+O` |
+| Save | `Ctrl+S` |
+| Paste image | `Ctrl+V` |
+| Pin current image | `Ctrl+Shift+P` |
+| Add watermark | `Shift+W` |
+| Upload | `Ctrl+Shift+U` |
+| OCR text recognition | `Ctrl+Shift+T` |
+
+`Capture window under cursor` and `Upload` currently share the same default
+`Ctrl+Shift+U`. Assign a different combination to one of them in
+`Settings > HotKeys` if both actions are enabled.
+
+### File, editing, and view shortcuts
+
+| Action | Shortcut |
+| --- | --- |
+| Save as | `Ctrl+Shift+S` |
+| Print | `Ctrl+P` |
+| Copy composed image | `Ctrl+C` |
+| Close current tab | `Ctrl+W` |
+| Rename current image | `F2` |
+| Undo | `Ctrl+Z` |
+| Redo | `Ctrl+Shift+Z` |
+| Paste embedded image | `Ctrl+Shift+V` |
+| Paste copied annotation item | `Ctrl+Alt+V` |
+| Copy selected annotation item | `Ctrl+Shift+C` |
+| Delete selected annotation item | `Delete` |
+| Duplicate selected annotation item | `Ctrl+D` |
+| Show or hide docks | `Tab` |
+| Open recent image 1–9 | `Ctrl+1` through `Ctrl+9` |
+
+### Annotation tool shortcuts
+
+These single-key shortcuts select an annotation tool while the main editor has
+focus.
+
+| Tool | Key | Tool | Key |
+| --- | --- | --- | --- |
+| Select | `S` | Duplicate area | `U` |
+| Arrow | `A` | Double arrow | `D` |
+| Line | `L` | Pen | `P` |
+| Marker pen | `M` | Marker rectangle | `J` |
+| Marker ellipse | `K` | Rectangle | `R` |
+| Ellipse | `E` | Text | `T` |
+| Text pointer | `C` | Text arrow | `H` |
+| Number | `N` | Number pointer | `O` |
+| Number arrow | `W` | Blur | `B` |
+| Pixelate | `X` | Sticker | `I` |
+
+### Zoom and pointer shortcuts
+
+| Action | Shortcut |
+| --- | --- |
+| Zoom in | `Ctrl++` |
+| Zoom out | `Ctrl+-` |
+| Reset zoom to 100% | `Ctrl+0` |
+| Fit image to the available view | `Ctrl+F` |
+| Zoom with the mouse or touchpad | `Ctrl` + vertical scroll |
+| Add or remove an item from a multiple selection | `Ctrl` + left click |
+| Edit a text item | Double-click the selected text item |
+
+### Inline text editor shortcuts
+
+| Action | Shortcut |
+| --- | --- |
+| Accept the text | `Ctrl+Enter` |
+| Cancel a new edit | `Esc` |
+| Insert a line break | `Enter` or `Shift+Enter` |
+| Undo while editing | `Ctrl+Z` |
+| Redo while editing | `Ctrl+Shift+Z` |
 
 ## Zoom controls
 
