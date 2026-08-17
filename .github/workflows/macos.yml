@@ -52,7 +52,7 @@ jobs:
               run: ctest --extra-verbose
 
     package-dmg:
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         runs-on: macos-14
         needs: test-macos
         env:

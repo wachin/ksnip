@@ -119,6 +119,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 | Global shortcut integration | [Global hotkeys](docs/GLOBAL_HOTKEYS.md) |
 | Annotation-tool behavior | [kImageAnnotator tool parity](docs/KIMAGEANNOTATOR_TOOL_PARITY.md) |
 | Startup and single-instance behavior | [Startup lifecycle parity](docs/STARTUP_LIFECYCLE_PARITY.md) |
+| Manual package workflows | [GitHub Actions package guide (Spanish)](docs/GITHUB_ACTIONS_PACKAGES_ES.md) |
 | OCR installation on Debian derivatives | [PaddleOCR guide (Spanish)](docs/OCR_PADDLEOCR_ES.md) |
 | Script uploader verification | [Script uploader tests (Spanish)](docs/PRUEBAS_UPLOADER_SCRIPT_ES.md) |
 | Deferred Imgur implementation | [Imgur port notes (Spanish)](docs/imgur/README_ES.md) |
