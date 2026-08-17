@@ -1,266 +1,75 @@
-name: linux
+name: Linux - ksnip_py
 
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [master]
     tags:
       - "v*"
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   test-linux:
+    name: Test ksnip_py on Linux
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        qtversion: ['5.15.2', '6.8.1']
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Set up build variables
-      env:
-        QT_VERSION: ${{ matrix.qtversion }}
-      run: bash ./.github/scripts/setup_build_variables.sh
-
-    - name: Set up linux build variables
-      run: bash ./.github/scripts/linux/setup_linux_build_variables.sh
-
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v4
-      with:
-        version: ${{ matrix.qtversion }}
-        host: 'linux'
-        install-deps: 'true'
-
-    - name: Install dependencies
-      run: sudo apt-get install extra-cmake-modules libxcb-xfixes0-dev xvfb
-
-    - name: Install Qt6 dependencies
-      # https://stackoverflow.com/questions/77725761/from-6-5-0-xcb-cursor0-or-libxcb-cursor0-is-needed-to-load-the-qt-xcb-platform
-      run: sudo apt-get install libxcb-cursor-dev
-
-    - name: Set up GoogleTest
-      run: bash ./.github/scripts/setup_googleTest.sh
-
-    - name: Set up kColorPicker
-      env:
-        BUILD_TYPE: Debug
-      run: bash ./.github/scripts/setup_kColorPicker.sh
-
-    - name: Set up kImageAnnotator
-      env:
-        BUILD_TYPE: Debug
-      run: bash ./.github/scripts/setup_kImageAnnotator.sh
-
-    - name: Build
-      env:
-        BUILD_TESTS: ON
-        BUILD_TYPE: Debug
-      run: bash ./.github/scripts/build_ksnip.sh
-
-    - name: Test
-      working-directory: ${{github.workspace}}/build/tests
-      run: xvfb-run --auto-servernum --server-num=1 --server-args="-screen 0 1024x768x24" ctest --extra-verbose
-
-
-  package-appImage:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-22.04
-    needs: test-linux
+    env:
+      QT_QPA_PLATFORM: offscreen
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up build variables
-        run: bash ./.github/scripts/setup_build_variables.sh
-
-      - name: Set up windows build variables
-        run: bash ./.github/scripts/linux/setup_linux_build_variables.sh
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          version: '5.15.2'
-          host: 'linux'
-          install-deps: 'true'
+          python-version: "3.13"
+          cache: pip
 
-      - name: Install dependencies
-        run: sudo apt-get install extra-cmake-modules libxcb-xfixes0-dev libssl-dev
-
-      - name: Install Qt6 dependencies
-        # https://stackoverflow.com/questions/77725761/from-6-5-0-xcb-cursor0-or-libxcb-cursor0-is-needed-to-load-the-qt-xcb-platform
-        run: sudo apt-get install libxcb-cursor-dev
-
-      - name: Set up kColorPicker
-        run: bash ./.github/scripts/setup_kColorPicker.sh
-
-      - name: Set up kImageAnnotator
-        run: bash ./.github/scripts/setup_kImageAnnotator.sh
-
-      - name: Download deploy tool
+      - name: Install Linux runtime libraries
         run: |
-          wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-          chmod a+x linuxdeployqt-continuous-x86_64.AppImage
+          sudo apt-get update
+          sudo apt-get install --yes libegl1 libxcb-cursor0 libxfixes3 hunspell hunspell-en-us
 
-      - name: Package AppImage
-        working-directory: ${{github.workspace}}
-        run: bash ./.github/scripts/linux/build_appImage.sh
+      - name: Install ksnip_py and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --editable . pytest
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ksnip.AppImage
-          path: ksnip*.AppImage*
+      - name: Verify the Python sources compile
+        run: python -m compileall -q ksnip_py
 
-      - name: Delete existing release with same name
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bash ./.github/scripts/delete_release.sh
+      - name: Run the ksnip_py test suite
+        run: python -m pytest tests_py -q
 
-      - name: Upload Release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ksnip-${{ env.VERSION }}-x86_64.AppImage
-          asset_name: ksnip-${{ env.VERSION }}-x86_64.AppImage
-          tag: ${{ env.RELEASE_TAG }}
-          overwrite: true
-          release_name: ${{ env.RELEASE_NAME }}
-          body: ${{ env.UPLOADTOOL_BODY }}
-          prerelease: ${{ env.IS_PRERELASE }}
+      - name: Verify the command-line entry point
+        run: python -m ksnip_py --help
 
-
-  package-rpm:
+  package-python:
+    name: Build ksnip_py Python distribution
     if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-latest
     needs: test-linux
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up build variables
-        run: bash ./.github/scripts/setup_build_variables.sh
-
-      - name: Set up windows build variables
-        run: bash ./.github/scripts/linux/setup_linux_build_variables.sh
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          version: '5.15.2'
-          host: 'linux'
-          install-deps: 'true'
+          python-version: "3.13"
+          cache: pip
 
-      - name: Install dependencies
-        run: sudo apt-get install extra-cmake-modules libxcb-xfixes0-dev libssl-dev rpm
+      - name: Install the Python build frontend
+        run: python -m pip install --upgrade build
 
-      - name: Install Qt6 dependencies
-        # https://stackoverflow.com/questions/77725761/from-6-5-0-xcb-cursor0-or-libxcb-cursor0-is-needed-to-load-the-qt-xcb-platform
-        run: sudo apt-get install libxcb-cursor-dev
+      - name: Build wheel and source distribution from pyproject.toml
+        run: python -m build
 
-      - name: Set up kColorPicker
-        run: bash ./.github/scripts/setup_kColorPicker.sh
-
-      - name: Set up kImageAnnotator
-        run: bash ./.github/scripts/setup_kImageAnnotator.sh
-
-      - name: Set up spec file
-        run: bash ./.github/scripts/linux/rpm/setup_spec_file.sh
-
-      - name: Set up directory structure
-        run: bash ./.github/scripts/linux/rpm/setup_rpm_directory_structure.sh
-
-      - name: Package rpm
-        run: bash ./.github/scripts/linux/rpm/build_rpm.sh
-
-      - name: Upload Artifact
+      - name: Upload ksnip_py distributions
         uses: actions/upload-artifact@v4
         with:
-          name: ksnip.rpm
-          path: ksnip-*.rpm
-
-      - name: Delete existing release with same name
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bash ./.github/scripts/delete_release.sh
-
-      - name: Upload Release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ksnip-${{ env.VERSION }}.rpm
-          asset_name: ksnip-${{ env.VERSION }}.rpm
-          tag: ${{ env.RELEASE_TAG }}
-          overwrite: true
-          release_name: ${{ env.RELEASE_NAME }}
-          body: ${{ env.UPLOADTOOL_BODY }}
-          prerelease: ${{ env.IS_PRERELASE }}
-
-
-  package-deb:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-latest
-    needs: test-linux
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up build variables
-        run: bash ./.github/scripts/setup_build_variables.sh
-
-      - name: Set up windows build variables
-        run: bash ./.github/scripts/linux/setup_linux_build_variables.sh
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: '5.15.2'
-          host: 'linux'
-          install-deps: 'true'
-
-      - name: Install dependencies
-        run: sudo apt-get install cmake extra-cmake-modules libxcb-xfixes0-dev libssl-dev devscripts debhelper
-
-      - name: Install Qt6 dependencies
-        # https://stackoverflow.com/questions/77725761/from-6-5-0-xcb-cursor0-or-libxcb-cursor0-is-needed-to-load-the-qt-xcb-platform
-        run: sudo apt-get install libxcb-cursor-dev
-
-      - name: Set up kColorPicker
-        run: bash ./.github/scripts/setup_kColorPicker.sh
-
-      - name: Set up kImageAnnotator
-        run: bash ./.github/scripts/setup_kImageAnnotator.sh
-
-      - name: Set up directory structure
-        run: bash ./.github/scripts/linux/deb/setup_deb_directory_structure.sh
-
-      - name: Set up changelog
-        run: bash ./.github/scripts/linux/deb/setup_changelog_file.sh
-
-      - name: Package deb
-        run: bash ./.github/scripts/linux/deb/build_deb.sh
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ksnip.deb
-          path: ksnip-*.deb
-
-      - name: Delete existing release with same name
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bash ./.github/scripts/delete_release.sh
-
-      - name: Upload Release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ksnip-${{ env.VERSION }}.deb
-          asset_name: ksnip-${{ env.VERSION }}.deb
-          tag: ${{ env.RELEASE_TAG }}
-          overwrite: true
-          release_name: ${{ env.RELEASE_NAME }}
-          body: ${{ env.UPLOADTOOL_BODY }}
-          prerelease: ${{ env.IS_PRERELASE }}
+          name: ksnip-pyqt6-python-distributions
+          path: dist/*
+          if-no-files-found: error

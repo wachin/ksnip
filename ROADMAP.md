@@ -20,7 +20,8 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Conservar `src/`, `tests/`, `libraries/`, `cmake/`, `CMakeLists.txt` y las traducciones originales durante el port
 - [x] No mezclar la eliminación del C++ con cambios funcionales del port PyQt6
 - [ ] Crear una matriz final de equivalencia C++ → Python por subsistema y cerrar o descartar explícitamente cada diferencia
-- [ ] Sustituir en CI y empaquetado las rutas CMake/Snap/RPM/AppImage/Windows/macOS que todavía construyen el programa C++
+- [x] Sustituir en los workflows Linux/Windows/macOS las rutas CMake que construían el programa C++ por pruebas y distribuciones Python de `ksnip_py`
+- [ ] Crear y validar empaquetado nativo específico de `ksnip_py` (DEB/AppImage/RPM y, cuando corresponda, instaladores Windows/macOS); los workflows actuales generan wheel/sdist y no reutilizan los paquetes C++
 - [ ] Crear una etiqueta o rama histórica que preserve la última revisión C++ antes de retirarla de la rama principal
 - [ ] Confirmar que ningún recurso, traducción, prueba, aviso de copyright o comportamiento del port depende de `src/` o `libraries/`
 - [ ] Eliminar el árbol C++ sólo en un cambio independiente, revisable y reversible después de cumplir las condiciones anteriores

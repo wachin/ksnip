@@ -1,19 +1,29 @@
-# Ejecución manual de los paquetes en GitHub Actions
+# GitHub Actions de ksnip_py
 
-## Comportamiento configurado
+## Qué comprueban los workflows
 
-Los workflows de Linux, Windows y macOS continúan ejecutando sus trabajos de
-compilación y pruebas cuando se crea un `push` o un `pull_request`. Sin embargo,
-los trabajos que generan paquetes solamente se ejecutan cuando una persona
-inicia manualmente el workflow mediante `workflow_dispatch`.
+Los tres workflows fueron migrados del proyecto C++ original al port PyQt6.
+Aunque los comandos se ejecutan desde la raíz del repositorio —porque allí se
+encuentran `pyproject.toml` y `tests_py/`— todos ellos instalan y comprueban el
+paquete Python `ksnip_py/`.
 
-| Workflow | Paquetes manuales |
-| --- | --- |
-| `linux.yml` | AppImage, RPM y DEB |
-| `windows.yml` | ZIP/EXE y MSI |
-| `macos.yml` | DMG |
+| Workflow | Sistema | Trabajo automático |
+| --- | --- | --- |
+| `linux.yml` | Ubuntu Linux | Compilación de bytecode, pruebas de `tests_py/` y comprobación del comando |
+| `windows.yml` | Windows | Las mismas comprobaciones sobre Windows |
+| `macos.yml` | macOS | Las mismas comprobaciones sobre macOS |
 
-Por tanto, estos comandos ya no generan paquetes automáticamente:
+Los trabajos automáticos se ejecutan con Python 3.13, PyQt6 instalado desde las
+dependencias declaradas en `pyproject.toml` y Qt en modo `offscreen`, para que
+las pruebas gráficas no necesiten un monitor físico.
+
+Ya no se llaman CMake, GoogleTest, Qt 5, `src/`, `kColorPicker`,
+`kImageAnnotator` ni los scripts históricos que empaquetaban el ksnip C++.
+
+## Qué ocurre al hacer push
+
+Estos comandos ejecutan las pruebas en Linux, Windows y macOS, pero no crean
+artefactos de distribución:
 
 ```bash
 git add .
@@ -21,111 +31,58 @@ git commit
 git push
 ```
 
-El `push` puede seguir iniciando las pruebas automáticas. Esto es intencional:
-permite detectar errores sin gastar tiempo en crear y publicar todos los
-paquetes.
+Esto permite detectar regresiones del port sin crear paquetes en cada commit.
 
-## Advertencia sobre el estado del port
-
-Los workflows existentes todavía utilizan CMake, las fuentes C++ bajo `src/`
-y los scripts históricos de empaquetado. En su estado actual generan paquetes
-del ksnip C++ de referencia, no paquetes finales del port `ksnip_py`.
-
-No deben presentarse como paquetes oficiales de ksnip_py hasta completar la
-tarea de migración de CI y empaquetado indicada en `ROADMAP.md`.
-
-## Iniciar un workflow desde la página de GitHub
+## Crear manualmente distribuciones Python
 
 1. Abra el repositorio en GitHub.
-2. Entre en la pestaña **Actions**.
-3. En la columna izquierda seleccione uno de estos workflows:
-   - **linux**;
-   - **windows**;
-   - **macOS**.
+2. Entre en **Actions**.
+3. Elija **Linux - ksnip_py**, **Windows - ksnip_py** o
+   **macOS - ksnip_py**.
 4. Pulse **Run workflow**.
-5. Seleccione la rama que desea construir, normalmente `master`.
-6. Pulse el botón verde **Run workflow** para confirmar.
-7. Abra la nueva ejecución para observar cada trabajo y sus registros.
+5. Seleccione la rama, normalmente `master`, y confirme.
+6. Espere a que terminen las pruebas y el trabajo `package-python`.
+7. Abra la ejecución y descargue su artefacto desde **Artifacts**.
 
-Una ejecución manual de `linux` construye los tres formatos Linux después de
-que finalicen sus pruebas. Una ejecución manual de `windows` construye tanto el
-ZIP como el MSI. Actualmente no existe un selector para pedir solamente uno de
-los formatos.
+Linux crea el `wheel` y la distribución fuente (`sdist`). Windows y macOS
+vuelven a construir el `wheel` en su plataforma para comprobar que el paquete
+se puede generar correctamente allí. Como el proyecto contiene Python puro,
+el wheel resultante es independiente de la plataforma; PyQt6 instala después
+los componentes Qt apropiados para cada sistema.
 
-## Descargar los artefactos
-
-1. Abra la ejecución terminada desde **Actions**.
-2. Desplácese hasta la sección **Artifacts**.
-3. Descargue el artefacto deseado.
-
-Los nombres configurados actualmente incluyen:
+Los artefactos se llaman:
 
 ```text
-ksnip.AppImage
-ksnip.rpm
-ksnip.deb
-ksnip-windows.zip
-ksnip-windows.msi
-ksnip-macos.dmg
+ksnip-pyqt6-python-distributions
+ksnip-pyqt6-wheel-windows
+ksnip-pyqt6-wheel-macos
 ```
 
-## Ejecutar manualmente mediante GitHub CLI
+Estos artefactos no se publican automáticamente en una release.
 
-Si `gh` está instalado y autenticado:
+## Ejecutarlos con GitHub CLI
+
+Después de autenticar `gh`, se puede iniciar cada comprobación manual:
 
 ```bash
 gh auth status
-```
-
-Inicie el workflow deseado:
-
-```bash
 gh workflow run linux.yml --ref master
 gh workflow run windows.yml --ref master
 gh workflow run macos.yml --ref master
 ```
 
-Consulte las ejecuciones recientes:
+Para consultar, seguir y descargar una ejecución:
 
 ```bash
 gh run list --limit 10
-```
-
-Para seguir una ejecución concreta:
-
-```bash
 gh run watch ID_DE_LA_EJECUCIÓN
-```
-
-Para descargar sus artefactos:
-
-```bash
 gh run download ID_DE_LA_EJECUCIÓN
 ```
 
-## Publicación de releases
+## Alcance actual del empaquetado
 
-Los trabajos históricos no se limitan a crear artefactos: también contienen
-pasos para eliminar una release previa con el mismo nombre y subir los paquetes
-a una release de GitHub. Por ello, no se debe pulsar **Run workflow** como una
-simple prueba sin revisar primero:
-
-- la rama o etiqueta seleccionada;
-- la versión y el nombre de release calculados por los scripts;
-- los artefactos que se publicarán;
-- los secretos requeridos para firma en Windows o macOS;
-- que realmente se desea publicar el binario C++ heredado.
-
-Para futuras pruebas sin publicación conviene separar en otro cambio la
-creación de artefactos y la publicación de releases mediante una opción manual
-explícita.
-
-## Resumen para el mantenedor
-
-- `git push`: ejecuta pruebas, pero no crea paquetes.
-- **Actions > linux > Run workflow**: crea manualmente AppImage, RPM y DEB.
-- **Actions > windows > Run workflow**: crea manualmente ZIP y MSI.
-- **Actions > macOS > Run workflow**: crea manualmente DMG.
-- Una ejecución manual puede publicar releases; revise sus datos antes de
-  iniciarla.
-- Los paquetes actuales corresponden todavía al código C++ histórico.
+Los artefactos actuales son distribuciones Python válidas de `ksnip_py`, no
+instaladores autónomos. La creación de DEB, AppImage, RPM, EXE/MSI o DMG para
+el port requiere recetas específicas adicionales y debe implementarse y
+probarse por separado. Los antiguos scripts C++ se conservan temporalmente
+como referencia, pero ninguno de estos tres workflows los ejecuta.
