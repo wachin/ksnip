@@ -154,6 +154,16 @@ Important X11 dependencies:
   controls such as file-dialog buttons, menus, and labels. It is separate from
   the translation catalogs maintained by ksnip_py itself.
 
+Spell-checking dependency:
+
+- `hunspell` is a required runtime dependency for ksnip_py's integrated spell
+  checker. The application invokes the system `hunspell` executable; installing
+  only dictionary packages is not sufficient.
+- At least one Hunspell dictionary is needed for the languages to be checked.
+  The installation example includes `hunspell-es` and `hunspell-en-us` for
+  Spanish and US English. Install equivalent dictionary packages for other
+  languages as needed.
+
 Portal dependencies:
 
 - `xdg-desktop-portal` is the desktop-independent frontend used by `--portal`.
@@ -164,7 +174,12 @@ Portal dependencies:
 
 The `xdg-desktop-portal-dev` package is not a runtime dependency. It contains development files used to build portal backend implementations; this PyQt6 port is a portal client over D-Bus and does not need it.
 
-Hunspell dictionaries are optional but recommended. Install the dictionary packages appropriate for your language if they differ from the English and Spanish examples above.
+After installation, verify that the executable and dictionaries are visible:
+
+```bash
+hunspell -v
+hunspell -D
+```
 
 The source-artwork extraction tools are development utilities, not runtime
 requirements. Regenerating the Geeko, Konqi & Katie, or GNU Baby collections additionally
