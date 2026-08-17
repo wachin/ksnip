@@ -2097,7 +2097,6 @@ class MainWindow(QMainWindow):
                 self._sync_property_color_buttons()
                 self._sync_fill_mode_button()
                 self._sync_auxiliary_property_controls()
-                return
         else:
             if self.number_value.value() != canvas.number_seed():
                 self.number_value.blockSignals(True)
