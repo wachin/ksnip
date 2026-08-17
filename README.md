@@ -37,6 +37,7 @@ implementation lives in `ksnip_py/`.
 - [Run from system packages](#run-from-system-packages)
 - [Run from a virtual environment](#run-from-a-virtual-environment)
 - [Command line](#command-line)
+- [Zoom controls](#zoom-controls)
 - [Optional OCR](#optional-ocr)
 - [Development checks](#development-checks)
 - [Contributing](#contributing)
@@ -87,6 +88,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 - Inline multiline text editing with re-editing and Hunspell-backed spelling suggestions.
 - Multiple selection, move, resize, duplicate, ordering, copy/paste, undo, and redo.
 - Rotate, scale, crop, and modify-canvas operations.
+- Zoom from 10% to 800% using toolbar controls, keyboard shortcuts, fit-to-window, or `Ctrl` + mouse wheel.
 - Watermarks and always-on-top pin windows.
 - Script uploader and optional PaddleOCR/script OCR backends.
 - System tray workflow and configurable application shortcuts.
@@ -309,6 +311,17 @@ Translation workflow for contributors. The synchronization script extracts the P
 python3 tools/update_pyqt_translations.py
 ```
 
+## Zoom controls
+
+The canvas supports zoom levels from 10% to 800%:
+
+- Hold `Ctrl` and scroll the mouse wheel up to zoom in by 10%.
+- Hold `Ctrl` and scroll the mouse wheel down to zoom out by 10%.
+- Scrolling without `Ctrl` continues to move normally through a large image.
+- The status-bar buttons, percentage selector, standard zoom keyboard shortcuts,
+  reset action, and fit-to-window action remain available.
+- Touchpads are supported when they provide vertical pixel-scroll events.
+
 ## Text tool
 
 1. Select `Text`.
@@ -437,7 +450,7 @@ For a headless startup smoke test:
 timeout 8s env QT_QPA_PLATFORM=offscreen python3 -m ksnip_py
 ```
 
-The current suite contains 120 tests covering the canvas, settings, capture
+The current suite contains 124 tests covering the canvas, settings, capture
 helpers, projects, sticker selection, upload helpers, translation behavior,
 and other port infrastructure. The exact count may grow over time; a clean run
 is more important than the number.
