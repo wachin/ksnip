@@ -496,6 +496,16 @@ environment setup is still required. Detailed Spanish instructions, command
 line examples, and support for a custom environment location are available in
 [`docs/OCR_PADDLEOCR_ES.md`](docs/OCR_PADDLEOCR_ES.md).
 
+> **🧠 Note: Why don't the launchers require `deactivate`?**
+> If you are used to the terminal workflow (`source .venv/bin/activate`), you
+> might worry that using these scripts leaves the virtual environment "active"
+> in the background, requiring a manual `deactivate`.
+> **There is no need to worry.** The scripts bypass shell activation entirely
+> by calling the virtual environment's Python binary directly (`.venv/bin/python`).
+> The environment is scoped strictly to the ksnip process. When you close ksnip,
+> the Python process ends, and the environment is automatically cleaned up from
+> memory. Nothing is left active in your system.
+
 > **💡 Tip: Running from a file manager (e.g., Thunar)**
 > You don't need to open a terminal every time you want to use ksnip with OCR.
 > Once the initial virtual environment setup is complete, simply mark your preferred
