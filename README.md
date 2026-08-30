@@ -476,26 +476,41 @@ so the initial recognition takes longer and needs network access. Later runs
 reuse those files. ksnip_py disables oneDNN for this tested CPU configuration
 and omits document-orientation models that are unnecessary for screenshots.
 
-For later sessions, either activate the environment before starting ksnip:
+## pip launchers to ksnip_py with OCR
 
-```bash
-source .venv/bin/activate
-python -m ksnip_py
-```
+For later sessions, you can use one of the included launchers located in the
+root directory of the repository. Both launchers select `.venv/bin/python`
+automatically, eliminating the need to manually run `source .venv/bin/activate`
+or `deactivate`:
 
-or use the included launcher, which selects `.venv/bin/python` automatically
-and verifies that PaddleOCR is available:
+- **`ksnip_py-run-ocr_check-first.sh`**: Verifies that the virtual environment
+  and PaddleOCR are correctly installed before starting. This is useful for
+  first-time runs or troubleshooting, though the import check adds a few seconds
+  to the startup time.
+- **`ksnip_py-run-ocr_without-check.sh`**: Skips the verification steps and
+  launches `ksnip_py` instantly. Use this for daily use once you have confirmed
+  that OCR is working correctly.
 
-```bash
-./scripts/run-ksnip-with-paddleocr.sh
-```
-
-The launcher does not install packages automatically; the initial virtual
+The launchers do not install packages automatically; the initial virtual
 environment setup is still required. Detailed Spanish instructions, command
 line examples, and support for a custom environment location are available in
 [`docs/OCR_PADDLEOCR_ES.md`](docs/OCR_PADDLEOCR_ES.md).
 
-Current limitations:
+> **💡 Tip: Running from a file manager (e.g., Thunar)**
+> You don't need to open a terminal every time you want to use ksnip with OCR.
+> Once the initial virtual environment setup is complete, simply mark your preferred
+> launcher as executable from your terminal:
+>
+> ```bash
+> chmod +x ksnip_py-run-ocr_without-check.sh
+> ```
+>
+> After this one-time step, you can just double-click the `.sh` file in your file
+> manager and select **Run** or **Execute**. The application will start using the
+> virtual environment automatically, and the environment is scoped to the
+> application's process, cleaning up automatically when you close ksnip.
+
+#### Current limitations of OCR:
 
 - Cancellation is best-effort after a backend call has started.
 - Live PaddleOCR recognition has not yet received full automated coverage.
