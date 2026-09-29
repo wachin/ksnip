@@ -725,6 +725,7 @@ class ImageEffectParityTest(unittest.TestCase):
 
     def test_mouse_mapping_uses_the_centered_pixmap_origin(self) -> None:
         self.canvas._refresh()
+        self.canvas.resize(640, 360)
         image_rect = self.canvas._image_rect_in_widget()
         self.assertGreater(image_rect.left(), 0)
         self.assertGreater(image_rect.top(), 0)

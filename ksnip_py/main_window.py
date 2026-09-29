@@ -79,6 +79,7 @@ class MainWindow(QMainWindow):
         self._settings = QSettings()
         self._docks_collapsed = False
         self._property_toolbar_has_controls = False
+        self._editor_visible = True
         migrate_normalized_sticker_scaling(self._settings)
         self._recent_image_paths = self._load_recent_image_paths()
         self._pin_windows: list[PinWindow] = []
@@ -100,9 +101,9 @@ class MainWindow(QMainWindow):
         self._quit_after_capture = False
         self._first_image_window_adjusted = False
         self._tool_group_buttons: dict[str, QToolButton] = {}
+        self._startup_position: QPoint | None = None
 
         self.setWindowTitle("ksnip")
-        self.resize(760, 520)
         self._apply_window_icon()
 
         self.tabs = QTabWidget()
@@ -612,7 +613,9 @@ class MainWindow(QMainWindow):
                 self.properties_toolbar.addWidget(widget)
                 first_visible = False
         self._property_toolbar_has_controls = not first_visible
-        self.properties_toolbar.setVisible(self._property_toolbar_has_controls and not self._docks_collapsed)
+        self.properties_toolbar.setVisible(
+            self._property_toolbar_has_controls and not self._docks_collapsed and self._editor_visible
+        )
 
     def _build_actions(self) -> None:
         self.tool_action_group = QActionGroup(self)
@@ -1464,6 +1467,21 @@ class MainWindow(QMainWindow):
         tray_icon.setContextMenu(menu)
         self._tray_icon = tray_icon
         self._apply_tray_settings()
+
+    def showEvent(self, event) -> None:  # noqa: N802
+        super().showEvent(event)
+        if self._startup_position is None:
+            return
+        position = self._startup_position
+        self._startup_position = None
+        screen = QGuiApplication.primaryScreen()
+        if screen is not None and not screen.availableGeometry().contains(position):
+            desktop_center = screen.availableGeometry().center()
+            position = QPoint(
+                desktop_center.x() - self.width() // 2,
+                desktop_center.y() - self.height() // 2,
+            )
+        self.move(position)
 
     def closeEvent(self, event) -> None:  # noqa: N802
         if self._should_close_to_tray():
@@ -2826,8 +2844,10 @@ class MainWindow(QMainWindow):
     def _set_docks_collapsed(self, collapsed: bool) -> None:
         self._docks_collapsed = collapsed
         self.main_toolbar.setVisible(not collapsed)
-        self.properties_toolbar.setVisible(not collapsed and self._property_toolbar_has_controls)
-        self.left_toolbar.setVisible(not collapsed)
+        self.properties_toolbar.setVisible(
+            not collapsed and self._property_toolbar_has_controls and self._editor_visible
+        )
+        self.left_toolbar.setVisible(not collapsed and self._editor_visible)
         self.toggle_docks_action.setText(self.tr("Show Docks") if collapsed else self.tr("Hide Docks"))
 
     def paste_item(self) -> None:
@@ -3193,9 +3213,24 @@ class MainWindow(QMainWindow):
             title = f"*{title} - Unsaved"
         self.setWindowTitle(title)
 
+    def _apply_editor_visibility(self, has_image: bool) -> None:
+        if has_image == self._editor_visible:
+            return
+        self._editor_visible = has_image
+        self.tabs.setVisible(has_image)
+        self.statusBar().setVisible(has_image)
+        if has_image:
+            self._set_docks_collapsed(self._docks_collapsed)
+            self.controls_toolbar.setVisible(self._setting_bool("editor/show_controls_widget", False))
+        else:
+            self.left_toolbar.setVisible(False)
+            self.properties_toolbar.setVisible(False)
+            self.controls_toolbar.setVisible(False)
+
     def _update_actions(self) -> None:
         canvas = self.current_canvas()
         has_image = canvas is not None and canvas.has_image()
+        self._apply_editor_visibility(has_image)
         has_selected_item = canvas is not None and canvas.has_selected_item()
         can_edit_text = canvas is not None and canvas.selected_item_kind() in (Tool.TEXT, Tool.TEXT_POINTER, Tool.TEXT_ARROW)
         self.save_action.setEnabled(has_image)
@@ -3602,6 +3637,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("application/language", data.application_language)
         if not data.application_remember_position:
             self._settings.remove("window/geometry")
+            self._settings.remove("window/position")
         self.tabs.tabBar().setAutoHide(data.application_auto_hide_tabs)
         self._settings.setValue("saver/prompt_discard", data.saver_prompt_discard)
         self._settings.setValue("saver/remember_directory", data.saver_remember_directory)
@@ -3715,9 +3751,14 @@ class MainWindow(QMainWindow):
 
     def _restore_ui_settings(self) -> None:
         if self._setting_bool("application/remember_position", True):
-            geometry = self._settings.value("window/geometry")
-            if geometry is not None:
-                self.restoreGeometry(geometry)
+            position = self._settings.value("window/position")
+            if position is not None and isinstance(position, str):
+                parts = position.split(",")
+                if len(parts) == 2:
+                    try:
+                        self._startup_position = QPoint(int(parts[0]), int(parts[1]))
+                    except ValueError:
+                        self._startup_position = None
         self.tabs.tabBar().setAutoHide(self._setting_bool("application/auto_hide_tabs", False))
         self._set_docks_collapsed(self._setting_bool("application/auto_hide_docks", False))
 
@@ -3846,7 +3887,7 @@ class MainWindow(QMainWindow):
 
     def _save_ui_settings(self) -> None:
         if self._setting_bool("application/remember_position", True):
-            self._settings.setValue("window/geometry", self.saveGeometry())
+            self._settings.setValue("window/position", f"{self.pos().x()},{self.pos().y()}")
         self._settings.setValue("editor/pen_width", self.stroke_width.value())
         self._settings.setValue("editor/font_family", self.font_family.currentFont().family())
         self._settings.setValue("editor/font_point_size", self.font_size.value())

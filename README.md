@@ -110,7 +110,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 
 ## Documentation
 
-| Topic | Document |
+| Topic   | Document |
 | --- | --- |
 | Port status and priorities | [ROADMAP.md](ROADMAP.md) |
 | Capture backends and Wayland | [Capture backend parity](docs/CAPTURE_BACKEND_PARITY.md) |

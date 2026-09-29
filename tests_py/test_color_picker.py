@@ -340,6 +340,8 @@ class MainWindowColorPickerTest(unittest.TestCase):
 
     def test_item_settings_uses_a_second_toolbar_row_and_keeps_only_handle_when_empty(self) -> None:
         window = MainWindow()
+        window.current_canvas().set_image(QImage(20, 20, QImage.Format.Format_ARGB32))
+        window._update_actions()
         window.set_tool(Tool.SELECT)
         self.assertFalse(window.properties_toolbar.isHidden())
         self.assertEqual(len(window.properties_toolbar.actions()), 1)

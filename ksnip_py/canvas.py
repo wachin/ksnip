@@ -595,7 +595,6 @@ class AnnotationCanvas(QLabel):
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.setMouseTracking(True)
-        self.setMinimumSize(640, 360)
 
         self._tool = Tool.SELECT
         self._color = QColor("#df5a17")
@@ -1541,7 +1540,7 @@ class AnnotationCanvas(QLabel):
         if self._image.isNull():
             self.clear()
             self.setText(self.tr("Take a screenshot or open an image."))
-            self.resize(self.minimumSize())
+            self.resize(self.sizeHint())
             return
 
         background, effect_offset = self._render_effected_background()
