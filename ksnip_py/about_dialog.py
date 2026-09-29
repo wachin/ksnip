@@ -15,6 +15,8 @@ from PyQt6.QtWidgets import (
 
 ICON_SIZE = 128
 HOME_PAGE_URL = "https://github.com/wachin/ksnip"
+ORIGINAL_PROJECT_URL = "https://github.com/ksnip/ksnip"
+ORIGINAL_AUTHOR = "Damir Porobic"
 SUPPORT_EMAIL = "linuxfrontier@proton.me"
 
 
@@ -74,7 +76,10 @@ class AboutDialog(QDialog):
     def _details_html(self) -> str:
         version = QCoreApplication.applicationVersion() or "0.1.0"
         rows = [
-            (self.tr("Original application"), "Damir Porobic"),
+            (
+                self.tr("Original project"),
+                f'<a href="{ORIGINAL_PROJECT_URL}">{ORIGINAL_PROJECT_URL}</a> {ORIGINAL_AUTHOR}',
+            ),
             (self.tr("PyQt6 port"), "Washington Indacochea Delgado"),
             (self.tr("Copyright"), f"&copy; 2026 Washington Indacochea Delgado"),
             (self.tr("Email"), f'<a href="mailto:{SUPPORT_EMAIL}">{SUPPORT_EMAIL}</a>'),

@@ -9,57 +9,57 @@
       <translation>Acerca de ksnip PyQt6</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="75" />
-      <source>Original application</source>
-      <translation>Aplicación original</translation>
+      <location filename="../about_dialog.py" line="80" />
+      <source>Original project</source>
+      <translation>Proyecto original</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="76" />
+      <location filename="../about_dialog.py" line="83" />
       <source>PyQt6 port</source>
       <translation>Port a PyQt6</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="77" />
+      <location filename="../about_dialog.py" line="84" />
       <source>Copyright</source>
       <translation>Copyright</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="78" />
+      <location filename="../about_dialog.py" line="85" />
       <source>Email</source>
       <translation>Correo</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="79" />
+      <location filename="../about_dialog.py" line="86" />
       <source>Website</source>
       <translation>Página web</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="80" />
+      <location filename="../about_dialog.py" line="87" />
       <source>License</source>
       <translation>Licencia</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="88" />
+      <location filename="../about_dialog.py" line="95" />
       <source>Version</source>
       <translation>Versión</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="89" />
+      <location filename="../about_dialog.py" line="96" />
       <source>A screenshot and annotation tool, ported from the original C++/Qt ksnip to Python with PyQt6.</source>
       <translation>Una herramienta de capturas de pantalla y anotaciones, portada a Python con PyQt6 desde el ksnip original en C++/Qt.</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="90" />
+      <location filename="../about_dialog.py" line="97" />
       <source>Capture, annotate and share screenshots with rectangles, arrows, text, numbering, blur, watermark, OCR, pin windows and upload.</source>
       <translation>Capture, anote y comparta capturas de pantalla con rectángulos, flechas, texto, numeración, desenfoque, marca de agua, OCR, ventanas fijadas y subida en línea.</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="91" />
+      <location filename="../about_dialog.py" line="98" />
       <source>Technologies</source>
       <translation>Tecnologías</translation>
     </message>
     <message>
-      <location filename="../about_dialog.py" line="91" />
+      <location filename="../about_dialog.py" line="98" />
       <source>Python 3, PyQt6 (Qt 6 Widgets), PaddleOCR (optional OCR backend)</source>
       <translation>Python 3, PyQt6 (Qt 6 Widgets), PaddleOCR (motor de OCR opcional)</translation>
     </message>
