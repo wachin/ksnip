@@ -32,6 +32,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
+from .about_dialog import AboutDialog
 from .canvas import AnnotationCanvas, CutDialog, FillMode, ModifyCanvasDialog, RotateDialog, ScaleDialog, Tool
 from .color_picker import ColorPaletteMenu
 from .file_dialogs import get_open_file_name, get_save_file_name
@@ -4010,8 +4011,4 @@ class MainWindow(QMainWindow):
         QMessageBox.critical(self, "ksnip PyQt6", message)
 
     def show_about(self) -> None:
-        QMessageBox.information(
-            self,
-            "About",
-            "PyQt6 MVP port of ksnip.\n\nImplemented: capture, tabs, open/save/copy, script upload, experimental OCR, annotation tools, image overlays, watermarking, item properties, multi-selection editing, persistence, settings dialog, configurable app hotkeys, tray workflow, and pin windows.",
-        )
+        AboutDialog(self).exec()
