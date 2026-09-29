@@ -3226,6 +3226,14 @@ class MainWindow(QMainWindow):
             self.left_toolbar.setVisible(False)
             self.properties_toolbar.setVisible(False)
             self.controls_toolbar.setVisible(False)
+            if not (self.isMaximized() or self.isFullScreen()):
+                delay = max(0, self._setting_int("application/resize_delay_ms", 10))
+                QTimer.singleShot(delay, self._collapse_to_empty)
+
+    def _collapse_to_empty(self) -> None:
+        if self._editor_visible or self.isMaximized() or self.isFullScreen():
+            return
+        self.resize(self.sizeHint())
 
     def _update_actions(self) -> None:
         canvas = self.current_canvas()
