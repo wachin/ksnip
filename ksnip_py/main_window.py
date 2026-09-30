@@ -57,7 +57,7 @@ from .project_io import export_svg, load_project, save_project
 from .settings_dialog import SettingsData, SettingsDialog
 from .spellcheck import load_spellcheck_scheme, save_spellcheck_scheme
 from .sticker_picker import StickerPickerDialog
-from .uploader import ScriptUploader
+from .uploader import ScriptUploader, UploadWorker
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
 
 
@@ -91,6 +91,11 @@ class MainWindow(QMainWindow):
         self._ocr_thread: QThread | None = None
         self._ocr_worker: OcrWorker | None = None
         self._ocr_progress: QProgressDialog | None = None
+        self._upload_thread: QThread | None = None
+        self._upload_worker: UploadWorker | None = None
+        self._upload_progress: QProgressDialog | None = None
+        self._upload_result = None
+        self._upload_suppress_feedback = False
         self._tray_icon: QSystemTrayIcon | None = None
         self._allow_quit = False
         self._capture_delay_override_seconds: int | None = None
@@ -1492,9 +1497,23 @@ class MainWindow(QMainWindow):
         if not self._confirm_close_all_tabs():
             event.ignore()
             return
+        self._abort_upload_for_shutdown()
         self.close_all_pin_windows()
         self._save_ui_settings()
         super().closeEvent(event)
+
+    def _abort_upload_for_shutdown(self) -> None:
+        # A QThread destroyed while running aborts the process, so the script is
+        # killed and its thread joined before the window goes away.
+        if self._upload_thread is None:
+            return
+        self._upload_suppress_feedback = True
+        if self._upload_worker is not None:
+            self._upload_worker.cancel()
+        self._upload_thread.quit()
+        self._upload_thread.wait(10_000)
+        # wait() ended the thread, whose finished signal already ran _finish_upload.
+        self._upload_suppress_feedback = False
 
     def changeEvent(self, event) -> None:  # noqa: N802
         if event.type() == QEvent.Type.WindowStateChange and self._should_minimize_to_tray() and self.isMinimized():
@@ -2525,6 +2544,7 @@ class MainWindow(QMainWindow):
 
     def save_all_images(self) -> None:
         saved_count = 0
+        failed_paths: list[str] = []
         for index in range(self.tabs.count()):
             canvas = self._canvas_from_tab_widget(self.tabs.widget(index))
             if canvas is None or not canvas.has_image():
@@ -2561,10 +2581,22 @@ class MainWindow(QMainWindow):
                         default_suffix,
                     )
 
-            if not self._save_canvas_to_path(canvas, index, path, show_status=False):
-                return
+            if not self._save_canvas_to_path(canvas, index, path, show_status=False, report_errors=False):
+                failed_paths.append(str(path))
+                continue
             saved_count += 1
 
+        if failed_paths:
+            self.status_label.setText(
+                self.tr("Saved %1 image(s), failed %2")
+                .replace("%1", str(saved_count))
+                .replace("%2", str(len(failed_paths)))
+            )
+            self._show_error(
+                self.tr("Save All stopped early; these could not be saved:\n%1")
+                .replace("%1", "\n".join(failed_paths))
+            )
+            return
         self.status_label.setText(self.tr("Saved %1 image(s)").replace("%1", str(saved_count)))
 
     def _save_canvas_to_path(
@@ -2574,12 +2606,19 @@ class MainWindow(QMainWindow):
         path: str,
         *,
         show_status: bool = True,
+        report_errors: bool = True,
     ) -> bool:
+        def report(message: str) -> None:
+            # Save All summarizes its failures once at the end; per-tab dialogs
+            # would stack up and block the remaining tabs.
+            if report_errors:
+                self._show_error(message)
+
         if Path(path).suffix.lower() == ".ksnip":
             try:
                 save_project(path, canvas)
             except (OSError, ValueError) as error:
-                self._show_error(self.tr("Unable to save Ksnip project: %1").replace("%1", str(error)))
+                report(self.tr("Unable to save Ksnip project: %1").replace("%1", str(error)))
                 return False
             companion_format = str(self._settings.value("saver/project_companion_format", "png")).lower()
             companion_specs = {
@@ -2593,7 +2632,7 @@ class MainWindow(QMainWindow):
             companion_path = str(Path(path).with_suffix(companion_suffix))
             quality = self._setting_int("saver/quality_factor", 50) if self._setting_bool("saver/quality_enabled", False) else -1
             if not canvas.image().save(companion_path, qt_format, quality):
-                self._show_error(
+                report(
                     self.tr("The Ksnip project was saved, but its companion image could not be saved to %1")
                     .replace("%1", companion_path)
                 )
@@ -2610,7 +2649,7 @@ class MainWindow(QMainWindow):
             return True
         quality = self._setting_int("saver/quality_factor", 50) if self._setting_bool("saver/quality_enabled", False) else -1
         if not canvas.image().save(path, None, quality):
-            self._show_error(f"Unable to save image to {path}")
+            report(f"Unable to save image to {path}")
             return False
         canvas.mark_saved(path)
         self._store_recent_image_path(path)
@@ -3099,20 +3138,73 @@ class MainWindow(QMainWindow):
         if not isinstance(script_path, str) or not script_path:
             self._show_error("No upload script configured. Open Settings and set an upload script first.")
             return
-        result = self._script_uploader.upload(
+        if self._upload_thread is not None:
+            return
+
+        self._upload_thread = QThread(self)
+        self._upload_worker = UploadWorker(
+            self._script_uploader,
             canvas.image(),
-            script_path=script_path,
+            script_path,
             copy_output_filter=str(self._settings.value("upload/output_filter", "")),
             stop_on_stderr=self._setting_bool("upload/stop_on_stderr", False),
         )
-        if result.ok:
-            if self._setting_bool("upload/copy_output", False) and result.output:
-                QGuiApplication.clipboard().setText(result.output)
-            self.status_label.setText(self.tr("Upload finished successfully"))
-            if result.output:
-                QMessageBox.information(self, "Upload Successful", result.output)
+        self._upload_worker.moveToThread(self._upload_thread)
+        self._upload_thread.started.connect(self._upload_worker.run)
+        self._upload_worker.finished.connect(self._store_upload_result)
+        self._upload_worker.cancelled.connect(self._handle_upload_cancelled)
+        self._upload_thread.finished.connect(self._finish_upload)
+        self._upload_progress = QProgressDialog(self.tr("Uploading image..."), "Cancel", 0, 0, self)
+        self._upload_progress.setWindowTitle(self.tr("Upload"))
+        self._upload_progress.setWindowModality(Qt.WindowModality.WindowModal)
+        self._upload_progress.canceled.connect(self._cancel_upload)
+        self._upload_progress.show()
+        self.status_label.setText(self.tr("Uploading image..."))
+        self._upload_thread.start()
+
+    def _cancel_upload(self) -> None:
+        if self._upload_worker is not None:
+            self._upload_worker.cancel()
+
+    def _store_upload_result(self, result) -> None:
+        self._upload_result = result
+        if self._upload_thread is not None:
+            self._upload_thread.quit()
+
+    def _handle_upload_cancelled(self) -> None:
+        self._upload_result = None
+        if self._upload_thread is not None:
+            self._upload_thread.quit()
+
+    def _finish_upload(self) -> None:
+        # Runs on the GUI thread only after the worker thread has stopped, so no
+        # wait() happens from inside the worker's own signal chain and the modal
+        # result dialog cannot keep the thread alive.
+        if self._upload_progress is not None:
+            self._upload_progress.close()
+            self._upload_progress.deleteLater()
+            self._upload_progress = None
+        result = self._upload_result
+        self._upload_result = None
+        # deleteLater() would never run: the worker's thread is already finished.
+        self._upload_worker = None
+        if self._upload_thread is not None:
+            self._upload_thread.deleteLater()
+            self._upload_thread = None
+        if self._upload_suppress_feedback:
             return
-        self._show_error(result.message)
+        if result is None:
+            self.status_label.setText(self.tr("Upload canceled"))
+            return
+        if not result.ok:
+            self.status_label.setText(self.tr("Upload failed"))
+            self._show_error(result.message)
+            return
+        if self._setting_bool("upload/copy_output", False) and result.output:
+            QGuiApplication.clipboard().setText(result.output)
+        self.status_label.setText(self.tr("Upload finished successfully"))
+        if result.output:
+            QMessageBox.information(self, "Upload Successful", result.output)
 
     def run_ocr(self) -> None:
         canvas = self.current_canvas()
@@ -3185,10 +3277,15 @@ class MainWindow(QMainWindow):
     def close_tab(self, index: int) -> None:
         if index < 0:
             return
-        canvas = self._canvas_from_tab_widget(self.tabs.widget(index))
+        page = self.tabs.widget(index)
+        canvas = self._canvas_from_tab_widget(page)
         if canvas is not None and not self._confirm_discard_canvas(canvas):
             return
         self.tabs.removeTab(index)
+        # removeTab only detaches the page; Qt keeps it parented to the internal
+        # QStackedWidget, so without this the canvas and its image leak per close.
+        if page is not None:
+            page.deleteLater()
         if self.tabs.count() == 0:
             self.status_label.setText(self.tr("Ready"))
         self._update_actions()
