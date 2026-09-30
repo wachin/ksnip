@@ -706,6 +706,29 @@ class ImageEffectParityTest(unittest.TestCase):
         self.canvas = AnnotationCanvas()
         self.canvas.set_image(self.image)
 
+    def test_grayscale_keeps_annotations_in_colour(self) -> None:
+        # kImageAnnotator applies the effect to the background item only, so a
+        # pure Grayscale8 canvas would wrongly desaturate overlays drawn onto it.
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(40, 30))
+        canvas.set_image_effect("grayscale")
+        canvas._items = [
+            OverlayItem(kind=Tool.RECT, start=QPoint(4, 4), end=QPoint(20, 16),
+                        color=QColor(255, 0, 0), pen_width=4,
+                        fill_mode=FillMode.BORDER_AND_NO_FILL),
+        ]
+
+        background = canvas._render_effected_background()[0]
+        background_pixel = background.pixelColor(35, 28)
+        self.assertEqual(background_pixel.red(), background_pixel.green())
+        self.assertEqual(background_pixel.green(), background_pixel.blue())
+
+        composed = canvas.image()
+        overlay_pixel = composed.pixelColor(4, 10)
+        self.assertGreater(overlay_pixel.red(), 200)
+        self.assertLess(overlay_pixel.green(), 60)
+        self.assertLess(overlay_pixel.blue(), 60)
+
     def test_effects_are_exclusive_and_non_destructive(self) -> None:
         self.assertTrue(self.canvas.set_image_effect("invert"))
         self.assertEqual(self.canvas.image().pixelColor(0, 0), QColor("black"))

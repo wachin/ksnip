@@ -1292,7 +1292,13 @@ class AnnotationCanvas(QLabel):
 
         result = self._image.copy()
         if self._image_effect == "grayscale":
-            result = result.convertToFormat(QImage.Format.Format_Grayscale8)
+            # Grayscale8 has no colour channel, so overlays drawn on top of it
+            # would lose their colour. kImageAnnotator applies the effect only to
+            # the background item; converting back keeps the greyscale look while
+            # letting annotations render in colour.
+            result = result.convertToFormat(QImage.Format.Format_Grayscale8).convertToFormat(
+                QImage.Format.Format_ARGB32_Premultiplied
+            )
         elif self._image_effect == "invert":
             result.invertPixels(QImage.InvertMode.InvertRgb)
         elif self._image_effect == "border":
