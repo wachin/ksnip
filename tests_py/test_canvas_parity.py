@@ -1003,5 +1003,57 @@ class StickerInsertionParityTest(unittest.TestCase):
         self.assertTrue(any(0 < value < 255 for value in reds))
 
 
+class MouseButtonFilterParityTest(unittest.TestCase):
+    """Only the left button may draw or clear selection; kImageAnnotator's
+    AnnotationArea::mousePressEvent guards on Qt::LeftButton the same way."""
+
+    def setUp(self) -> None:
+        self.canvas = AnnotationCanvas()
+        self.canvas.set_image(coordinate_image(120, 90))
+        rect = self.canvas._image_rect_in_widget()
+        self.start = rect.center()
+        self.end = QPoint(rect.right() - 2, rect.bottom() - 2)
+
+    def test_right_and_middle_clicks_do_not_create_items_or_undo_entries(self) -> None:
+        for button in (Qt.MouseButton.RightButton, Qt.MouseButton.MiddleButton):
+            with self.subTest(button=button):
+                self.canvas.set_tool(Tool.RECT)
+                before_items = len(self.canvas._items)
+                before_undo = len(self.canvas._undo_stack)
+
+                QTest.mousePress(self.canvas, button, pos=self.start)
+                QTest.mouseRelease(self.canvas, button, pos=self.end)
+
+                self.assertEqual(len(self.canvas._items), before_items)
+                self.assertEqual(len(self.canvas._undo_stack), before_undo)
+                self.assertIsNone(self.canvas._preview_start)
+
+    def test_left_drag_still_creates_the_item(self) -> None:
+        self.canvas.set_tool(Tool.RECT)
+
+        QTest.mousePress(self.canvas, Qt.MouseButton.LeftButton, pos=self.start)
+        QTest.mouseMove(self.canvas, self.end)
+        QTest.mouseRelease(self.canvas, Qt.MouseButton.LeftButton, pos=self.end)
+
+        self.assertEqual(len(self.canvas._items), 1)
+        self.assertEqual(self.canvas._items[0].kind, Tool.RECT)
+        self.assertEqual(self.canvas._items[0].start, self.start)
+
+    def test_right_click_on_empty_area_keeps_the_selection(self) -> None:
+        self.canvas.set_tool(Tool.SELECT)
+        self.canvas._items = [
+            OverlayItem(kind=Tool.RECT, start=QPoint(5, 5), end=QPoint(45, 35),
+                        color=QColor("red"), pen_width=2),
+        ]
+        self.canvas._refresh()
+        QTest.mouseClick(self.canvas, Qt.MouseButton.LeftButton, pos=QPoint(25, 20))
+        self.assertEqual(self.canvas._selected_item_indices, [0])
+
+        QTest.mousePress(self.canvas, Qt.MouseButton.RightButton, pos=self.end)
+        QTest.mouseRelease(self.canvas, Qt.MouseButton.RightButton, pos=self.end)
+
+        self.assertEqual(self.canvas._selected_item_indices, [0])
+
+
 if __name__ == "__main__":
     unittest.main()

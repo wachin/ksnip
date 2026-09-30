@@ -1331,6 +1331,11 @@ class AnnotationCanvas(QLabel):
                 self._finish_inline_text_edit(accept=True)
             event.accept()
             return
+        # Right/middle clicks reach here too and would otherwise start a drag,
+        # push an undo snapshot and clear the selection alongside contextMenuEvent.
+        if event.button() != Qt.MouseButton.LeftButton:
+            super().mousePressEvent(event)
+            return
         if not self.has_image():
             return
         image_point = self._map_to_image(event.position().toPoint())
