@@ -1078,5 +1078,71 @@ class MouseButtonFilterParityTest(unittest.TestCase):
         self.assertEqual(self.canvas._selected_item_indices, [0])
 
 
+class SelectDragUndoTest(unittest.TestCase):
+    """kImageAnnotator pushes MoveCommand/ResizeCommand from moveItems(), not on
+    press, so selecting or grabbing a handle without moving must not add entries."""
+
+    def setUp(self) -> None:
+        self.canvas = AnnotationCanvas()
+        image = QImage(200, 150, QImage.Format.Format_RGB32)
+        image.fill(QColor("white"))
+        self.canvas.set_image(image)
+        self.canvas.resize(200, 150)
+        self.canvas.set_tool(Tool.SELECT)
+        self.canvas._items = [
+            OverlayItem(kind=Tool.RECT, start=QPoint(20, 20), end=QPoint(80, 60),
+                        color=QColor("red"), pen_width=2),
+        ]
+        self.canvas._refresh()
+
+    def test_repeated_selection_clicks_add_no_undo_entries(self) -> None:
+        for _ in range(5):
+            QTest.mousePress(self.canvas, Qt.MouseButton.LeftButton, pos=QPoint(50, 40))
+            QTest.mouseRelease(self.canvas, Qt.MouseButton.LeftButton, pos=QPoint(50, 40))
+
+        self.assertEqual(self.canvas._undo_stack, [])
+        self.assertEqual(self.canvas._selected_item_indices, [0])
+
+    def test_drag_moves_item_and_records_exactly_one_undo_entry(self) -> None:
+        QTest.mousePress(self.canvas, Qt.MouseButton.LeftButton, pos=QPoint(50, 40))
+        QTest.mouseMove(self.canvas, QPoint(90, 70))
+        QTest.mouseMove(self.canvas, QPoint(130, 100))
+        QTest.mouseRelease(self.canvas, Qt.MouseButton.LeftButton, pos=QPoint(130, 100))
+
+        self.assertEqual(len(self.canvas._undo_stack), 1)
+        item = self.canvas._items[0]
+        self.assertEqual((item.start.x(), item.start.y(), item.end.x(), item.end.y()), (100, 80, 160, 120))
+
+        self.canvas.undo()
+        item = self.canvas._items[0]
+        self.assertEqual((item.start.x(), item.start.y(), item.end.x(), item.end.y()), (20, 20, 80, 60))
+
+    def test_grabbing_a_handle_without_moving_adds_no_undo_entry(self) -> None:
+        self.canvas._select_single_item(0)
+        self.canvas._refresh()
+        handle_point = next(iter(self.canvas._handle_points(self.canvas._items[0]).values()))
+
+        QTest.mousePress(self.canvas, Qt.MouseButton.LeftButton, pos=handle_point)
+        QTest.mouseRelease(self.canvas, Qt.MouseButton.LeftButton, pos=handle_point)
+
+        self.assertEqual(self.canvas._undo_stack, [])
+
+    def test_resizing_via_handle_records_exactly_one_undo_entry(self) -> None:
+        self.canvas._select_single_item(0)
+        self.canvas._refresh()
+        handle_point = next(iter(self.canvas._handle_points(self.canvas._items[0]).values()))
+
+        QTest.mousePress(self.canvas, Qt.MouseButton.LeftButton, pos=handle_point)
+        self.assertEqual(self.canvas._undo_stack, [])
+        QTest.mouseMove(self.canvas, QPoint(handle_point.x() + 25, handle_point.y() + 25))
+        self.assertEqual(len(self.canvas._undo_stack), 1)
+        QTest.mouseRelease(self.canvas, Qt.MouseButton.LeftButton,
+                           pos=QPoint(handle_point.x() + 25, handle_point.y() + 25))
+
+        self.canvas.undo()
+        item = self.canvas._items[0]
+        self.assertEqual((item.start.x(), item.start.y(), item.end.x(), item.end.y()), (20, 20, 80, 60))
+
+
 if __name__ == "__main__":
     unittest.main()

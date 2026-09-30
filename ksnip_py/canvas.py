@@ -631,6 +631,7 @@ class AnnotationCanvas(QLabel):
         self._primary_selected_item_index: int | None = None
         self._drag_start: QPoint | None = None
         self._active_handle: str | None = None
+        self._drag_undo_snapshot: CanvasSnapshot | None = None
         self._undo_stack: list[CanvasSnapshot] = []
         self._redo_stack: list[CanvasSnapshot] = []
         self._zoom_percent = 100
@@ -1250,6 +1251,20 @@ class AnnotationCanvas(QLabel):
         self._clear_selection()
         self._drag_start = None
         self._active_handle = None
+        self._drag_undo_snapshot = None
+
+    def _arm_drag_undo(self) -> None:
+        self._drag_undo_snapshot = self._make_snapshot()
+
+    def _commit_drag_undo(self) -> None:
+        # kImageAnnotator pushes MoveCommand/ResizeCommand from moveItems() rather
+        # than on press, so selecting an item without dragging leaves no undo entry.
+        snapshot = self._drag_undo_snapshot
+        if snapshot is None:
+            return
+        self._drag_undo_snapshot = None
+        self._undo_stack.append(snapshot)
+        self._redo_stack.clear()
 
     def _compose_image(self) -> QImage:
         if self._image.isNull():
@@ -1355,7 +1370,7 @@ class AnnotationCanvas(QLabel):
                 if handle is not None:
                     self._active_handle = handle
                     self._drag_start = image_point
-                    self._push_undo_state()
+                    self._arm_drag_undo()
                     self._refresh()
                     return
             previous_selection = list(self._selected_item_indices)
@@ -1370,9 +1385,9 @@ class AnnotationCanvas(QLabel):
             self._drag_start = image_point if self.has_selected_item() else None
             if self.has_single_selected_item() and primary_index is not None:
                 self._active_handle = self._find_handle_at(self._items[primary_index], image_point)
-                self._push_undo_state()
+                self._arm_drag_undo()
             elif self.has_selected_item():
-                self._push_undo_state()
+                self._arm_drag_undo()
             if previous_selection != self._selected_item_indices:
                 self.changed.emit()
             self._refresh()
@@ -1429,10 +1444,12 @@ class AnnotationCanvas(QLabel):
                 if self._active_handle is not None and self.has_single_selected_item():
                     item = self._primary_selected_item()
                     if item is not None:
+                        self._commit_drag_undo()
                         self._resize_item(item, self._active_handle, image_point)
                 else:
                     delta = image_point - self._drag_start
                     if delta.manhattanLength() > 0:
+                        self._commit_drag_undo()
                         for index in self._selected_item_indices:
                             self._items[index].move_by(delta)
                         self._drag_start = image_point
@@ -1466,6 +1483,7 @@ class AnnotationCanvas(QLabel):
             if self._drag_start is not None or self._active_handle is not None:
                 self._drag_start = None
                 self._active_handle = None
+                self._drag_undo_snapshot = None
                 self.setCursor(Qt.CursorShape.ArrowCursor)
                 self._refresh()
             return
