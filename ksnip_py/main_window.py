@@ -2741,7 +2741,7 @@ class MainWindow(QMainWindow):
         if canvas is None or not canvas.has_image():
             return
         current_name = Path(canvas.state.path).name if canvas.state.path else self.tabs.tabText(self.tabs.currentIndex()).replace(" *", "")
-        name, accepted = QInputDialog.getText(self, "Rename", "New name:", text=current_name)
+        name, accepted = QInputDialog.getText(self, self.tr("Rename"), self.tr("New name:"), text=current_name)
         if accepted:
             self._rename_current_image_to(name)
 
@@ -2791,8 +2791,8 @@ class MainWindow(QMainWindow):
         if confirm:
             reply = QMessageBox.question(
                 self,
-                "Delete Image",
-                f"The item '{path}' will be deleted.\nDo you want to continue?",
+                self.tr("Delete Image"),
+                self.tr("The item '%1' will be deleted.\nDo you want to continue?").replace("%1", path),
                 QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel,
                 QMessageBox.StandardButton.Cancel,
             )
@@ -2801,7 +2801,7 @@ class MainWindow(QMainWindow):
         try:
             path.unlink()
         except OSError as error:
-            self._show_error(f"Unable to delete {path}: {error}")
+            self._show_error(self.tr("Unable to delete %1: %2").replace("%1", path).replace("%2", str(error)))
             return False
 
         index = self.tabs.currentIndex()
@@ -3157,8 +3157,8 @@ class MainWindow(QMainWindow):
         if self._setting_bool("upload/confirm", False):
             reply = QMessageBox.question(
                 self,
-                "Upload Image",
-                "Upload the current image?",
+                self.tr("Upload Image"),
+                self.tr("Upload the current image?"),
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                 QMessageBox.StandardButton.No,
             )
@@ -3184,7 +3184,7 @@ class MainWindow(QMainWindow):
         self._upload_worker.finished.connect(self._store_upload_result)
         self._upload_worker.cancelled.connect(self._handle_upload_cancelled)
         self._upload_thread.finished.connect(self._finish_upload)
-        self._upload_progress = QProgressDialog(self.tr("Uploading image..."), "Cancel", 0, 0, self)
+        self._upload_progress = QProgressDialog(self.tr("Uploading image..."), self.tr("Cancel"), 0, 0, self)
         self._upload_progress.setWindowTitle(self.tr("Upload"))
         self._upload_progress.setWindowModality(Qt.WindowModality.WindowModal)
         self._upload_progress.canceled.connect(self._cancel_upload)
@@ -3236,7 +3236,7 @@ class MainWindow(QMainWindow):
             QGuiApplication.clipboard().setText(result.output)
         self.status_label.setText(self.tr("Upload finished successfully"))
         if result.output:
-            QMessageBox.information(self, "Upload Successful", result.output)
+            QMessageBox.information(self, self.tr("Upload Successful"), result.output)
 
     def run_ocr(self) -> None:
         canvas = self.current_canvas()
@@ -3261,7 +3261,9 @@ class MainWindow(QMainWindow):
         self._ocr_worker.failed.connect(self._store_ocr_failure)
         self._ocr_worker.cancelled.connect(self._store_ocr_cancellation)
         self._ocr_thread.finished.connect(self._finish_ocr)
-        self._ocr_progress = QProgressDialog("Running OCR text recognition...", "Cancel", 0, 0, self)
+        self._ocr_progress = QProgressDialog(
+            self.tr("Running OCR text recognition..."), self.tr("Cancel"), 0, 0, self
+        )
         self._ocr_progress.setWindowTitle(self.tr("OCR"))
         self._ocr_progress.setWindowModality(Qt.WindowModality.WindowModal)
         self._ocr_progress.canceled.connect(self._cancel_ocr)
@@ -4132,8 +4134,8 @@ class MainWindow(QMainWindow):
             return True
         reply = QMessageBox.question(
             self,
-            "Unsaved changes",
-            "Close this tab and discard unsaved changes?",
+            self.tr("Unsaved changes"),
+            self.tr("Close this tab and discard unsaved changes?"),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
@@ -4151,8 +4153,8 @@ class MainWindow(QMainWindow):
             return True
         reply = QMessageBox.question(
             self,
-            "Unsaved changes",
-            "Close ksnip PyQt6 and discard unsaved changes in open tabs?",
+            self.tr("Unsaved changes"),
+            self.tr("Close ksnip PyQt6 and discard unsaved changes in open tabs?"),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
