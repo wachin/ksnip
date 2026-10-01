@@ -91,6 +91,8 @@ class MainWindow(QMainWindow):
         self._ocr_thread: QThread | None = None
         self._ocr_worker: OcrWorker | None = None
         self._ocr_progress: QProgressDialog | None = None
+        self._ocr_outcome: tuple[str, str] | None = None
+        self._ocr_suppress_feedback = False
         self._upload_thread: QThread | None = None
         self._upload_worker: UploadWorker | None = None
         self._upload_progress: QProgressDialog | None = None
@@ -1497,10 +1499,35 @@ class MainWindow(QMainWindow):
         if not self._confirm_close_all_tabs():
             event.ignore()
             return
+        if not self._abort_ocr_for_shutdown():
+            event.ignore()
+            return
         self._abort_upload_for_shutdown()
         self.close_all_pin_windows()
         self._save_ui_settings()
         super().closeEvent(event)
+
+    def _abort_ocr_for_shutdown(self) -> bool:
+        # A QThread destroyed while running aborts the process, so the worker must
+        # finish before the window goes away. Script backends die instantly via
+        # killpg; Paddle runs in-process and cannot be interrupted, so if it is
+        # still busy we keep the window open rather than hang or crash.
+        if self._ocr_thread is None:
+            return True
+        if self._ocr_worker is not None:
+            self._ocr_worker.cancel()
+        self._ocr_suppress_feedback = True
+        self._ocr_thread.quit()
+        finished = self._ocr_thread.wait(3_000)
+        if not finished:
+            self._ocr_suppress_feedback = False
+            self._show_error(
+                self.tr("OCR is still running; ksnip cannot close until it finishes.")
+            )
+            return False
+        self._finish_ocr()
+        self._ocr_suppress_feedback = False
+        return True
 
     def _abort_upload_for_shutdown(self) -> None:
         # A QThread destroyed while running aborts the process, so the script is
@@ -1512,7 +1539,10 @@ class MainWindow(QMainWindow):
             self._upload_worker.cancel()
         self._upload_thread.quit()
         self._upload_thread.wait(10_000)
-        # wait() ended the thread, whose finished signal already ran _finish_upload.
+        # Drain the queued thread.finished here: leaving it posted would run
+        # _finish_upload after this method clears the flag, opening a modal
+        # result dialog on a window that is closing.
+        self._finish_upload()
         self._upload_suppress_feedback = False
 
     def changeEvent(self, event) -> None:  # noqa: N802
@@ -3180,6 +3210,8 @@ class MainWindow(QMainWindow):
         # Runs on the GUI thread only after the worker thread has stopped, so no
         # wait() happens from inside the worker's own signal chain and the modal
         # result dialog cannot keep the thread alive.
+        if self._upload_thread is None and self._upload_progress is None and self._upload_result is None:
+            return  # already drained; _abort_upload_for_shutdown calls this directly
         if self._upload_progress is not None:
             self._upload_progress.close()
             self._upload_progress.deleteLater()
@@ -3225,12 +3257,10 @@ class MainWindow(QMainWindow):
         self._ocr_worker = OcrWorker(canvas.image(), self._ocr_backend, options)
         self._ocr_worker.moveToThread(self._ocr_thread)
         self._ocr_thread.started.connect(self._ocr_worker.run)
-        self._ocr_worker.finished.connect(self._handle_ocr_finished)
-        self._ocr_worker.failed.connect(self._handle_ocr_failed)
-        self._ocr_worker.cancelled.connect(self._handle_ocr_cancelled)
-        self._ocr_worker.finished.connect(self._cleanup_ocr_thread)
-        self._ocr_worker.failed.connect(self._cleanup_ocr_thread)
-        self._ocr_worker.cancelled.connect(self._cleanup_ocr_thread)
+        self._ocr_worker.finished.connect(self._store_ocr_result)
+        self._ocr_worker.failed.connect(self._store_ocr_failure)
+        self._ocr_worker.cancelled.connect(self._store_ocr_cancellation)
+        self._ocr_thread.finished.connect(self._finish_ocr)
         self._ocr_progress = QProgressDialog("Running OCR text recognition...", "Cancel", 0, 0, self)
         self._ocr_progress.setWindowTitle(self.tr("OCR"))
         self._ocr_progress.setWindowModality(Qt.WindowModality.WindowModal)
@@ -3243,33 +3273,57 @@ class MainWindow(QMainWindow):
         if self._ocr_worker is not None:
             self._ocr_worker.cancel()
 
-    def _handle_ocr_finished(self, text: str) -> None:
+    def _store_ocr_result(self, text: str) -> None:
+        self._ocr_outcome = ("finished", text)
+        self._quit_ocr_thread()
+
+    def _store_ocr_failure(self, message: str) -> None:
+        self._ocr_outcome = ("failed", message)
+        self._quit_ocr_thread()
+
+    def _store_ocr_cancellation(self) -> None:
+        self._ocr_outcome = None
+        self._quit_ocr_thread()
+
+    def _quit_ocr_thread(self) -> None:
+        if self._ocr_thread is not None:
+            self._ocr_thread.quit()
+
+    def _finish_ocr(self) -> None:
+        # Runs on the GUI thread only after the worker thread has stopped, so no
+        # wait() happens inside the worker's own signal chain and the modal
+        # result dialog cannot keep the thread alive.
+        if self._ocr_thread is None and self._ocr_progress is None and self._ocr_outcome is None:
+            return  # already drained; closeEvent calls this directly
+        if self._ocr_progress is not None:
+            self._ocr_progress.close()
+            self._ocr_progress.deleteLater()
+            self._ocr_progress = None
+        outcome = self._ocr_outcome
+        self._ocr_outcome = None
+        # deleteLater() would never run: the worker's thread is already finished.
+        self._ocr_worker = None
+        if self._ocr_thread is not None:
+            self._ocr_thread.deleteLater()
+            self._ocr_thread = None
+        if self._ocr_suppress_feedback:
+            return
+        if outcome is None:
+            self.status_label.setText(self.tr("OCR canceled"))
+            return
+        kind, payload = outcome
+        if kind == "failed":
+            self.status_label.setText(self.tr("OCR failed"))
+            self._show_error(payload)
+            return
+        self._present_ocr_result(payload)
+
+    def _present_ocr_result(self, text: str) -> None:
         if self._setting_bool("ocr/copy_to_clipboard", False) and text:
             QGuiApplication.clipboard().setText(text)
         dialog = OcrResultDialog(text, self)
         dialog.exec()
         self.status_label.setText(self.tr("OCR finished"))
-
-    def _handle_ocr_failed(self, message: str) -> None:
-        self.status_label.setText(self.tr("OCR failed"))
-        self._show_error(message)
-
-    def _handle_ocr_cancelled(self) -> None:
-        self.status_label.setText(self.tr("OCR canceled"))
-
-    def _cleanup_ocr_thread(self, *_args) -> None:
-        if self._ocr_progress is not None:
-            self._ocr_progress.close()
-            self._ocr_progress.deleteLater()
-            self._ocr_progress = None
-        if self._ocr_thread is not None:
-            self._ocr_thread.quit()
-            self._ocr_thread.wait()
-            self._ocr_thread.deleteLater()
-            self._ocr_thread = None
-        if self._ocr_worker is not None:
-            self._ocr_worker.deleteLater()
-            self._ocr_worker = None
 
     def _set_rotate_watermark(self, checked: bool) -> None:
         self._settings.setValue("watermark/rotate", checked)

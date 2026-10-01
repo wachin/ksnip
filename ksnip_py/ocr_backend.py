@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import os
+import signal
 import subprocess
 import tempfile
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -29,31 +32,47 @@ class OcrOptions:
 
 
 class OcrBackend:
-    def recognize_file(self, image_path: str, options: OcrOptions) -> str:
+    def recognize_file(
+        self,
+        image_path: str,
+        options: OcrOptions,
+        on_process: Callable[[subprocess.Popen], None] | None = None,
+    ) -> str:
         if options.backend == "script":
-            return self._recognize_with_script(image_path, options.script_path)
+            return self._recognize_with_script(image_path, options.script_path, on_process)
         if options.backend == "paddleocr":
             return self._recognize_with_paddleocr(image_path, options.language)
         raise OcrError(f"Unsupported OCR backend: {options.backend}")
 
-    def _recognize_with_script(self, image_path: str, script_path: str) -> str:
+    def _recognize_with_script(
+        self,
+        image_path: str,
+        script_path: str,
+        on_process: Callable[[subprocess.Popen], None] | None = None,
+    ) -> str:
         if not script_path:
             raise OcrError("No OCR script configured.")
         path = Path(script_path)
         if not path.exists():
             raise OcrError(f"OCR script does not exist: {script_path}")
         try:
-            result = subprocess.run(
+            process = subprocess.Popen(
                 [script_path, image_path],
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                check=False,
+                # Own process group so a cancel can kill the script's children,
+                # which would otherwise hold the pipes open and block here.
+                start_new_session=True,
             )
         except OSError as exc:
             raise OcrError(f"Unable to start OCR script: {exc}") from exc
-        if result.returncode != 0:
-            raise OcrError(result.stderr.strip() or f"OCR script exited with code {result.returncode}.")
-        text = result.stdout.strip()
+        if on_process is not None:
+            on_process(process)
+        stdout, stderr = process.communicate()
+        if process.returncode != 0:
+            raise OcrError((stderr or "").strip() or f"OCR script exited with code {process.returncode}.")
+        text = (stdout or "").strip()
         if not text:
             raise OcrError("OCR script finished but returned no text.")
         return text
@@ -168,9 +187,11 @@ class OcrWorker(QObject):
         self._backend = backend
         self._options = options
         self._cancel_requested = False
+        self._process: subprocess.Popen | None = None
 
     def cancel(self) -> None:
         self._cancel_requested = True
+        self._kill_process()
 
     def run(self) -> None:
         if self._cancel_requested:
@@ -187,16 +208,41 @@ class OcrWorker(QObject):
                 self.cancelled.emit()
                 return
             try:
-                text = self._backend.recognize_file(temp_path, self._options)
+                text = self._backend.recognize_file(temp_path, self._options, on_process=self._capture_process)
             except OcrCancelledError:
                 self.cancelled.emit()
                 return
             except OcrError as exc:
+                # A killed script surfaces as an error; report cancellation instead.
+                if self._cancel_requested:
+                    self.cancelled.emit()
+                    return
                 self.failed.emit(str(exc))
+                return
+            if self._cancel_requested:
+                self.cancelled.emit()
                 return
             self.finished.emit(text)
         finally:
             try:
                 Path(temp_path).unlink(missing_ok=True)
+            except OSError:
+                pass
+
+    def _capture_process(self, process: subprocess.Popen) -> None:
+        self._process = process
+        if self._cancel_requested:
+            self._kill_process()
+
+    def _kill_process(self) -> None:
+        process = self._process
+        if process is None or process.poll() is not None:
+            return
+        try:
+            # start_new_session makes pgid == pid, so this reaches the script's children.
+            os.killpg(os.getpgid(process.pid), signal.SIGKILL)
+        except (OSError, ProcessLookupError):
+            try:
+                process.kill()
             except OSError:
                 pass
