@@ -1446,6 +1446,7 @@ class AnnotationCanvas(QLabel):
                     if item is not None:
                         self._commit_drag_undo()
                         self._resize_item(item, self._active_handle, image_point)
+                        self._mark_dirty()
                 else:
                     delta = image_point - self._drag_start
                     if delta.manhattanLength() > 0:
@@ -1453,7 +1454,7 @@ class AnnotationCanvas(QLabel):
                         for index in self._selected_item_indices:
                             self._items[index].move_by(delta)
                         self._drag_start = image_point
-                self._mark_dirty()
+                        self._mark_dirty()
                 self._refresh()
                 self._update_cursor_for_point(image_point)
                 return

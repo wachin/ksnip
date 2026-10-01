@@ -1143,6 +1143,24 @@ class SelectDragUndoTest(unittest.TestCase):
         item = self.canvas._items[0]
         self.assertEqual((item.start.x(), item.start.y(), item.end.x(), item.end.y()), (20, 20, 80, 60))
 
+    def test_zero_delta_drag_does_not_mark_the_canvas_dirty(self) -> None:
+        self.assertFalse(self.canvas.state.dirty)
+
+        QTest.mousePress(self.canvas, Qt.MouseButton.LeftButton, pos=QPoint(50, 40))
+        QTest.mouseMove(self.canvas, QPoint(50, 40))
+        QTest.mouseRelease(self.canvas, Qt.MouseButton.LeftButton, pos=QPoint(50, 40))
+
+        self.assertFalse(self.canvas.state.dirty)
+        self.assertEqual(self.canvas._undo_stack, [])
+        self.assertEqual(self.canvas._items[0].start, QPoint(20, 20))
+
+    def test_nonzero_drag_does_mark_the_canvas_dirty(self) -> None:
+        QTest.mousePress(self.canvas, Qt.MouseButton.LeftButton, pos=QPoint(50, 40))
+        QTest.mouseMove(self.canvas, QPoint(51, 40))
+        QTest.mouseRelease(self.canvas, Qt.MouseButton.LeftButton, pos=QPoint(51, 40))
+
+        self.assertTrue(self.canvas.state.dirty)
+
 
 if __name__ == "__main__":
     unittest.main()
