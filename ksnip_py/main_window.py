@@ -2230,7 +2230,9 @@ class MainWindow(QMainWindow):
 
     def capture_rect_area(self) -> None:
         self._settings.setValue("capture/default_mode", "rect")
-        result = self._capture_with_preferences(lambda: grab_rectangular_area())
+        result = self._capture_with_preferences(
+            lambda: grab_rectangular_area(magnifier=self._setting_bool("capture/magnifying_glass", True))
+        )
         if result is None:
             self._handle_capture_failure("Capture canceled", critical=False)
             return
@@ -3684,6 +3686,7 @@ class MainWindow(QMainWindow):
             capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
             capture_implicit_delay_ms=self._setting_int("capture/implicit_delay_ms", 200),
             capture_include_cursor=self._setting_bool("capture/include_cursor", True),
+            show_magnifying_glass=self._setting_bool("capture/magnifying_glass", True),
             force_generic_wayland=self._setting_bool("capture/force_generic_wayland", False),
             scale_generic_wayland=self._setting_bool("capture/scale_generic_wayland", False),
             hide_main_window_during_capture=self._setting_bool("capture/hide_main_window", True),
@@ -3784,6 +3787,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
         self._settings.setValue("capture/implicit_delay_ms", data.capture_implicit_delay_ms)
         self._settings.setValue("capture/include_cursor", data.capture_include_cursor)
+        self._settings.setValue("capture/magnifying_glass", data.show_magnifying_glass)
         self._settings.setValue("capture/force_generic_wayland", data.force_generic_wayland)
         self._settings.setValue("capture/scale_generic_wayland", data.scale_generic_wayland)
         self._settings.setValue("capture/hide_main_window", data.hide_main_window_during_capture)

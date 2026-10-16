@@ -58,6 +58,7 @@ class SettingsData:
     capture_delay_seconds: int
     capture_implicit_delay_ms: int
     capture_include_cursor: bool
+    show_magnifying_glass: bool
     force_generic_wayland: bool
     scale_generic_wayland: bool
     hide_main_window_during_capture: bool
@@ -391,7 +392,7 @@ class SettingsDialog(QDialog):
         self.freeze_image_while_snipping = QCheckBox(self.tr("Freeze Image while snipping"), snipping_area_group)
         self.freeze_image_while_snipping.setEnabled(False)
         self.show_magnifying_glass = QCheckBox(self.tr("Show magnifying glass on snipping area"), snipping_area_group)
-        self.show_magnifying_glass.setEnabled(False)
+        self.show_magnifying_glass.setChecked(True)
         self.show_snipping_rulers = QCheckBox(self.tr("Show Snipping Area rulers"), snipping_area_group)
         self.show_snipping_rulers.setEnabled(False)
         self.show_snipping_position_size = QCheckBox(self.tr("Show Snipping Area position and size info"), snipping_area_group)
@@ -945,6 +946,7 @@ class SettingsDialog(QDialog):
         self.capture_delay_seconds.setValue(initial.capture_delay_seconds)
         self.implicit_capture_delay.setValue(initial.capture_implicit_delay_ms)
         self.capture_mouse_cursor.setChecked(initial.capture_include_cursor)
+        self.show_magnifying_glass.setChecked(initial.show_magnifying_glass)
         self.force_generic_wayland.setChecked(initial.force_generic_wayland)
         self.scale_generic_wayland.setChecked(initial.scale_generic_wayland)
         self.hide_main_window_during_capture.setChecked(initial.hide_main_window_during_capture)
@@ -1123,6 +1125,7 @@ class SettingsDialog(QDialog):
             capture_delay_seconds=self.capture_delay_seconds.value(),
             capture_implicit_delay_ms=self.implicit_capture_delay.value(),
             capture_include_cursor=self.capture_mouse_cursor.isChecked(),
+            show_magnifying_glass=self.show_magnifying_glass.isChecked(),
             force_generic_wayland=self.force_generic_wayland.isChecked(),
             scale_generic_wayland=self.scale_generic_wayland.isChecked(),
             hide_main_window_during_capture=self.hide_main_window_during_capture.isChecked(),

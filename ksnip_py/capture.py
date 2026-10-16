@@ -9,9 +9,9 @@ import subprocess
 from dataclasses import dataclass
 from dataclasses import field
 
-from PyQt6.QtCore import QCoreApplication, QEventLoop, QObject, QPoint, QRect, QTimer, Qt, QUrl, pyqtSignal, pyqtSlot
+from PyQt6.QtCore import QCoreApplication, QEventLoop, QLine, QObject, QPoint, QRect, QSize, QTimer, Qt, QUrl, pyqtSignal, pyqtSlot
 from PyQt6.QtDBus import QDBusConnection, QDBusInterface, QDBusMessage, QDBusObjectPath
-from PyQt6.QtGui import QColor, QCursor, QGuiApplication, QImage, QMouseEvent, QPainter, QPen, QPixmap
+from PyQt6.QtGui import QColor, QCursor, QGuiApplication, QImage, QMouseEvent, QPainter, QPen, QPixmap, QRegion
 from PyQt6.QtWidgets import QApplication, QWidget
 
 
@@ -246,12 +246,12 @@ def grab_portal(*, interactive: bool = True, scale: bool = False) -> CaptureResu
     return CaptureResult(pixmap, "portal")
 
 
-def grab_rectangular_area(parent: QWidget | None = None) -> CaptureResult | None:
+def grab_rectangular_area(parent: QWidget | None = None, *, magnifier: bool = True) -> CaptureResult | None:
     global _last_rect_area
     desktop = _grab_virtual_desktop()
     if desktop.isNull():
         return None
-    overlay = SelectionOverlay(desktop)
+    overlay = SelectionOverlay(desktop, magnifier_enabled=magnifier)
     overlay.setParent(parent)
     overlay.show()
     overlay.raise_()
@@ -408,20 +408,148 @@ def _run_capture_helper(command: list[str]) -> str | None:
     return result.stdout
 
 
+class MagnifyingGlass:
+    """Port of the C++ AdornerMagnifyingGlass shown while snipping.
+
+    Renders a circular zoomed-in view of the desktop around the mouse
+    position with a cross hair, mirroring the behaviour of the original
+    ksnip snipping area adorner.
+    """
+
+    OFFSET_TO_MOUSE = QPoint(20, 20)
+    SCALE_FACTOR = QSize(600, 600)
+    ZOOM_IN_AREA_SIZE = QSize(100, 100)
+    BACKGROUND_OFFSET = QPoint(50, 50)
+    OUTER_OFFSET = 20
+    INNER_OFFSET = 15
+    CROSSHAIR_COLOR = QColor("#ff0000")
+
+    def __init__(self, background: QPixmap) -> None:
+        self._background_with_margin = QPixmap()
+        self._image = QPixmap()
+        self._visible_rect = QRect(0, 0, 200, 200)
+        self._crosshair_pen = QPen(self.CROSSHAIR_COLOR, 6)
+        self._crosshair_top = QLine()
+        self._crosshair_bottom = QLine()
+        self._crosshair_left = QLine()
+        self._crosshair_right = QLine()
+        if not background.isNull():
+            self._background_with_margin = self._create_background_with_margin(background)
+
+    def is_null(self) -> bool:
+        return self._background_with_margin.isNull()
+
+    def _create_background_with_margin(self, background: QPixmap) -> QPixmap:
+        result = QPixmap(background.size() + self.ZOOM_IN_AREA_SIZE)
+        result.fill(Qt.GlobalColor.black)
+        painter = QPainter(result)
+        painter.drawPixmap(self.BACKGROUND_OFFSET, background)
+        painter.end()
+        return result
+
+    def update(self, mouse_position: QPoint, screen_rect: QRect) -> None:
+        if self._background_with_margin.isNull():
+            return
+        self._update_position(mouse_position, screen_rect)
+        self._update_image(mouse_position - screen_rect.topLeft())
+        self._update_crosshair()
+
+    def paint(self, painter: QPainter) -> None:
+        if self._background_with_margin.isNull():
+            return
+        painter.setBrush(Qt.BrushStyle.NoBrush)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.setClipRegion(QRegion(self._visible_rect, QRegion.RegionType.Ellipse))
+        painter.drawPixmap(self._visible_rect, self._image)
+        painter.setPen(self._crosshair_pen)
+        for line in (self._crosshair_top, self._crosshair_bottom, self._crosshair_left, self._crosshair_right):
+            painter.drawLine(line)
+
+    def _update_position(self, mouse_position: QPoint, screen_rect: QRect) -> None:
+        if self._is_top_left_from_mouse(mouse_position, screen_rect):
+            self._visible_rect.moveBottomRight(mouse_position)
+        elif self._is_bottom_left_from_mouse(mouse_position, screen_rect):
+            self._visible_rect.moveTopRight(mouse_position)
+        elif self._is_top_right_from_mouse(mouse_position, screen_rect):
+            self._visible_rect.moveBottomLeft(mouse_position)
+        else:
+            self._visible_rect.moveTopLeft(mouse_position + self.OFFSET_TO_MOUSE)
+
+    def _update_image(self, mouse_position: QPoint) -> None:
+        position_around_mouse = QRect(QPoint(0, 0), self.ZOOM_IN_AREA_SIZE)
+        position_around_mouse.moveCenter(mouse_position + self.BACKGROUND_OFFSET)
+        zoomed_in_image = self._background_with_margin.copy(position_around_mouse).scaled(self.SCALE_FACTOR)
+        rect_for_final_cut = QRect(self._visible_rect)
+        rect_for_final_cut.moveCenter(zoomed_in_image.rect().center())
+        self._image = zoomed_in_image.copy(rect_for_final_cut)
+
+    def _update_crosshair(self) -> None:
+        center = self._visible_rect.center()
+        self._crosshair_top = QLine(
+            center.x(),
+            self._visible_rect.top() + self.OUTER_OFFSET,
+            center.x(),
+            center.y() - self.INNER_OFFSET,
+        )
+        self._crosshair_bottom = QLine(
+            center.x(),
+            self._visible_rect.bottom() - self.OUTER_OFFSET,
+            center.x(),
+            center.y() + self.INNER_OFFSET,
+        )
+        self._crosshair_left = QLine(
+            self._visible_rect.left() + self.OUTER_OFFSET,
+            center.y(),
+            center.x() - self.INNER_OFFSET,
+            center.y(),
+        )
+        self._crosshair_right = QLine(
+            self._visible_rect.right() - self.OUTER_OFFSET,
+            center.y(),
+            center.x() + self.INNER_OFFSET,
+            center.y(),
+        )
+
+    def _is_top_right_from_mouse(self, mouse_position: QPoint, screen_rect: QRect) -> bool:
+        return (
+            mouse_position.x() + self._visible_rect.width() < screen_rect.width()
+            and mouse_position.y() + self._visible_rect.height() > screen_rect.height()
+        )
+
+    def _is_bottom_left_from_mouse(self, mouse_position: QPoint, screen_rect: QRect) -> bool:
+        return (
+            mouse_position.x() + self._visible_rect.width() > screen_rect.width()
+            and mouse_position.y() + self._visible_rect.height() < screen_rect.height()
+        )
+
+    def _is_top_left_from_mouse(self, mouse_position: QPoint, screen_rect: QRect) -> bool:
+        return (
+            mouse_position.x() + self._visible_rect.width() > screen_rect.width()
+            and mouse_position.y() + self._visible_rect.height() > screen_rect.height()
+        )
+
+
 class SelectionOverlay(QWidget):
     selection_completed = pyqtSignal()
 
-    def __init__(self, desktop: QPixmap) -> None:
+    def __init__(self, desktop: QPixmap, magnifier_enabled: bool = False) -> None:
         super().__init__(None, Qt.WindowType.FramelessWindowHint | Qt.WindowType.Tool)
         self._desktop = desktop
         self._origin = QPoint()
         self._current = QPoint()
         self._dragging = False
         self._accepted = False
+        self._magnifier = MagnifyingGlass(desktop) if magnifier_enabled else None
         self._virtual_geometry = QApplication.screens()[0].virtualGeometry()
         self.setGeometry(self._virtual_geometry)
         self.setWindowState(Qt.WindowState.WindowFullScreen)
         self.setCursor(Qt.CursorShape.CrossCursor)
+        self._update_magnifier(QCursor.pos())
+
+    def _update_magnifier(self, global_position: QPoint) -> None:
+        if self._magnifier is not None:
+            self._magnifier.update(global_position, self._virtual_geometry)
+            self.update()
 
     def wait_for_selection(self) -> bool:
         loop = QApplication.instance()
@@ -444,6 +572,8 @@ class SelectionOverlay(QWidget):
             painter.drawPixmap(rect, self._desktop, rect)
             painter.setPen(QPen(QColor("#ffffff"), 2))
             painter.drawRect(rect)
+        if self._magnifier is not None:
+            self._magnifier.paint(painter)
 
     def mousePressEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if event.button() != Qt.MouseButton.LeftButton:
@@ -452,9 +582,11 @@ class SelectionOverlay(QWidget):
         self._origin = event.position().toPoint()
         self._current = self._origin
         self._dragging = True
+        self._update_magnifier(self._global_position(event))
         self.update()
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:  # noqa: N802
+        self._update_magnifier(self._global_position(event))
         if self._dragging:
             self._current = event.position().toPoint()
             self.update()
@@ -465,6 +597,9 @@ class SelectionOverlay(QWidget):
             self._dragging = False
             self._accepted = True
         self.close()
+
+    def _global_position(self, event: QMouseEvent) -> QPoint:
+        return self._virtual_geometry.topLeft() + event.position().toPoint()
 
     def keyPressEvent(self, event) -> None:  # noqa: N802
         if event.key() == Qt.Key.Key_Escape:
