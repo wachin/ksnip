@@ -100,6 +100,7 @@ class MainWindow(QMainWindow):
         self._upload_suppress_feedback = False
         self._tray_icon: QSystemTrayIcon | None = None
         self._allow_quit = False
+        self._restoring_from_tray = False
         self._capture_delay_override_seconds: int | None = None
         self._capture_cursor_override: bool | None = None
         self._last_capture_used_portal = False
@@ -110,6 +111,7 @@ class MainWindow(QMainWindow):
         self._first_image_window_adjusted = False
         self._tool_group_buttons: dict[str, QToolButton] = {}
         self._startup_position: QPoint | None = None
+        self._first_show_handled = False
 
         self.setWindowTitle("ksnip")
         self._apply_window_icon()
@@ -1476,25 +1478,45 @@ class MainWindow(QMainWindow):
         self._tray_icon = tray_icon
         self._apply_tray_settings()
 
+    TITLE_BAR_CLEARANCE = 32
+
     def showEvent(self, event) -> None:  # noqa: N802
         super().showEvent(event)
+        if self._first_show_handled:
+            # Repositioning on every show would make restores from the tray
+            # jump to the center; placement is decided once, at startup.
+            return
+        self._first_show_handled = True
+        screen = QGuiApplication.primaryScreen()
+        if screen is None:
+            self._startup_position = None
+            return
+        available = screen.availableGeometry()
         if self._startup_position is None:
+            self._center_window(available)
             return
         position = self._startup_position
         self._startup_position = None
-        screen = QGuiApplication.primaryScreen()
-        if screen is not None and not screen.availableGeometry().contains(position):
-            desktop_center = screen.availableGeometry().center()
-            position = QPoint(
-                desktop_center.x() - self.width() // 2,
-                desktop_center.y() - self.height() // 2,
-            )
+        # On X11 the window manager draws the title bar above the client
+        # window (Fluxbox keeps the client at the requested position and
+        # decorates around it). A remembered position too close to the top
+        # edge would push the title bar off-screen, so clamp it.
+        safe_available = available.adjusted(0, self.TITLE_BAR_CLEARANCE, 0, 0)
+        if safe_available.contains(position):
+            self.move(position)
+        else:
+            self._center_window(available)
+
+    def _center_window(self, available: QRect) -> None:
+        frame = self.frameGeometry()
+        position = available.center() - QPoint(frame.width() // 2, frame.height() // 2)
+        position.setY(max(available.top() + self.TITLE_BAR_CLEARANCE, position.y()))
         self.move(position)
 
     def closeEvent(self, event) -> None:  # noqa: N802
         if self._should_close_to_tray():
             event.ignore()
-            self.hide_to_tray(self.tr("ksnip PyQt6 is still running in the system tray."))
+            self.hide_to_tray(self._first_time_tray_message(self.tr("ksnip PyQt6 is still running in the system tray.")))
             return
         if not self._confirm_close_all_tabs():
             event.ignore()
@@ -1546,9 +1568,25 @@ class MainWindow(QMainWindow):
         self._upload_suppress_feedback = False
 
     def changeEvent(self, event) -> None:  # noqa: N802
-        if event.type() == QEvent.Type.WindowStateChange and self._should_minimize_to_tray() and self.isMinimized():
-            self.hide_to_tray(self.tr("ksnip PyQt6 was minimized to the system tray."))
+        if (
+            event.type() == QEvent.Type.WindowStateChange
+            and not self._restoring_from_tray
+            and self._should_minimize_to_tray()
+            and self.isMinimized()
+        ):
+            self.hide_to_tray(self._first_time_tray_message(self.tr("ksnip PyQt6 was minimized to the system tray.")))
         super().changeEvent(event)
+
+    def _first_time_tray_message(self, message: str) -> str | None:
+        """Return the hint message only once per installation.
+
+        The user already knows where the tray icon lives after the first
+        notification, so repeat announcements would only be noise.
+        """
+        if self._setting_bool("tray/hint_shown", False):
+            return None
+        self._settings.setValue("tray/hint_shown", True)
+        return message
 
     def new_tab(self, image: QImage | None = None, path: str | None = None, title: str = "Untitled") -> AnnotationCanvas:
         canvas = AnnotationCanvas()
@@ -3096,12 +3134,36 @@ class MainWindow(QMainWindow):
             self.status_label.setText(self.tr("Settings updated"))
 
     def show_from_tray(self) -> None:
-        self.showNormal()
-        self.raise_()
-        self.activateWindow()
+        # A window hidden while minimized still carries the minimized flag.
+        # Several window managers emit a transient WindowStateChange right
+        # after the window is mapped again, which changeEvent would interpret
+        # as a fresh minimize and immediately re-hide the window ("opens and
+        # closes at once"). Suppress that path while restoring.
+        self._restoring_from_tray = True
+        try:
+            self.setWindowState(self.windowState() & ~Qt.WindowState.WindowMinimized)
+            self.showNormal()
+            self.raise_()
+            self.activateWindow()
+            self.show()
+        finally:
+            QTimer.singleShot(0, self._finish_restore_from_tray)
+
+    def _finish_restore_from_tray(self) -> None:
+        self._restoring_from_tray = False
 
     def hide_to_tray(self, message: str | None = None) -> None:
+        # Fluxbox (and some other lightweight window managers) leave a ghost
+        # empty frame behind when a window is withdrawn while it is still
+        # iconified. Restore the window state first, then withdraw it while
+        # it is mapped; no events are processed in between, so nothing
+        # flashes on screen.
+        if self.isMinimized():
+            self.setWindowState(self.windowState() & ~Qt.WindowState.WindowMinimized)
         self.hide()
+        # Drop the minimized flag while hidden so a later restore cannot
+        # replay a stale WindowStateChange that re-triggers hide_to_tray.
+        self.setWindowState(self.windowState() & ~Qt.WindowState.WindowMinimized)
         if self._tray_icon is not None and message and self._setting_bool("tray/notifications", True):
             self._tray_icon.showMessage("ksnip PyQt6", message, QSystemTrayIcon.MessageIcon.Information)
 
