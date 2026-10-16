@@ -114,3 +114,13 @@ def test_magnifying_glass_paints_without_errors() -> None:
     painter.end()
 
     assert not target.isNull()
+
+
+def test_selection_overlay_tracks_mouse_without_buttons_pressed() -> None:
+    _application()
+    desktop = QPixmap(400, 300)
+    desktop.fill()
+
+    overlay = SelectionOverlay(desktop, magnifier_enabled=True)
+
+    assert overlay.hasMouseTracking()

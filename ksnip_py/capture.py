@@ -544,6 +544,9 @@ class SelectionOverlay(QWidget):
         self.setGeometry(self._virtual_geometry)
         self.setWindowState(Qt.WindowState.WindowFullScreen)
         self.setCursor(Qt.CursorShape.CrossCursor)
+        # Without mouse tracking Qt only delivers mouse-move events while a
+        # button is pressed, so the magnifying glass would freeze until drag.
+        self.setMouseTracking(True)
         self._update_magnifier(QCursor.pos())
 
     def _update_magnifier(self, global_position: QPoint) -> None:
@@ -554,6 +557,10 @@ class SelectionOverlay(QWidget):
     def wait_for_selection(self) -> bool:
         loop = QApplication.instance()
         while self.isVisible():
+            # Fallback: keep the magnifying glass glued to the cursor even if
+            # move events are not delivered by the windowing system.
+            if self._magnifier is not None:
+                self._update_magnifier(QCursor.pos())
             loop.processEvents()
         return self._accepted
 
