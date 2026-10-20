@@ -222,6 +222,10 @@ class OcrBackend:
             content = self._extract_structure_html(results)
         else:
             content = self._extract_structure_markdown(results)
+            # PaddleOCR's markdown_texts uses pretty=True by default, so tables
+            # come as HTML <table>...</table>. Convert to proper Markdown pipe-tables.
+            if "<table" in content.lower():
+                content = self._html_tables_to_markdown(content)
         if not content:
             raise OcrError("PaddleOCR layout parsing finished but returned no recognized text.")
         return content
@@ -252,6 +256,89 @@ class OcrBackend:
                 if isinstance(table_html, str) and table_html.strip():
                     pages.append(table_html.strip())
         return "\n\n".join(pages).strip()
+
+    @staticmethod
+    def _html_tables_to_markdown(text: str) -> str:
+        """Convert HTML <table>...</table> blocks in *text* to Markdown pipe-tables.
+
+        Uses ``pandoc`` if available (best fidelity), otherwise falls back to a
+        minimal regex-based converter.
+        """
+        import re
+        import shutil
+        import subprocess
+
+        # If the whole text looks like a single HTML document with one table,
+        # let pandoc convert the whole thing (handles wrappers correctly).
+        if shutil.which("pandoc") and text.strip().lower().startswith(("<html", "<div", "<body", "<table")):
+            try:
+                proc = subprocess.run(
+                    ["pandoc", "-f", "html", "-t", "gfm-raw_html"],
+                    input=text.encode("utf-8"),
+                    capture_output=True,
+                    timeout=15,
+                )
+                if proc.returncode == 0 and proc.stdout.strip():
+                    return proc.stdout.decode("utf-8").strip()
+            except Exception:
+                pass
+
+        # Otherwise, find individual <table>...</table> blocks and convert each
+        table_pattern = re.compile(r"(<table\b[^>]*>.*?</table>)", re.IGNORECASE | re.DOTALL)
+
+        def convert_one(match: re.Match) -> str:
+            html_table = match.group(1)
+            # Try pandoc on the isolated table
+            if shutil.which("pandoc"):
+                try:
+                    proc = subprocess.run(
+                        ["pandoc", "-f", "html", "-t", "gfm-raw_html"],
+                        input=html_table.encode("utf-8"),
+                        capture_output=True,
+                        timeout=10,
+                    )
+                    if proc.returncode == 0 and proc.stdout.strip():
+                        return proc.stdout.decode("utf-8").strip()
+                except Exception:
+                    pass
+            # Fallback: very simple HTML-to-Markdown table conversion
+            return OcrBackend._simple_html_table_to_markdown(html_table)
+
+        return table_pattern.sub(convert_one, text)
+
+    @staticmethod
+    def _simple_html_table_to_markdown(html: str) -> str:
+        """Minimal HTML table -> Markdown pipe-table (no external deps)."""
+        import re
+        from html import unescape
+
+        # Remove <html><body> wrappers if present
+        html = re.sub(r"^.*?<body[^>]*>", "", html, flags=re.IGNORECASE | re.DOTALL)
+        html = re.sub(r"</body>.*$", "", html, flags=re.IGNORECASE | re.DOTALL)
+        html = re.sub(r"^.*?<html[^>]*>", "", html, flags=re.IGNORECASE | re.DOTALL)
+        html = re.sub(r"</html>.*$", "", html, flags=re.IGNORECASE | re.DOTALL)
+
+        # Extract rows
+        rows = re.findall(r"<tr\b[^>]*>(.*?)</tr>", html, flags=re.IGNORECASE | re.DOTALL)
+        if not rows:
+            return html
+
+        md_rows = []
+        for i, row in enumerate(rows):
+            cells = re.findall(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", row, flags=re.IGNORECASE | re.DOTALL)
+            # Clean cell content: remove tags, unescape entities, collapse whitespace
+            clean_cells = []
+            for cell in cells:
+                cell = re.sub(r"<[^>]+>", "", cell)
+                cell = unescape(cell)
+                cell = re.sub(r"\s+", " ", cell).strip()
+                clean_cells.append(cell)
+            md_rows.append("| " + " | ".join(clean_cells) + " |")
+            if i == 0:
+                # Header separator
+                md_rows.append("| " + " | ".join(["---"] * len(clean_cells)) + " |")
+
+        return "\n".join(md_rows)
 
     @classmethod
     def _is_structure_dependency_error(cls, exc: BaseException) -> bool:
