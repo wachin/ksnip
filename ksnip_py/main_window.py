@@ -3348,7 +3348,10 @@ class MainWindow(QMainWindow):
     def _ocr_progress_message(self, backend: str) -> str:
         """Describe the running OCR, which differs greatly in cost per backend."""
         if backend in ("paddleocr_structure", "paddleocr_structure_html"):
-            return self.tr("Running OCR layout and table recognition...")
+            return self.tr(
+                "Running OCR layout and table recognition…\n"
+                "First run loads several models and may take 1–3 minutes on CPU."
+            )
         return self.tr("Running OCR text recognition...")
 
     def _cancel_ocr(self) -> None:

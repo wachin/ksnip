@@ -193,6 +193,14 @@ class OcrBackend:
                 use_textline_orientation=False,
                 use_table_recognition=True,
                 use_formula_recognition=recognize_formulas,
+                # Use smaller/faster models for screenshots (mobile instead of server)
+                layout_detection_model_name="PP-DocLayout_plus-L",
+                text_detection_model_name="PP-OCRv5_mobile_det",
+                text_recognition_model_name="PP-OCRv5_mobile_rec",
+                wired_table_structure_recognition_model_name="SLANeXt_wired",
+                wireless_table_structure_recognition_model_name="SLANet_plus",
+                wired_table_cells_detection_model_name="RT-DETR-L_wired_table_cell_det",
+                wireless_table_cells_detection_model_name="RT-DETR-L_wireless_table_cell_det",
             )
         except Exception as exc:  # noqa: BLE001
             if self._is_paddle_protobuf_error(exc):
