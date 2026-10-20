@@ -3316,6 +3316,7 @@ class MainWindow(QMainWindow):
             backend=str(self._settings.value("ocr/backend", "paddleocr")),
             language=str(self._settings.value("ocr/language", "english")),
             script_path=str(self._settings.value("ocr/script_path", "")),
+            structure_formulas=self._setting_bool("ocr/structure_formulas", False),
         )
         self._ocr_thread = QThread(self)
         self._ocr_worker = OcrWorker(canvas.image(), self._ocr_backend, options)
@@ -3326,7 +3327,7 @@ class MainWindow(QMainWindow):
         self._ocr_worker.cancelled.connect(self._store_ocr_cancellation)
         self._ocr_thread.finished.connect(self._finish_ocr)
         self._ocr_progress = QProgressDialog(
-            self.tr("Running OCR text recognition..."), self.tr("Cancel"), 0, 0, self
+            self._ocr_progress_message(options.backend), self.tr("Cancel"), 0, 0, self
         )
         self._ocr_progress.setWindowTitle(self.tr("OCR"))
         self._ocr_progress.setWindowModality(Qt.WindowModality.WindowModal)
@@ -3334,6 +3335,12 @@ class MainWindow(QMainWindow):
         self._ocr_progress.show()
         self.status_label.setText(self.tr("Running OCR..."))
         self._ocr_thread.start()
+
+    def _ocr_progress_message(self, backend: str) -> str:
+        """Describe the running OCR, which differs greatly in cost per backend."""
+        if backend == "paddleocr_structure":
+            return self.tr("Running OCR layout and table recognition...")
+        return self.tr("Running OCR text recognition...")
 
     def _cancel_ocr(self) -> None:
         if self._ocr_worker is not None:
@@ -3793,6 +3800,7 @@ class MainWindow(QMainWindow):
             ocr_language=str(self._settings.value("ocr/language", "english")),
             ocr_copy_to_clipboard=self._setting_bool("ocr/copy_to_clipboard", False),
             ocr_script_path=str(self._settings.value("ocr/script_path", "")),
+            ocr_structure_formulas=self._setting_bool("ocr/structure_formulas", False),
             spellcheck_scheme=[
                 (
                     name,
@@ -3897,6 +3905,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("ocr/language", data.ocr_language)
         self._settings.setValue("ocr/copy_to_clipboard", data.ocr_copy_to_clipboard)
         self._settings.setValue("ocr/script_path", data.ocr_script_path)
+        self._settings.setValue("ocr/structure_formulas", data.ocr_structure_formulas)
         save_spellcheck_scheme(
             [(name, QColor(fill), QColor(underline)) for name, fill, underline in data.spellcheck_scheme],
             self._settings,

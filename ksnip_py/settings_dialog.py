@@ -101,6 +101,7 @@ class SettingsData:
     ocr_language: str
     ocr_copy_to_clipboard: bool
     ocr_script_path: str
+    ocr_structure_formulas: bool
     spellcheck_scheme: list[tuple[str, str, str]]
 
 
@@ -570,11 +571,13 @@ class SettingsDialog(QDialog):
         self.ocr_enabled = QCheckBox(self.tr("Enable OCR actions"), ocr_group)
         self.ocr_backend = QComboBox(ocr_group)
         self.ocr_backend.addItem("PaddleOCR", "paddleocr")
+        self.ocr_backend.addItem(self.tr("PaddleOCR (tables + Markdown)"), "paddleocr_structure")
         self.ocr_backend.addItem(self.tr("Script"), "script")
         self.ocr_language = QComboBox(ocr_group)
         self.ocr_language.addItem(self.tr("English"), "english")
         self.ocr_language.addItem(self.tr("Spanish"), "spanish")
         self.ocr_language.addItem(self.tr("Spanish + English (script backend recommended)"), "spanish_english")
+        self.ocr_structure_formulas = QCheckBox(self.tr("Recognize mathematical formulas (LaTeX)"), ocr_group)
         self.ocr_copy_to_clipboard = QCheckBox(self.tr("Copy OCR result to clipboard automatically"), ocr_group)
         ocr_script_row = QHBoxLayout()
         self.ocr_script_path = QLineEdit(ocr_group)
@@ -587,6 +590,7 @@ class SettingsDialog(QDialog):
         ocr_layout.addRow(self.ocr_enabled)
         ocr_layout.addRow(self.tr("Backend"), self.ocr_backend)
         ocr_layout.addRow(self.tr("Language"), self.ocr_language)
+        ocr_layout.addRow(self.ocr_structure_formulas)
         ocr_layout.addRow(self.ocr_copy_to_clipboard)
         ocr_layout.addRow(self.tr("Script Path"), ocr_script_host)
         self.ocr_enabled.toggled.connect(self._sync_ocr_controls)
@@ -1009,6 +1013,7 @@ class SettingsDialog(QDialog):
             self.ocr_language.setCurrentIndex(language_index)
         self.ocr_copy_to_clipboard.setChecked(initial.ocr_copy_to_clipboard)
         self.ocr_script_path.setText(initial.ocr_script_path)
+        self.ocr_structure_formulas.setChecked(initial.ocr_structure_formulas)
         scheme_rows = [
             (name, QColor(fill), QColor(underline))
             for name, fill, underline in (initial.spellcheck_scheme or [])
@@ -1085,7 +1090,9 @@ class SettingsDialog(QDialog):
         enabled = self.ocr_enabled.isChecked()
         backend = self.ocr_backend.currentData()
         self.ocr_backend.setEnabled(enabled)
-        self.ocr_language.setEnabled(enabled and backend == "paddleocr")
+        self.ocr_language.setEnabled(enabled and backend in ("paddleocr", "paddleocr_structure"))
+        # The layout pipeline is the only one that can emit LaTeX formulas.
+        self.ocr_structure_formulas.setEnabled(enabled and backend == "paddleocr_structure")
         self.ocr_copy_to_clipboard.setEnabled(enabled)
         self.ocr_script_path.setEnabled(enabled and backend == "script")
         self.ocr_script_button.setEnabled(enabled and backend == "script")
@@ -1171,5 +1178,6 @@ class SettingsDialog(QDialog):
             ocr_language=str(self.ocr_language.currentData()),
             ocr_copy_to_clipboard=self.ocr_copy_to_clipboard.isChecked(),
             ocr_script_path=self.ocr_script_path.text().strip(),
+            ocr_structure_formulas=self.ocr_structure_formulas.isChecked(),
             spellcheck_scheme=spellcheck_scheme,
         )

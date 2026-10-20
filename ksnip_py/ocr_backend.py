@@ -24,11 +24,30 @@ class OcrCancelledError(OcrError):
     pass
 
 
+# Languages shared by the line-oriented PaddleOCR pipeline and the layout
+# pipeline (PP-StructureV3).  Both take PaddleOCR language codes.
+_PADDLE_LANGUAGES = {
+    "english": "en",
+    "spanish": "es",
+}
+
+# PaddleOCR's layout pipeline requires PaddleX's `ocr` extra.  Its absence
+# surfaces as a chained DependencyError that is rewritten into a generic
+# RuntimeError, so both are probed when reporting the problem.
+_PRIMARY_BACKEND = "paddleocr"
+_STRUCTURE_BACKEND = "paddleocr_structure"
+_SCRIPT_BACKEND = "script"
+
+
 @dataclass
 class OcrOptions:
     backend: str
     language: str
     script_path: str = ""
+    # PP-StructureV3 only: also run the formula model so maths comes back as
+    # LaTeX inside the Markdown.  It downloads an extra model, so it is off by
+    # default.
+    structure_formulas: bool = False
 
 
 class OcrBackend:
@@ -38,10 +57,14 @@ class OcrBackend:
         options: OcrOptions,
         on_process: Callable[[subprocess.Popen], None] | None = None,
     ) -> str:
-        if options.backend == "script":
+        if options.backend == _SCRIPT_BACKEND:
             return self._recognize_with_script(image_path, options.script_path, on_process)
-        if options.backend == "paddleocr":
+        if options.backend == _PRIMARY_BACKEND:
             return self._recognize_with_paddleocr(image_path, options.language)
+        if options.backend == _STRUCTURE_BACKEND:
+            return self._recognize_with_pp_structure(
+                image_path, options.language, options.structure_formulas
+            )
         raise OcrError(f"Unsupported OCR backend: {options.backend}")
 
     def _recognize_with_script(
@@ -99,10 +122,7 @@ class OcrBackend:
                 "Use English or Spanish, or switch to the OCR script backend."
             )
 
-        lang_map = {
-            "english": "en",
-            "spanish": "es",
-        }
+        lang_map = _PADDLE_LANGUAGES
         try:
             # Screenshots are already oriented, flat images, so the document
             # orientation, unwarping, and text-line orientation models only
@@ -121,16 +141,123 @@ class OcrBackend:
             if self._is_paddle_protobuf_error(exc):
                 raise self._paddle_protobuf_error() from exc
             if "ConvertPirAttribute2RuntimeAttribute" in str(exc):
-                raise OcrError(
-                    "PaddleOCR reached an unsupported oneDNN operation even though ksnip_py disabled its MKL-DNN backend. "
-                    "Please report the installed PaddlePaddle, PaddleOCR, and CPU details."
-                ) from exc
+                raise self._mkldnn_unsupported_error() from exc
             raise OcrError(f"PaddleOCR failed: {exc}") from exc
 
         lines = self._extract_paddleocr_text(result)
         if not lines:
             raise OcrError("PaddleOCR finished but returned no recognized text.")
         return "\n".join(lines).strip()
+
+    def _recognize_with_pp_structure(
+        self,
+        image_path: str,
+        language: str,
+        recognize_formulas: bool = False,
+    ) -> str:
+        """Recognize text keeping the document layout and return Markdown.
+
+        Unlike :meth:`_recognize_with_paddleocr`, which returns text lines with
+        no geometry, this runs PaddleOCR's document structure pipeline
+        (``PP-StructureV3``): layout detection plus table recognition, rendered
+        as Markdown.  That is what keeps tables as tables instead of a flat list
+        of cells.  It is slower and needs extra models, so it is opt-in.
+        """
+        try:
+            from paddleocr import PPStructureV3
+        except ImportError as exc:
+            if self._is_paddle_protobuf_error(exc):
+                raise self._paddle_protobuf_error() from exc
+            raise OcrMissingDependencyError(self._structure_dependency_message()) from exc
+        except Exception as exc:  # noqa: BLE001
+            if self._is_paddle_protobuf_error(exc):
+                raise self._paddle_protobuf_error() from exc
+            raise OcrError(f"PaddleOCR could not be loaded: {exc}") from exc
+
+        try:
+            pipeline = PPStructureV3(
+                lang=_PADDLE_LANGUAGES.get(language, "en"),
+                # Same guards as the line-oriented pipeline: screenshots are
+                # already oriented and flat, so the orientation/unwarping models
+                # only cost startup time, and oneDNN must stay disabled with the
+                # supported PaddlePaddle CPU runtime.
+                enable_mkldnn=False,
+                use_doc_orientation_classify=False,
+                use_doc_unwarping=False,
+                use_textline_orientation=False,
+                use_table_recognition=True,
+                use_formula_recognition=recognize_formulas,
+            )
+        except Exception as exc:  # noqa: BLE001
+            if self._is_paddle_protobuf_error(exc):
+                raise self._paddle_protobuf_error() from exc
+            if self._is_structure_dependency_error(exc):
+                raise OcrMissingDependencyError(self._structure_dependency_message()) from exc
+            raise OcrError(f"PaddleOCR layout pipeline could not be created: {exc}") from exc
+
+        try:
+            results = pipeline.predict(image_path)
+        except Exception as exc:  # noqa: BLE001
+            if self._is_paddle_protobuf_error(exc):
+                raise self._paddle_protobuf_error() from exc
+            if "ConvertPirAttribute2RuntimeAttribute" in str(exc):
+                raise self._mkldnn_unsupported_error() from exc
+            raise OcrError(f"PaddleOCR layout parsing failed: {exc}") from exc
+
+        markdown = self._extract_structure_markdown(results)
+        if not markdown:
+            raise OcrError("PaddleOCR layout parsing finished but returned no recognized text.")
+        return markdown
+
+    @staticmethod
+    def _extract_structure_markdown(results) -> str:
+        """Collect ``markdown_texts`` from every page of a layout result."""
+        pages: list[str] = []
+        for result in results or []:
+            markdown = getattr(result, "markdown", None)
+            if not isinstance(markdown, dict):
+                continue
+            text = markdown.get("markdown_texts")
+            if isinstance(text, str) and text.strip():
+                pages.append(text.strip())
+        return "\n\n".join(pages).strip()
+
+    @classmethod
+    def _is_structure_dependency_error(cls, exc: BaseException) -> bool:
+        """Detect the missing ``paddlex[ocr]`` error hidden in a cause chain.
+
+        PaddleOCR rewrites PaddleX's ``DependencyError`` into a generic
+        ``RuntimeError``, keeping the original as ``__cause__``.
+        """
+        seen = 0
+        current: BaseException | None = exc
+        while current is not None and seen < 6:
+            if (
+                type(current).__name__ == "DependencyError"
+                or "requires additional dependencies" in str(current)
+            ):
+                return True
+            current = current.__cause__ or current.__context__
+            seen += 1
+        return False
+
+    @staticmethod
+    def _structure_dependency_message() -> str:
+        return (
+            "The PaddleOCR layout pipeline (tables + Markdown) needs extra dependencies "
+            "that are not installed.\n\n"
+            "Close ksnip_py, activate its virtual environment and run:\n"
+            "python -m pip install -r requirements-ocr.txt\n\n"
+            "Restart ksnip_py afterwards. The first run also downloads the layout and "
+            "table models into ~/.paddlex/official_models."
+        )
+
+    @staticmethod
+    def _mkldnn_unsupported_error() -> OcrError:
+        return OcrError(
+            "PaddleOCR reached an unsupported oneDNN operation even though ksnip_py disabled its MKL-DNN backend. "
+            "Please report the installed PaddlePaddle, PaddleOCR, and CPU details."
+        )
 
     @staticmethod
     def _is_paddle_protobuf_error(exc: BaseException) -> bool:

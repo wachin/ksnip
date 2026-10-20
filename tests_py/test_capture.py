@@ -4,10 +4,10 @@ import os
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QPainter
 from PyQt6.QtWidgets import QApplication
 
-from ksnip_py.capture import MagnifyingGlass, apply_generic_wayland_scaling, portal_result_path
+from ksnip_py.capture import MagnifyingGlass, SelectionOverlay, apply_generic_wayland_scaling, portal_result_path
 from PyQt6.QtCore import QPoint, QRect
 
 
