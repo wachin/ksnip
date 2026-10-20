@@ -886,7 +886,10 @@ class MainWindow(QMainWindow):
 
         self.ocr_action = QAction(self._themed_icon("edit-find", "text"), self.tr("OCR Text Recognition"), self)
         self.ocr_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
-        self.ocr_action.triggered.connect(self.run_ocr)
+        self.ocr_action.triggered.connect(lambda: self.run_ocr("paddleocr"))
+        self.ocr_structure_action = QAction(self._themed_icon("edit-find", "text"), self.tr("OCR Text Recognition (tables + Markdown)"), self)
+        self.ocr_structure_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.ocr_structure_action.triggered.connect(lambda: self.run_ocr("paddleocr_structure"))
 
         self.update_watermark_action = QAction(self._themed_icon("document-open", "pasteEmbedded"), self.tr("Update Watermark Image..."), self)
         self.update_watermark_action.triggered.connect(self.update_watermark_image)
@@ -1391,6 +1394,7 @@ class MainWindow(QMainWindow):
         options_menu = self.menuBar().addMenu(self.tr("&Options"))
         options_menu.addAction(self.pin_action)
         options_menu.addAction(self.ocr_action)
+        options_menu.addAction(self.ocr_structure_action)
         options_menu.addAction(self.settings_action)
 
         watermark_menu = options_menu.addMenu(self.tr("Watermark"))
@@ -1472,6 +1476,7 @@ class MainWindow(QMainWindow):
         menu.addAction(self.copy_action)
         menu.addAction(self.upload_action)
         menu.addAction(self.ocr_action)
+        menu.addAction(self.ocr_structure_action)
         menu.addSeparator()
         menu.addAction(self.quit_action)
         tray_icon.setContextMenu(menu)
@@ -3302,7 +3307,7 @@ class MainWindow(QMainWindow):
         if result.output:
             QMessageBox.information(self, self.tr("Upload Successful"), result.output)
 
-    def run_ocr(self) -> None:
+    def run_ocr(self, backend: str | None = None) -> None:
         canvas = self.current_canvas()
         if canvas is None or not canvas.has_image():
             return
@@ -3312,8 +3317,12 @@ class MainWindow(QMainWindow):
         if self._ocr_thread is not None:
             return
 
+        # If a specific backend is requested (via menu action), use it.
+        # Otherwise fall back to the configured backend in settings.
+        used_backend = backend or str(self._settings.value("ocr/backend", "paddleocr"))
+
         options = OcrOptions(
-            backend=str(self._settings.value("ocr/backend", "paddleocr")),
+            backend=used_backend,
             language=str(self._settings.value("ocr/language", "english")),
             script_path=str(self._settings.value("ocr/script_path", "")),
             structure_formulas=self._setting_bool("ocr/structure_formulas", False),
@@ -3497,7 +3506,9 @@ class MainWindow(QMainWindow):
         self.pin_action.setEnabled(has_image)
         self.add_watermark_action.setEnabled(has_image)
         self.upload_action.setEnabled(has_image)
-        self.ocr_action.setEnabled(has_image and self._setting_bool("ocr/enabled", True))
+        enabled = has_image and self._setting_bool("ocr/enabled", True)
+        self.ocr_action.setEnabled(enabled)
+        self.ocr_structure_action.setEnabled(enabled)
         self.new_capture_last_rect_action.setEnabled(has_last_rectangular_area())
         self.delete_action.setEnabled(has_selected_item)
         self.duplicate_action.setEnabled(has_selected_item)
