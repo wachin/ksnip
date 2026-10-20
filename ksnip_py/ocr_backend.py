@@ -36,6 +36,7 @@ _PADDLE_LANGUAGES = {
 # RuntimeError, so both are probed when reporting the problem.
 _PRIMARY_BACKEND = "paddleocr"
 _STRUCTURE_BACKEND = "paddleocr_structure"
+_STRUCTURE_HTML_BACKEND = "paddleocr_structure_html"
 _SCRIPT_BACKEND = "script"
 
 
@@ -63,7 +64,11 @@ class OcrBackend:
             return self._recognize_with_paddleocr(image_path, options.language)
         if options.backend == _STRUCTURE_BACKEND:
             return self._recognize_with_pp_structure(
-                image_path, options.language, options.structure_formulas
+                image_path, options.language, options.structure_formulas, output_format="markdown"
+            )
+        if options.backend == _STRUCTURE_HTML_BACKEND:
+            return self._recognize_with_pp_structure(
+                image_path, options.language, options.structure_formulas, output_format="html"
             )
         raise OcrError(f"Unsupported OCR backend: {options.backend}")
 
@@ -154,14 +159,15 @@ class OcrBackend:
         image_path: str,
         language: str,
         recognize_formulas: bool = False,
+        output_format: str = "markdown",
     ) -> str:
-        """Recognize text keeping the document layout and return Markdown.
+        """Recognize text keeping the document layout and return Markdown or HTML.
 
         Unlike :meth:`_recognize_with_paddleocr`, which returns text lines with
         no geometry, this runs PaddleOCR's document structure pipeline
         (``PP-StructureV3``): layout detection plus table recognition, rendered
-        as Markdown.  That is what keeps tables as tables instead of a flat list
-        of cells.  It is slower and needs extra models, so it is opt-in.
+        as Markdown or HTML.  That is what keeps tables as tables instead of a
+        flat list of cells.  It is slower and needs extra models, so it is opt-in.
         """
         try:
             from paddleocr import PPStructureV3
@@ -204,10 +210,13 @@ class OcrBackend:
                 raise self._mkldnn_unsupported_error() from exc
             raise OcrError(f"PaddleOCR layout parsing failed: {exc}") from exc
 
-        markdown = self._extract_structure_markdown(results)
-        if not markdown:
+        if output_format == "html":
+            content = self._extract_structure_html(results)
+        else:
+            content = self._extract_structure_markdown(results)
+        if not content:
             raise OcrError("PaddleOCR layout parsing finished but returned no recognized text.")
-        return markdown
+        return content
 
     @staticmethod
     def _extract_structure_markdown(results) -> str:
@@ -220,6 +229,20 @@ class OcrBackend:
             text = markdown.get("markdown_texts")
             if isinstance(text, str) and text.strip():
                 pages.append(text.strip())
+        return "\n\n".join(pages).strip()
+
+    @staticmethod
+    def _extract_structure_html(results) -> str:
+        """Collect table HTML from every page of a layout result."""
+        pages: list[str] = []
+        for result in results or []:
+            html = getattr(result, "html", None)
+            if not isinstance(html, dict):
+                continue
+            # html is a dict like {"table_0": "<table>...</table>", ...}
+            for table_html in html.values():
+                if isinstance(table_html, str) and table_html.strip():
+                    pages.append(table_html.strip())
         return "\n\n".join(pages).strip()
 
     @classmethod

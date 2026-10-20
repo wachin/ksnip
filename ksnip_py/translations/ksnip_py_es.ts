@@ -1506,7 +1506,7 @@ Do you want to continue?</source>
 </context><context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../settings_dialog.py" line="1045" />
+        <location filename="../settings_dialog.py" line="1046" />
         <location filename="../settings_dialog.py" line="112" />
         <source>Settings</source>
         <translation>Configuración</translation>
@@ -1782,13 +1782,13 @@ Do you want to continue?</source>
         <translation>Predeterminado del sistema</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="577" />
+        <location filename="../settings_dialog.py" line="578" />
         <location filename="../settings_dialog.py" line="264" />
         <source>English</source>
         <translation>Inglés</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="592" />
+        <location filename="../settings_dialog.py" line="593" />
         <location filename="../settings_dialog.py" line="267" />
         <source>Language</source>
         <translation>Idioma</translation>
@@ -1799,7 +1799,7 @@ Do you want to continue?</source>
         <translation>Estilo de la aplicación</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="778" />
+        <location filename="../settings_dialog.py" line="779" />
         <location filename="../settings_dialog.py" line="277" />
         <source>Browse</source>
         <translation>Examinar</translation>
@@ -1907,7 +1907,7 @@ Do you want to continue?</source>
         <translation>Calidad de guardado</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="768" />
+        <location filename="../settings_dialog.py" line="769" />
         <location filename="../settings_dialog.py" line="336" />
         <source>Default</source>
         <translation>Predeterminada</translation>
@@ -1918,7 +1918,7 @@ Do you want to continue?</source>
         <translation>Factor</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="1077" />
+        <location filename="../settings_dialog.py" line="1078" />
         <location filename="../settings_dialog.py" line="350" />
         <source>Capture save location and filename</source>
         <translation>Ubicación y nombre de archivo de las capturas</translation>
@@ -1929,7 +1929,7 @@ Do you want to continue?</source>
         <translation>Admite $Y, $M, $D, $h, $m, $s, $T y caracteres # consecutivos como contador.</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="584" />
+        <location filename="../settings_dialog.py" line="585" />
         <location filename="../settings_dialog.py" line="553" />
         <location filename="../settings_dialog.py" line="354" />
         <source>Browse...</source>
@@ -2286,7 +2286,7 @@ Do you want to continue?</source>
         <translation>Pedir confirmación antes de subir</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="575" />
+        <location filename="../settings_dialog.py" line="576" />
         <location filename="../settings_dialog.py" line="559" />
         <location filename="../settings_dialog.py" line="545" />
         <source>Script</source>
@@ -2328,180 +2328,194 @@ Do you want to continue?</source>
         <translation>Activar acciones de OCR</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="574" />
-        <source>PaddleOCR (tables + Markdown)</source>
-        <translation>PaddleOCR (tablas + Markdown)</translation>
+        <location filename="../settings_dialog.py" line="573" />
+        <source>PaddleOCR (texto plano)</source>
+        <translation>PaddleOCR (texto plano)</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="578" />
+        <location filename="../settings_dialog.py" line="574" />
+        <source>PaddleOCR (tablas en Markdown)</source>
+        <translation>PaddleOCR (tablas en Markdown)</translation>
+    </message>
+    <message>
+        <location filename="../settings_dialog.py" line="575" />
+        <source>PaddleOCR (tablas en HTML)</source>
+        <translation>PaddleOCR (tablas en HTML)</translation>
+    </message>
+    <message>
+        <location filename="../settings_dialog.py" line="579" />
         <source>Spanish</source>
         <translation>Español</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="579" />
+        <location filename="../settings_dialog.py" line="580" />
         <source>Spanish + English (script backend recommended)</source>
         <translation>Español e inglés (se recomienda el backend por script)</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="580" />
+        <location filename="../settings_dialog.py" line="581" />
         <source>Recognize mathematical formulas (LaTeX)</source>
         <translation>Reconocer fórmulas matemáticas (LaTeX)</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="581" />
+        <location filename="../settings_dialog.py" line="582" />
         <source>Copy OCR result to clipboard automatically</source>
         <translation>Copiar automáticamente el resultado de OCR al portapapeles</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="591" />
+        <location filename="../settings_dialog.py" line="592" />
         <source>Backend</source>
         <translation>Backend</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="595" />
+        <location filename="../settings_dialog.py" line="596" />
         <source>Script Path</source>
         <translation>Ruta del script</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="599" />
+        <location filename="../settings_dialog.py" line="600" />
         <source>Color scheme for misspelled words</source>
         <translation>Esquema de colores para palabras mal escritas</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="601" />
+        <location filename="../settings_dialog.py" line="602" />
         <source>%1 base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.</source>
         <translation>%1 colores base del esquema: a la izquierda, el relleno de la herramienta Texto; a la derecha, el subrayado de palabras mal escritas.</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="787" />
-        <location filename="../settings_dialog.py" line="607" />
+        <location filename="../settings_dialog.py" line="788" />
+        <location filename="../settings_dialog.py" line="608" />
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="607" />
+        <location filename="../settings_dialog.py" line="608" />
         <source>Text fill color</source>
         <translation>Color de relleno del texto</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="607" />
+        <location filename="../settings_dialog.py" line="608" />
         <source>Underline color</source>
         <translation>Color del subrayado</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="657" />
+        <location filename="../settings_dialog.py" line="658" />
         <source>Imgur Uploader</source>
         <translation>Subidor de Imgur</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="659" />
+        <location filename="../settings_dialog.py" line="660" />
         <source>Native Imgur uploader parity is still pending.</source>
         <translation>La paridad con el subidor nativo de Imgur sigue pendiente.</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="670" />
+        <location filename="../settings_dialog.py" line="671" />
         <source>FTP Uploader</source>
         <translation>Subidor FTP</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="672" />
+        <location filename="../settings_dialog.py" line="673" />
         <source>Native FTP uploader parity is still pending.</source>
         <translation>La paridad con el subidor FTP nativo sigue pendiente.</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="690" />
+        <location filename="../settings_dialog.py" line="691" />
         <source>Stickers</source>
         <translation>Adhesivos</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="692" />
+        <location filename="../settings_dialog.py" line="693" />
         <source>Sticker management and picker parity are still pending.</source>
         <translation>La paridad del selector y la gestión de adhesivos sigue pendiente.</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="723" />
+        <location filename="../settings_dialog.py" line="724" />
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="724" />
+        <location filename="../settings_dialog.py" line="725" />
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="745" />
+        <location filename="../settings_dialog.py" line="746" />
         <source>Actions</source>
         <translation>Acciones</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="749" />
+        <location filename="../settings_dialog.py" line="750" />
         <source>Add</source>
         <translation>Añadir</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="755" />
+        <location filename="../settings_dialog.py" line="756" />
         <source>Add new actions by pressing the 'Add' tab button.</source>
         <translation>Añada acciones nuevas pulsando el botón «Añadir».</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="763" />
+        <location filename="../settings_dialog.py" line="764" />
         <source>Plugins</source>
         <translation>Plugins</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="766" />
+        <location filename="../settings_dialog.py" line="767" />
         <source>Search Path</source>
         <translation>Ruta de búsqueda</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="787" />
+        <location filename="../settings_dialog.py" line="788" />
         <source>Version</source>
         <translation>Versión</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="797" />
+        <location filename="../settings_dialog.py" line="798" />
         <source>Detect</source>
         <translation>Detectar</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="836" />
+        <location filename="../settings_dialog.py" line="837" />
         <source>Select color</source>
         <translation>Seleccionar color</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="1027" />
+        <location filename="../settings_dialog.py" line="1028" />
         <source>No watermark image configured</source>
         <translation>No hay una imagen de marca de agua configurada</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="1029" />
+        <location filename="../settings_dialog.py" line="1030" />
         <source>%1x%2 image configured</source>
         <translation>Imagen de %1x%2 configurada</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="1037" />
+        <location filename="../settings_dialog.py" line="1038" />
         <source>Select watermark image</source>
         <translation>Seleccionar imagen de marca de agua</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="1039" />
+        <location filename="../settings_dialog.py" line="1040" />
         <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
         <translation>Imágenes (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="1044" />
+        <location filename="../settings_dialog.py" line="1045" />
         <source>Unable to load watermark image: %1</source>
         <translation>No se pudo cargar la imagen de marca de agua: %1</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="1069" />
+        <location filename="../settings_dialog.py" line="1070" />
         <source>Select upload script</source>
         <translation>Seleccionar script de subida</translation>
     </message>
     <message>
-        <location filename="../settings_dialog.py" line="1085" />
+        <location filename="../settings_dialog.py" line="1086" />
         <source>Select OCR script</source>
         <translation>Seleccionar script de OCR</translation>
+    </message>
+    <message>
+        <source>PaddleOCR (tables + Markdown)</source>
+        <translation type="vanished">PaddleOCR (tablas + Markdown)</translation>
     </message>
     <message>
         <source>Auto resize to content</source>
