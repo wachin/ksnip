@@ -901,32 +901,32 @@
       <message>
         <location filename="../main_window.py" line="714" />
         <source>Close</source>
-        <translation />
+        <translation>Zapri</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="717" />
         <source>Close Other</source>
-        <translation />
+        <translation>Zapri ostale</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="719" />
         <source>Close All</source>
-        <translation />
+        <translation>Zapri vse</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="721" />
         <source>Close All to the Left</source>
-        <translation />
+        <translation>Zapri vse levo</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="723" />
         <source>Close All to the Right</source>
-        <translation />
+        <translation>Zapri vse desno</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="739" />
         <source>Delete</source>
-        <translation />
+        <translation>Izbriši</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="2600" />

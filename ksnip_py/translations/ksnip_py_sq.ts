@@ -901,32 +901,32 @@
       <message>
         <location filename="../main_window.py" line="714" />
         <source>Close</source>
-        <translation />
+        <translation>Mbyll</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="717" />
         <source>Close Other</source>
-        <translation />
+        <translation>Mbyll të tjerat</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="719" />
         <source>Close All</source>
-        <translation />
+        <translation>Mbyll të gjitha</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="721" />
         <source>Close All to the Left</source>
-        <translation />
+        <translation>Mbyll të gjitha majtas</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="723" />
         <source>Close All to the Right</source>
-        <translation />
+        <translation>Mbyll të gjitha djathtas</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="739" />
         <source>Delete</source>
-        <translation />
+        <translation>Fshi</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="2600" />

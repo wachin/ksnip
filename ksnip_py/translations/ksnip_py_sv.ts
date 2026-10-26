@@ -901,32 +901,32 @@
       <message>
         <location filename="../main_window.py" line="714" />
         <source>Close</source>
-        <translation />
+        <translation>Stäng</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="717" />
         <source>Close Other</source>
-        <translation />
+        <translation>Stäng andra</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="719" />
         <source>Close All</source>
-        <translation />
+        <translation>Stäng alla</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="721" />
         <source>Close All to the Left</source>
-        <translation />
+        <translation>Stäng alla till vänster</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="723" />
         <source>Close All to the Right</source>
-        <translation />
+        <translation>Stäng alla till höger</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="739" />
         <source>Delete</source>
-        <translation />
+        <translation>Ta bort</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="2600" />

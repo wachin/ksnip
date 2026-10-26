@@ -901,32 +901,32 @@
       <message>
         <location filename="../main_window.py" line="714" />
         <source>Close</source>
-        <translation />
+        <translation>Lukk</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="717" />
         <source>Close Other</source>
-        <translation />
+        <translation>Lukk andre</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="719" />
         <source>Close All</source>
-        <translation />
+        <translation>Lukk alle</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="721" />
         <source>Close All to the Left</source>
-        <translation />
+        <translation>Lukk alle til venstre</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="723" />
         <source>Close All to the Right</source>
-        <translation />
+        <translation>Lukk alle til høyre</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="739" />
         <source>Delete</source>
-        <translation />
+        <translation>Slett</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="2600" />

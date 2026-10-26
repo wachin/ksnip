@@ -901,32 +901,32 @@
       <message>
         <location filename="../main_window.py" line="714" />
         <source>Close</source>
-        <translation />
+        <translation>වසන්න</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="717" />
         <source>Close Other</source>
-        <translation />
+        <translation>වෙනත් ඒවා වසන්න</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="719" />
         <source>Close All</source>
-        <translation />
+        <translation>සියල්ල වසන්න</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="721" />
         <source>Close All to the Left</source>
-        <translation />
+        <translation>වමේ සියල්ල වසන්න</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="723" />
         <source>Close All to the Right</source>
-        <translation />
+        <translation>දකුණේ සියල්ල වසන්න</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="739" />
         <source>Delete</source>
-        <translation />
+        <translation>මකන්න</translation>
     </message>
     <message>
         <location filename="../main_window.py" line="2600" />
