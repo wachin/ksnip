@@ -235,5 +235,65 @@ class RotatedStickerShadowTest(unittest.TestCase):
         self.assertLess(image.pixelColor(48, 40).red(), 150)
 
 
+
+class RotationDragGhostingTest(unittest.TestCase):
+    """A real rotate-handle drag repaints every frame from scratch, so no
+    intermediate angle should leave a trail. We sweep the handle through
+    several angles and assert each live frame equals a clean re-render of
+    the current angle (same _refresh path, no accumulated pixels)."""
+
+    def setUp(self) -> None:
+        self.bg = QImage(200, 150, QImage.Format.Format_ARGB32)
+        self.bg.fill(QColor('white'))
+        self.canvas = AnnotationCanvas()
+        self.canvas.set_image(self.bg)
+        self.canvas.resize(200, 150)
+        self.canvas.set_tool(Tool.SELECT)
+        self.item = OverlayItem(
+            kind=Tool.RECT, start=QPoint(30, 30), end=QPoint(80, 70),
+            color=QColor('red'), pen_width=3,
+        )
+        self.canvas._items = [self.item]
+        self.canvas._select_single_item(0)
+        self.canvas._refresh()
+
+    def _clean_render(self, rotation: int) -> QImage:
+        c = AnnotationCanvas()
+        c.set_image(self.bg)
+        c.resize(200, 150)
+        it = OverlayItem(
+            kind=Tool.RECT, start=QPoint(30, 30), end=QPoint(80, 70),
+            color=QColor('red'), pen_width=3, rotation=rotation,
+        )
+        c._items = [it]
+        c._select_single_item(0)
+        c._refresh()
+        return c.pixmap().toImage()
+
+    def _diff_fraction(self, a: QImage, b: QImage) -> float:
+        total = a.width() * a.height()
+        if total == 0:
+            return 1.0
+        diff = 0
+        for y in range(a.height()):
+            for x in range(a.width()):
+                if a.pixelColor(x, y) != b.pixelColor(x, y):
+                    diff += 1
+        return diff / total
+
+    def test_drag_sweep_leaves_no_ghost_trails(self) -> None:
+        handle = self.canvas._rotated_handle_points(self.item)['rotate']
+        QTest.mousePress(self.canvas, Qt.MouseButton.LeftButton, pos=handle)
+        targets = [QPoint(120, 50), QPoint(50, 110), QPoint(0, 50), QPoint(50, 0)]
+        for index, target in enumerate(targets):
+            QTest.mouseMove(self.canvas, target)
+            live = self.canvas.pixmap().toImage()
+            clean = self._clean_render(self.canvas._items[0].rotation)
+            self.assertEqual(live.size(), clean.size())
+            frac = self._diff_fraction(live, clean)
+            self.assertLess(frac, 0.03, f"possible ghost trail at step {index}: {frac:.3f}")
+        QTest.mouseRelease(self.canvas, Qt.MouseButton.LeftButton, pos=targets[-1])
+
+
 if __name__ == "__main__":
     unittest.main()
