@@ -3214,6 +3214,11 @@ class AnnotationCanvas(QLabel):
             shadow_painter.fillRect(shadow_image.rect(), QColor(63, 63, 63, 190))
             shadow_painter.end()
             painter.save()
+            if item.rotation % 360 != 0:
+                center = self._rotation_center(item)
+                painter.translate(center)
+                painter.rotate(item.rotation)
+                painter.translate(-center)
             painter.setOpacity(item.opacity)
             painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, True)
             painter.drawImage(item.bounds().translated(2, 2), shadow_image)

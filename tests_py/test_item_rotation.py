@@ -200,5 +200,40 @@ class RotationMouseInteractionTest(unittest.TestCase):
         self.assertEqual(self.canvas._items[0].rotation, 0)
 
 
+
+class RotatedStickerShadowTest(unittest.TestCase):
+    """The drop shadow of an image-based item must rotate with the item, not
+    linger at the pre-rotation position (which previously left a dark remnant)."""
+
+    def setUp(self) -> None:
+        self.canvas = AnnotationCanvas()
+        self.canvas.set_image(plain_image())
+
+    def _render_sticker(self, rotation: int) -> QImage:
+        image = QImage(200, 150, QImage.Format.Format_ARGB32)
+        image.fill(QColor('white'))
+        painter = QPainter(image)
+        sticker = OverlayItem(
+            kind=Tool.STICKER, start=QPoint(30, 30), end=QPoint(90, 50),
+            color=QColor('red'), pen_width=2, rotation=rotation, shadow=True,
+        )
+        sticker.image = QImage(60, 20, QImage.Format.Format_ARGB32)
+        sticker.image.fill(QColor('white'))
+        try:
+            self.canvas._draw_item(painter, sticker, False)
+        finally:
+            painter.end()
+        return image
+
+    def test_shadow_darkens_unrotated_position_when_not_rotated(self) -> None:
+        image = self._render_sticker(0)
+        self.assertLess(image.pixelColor(92, 42).red(), 150)
+
+    def test_shadow_follows_rotation_and_leaves_no_remnant(self) -> None:
+        image = self._render_sticker(90)
+        self.assertGreater(image.pixelColor(92, 42).red(), 200)
+        self.assertLess(image.pixelColor(48, 40).red(), 150)
+
+
 if __name__ == "__main__":
     unittest.main()
