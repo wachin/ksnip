@@ -2587,10 +2587,17 @@ class MainWindow(QMainWindow):
             self.tr("Open image"),
             self._default_open_directory(),
             self.tr("Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)"),
+            self._open_default_filter(),
         )
         if not path:
             return
         self._open_image_path(path)
+
+    def _open_default_filter(self) -> str:
+        key = str(self._settings.value("open/default_filter", "ksnip")).lower()
+        if key == "image":
+            return self.tr("Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)")
+        return self.tr("Ksnip Projects (*.ksnip)")
 
     def save_image(self) -> None:
         canvas = self.current_canvas()
@@ -3950,6 +3957,7 @@ class MainWindow(QMainWindow):
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", False),
             open_initial_directory_mode=str(self._settings.value("open/initial_directory_mode", "capture_location")),
+            open_default_filter=str(self._settings.value("open/default_filter", "ksnip")),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
             saver_quality_factor=self._setting_int("saver/quality_factor", 50),
             saver_auto_save=self._setting_bool("saver/auto_save", False),
@@ -4054,6 +4062,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("saver/prompt_discard", data.saver_prompt_discard)
         self._settings.setValue("saver/remember_directory", data.saver_remember_directory)
         self._settings.setValue("open/initial_directory_mode", data.open_initial_directory_mode)
+        self._settings.setValue("open/default_filter", data.open_default_filter)
         self._settings.setValue("saver/quality_enabled", data.saver_quality_enabled)
         self._settings.setValue("saver/quality_factor", data.saver_quality_factor)
         self._settings.setValue("saver/auto_save", data.saver_auto_save)

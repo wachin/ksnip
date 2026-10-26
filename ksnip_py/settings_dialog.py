@@ -75,6 +75,7 @@ class SettingsData:
     saver_prompt_discard: bool
     saver_remember_directory: bool
     open_initial_directory_mode: str
+    open_default_filter: str
     saver_quality_enabled: bool
     saver_quality_factor: int
     saver_auto_save: bool
@@ -328,6 +329,20 @@ class SettingsDialog(QDialog):
         open_directory_row.addWidget(QLabel(self.tr("Open file dialogs in:"), saver_group))
         open_directory_row.addWidget(self.open_initial_directory_mode, 1)
         saver_layout.addLayout(open_directory_row)
+
+        self.open_default_filter = QComboBox(saver_group)
+        self.open_default_filter.addItem(self.tr("Ksnip Projects (*.ksnip)"), "ksnip")
+        self.open_default_filter.addItem(
+            self.tr("Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)"), "image"
+        )
+        self.open_default_filter.setToolTip(
+            self.tr("Default file type selected in the File > Open dialog.")
+        )
+        open_default_filter_row = QHBoxLayout()
+        open_default_filter_row.addWidget(QLabel(self.tr("Default file type in Open dialog:"), saver_group))
+        open_default_filter_row.addWidget(self.open_default_filter, 1)
+        saver_layout.addLayout(open_default_filter_row)
+
         saver_layout.addLayout(default_format_row)
         saver_layout.addLayout(project_companion_row)
 
@@ -972,6 +987,8 @@ class SettingsDialog(QDialog):
         self.saver_remember_directory.setChecked(initial.saver_remember_directory)
         open_directory_index = self.open_initial_directory_mode.findData(initial.open_initial_directory_mode)
         self.open_initial_directory_mode.setCurrentIndex(open_directory_index if open_directory_index >= 0 else 0)
+        open_filter_index = self.open_default_filter.findData(initial.open_default_filter)
+        self.open_default_filter.setCurrentIndex(open_filter_index if open_filter_index >= 0 else 0)
         self.saver_quality_factor.setChecked(initial.saver_quality_enabled)
         self.saver_quality_default.setChecked(not initial.saver_quality_enabled)
         self.saver_quality_value.setValue(initial.saver_quality_factor)
@@ -1150,6 +1167,7 @@ class SettingsDialog(QDialog):
             saver_prompt_discard=self.saver_prompt_discard.isChecked(),
             saver_remember_directory=self.saver_remember_directory.isChecked(),
             open_initial_directory_mode=str(self.open_initial_directory_mode.currentData()),
+            open_default_filter=str(self.open_default_filter.currentData()),
             saver_quality_enabled=self.saver_quality_factor.isChecked(),
             saver_quality_factor=self.saver_quality_value.value(),
             saver_auto_save=self.saver_auto_save.isChecked(),

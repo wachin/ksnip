@@ -929,6 +929,11 @@
         <source>Delete</source>
         <translation></translation>
     </message>
+    <message>
+        <location filename="../main_window.py" line="2600" />
+        <source>Ksnip Projects (*.ksnip)</source>
+        <translation></translation>
+    </message>
 </context>
   <context>
     <name>ModifyCanvasDialog</name>

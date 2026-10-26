@@ -29,9 +29,11 @@ class TabContextMenuTest(unittest.TestCase):
             Qt.ContextMenuPolicy.CustomContextMenu,
         )
         labels = [a.text() for a in self.window.tab_context_menu.actions() if a.text()]
-        for expected in ("Close", "Close Other", "Save", "Save As...", "Save All",
-                         "Rename", "Open Directory", "Copy", "Copy Path", "Delete"):
-            self.assertIn(expected, labels)
+        for source in ("Close", "Close Other", "Save", "Save As...", "Save All",
+                      "Rename", "Open Directory", "Copy", "Copy Path", "Delete"):
+            # Compare against the translation of each source string so the test
+            # passes regardless of the active UI language.
+            self.assertIn(self.window.tr(source), labels)
 
     def test_close_left_keeps_target_and_right(self):
         self._open("A"); self._open("B"); self._open("C")

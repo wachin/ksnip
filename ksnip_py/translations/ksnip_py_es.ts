@@ -1306,6 +1306,11 @@ Do you want to continue?</source>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
+    <message>
+        <location filename="../main_window.py" line="2600" />
+        <source>Ksnip Projects (*.ksnip)</source>
+        <translation>Proyectos de Ksnip (*.ksnip)</translation>
+    </message>
 </context><context>
     <name>ModifyCanvasDialog</name>
     <message>
