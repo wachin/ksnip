@@ -1,5 +1,12 @@
 # Change log
 
+## ksnip_py (PyQt6 port) - Unreleased
+* New: Right-click tab context menu with Close, Close Other, Close All, Close All to the Left, Close All to the Right, Save, Save As, Save All, Rename, Open Directory, Copy, Copy Path and Delete.
+* New: Configurable default file type for the File > Open dialog (Settings > Application > Saving).
+* New: Remember Main Window position on move and load it on startup.
+* New: Remember capture window size and position and reuse it for the next capture instead of maximizing (Settings > Application, opt-in).
+
+
 ## Release 1.11.0
 * New: Allow pixel based adjustments via arrow keys when capturing an area. ([#646](https://github.com/ksnip/ksnip/issues/646), [#816](https://github.com/ksnip/ksnip/issues/816), [#887](https://github.com/ksnip/ksnip/issues/887), [#1002](https://github.com/ksnip/ksnip/issues/1002))
 * New: Enabled additional capture modes (RectArea, ActiveWindow, etc.) for Wayland and KDE Wayland backends.
