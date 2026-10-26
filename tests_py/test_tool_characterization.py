@@ -200,7 +200,7 @@ class ToolCharacterizationTest(unittest.TestCase):
         # therefore retain the current, protected one-pixel centering tolerance.
         self.assertLessEqual(abs(sticker.bounds().center().x() - click.x()), 1)
         self.assertLessEqual(abs(sticker.bounds().center().y() - click.y()), 1)
-        self.assertLessEqual(max(sticker.bounds().width(), sticker.bounds().height()), 51)
+        self.assertLessEqual(max(sticker.bounds().width(), sticker.bounds().height()), 101)
 
     def test_blur_and_pixelate_remain_undoable_background_operations(self) -> None:
         source = background(80, 60)

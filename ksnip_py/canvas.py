@@ -2851,11 +2851,11 @@ class AnnotationCanvas(QLabel):
             if image is None or image.isNull():
                 return None
             if image.width() >= image.height():
-                base_width = 50
-                base_height = max(1, round(50 * image.height() / image.width()))
+                base_width = 100
+                base_height = max(1, round(100 * image.height() / image.width()))
             else:
-                base_height = 50
-                base_width = max(1, round(50 * image.width() / image.height()))
+                base_height = 100
+                base_width = max(1, round(100 * image.width() / image.height()))
             width = max(8, round(base_width * self._scaling))
             height = max(8, round(base_height * self._scaling))
             top_left = QPoint(point.x() - width // 2, point.y() - height // 2)

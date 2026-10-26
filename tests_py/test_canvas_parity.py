@@ -960,7 +960,7 @@ class StickerInsertionParityTest(unittest.TestCase):
         self.assertEqual(canvas._items[0].kind, Tool.STICKER)
         self.assertEqual(canvas._items[0].sticker_path, str(sticker))
         self.assertFalse(canvas._items[0].image.isNull())
-        self.assertEqual(max(canvas._items[0].bounds().width(), canvas._items[0].bounds().height()), 50)
+        self.assertEqual(max(canvas._items[0].bounds().width(), canvas._items[0].bounds().height()), 100)
         self.assertGreaterEqual(max(canvas._items[0].image.width(), canvas._items[0].image.height()), 256)
         self.assertTrue(canvas.state.dirty)
         self.assertNotEqual(canvas.image(), canvas.background_image())
@@ -983,7 +983,7 @@ class StickerInsertionParityTest(unittest.TestCase):
             item = canvas._build_click_item(Tool.STICKER, QPoint(50, 40))
             self.assertIsNotNone(item, str(sticker))
             self.assertFalse(item.image.isNull(), str(sticker))
-            self.assertEqual(max(item.bounds().width(), item.bounds().height()), 50)
+            self.assertEqual(max(item.bounds().width(), item.bounds().height()), 100)
             self.assertGreaterEqual(max(item.image.width(), item.image.height()), 256)
 
     def test_sticker_scaling_uses_the_normalized_size_and_shadow_is_tinted(self) -> None:
@@ -1003,7 +1003,7 @@ class StickerInsertionParityTest(unittest.TestCase):
         self.assertLessEqual(abs(shadow_pixel.green() - shadow_pixel.blue()), 2)
 
         self.assertTrue(canvas.apply_scaling_to_selected_item(200))
-        self.assertEqual(max(canvas._items[0].bounds().width(), canvas._items[0].bounds().height()), 100)
+        self.assertEqual(max(canvas._items[0].bounds().width(), canvas._items[0].bounds().height()), 200)
 
     def test_sticker_downscaling_uses_smooth_interpolation(self) -> None:
         sticker = Path(__file__).resolve().parents[1] / "ksnip_py" / "stickers" / "tutorial_attention.svg"
