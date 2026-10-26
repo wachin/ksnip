@@ -1276,6 +1276,36 @@ Do you want to continue?</source>
         <source>Border effect applied</source>
         <translation type="vanished">Efecto de borde aplicado</translation>
     </message>
+    <message>
+        <location filename="../main_window.py" line="714" />
+        <source>Close</source>
+        <translation>Cerrar</translation>
+    </message>
+    <message>
+        <location filename="../main_window.py" line="717" />
+        <source>Close Other</source>
+        <translation>Cerrar las demás</translation>
+    </message>
+    <message>
+        <location filename="../main_window.py" line="719" />
+        <source>Close All</source>
+        <translation>Cerrar todas</translation>
+    </message>
+    <message>
+        <location filename="../main_window.py" line="721" />
+        <source>Close All to the Left</source>
+        <translation>Cerrar todas a la izquierda</translation>
+    </message>
+    <message>
+        <location filename="../main_window.py" line="723" />
+        <source>Close All to the Right</source>
+        <translation>Cerrar todas a la derecha</translation>
+    </message>
+    <message>
+        <location filename="../main_window.py" line="739" />
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
 </context><context>
     <name>ModifyCanvasDialog</name>
     <message>
