@@ -99,6 +99,22 @@ def export_svg(path: str, canvas) -> None:
         kind = item.get("kind", "")
         x1, y1 = item["start"]
         x2, y2 = item["end"]
+
+        ik = item.get("kind", "")
+        rotation = int(item.get("rotation", 0)) % 360
+        if rotation % 360 != 0:
+            if ik in {"pen", "marker_pen"} and item.get("points"):
+                pts = item["points"]
+                xs = [p[0] for p in pts]
+                ys = [p[1] for p in pts]
+                rcx = (min(xs) + max(xs)) / 2.0
+                rcy = (min(ys) + max(ys)) / 2.0
+            else:
+                rcx = min(x1, x2) + abs(x2 - x1) / 2.0
+                rcy = min(y1, y2) + abs(y2 - y1) / 2.0
+            parent = ET.SubElement(root, f"{{{SVG_NS}}}g", {"transform": f"rotate({rotation} {rcx} {rcy})"})
+        else:
+            parent = root
         stroke, stroke_alpha = _color(item.get("color"))
         text_color, text_alpha = _color(item.get("text_color"), "#ffffff")
         width = max(1, int(item.get("pen_width", 1)))
@@ -114,13 +130,13 @@ def export_svg(path: str, canvas) -> None:
                 attrs["marker-end"] = "url(#arrow-end)"
             if kind == "double_arrow":
                 attrs["marker-start"] = "url(#arrow-start)"
-            ET.SubElement(root, f"{{{SVG_NS}}}line", attrs)
+            ET.SubElement(parent, f"{{{SVG_NS}}}line", attrs)
         elif kind in {"pen", "marker_pen"} and item.get("points"):
             attrs = {**line_style, "points": " ".join(f"{x},{y}" for x, y in item["points"])}
             if kind == "marker_pen":
                 attrs["stroke-opacity"] = "0.43"
                 attrs["style"] = "mix-blend-mode:multiply"
-            ET.SubElement(root, f"{{{SVG_NS}}}polyline", attrs)
+            ET.SubElement(parent, f"{{{SVG_NS}}}polyline", attrs)
         elif kind in {"rect", "marker_rect", "ellipse", "marker_ellipse"}:
             left, top, w, h = min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1)
             attrs = {**common, "stroke": stroke if has_border else "none", "stroke-width": str(width), "fill": stroke if has_fill or kind.startswith("marker_") else "none"}
@@ -128,10 +144,10 @@ def export_svg(path: str, canvas) -> None:
                 attrs.update({"fill-opacity": "0.43", "stroke": "none", "style": "mix-blend-mode:multiply"})
             if "ellipse" in kind:
                 attrs.update({"cx": str(left + w / 2), "cy": str(top + h / 2), "rx": str(w / 2), "ry": str(h / 2)})
-                ET.SubElement(root, f"{{{SVG_NS}}}ellipse", attrs)
+                ET.SubElement(parent, f"{{{SVG_NS}}}ellipse", attrs)
             else:
                 attrs.update({"x": str(left), "y": str(top), "width": str(w), "height": str(h)})
-                ET.SubElement(root, f"{{{SVG_NS}}}rect", attrs)
+                ET.SubElement(parent, f"{{{SVG_NS}}}rect", attrs)
         elif kind in {"text", "text_arrow", "text_pointer", "number", "number_pointer", "number_arrow"}:
             bounds = item.get("svg_bounds") or [min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1)]
             bx, by, bw, bh = bounds
@@ -139,14 +155,14 @@ def export_svg(path: str, canvas) -> None:
                 marker_id = "arrow-end"
                 if kind == "number_arrow" and int(item.get("arrow_head_size", 0)) > 0:
                     marker_id = sized_arrow_marker(int(item["arrow_head_size"]))
-                ET.SubElement(root, f"{{{SVG_NS}}}line", {**line_style, "x1": str(x1), "y1": str(y1), "x2": str(x2), "y2": str(y2), "marker-end": f"url(#{marker_id})"})
+                ET.SubElement(parent, f"{{{SVG_NS}}}line", {**line_style, "x1": str(x1), "y1": str(y1), "x2": str(x2), "y2": str(y2), "marker-end": f"url(#{marker_id})"})
             shape = "ellipse" if kind.startswith("number") else "rect"
             shape_attrs = {**common, "stroke": stroke if has_border else "none", "stroke-width": str(width), "fill": stroke if has_fill else "none"}
             if shape == "ellipse":
                 shape_attrs.update({"cx": str(bx + bw / 2), "cy": str(by + bh / 2), "rx": str(bw / 2), "ry": str(bh / 2)})
             else:
                 shape_attrs.update({"x": str(bx), "y": str(by), "width": str(bw), "height": str(bh), "rx": "6"})
-            ET.SubElement(root, f"{{{SVG_NS}}}{shape}", shape_attrs)
+            ET.SubElement(parent, f"{{{SVG_NS}}}{shape}", shape_attrs)
             text_attrs = {
                 **common, "x": str(bx + bw / 2), "y": str(by + bh / 2), "fill": text_color,
                 "fill-opacity": str(text_alpha), "font-family": item.get("font_family") or "sans-serif",
@@ -156,11 +172,11 @@ def export_svg(path: str, canvas) -> None:
             }
             if item.get("underline"):
                 text_attrs["text-decoration"] = "underline"
-            ET.SubElement(root, f"{{{SVG_NS}}}text", text_attrs).text = item.get("text") or ""
+            ET.SubElement(parent, f"{{{SVG_NS}}}text", text_attrs).text = item.get("text") or ""
         elif kind in {"image", "sticker", "duplicate"}:
             uri = _png_data_uri(item.get("image_png_base64"))
             if uri:
-                ET.SubElement(root, f"{{{SVG_NS}}}image", {
+                ET.SubElement(parent, f"{{{SVG_NS}}}image", {
                     **common, "x": str(min(x1, x2)), "y": str(min(y1, y2)),
                     "width": str(abs(x2 - x1)), "height": str(abs(y2 - y1)), f"{{{XLINK_NS}}}href": uri,
                 })

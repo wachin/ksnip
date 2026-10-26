@@ -6,6 +6,7 @@
 * New: Remember Main Window position on move and load it on startup.
 * New: Remember capture window size and position and reuse it for the next capture instead of maximizing (Settings > Application, opt-in).
 * New: Illustrator-style interaction: with a creation tool active, clicking a placed item grabs and moves/resizes it instead of creating a new one; clicking empty space still creates a new item (Settings > Annotator, opt-in, on by default).
+* New: Per-item rotation handles (Illustrator-style). Every placed annotation shows a rotate handle above its bounding box; drag it to rotate, hold Shift to snap to 15-degree increments. Rotation is saved in projects and exported to SVG.
 
 
 ## Release 1.11.0

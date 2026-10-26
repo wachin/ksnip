@@ -4,7 +4,7 @@ import base64
 import json
 from dataclasses import dataclass
 from enum import Enum
-from math import hypot
+from math import atan2, cos, degrees, hypot, radians, sin
 from pathlib import Path
 
 from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QRectF, QSize, Qt, pyqtSignal
@@ -471,6 +471,7 @@ class OverlayItem:
     sticker_path: str | None = None
     image: QImage | None = None
     points: list[QPoint] | None = None
+    rotation: int = 0
 
     def clone(self) -> "OverlayItem":
         return OverlayItem(
@@ -495,6 +496,7 @@ class OverlayItem:
             sticker_path=self.sticker_path,
             image=self.image.copy() if self.image is not None else None,
             points=[QPoint(point) for point in self.points] if self.points is not None else None,
+            rotation=self.rotation,
         )
 
     def move_by(self, delta: QPoint) -> None:
@@ -632,6 +634,8 @@ class AnnotationCanvas(QLabel):
         self._primary_selected_item_index: int | None = None
         self._drag_start: QPoint | None = None
         self._active_handle: str | None = None
+        self._rotate_start_angle: float = 0.0
+        self._rotate_start_rotation: int = 0
         self._drag_undo_snapshot: CanvasSnapshot | None = None
         self._undo_stack: list[CanvasSnapshot] = []
         self._redo_stack: list[CanvasSnapshot] = []
@@ -766,6 +770,7 @@ class AnnotationCanvas(QLabel):
             "text_color": item.text_color.name(QColor.NameFormat.HexArgb) if item.text_color is not None else None,
             "shadow": item.shadow,
             "scaling": item.scaling,
+            "rotation": item.rotation,
             "sticker_path": item.sticker_path,
             "image_png_base64": image_payload,
             "points": [[point.x(), point.y()] for point in item.points] if item.points is not None else None,
@@ -797,6 +802,7 @@ class AnnotationCanvas(QLabel):
             text_color=QColor(payload["text_color"]) if payload.get("text_color") else None,
             shadow=payload.get("shadow", False),
             scaling=payload.get("scaling", 1.0),
+            rotation=payload.get("rotation", 0),
             sticker_path=payload.get("sticker_path"),
             image=image,
             points=[QPoint(x, y) for x, y in payload.get("points") or []] or None,
@@ -1372,9 +1378,7 @@ class AnnotationCanvas(QLabel):
             if self.has_single_selected_item() and primary_index is not None:
                 handle = self._find_handle_at(self._items[primary_index], image_point)
                 if handle is not None:
-                    self._active_handle = handle
-                    self._drag_start = image_point
-                    self._arm_drag_undo()
+                    self._begin_handle_drag(self._items[primary_index], handle, image_point)
                     self._refresh()
                     return
             previous_selection = list(self._selected_item_indices)
@@ -1402,9 +1406,7 @@ class AnnotationCanvas(QLabel):
             if grab_index is not None:
                 handle = self._find_handle_at(self._items[grab_index], image_point)
                 self._select_single_item(grab_index)
-                self._active_handle = handle
-                self._drag_start = image_point
-                self._arm_drag_undo()
+                self._begin_handle_drag(self._items[grab_index], handle, image_point)
                 self._refresh()
                 return
 
@@ -1460,7 +1462,16 @@ class AnnotationCanvas(QLabel):
                     item = self._primary_selected_item()
                     if item is not None:
                         self._commit_drag_undo()
-                        self._resize_item(item, self._active_handle, image_point)
+                        if self._active_handle == "rotate":
+                            snap = bool(event.modifiers() & Qt.KeyboardModifier.ShiftModifier)
+                            self._rotate_item_to_pointer(item, image_point, snap)
+                        else:
+                            local_point = image_point
+                            if item.rotation % 360 != 0:
+                                local_point = self._rotate_point_around(
+                                    image_point, self._rotation_center(item), -item.rotation
+                                )
+                            self._resize_item(item, self._active_handle, local_point)
                         self._mark_dirty()
                 else:
                     delta = image_point - self._drag_start
@@ -1793,23 +1804,26 @@ class AnnotationCanvas(QLabel):
     def _find_item_at(self, point: QPoint) -> int | None:
         for index in range(len(self._items) - 1, -1, -1):
             item = self._items[index]
+            p = point
+            if item.rotation % 360 != 0:
+                p = self._rotate_point_around(point, self._rotation_center(item), -item.rotation)
             if item.kind in (Tool.PEN, Tool.MARKER_PEN) and item.points:
                 tolerance = max(6, item.pen_width)
                 if any(
-                    self._point_line_distance(point, start, end) <= tolerance
+                    self._point_line_distance(p, start, end) <= tolerance
                     for start, end in zip(item.points, item.points[1:])
                 ):
                     return index
             elif item.kind == Tool.LINE:
-                if self._point_line_distance(point, item.start, item.end) <= max(6, item.pen_width * 2):
+                if self._point_line_distance(p, item.start, item.end) <= max(6, item.pen_width * 2):
                     return index
             elif item.kind in (Tool.ARROW, Tool.DOUBLE_ARROW):
-                if self._point_line_distance(point, item.start, item.end) <= max(8, item.pen_width * 2):
+                if self._point_line_distance(p, item.start, item.end) <= max(8, item.pen_width * 2):
                     return index
             elif item.kind == Tool.TEXT_ARROW:
                 if (
-                    self._point_line_distance(point, item.start, item.end) <= max(8, item.pen_width * 2)
-                    or self._text_arrow_label_rect(item).contains(point)
+                    self._point_line_distance(p, item.start, item.end) <= max(8, item.pen_width * 2)
+                    or self._text_arrow_label_rect(item).contains(p)
                 ):
                     return index
             elif item.kind == Tool.NUMBER_ARROW:
@@ -1821,25 +1835,25 @@ class AnnotationCanvas(QLabel):
                     radius * 2,
                 )
                 if (
-                    self._point_line_distance(point, item.start, item.end) <= max(8, item.pen_width * 2)
-                    or bubble_rect.contains(point)
+                    self._point_line_distance(p, item.start, item.end) <= max(8, item.pen_width * 2)
+                    or bubble_rect.contains(p)
                 ):
                     return index
             elif item.kind == Tool.NUMBER_POINTER:
                 bubble_rect = item.number_pointer_bubble_rect()
                 if (
-                    bubble_rect.contains(point)
-                    or self._point_line_distance(point, bubble_rect.center(), item.end) <= max(8, item.pen_width * 2)
+                    bubble_rect.contains(p)
+                    or self._point_line_distance(p, bubble_rect.center(), item.end) <= max(8, item.pen_width * 2)
                 ):
                     return index
             elif item.kind == Tool.TEXT_POINTER:
                 bubble_rect = item.text_pointer_bubble_rect()
                 if (
-                    bubble_rect.contains(point)
-                    or self._point_line_distance(point, bubble_rect.center(), item.end) <= max(8, item.pen_width * 2)
+                    bubble_rect.contains(p)
+                    or self._point_line_distance(p, bubble_rect.center(), item.end) <= max(8, item.pen_width * 2)
                 ):
                     return index
-            elif item.bounds().contains(point):
+            elif item.bounds().contains(p):
                 return index
         return None
 
@@ -1860,6 +1874,11 @@ class AnnotationCanvas(QLabel):
         if item.shadow:
             self._draw_shadow(painter, item)
         painter.save()
+        if item.rotation % 360 != 0:
+            center = self._rotation_center(item)
+            painter.translate(center)
+            painter.rotate(item.rotation)
+            painter.translate(-center)
         painter.setOpacity(item.opacity)
         if item.kind in (Tool.MARKER_PEN, Tool.MARKER_RECT, Tool.MARKER_ELLIPSE):
             painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Multiply)
@@ -1922,9 +1941,19 @@ class AnnotationCanvas(QLabel):
             selection_pen = QPen(QColor("#1c7ed6"), 1, Qt.PenStyle.DashLine)
             painter.setPen(selection_pen)
             painter.setBrush(Qt.BrushStyle.NoBrush)
-            painter.drawRect(item.bounds())
-            if show_handles:
+            if show_handles and item.kind not in (Tool.PEN, Tool.MARKER_PEN):
+                handle_points = self._rotated_handle_points(item)
+                corners = [handle_points[name] for name in ("top_left", "top_right", "bottom_right", "bottom_left") if name in handle_points]
+                if corners:
+                    painter.drawPolygon(QPolygon(corners))
+                elif "start" in handle_points and "end" in handle_points:
+                    painter.drawLine(handle_points["start"], handle_points["end"])
+                else:
+                    painter.drawRect(item.bounds())
                 self._draw_selection_handles(painter, item)
+            else:
+                painter.drawRect(item.bounds())
+
 
     def _draw_item_preview(self, painter: QPainter, item: OverlayItem, sx: float, sy: float, selected: bool, show_handles: bool = True) -> None:
         scaled = item.clone()
@@ -2366,29 +2395,31 @@ class AnnotationCanvas(QLabel):
         return item.color
 
     def _find_handle_at(self, item: OverlayItem, point: QPoint) -> str | None:
-        for handle_name, handle_point in self._handle_points(item).items():
+        for handle_name, handle_point in self._rotated_handle_points(item).items():
             radius = 9 if item.kind == Tool.TEXT else 6
             if QRect(handle_point.x() - radius, handle_point.y() - radius, radius * 2, radius * 2).contains(point):
                 return handle_name
         return None
 
     def _draw_selection_handles(self, painter: QPainter, item: OverlayItem) -> None:
-        if item.kind == Tool.TEXT:
-            painter.save()
-            painter.setPen(QPen(QColor("#1c7ed6"), 1))
-            for handle_point in self._handle_points(item).values():
-                outer = QRect(handle_point.x() - 6, handle_point.y() - 6, 12, 12)
-                inner = QRect(handle_point.x() - 3, handle_point.y() - 3, 6, 6)
-                painter.setBrush(QColor("#ffffff"))
-                painter.drawEllipse(outer)
-                painter.setBrush(QColor("#1c7ed6"))
-                painter.drawEllipse(inner)
-            painter.restore()
-            return
+        pts = self._rotated_handle_points(item)
         painter.save()
-        painter.setBrush(QColor("#1c7ed6"))
-        for handle_point in self._handle_points(item).values():
-            painter.drawRect(QRect(handle_point.x() - 3, handle_point.y() - 3, 6, 6))
+        rotate_pt = pts.get("rotate")
+        if rotate_pt is not None and "top" in pts:
+            painter.setPen(QPen(QColor("#1c7ed6"), 1, Qt.PenStyle.DashLine))
+            painter.setBrush(Qt.BrushStyle.NoBrush)
+            painter.drawLine(pts["top"], rotate_pt)
+        for name, hp in pts.items():
+            if name == "rotate":
+                painter.setPen(QPen(QColor("#1c7ed6"), 1))
+                painter.setBrush(QColor("#ffffff"))
+                painter.drawEllipse(QRect(hp.x() - 6, hp.y() - 6, 12, 12))
+                painter.setBrush(QColor("#1c7ed6"))
+                painter.drawEllipse(QRect(hp.x() - 3, hp.y() - 3, 6, 6))
+            else:
+                painter.setPen(QPen(QColor("#1c7ed6"), 1))
+                painter.setBrush(QColor("#1c7ed6"))
+                painter.drawRect(QRect(hp.x() - 3, hp.y() - 3, 6, 6))
         painter.restore()
 
     def _update_cursor_for_point(self, point: QPoint | None) -> None:
@@ -2410,12 +2441,90 @@ class AnnotationCanvas(QLabel):
             self.setCursor(Qt.CursorShape.SizeVerCursor)
             return
         if handle in {"left", "right"}:
-            self.setCursor(Qt.CursorShape.SizeHorCursor)
+            self.setCursor(Qt.CursorStyle.SizeHorCursor)
+            return
+        if handle == "rotate":
+            self.setCursor(Qt.CursorShape.CrossCursor)
             return
         if item.bounds().contains(point):
             self.setCursor(Qt.CursorShape.SizeAllCursor)
             return
         self.setCursor(Qt.CursorShape.ArrowCursor)
+
+    def _rotation_center(self, item: "OverlayItem") -> QPoint:
+        if item.kind in (Tool.PEN, Tool.MARKER_PEN) and item.points:
+            return item.bounds().center()
+        return QRect(item.start, item.end).normalized().center()
+
+    def _rotate_point_around(self, point: QPoint, center: QPoint, angle_deg: float) -> QPoint:
+        rad = radians(angle_deg)
+        cos_a = cos(rad)
+        sin_a = sin(rad)
+        dx = point.x() - center.x()
+        dy = point.y() - center.y()
+        return QPoint(
+            round(center.x() + dx * cos_a - dy * sin_a),
+            round(center.y() + dx * sin_a + dy * cos_a),
+        )
+
+    def _angle_deg(self, center: QPoint, point: QPoint) -> float:
+        return degrees(atan2(point.y() - center.y(), point.x() - center.x()))
+
+    def _rotate_item_to_pointer(self, item: "OverlayItem", pointer: QPoint, snap: bool) -> None:
+        center = self._rotation_center(item)
+        current = self._angle_deg(center, pointer)
+        new_rotation = self._rotate_start_rotation + (current - self._rotate_start_angle)
+        if snap:
+            new_rotation = round(new_rotation / 15.0) * 15
+        item.rotation = int(round(new_rotation)) % 360
+
+    def _begin_handle_drag(self, item: "OverlayItem", handle: str, image_point: QPoint) -> None:
+        self._active_handle = handle
+        self._drag_start = image_point
+        if handle == "rotate":
+            center = self._rotation_center(item)
+            self._rotate_start_angle = self._angle_deg(center, image_point)
+            self._rotate_start_rotation = item.rotation
+        self._arm_drag_undo()
+
+    def _rotate_handle_point_local(self, item: "OverlayItem") -> QPoint | None:
+        if self._is_line_like(item.kind) or item.kind in (Tool.NUMBER_POINTER, Tool.TEXT_POINTER):
+            start = QPoint(item.start)
+            end = QPoint(item.end)
+            center = QPoint((start.x() + end.x()) // 2, (start.y() + end.y()) // 2)
+            dx = end.x() - start.x()
+            dy = end.y() - start.y()
+            length = hypot(dx, dy) or 1
+            perp = QPoint(-dy, dx)
+            if perp.y() > 0:
+                perp = QPoint(dy, -dx)
+            return QPoint(
+                center.x() + round(perp.x() * 22 / length),
+                center.y() + round(perp.y() * 22 / length),
+            )
+        bounds = item.bounds()
+        top_center = QPoint((bounds.left() + bounds.right()) // 2, bounds.top())
+        center = bounds.center()
+        up_x = top_center.x() - center.x()
+        up_y = top_center.y() - center.y()
+        up_len = hypot(up_x, up_y) or 1
+        return QPoint(
+            center.x() + round(up_x * 22 / up_len),
+            center.y() + round(up_y * 22 / up_len),
+        )
+
+    def _rotated_handle_points(self, item: "OverlayItem") -> dict[str, QPoint]:
+        result = dict(self._handle_points(item))
+        center = self._rotation_center(item)
+        if item.rotation % 360 != 0:
+            for name in list(result.keys()):
+                result[name] = self._rotate_point_around(result[name], center, item.rotation)
+        rotate_local = self._rotate_handle_point_local(item)
+        if rotate_local is not None:
+            if item.rotation % 360 != 0:
+                rotate_local = self._rotate_point_around(rotate_local, center, item.rotation)
+            result["rotate"] = rotate_local
+        return result
 
     def _handle_points(self, item: OverlayItem) -> dict[str, QPoint]:
         if item.kind in (Tool.PEN, Tool.MARKER_PEN):
