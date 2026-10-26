@@ -268,27 +268,38 @@ class OcrBackend:
         """
         import re
 
-        table_pattern = re.compile(r"(<table\b[^>]*>.*?</table>)", re.IGNORECASE | re.DOTALL)
+        # Match a <table> together with any surrounding block wrappers that
+        # PP-StructureV3 emits (e.g. <div style="text-align: center;">...</div>,
+        # or <p>/<center>), so markdownify can drop them and only render the table.
+        table_pattern = re.compile(
+            r"(?:<(?:div|p|center)\b[^>]*>\s*)*"
+            r"<table\b[^>]*>.*?</table>"
+            r"(?:\s*</(?:div|p|center)>)*",
+            re.IGNORECASE | re.DOTALL,
+        )
+
+        def _strip_wrappers(html: str) -> str:
+            return re.sub(r"</?(?:div|p|center)\b[^>]*>", "", html, flags=re.IGNORECASE)
 
         def convert_one(match: re.Match) -> str:
-            html_table = match.group(1)
+            html_chunk = match.group(0)
             try:
                 from markdownify import markdownify
             except ImportError:
-                return OcrBackend._simple_html_table_to_markdown(html_table)
+                return OcrBackend._simple_html_table_to_markdown(_strip_wrappers(html_chunk))
             try:
-                md = markdownify(html_table).strip()
+                md = markdownify(html_chunk).strip()
                 if md:
                     return md
             except Exception:
                 pass
             # Fallback: very simple HTML-to-Markdown table conversion
-            return OcrBackend._simple_html_table_to_markdown(html_table)
+            return OcrBackend._simple_html_table_to_markdown(_strip_wrappers(html_chunk))
 
         converted = table_pattern.sub(convert_one, text)
-        # Drop any leftover HTML document wrappers (e.g. a lone table wrapped in
-        # <html><body>...</body></html>) that the per-table regex left behind.
-        converted = re.sub(r"</?(?:html|body)\b[^>]*>", "", converted, flags=re.IGNORECASE)
+        # Drop any leftover HTML document/block wrappers (e.g. a lone table
+        # wrapped in <html><body>...</body></html>) that the regex left behind.
+        converted = re.sub(r"</?(?:html|body|div|p|center)\b[^>]*>", "", converted, flags=re.IGNORECASE)
         return converted
 
     @staticmethod
