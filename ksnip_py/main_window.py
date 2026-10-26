@@ -113,6 +113,14 @@ class MainWindow(QMainWindow):
         self._startup_position: QPoint | None = None
         self._first_show_handled = False
 
+        # Persist the window position a short moment after the user stops
+        # dragging it, so the remembered location survives even when the app
+        # is configured to close to the system tray (which skips closeEvent).
+        self._position_save_timer = QTimer(self)
+        self._position_save_timer.setSingleShot(True)
+        self._position_save_timer.setInterval(300)
+        self._position_save_timer.timeout.connect(self._persist_window_position)
+
         self.setWindowTitle("ksnip")
         self._apply_window_icon()
 
@@ -1548,6 +1556,20 @@ class MainWindow(QMainWindow):
         position = available.center() - QPoint(frame.width() // 2, frame.height() // 2)
         position.setY(max(available.top() + self.TITLE_BAR_CLEARANCE, position.y()))
         self.move(position)
+
+    def moveEvent(self, event) -> None:  # noqa: N802
+        super().moveEvent(event)
+        if self._setting_bool("application/remember_position", True):
+            # Debounce: only persist once the user stops dragging.
+            self._position_save_timer.start()
+
+    def _persist_window_position(self) -> None:
+        if not self._setting_bool("application/remember_position", True):
+            return
+        pos = self.pos()
+        if pos.x() < 0 or pos.y() < 0:
+            return  # guard against off-screen / not-yet-positioned states
+        self._settings.setValue("window/position", f"{pos.x()},{pos.y()}")
 
     def closeEvent(self, event) -> None:  # noqa: N802
         if self._should_close_to_tray():
