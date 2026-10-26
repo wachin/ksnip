@@ -31,8 +31,7 @@ def translated_strings(path: Path) -> dict[str, str]:
 
 
 def locales() -> list[str]:
-    values = {path.stem.removeprefix("ksnip_") for path in KSNIP_TRANSLATIONS.glob("ksnip_*.ts")}
-    values.update(path.stem.removeprefix("kImageAnnotator_") for path in ANNOTATOR_TRANSLATIONS.glob("kImageAnnotator_*.ts"))
+    values = {path.stem.removeprefix("ksnip_py_") for path in PY_TRANSLATIONS.glob("ksnip_py_*.ts")}
     values.discard("es")
     return sorted(values)
 
@@ -41,7 +40,9 @@ def build_catalog(locale: str) -> tuple[int, int]:
     tree = ET.parse(TEMPLATE)
     root = tree.getroot()
     root.set("language", locale)
-    available = translated_strings(KSNIP_TRANSLATIONS / f"ksnip_{locale}.ts")
+    available = translated_strings(PY_TRANSLATIONS / f"ksnip_py_{locale}.ts")
+    for source, translation in translated_strings(KSNIP_TRANSLATIONS / f"ksnip_{locale}.ts").items():
+        available.setdefault(source, translation)
     for source, translation in translated_strings(ANNOTATOR_TRANSLATIONS / f"kImageAnnotator_{locale}.ts").items():
         available.setdefault(source, translation)
 

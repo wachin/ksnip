@@ -17,8 +17,28 @@ Los trabajos automáticos se ejecutan con Python 3.13, PyQt6 instalado desde las
 dependencias declaradas en `pyproject.toml` y Qt en modo `offscreen`, para que
 las pruebas gráficas no necesiten un monitor físico.
 
-Ya no se llaman CMake, GoogleTest, Qt 5, `src/`, `kColorPicker`,
-`kImageAnnotator` ni los scripts históricos que empaquetaban el ksnip C++.
+El repositorio es ahora solo Python. Se eliminaron las fuentes C++ (`src/`,
+`tests/`), los submódulos `kColorPicker`/`kImageAnnotator` y los scripts
+históricos de empaquetado C++ (`.github/scripts/`). Ninguno de los workflows
+invoca CMake, GoogleTest ni Qt 5.
+
+## Construir las distribuciones localmente
+
+Desde la raíz del repositorio:
+
+```bash
+python3 -m pip install --upgrade build
+python3 -m build
+```
+
+Los artefactos (`wheel` y `sdist`) quedan en `dist/`. Para una instalación
+editable durante el desarrollo:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e .
+```
 
 ## Qué ocurre al hacer push
 
@@ -84,5 +104,5 @@ gh run download ID_DE_LA_EJECUCIÓN
 Los artefactos actuales son distribuciones Python válidas de `ksnip_py`, no
 instaladores autónomos. La creación de DEB, AppImage, RPM, EXE/MSI o DMG para
 el port requiere recetas específicas adicionales y debe implementarse y
-probarse por separado. Los antiguos scripts C++ se conservan temporalmente
-como referencia, pero ninguno de estos tres workflows los ejecuta.
+probarse por separado. Los antiguos scripts C++ se eliminaron del repositorio,
+así que ninguno de estos tres workflows los ejecuta.

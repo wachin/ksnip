@@ -119,7 +119,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 | Global shortcut integration | [Global hotkeys](docs/GLOBAL_HOTKEYS.md) |
 | Annotation-tool behavior | [kImageAnnotator tool parity](docs/KIMAGEANNOTATOR_TOOL_PARITY.md) |
 | Startup and single-instance behavior | [Startup lifecycle parity](docs/STARTUP_LIFECYCLE_PARITY.md) |
-| Manual package workflows | [GitHub Actions package guide (Spanish)](docs/GITHUB_ACTIONS_PACKAGES_ES.md) |
+| Building distributions and CI workflows | [GitHub Actions and packaging guide (Spanish)](docs/GITHUB_ACTIONS_PACKAGES_ES.md) |
 | OCR installation on Debian derivatives | [PaddleOCR guide (Spanish)](docs/OCR_PADDLEOCR_ES.md) |
 | Script uploader verification | [Script uploader tests (Spanish)](docs/PRUEBAS_UPLOADER_SCRIPT_ES.md) |
 | Deferred Imgur implementation | [Imgur port notes (Spanish)](docs/imgur/README_ES.md) |
@@ -307,7 +307,7 @@ behavior.
 
 Compatible strings from the original C++ `ksnip` catalogs are reused by the port. The `ksnip_py` catalog contains messages that only exist in the Python implementation.
 
-Translation workflow for contributors. The synchronization script extracts the Python messages, reuses matching translations from the original `ksnip` and `kImageAnnotator` catalogs, and compiles every `.qm` file:
+Translation workflow for contributors. The synchronization script extracts the Python messages, carries over the existing `ksnip_py` translations (and, when present, matching entries from the original C++ catalogs), and compiles every `.qm` file:
 
 ```bash
 python3 tools/update_pyqt_translations.py
@@ -588,14 +588,25 @@ next bounded porting task.
 
 Please mention your desktop environment, display protocol (`X11` or `Wayland`), Python version, PyQt6 version, and reproduction steps in bug reports.
 
-## Packaging status
+## Building and packaging
 
-The `debian/` directory contains an initial scaffold only. The Python wheel
-already includes the application icons, translations, licenses, and bundled
-stickers, but the Debian package should not be considered policy-complete or
-ready for submission until runtime dependencies, desktop integration,
-AppStream metadata, manual pages, copyright coverage, clean builds, and
-`lintian` results have been reviewed.
+`ksnip_py` is a pure-Python package configured in `pyproject.toml`. To build
+the wheel and source distribution locally:
+
+```bash
+python3 -m pip install --upgrade build
+python3 -m build
+```
+
+The artifacts are written to `dist/`. The wheel already includes the
+application icons, translations, licenses, and bundled stickers, so it is
+platform-independent; PyQt6 pulls in the appropriate Qt runtime at install
+time.
+
+There is currently no Debian, AppImage, RPM, EXE/MSI, or DMG recipe for the
+Python port; those need separate packaging work. The GitHub Actions workflows
+build and test the Python distributions only (see the
+[packaging guide](docs/GITHUB_ACTIONS_PACKAGES_ES.md)).
 
 ## License
 
