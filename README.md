@@ -191,7 +191,7 @@ requires `python3-pil`, `python3-numpy`, and `python3-scipy`.
 
 ## Sticker collections and artwork sources
 
-The sticker selector provides ten tabs: Original, Papirus, GNOME, Numix, SuperTux, TuxBaby, Konqi & Katie, Geeko, GNU Baby, and User. The bundled themes use high-resolution sources, exclude symbolic-link duplicates, remember the last tab, and preserve pinned favorites across theme changes and application restarts. The User tab imports common image formats, preserves transparency and aspect ratio, converts them to PNG with a maximum dimension of 512 px, and stores them in the application's configuration directory; that directory can also be opened directly in the file manager. Copyright notices and licenses for bundled artwork are documented in `THIRD_PARTY_LICENSES.md`, `LICENSES/`, and `debian/copyright`.
+The sticker selector provides ten tabs: Original, Papirus, GNOME, Numix, SuperTux, TuxBaby, Konqi & Katie, Geeko, GNU Baby, and User. The bundled themes use high-resolution sources, exclude symbolic-link duplicates, remember the last tab, and preserve pinned favorites across theme changes and application restarts. The User tab imports common image formats, preserves transparency and aspect ratio, converts them to PNG with a maximum dimension of 512 px, and stores them in the application's configuration directory; that directory can also be opened directly in the file manager. Copyright notices and licenses for bundled artwork are documented in `THIRD_PARTY_LICENSES.md` and `ksnip_py/licenses/`.
 
 The TuxBaby collection is © 2026 Washington Indacochea Delgado and licensed under CC BY-SA 4.0. It was generated under his creative direction with assistance from ChatGPT's image-generation capabilities and is inspired by Tux, created by Larry Ewing using The GIMP. See `ksnip_py/licenses/TUXBABY_LICENSE.md` for the complete attribution and license notice.
 
@@ -530,19 +530,13 @@ line examples, and support for a custom environment location are available in
 
 ```text
 ksnip_py/       Active PyQt6 implementation
-src/            Original C++ ksnip reference implementation
-libraries/      kImageAnnotator and kColorPicker reference submodules
+tests_py/       Python test suite
+tools/          Sticker extraction and translation helper scripts
 artwork-sources/ Source sheets used to generate packaged sticker assets
 images/         UI and behavior reference screenshots
-debian/         Initial Debian packaging scaffold
+docs/           Port documentation and parity audits
 ROADMAP.md      Detailed port status and next work blocks
 pyproject.toml  Python package and executable metadata
-```
-
-The `kColorPicker` and `kImageAnnotator` git submodules are behavioral references, not Python runtime dependencies. After a fresh clone, initialize them with:
-
-```bash
-git submodule update --init --recursive
 ```
 
 ## Development checks
@@ -566,23 +560,17 @@ For a headless startup smoke test:
 timeout 8s env QT_QPA_PLATFORM=offscreen python3 -m ksnip_py
 ```
 
-The current suite contains 124 tests covering the canvas, settings, capture
-helpers, projects, sticker selection, upload helpers, translation behavior,
-and other port infrastructure. The exact count may grow over time; a clean run
-is more important than the number.
+The suite covers the canvas, settings, capture helpers, projects, sticker
+selection, upload helpers, translation behavior, and other port infrastructure.
+A clean run is more important than the exact count.
 
-## Port completion and C++ reference policy
+## Port status
 
-The original C++ implementation is still required as a behavioral and visual
-reference. Do not remove `src/`, `tests/`, `libraries/`, `cmake/`, the root
-`CMakeLists.txt`, or the original translation catalogs while unchecked porting
-tasks still depend on them.
+The PyQt6 implementation in `ksnip_py/` is the authoritative codebase. The
+original C++ sources, build files, and reference submodules have been removed;
+historical parity notes are kept under `docs/` for context.
 
-The prioritized completion sequence is:
-
-1. Audit command-line, startup, capture, annotation, tray, OCR, and uploader behavior against C++.
-2. Implement or explicitly reject the remaining Imgur, FTP, plugin, and configurable-action features.
-3. Finish visual parity and migrate every visible string through Qt Linguist.
+Remaining work is tracked in `ROADMAP.md`.
 4. Expand GUI tests and complete Debian packaging and policy review.
 5. Preserve the last C++ revision in a historical branch or tag, migrate legacy CI/package jobs, and only then remove the C++ tree in an independent change.
 
