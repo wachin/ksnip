@@ -2015,7 +2015,7 @@
     <message>
         <location filename="../settings_dialog.py" line="462" />
         <source>Grab selected item when clicking it (Illustrator-style)</source>
-        <translation></translation>
+        <translation>තේරු අාපිතනය ක්ලික් කිරීමේදි අල්ලා ගන්න (Illustrator මේස්දරය)</translation>
     </message>
 </context>
   <context>

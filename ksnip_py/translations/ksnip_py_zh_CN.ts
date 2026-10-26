@@ -2015,7 +2015,7 @@
     <message>
         <location filename="../settings_dialog.py" line="462" />
         <source>Grab selected item when clicking it (Illustrator-style)</source>
-        <translation></translation>
+        <translation>点击时抓取所选项目（Illustrator 风格）</translation>
     </message>
 </context>
   <context>

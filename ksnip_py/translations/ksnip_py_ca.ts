@@ -2015,7 +2015,7 @@
     <message>
         <location filename="../settings_dialog.py" line="462" />
         <source>Grab selected item when clicking it (Illustrator-style)</source>
-        <translation></translation>
+        <translation>Captura l'element seleccionat en fer-hi clic (estil Illustrator)</translation>
     </message>
 </context>
   <context>
