@@ -261,50 +261,35 @@ class OcrBackend:
     def _html_tables_to_markdown(text: str) -> str:
         """Convert HTML <table>...</table> blocks in *text* to Markdown pipe-tables.
 
-        Uses ``pandoc`` if available (best fidelity), otherwise falls back to a
-        minimal regex-based converter.
+        Uses ``markdownify`` (BeautifulSoup-based) for each isolated table,
+        which faithfully preserves ``<th>`` headers, cell spans and inline
+        formatting.  Falls back to a minimal regex converter when ``markdownify``
+        is not installed or fails on a given table.
         """
         import re
-        import shutil
-        import subprocess
 
-        # If the whole text looks like a single HTML document with one table,
-        # let pandoc convert the whole thing (handles wrappers correctly).
-        if shutil.which("pandoc") and text.strip().lower().startswith(("<html", "<div", "<body", "<table")):
-            try:
-                proc = subprocess.run(
-                    ["pandoc", "-f", "html", "-t", "gfm-raw_html"],
-                    input=text.encode("utf-8"),
-                    capture_output=True,
-                    timeout=15,
-                )
-                if proc.returncode == 0 and proc.stdout.strip():
-                    return proc.stdout.decode("utf-8").strip()
-            except Exception:
-                pass
-
-        # Otherwise, find individual <table>...</table> blocks and convert each
         table_pattern = re.compile(r"(<table\b[^>]*>.*?</table>)", re.IGNORECASE | re.DOTALL)
 
         def convert_one(match: re.Match) -> str:
             html_table = match.group(1)
-            # Try pandoc on the isolated table
-            if shutil.which("pandoc"):
-                try:
-                    proc = subprocess.run(
-                        ["pandoc", "-f", "html", "-t", "gfm-raw_html"],
-                        input=html_table.encode("utf-8"),
-                        capture_output=True,
-                        timeout=10,
-                    )
-                    if proc.returncode == 0 and proc.stdout.strip():
-                        return proc.stdout.decode("utf-8").strip()
-                except Exception:
-                    pass
+            try:
+                from markdownify import markdownify
+            except ImportError:
+                return OcrBackend._simple_html_table_to_markdown(html_table)
+            try:
+                md = markdownify(html_table).strip()
+                if md:
+                    return md
+            except Exception:
+                pass
             # Fallback: very simple HTML-to-Markdown table conversion
             return OcrBackend._simple_html_table_to_markdown(html_table)
 
-        return table_pattern.sub(convert_one, text)
+        converted = table_pattern.sub(convert_one, text)
+        # Drop any leftover HTML document wrappers (e.g. a lone table wrapped in
+        # <html><body>...</body></html>) that the per-table regex left behind.
+        converted = re.sub(r"</?(?:html|body)\b[^>]*>", "", converted, flags=re.IGNORECASE)
+        return converted
 
     @staticmethod
     def _simple_html_table_to_markdown(html: str) -> str:

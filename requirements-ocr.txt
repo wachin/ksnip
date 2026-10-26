@@ -10,3 +10,6 @@ protobuf==3.20.2
 # missing-dependency error; the line-oriented PaddleOCR backend keeps working
 # because PaddleX's smaller `ocr-core` extra is already satisfied.
 paddlex[ocr]==3.7.2
+# HTML -> Markdown table conversion for the layout pipeline's HTML tables.
+# BeautifulSoup-based; faithfully preserves <th> headers and cell spans.
+markdownify
