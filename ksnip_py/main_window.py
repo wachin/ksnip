@@ -126,6 +126,7 @@ class MainWindow(QMainWindow):
         self.statusBar().addPermanentWidget(self.status_label)
 
         self._build_actions()
+        self._build_tab_context_menu()
         self._build_toolbar()
         self._build_menus()
         QGuiApplication.clipboard().dataChanged.connect(self._update_actions)
@@ -707,6 +708,36 @@ class MainWindow(QMainWindow):
         self.close_tab_action = QAction(self._themed_icon("window-close", "delete"), self.tr("Close Tab"), self)
         self.close_tab_action.setShortcut(QKeySequence.StandardKey.Close)
         self.close_tab_action.triggered.connect(lambda: self.close_tab(self.tabs.currentIndex()))
+
+        # Right-click context menu on the tab bar (mirrors the original ksnip tab menu).
+        self._context_tab_index = -1
+        self._ctx_close = QAction(self.close_tab_action.icon(), self.tr("Close"), self)
+        self._ctx_close.setShortcut(QKeySequence.StandardKey.Close)
+        self._ctx_close.triggered.connect(self._tab_ctx_close)
+        self._ctx_close_others = QAction(self.tr("Close Other"), self)
+        self._ctx_close_others.triggered.connect(self._tab_ctx_close_others)
+        self._ctx_close_all = QAction(self.tr("Close All"), self)
+        self._ctx_close_all.triggered.connect(self._tab_ctx_close_all)
+        self._ctx_close_left = QAction(self.tr("Close All to the Left"), self)
+        self._ctx_close_left.triggered.connect(self._tab_ctx_close_left)
+        self._ctx_close_right = QAction(self.tr("Close All to the Right"), self)
+        self._ctx_close_right.triggered.connect(self._tab_ctx_close_right)
+        self._ctx_save = QAction(self.save_action.icon(), self.tr("Save"), self)
+        self._ctx_save.triggered.connect(self._tab_ctx_save)
+        self._ctx_save_as = QAction(self.save_as_action.icon(), self.tr("Save As..."), self)
+        self._ctx_save_as.triggered.connect(self._tab_ctx_save_as)
+        self._ctx_save_all = QAction(self.save_all_action.icon(), self.tr("Save All"), self)
+        self._ctx_save_all.triggered.connect(self.save_all_images)
+        self._ctx_rename = QAction(self.rename_action.icon(), self.tr("Rename"), self)
+        self._ctx_rename.triggered.connect(self._tab_ctx_rename)
+        self._ctx_open_dir = QAction(self.open_directory_action.icon(), self.tr("Open Directory"), self)
+        self._ctx_open_dir.triggered.connect(self._tab_ctx_open_dir)
+        self._ctx_copy = QAction(self.copy_action.icon(), self.tr("Copy"), self)
+        self._ctx_copy.triggered.connect(self._tab_ctx_copy)
+        self._ctx_copy_path = QAction(self.copy_path_action.icon(), self.tr("Copy Path"), self)
+        self._ctx_copy_path.triggered.connect(self._tab_ctx_copy_path)
+        self._ctx_delete = QAction(self.delete_image_action.icon(), self.tr("Delete"), self)
+        self._ctx_delete.triggered.connect(self._tab_ctx_delete)
 
         self.pen_action = QAction(self._load_first_icon("pen", "markerPen"), self.tr("Pen"), self)
         self.pen_action.setCheckable(True)
@@ -3429,6 +3460,137 @@ class MainWindow(QMainWindow):
             self.status_label.setText(self.tr("Ready"))
         self._update_actions()
         self._update_property_toolbar_for_tool()
+
+    def _build_tab_context_menu(self) -> None:
+        self.tab_context_menu = QMenu(self)
+        self.tab_context_menu.addAction(self._ctx_close)
+        self.tab_context_menu.addAction(self._ctx_close_others)
+        self.tab_context_menu.addAction(self._ctx_close_all)
+        self.tab_context_menu.addAction(self._ctx_close_left)
+        self.tab_context_menu.addAction(self._ctx_close_right)
+        self.tab_context_menu.addSeparator()
+        self.tab_context_menu.addAction(self._ctx_save)
+        self.tab_context_menu.addAction(self._ctx_save_as)
+        self.tab_context_menu.addAction(self._ctx_save_all)
+        self.tab_context_menu.addSeparator()
+        self.tab_context_menu.addAction(self._ctx_rename)
+        self.tab_context_menu.addAction(self._ctx_open_dir)
+        self.tab_context_menu.addAction(self._ctx_copy)
+        self.tab_context_menu.addAction(self._ctx_copy_path)
+        self.tab_context_menu.addAction(self._ctx_delete)
+        self.tabs.tabBar().setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.tabs.tabBar().customContextMenuRequested.connect(self._show_tab_context_menu)
+
+    def _show_tab_context_menu(self, position: QPoint) -> None:
+        tab_bar = self.tabs.tabBar()
+        index = tab_bar.tabAt(position)
+        if index < 0:
+            return
+        self._context_tab_index = index
+        self._update_tab_context_actions(index)
+        self.tab_context_menu.popup(tab_bar.mapToGlobal(position))
+
+    def _update_tab_context_actions(self, index: int) -> None:
+        canvas = self._canvas_from_tab_widget(self.tabs.widget(index))
+        has_image = canvas is not None and canvas.has_image()
+        has_path = canvas is not None and bool(canvas.state.path)
+        self._ctx_save.setEnabled(has_image)
+        self._ctx_save_as.setEnabled(has_image)
+        self._ctx_save_all.setEnabled(
+            any(
+                (c := self._canvas_from_tab_widget(self.tabs.widget(i))) is not None
+                and c.has_image()
+                for i in range(self.tabs.count())
+            )
+        )
+        self._ctx_rename.setEnabled(has_image)
+        self._ctx_open_dir.setEnabled(has_path)
+        self._ctx_copy.setEnabled(has_image)
+        self._ctx_copy_path.setEnabled(has_path)
+        self._ctx_delete.setEnabled(has_path)
+        self._ctx_close_others.setEnabled(self.tabs.count() > 1)
+        self._ctx_close_left.setEnabled(index > 0)
+        self._ctx_close_right.setEnabled(index < self.tabs.count() - 1)
+        self._ctx_close_all.setEnabled(self.tabs.count() > 0)
+
+    def _tab_ctx_close(self) -> None:
+        if self._context_tab_index >= 0:
+            self.close_tab(self._context_tab_index)
+
+    def _tab_ctx_close_others(self) -> None:
+        index = self._context_tab_index
+        if index < 0:
+            return
+        for i in range(self.tabs.count() - 1, -1, -1):
+            if i != index:
+                self.close_tab(i)
+
+    def _tab_ctx_close_all(self) -> None:
+        while self.tabs.count() > 0:
+            self.close_tab(0)
+
+    def _tab_ctx_close_left(self) -> None:
+        index = self._context_tab_index
+        if index < 0:
+            return
+        for i in range(index - 1, -1, -1):
+            self.close_tab(i)
+
+    def _tab_ctx_close_right(self) -> None:
+        index = self._context_tab_index
+        if index < 0:
+            return
+        while self.tabs.count() > index + 1:
+            self.close_tab(index + 1)
+
+    def _tab_ctx_save(self) -> None:
+        index = self._context_tab_index
+        if index < 0:
+            return
+        self.tabs.setCurrentIndex(index)
+        self.save_image()
+
+    def _tab_ctx_save_as(self) -> None:
+        index = self._context_tab_index
+        if index < 0:
+            return
+        self.tabs.setCurrentIndex(index)
+        self.save_image_as()
+
+    def _tab_ctx_rename(self) -> None:
+        index = self._context_tab_index
+        if index < 0:
+            return
+        self.tabs.setCurrentIndex(index)
+        self.rename_current_image()
+
+    def _tab_ctx_open_dir(self) -> None:
+        index = self._context_tab_index
+        if index < 0:
+            return
+        self.tabs.setCurrentIndex(index)
+        self.open_image_directory()
+
+    def _tab_ctx_copy(self) -> None:
+        index = self._context_tab_index
+        if index < 0:
+            return
+        self.tabs.setCurrentIndex(index)
+        self.copy_image()
+
+    def _tab_ctx_copy_path(self) -> None:
+        index = self._context_tab_index
+        if index < 0:
+            return
+        self.tabs.setCurrentIndex(index)
+        self.copy_image_path()
+
+    def _tab_ctx_delete(self) -> None:
+        index = self._context_tab_index
+        if index < 0:
+            return
+        self.tabs.setCurrentIndex(index)
+        self.delete_current_image_file()
 
     def _sync_tab_title(self) -> None:
         canvas = self.current_canvas()
