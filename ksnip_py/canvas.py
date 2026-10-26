@@ -615,6 +615,7 @@ class AnnotationCanvas(QLabel):
         self._number_seed_updates_all = False
         self._switch_to_select_after_drawing = False
         self._select_item_after_drawing = True
+        self._illustrator_grab = True
         self._sticker_path: str | None = None
         self._available_sticker_paths: list[str] = []
         self._image = QImage()
@@ -934,6 +935,9 @@ class AnnotationCanvas(QLabel):
 
     def set_select_item_after_drawing(self, enabled: bool) -> None:
         self._select_item_after_drawing = bool(enabled)
+
+    def set_illustrator_grab(self, enabled: bool) -> None:
+        self._illustrator_grab = bool(enabled)
 
     def number_seed(self) -> int:
         return self._number_seed
@@ -1393,6 +1397,17 @@ class AnnotationCanvas(QLabel):
             self._refresh()
             return
 
+        if self._tool != Tool.SELECT and self._illustrator_grab and image_point is not None:
+            grab_index = self._find_item_at(image_point)
+            if grab_index is not None:
+                handle = self._find_handle_at(self._items[grab_index], image_point)
+                self._select_single_item(grab_index)
+                self._active_handle = handle
+                self._drag_start = image_point
+                self._arm_drag_undo()
+                self._refresh()
+                return
+
         if self._tool in (Tool.NUMBER, Tool.STICKER):
             item = self._build_click_item(self._tool, image_point)
             if item is not None:
@@ -1440,7 +1455,7 @@ class AnnotationCanvas(QLabel):
             return
         if not self.has_image() or self._preview_start is None:
             image_point = self._map_to_image(event.position().toPoint())
-            if self._tool == Tool.SELECT and self.has_selected_item() and self._drag_start is not None and image_point is not None:
+            if self._drag_start is not None and self.has_selected_item() and image_point is not None:
                 if self._active_handle is not None and self.has_single_selected_item():
                     item = self._primary_selected_item()
                     if item is not None:
@@ -1487,6 +1502,14 @@ class AnnotationCanvas(QLabel):
                 self._drag_undo_snapshot = None
                 self.setCursor(Qt.CursorShape.ArrowCursor)
                 self._refresh()
+            return
+
+        if self._drag_start is not None:
+            self._drag_start = None
+            self._active_handle = None
+            self._drag_undo_snapshot = None
+            self.setCursor(Qt.CursorShape.ArrowCursor)
+            self._refresh()
             return
 
         if self._preview_start is None:

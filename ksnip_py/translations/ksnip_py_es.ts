@@ -2646,6 +2646,11 @@ Do you want to continue?</source>
         <source>After you move or resize the window while an image is open, reuse that size and position for the next capture instead of maximizing.</source>
         <translation>Después de mover o redimensionar la ventana con una imagen abierta, reutiliza ese tamaño y posición en la siguiente captura en vez de maximizar.</translation>
     </message>
+    <message>
+        <location filename="../settings_dialog.py" line="462" />
+        <source>Grab selected item when clicking it (Illustrator-style)</source>
+        <translation>Capturar el elemento seleccionado al hacer clic en él (estilo Illustrator)</translation>
+    </message>
 </context><context>
     <name>SpellCheckTextEdit</name>
     <message>

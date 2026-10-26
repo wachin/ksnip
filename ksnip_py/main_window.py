@@ -1687,6 +1687,7 @@ class MainWindow(QMainWindow):
         canvas.set_number_seed_updates_all(self._setting_bool("editor/number_seed_updates_all", False))
         canvas.set_switch_to_select_after_drawing(self._setting_bool("editor/switch_to_select_after_drawing", False))
         canvas.set_select_item_after_drawing(self._setting_bool("editor/select_item_after_drawing", True))
+        canvas.set_illustrator_grab(self._setting_bool("editor/illustrator_style_grab", True))
         canvas.set_number_seed(1)
         canvas.set_sticker_paths(self._default_sticker_paths())
         if self._default_sticker_paths():
@@ -3981,6 +3982,7 @@ class MainWindow(QMainWindow):
             italic=self.italic.isChecked(),
             number_tool_seed_updates_all=self._setting_bool("editor/number_seed_updates_all", False),
             switch_to_select_after_drawing=self._setting_bool("editor/switch_to_select_after_drawing", False),
+            illustrator_style_grab=self._setting_bool("editor/illustrator_style_grab", True),
             select_item_after_drawing=self._setting_bool("editor/select_item_after_drawing", True),
             remember_annotation_tool=self._setting_bool("editor/remember_tool", False),
             show_controls_widget=self._setting_bool("editor/show_controls_widget", False),
@@ -4085,6 +4087,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("editor/number_seed_updates_all", data.number_tool_seed_updates_all)
         self._settings.setValue("editor/switch_to_select_after_drawing", data.switch_to_select_after_drawing)
         self._settings.setValue("editor/select_item_after_drawing", data.select_item_after_drawing)
+        self._settings.setValue("editor/illustrator_style_grab", data.illustrator_style_grab)
         self._settings.setValue("editor/remember_tool", data.remember_annotation_tool)
         self._settings.setValue("editor/show_controls_widget", data.show_controls_widget)
         self.controls_toolbar.setVisible(data.show_controls_widget)
@@ -4218,6 +4221,7 @@ class MainWindow(QMainWindow):
             canvas.set_number_seed_updates_all(data.number_tool_seed_updates_all)
             canvas.set_switch_to_select_after_drawing(data.switch_to_select_after_drawing)
             canvas.set_select_item_after_drawing(data.select_item_after_drawing)
+            canvas.set_illustrator_grab(data.illustrator_style_grab)
             canvas.set_shadow(self.shadow_state_button.isChecked())
             canvas.set_scaling(self.scaling.value() / 100.0)
             canvas.set_arrow_head_size(self.arrow_head_size.value())

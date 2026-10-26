@@ -2012,6 +2012,11 @@
         <source>After you move or resize the window while an image is open, reuse that size and position for the next capture instead of maximizing.</source>
         <translation></translation>
     </message>
+    <message>
+        <location filename="../settings_dialog.py" line="462" />
+        <source>Grab selected item when clicking it (Illustrator-style)</source>
+        <translation></translation>
+    </message>
 </context>
   <context>
     <name>SpellCheckTextEdit</name>

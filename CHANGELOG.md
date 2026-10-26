@@ -5,6 +5,7 @@
 * New: Configurable default file type for the File > Open dialog (Settings > Application > Saving).
 * New: Remember Main Window position on move and load it on startup.
 * New: Remember capture window size and position and reuse it for the next capture instead of maximizing (Settings > Application, opt-in).
+* New: Illustrator-style interaction: with a creation tool active, clicking a placed item grabs and moves/resizes it instead of creating a new one; clicking empty space still creates a new item (Settings > Annotator, opt-in, on by default).
 
 
 ## Release 1.11.0

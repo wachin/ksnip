@@ -52,6 +52,7 @@ class SettingsData:
     number_tool_seed_updates_all: bool
     switch_to_select_after_drawing: bool
     select_item_after_drawing: bool
+    illustrator_style_grab: bool
     remember_annotation_tool: bool
     show_controls_widget: bool
     rotate_watermark: bool
@@ -458,6 +459,7 @@ class SettingsDialog(QDialog):
         self.remember_annotation_tool = QCheckBox(self.tr("Remember annotation tool selection and load on startup"), annotator_group)
         self.switch_to_select_tool = QCheckBox(self.tr("Switch to Select Tool after drawing Item"), annotator_group)
         self.select_item_after_drawing = QCheckBox(self.tr("Select Item after drawing"), annotator_group)
+        self.illustrator_grab = QCheckBox(self.tr("Grab selected item when clicking it (Illustrator-style)"), annotator_group)
         self.switch_to_select_tool.toggled.connect(self.select_item_after_drawing.setEnabled)
         self.number_tool_seed_updates = QCheckBox(self.tr("Number Tool Seed change updates all Number Items"), annotator_group)
         self.show_controls_widget = QCheckBox(self.tr("Show Controls Widget"), annotator_group)
@@ -467,6 +469,7 @@ class SettingsDialog(QDialog):
             self.remember_annotation_tool,
             self.switch_to_select_tool,
             self.select_item_after_drawing,
+            self.illustrator_grab,
             self.number_tool_seed_updates,
             self.show_controls_widget,
             self.smooth_painter_paths,
@@ -966,6 +969,7 @@ class SettingsDialog(QDialog):
         self.number_tool_seed_updates.setChecked(initial.number_tool_seed_updates_all)
         self.switch_to_select_tool.setChecked(initial.switch_to_select_after_drawing)
         self.select_item_after_drawing.setChecked(initial.select_item_after_drawing)
+        self.illustrator_grab.setChecked(initial.illustrator_style_grab)
         self.select_item_after_drawing.setEnabled(initial.switch_to_select_after_drawing)
         self.remember_annotation_tool.setChecked(initial.remember_annotation_tool)
         self.show_controls_widget.setChecked(initial.show_controls_widget)
@@ -1152,6 +1156,7 @@ class SettingsDialog(QDialog):
             number_tool_seed_updates_all=self.number_tool_seed_updates.isChecked(),
             switch_to_select_after_drawing=self.switch_to_select_tool.isChecked(),
             select_item_after_drawing=self.select_item_after_drawing.isChecked(),
+            illustrator_style_grab=self.illustrator_grab.isChecked(),
             remember_annotation_tool=self.remember_annotation_tool.isChecked(),
             show_controls_widget=self.show_controls_widget.isChecked(),
             rotate_watermark=self.rotate_watermark.isChecked(),
