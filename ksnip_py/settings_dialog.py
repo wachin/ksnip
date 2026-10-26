@@ -65,6 +65,7 @@ class SettingsData:
     show_main_window_after_capture: bool
     auto_copy_new_captures: bool
     application_remember_position: bool
+    application_remember_capture_geometry: bool
     application_auto_hide_tabs: bool
     application_capture_on_startup: bool
     application_auto_hide_docks: bool
@@ -218,6 +219,12 @@ class SettingsDialog(QDialog):
 
         self.remember_window_position = QCheckBox(self.tr("Remember Main Window position on move and load on startup"), application_group)
         application_layout.addWidget(self.remember_window_position)
+
+        self.remember_capture_geometry = QCheckBox(self.tr("Remember capture window size and position"), application_group)
+        self.remember_capture_geometry.setToolTip(
+            self.tr("After you move or resize the window while an image is open, reuse that size and position for the next capture instead of maximizing.")
+        )
+        application_layout.addWidget(self.remember_capture_geometry)
 
         self.capture_on_startup = QCheckBox(self.tr("Capture screenshot at startup with default mode"), application_group)
         application_layout.addWidget(self.capture_on_startup)
@@ -973,6 +980,7 @@ class SettingsDialog(QDialog):
         self.show_main_window_after_capture.setChecked(initial.show_main_window_after_capture)
         self.auto_copy_new_captures.setChecked(initial.auto_copy_new_captures)
         self.remember_window_position.setChecked(initial.application_remember_position)
+        self.remember_capture_geometry.setChecked(initial.application_remember_capture_geometry)
         self.auto_hide_tabs.setChecked(initial.application_auto_hide_tabs)
         self.capture_on_startup.setChecked(initial.application_capture_on_startup)
         self.auto_hide_docks.setChecked(initial.application_auto_hide_docks)
@@ -1157,6 +1165,7 @@ class SettingsDialog(QDialog):
             show_main_window_after_capture=self.show_main_window_after_capture.isChecked(),
             auto_copy_new_captures=self.auto_copy_new_captures.isChecked(),
             application_remember_position=self.remember_window_position.isChecked(),
+            application_remember_capture_geometry=self.remember_capture_geometry.isChecked(),
             application_auto_hide_tabs=self.auto_hide_tabs.isChecked(),
             application_capture_on_startup=self.capture_on_startup.isChecked(),
             application_auto_hide_docks=self.auto_hide_docks.isChecked(),

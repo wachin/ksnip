@@ -2636,6 +2636,16 @@ Do you want to continue?</source>
         <source>Sticker Settings</source>
         <translation type="vanished">Configuración de adhesivos</translation>
     </message>
+    <message>
+        <location filename="../settings_dialog.py" line="4300" />
+        <source>Remember capture window size and position</source>
+        <translation>Recordar tamaño y posición de la ventana de captura</translation>
+    </message>
+    <message>
+        <location filename="../settings_dialog.py" line="4301" />
+        <source>After you move or resize the window while an image is open, reuse that size and position for the next capture instead of maximizing.</source>
+        <translation>Después de mover o redimensionar la ventana con una imagen abierta, reutiliza ese tamaño y posición en la siguiente captura en vez de maximizar.</translation>
+    </message>
 </context><context>
     <name>SpellCheckTextEdit</name>
     <message>

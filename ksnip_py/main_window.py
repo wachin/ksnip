@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 import sys
 
-from PyQt6.QtCore import QBuffer, QEvent, QEventLoop, QIODevice, QPoint, QRectF, QSettings, QSize, QThread, QTimer, Qt, QUrl
+from PyQt6.QtCore import QBuffer, QByteArray, QEvent, QEventLoop, QIODevice, QPoint, QRectF, QSettings, QSize, QThread, QTimer, Qt, QUrl
 from PyQt6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPainter, QPixmap
 from PyQt6.QtPrintSupport import QPrintDialog, QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import (
@@ -120,6 +120,11 @@ class MainWindow(QMainWindow):
         self._position_save_timer.setSingleShot(True)
         self._position_save_timer.setInterval(300)
         self._position_save_timer.timeout.connect(self._persist_window_position)
+
+        self._capture_geometry_save_timer = QTimer(self)
+        self._capture_geometry_save_timer.setSingleShot(True)
+        self._capture_geometry_save_timer.setInterval(300)
+        self._capture_geometry_save_timer.timeout.connect(self._persist_capture_geometry)
 
         self.setWindowTitle("ksnip")
         self._apply_window_icon()
@@ -1562,6 +1567,13 @@ class MainWindow(QMainWindow):
         if self._setting_bool("application/remember_position", True):
             # Debounce: only persist once the user stops dragging.
             self._position_save_timer.start()
+        if self._setting_bool("application/remember_capture_geometry", False) and self._editor_visible:
+            self._capture_geometry_save_timer.start()
+
+    def resizeEvent(self, event) -> None:  # noqa: N802
+        super().resizeEvent(event)
+        if self._setting_bool("application/remember_capture_geometry", False) and self._editor_visible:
+            self._capture_geometry_save_timer.start()
 
     def _persist_window_position(self) -> None:
         if not self._setting_bool("application/remember_position", True):
@@ -1570,6 +1582,13 @@ class MainWindow(QMainWindow):
         if pos.x() < 0 or pos.y() < 0:
             return  # guard against off-screen / not-yet-positioned states
         self._settings.setValue("window/position", f"{pos.x()},{pos.y()}")
+
+    def _persist_capture_geometry(self) -> None:
+        if not self._setting_bool("application/remember_capture_geometry", False):
+            return
+        if not self._editor_visible:
+            return
+        self._settings.setValue("window/capture_geometry", self.saveGeometry())
 
     def closeEvent(self, event) -> None:  # noqa: N802
         if self._should_close_to_tray():
@@ -3813,6 +3832,15 @@ class MainWindow(QMainWindow):
         return True
 
     def _schedule_resize_to_content(self) -> None:
+        if self._setting_bool("application/remember_capture_geometry", False):
+            geom = self._settings.value("window/capture_geometry")
+            if geom is not None:
+                if isinstance(geom, str):
+                    geom = QByteArray.fromHex(geom.encode("utf-8"))
+                if isinstance(geom, QByteArray) and not geom.isEmpty():
+                    self.restoreGeometry(geom)
+                    self._first_image_window_adjusted = True
+                    return
         mode = str(self._settings.value("application/first_image_window_mode", "maximize"))
         if mode == "maximize":
             if self._first_image_window_adjusted:
@@ -3967,6 +3995,7 @@ class MainWindow(QMainWindow):
             show_main_window_after_capture=self._setting_bool("capture/show_main_window_after_capture", True),
             auto_copy_new_captures=self._setting_bool("capture/auto_copy_new_captures", False),
             application_remember_position=self._setting_bool("application/remember_position", True),
+            application_remember_capture_geometry=self._setting_bool("application/remember_capture_geometry", False),
             application_auto_hide_tabs=self._setting_bool("application/auto_hide_tabs", False),
             application_capture_on_startup=self._setting_bool("application/capture_on_startup", False),
             application_auto_hide_docks=self._setting_bool("application/auto_hide_docks", False),
@@ -4070,6 +4099,7 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/show_main_window_after_capture", data.show_main_window_after_capture)
         self._settings.setValue("capture/auto_copy_new_captures", data.auto_copy_new_captures)
         self._settings.setValue("application/remember_position", data.application_remember_position)
+        self._settings.setValue("application/remember_capture_geometry", data.application_remember_capture_geometry)
         self._settings.setValue("application/auto_hide_tabs", data.application_auto_hide_tabs)
         self._settings.setValue("application/capture_on_startup", data.application_capture_on_startup)
         self._settings.setValue("application/auto_hide_docks", data.application_auto_hide_docks)
@@ -4080,6 +4110,8 @@ class MainWindow(QMainWindow):
         if not data.application_remember_position:
             self._settings.remove("window/geometry")
             self._settings.remove("window/position")
+        if not data.application_remember_capture_geometry:
+            self._settings.remove("window/capture_geometry")
         self.tabs.tabBar().setAutoHide(data.application_auto_hide_tabs)
         self._settings.setValue("saver/prompt_discard", data.saver_prompt_discard)
         self._settings.setValue("saver/remember_directory", data.saver_remember_directory)
@@ -4332,6 +4364,8 @@ class MainWindow(QMainWindow):
     def _save_ui_settings(self) -> None:
         if self._setting_bool("application/remember_position", True):
             self._settings.setValue("window/position", f"{self.pos().x()},{self.pos().y()}")
+        if self._setting_bool("application/remember_capture_geometry", False) and self._editor_visible:
+            self._settings.setValue("window/capture_geometry", self.saveGeometry())
         self._settings.setValue("editor/pen_width", self.stroke_width.value())
         self._settings.setValue("editor/font_family", self.font_family.currentFont().family())
         self._settings.setValue("editor/font_point_size", self.font_size.value())
