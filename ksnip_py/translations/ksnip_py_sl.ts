@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
+<?xml version='1.0' encoding='utf-8'?>
 <TS version="2.1" language="sl">
   <context>
     <name>AnnotationCanvas</name>
@@ -659,7 +658,7 @@
     <message>
       <location filename="../main_window.py" line="2445" />
       <source>Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
-      <translation type="unfinished" /></message>
+      <translation>Projekti Ksnip (*.ksnip);;Slike (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation></message>
     <message>
       <location filename="../main_window.py" line="2525" />
       <location filename="../main_window.py" line="2470" />
@@ -902,37 +901,37 @@
       <message>
         <location filename="../main_window.py" line="714" />
         <source>Close</source>
-        <translation></translation>
+        <translation />
     </message>
     <message>
         <location filename="../main_window.py" line="717" />
         <source>Close Other</source>
-        <translation></translation>
+        <translation />
     </message>
     <message>
         <location filename="../main_window.py" line="719" />
         <source>Close All</source>
-        <translation></translation>
+        <translation />
     </message>
     <message>
         <location filename="../main_window.py" line="721" />
         <source>Close All to the Left</source>
-        <translation></translation>
+        <translation />
     </message>
     <message>
         <location filename="../main_window.py" line="723" />
         <source>Close All to the Right</source>
-        <translation></translation>
+        <translation />
     </message>
     <message>
         <location filename="../main_window.py" line="739" />
         <source>Delete</source>
-        <translation></translation>
+        <translation />
     </message>
     <message>
         <location filename="../main_window.py" line="2600" />
         <source>Ksnip Projects (*.ksnip)</source>
-        <translation></translation>
+        <translation>Projekti Ksnip (*.ksnip)</translation>
     </message>
 </context>
   <context>
