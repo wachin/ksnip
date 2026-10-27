@@ -17,6 +17,7 @@ ICON_SIZE = 128
 HOME_PAGE_URL = "https://github.com/wachin/ksnip"
 ORIGINAL_PROJECT_URL = "https://github.com/ksnip/ksnip"
 ORIGINAL_AUTHOR = "Damir Porobic"
+PORT_AUTHOR = "Washington Indacochea Delgado"
 SUPPORT_EMAIL = "linuxfrontier@proton.me"
 
 
@@ -80,8 +81,7 @@ class AboutDialog(QDialog):
                 self.tr("Original project"),
                 f'<a href="{ORIGINAL_PROJECT_URL}">{ORIGINAL_PROJECT_URL}</a> {ORIGINAL_AUTHOR}',
             ),
-            (self.tr("PyQt6 port"), "Washington Indacochea Delgado"),
-            (self.tr("Copyright"), f"&copy; 2026 Washington Indacochea Delgado"),
+            (self.tr("PyQt6 port"), f"&copy; 2026 {PORT_AUTHOR}"),
             (self.tr("Email"), f'<a href="mailto:{SUPPORT_EMAIL}">{SUPPORT_EMAIL}</a>'),
             (self.tr("Website"), f'<a href="{HOME_PAGE_URL}">{HOME_PAGE_URL}</a>'),
             (self.tr("License"), '<a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL-3.0</a>'),
