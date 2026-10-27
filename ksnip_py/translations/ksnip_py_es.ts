@@ -2761,4 +2761,25 @@ Do you want to continue?</source>
         <source>Drive</source>
         <translation>Unidad</translation>
     </message>
+</context><context>
+    <!-- QFileDialog asks for these two labels with a mnemonic in Qt 6.11 and
+         without it in older releases, and the Qt Spanish catalog only covers
+         one of the two spellings, so both are provided here. -->
+    <name>QFileDialog</name>
+    <message>
+        <source>Look in:</source>
+        <translation>Ver en:</translation>
+    </message>
+    <message>
+        <source>&amp;Look in:</source>
+        <translation>&amp;Ver en:</translation>
+    </message>
+    <message>
+        <source>Files of type:</source>
+        <translation>Ficheros de tipo:</translation>
+    </message>
+    <message>
+        <source>Files of &amp;type:</source>
+        <translation>Ficheros de &amp;tipo:</translation>
+    </message>
 </context></TS>

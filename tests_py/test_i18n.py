@@ -41,6 +41,15 @@ class TranslationCatalogTest(unittest.TestCase):
         self.assertEqual(QCoreApplication.translate("QAbstractFileIconProvider", "Folder"), "Carpeta")
         self.assertEqual(QCoreApplication.translate("QAbstractFileIconProvider", "Drive"), "Unidad")
 
+    def test_file_dialog_labels_are_translated_for_both_qt_spellings(self) -> None:
+        load_translation(APP, "es_EC")
+        # Qt 6.11 asks QFileDialog for these labels with a mnemonic and older
+        # releases without it; the application catalog carries both spellings.
+        self.assertEqual(QCoreApplication.translate("QFileDialog", "Look in:"), "Ver en:")
+        self.assertEqual(QCoreApplication.translate("QFileDialog", "&Look in:"), "&Ver en:")
+        self.assertEqual(QCoreApplication.translate("QFileDialog", "Files of type:"), "Ficheros de tipo:")
+        self.assertEqual(QCoreApplication.translate("QFileDialog", "Files of &type:"), "Ficheros de &tipo:")
+
     def test_qt_runtime_translation_path_is_the_primary_location(self) -> None:
         expected = QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath)
         self.assertEqual(str(qt_translation_directories()[0]), expected)
