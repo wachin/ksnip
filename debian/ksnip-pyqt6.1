@@ -1,0 +1,145 @@
+.TH KSNIP-PYQT6 1 "2026-10-26" "ksnip-pyqt6 0.1.0" "User Commands"
+.SH NAME
+ksnip-pyqt6 \- screenshot and annotation tool
+.SH SYNOPSIS
+.B ksnip-pyqt6
+.RI [ IMAGE ]
+.br
+.B ksnip-pyqt6
+.RB [ \-r | \-l | \-f | \-m | \-a | \-u | \-t ]
+.RB [ \-d " SECONDS" ]
+.RB [ \-c ]
+.RB [ \-s | \-p " PATH" | \-o ]
+.br
+.B ksnip-pyqt6
+.RB [ \-e " IMAGE" ]
+.RB [ \-s | \-p " PATH" | \-o ]
+.SH DESCRIPTION
+.B ksnip-pyqt6
+takes screenshots of the desktop and opens them in an annotation editor.
+A screenshot can cover all screens, the current screen, a rectangular area
+chosen with the mouse, the last selected area, the active window or the
+window under the cursor.
+.PP
+The editor supports freehand drawing, lines, arrows, rectangles, ellipses,
+text, numbered markers, stickers, inserted images and watermarks. Items can
+be moved, resized, rotated, duplicated and reordered, and the result can be
+saved as PNG, JPEG, BMP or WebP, exported to SVG, copied to the clipboard,
+printed or uploaded with a user supplied script.
+.PP
+When a file name or
+.B \-e
+is given on the command line, the image is opened in the editor instead of
+starting a new capture. A single dash
+.RB ( \- )
+reads the image from standard input.
+.PP
+Only one instance of the program runs per user session. A second invocation
+forwards its arguments to the running instance and exits.
+.SH OPTIONS
+.TP
+.B \-r, \-\-rectarea
+Capture a rectangular area selected with the mouse.
+.TP
+.B \-l, \-\-lastrectarea
+Capture the area used by the previous rectangular capture.
+.TP
+.B \-f, \-\-fullscreen
+Capture all screens.
+.TP
+.B \-m, \-\-current
+Capture the current screen.
+.TP
+.B \-a, \-\-active
+Capture the active window.
+.TP
+.B \-u, \-\-windowundercursor
+Capture the window under the mouse cursor.
+.TP
+.B \-t, \-\-portal
+Capture through the desktop portal. This is the recommended mode on Wayland.
+.TP
+.BI \-d " SECONDS" ", \-\-delay " SECONDS
+Wait the given number of seconds before capturing.
+.TP
+.B \-c, \-\-cursor
+Include the mouse cursor in the screenshot.
+.TP
+.B \-s, \-\-save
+Save the screenshot to the configured default directory without opening the
+editor, then exit.
+.TP
+.BI \-p " PATH" ", \-\-saveto " PATH
+Save the screenshot to
+.I PATH
+without opening the editor, then exit.
+.TP
+.B \-o, \-\-upload
+Upload the screenshot with the configured script without opening the editor,
+then exit.
+.TP
+.B \-e, \-\-edit
+.I IMAGE
+Open an existing image in the editor.
+.TP
+.BI \-\-language " LOCALE"
+Use the given locale for the user interface instead of the system locale, for
+example
+.B es
+or
+.BR es_EC .
+.TP
+.B \-v, \-\-version
+Print the program version and exit.
+.TP
+.B \-h, \-\-help
+Print a short usage summary and exit.
+.SH FILES
+.TP
+.I ~/.config/ksnip/ksnip\-pyqt6.conf
+User settings, written with QSettings.
+.TP
+.I ~/.config/ksnip/ksnip\-pyqt6/
+Directory holding the images imported into the sticker selector.
+.TP
+.I ~/.local/share/ksnip/ksnip\-pyqt6/
+Application data, including the images used for watermarks.
+.SH EXAMPLES
+Capture a rectangular area and include the cursor:
+.PP
+.RS 4
+ksnip-pyqt6 \-r \-c
+.RE
+.PP
+Wait five seconds, then capture all screens and save the result:
+.PP
+.RS 4
+ksnip-pyqt6 \-f \-d 5 \-s
+.RE
+.PP
+Open an image that already exists:
+.PP
+.RS 4
+ksnip-pyqt6 \-e screenshot.png
+.RE
+.PP
+Save a screenshot of the active window to a specific file:
+.PP
+.RS 4
+ksnip-pyqt6 \-a \-p /tmp/window.png
+.RE
+.SH "EXIT STATUS"
+.B 0
+on success,
+.B 1
+when the arguments are invalid or the capture or save operation fails.
+.SH "SEE ALSO"
+.BR scrot (1),
+.BR spectacle (1),
+.BR flameshot (1)
+.SH AUTHOR
+Washington Indacochea Delgado <wachin.id@gmail.com>
+.PP
+This manual page was written for the Debian project and may be used,
+modified and distributed under the terms of the GNU General Public License
+version 3.

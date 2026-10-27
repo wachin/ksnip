@@ -1,0 +1,49 @@
+[Desktop Entry]
+Type=Application
+Version=1.5
+Name=ksnip-pyqt6
+GenericName=Screenshot Tool
+GenericName[es]=Herramienta de capturas de pantalla
+Comment=Take screenshots and annotate them
+Comment[es]=Realiza capturas de pantalla y anótalas
+Exec=ksnip-pyqt6 %F
+TryExec=ksnip-pyqt6
+Icon=org.ksnip.ksnip-pyqt6
+Terminal=false
+StartupNotify=true
+StartupWMClass=org.ksnip.ksnip-pyqt6
+Categories=Utility;
+Keywords=screenshot;capture;annotate;snip;
+Keywords[es]=captura;pantalla;anotar;
+MimeType=image/bmp;image/gif;image/jpeg;image/png;image/webp;
+Actions=Area;LastArea;FullScreen;CurrentScreen;Window;
+
+[Desktop Action Area]
+Name=Capture a rectangular area
+Name[es]=Capturar un área rectangular
+Exec=ksnip-pyqt6 -r -c
+Icon=org.ksnip.ksnip-pyqt6
+
+[Desktop Action LastArea]
+Name=Capture the last selected area
+Name[es]=Capturar la última área seleccionada
+Exec=ksnip-pyqt6 -l -c
+Icon=org.ksnip.ksnip-pyqt6
+
+[Desktop Action FullScreen]
+Name=Capture all screens
+Name[es]=Capturar todas las pantallas
+Exec=ksnip-pyqt6 -f -c
+Icon=org.ksnip.ksnip-pyqt6
+
+[Desktop Action CurrentScreen]
+Name=Capture the current screen
+Name[es]=Capturar la pantalla actual
+Exec=ksnip-pyqt6 -m -c
+Icon=org.ksnip.ksnip-pyqt6
+
+[Desktop Action Window]
+Name=Capture the active window
+Name[es]=Capturar la ventana activa
+Exec=ksnip-pyqt6 -a -c
+Icon=org.ksnip.ksnip-pyqt6

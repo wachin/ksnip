@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.ksnip.ksnip-pyqt6</id>
+
+  <name>ksnip-pyqt6</name>
+  <summary>Take screenshots and annotate them</summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+
+  <description>
+    <p>
+      ksnip-pyqt6 is a PyQt6 port of ksnip, a screenshot and annotation tool.
+      It captures the whole screen, a single screen, a rectangular area, the
+      last selected area, the active window or the window under the cursor,
+      and opens the result in an annotation editor.
+    </p>
+    <p>
+      The editor supports freehand drawing, lines, arrows, rectangles,
+      ellipses, text boxes, numbered markers, stickers, image inserts and
+      watermarks. Items can be moved, resized, rotated, cropped, duplicated
+      and reordered, and the result can be exported to PNG, JPEG, BMP, WebP
+      or SVG.
+    </p>
+    <ul>
+      <li>Rectangular, full screen, current screen, active window and portal capture modes</li>
+      <li>Annotations with undo/redo, zoom and multiple tabs</li>
+      <li>Optional spell checking while typing text</li>
+      <li>OCR text recognition when a supported backend is installed</li>
+      <li>Command line options for scripted screenshots</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">org.ksnip.ksnip-pyqt6.desktop</launchable>
+
+  <url type="homepage">https://github.com/wachin/ksnip</url>
+  <url type="bugtracker">https://github.com/wachin/ksnip/issues</url>
+
+  <developer id="org.ksnip">
+    <name>Washington Indacochea Delgado</name>
+  </developer>
+
+  <categories>
+    <category>Utility</category>
+  </categories>
+
+  <keywords>
+    <keyword>screenshot</keyword>
+    <keyword>capture</keyword>
+    <keyword>annotate</keyword>
+    <keyword>snip</keyword>
+  </keywords>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="0.1.0" date="2026-10-26">
+      <description>
+        <p>First packaged release of the PyQt6 port.</p>
+      </description>
+    </release>
+  </releases>
+</component>

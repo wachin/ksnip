@@ -603,9 +603,31 @@ application icons, translations, licenses, and bundled stickers, so it is
 platform-independent; PyQt6 pulls in the appropriate Qt runtime at install
 time.
 
-There is currently no Debian, AppImage, RPM, EXE/MSI, or DMG recipe for the
-Python port; those need separate packaging work. The GitHub Actions workflows
-build and test the Python distributions only (see the
+### Debian package
+
+The `debian/` directory builds a native Debian package named `ksnip-pyqt6`
+that follows Debian Policy 4.7.4.1. Install the build dependencies and run the
+build from the repository root:
+
+```bash
+sudo apt install debhelper dh-python pybuild-plugin-pyproject python3-all \
+    python3-pytest python3-pyqt6 python3-setuptools
+dpkg-buildpackage -b -us -uc
+```
+
+The package is written next to the repository as
+`../ksnip-pyqt6_0.1.0_all.deb`. Running `dpkg-buildpackage -us -uc` without `-b`
+also produces the source package, and `debian/rules clean` removes the build tree
+afterwards.
+
+The build runs the test suite through `debian/rules`; pass
+`DEB_BUILD_OPTIONS=nocheck` to skip it. `lintian ../ksnip-pyqt6_0.1.0_all.deb`
+reports no findings, and the smoke test in `debian/tests/` can be executed with
+`autopkgtest`.
+
+AppImage, RPM, EXE/MSI, and DMG recipes do not exist yet; those need separate
+packaging work. The GitHub Actions workflows build and test the Python
+distributions only (see the
 [packaging guide](docs/GITHUB_ACTIONS_PACKAGES_ES.md)).
 
 ## License

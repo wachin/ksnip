@@ -101,6 +101,7 @@ def main(argv: list[str] | None = None) -> int:
     app.setOrganizationDomain("ksnip.ksnip.org")
     app.setApplicationName("ksnip-pyqt6")
     app.setApplicationVersion("0.1.0")
+    app.setDesktopFileName("org.ksnip.ksnip-pyqt6")
     image_argument = arguments.image or arguments.edit
     stdin_image = sys.stdin.buffer.read() if image_argument == "-" else None
     configured_language = arguments.language or str(QSettings().value("application/language", "")) or None

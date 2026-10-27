@@ -1,0 +1,39 @@
+Source: ksnip-pyqt6
+Section: graphics
+Priority: optional
+Maintainer: wachin <wachin.id@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               dh-python,
+               pybuild-plugin-pyproject,
+               python3-all,
+               python3-pytest,
+               python3-pyqt6,
+               python3-setuptools
+Standards-Version: 4.7.4.1
+Rules-Requires-Root: no
+Homepage: https://github.com/wachin/ksnip
+Vcs-Git: https://github.com/wachin/ksnip.git
+Vcs-Browser: https://github.com/wachin/ksnip
+
+Package: ksnip-pyqt6
+Architecture: all
+Depends: ${python3:Depends},
+         ${misc:Depends},
+         python3-pyqt6,
+         qt6-svg-plugins
+Recommends: hunspell,
+            hunspell-en-us,
+            xdotool,
+            x11-utils
+Suggests: xdg-desktop-portal,
+          xdg-desktop-portal-gtk | xdg-desktop-portal-backend
+Description: screenshot and annotation tool (PyQt6 port)
+ ksnip is a cross-platform screenshot tool that provides many annotation
+ features. This package provides the PyQt6 port, including screenshot
+ capture, annotation with shapes, text and stickers, OCR, uploaders, and
+ editable projects.
+ .
+ It supports capturing a rectangular area, the last selected area, the
+ screen or window under the cursor, the active window, and the full screen,
+ optionally including the mouse cursor. Screenshots can be annotated and
+ saved to PNG, JPEG, BMP or WebP, or exported to SVG.

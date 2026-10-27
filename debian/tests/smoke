@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+test -x /usr/bin/ksnip-pyqt6
+test -f /usr/share/applications/org.ksnip.ksnip-pyqt6.desktop
+test -f /usr/share/icons/hicolor/scalable/apps/org.ksnip.ksnip-pyqt6.svg
+test -f /usr/share/metainfo/org.ksnip.ksnip-pyqt6.metainfo.xml
+
+ksnip-pyqt6 --version
+ksnip-pyqt6 --help > /dev/null
+
+QT_QPA_PLATFORM=offscreen python3 - <<'PY'
+import ksnip_py.app
+import ksnip_py.canvas
+import ksnip_py.main_window
+print("modules import correctly")
+PY
