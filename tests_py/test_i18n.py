@@ -33,6 +33,14 @@ class TranslationCatalogTest(unittest.TestCase):
         self.assertEqual(QCoreApplication.translate("QPlatformTheme", "Open"), "Abrir")
         self.assertEqual(QCoreApplication.translate("MainWindow", "Open image"), "Abrir imagen")
 
+    def test_file_type_column_of_the_file_dialog_is_translated(self) -> None:
+        load_translation(APP, "es_EC")
+        # QFileDialog asks QAbstractFileIconProvider for the Type column and the
+        # Qt Spanish catalog does not translate those strings, so they are
+        # carried by the application catalog.
+        self.assertEqual(QCoreApplication.translate("QAbstractFileIconProvider", "Folder"), "Carpeta")
+        self.assertEqual(QCoreApplication.translate("QAbstractFileIconProvider", "Drive"), "Unidad")
+
     def test_qt_runtime_translation_path_is_the_primary_location(self) -> None:
         expected = QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath)
         self.assertEqual(str(qt_translation_directories()[0]), expected)

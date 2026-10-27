@@ -1311,6 +1311,15 @@ Do you want to continue?</source>
         <source>Ksnip Projects (*.ksnip)</source>
         <translation>Proyectos de Ksnip (*.ksnip)</translation>
     </message>
+    <!-- Filter labels also used as the preselected item of the save dialog. -->
+    <message>
+        <source>Ksnip Project (*.ksnip)</source>
+        <translation>Proyecto de Ksnip (*.ksnip)</translation>
+    </message>
+    <message>
+        <source>PNG (*.png)</source>
+        <translation>PNG (*.png)</translation>
+    </message>
 </context><context>
     <name>ModifyCanvasDialog</name>
     <message>
@@ -2737,5 +2746,19 @@ Do you want to continue?</source>
         <location filename="../canvas.py" line="24" />
         <source>Shift+Enter adds a new line. Ctrl+Enter accepts.</source>
         <translation>Mayús+Intro añade una línea nueva. Ctrl+Intro acepta.</translation>
+    </message>
+</context><context>
+    <!-- The file type that QFileDialog shows in its Type column comes from
+         QAbstractFileIconProvider, which the Qt Spanish catalog leaves
+         untranslated. Translating it here keeps the whole dialog in the
+         language of the rest of the application. -->
+    <name>QAbstractFileIconProvider</name>
+    <message>
+        <source>Folder</source>
+        <translation>Carpeta</translation>
+    </message>
+    <message>
+        <source>Drive</source>
+        <translation>Unidad</translation>
     </message>
 </context></TS>

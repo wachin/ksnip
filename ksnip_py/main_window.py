@@ -2677,8 +2677,8 @@ class MainWindow(QMainWindow):
 
     def _default_save_spec(self) -> tuple[str, str]:
         if str(self._settings.value("saver/default_format", "png")).lower() == "ksnip":
-            return ".ksnip", "Ksnip Project (*.ksnip)"
-        return ".png", "PNG (*.png)"
+            return ".ksnip", self.tr("Ksnip Project (*.ksnip)")
+        return ".png", self.tr("PNG (*.png)")
 
     def export_current_svg(self) -> None:
         canvas = self.current_canvas()
