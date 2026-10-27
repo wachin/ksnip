@@ -9,3 +9,5 @@ tar-ignore=.pytest_cache
 tar-ignore=.hypothesis
 tar-ignore=.ruff_cache
 tar-ignore=.mypy_cache
+# Local scratch notes kept in the repository, not part of the release.
+tar-ignore=latest-agent.md
