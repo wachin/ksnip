@@ -9,6 +9,7 @@
     <a href="#debian-13--mx-linux-25"><img alt="Tested on Debian 13" src="https://img.shields.io/badge/tested-Debian%2013-A81D33?logo=debian&amp;logoColor=white"></a>
   </p>
   <p>
+    <a href="https://github.com/wachin/ksnip/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/wachin/ksnip?label=release&amp;color=2ea44f"></a>
     <a href="LICENSE.txt"><img alt="License: GPL 3.0" src="https://img.shields.io/badge/license-GPL--3.0-blue"></a>
     <a href="#contributing"><img alt="Contributions welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen"></a>
     <a href="https://github.com/wachin/ksnip/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/wachin/ksnip"></a>
@@ -24,23 +25,31 @@ implementation lives in `ksnip_py/`.
 > [!IMPORTANT]
 > ksnip_py is already usable for daily screenshot and annotation work, but it
 > remains under active development and is not yet a finished replacement for
-> upstream ksnip. Consult the [roadmap](ROADMAP.md) before packaging it for
-> production environments.
+> upstream ksnip. Consult the [roadmap](ROADMAP.md) for the features that are
+> still missing.
 
 ## Navigation
 
-- [Features](#current-features)
 - [Quick start](#quick-start)
+- [Features](#current-features)
+- [Help wanted](#help-wanted)
 - [Known gaps](#known-gaps)
 - [Documentation](#documentation)
 - [Debian and MX Linux dependencies](#debian-13--mx-linux-25)
+- [Sticker collections and artwork sources](#sticker-collections-and-artwork-sources)
+- [Editable projects and SVG](#editable-projects-and-svg)
 - [Run from system packages](#run-from-system-packages)
 - [Run from a virtual environment](#run-from-a-virtual-environment)
+- [Desktop theme integration](#desktop-theme-integration)
 - [Command line](#command-line)
 - [Keyboard shortcuts](#keyboard-shortcuts)
 - [Zoom controls](#zoom-controls)
+- [Text tool](#text-tool)
 - [Optional OCR](#optional-ocr)
+- [Project layout](#project-layout)
 - [Development checks](#development-checks)
+- [Port status](#port-status)
+- [Building and packaging](#building-and-packaging)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -49,6 +58,23 @@ implementation lives in `ksnip_py/`.
 </p>
 
 ## Quick start
+
+### Install the packaged release
+
+Every release publishes a Debian package for Debian 13 and its derivatives.
+Download it from the [latest release](https://github.com/wachin/ksnip/releases/latest)
+and install it with `apt`, which resolves the runtime dependencies:
+
+```bash
+wget https://github.com/wachin/ksnip/releases/latest/download/ksnip-pyqt6_0.1.0_all.deb
+sudo apt install ./ksnip-pyqt6_0.1.0_all.deb
+```
+
+The package provides the `ksnip-pyqt6` command, the desktop entry, the
+AppStream metadata, and a manual page. See
+[Building and packaging](#building-and-packaging) to build it from source.
+
+### Run from the repository
 
 After installing the [Debian/MX Linux dependencies](#debian-13--mx-linux-25),
 run the port directly from the repository:
@@ -72,7 +98,8 @@ Developers, testers, designers, Debian packagers, and translators are welcome. T
 - Remaining kImageAnnotator behavior and effects.
 - Imgur, FTP, and plugin-system parity.
 - Automated GUI tests.
-- Debian packaging and policy review.
+- Packaging for other distributions (RPM, AppImage, Flatpak) and review of the
+  Debian package.
 
 See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and reference screenshots.
 
@@ -106,7 +133,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 - Native Imgur and FTP uploaders. The deferred Imgur design and API registration requirements are documented in [`docs/imgur/README_ES.md`](docs/imgur/README_ES.md).
 - Complete startup, tray-menu, and OCR modeless-window parity with the C++ application.
 - Exact visual and behavioral parity across every editor control.
-- Final Debian packaging and automated GUI coverage.
+- Automated GUI coverage.
 
 ## Documentation
 
@@ -123,6 +150,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 | OCR installation on Debian derivatives | [PaddleOCR guide (Spanish)](docs/OCR_PADDLEOCR_ES.md) |
 | Script uploader verification | [Script uploader tests (Spanish)](docs/PRUEBAS_UPLOADER_SCRIPT_ES.md) |
 | Deferred Imgur implementation | [Imgur port notes (Spanish)](docs/imgur/README_ES.md) |
+| Debian packaging and policy compliance | [debian/](debian/) |
 
 ## Debian 13 / MX Linux 25
 
@@ -141,6 +169,7 @@ sudo apt install \
   hunspell-es \
   libxcb-cursor0 \
   libxfixes3 \
+  qt6-svg-plugins \
   qt6-translations-l10n \
   xdg-desktop-portal \
   xdg-desktop-portal-gtk \
@@ -148,10 +177,11 @@ sudo apt install \
   xdotool
 ```
 
-Important X11 dependencies:
+Important runtime dependencies:
 
 - `libxcb-cursor0` is required by the Qt 6 `xcb` platform plugin. Without it, PyQt6 may fail to start on X11.
 - `libxfixes3` is used to capture the real mouse cursor.
+- `qt6-svg-plugins` provides the Qt SVG image-format plugin used to render the bundled SVG icons and to load SVG artwork.
 - `x11-utils` supplies helpers used for active-window geometry.
 - `xdotool` is used to identify the window under the cursor.
 - `qt6-translations-l10n` provides the official translations for standard Qt6
@@ -529,14 +559,17 @@ line examples, and support for a custom environment location are available in
 ## Project layout
 
 ```text
-ksnip_py/       Active PyQt6 implementation
-tests_py/       Python test suite
-tools/          Sticker extraction and translation helper scripts
-artwork-sources/ Source sheets used to generate packaged sticker assets
-images/         UI and behavior reference screenshots
-docs/           Port documentation and parity audits
-ROADMAP.md      Detailed port status and next work blocks
-pyproject.toml  Python package and executable metadata
+ksnip_py/                Active PyQt6 implementation
+tests_py/                Python test suite
+tools/                   Sticker extraction and translation helper scripts
+debian/                  Native Debian package (Policy 4.7.4.1)
+artwork-sources/         Source sheets used to generate packaged sticker assets
+images/                  UI and behavior reference screenshots
+docs/                    Port documentation and parity audits
+ROADMAP.md               Detailed port status and next work blocks
+CHANGELOG.md             Release history
+THIRD_PARTY_LICENSES.md  Licensing of bundled artwork and icons
+pyproject.toml           Python package and executable metadata
 ```
 
 ## Development checks
@@ -570,18 +603,15 @@ The PyQt6 implementation in `ksnip_py/` is the authoritative codebase. The
 original C++ sources, build files, and reference submodules have been removed;
 historical parity notes are kept under `docs/` for context.
 
-Remaining work is tracked in `ROADMAP.md`.
-4. Expand GUI tests and complete Debian packaging and policy review.
-5. Preserve the last C++ revision in a historical branch or tag, migrate legacy CI/package jobs, and only then remove the C++ tree in an independent change.
-
-See [ROADMAP.md](ROADMAP.md) for the authoritative, current checklist and the
-next bounded porting task.
+Remaining work is tracked in [ROADMAP.md](ROADMAP.md), which holds the
+authoritative checklist and the next bounded porting task.
 
 ## Contributing
 
 1. Read [ROADMAP.md](ROADMAP.md).
 2. Pick one small unchecked item from the prioritized completion plan.
-3. Compare against the C++ sources and the reference screenshots before changing behavior.
+3. Compare against the reference screenshots and the upstream C++ implementation
+   on GitHub before changing behavior.
 4. Keep unrelated user changes intact.
 5. Add a focused smoke test or reproducible verification when possible.
 6. Open an issue or pull request at [wachin/ksnip](https://github.com/wachin/ksnip).
@@ -633,3 +663,7 @@ distributions only (see the
 ## License
 
 This project follows the existing ksnip licensing terms. See [LICENSE.txt](LICENSE.txt).
+
+Bundled artwork, icons, and stickers are documented in
+[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) and, in machine-readable
+DEP-5 form, in [debian/copyright](debian/copyright).
