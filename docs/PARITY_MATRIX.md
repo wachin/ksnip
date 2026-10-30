@@ -34,7 +34,7 @@ Rows marked **Missing** are the open decisions. Everything else is closed.
 | Command line | Equivalent | The port adds `--language` and standard-input images |
 | Startup and lifecycle | Equivalent | None |
 | Capture backends | Differs | Gnome and KDE Wayland grabbers replaced by the generic portal; Windows and macOS grabbers dropped |
-| Editor and annotation | Equivalent | Sticker collections, spell checking and SVG export are port extensions |
+| Editor and annotation | Equivalent | Sticker collections, item rotation, spell checking and SVG export are port extensions |
 | Files and formats | Differs | Fixed save-format list instead of the Qt writer list |
 | Settings | Differs | Imgur, FTP, Actions and Plugins pages are placeholders |
 | Tray icon | Equivalent | None |
@@ -143,7 +143,7 @@ Tool rows are backed by `docs/KIMAGEANNOTATOR_TOOL_PARITY.md`.
 | Number arrow tool | Same | Equivalent | `canvas.py` |
 | Blur tool | Same | Equivalent | `canvas.py` |
 | Pixelate tool | Same | Equivalent | `canvas.py` |
-| Sticker tool | Same tool, different catalogue | Differs | Ten bundled collections instead of the upstream sticker set |
+| Sticker tool | Same tool, different catalogue | Differs | Nine bundled collections plus a user folder, instead of the upstream sticker set (`sticker_picker.py`) |
 | Crop | Same | Equivalent | `canvas.py` |
 | Undo and redo | Same | Equivalent | `canvas.py` |
 | Multi-selection, move and resize | Same | Equivalent | `canvas.py` |
@@ -154,8 +154,9 @@ Tool rows are backed by `docs/KIMAGEANNOTATOR_TOOL_PARITY.md`.
 | Modify canvas | Same | Equivalent | `main_window.py` |
 | Zoom from 10 to 800 percent, fit to window, Ctrl and wheel | Same | Equivalent | `canvas.py` |
 | Item shadow, opacity, fill mode and text properties | Same | Equivalent | `canvas.py` |
-| No grayscale or invert effect | `No Effect`, `Grayscale`, `Invert Color` | Added | `main_window.py` |
+| No grayscale or invert effect | `No Effect`, `Drop Shadow`, `Grayscale`, `Invert Color`, `Border` | Added | `main_window.py`, `canvas.py` |
 | No spell checking | Hunspell suggestions in the text editor | Added | `spellcheck.py` |
+| No item rotation | Rotation handle on the selected item, Shift snaps to 15 degree steps | Added | `canvas.py` |
 | No SVG export | `File > Export as SVG` | Added | `main_window.py` |
 | No project format | `.ksnip` projects | Added | `project_io.py` |
 
