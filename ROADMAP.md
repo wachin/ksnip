@@ -147,6 +147,66 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] Escalado específico de screenshots Wayland genéricos: paridad con `HdpiScaler` del C++, DPR primario sin remuestreo, URI Unicode y pruebas automatizadas
 - [x] Delay implícito con la misma semántica del código C++: máximo con delay explícito sólo cuando la ventana estaba visible
 - [ ] Hotkeys globales nativos para capturas; los atajos actuales son de aplicación y el método portable documentado usa la CLI desde los atajos del escritorio
+- [ ] Captura con scroll (captura larga): aplazada de forma deliberada; diseño, viabilidad por backend y alcance en la subsección siguiente
+
+### Captura con scroll (captura larga)
+
+Estado: **no implementada y aplazada de forma deliberada**. No existe en el ksnip
+original en C++, así que no forma parte de la paridad pendiente: es una
+funcionalidad nueva que hay que decidir por sí misma.
+
+Objetivo: capturar una región más alta que la pantalla (un listado de opciones,
+una página web, una lista de archivos) desplazando el contenido de forma
+automática y cosiendo los frames en una sola imagen editable.
+
+Flujo previsto:
+
+1. El usuario selecciona la región con la capa de selección existente
+   (`SelectionOverlay` en `ksnip_py/capture.py`).
+2. Se captura la región, se envía un evento de rueda hacia abajo y se espera a
+   que la imagen se estabilice (dos capturas separadas unos 150 ms idénticas).
+3. Se busca el desplazamiento vertical comparando una franja de las últimas
+   ~150 filas del frame anterior contra el nuevo frame.
+4. Si el desplazamiento es cero se llegó al final y se detiene la captura; si es
+   menor que la franja, se recorta el solapamiento y se concatena el resto.
+5. El resultado se abre como una imagen normal en una pestaña nueva, con todas
+   las herramientas de anotación disponibles.
+
+Viabilidad por backend:
+
+- [ ] X11: viable. El scroll puede enviarse con `xdotool click 5` (ya figura
+  en `Recommends` de `debian/control`) o con XTest mediante `ctypes`;
+  la captura de la región ya existe mediante `QScreen.grabWindow`.
+- [ ] Wayland: muy limitado. No hay inyección global de eventos sin `ydotool`
+  (uinput, requiere daemon y permisos), y `xdg-desktop-portal` entrega un
+  frame por solicitud, normalmente con diálogo interactivo.
+
+Limitaciones conocidas que hay que resolver o aceptar explícitamente:
+
+- Cabeceras, barras laterales y pies fijos se repiten en cada frame y deben
+  detectarse y recortarse, o quedan duplicados en la costura.
+- El scroll infinito, el contenido que carga con retraso y las animaciones
+  suaves obligan a esperar a que la imagen se estabilice antes de coser.
+- Un cambio de zoom, de tamaño de ventana o de tema durante la captura invalida
+  la costura; hay que abortar y avisar al usuario.
+- Los fondos repetitivos (tablas, listas uniformes) pueden alinear mal la
+  correlación; se mitiga exigiendo coincidencia en una franja ancha y
+  verificando la continuidad del borde.
+
+Alcance mínimo si se decide implementar:
+
+- [ ] Módulo nuevo `ksnip_py/scrolling_capture.py` con el bucle de captura y la
+  costura, sin dependencias nuevas en X11.
+- [ ] Acción de menú, atajo configurable y botón `Detener` durante la captura.
+- [ ] Pruebas con frames sintéticos generados por el propio test, sin capturas
+  reales, para validar la detección de desplazamiento, el recorte del
+  solapamiento y la detección de fin de scroll.
+- [ ] Documento `docs/SCROLLING_CAPTURE.md` con el algoritmo, la matriz por
+  backend y las limitaciones cuando se implemente.
+
+Tamaño estimado: entre 600 y 900 líneas sumando el módulo, la integración en la
+ventana principal y las pruebas. No es un ajuste menor, así que conviene no
+mezclarlo con tareas de paridad.
 
 ## Archivo e Imagen
 
@@ -451,6 +511,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [ ] Definir el alcance del sistema de plugins y de `Settings > Plugins`
 - [ ] Definir el alcance de `Settings > Actions` y portar las acciones configurables que se conservarán
 - [ ] Completar las opciones funcionales restantes de Application, Image Grabber, Annotator, Saver y Tray Icon
+- [ ] Decidir si se implementa la captura con scroll (captura larga); diseño, viabilidad y alcance en la sección Captura de Pantalla (aplazada, no existe en el C++)
 
 ### Fase 3 — Paridad visual y traducciones
 
