@@ -631,6 +631,7 @@ class AnnotationCanvas(QLabel):
         self._last_point: QPoint | None = None
         self._preview_points: list[QPoint] = []
         self._selected_item_indices: list[int] = []
+        self._last_placed_sticker_index: int | None = None
         self._primary_selected_item_index: int | None = None
         self._drag_start: QPoint | None = None
         self._active_handle: str | None = None
@@ -1372,6 +1373,7 @@ class AnnotationCanvas(QLabel):
         image_point = self._map_to_image(event.position().toPoint())
         if image_point is None:
             return
+        self._last_placed_sticker_index = None
 
         if self._tool == Tool.SELECT:
             primary_index = self._primary_selected_index()
@@ -1415,6 +1417,10 @@ class AnnotationCanvas(QLabel):
             if item is not None:
                 self._push_undo_state()
                 self._items.append(item)
+                if self._tool == Tool.STICKER:
+                    # Remembered so a double click can drop the copy this press
+                    # placed and hand the sticker underneath to the select tool.
+                    self._last_placed_sticker_index = len(self._items) - 1
                 if self._number_seed_updates_all and self._is_number_like(item.kind):
                     self._renumber_all_items()
                 self._select_single_item(len(self._items) - 1)
@@ -1581,7 +1587,7 @@ class AnnotationCanvas(QLabel):
         self._refresh()
 
     def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:  # noqa: N802
-        if not self.has_image() or self._tool != Tool.SELECT:
+        if not self.has_image() or self._tool not in (Tool.SELECT, Tool.STICKER):
             super().mouseDoubleClickEvent(event)
             return
         image_point = self._map_to_image(event.position().toPoint())
@@ -1592,6 +1598,23 @@ class AnnotationCanvas(QLabel):
         if clicked_index is None:
             super().mouseDoubleClickEvent(event)
             return
+        if self._tool == Tool.STICKER:
+            if self._last_placed_sticker_index is not None:
+                self._discard_last_placed_sticker()
+                clicked_index = self._find_item_at(image_point)
+                if clicked_index is None:
+                    super().mouseDoubleClickEvent(event)
+                    return
+            if self._items[clicked_index].kind != Tool.STICKER:
+                super().mouseDoubleClickEvent(event)
+                return
+            # Hand the sticker to the select tool so its corner handles can be
+            # dragged without reaching for the toolbar.
+            self._select_single_item(clicked_index)
+            self.select_tool_requested.emit()
+            self.changed.emit()
+            self._refresh()
+            return
         self._select_single_item(clicked_index)
         item = self._primary_selected_item()
         if item is not None and self._is_text_like(item.kind):
@@ -1599,6 +1622,19 @@ class AnnotationCanvas(QLabel):
         else:
             self.changed.emit()
             self._refresh()
+
+    def _discard_last_placed_sticker(self) -> None:
+        """Drop the sticker placed by the press that started a double click."""
+        index = self._last_placed_sticker_index
+        self._last_placed_sticker_index = None
+        if index is None or not 0 <= index < len(self._items):
+            return
+        self._items.pop(index)
+        if self._undo_stack:
+            # The press pushed a snapshot for the sticker being removed.
+            self._undo_stack.pop()
+        self._clear_selection()
+        self._refresh()
 
     def _refresh(self) -> None:
         if self._image.isNull():
