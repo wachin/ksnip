@@ -2689,10 +2689,10 @@ class MainWindow(QMainWindow):
         self._open_image_path(path)
 
     def _open_default_filter(self) -> str:
-        key = str(self._settings.value("open/default_filter", "ksnip")).lower()
-        if key == "image":
-            return self.tr("Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)")
-        return self.tr("Ksnip Projects (*.ksnip)")
+        key = str(self._settings.value("open/default_filter", "image")).lower()
+        if key == "ksnip":
+            return self.tr("Ksnip Projects (*.ksnip)")
+        return self.tr("Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)")
 
     def save_image(self) -> None:
         canvas = self.current_canvas()
@@ -4063,7 +4063,7 @@ class MainWindow(QMainWindow):
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", False),
             open_initial_directory_mode=str(self._settings.value("open/initial_directory_mode", "capture_location")),
-            open_default_filter=str(self._settings.value("open/default_filter", "ksnip")),
+            open_default_filter=str(self._settings.value("open/default_filter", "image")),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
             saver_quality_factor=self._setting_int("saver/quality_factor", 50),
             saver_auto_save=self._setting_bool("saver/auto_save", False),
