@@ -208,7 +208,7 @@ equivalent to the upstream page.
 | Sticker page | Placeholder that states management parity is pending | Missing | `settings_dialog.py` |
 | Tray Icon page | Same controls | Equivalent | `settings_dialog.py` |
 | Watermark page | Same controls | Equivalent | `settings_dialog.py` |
-| Uploader page | Type selector disabled and left showing Imgur | Differs | `settings_dialog.py` |
+| Uploader page | Type selector disabled and fixed to Script | Differs | `settings_dialog.py` |
 | Script Uploader page | Same controls | Equivalent | `settings_dialog.py` |
 | Imgur Uploader page | Placeholder page that states parity is pending | Dropped | Deferred until an Imgur Client ID is registered; see `docs/imgur/README_ES.md` |
 | FTP Uploader page | Placeholder page that states parity is pending | Missing | `settings_dialog.py` |

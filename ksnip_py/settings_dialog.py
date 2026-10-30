@@ -568,6 +568,9 @@ class SettingsDialog(QDialog):
         self.uploader_type.addItem("Imgur", "imgur")
         self.uploader_type.addItem("FTP", "ftp")
         self.uploader_type.addItem(self.tr("Script"), "script")
+        # Imgur and FTP are placeholders, so the disabled selector must show the
+        # only uploader that actually works instead of the first entry.
+        self.uploader_type.setCurrentIndex(self.uploader_type.findData("script"))
         self.uploader_type.setEnabled(False)
         uploader_layout.addRow(self.tr("Uploader Type"), self.uploader_type)
 
