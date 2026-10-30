@@ -121,6 +121,17 @@ class MainWindow(QMainWindow):
         self._position_save_timer.setInterval(300)
         self._position_save_timer.timeout.connect(self._persist_window_position)
 
+        # The window manager only knows the decoration size once the window is
+        # mapped, so the first placement lands shifted by the frame margins and
+        # the saved position would creep up on every start. Re-apply the
+        # requested point until the window holds still.
+        self._pending_position: QPoint | None = None
+        self._position_fix_ticks = 0
+        self._position_fix_stable = 0
+        self._position_fix_timer = QTimer(self)
+        self._position_fix_timer.setInterval(self.POSITION_FIX_INTERVAL_MS)
+        self._position_fix_timer.timeout.connect(self._apply_position_fix)
+
         self._capture_geometry_save_timer = QTimer(self)
         self._capture_geometry_save_timer.setSingleShot(True)
         self._capture_geometry_save_timer.setInterval(300)
@@ -1530,6 +1541,9 @@ class MainWindow(QMainWindow):
     TITLE_BAR_CLEARANCE = 32
     MINIMUM_VISIBLE_WIDTH = 200
     MINIMUM_VISIBLE_HEIGHT = 120
+    POSITION_FIX_TOLERANCE = 64
+    POSITION_FIX_INTERVAL_MS = 80
+    POSITION_FIX_MAX_TICKS = 25
 
     def showEvent(self, event) -> None:  # noqa: N802
         super().showEvent(event)
@@ -1552,7 +1566,7 @@ class MainWindow(QMainWindow):
         if target is None:
             self._center_window(available)
             return
-        self.move(target)
+        self._place_window(target)
         # Store the clamped value so a position that no longer fits any
         # connected screen is not retried on every start.
         self._settings.setValue("window/position", f"{target.x()},{target.y()}")
@@ -1561,7 +1575,68 @@ class MainWindow(QMainWindow):
         frame = self.frameGeometry()
         position = available.center() - QPoint(frame.width() // 2, frame.height() // 2)
         position.setY(max(available.top() + self.TITLE_BAR_CLEARANCE, position.y()))
-        self.move(position)
+        self._place_window(position)
+
+    def _place_window(self, target: QPoint) -> None:
+        """Move the window and correct the shift the frame decoration adds.
+
+        The window manager places the window before it knows the decoration
+        size, so the client area ends up shifted by the title bar height and
+        border width. Re-applying the position once the frame exists keeps the
+        stored value stable instead of creeping up on every start.
+        """
+        self._pending_position = QPoint(target)
+        self._position_fix_ticks = 0
+        self._position_fix_stable = 0
+        self.move(target)
+        self._position_fix_timer.start()
+
+    def _apply_position_fix(self) -> None:
+        """Undo the decoration-sized shift the window manager applies.
+
+        The window manager places the window before it knows the decoration
+        size and corrects itself a moment later, so the requested point is
+        re-applied until the position holds still.
+        """
+        target = self._pending_position
+        if target is None or not self.isVisible():
+            self._stop_position_fix()
+            return
+        delta = self.pos() - target
+        if delta.isNull():
+            self._position_fix_stable += 1
+            if self._position_fix_stable >= 2:
+                self._stop_position_fix()
+            return
+        self._position_fix_stable = 0
+        self._position_fix_ticks += 1
+        # A larger delta means the user or the window manager moved the window
+        # somewhere else on purpose; only the decoration shift is corrected.
+        if abs(delta.x()) > self.POSITION_FIX_TOLERANCE:
+            self._stop_position_fix()
+            return
+        if abs(delta.y()) > self.POSITION_FIX_TOLERANCE:
+            self._stop_position_fix()
+            return
+        if self._position_fix_ticks > self.POSITION_FIX_MAX_TICKS:
+            self._stop_position_fix()
+            return
+        self.move(target)
+
+    def _stop_position_fix(self) -> None:
+        self._pending_position = None
+        self._position_fix_timer.stop()
+
+    def _discard_pending_position_if_moved_away(self) -> None:
+        """Drop the startup placement once the window is moved somewhere else."""
+        target = self._pending_position
+        if target is None:
+            return
+        delta = self.pos() - target
+        if abs(delta.x()) > self.POSITION_FIX_TOLERANCE:
+            self._stop_position_fix()
+        elif abs(delta.y()) > self.POSITION_FIX_TOLERANCE:
+            self._stop_position_fix()
 
     def _clamp_position_to_screens(self, position: QPoint | None) -> QPoint | None:
         """Fit a remembered position into a screen that is still connected.
@@ -1580,10 +1655,13 @@ class MainWindow(QMainWindow):
         best_screen: QRect | None = None
         for screen in QGuiApplication.screens():
             available = screen.availableGeometry()
+            # The remembered point is where the title bar was, so the screen
+            # holding it wins even when most of the window hangs off the edge.
+            if available.contains(position):
+                best_screen = available
+                break
             overlap = available.intersected(QRect(position, QSize(width, height)))
-            if overlap.width() < min(width, self.MINIMUM_VISIBLE_WIDTH):
-                continue
-            if overlap.height() < min(height, self.MINIMUM_VISIBLE_HEIGHT):
+            if overlap.width() <= 0 or overlap.height() <= 0:
                 continue
             area = overlap.width() * overlap.height()
             if area > best_area:
@@ -1602,6 +1680,7 @@ class MainWindow(QMainWindow):
 
     def moveEvent(self, event) -> None:  # noqa: N802
         super().moveEvent(event)
+        self._discard_pending_position_if_moved_away()
         if self._setting_bool("application/remember_position", True):
             # Debounce: only persist once the user stops dragging.
             self._position_save_timer.start()
@@ -1630,7 +1709,9 @@ class MainWindow(QMainWindow):
         # coordinates are legitimate on multi-monitor layouts, so they are kept.
         if not self._first_show_handled or not self.isVisible():
             return
-        pos = self.pos()
+        # While the startup placement is still being corrected the window sits
+        # at the shifted position, so the requested one is stored instead.
+        pos = self._pending_position or self.pos()
         if not self._is_meaningful_position(pos):
             return
         self._settings.setValue("window/position", f"{pos.x()},{pos.y()}")

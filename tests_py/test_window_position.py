@@ -7,7 +7,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from unittest import mock
 
-from PyQt6.QtCore import QPoint, QRect, QSettings
+from PyQt6.QtCore import QEvent, QPoint, QRect, QSettings
 from PyQt6.QtGui import QGuiApplication
 from PyQt6.QtWidgets import QApplication
 
@@ -27,6 +27,8 @@ class WindowPositionTest(unittest.TestCase):
 
     def tearDown(self):
         self.window.close()
+        self.window.deleteLater()
+        QApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
         QSettings().clear()
         self.app.setOrganizationName(self._previous_org)
         self.app.setApplicationName(self._previous_app)
@@ -124,6 +126,8 @@ class MultiMonitorPositionTest(unittest.TestCase):
 
     def tearDown(self):
         self.window.close()
+        self.window.deleteLater()
+        QApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
         QSettings().clear()
         self.app.setOrganizationName(self._previous_org)
         self.app.setApplicationName(self._previous_app)
@@ -147,9 +151,18 @@ class MultiMonitorPositionTest(unittest.TestCase):
         self.assertEqual(target.x(), self.RIGHT.right() - 400 + 1)
         self.assertEqual(target.y(), self.RIGHT.bottom() - 300 + 1)
 
-    def test_straddling_window_snaps_to_the_monitor_it_mostly_covers(self):
+    def test_straddling_window_stays_on_the_monitor_holding_its_title_bar(self):
+        # The point is on the primary screen, so the window is pulled back onto
+        # it instead of jumping to the monitor that covers more of the window.
         target = self.clamp(QPoint(1200, 100), self.PRIMARY, self.RIGHT)
-        self.assertEqual(target.x(), self.RIGHT.left())
+        self.assertEqual(target.x(), self.PRIMARY.right() - 400 + 1)
+
+    def test_window_hanging_off_the_bottom_stays_on_its_monitor(self):
+        # Remembered near the bottom edge of the external monitor; the window
+        # must stay there instead of jumping to the primary screen.
+        target = self.clamp(QPoint(2500, 1000), self.PRIMARY, self.RIGHT)
+        self.assertEqual(target.x(), 2500)
+        self.assertEqual(target.y(), self.RIGHT.bottom() - 300 + 1)
 
     def test_restored_position_lands_on_the_secondary_monitor(self):
         self.window.close()
@@ -160,6 +173,56 @@ class MultiMonitorPositionTest(unittest.TestCase):
             self.assertEqual(window.pos(), QPoint(2000, 400))
             self.assertEqual(window._settings.value("window/position"), "2000,400")
         window.close()
+
+
+class DecorationShiftTest(unittest.TestCase):
+    """The window manager shifts the first placement by the frame margins."""
+
+    def setUp(self):
+        self.app = QApplication.instance() or QApplication([])
+        self._previous_org = self.app.organizationName()
+        self._previous_app = self.app.applicationName()
+        self.app.setOrganizationName("ksnip-pyqt6-tests")
+        self.app.setApplicationName("decoration-shift-test")
+        QSettings().clear()
+        self.window = MainWindow()
+        self.window.show()
+
+    def tearDown(self):
+        self.window.close()
+        self.window.deleteLater()
+        QApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
+        QSettings().clear()
+        self.app.setOrganizationName(self._previous_org)
+        self.app.setApplicationName(self._previous_app)
+
+    def test_place_window_records_the_requested_position(self):
+        self.window._place_window(QPoint(300, 200))
+        self.assertEqual(self.window._pending_position, QPoint(300, 200))
+
+    def test_decoration_shift_is_corrected(self):
+        self.window._place_window(QPoint(300, 200))
+        # The window manager placed the frame at the requested point, so the
+        # client area sits one border and one title bar away from it.
+        self.window.move(299, 174)
+        self.window._apply_position_fix()
+        self.assertEqual(self.window.pos(), QPoint(300, 200))
+
+    def test_correction_stops_once_the_position_holds(self):
+        self.window._place_window(QPoint(300, 200))
+        self.window.move(299, 174)
+        for _ in range(4):
+            self.window._apply_position_fix()
+        self.assertEqual(self.window.pos(), QPoint(300, 200))
+        self.assertIsNone(self.window._pending_position)
+        self.assertFalse(self.window._position_fix_timer.isActive())
+
+    def test_large_move_is_left_alone(self):
+        self.window._place_window(QPoint(300, 200))
+        self.window.move(100, 100)
+        self.window._apply_position_fix()
+        self.assertEqual(self.window.pos(), QPoint(100, 100))
+        self.assertIsNone(self.window._pending_position)
 
 
 if __name__ == "__main__":
