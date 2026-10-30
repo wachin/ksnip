@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 import sys
 
-from PyQt6.QtCore import QBuffer, QByteArray, QEvent, QEventLoop, QIODevice, QPoint, QRectF, QSettings, QSize, QThread, QTimer, Qt, QUrl
+from PyQt6.QtCore import QBuffer, QByteArray, QEvent, QEventLoop, QIODevice, QPoint, QRect, QRectF, QSettings, QSize, QThread, QTimer, Qt, QUrl
 from PyQt6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPainter, QPixmap
 from PyQt6.QtPrintSupport import QPrintDialog, QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import (
@@ -1528,6 +1528,8 @@ class MainWindow(QMainWindow):
         self._apply_tray_settings()
 
     TITLE_BAR_CLEARANCE = 32
+    MINIMUM_VISIBLE_WIDTH = 200
+    MINIMUM_VISIBLE_HEIGHT = 120
 
     def showEvent(self, event) -> None:  # noqa: N802
         super().showEvent(event)
@@ -1546,21 +1548,57 @@ class MainWindow(QMainWindow):
             return
         position = self._startup_position
         self._startup_position = None
-        # On X11 the window manager draws the title bar above the client
-        # window (Fluxbox keeps the client at the requested position and
-        # decorates around it). A remembered position too close to the top
-        # edge would push the title bar off-screen, so clamp it.
-        safe_available = available.adjusted(0, self.TITLE_BAR_CLEARANCE, 0, 0)
-        if safe_available.contains(position):
-            self.move(position)
-        else:
+        target = self._clamp_position_to_screens(position)
+        if target is None:
             self._center_window(available)
+            return
+        self.move(target)
+        # Store the clamped value so a position that no longer fits any
+        # connected screen is not retried on every start.
+        self._settings.setValue("window/position", f"{target.x()},{target.y()}")
 
     def _center_window(self, available: QRect) -> None:
         frame = self.frameGeometry()
         position = available.center() - QPoint(frame.width() // 2, frame.height() // 2)
         position.setY(max(available.top() + self.TITLE_BAR_CLEARANCE, position.y()))
         self.move(position)
+
+    def _clamp_position_to_screens(self, position: QPoint | None) -> QPoint | None:
+        """Fit a remembered position into a screen that is still connected.
+
+        The saved point is the top-left corner of the client area. A position
+        is usable when enough of the window would land on one of the screens;
+        otherwise the caller centers the window instead. Usable positions are
+        clamped so that the title bar stays reachable, which also covers
+        screens that were disconnected after the position was saved.
+        """
+        if position is None or not self._is_meaningful_position(position):
+            return None
+        width = max(self.width(), self.minimumWidth())
+        height = max(self.height(), self.minimumHeight())
+        best_area = 0
+        best_screen: QRect | None = None
+        for screen in QGuiApplication.screens():
+            available = screen.availableGeometry()
+            overlap = available.intersected(QRect(position, QSize(width, height)))
+            if overlap.width() < min(width, self.MINIMUM_VISIBLE_WIDTH):
+                continue
+            if overlap.height() < min(height, self.MINIMUM_VISIBLE_HEIGHT):
+                continue
+            area = overlap.width() * overlap.height()
+            if area > best_area:
+                best_area = area
+                best_screen = available
+        if best_screen is None:
+            return None
+        left = best_screen.left()
+        top = best_screen.top() + self.TITLE_BAR_CLEARANCE
+        max_x = max(left, best_screen.right() - width + 1)
+        max_y = max(top, best_screen.bottom() - height + 1)
+        return QPoint(
+            min(max(position.x(), left), max_x),
+            min(max(position.y(), top), max_y),
+        )
 
     def moveEvent(self, event) -> None:  # noqa: N802
         super().moveEvent(event)
@@ -1575,13 +1613,28 @@ class MainWindow(QMainWindow):
         if self._setting_bool("application/remember_capture_geometry", False) and self._editor_visible:
             self._capture_geometry_save_timer.start()
 
+    @staticmethod
+    def _is_meaningful_position(position: QPoint) -> bool:
+        """Reject the origin a window reports before it has been placed.
+
+        An origin of 0,0 is not a position a user can pick on X11, because the
+        window manager would draw the title bar off-screen.
+        """
+        return position.x() != 0 or position.y() != 0
+
     def _persist_window_position(self) -> None:
         if not self._setting_bool("application/remember_position", True):
             return
+        # Before the first show the window still sits at the Qt default origin,
+        # and saving that would overwrite a good position with 0,0. Negative
+        # coordinates are legitimate on multi-monitor layouts, so they are kept.
+        if not self._first_show_handled or not self.isVisible():
+            return
         pos = self.pos()
-        if pos.x() < 0 or pos.y() < 0:
-            return  # guard against off-screen / not-yet-positioned states
+        if not self._is_meaningful_position(pos):
+            return
         self._settings.setValue("window/position", f"{pos.x()},{pos.y()}")
+        self._settings.sync()
 
     def _persist_capture_geometry(self) -> None:
         if not self._setting_bool("application/remember_capture_geometry", False):
@@ -4366,8 +4419,10 @@ class MainWindow(QMainWindow):
             self.capture_menu_button.setToolTip(f"{base} ({shortcut})" if shortcut else base)
 
     def _save_ui_settings(self) -> None:
-        if self._setting_bool("application/remember_position", True):
-            self._settings.setValue("window/position", f"{self.pos().x()},{self.pos().y()}")
+        if self._setting_bool("application/remember_position", True) and self._first_show_handled:
+            pos = self.pos()
+            if self._is_meaningful_position(pos):
+                self._settings.setValue("window/position", f"{pos.x()},{pos.y()}")
         if self._setting_bool("application/remember_capture_geometry", False) and self._editor_visible:
             self._settings.setValue("window/capture_geometry", self.saveGeometry())
         self._settings.setValue("editor/pen_width", self.stroke_width.value())
