@@ -36,7 +36,7 @@ Rows marked **Missing** are the open decisions. Everything else is closed.
 | Capture backends | Differs | Gnome and KDE Wayland grabbers replaced by the generic portal; Windows and macOS grabbers dropped |
 | Editor and annotation | Equivalent | Sticker collections, item rotation, spell checking and SVG export are port extensions |
 | Files and formats | Differs | Fixed save-format list instead of the Qt writer list |
-| Settings | Differs | Imgur, FTP, Actions and Plugins pages are placeholders |
+| Settings | Differs | Imgur, FTP, Actions and Plugins pages are placeholders, the Stickers page as well, and several controls on Application, Snipping Area and Annotator are disabled |
 | Tray icon | Equivalent | None |
 | Modeless windows | Equivalent | None; the Windows OCR window went with the Linux-only decision |
 | Uploaders | Missing | Only the script uploader works; FTP is still undecided |
@@ -195,19 +195,20 @@ Upstream reference: `src/backend/saver/`, `src/gui/captureHandler/`.
 Upstream reference: `src/gui/settingsDialog/`, `src/backend/config/IConfig.h`.
 
 Page-level equivalence only: individual controls inside a page are not
-tracked row by row here.
+tracked row by row here, but a page whose controls are disabled is not
+equivalent to the upstream page.
 
 | C++ | ksnip_py | Verdict | Evidence |
 | --- | --- | --- | --- |
-| Application page | Same controls | Equivalent | `settings_dialog.py` |
+| Application page | Same controls, but `Use Tabs` is a disabled placeholder | Differs | `settings_dialog.py` |
 | Image Grabber page | Same controls | Equivalent | `settings_dialog.py` |
-| Snipping Area page | Same controls | Equivalent | `settings_dialog.py` |
+| Snipping Area page | Ten of the eleven controls are disabled placeholders; only the magnifying glass works | Differs | `settings_dialog.py` |
 | Saver page | Same controls | Equivalent | `settings_dialog.py` |
-| Annotator page | Same controls | Equivalent | `settings_dialog.py` |
-| Sticker page | Same controls | Equivalent | `settings_dialog.py` |
+| Annotator page | Same controls, but smooth painter paths, smooth factor and canvas colour are disabled placeholders | Differs | `settings_dialog.py` |
+| Sticker page | Placeholder that states management parity is pending | Missing | `settings_dialog.py` |
 | Tray Icon page | Same controls | Equivalent | `settings_dialog.py` |
 | Watermark page | Same controls | Equivalent | `settings_dialog.py` |
-| Uploader page | Type selector disabled and fixed to Script | Differs | `settings_dialog.py` |
+| Uploader page | Type selector disabled and left showing Imgur | Differs | `settings_dialog.py` |
 | Script Uploader page | Same controls | Equivalent | `settings_dialog.py` |
 | Imgur Uploader page | Placeholder page that states parity is pending | Dropped | Deferred until an Imgur Client ID is registered; see `docs/imgur/README_ES.md` |
 | FTP Uploader page | Placeholder page that states parity is pending | Missing | `settings_dialog.py` |
@@ -215,10 +216,11 @@ tracked row by row here.
 | Actions page | Placeholder with a disabled Add button | Missing | `settings_dialog.py` |
 | Plugins page | Placeholder with disabled search-path controls | Dropped | Follows the plugin system decision |
 | No OCR page | OCR backend, language and script | Added | `settings_dialog.py` |
-| No settings search | Navigation filter | Added | `settings_dialog.py` |
-| Application style selector | Same | Equivalent | `settings_dialog.py` |
-| Debug logging toggle | Same | Equivalent | `settings_dialog.py` |
-| Temporary directory setting | Absent | Missing | `IConfig.h` has `tempDirectory` |
+| No scheme colours page | Editable annotation colour scheme table | Added | `settings_dialog.py` |
+| Search box filtering the settings tree | Navigation filter | Equivalent | `settings_dialog.py`, `SettingsDialog.cpp` |
+| Application style selector | Disabled combo, applies nothing | Missing | `settings_dialog.py` |
+| Debug logging toggle | Disabled checkbox | Missing | `settings_dialog.py` |
+| Temporary directory setting | Disabled field fixed to `/tmp` | Missing | `IConfig.h` has `tempDirectory` |
 
 ## 7. Tray icon
 
@@ -365,6 +367,7 @@ The rows they cover are marked **Dropped** above.
 | 3 | Native global hotkeys on X11 | Wayland has no portable equivalent, so the scope has to be decided first | `XGrabKey` through `ctypes`; `docs/GLOBAL_HOTKEYS.md` records the constraints |
 | 4 | Temporary directory setting | No decision recorded yet | One preference plus its use when creating temporary files |
 | 5 | AppImage and RPM packaging | No decision recorded yet | One recipe per format plus their CI jobs |
+| 6 | Unimplemented settings: sticker management page, application style, debug logging | The pages and controls exist but are disabled placeholders | Wiring each control to the backend it configures |
 
 Rows marked **Differs** are already decided; they are listed in the matrix only
 so that a future change can revisit them deliberately rather than by accident.
