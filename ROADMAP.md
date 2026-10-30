@@ -6,25 +6,28 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 
 - [x] Este `ROADMAP.md` es el documento de continuidad del port y no depende del historial del chat
 - [x] El `README` activo del proyecto es `README.md`
-- [x] El `README` anterior del repositorio fue preservado como `README_Old.md`
+- [x] El `README` anterior y `README_Old.md` fueron retirados en `6d04976a`; el historial de Git conserva ambos
 - [x] La implementación activa del port sigue concentrada en `ksnip_py/`
 - [x] Ya existe una base funcional real sobre la que se puede seguir afinando sin reiniciar el trabajo
-- [x] Ya existe esqueleto inicial de empaquetado Debian en `debian/`, pero todavía no debe considerarse terminado
+- [x] Empaquetado Debian nativo en `debian/` conforme a Debian Policy 4.7.4.1, con `lintian` sin hallazgos y paquete `0.1.0` publicado
 - [x] Para retomar: leer `README.md` y este archivo; ejecutar las pruebas antes de modificar código
 - [x] Comando de desarrollo principal: `python3 -m ksnip_py`
-- [x] Prioridad vigente: cerrar primero la paridad funcional verificable, después la paridad visual y finalmente Debian
-- [x] El árbol C++ continúa siendo material de referencia; no debe eliminarse mientras existan tareas de port que remitan a él
+- [x] Prioridad vigente: paridad funcional verificable y después paridad visual; el empaquetado Debian ya está cerrado
+- [x] El árbol C++ fue retirado en `6d04976a`; el historial completo sigue accesible en Git y las notas de paridad se conservan en `docs/`
 
-## Política temporal para el código C++ original
+## Política aplicada al código C++ original (cerrada)
+
+Esta política se cumplió y se cerró con la retirada del árbol C++ en `6d04976a`. Se conserva como registro de las decisiones tomadas.
 
 - [x] Conservar `src/`, `tests/`, `libraries/`, `cmake/`, `CMakeLists.txt` y las traducciones originales durante el port
 - [x] No mezclar la eliminación del C++ con cambios funcionales del port PyQt6
-- [ ] Crear una matriz final de equivalencia C++ → Python por subsistema y cerrar o descartar explícitamente cada diferencia
+- [ ] Crear una matriz final de equivalencia C++ → Python por subsistema y cerrar o descartar explícitamente cada diferencia; las auditorías parciales están en `docs/CLI_PARITY.md`, `docs/CAPTURE_BACKEND_PARITY.md`, `docs/KIMAGEANNOTATOR_TOOL_PARITY.md` y `docs/STARTUP_LIFECYCLE_PARITY.md`
 - [x] Sustituir en los workflows Linux/Windows/macOS las rutas CMake que construían el programa C++ por pruebas y distribuciones Python de `ksnip_py`
-- [ ] Crear y validar empaquetado nativo específico de `ksnip_py` (DEB/AppImage/RPM y, cuando corresponda, instaladores Windows/macOS); los workflows actuales generan wheel/sdist y no reutilizan los paquetes C++
-- [ ] Crear una etiqueta o rama histórica que preserve la última revisión C++ antes de retirarla de la rama principal
-- [ ] Confirmar que ningún recurso, traducción, prueba, aviso de copyright o comportamiento del port depende de `src/` o `libraries/`
-- [ ] Eliminar el árbol C++ sólo en un cambio independiente, revisable y reversible después de cumplir las condiciones anteriores
+- [x] Empaquetado nativo DEB de `ksnip_py` construido, validado con `lintian` y publicado como `v0.1.0`
+- [ ] Empaquetado nativo AppImage, RPM y, cuando corresponda, instaladores Windows/macOS; los workflows actuales generan wheel/sdist
+- [ ] Crear una etiqueta o rama histórica que preserve la última revisión C++: el último commit con el árbol C++ es `d1351092` y todavía no tiene etiqueta propia
+- [x] Confirmar que ningún recurso, traducción, prueba, aviso de copyright o comportamiento del port depende de `src/` o `libraries/`
+- [x] Eliminar el árbol C++ en un cambio independiente y revisable (`6d04976a`)
 
 ## Regla de Interfaz
 
@@ -70,7 +73,7 @@ Este archivo resume el estado del port desde C++ a PyQt6 usando `ksnip_py/` como
 - [x] `/images/Ksnip-Tools-selected/10-Tool_Sticker(selected).png`
   Descripción C++ original: `Tools::Sticker` muestra `Sticker`, `Item Shadow`, `Scaling`, `Opacity`. No usa color, ancho, relleno, texto ni obfuscación. El `StickerPicker` es un botón con menú en cuadrícula de stickers SVG.
 - [x] Orden base real de los controles en el C++ original dentro de `AnnotationItemSettings`: `Color`, `Width`, `Fill Mode`, `Text Color`, `Font`, `Number Seed`, `Obfuscation Factor`, `Sticker`, `Item Shadow`, `Scaling`, `Opacity`.
-- [x] Fuentes C++ de referencia para mantener esta paridad:
+- [x] Fuentes C++ de referencia para mantener esta paridad: (rutas del árbol C++ retirado; consúltalas en el historial de Git, antes de `6d04976a`)
   `libraries/kImageAnnotator/src/gui/annotator/settings/AnnotationItemSettings.cpp`
   `libraries/kImageAnnotator/src/gui/annotator/settings/ItemSettingsWidgetConfigurator.cpp`
   `libraries/kImageAnnotator/src/widgets/settingsPicker/FillModePicker.cpp`
@@ -479,10 +482,10 @@ mezclarlo con tareas de paridad.
 ## Calidad y Empaquetado
 
 - [x] `pyproject.toml`
-- [x] Esqueleto inicial de empaquetado Debian en `debian/`
+- [x] Empaquetado Debian completo en `debian/` (Policy 4.7.4.1, `lintian` sin hallazgos)
 - [x] Dependencias de sistema para corrección ortográfica declaradas en `debian/control`: `hunspell`, `hunspell-en-us`
 - [x] `README.md` actualizado para reflejar el flujo actual de `Text`, el uso de `hunspell` y la ejecución sobre paquetes del sistema
-- [ ] Empaquetado Debian completo y pulido según políticas Debian
+- [x] Empaquetado Debian completo y pulido según políticas Debian
 - [ ] Publicación potencial en Debian / `packages.debian.org` sólo después de terminar primero el refinado funcional y visual del programa
 - [x] Entrada ejecutable `ksnip-pyqt6`
 - [x] Compilación sintáctica verificada con `py_compile`
@@ -525,16 +528,16 @@ mezclarlo con tareas de paridad.
 - [ ] Ampliar pruebas unitarias para captura, CLI, IPC, proyectos `.ksnip`, SVG, settings, stickers y uploaders
 - [ ] Añadir smoke tests GUI offscreen para abrir, capturar/importar, anotar, guardar, reabrir y exportar
 - [ ] Ejecutar la suite completa en Debian 13/MX Linux 25 sobre X11 y Wayland/portal
-- [ ] Revisar `debian/control`, `debian/copyright`, instalación de recursos, desktop file, AppStream, manpage y dependencias
-- [ ] Construir paquete fuente y binario limpios y corregir resultados de `lintian`
-- [ ] Actualizar completamente README, instalación, resolución de problemas del portal y documentación de formatos
+- [x] Revisar `debian/control`, `debian/copyright`, instalación de recursos, desktop file, AppStream, manpage y dependencias
+- [x] Construir paquete fuente y binario limpios y corregir resultados de `lintian`
+- [x] Actualizar completamente README, instalación, resolución de problemas del portal y documentación de formatos
 
 ### Fase 5 — Retirada del legado C++
 
 - [ ] Completar la matriz de equivalencia y las condiciones de la política temporal indicada al inicio
-- [ ] Migrar o retirar los workflows y empaquetados que aún esperan CMake/C++
-- [ ] Preservar el C++ en una etiqueta o rama histórica
-- [ ] Eliminar `src/`, `tests/`, `libraries/`, `cmake/` y archivos CMake únicamente después de verificar que el paquete PyQt6 es autosuficiente
+- [x] Migrar o retirar los workflows y empaquetados que aún esperaban CMake/C++
+- [ ] Preservar el C++ en una etiqueta o rama histórica; el último commit con el árbol C++ es `d1351092`
+- [x] Eliminar `src/`, `tests/`, `libraries/`, `cmake/` y archivos CMake, hecho en `6d04976a`
 
 ## Próxima tarea recomendada
 
