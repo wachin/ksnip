@@ -140,6 +140,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 | Topic   | Document |
 | --- | --- |
 | Port status and priorities | [ROADMAP.md](ROADMAP.md) |
+| C++ to PyQt6 parity matrix | [PARITY_MATRIX.md](docs/PARITY_MATRIX.md) |
 | Capture backends and Wayland | [Capture backend parity](docs/CAPTURE_BACKEND_PARITY.md) |
 | Command-line compatibility | [CLI parity](docs/CLI_PARITY.md) |
 | Unicode QFileDialog bookmarks and Qt translations | [File dialogs](docs/FILE_DIALOGS.md) |

@@ -21,7 +21,8 @@ Esta política se cumplió y se cerró con la retirada del árbol C++ en `6d0497
 
 - [x] Conservar `src/`, `tests/`, `libraries/`, `cmake/`, `CMakeLists.txt` y las traducciones originales durante el port
 - [x] No mezclar la eliminación del C++ con cambios funcionales del port PyQt6
-- [ ] Crear una matriz final de equivalencia C++ → Python por subsistema y cerrar o descartar explícitamente cada diferencia; las auditorías parciales están en `docs/CLI_PARITY.md`, `docs/CAPTURE_BACKEND_PARITY.md`, `docs/KIMAGEANNOTATOR_TOOL_PARITY.md` y `docs/STARTUP_LIFECYCLE_PARITY.md`
+- [x] Crear la matriz de equivalencia C++ → Python por subsistema en `docs/PARITY_MATRIX.md`, con veredicto explícito por comportamiento y evidencia asociada
+- [ ] Cerrar las decisiones abiertas que la matriz marca como `Missing`: soporte Windows/macOS, Imgur, FTP, plugins, acciones, hotkeys globales, grabbers Gnome/KDE y directorio temporal
 - [x] Sustituir en los workflows Linux/Windows/macOS las rutas CMake que construían el programa C++ por pruebas y distribuciones Python de `ksnip_py`
 - [x] Empaquetado nativo DEB de `ksnip_py` construido, validado con `lintian` y publicado como `v0.1.0`
 - [ ] Empaquetado nativo AppImage, RPM y, cuando corresponda, instaladores Windows/macOS; los workflows actuales generan wheel/sdist
@@ -534,7 +535,7 @@ mezclarlo con tareas de paridad.
 
 ### Fase 5 — Retirada del legado C++
 
-- [ ] Completar la matriz de equivalencia y las condiciones de la política temporal indicada al inicio
+- [x] Completar la matriz de equivalencia (`docs/PARITY_MATRIX.md`); quedan abiertas las filas `Missing` listadas allí
 - [x] Migrar o retirar los workflows y empaquetados que aún esperaban CMake/C++
 - [x] Preservar el C++ en una etiqueta histórica: `cpp-final` (`d1351092`)
 - [x] Eliminar `src/`, `tests/`, `libraries/`, `cmake/` y archivos CMake, hecho en `6d04976a`
