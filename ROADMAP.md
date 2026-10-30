@@ -22,7 +22,7 @@ Esta política se cumplió y se cerró con la retirada del árbol C++ en `6d0497
 - [x] Conservar `src/`, `tests/`, `libraries/`, `cmake/`, `CMakeLists.txt` y las traducciones originales durante el port
 - [x] No mezclar la eliminación del C++ con cambios funcionales del port PyQt6
 - [x] Crear la matriz de equivalencia C++ → Python por subsistema en `docs/PARITY_MATRIX.md`, con veredicto explícito por comportamiento y evidencia asociada
-- [ ] Cerrar las decisiones abiertas que la matriz marca como `Missing`: soporte Windows/macOS, Imgur, FTP, plugins, acciones, hotkeys globales, grabbers Gnome/KDE y directorio temporal
+- [ ] Cerrar las cinco decisiones que la matriz deja abiertas: uploader FTP, acciones de usuario, hotkeys globales en X11, directorio temporal y empaquetado AppImage/RPM
 - [x] Sustituir en los workflows Linux/Windows/macOS las rutas CMake que construían el programa C++ por pruebas y distribuciones Python de `ksnip_py`
 - [x] Empaquetado nativo DEB de `ksnip_py` construido, validado con `lintian` y publicado como `v0.1.0`
 - [ ] Empaquetado nativo AppImage, RPM y, cuando corresponda, instaladores Windows/macOS; los workflows actuales generan wheel/sdist

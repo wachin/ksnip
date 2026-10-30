@@ -33,16 +33,16 @@ Rows marked **Missing** are the open decisions. Everything else is closed.
 | --- | --- | --- |
 | Command line | Equivalent | The port adds `--language` and standard-input images |
 | Startup and lifecycle | Equivalent | None |
-| Capture backends | Differs | Gnome and KDE Wayland grabbers replaced by the generic portal; no Windows or macOS grabber |
+| Capture backends | Differs | Gnome and KDE Wayland grabbers replaced by the generic portal; Windows and macOS grabbers dropped |
 | Editor and annotation | Equivalent | Sticker collections, spell checking and SVG export are port extensions |
 | Files and formats | Differs | Fixed save-format list instead of the Qt writer list |
 | Settings | Differs | Imgur, FTP, Actions and Plugins pages are placeholders |
 | Tray icon | Equivalent | None |
-| Modeless windows | Equivalent | Windows OCR backend absent |
-| Uploaders | Missing | Only the script uploader exists |
+| Modeless windows | Equivalent | None; the Windows OCR window went with the Linux-only decision |
+| Uploaders | Missing | Only the script uploader works; FTP is still undecided |
 | Watermark | Equivalent | None |
 | OCR | Differs | Plugin backend replaced by PaddleOCR and a script backend |
-| Plugins and actions | Missing | Placeholder UI only |
+| Plugins and actions | Missing | Actions are still a placeholder; plugins dropped |
 | Hotkeys | Differs | Application shortcuts only; no native global hotkeys |
 | Translations | Equivalent | 41 bundled catalogues against 39 upstream |
 | Packaging and platform | Differs | Debian package exists; no AppImage, RPM, Windows or macOS builds |
@@ -114,8 +114,8 @@ Upstream reference: `src/backend/imageGrabber/`, `src/gui/snippingArea/`.
 | Snipping-area transparency, cursor colour and thickness | Same | Equivalent | settings page Image Grabber |
 | Capture delay and implicit delay | Same semantics | Equivalent | `main_window.py`, `capture.py` |
 | Hide and restore the main window during capture | Same | Equivalent | `main_window.py` |
-| Windows grabber | None | Missing | Platform not supported |
-| macOS grabber | None | Missing | Platform not supported |
+| Windows grabber | None | Dropped | The port is Linux-only; decided on 2026-10-30 |
+| macOS grabber | None | Dropped | The port is Linux-only; decided on 2026-10-30 |
 
 ## 4. Editor and annotation
 
@@ -208,11 +208,11 @@ tracked row by row here.
 | Watermark page | Same controls | Equivalent | `settings_dialog.py` |
 | Uploader page | Type selector disabled and fixed to Script | Differs | `settings_dialog.py` |
 | Script Uploader page | Same controls | Equivalent | `settings_dialog.py` |
-| Imgur Uploader page | Placeholder page that states parity is pending | Missing | `settings_dialog.py`, `docs/imgur/README_ES.md` |
+| Imgur Uploader page | Placeholder page that states parity is pending | Dropped | Deferred until an Imgur Client ID is registered; see `docs/imgur/README_ES.md` |
 | FTP Uploader page | Placeholder page that states parity is pending | Missing | `settings_dialog.py` |
 | HotKeys page | Application shortcuts only | Differs | `settings_dialog.py` |
 | Actions page | Placeholder with a disabled Add button | Missing | `settings_dialog.py` |
-| Plugins page | Placeholder with disabled search-path controls | Missing | `settings_dialog.py` |
+| Plugins page | Placeholder with disabled search-path controls | Dropped | Follows the plugin system decision |
 | No OCR page | OCR backend, language and script | Added | `settings_dialog.py` |
 | No settings search | Navigation filter | Added | `settings_dialog.py` |
 | Application style selector | Same | Equivalent | `settings_dialog.py` |
@@ -245,7 +245,7 @@ Upstream reference: `src/gui/modelessWindows/`.
 | Pin window opacity, always on top and close behaviour | Same | Equivalent | `pin_window.py` |
 | OCR result window | Same | Equivalent | `ocr_result_dialog.py` |
 | OCR text selection and copy | Same | Equivalent | `ocr_result_dialog.py` |
-| Windows OCR window (`WinOcrWindow`) | None | Missing | Platform not supported |
+| Windows OCR window (`WinOcrWindow`) | None | Dropped | The port is Linux-only; decided on 2026-10-30 |
 
 ## 9. Uploaders
 
@@ -256,9 +256,9 @@ Upstream reference: `src/backend/uploader/`, `src/gui/ImgurHistoryDialog.cpp`.
 | Script uploader | Same | Equivalent | `uploader.py` |
 | Copy script output to clipboard | Same | Equivalent | `uploader.py` |
 | Upload confirmation prompt | Same | Equivalent | `main_window.py` |
-| Imgur uploader | None | Missing | Deferred, see `docs/imgur/README_ES.md` |
-| Imgur history dialog | None | Missing | Depends on the Imgur uploader |
-| Imgur delete and album management | None | Missing | Depends on the Imgur uploader |
+| Imgur uploader | None | Dropped | Deferred until an Imgur Client ID is registered; see `docs/imgur/README_ES.md` |
+| Imgur history dialog | None | Dropped | Follows the Imgur uploader decision |
+| Imgur delete and album management | None | Dropped | Follows the Imgur uploader decision |
 | FTP uploader | None | Missing | No decision recorded |
 | Upload progress and failure reporting | Text status and message box | Differs | No progress dialog |
 
@@ -293,8 +293,8 @@ Upstream reference: `src/plugins/`, `src/gui/actions/`.
 
 | C++ | ksnip_py | Verdict | Evidence |
 | --- | --- | --- | --- |
-| Plugin manager, loader and finder | None | Missing | Settings page is a placeholder |
-| Plugin search paths | Disabled controls in the settings page | Missing | `settings_dialog.py` |
+| Plugin manager, loader and finder | None | Dropped | Python has no stable plugin ABI; the built-in OCR backends replace the plugin interface |
+| Plugin search paths | Disabled controls in the settings page | Dropped | Follows the plugin system decision |
 | Plugin-provided OCR | Replaced by the built-in backends | Dropped | `ocr_backend.py` |
 | User-defined actions with a command and shortcuts | None | Missing | `ActionsMenu.cpp` has no counterpart |
 | Actions menu in the menu bar | None | Missing | `main_window.py` |
@@ -306,7 +306,7 @@ Upstream reference: `src/gui/globalHotKeys/`.
 | C++ | ksnip_py | Verdict | Evidence |
 | --- | --- | --- | --- |
 | Native global hotkeys on X11 | Application shortcuts only | Missing | `docs/GLOBAL_HOTKEYS.md` |
-| Native global hotkeys on Windows and macOS | None | Missing | Platform not supported |
+| Native global hotkeys on Windows and macOS | None | Dropped | Follows the Linux-only decision |
 | Configurable capture shortcuts | Same, while the window is active | Differs | `settings_dialog.py` |
 | Default shortcut set | Same values | Equivalent | `main_window.py` |
 
@@ -330,29 +330,40 @@ Upstream reference: `translations/`.
 | No Debian package | Native Debian package, Policy 4.7.4.1 | Added | `debian/`, `README.md` |
 | AppImage | None | Missing | No recipe |
 | RPM | None | Missing | No recipe |
-| Windows installer | None | Missing | Platform not supported |
-| macOS DMG | None | Missing | Platform not supported |
+| Windows installer | None | Dropped | The port is Linux-only; decided on 2026-10-30 |
+| macOS DMG | None | Dropped | The port is Linux-only; decided on 2026-10-30 |
 | No manual page | `ksnip-pyqt6.1` | Added | `debian/` |
 | No AppStream metadata | `org.ksnip.ksnip-pyqt6.metainfo.xml` | Added | `debian/` |
 | CI builds the C++ application | CI builds and tests the Python distributions | Differs | `.github/workflows/` |
 
-## Open decisions
+## Decisions taken
 
-Every row marked **Missing** is a decision that has not been taken yet. The
-list below groups them so that each one can be closed, implemented or
-recorded as dropped:
+These groups were open in the first pass of this matrix and are now closed.
+The rows they cover are marked **Dropped** above.
 
-1. Windows and macOS support: grabbers, OCR window and installers. Closing
-   this means declaring the port Linux-only in `README.md`.
-2. Imgur uploader and its history dialog. A design exists in
-   `docs/imgur/README_ES.md`; only the API registration is missing.
-3. FTP uploader: implement it or record it as dropped.
-4. Plugin system and the plugin-provided OCR interface.
-5. User-defined actions and the Actions menu.
-6. Native global hotkeys.
-7. Gnome and KDE Wayland grabbers, as alternatives to the generic portal.
-8. Temporary directory setting.
+1. Windows and macOS support: their grabbers, the WinRT OCR window and the
+   installers. Decided on 2026-10-30: the port is Linux-only. If that ever
+   changes, the rows have to be reopened together, because a partial port
+   would leave capture and OCR inconsistent with each other.
+2. Imgur uploader, its history dialog and its album management. Deferred, not
+   abandoned: the implementation is blocked on registering a Client ID, and
+   the design is already written in `docs/imgur/README_ES.md`.
+3. Plugin system, its search paths and the plugin-provided OCR interface.
+   Dropped: Python has no stable plugin ABI, and the built-in PaddleOCR and
+   script backends already cover the use case the interface existed for.
+4. Gnome and KDE Wayland grabbers. Dropped as redundant: the generic
+   `xdg-desktop-portal` client already serves both desktops, which is why those
+   rows were marked *differs* and never *missing*.
 
-Rows marked **Differs** are already decided; they are listed here only so that
-a future change can revisit them deliberately rather than by accident.
+## Decisions still open
 
+| # | Decision | Why it is open | Cost if implemented |
+| --- | --- | --- | --- |
+| 1 | FTP uploader | No decision recorded yet | `ftplib` ships with Python: about 150 lines plus a settings page and tests |
+| 2 | User-defined actions and the Actions menu | No decision recorded yet | `QProcess` plus a settings page, about 100 lines |
+| 3 | Native global hotkeys on X11 | Wayland has no portable equivalent, so the scope has to be decided first | `XGrabKey` through `ctypes`; `docs/GLOBAL_HOTKEYS.md` records the constraints |
+| 4 | Temporary directory setting | No decision recorded yet | One preference plus its use when creating temporary files |
+| 5 | AppImage and RPM packaging | No decision recorded yet | One recipe per format plus their CI jobs |
+
+Rows marked **Differs** are already decided; they are listed in the matrix only
+so that a future change can revisit them deliberately rather than by accident.
