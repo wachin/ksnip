@@ -25,7 +25,7 @@ Esta política se cumplió y se cerró con la retirada del árbol C++ en `6d0497
 - [x] Sustituir en los workflows Linux/Windows/macOS las rutas CMake que construían el programa C++ por pruebas y distribuciones Python de `ksnip_py`
 - [x] Empaquetado nativo DEB de `ksnip_py` construido, validado con `lintian` y publicado como `v0.1.0`
 - [ ] Empaquetado nativo AppImage, RPM y, cuando corresponda, instaladores Windows/macOS; los workflows actuales generan wheel/sdist
-- [ ] Crear una etiqueta o rama histórica que preserve la última revisión C++: el último commit con el árbol C++ es `d1351092` y todavía no tiene etiqueta propia
+- [x] Crear una etiqueta histórica que preserve la última revisión C++: `cpp-final` apunta a `d1351092`, el último commit que todavía contenía `src/`, `libraries/` y `cmake/`
 - [x] Confirmar que ningún recurso, traducción, prueba, aviso de copyright o comportamiento del port depende de `src/` o `libraries/`
 - [x] Eliminar el árbol C++ en un cambio independiente y revisable (`6d04976a`)
 
@@ -536,7 +536,7 @@ mezclarlo con tareas de paridad.
 
 - [ ] Completar la matriz de equivalencia y las condiciones de la política temporal indicada al inicio
 - [x] Migrar o retirar los workflows y empaquetados que aún esperaban CMake/C++
-- [ ] Preservar el C++ en una etiqueta o rama histórica; el último commit con el árbol C++ es `d1351092`
+- [x] Preservar el C++ en una etiqueta histórica: `cpp-final` (`d1351092`)
 - [x] Eliminar `src/`, `tests/`, `libraries/`, `cmake/` y archivos CMake, hecho en `6d04976a`
 
 ## Próxima tarea recomendada
