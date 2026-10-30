@@ -2362,6 +2362,16 @@ Do you want to continue?</source>
         <translation>Tratar la salida de error como un fallo</translation>
     </message>
     <message>
+        <location filename="../settings_dialog.py" line="347" />
+        <source>Default file type selected in the File &gt; Open dialog.</source>
+        <translation>Tipo de archivo preseleccionado en el diálogo Archivo &gt; Abrir.</translation>
+    </message>
+    <message>
+        <location filename="../settings_dialog.py" line="350" />
+        <source>Default file type in Open dialog:</source>
+        <translation>Tipo de archivo predeterminado en el diálogo Abrir:</translation>
+    </message>
+    <message>
         <location filename="../settings_dialog.py" line="569" />
         <source>OCR</source>
         <translation>OCR</translation>
@@ -2373,17 +2383,17 @@ Do you want to continue?</source>
     </message>
     <message>
         <location filename="../settings_dialog.py" line="573" />
-        <source>PaddleOCR (texto plano)</source>
+        <source>PaddleOCR (plain text)</source>
         <translation>PaddleOCR (texto plano)</translation>
     </message>
     <message>
         <location filename="../settings_dialog.py" line="574" />
-        <source>PaddleOCR (tablas en Markdown)</source>
+        <source>PaddleOCR (Markdown tables)</source>
         <translation>PaddleOCR (tablas en Markdown)</translation>
     </message>
     <message>
         <location filename="../settings_dialog.py" line="575" />
-        <source>PaddleOCR (tablas en HTML)</source>
+        <source>PaddleOCR (HTML tables)</source>
         <translation>PaddleOCR (tablas en HTML)</translation>
     </message>
     <message>

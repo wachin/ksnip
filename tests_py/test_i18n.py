@@ -50,6 +50,31 @@ class TranslationCatalogTest(unittest.TestCase):
         self.assertEqual(QCoreApplication.translate("QFileDialog", "Files of type:"), "Ficheros de tipo:")
         self.assertEqual(QCoreApplication.translate("QFileDialog", "Files of &type:"), "Ficheros de &tipo:")
 
+    def test_settings_dialog_strings_are_translated(self) -> None:
+        load_translation(APP, "es_EC")
+        self.assertEqual(
+            QCoreApplication.translate("SettingsDialog", "PaddleOCR (plain text)"),
+            "PaddleOCR (texto plano)",
+        )
+        self.assertEqual(
+            QCoreApplication.translate("SettingsDialog", "PaddleOCR (Markdown tables)"),
+            "PaddleOCR (tablas en Markdown)",
+        )
+        self.assertEqual(
+            QCoreApplication.translate("SettingsDialog", "PaddleOCR (HTML tables)"),
+            "PaddleOCR (tablas en HTML)",
+        )
+        self.assertEqual(
+            QCoreApplication.translate("SettingsDialog", "Default file type in Open dialog:"),
+            "Tipo de archivo predeterminado en el diálogo Abrir:",
+        )
+        self.assertEqual(
+            QCoreApplication.translate(
+                "SettingsDialog", "Default file type selected in the File > Open dialog."
+            ),
+            "Tipo de archivo preseleccionado en el diálogo Archivo > Abrir.",
+        )
+
     def test_qt_runtime_translation_path_is_the_primary_location(self) -> None:
         expected = QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath)
         self.assertEqual(str(qt_translation_directories()[0]), expected)
