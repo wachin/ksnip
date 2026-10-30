@@ -5,7 +5,9 @@ import unittest
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PyQt6.QtCore import QPoint, QSettings
+from unittest import mock
+
+from PyQt6.QtCore import QPoint, QRect, QSettings
 from PyQt6.QtGui import QGuiApplication
 from PyQt6.QtWidgets import QApplication
 
@@ -73,6 +75,90 @@ class WindowPositionTest(unittest.TestCase):
         available = self._available()
         expected = f"100,{available.top() + MainWindow.TITLE_BAR_CLEARANCE}"
         self.assertEqual(window._settings.value("window/position"), expected)
+        window.close()
+
+
+class _FakeScreen:
+    """Minimal stand-in for QScreen used to simulate monitor layouts."""
+
+    def __init__(self, geometry: QRect) -> None:
+        self._geometry = geometry
+
+    def availableGeometry(self) -> QRect:
+        return self._geometry
+
+
+class _ScreensProxy:
+    """Stands in for QGuiApplication but only overrides the screen list."""
+
+    def __init__(self, rects) -> None:
+        self._rects = rects
+
+    def screens(self):
+        return [_FakeScreen(rect) for rect in self._rects]
+
+    def __getattr__(self, name):
+        return getattr(QGuiApplication, name)
+
+
+def _fake_screens(*rects: QRect):
+    return mock.patch("ksnip_py.main_window.QGuiApplication", _ScreensProxy(rects))
+
+
+class MultiMonitorPositionTest(unittest.TestCase):
+    """Clamping against layouts that cannot be reproduced on the test host."""
+
+    PRIMARY = QRect(0, 0, 1366, 768)
+    RIGHT = QRect(1366, 0, 1920, 1080)
+    LEFT = QRect(-1920, 0, 1920, 1080)
+
+    def setUp(self):
+        self.app = QApplication.instance() or QApplication([])
+        self._previous_org = self.app.organizationName()
+        self._previous_app = self.app.applicationName()
+        self.app.setOrganizationName("ksnip-pyqt6-tests")
+        self.app.setApplicationName("multi-monitor-test")
+        QSettings().clear()
+        self.window = MainWindow()
+        self.window.resize(400, 300)
+
+    def tearDown(self):
+        self.window.close()
+        QSettings().clear()
+        self.app.setOrganizationName(self._previous_org)
+        self.app.setApplicationName(self._previous_app)
+
+    def clamp(self, point, *rects):
+        with _fake_screens(*rects):
+            return self.window._clamp_position_to_screens(point)
+
+    def test_position_on_secondary_monitor_is_kept(self):
+        self.assertEqual(self.clamp(QPoint(1500, 300), self.PRIMARY, self.RIGHT), QPoint(1500, 300))
+
+    def test_position_on_left_monitor_keeps_negative_coordinates(self):
+        self.assertEqual(self.clamp(QPoint(-1800, 200), self.LEFT, self.PRIMARY), QPoint(-1800, 200))
+
+    def test_position_on_disconnected_monitor_centers_the_window(self):
+        # Saved while a third monitor was attached; it is gone now.
+        self.assertIsNone(self.clamp(QPoint(3400, 900), self.PRIMARY))
+
+    def test_window_dragged_past_the_secondary_edge_is_clamped_back(self):
+        target = self.clamp(QPoint(3000, 900), self.PRIMARY, self.RIGHT)
+        self.assertEqual(target.x(), self.RIGHT.right() - 400 + 1)
+        self.assertEqual(target.y(), self.RIGHT.bottom() - 300 + 1)
+
+    def test_straddling_window_snaps_to_the_monitor_it_mostly_covers(self):
+        target = self.clamp(QPoint(1200, 100), self.PRIMARY, self.RIGHT)
+        self.assertEqual(target.x(), self.RIGHT.left())
+
+    def test_restored_position_lands_on_the_secondary_monitor(self):
+        self.window.close()
+        self.window._settings.setValue("window/position", "2000,400")
+        window = MainWindow()
+        with _fake_screens(self.PRIMARY, self.RIGHT):
+            window.show()
+            self.assertEqual(window.pos(), QPoint(2000, 400))
+            self.assertEqual(window._settings.value("window/position"), "2000,400")
         window.close()
 
 
