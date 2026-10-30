@@ -113,7 +113,7 @@ build/
 xinput-plus
 
 # Personal
-external
+external/
 Temp/
 
 # Debian packaging build artefacts
