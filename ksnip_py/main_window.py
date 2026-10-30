@@ -4016,7 +4016,7 @@ class MainWindow(QMainWindow):
         return str(directory)
 
     def _default_image_directory(self) -> str:
-        if not self._setting_bool("saver/remember_directory", False):
+        if not self._setting_bool("saver/remember_directory", True):
             return self._capture_save_directory()
         configured = self._settings.value("paths/last_image_dir", "")
         if isinstance(configured, str) and configured:
@@ -4061,7 +4061,7 @@ class MainWindow(QMainWindow):
             application_resize_delay_ms=self._setting_int("application/resize_delay_ms", 10),
             application_language=str(self._settings.value("application/language", "")),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
-            saver_remember_directory=self._setting_bool("saver/remember_directory", False),
+            saver_remember_directory=self._setting_bool("saver/remember_directory", True),
             open_initial_directory_mode=str(self._settings.value("open/initial_directory_mode", "capture_location")),
             open_default_filter=str(self._settings.value("open/default_filter", "image")),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
