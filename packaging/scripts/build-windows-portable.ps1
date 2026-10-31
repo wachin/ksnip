@@ -4,6 +4,10 @@
 # a lower VirusTotal false-positive rate for standalone Nuitka builds. Do not
 # add UPX or any other packer: packing is what turns heuristic detections into
 # reports.
+#
+# Nuitka 4.1.3 is pinned on purpose. Nuitka 2.x attaches the constants blob to
+# the resulting .exe as a 6 MB RT_RCDATA resource; 4.x with MSVC links it into
+# .rdata instead. The clean Lucio reference build uses 4.1.3 and has no RCDATA.
 param(
     [Parameter(Mandatory = $true)][string]$Version,
     [string]$Arch = "x64"

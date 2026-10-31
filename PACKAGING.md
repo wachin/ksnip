@@ -57,9 +57,15 @@ own output:
 - **Linux and macOS payloads use PyInstaller onedir.** Onefile is deliberately
   avoided: it extracts to a temporary directory on every start and is the shape
   that produces most antivirus false positives on Windows.
-- **Windows uses Nuitka `--standalone`.** The packaging research measured
+- **Windows uses Nuitka 4.1.3 `--standalone`.** The packaging research measured
   0/71 detections for a Nuitka standalone build against 3/73 for PyInstaller
-  builds of the same application. No UPX or other packer is used.
+  builds of the same application. No UPX or other packer is used. The version is
+  pinned because it changes the PE layout: Nuitka 2.x attaches the constants
+  blob to the executable as a 6 MB `RT_RCDATA` resource, while Nuitka 4.x with
+  MSVC links it into `.rdata`. The 6 MB opaque resource was the one structural
+  difference between this executable and the clean Lucio IVA Calculator
+  executable (Nuitka 4.1.3, no `RT_RCDATA`, constants in `.rdata`), and it is a
+  plausible ML-heuristic trigger.
 - **The AppImage uses a pinned appimagetool release** (`1.9.1`) with a checksum.
   The `continuous` asset is republished and invalidates its checksum.
 - **The AppImage is built on Ubuntu 22.04** so its glibc baseline is older than
@@ -78,6 +84,13 @@ own output:
   with NSIS 3.12.0, MUI v1 pages, a components page, header and welcome
   bitmaps, `XPStyle on` and four sections; `packaging/windows/ksnip.nsi`
   follows that layout so the installer shape matches the clean reference.
+- **The Windows jobs scan the packaged executable with Microsoft Defender.**
+  VirusTotal scanning an installer or a ZIP does not scan the executable inside
+  it, so a clean installer can still deliver an executable that Defender removes
+  as `Trojan:Win32/Wacatac.C!ml`. `packaging/scripts/scan-windows-defender.ps1`
+  runs `MpCmdRun.exe` with `-DisableRemediation` and fails the job when the
+  executable is detected. A clean installer scan is not evidence that the
+  installed executable is clean.
 - **The macOS bundle is unsigned.** Gatekeeper will warn on first launch; the
   user has to right-click the application and choose Open. Signing and
   notarization need an Apple Developer certificate and are not configured here.
@@ -125,6 +138,12 @@ installer; those are two applications on one platform. A different build can
 still be flagged. Do not respond to a false positive by obfuscating, packing or
 mutating the binary; report it to the vendor.
 
+When a scan is clean, record **what** was scanned. VirusTotal scanning the
+installer or the portable ZIP does not scan the executable inside it, and
+Microsoft Defender evaluates the installed executable separately from the
+installer. Scan `ksnip-pyqt6.exe` itself, both with Defender and on VirusTotal,
+before concluding that a build is clean.
+
 ## Running a build locally
 
 These commands reproduce what CI does. They are for validation only.
@@ -148,8 +167,13 @@ python -m pip install -r requirements.txt
 bash packaging/scripts/build-macos-app.sh
 
 # Windows portable (run in PowerShell)
-python -m pip install -r requirements.txt "nuitka>=2.6,<3" ordered-set zstandard
+python -m pip install -r requirements.txt "nuitka==4.1.3" ordered-set zstandard
 powershell -ExecutionPolicy Bypass -File packaging/scripts/build-windows-portable.ps1 -Version 0.1.1
+
+# Scan the executable, not only the installer or the ZIP
+Expand-Archive build\ksnip-pyqt6-*-portable.zip -DestinationPath build\scan -Force
+powershell -ExecutionPolicy Bypass -File packaging/scripts/scan-windows-defender.ps1 `
+  -Path build\scan\ksnip-pyqt6\ksnip-pyqt6.exe
 ```
 
 The entry point for both freezers is `run_ksnip.py`. `ksnip_py/app.py` uses
