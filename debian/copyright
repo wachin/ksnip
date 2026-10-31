@@ -3,10 +3,9 @@ Upstream-Name: ksnip-pyqt6
 Upstream-Contact: Washington Indacochea Delgado <wachin.id@gmail.com>
 Source: https://github.com/wachin/ksnip
 Comment: ksnip-pyqt6 is a PyQt6 port of the ksnip screenshot and annotation
- tool. Debian packaging is maintained in the same repository as the program,
- which is why this is a native package. Complete copies of the GNU GPL and
- GNU LGPL texts are also shipped in the binary package below
- /usr/lib/python3/dist-packages/ksnip_py/licenses/.
+ tool. Debian packaging is maintained in the same repository as the program.
+ Complete copies of the GNU GPL and GNU LGPL texts are also shipped in the
+ binary package below /usr/lib/python3/dist-packages/ksnip_py/licenses/.
 
 Files: *
 Copyright: 2026 Washington Indacochea Delgado <wachin.id@gmail.com>

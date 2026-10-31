@@ -125,3 +125,6 @@ debian/*.substvars
 debian/*.debhelper
 debian/*.debhelper.log
 debian/ksnip-pyqt6/
+
+# Packaging build scripts are tracked despite the Qt build-dir pattern.
+!packaging/scripts/build-*

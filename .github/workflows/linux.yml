@@ -36,7 +36,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools
           python -m pip install --editable ".[ocr]" pytest
-          python -c "import markdownify; print('markdownify OK:', markdownify.__version__)"
+          python -c "import markdownify, importlib.metadata; print('markdownify OK:', importlib.metadata.version('markdownify'))"
 
       - name: Verify the Python sources compile
         run: python -m compileall -q ksnip_py

@@ -10,7 +10,10 @@ from dataclasses import dataclass
 from dataclasses import field
 
 from PyQt6.QtCore import QCoreApplication, QEventLoop, QLine, QObject, QPoint, QRect, QSize, QTimer, Qt, QUrl, pyqtSignal, pyqtSlot
-from PyQt6.QtDBus import QDBusConnection, QDBusInterface, QDBusMessage, QDBusObjectPath
+try:
+    from PyQt6.QtDBus import QDBusConnection, QDBusInterface, QDBusMessage, QDBusObjectPath
+except ImportError:  # QtDBus is only shipped on Unix; the portal is Linux-only.
+    QDBusConnection = QDBusInterface = QDBusMessage = QDBusObjectPath = None
 from PyQt6.QtGui import QColor, QCursor, QGuiApplication, QImage, QMouseEvent, QPainter, QPen, QPixmap, QRegion
 from PyQt6.QtWidgets import QApplication, QWidget
 
@@ -178,6 +181,12 @@ def grab_portal(*, interactive: bool = True, scale: bool = False) -> CaptureResu
     global _portal_last_error, _portal_was_canceled
     _portal_last_error = ""
     _portal_was_canceled = False
+    if QDBusConnection is None:
+        _portal_last_error = QCoreApplication.translate(
+            "PortalDiagnostics",
+            "D-Bus portal capture is only available on Linux.",
+        )
+        return None
     connection = QDBusConnection.sessionBus()
     if not connection.isConnected():
         _portal_last_error = QCoreApplication.translate("PortalDiagnostics", "the D-Bus session bus is not available.")

@@ -37,7 +37,7 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("-s", "--save", action="store_true", help="Save a screenshot to the configured default location without opening the editor")
     parser.add_argument("-p", "--saveto", metavar="PATH", help="Save a screenshot to PATH without opening the editor")
     parser.add_argument("-o", "--upload", action="store_true", help="Upload a screenshot using the configured script without opening the editor")
-    parser.add_argument("-v", "--version", action="version", version="ksnip-pyqt6 0.1.0")
+    parser.add_argument("-v", "--version", action="version", version="ksnip-pyqt6 0.1.1")
     parser.add_argument("--language", metavar="LOCALE", help="Override the system language, for example es or es_EC")
     return parser
 
@@ -100,7 +100,7 @@ def main(argv: list[str] | None = None) -> int:
     app.setOrganizationName("ksnip")
     app.setOrganizationDomain("ksnip.ksnip.org")
     app.setApplicationName("ksnip-pyqt6")
-    app.setApplicationVersion("0.1.0")
+    app.setApplicationVersion("0.1.1")
     app.setDesktopFileName("org.ksnip.ksnip-pyqt6")
     image_argument = arguments.image or arguments.edit
     stdin_image = sys.stdin.buffer.read() if image_argument == "-" else None

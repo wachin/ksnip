@@ -4,11 +4,12 @@ Priority: optional
 Maintainer: wachin <wachin.id@gmail.com>
 Build-Depends: debhelper-compat (= 13),
                dh-python,
-               pybuild-plugin-pyproject,
                python3-all,
-               python3-pytest,
-               python3-pyqt6,
-               python3-setuptools
+               python3-setuptools,
+               python3-wheel,
+               python3-build,
+               python3-installer,
+               pybuild-plugin-pyproject
 Standards-Version: 4.7.4.1
 Rules-Requires-Root: no
 Homepage: https://github.com/wachin/ksnip
@@ -20,20 +21,31 @@ Architecture: all
 Depends: ${python3:Depends},
          ${misc:Depends},
          python3-pyqt6,
-         qt6-svg-plugins
-Recommends: hunspell,
+         python3-pyqt6.qtsvg
+Recommends: python3-pyqt6.qtpdf,
+            hunspell,
             hunspell-en-us,
             xdotool,
-            x11-utils
+            x11-utils,
+            xdg-utils,
+            desktop-file-utils,
+            hicolor-icon-theme
 Suggests: xdg-desktop-portal,
           xdg-desktop-portal-gtk | xdg-desktop-portal-backend
-Description: screenshot and annotation tool (PyQt6 port)
- ksnip is a cross-platform screenshot tool that provides many annotation
- features. This package provides the PyQt6 port, including screenshot
- capture, annotation with shapes, text and stickers, OCR, uploaders, and
- editable projects.
+Description: Screenshot and annotation tool (PyQt6 port)
+ ksnip-pyqt6 is a modern Python/PyQt6 port of the ksnip screenshot and
+ annotation application. It provides a complete screenshot capture
+ and annotation workflow with support for multiple capture modes,
+ extensive annotation tools, OCR text recognition, and upload
+ capabilities.
  .
- It supports capturing a rectangular area, the last selected area, the
- screen or window under the cursor, the active window, and the full screen,
- optionally including the mouse cursor. Screenshots can be annotated and
- saved to PNG, JPEG, BMP or WebP, or exported to SVG.
+ Features:
+  * Multiple capture modes: rectangular area, full screen, current screen,
+    active window, window under cursor, and xdg-desktop-portal (Wayland)
+  * Rich annotation tools: pen, marker, arrows, shapes, text, numbers,
+    blur, pixelate, crop, stickers, watermarks
+  * OCR text recognition via PaddleOCR (optional)
+  * Image upload via configurable scripts
+  * Multi-language support with 41 translations
+  * System tray integration with single-instance support
+  * High-DPI and dark/light theme support

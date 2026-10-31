@@ -1,0 +1,328 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  # ─── Debian package ────────────────────────────────────────────────
+  build-deb:
+    name: Debian package (.deb)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve version
+        run: echo "APP_VERSION=$(python3 packaging/scripts/get_version.py)" >> "$GITHUB_ENV"
+
+      - name: Install Debian build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential debhelper dh-python pybuild-plugin-pyproject \
+            python3-all python3-setuptools python3-wheel python3-build \
+            python3-installer lintian
+
+      - name: Build the package
+        run: dpkg-buildpackage -us -uc -b
+
+      - name: Collect package files
+        run: |
+          mkdir -p artifacts
+          mv ../ksnip-pyqt6_*.deb ../ksnip-pyqt6_*.buildinfo ../ksnip-pyqt6_*.changes artifacts/
+
+      - name: Lint the package
+        run: lintian --fail-on error artifacts/ksnip-pyqt6_*.deb
+
+      - name: Inspect the package
+        run: |
+          dpkg-deb --info artifacts/ksnip-pyqt6_*.deb
+          dpkg-deb --contents artifacts/ksnip-pyqt6_*.deb
+          dpkg-deb --fsys-tarfile artifacts/ksnip-pyqt6_*.deb \
+            | tar -tf - | grep -q "usr/bin/ksnip-pyqt6$"
+
+      - name: Install and smoke-test the package
+        run: |
+          sudo apt-get install -y ./artifacts/ksnip-pyqt6_*.deb
+          QT_QPA_PLATFORM=offscreen ksnip-pyqt6 --version
+          QT_QPA_PLATFORM=offscreen python3 -c \
+            "import ksnip_py.app, ksnip_py.canvas, ksnip_py.main_window; print('modules import correctly')"
+
+      - name: Upload the Debian package
+        uses: actions/upload-artifact@v4
+        with:
+          name: debian
+          path: artifacts/*
+          if-no-files-found: error
+
+  # ─── AppImage ──────────────────────────────────────────────────────
+  build-appimage:
+    name: Linux AppImage
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Resolve version
+        run: echo "APP_VERSION=$(python3 packaging/scripts/get_version.py)" >> "$GITHUB_ENV"
+
+      - name: Install Qt runtime libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 \
+            libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 \
+            libxcb-shape0 libxcb-xfixes0 libxcb-sync1 libxcb-xkb1 \
+            libxkbcommon0 libdbus-1-3 libfontconfig1 libfreetype6 \
+            librsvg2-bin squashfs-tools patchelf
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "pyinstaller>=6.10,<7"
+          python -m pip install -r requirements.txt
+
+      - name: Build the AppImage
+        run: VERSION="$APP_VERSION" bash packaging/scripts/build-appimage.sh
+
+      - name: Smoke-test the AppImage
+        run: |
+          APPIMAGE="$(find dist -maxdepth 1 -name '*.AppImage' -print -quit)"
+          test -n "$APPIMAGE"
+          file "$APPIMAGE"
+          QT_QPA_PLATFORM=offscreen "$APPIMAGE" --appimage-extract-and-run --version
+
+      - name: Upload the AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: appimage
+          path: dist/*.AppImage
+          if-no-files-found: error
+
+  # ─── macOS portable ────────────────────────────────────────────────
+  build-macos:
+    name: macOS portable (.app in .zip)
+    runs-on: macos-15-intel
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Resolve version
+        run: echo "APP_VERSION=$(python3 packaging/scripts/get_version.py)" >> "$GITHUB_ENV"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "pyinstaller>=6.10,<7"
+          python -m pip install -r requirements.txt
+
+      - name: Build the application bundle
+        run: VERSION="$APP_VERSION" bash packaging/scripts/build-macos-app.sh
+
+      - name: Inspect the archive
+        run: |
+          unzip -l dist/*.zip | head -20
+          shasum -a 256 dist/*.zip
+
+      - name: Upload the macOS archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: dist/*.zip
+          if-no-files-found: error
+
+  # ─── Windows portable (Nuitka) ─────────────────────────────────────
+  build-windows-portable:
+    name: Windows portable (Nuitka)
+    runs-on: windows-2025
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          architecture: x64
+          cache: pip
+
+      - name: Resolve version
+        shell: pwsh
+        run: |
+          if ("${{ github.ref_type }}" -eq "tag") {
+            $version = "${{ github.ref_name }}".TrimStart("v")
+          } else {
+            $version = (python packaging/scripts/get_version.py).Trim()
+          }
+          "APP_VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install "nuitka>=2.6,<3" ordered-set zstandard
+
+      - name: Build the portable ZIP
+        shell: pwsh
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File packaging/scripts/build-windows-portable.ps1 -Version $env:APP_VERSION
+
+      - name: Inspect the archive
+        shell: pwsh
+        run: |
+          Get-ChildItem build -Filter "*.zip" | Format-Table Name, Length
+          python -c "import zipfile,glob; z=zipfile.ZipFile(glob.glob('build/*.zip')[0]); names=z.namelist(); print(len(names), 'entries'); assert any(n.endswith('/ksnip-pyqt6.exe') for n in names); assert not any(chr(92) in n for n in names)"
+
+      - name: Upload the Windows portable ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-portable
+          path: build/*.zip
+          if-no-files-found: error
+
+  # ─── Windows installer (NSIS) ──────────────────────────────────────
+  build-windows-installer:
+    name: Windows installer (NSIS)
+    runs-on: windows-2025
+    timeout-minutes: 30
+    needs: build-windows-portable
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download the portable ZIP
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-portable
+          path: build
+
+      - name: Resolve version
+        shell: pwsh
+        run: |
+          if ("${{ github.ref_type }}" -eq "tag") {
+            $version = "${{ github.ref_name }}".TrimStart("v")
+          } else {
+            $version = (python packaging/scripts/get_version.py).Trim()
+          }
+          "APP_VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Install NSIS
+        run: choco install nsis -y --no-progress
+
+      - name: Stage the installer payload
+        shell: pwsh
+        run: |
+          $stage = Join-Path $PWD "build\installer"
+          $extract = Join-Path $PWD "build\extracted"
+          New-Item -ItemType Directory -Force -Path $stage, $extract | Out-Null
+          $zip = Get-ChildItem "build" -Filter "*.zip" | Select-Object -First 1
+          Expand-Archive -Path $zip.FullName -DestinationPath $extract -Force
+          $payload = Get-ChildItem $extract -Directory | Select-Object -First 1
+          $target = Join-Path $stage "ksnip-pyqt6"
+          New-Item -ItemType Directory -Force -Path $target | Out-Null
+          Copy-Item (Join-Path $payload.FullName "*") $target -Recurse -Force
+          Copy-Item "LICENSE.txt" (Join-Path $stage "LICENSE") -Force
+          Copy-Item "packaging\windows\ksnip.ico" (Join-Path $stage "ksnip.ico") -Force
+          Copy-Item "packaging\windows\ksnip.nsi" (Join-Path $stage "ksnip.nsi") -Force
+
+      - name: Build the installer
+        shell: pwsh
+        run: |
+          $parts = $env:APP_VERSION.Split(".")
+          while ($parts.Count -lt 4) { $parts += "0" }
+          $windowsVersion = ($parts[0..3] -join ".")
+          $name = "ksnip-pyqt6-$($env:APP_VERSION)-Windows-x64-setup.exe"
+          $makensis = "C:\Program Files (x86)\NSIS\makensis.exe"
+          if (-not (Test-Path $makensis)) { $makensis = (Get-Command makensis.exe).Source }
+          Push-Location "build\installer"
+          try {
+            & $makensis "/DVERSION=$windowsVersion" "/DINSTALLER_NAME=$name" "ksnip.nsi"
+            if ($LASTEXITCODE -ne 0) { throw "makensis failed with exit code $LASTEXITCODE" }
+          } finally {
+            Pop-Location
+          }
+          Move-Item "build\installer\$name" "build\$name" -Force
+
+      - name: Install and smoke-test the installer
+        shell: pwsh
+        run: |
+          $setup = Get-ChildItem "build" -Filter "*-setup.exe" | Select-Object -First 1
+          Start-Process -FilePath $setup.FullName -ArgumentList "/S" -Wait
+          $installed = Join-Path $env:LOCALAPPDATA "Programs\ksnip-pyqt6\ksnip-pyqt6.exe"
+          if (-not (Test-Path $installed)) { throw "the installer did not create $installed" }
+          $process = Start-Process -FilePath $installed -ArgumentList "--version" -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "the installed executable exited with $($process.ExitCode)" }
+          $uninstaller = Join-Path $env:LOCALAPPDATA "Programs\ksnip-pyqt6\uninstall.exe"
+          Start-Process -FilePath $uninstaller -ArgumentList "/S" -Wait
+
+      - name: Upload the installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: build/*-setup.exe
+          if-no-files-found: error
+
+  # ─── Release ───────────────────────────────────────────────────────
+  release:
+    name: Publish the GitHub release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build-deb, build-appimage, build-macos, build-windows-portable, build-windows-installer]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: Download every artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Collect release files
+        run: |
+          mkdir -p release
+          find artifacts -type f -exec cp -t release {} +
+          ls -l release
+
+      - name: Generate SHA256SUMS
+        working-directory: release
+        run: |
+          find . -maxdepth 1 -type f ! -name SHA256SUMS -printf "%P\0" \
+            | sort -z | xargs -0 sha256sum > SHA256SUMS
+          cat SHA256SUMS
+
+      - name: Create the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: release/*

@@ -54,6 +54,11 @@
   <content_rating type="oars-1.1"/>
 
   <releases>
+    <release version="0.1.1" date="2026-10-30">
+      <description>
+        <p>Packaging release with CI-built AppImage, Debian, macOS and Windows artifacts.</p>
+      </description>
+    </release>
     <release version="0.1.0" date="2026-10-26">
       <description>
         <p>First packaged release of the PyQt6 port.</p>

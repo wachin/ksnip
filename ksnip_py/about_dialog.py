@@ -75,7 +75,7 @@ class AboutDialog(QDialog):
         )
 
     def _details_html(self) -> str:
-        version = QCoreApplication.applicationVersion() or "0.1.0"
+        version = QCoreApplication.applicationVersion() or "0.1.1"
         rows = [
             (
                 self.tr("Original project"),
