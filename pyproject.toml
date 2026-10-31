@@ -14,6 +14,15 @@ dependencies = [
   "PyQt6>=6.6",
 ]
 
+[project.optional-dependencies]
+ocr = [
+  "paddlepaddle==3.3.1",
+  "paddleocr==3.7.0",
+  "protobuf==3.20.2",
+  "paddlex[ocr]==3.7.2",
+  "markdownify",
+]
+
 [project.scripts]
 ksnip-pyqt6 = "ksnip_py.app:main"
 
@@ -21,4 +30,25 @@ ksnip-pyqt6 = "ksnip_py.app:main"
 packages = ["ksnip_py"]
 
 [tool.setuptools.package-data]
-ksnip_py = ["icons/*.svg", "icons/light/*.svg", "icons/dark/*.svg", "icons/kimageannotator/light/*.svg", "icons/kimageannotator/dark/*.svg", "stickers/*.svg", "stickers/themes/papirus/*.svg", "stickers/themes/gnome/*.png", "stickers/themes/gnome/*.svg", "stickers/themes/numix/*.svg", "stickers/themes/supertux/*.svg", "stickers/themes/tuxbaby/*.png", "stickers/themes/konqi&katie/*.png", "stickers/themes/geeko/*.png", "stickers/themes/gnubaby/*.png", "licenses/*.md", "licenses/*.txt", "translations/*.ts", "translations/*.qm"]
+ksnip_py = [
+  "icons/*.svg",
+  "icons/*.png",
+  "icons/light/*.svg",
+  "icons/dark/*.svg",
+  "icons/kimageannotator/light/*.svg",
+  "icons/kimageannotator/dark/*.svg",
+  "stickers/*.svg",
+  "stickers/themes/papirus/*.svg",
+  "stickers/themes/gnome/*.png",
+  "stickers/themes/gnome/*.svg",
+  "stickers/themes/numix/*.svg",
+  "stickers/themes/supertux/*.svg",
+  "stickers/themes/tuxbaby/*.png",
+  "stickers/themes/konqi&katie/*.png",
+  "stickers/themes/geeko/*.png",
+  "stickers/themes/gnubaby/*.png",
+  "licenses/*.md",
+  "licenses/*.txt",
+  "translations/*.ts",
+  "translations/*.qm",
+]
