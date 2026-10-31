@@ -128,3 +128,7 @@ debian/ksnip-pyqt6/
 
 # Packaging build scripts are tracked despite the Qt build-dir pattern.
 !packaging/scripts/build-*
+
+# Personal
+pyqt6-packaging-research/
+
