@@ -91,7 +91,8 @@ class OcrBackend:
                 text=True,
                 # Own process group so a cancel can kill the script's children,
                 # which would otherwise hold the pipes open and block here.
-                start_new_session=True,
+                # Windows has no POSIX process groups.
+                start_new_session=os.name != "nt",
             )
         except OSError as exc:
             raise OcrError(f"Unable to start OCR script: {exc}") from exc
@@ -319,12 +320,23 @@ class OcrBackend:
         if not rows:
             return html
 
+        def _convert_inline_formatting(text: str) -> str:
+            """Convert basic HTML inline formatting to Markdown."""
+            # <b> / <strong> -> **text**
+            text = re.sub(r"</?(?:b|strong)\b[^>]*>", "**", text, flags=re.IGNORECASE)
+            # <i> / <em> -> *text*
+            text = re.sub(r"</?(?:i|em)\b[^>]*>", "*", text, flags=re.IGNORECASE)
+            # <code> -> `text`
+            text = re.sub(r"</?code\b[^>]*>", "`", text, flags=re.IGNORECASE)
+            return text
+
         md_rows = []
         for i, row in enumerate(rows):
             cells = re.findall(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", row, flags=re.IGNORECASE | re.DOTALL)
-            # Clean cell content: remove tags, unescape entities, collapse whitespace
+            # Clean cell content: convert inline formatting, remove other tags, unescape entities, collapse whitespace
             clean_cells = []
             for cell in cells:
+                cell = _convert_inline_formatting(cell)
                 cell = re.sub(r"<[^>]+>", "", cell)
                 cell = unescape(cell)
                 cell = re.sub(r"\s+", " ", cell).strip()
@@ -480,9 +492,13 @@ class OcrWorker(QObject):
         if process is None or process.poll() is not None:
             return
         try:
-            # start_new_session makes pgid == pid, so this reaches the script's children.
-            os.killpg(os.getpgid(process.pid), signal.SIGKILL)
-        except (OSError, ProcessLookupError):
+            if os.name == "nt":
+                # Windows has no process groups here; terminate the script itself.
+                process.kill()
+            else:
+                # start_new_session makes pgid == pid, so this reaches the script's children.
+                os.killpg(os.getpgid(process.pid), signal.SIGKILL)
+        except (OSError, ProcessLookupError, AttributeError):
             try:
                 process.kill()
             except OSError:

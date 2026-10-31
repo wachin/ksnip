@@ -1,18 +1,45 @@
 from __future__ import annotations
 
+import base64
+import getpass
 import json
 import os
-import base64
+import re
 from collections.abc import Callable
 
 from PyQt6.QtCore import QObject
 from PyQt6.QtNetwork import QLocalServer, QLocalSocket
 
 
+def _user_token() -> str:
+    """Return a stable, filesystem-safe token for the current user.
+
+    ``os.getuid()`` only exists on POSIX.  Windows has no equivalent that is
+    exposed by the ``os`` module, so use the account name there and sanitize it
+    for a QLocalServer name.  Using the PID or a random value instead would make
+    single-instance detection stop working.
+    """
+
+    getuid = getattr(os, "getuid", None)
+    if getuid is not None:
+        try:
+            return str(getuid())
+        except (OSError, AttributeError):
+            pass
+
+    try:
+        user = getpass.getuser()
+    except (ImportError, OSError, KeyError):
+        user = os.environ.get("USERNAME") or os.environ.get("USER") or "user"
+
+    token = re.sub(r"[^A-Za-z0-9_.-]+", "_", user).strip("_")
+    return token or "user"
+
+
 class SingleInstanceController(QObject):
     def __init__(self, server_name: str | None = None, parent: QObject | None = None) -> None:
         super().__init__(parent)
-        self.server_name = server_name or f"ksnip-pyqt6-{os.getuid()}"
+        self.server_name = server_name or f"ksnip-pyqt6-{_user_token()}"
         self._server = QLocalServer(self)
         self._handler: Callable[[list[str], bytes | None], None] | None = None
         self._sockets: set[QLocalSocket] = set()

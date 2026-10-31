@@ -50,7 +50,8 @@ class ScriptUploader:
                     text=True,
                     # Own process group so cancel() can kill the script's children,
                     # which would otherwise keep the pipes open and block communicate().
-                    start_new_session=True,
+                    # Windows has no POSIX process groups.
+                    start_new_session=os.name != "nt",
                 )
             except OSError as exc:
                 return UploadResult(False, f"Unable to start upload script: {exc}")
@@ -125,9 +126,13 @@ class UploadWorker(QObject):
         if process is None or process.poll() is not None:
             return
         try:
-            # start_new_session makes pgid == pid, so this reaches the script's children.
-            os.killpg(os.getpgid(process.pid), signal.SIGKILL)
-        except (OSError, ProcessLookupError):
+            if os.name == "nt":
+                # Windows has no process groups here; terminate the script itself.
+                process.kill()
+            else:
+                # start_new_session makes pgid == pid, so this reaches the script's children.
+                os.killpg(os.getpgid(process.pid), signal.SIGKILL)
+        except (OSError, ProcessLookupError, AttributeError):
             try:
                 process.kill()
             except OSError:

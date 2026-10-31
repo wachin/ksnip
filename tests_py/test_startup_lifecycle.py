@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import QApplication
 
 from ksnip_py.app import build_argument_parser, should_show_for_remote_request
 from ksnip_py.main_window import MainWindow
-from ksnip_py.single_instance import SingleInstanceController
+from ksnip_py.single_instance import SingleInstanceController, _user_token
 
 
 APP = QApplication.instance() or QApplication([])
@@ -20,6 +20,12 @@ APP = QApplication.instance() or QApplication([])
 class StartupLifecycleTest(unittest.TestCase):
     def setUp(self) -> None:
         self.parser = build_argument_parser()
+
+    def test_user_token_falls_back_when_os_getuid_is_unavailable(self) -> None:
+        with patch("ksnip_py.single_instance.os.getuid", side_effect=AttributeError, create=True):
+            token = _user_token()
+        self.assertTrue(token)
+        self.assertRegex(token, r"^[A-Za-z0-9_.-]+$")
 
     def test_remote_edit_and_plain_invocation_show_editor_but_capture_does_not(self) -> None:
         self.assertTrue(should_show_for_remote_request(self.parser.parse_args([])))

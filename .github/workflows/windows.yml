@@ -40,7 +40,9 @@ jobs:
         run: python -m pytest tests_py -q
 
       - name: Verify the command-line entry point
-        run: python -m ksnip_py --help
+        run: |
+          python -m ksnip_py --help
+          python -m ksnip_py --smoke-test
 
   package-python:
     name: Validate the ksnip_py wheel on Windows

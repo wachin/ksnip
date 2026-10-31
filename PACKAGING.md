@@ -47,10 +47,15 @@ own output:
 - **macOS**: lints `Info.plist`, checks the bundle executable, runs it with
   `--version`, and verifies that the ZIP contains the `.app` as its top-level
   entry.
-- **Windows portable**: checks that the ZIP has forward-slash entry names and
-  contains `ksnip-pyqt6.exe` and `COPYING` under one top-level folder.
+- **Windows portable**: checks that the ZIP has forward-slash entry names,
+  contains `ksnip-pyqt6.exe` and `COPYING` under one top-level folder, and runs
+  the built executable with `--smoke-test`.
 - **Windows installer**: silently installs, runs the installed executable with
-  `--version`, then uninstalls.
+  `--version` and `--smoke-test`, then uninstalls. `--version` exits inside
+  argparse, before `QApplication`; `--smoke-test` starts Qt, loads the icon and
+  translations, constructs the single-instance controller and the main window,
+  then exits. The second check is what catches a missing Qt platform plugin or a
+  Windows-only startup error.
 
 ## Toolchain decisions
 

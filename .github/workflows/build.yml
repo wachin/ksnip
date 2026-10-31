@@ -306,6 +306,12 @@ jobs:
           if (-not (Test-Path $installed)) { throw "the installer did not create $installed" }
           $process = Start-Process -FilePath $installed -ArgumentList "--version" -Wait -PassThru
           if ($process.ExitCode -ne 0) { throw "the installed executable exited with $($process.ExitCode)" }
+          # --version exits before QApplication. This starts Qt, loads the icon and
+          # translations, and constructs the main window on the installed payload.
+          $env:QT_QPA_PLATFORM = "offscreen"
+          $smoke = Start-Process -FilePath $installed -ArgumentList "--smoke-test" -Wait -PassThru
+          if ($smoke.ExitCode -ne 0) { throw "the installed executable failed --smoke-test with $($smoke.ExitCode)" }
+          Remove-Item Env:\QT_QPA_PLATFORM -ErrorAction SilentlyContinue
           & packaging/scripts/scan-windows-defender.ps1 -Path $installed, $setup.FullName -AllowMissing
           $uninstaller = Join-Path $env:LOCALAPPDATA "Programs\ksnip-pyqt6\uninstall.exe"
           Start-Process -FilePath $uninstaller -ArgumentList "/S" -Wait

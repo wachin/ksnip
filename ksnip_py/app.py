@@ -39,6 +39,11 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("-o", "--upload", action="store_true", help="Upload a screenshot using the configured script without opening the editor")
     parser.add_argument("-v", "--version", action="version", version="ksnip-pyqt6 0.1.1")
     parser.add_argument("--language", metavar="LOCALE", help="Override the system language, for example es or es_EC")
+    parser.add_argument(
+        "--smoke-test",
+        action="store_true",
+        help="Start Qt, load the icon and translations, construct the main window, then exit",
+    )
     return parser
 
 
@@ -106,6 +111,19 @@ def main(argv: list[str] | None = None) -> int:
     stdin_image = sys.stdin.buffer.read() if image_argument == "-" else None
     configured_language = arguments.language or str(QSettings().value("application/language", "")) or None
     load_translation(app, configured_language)
+    if arguments.smoke_test:
+        icon_path = Path(__file__).resolve().parent / "icons" / "ksnip.svg"
+        icon = QIcon(str(icon_path))
+        if icon.isNull():
+            raise SystemExit(f"smoke test: could not load the application icon at {icon_path}")
+        # QApplication has already loaded the platform plugin. Constructing the
+        # controller catches platform-specific startup errors such as os.getuid
+        # being unavailable on Windows, and MainWindow catches missing Qt
+        # resources. The old --version check returned before any of this ran.
+        SingleInstanceController(parent=app)
+        window = MainWindow()
+        window.close()
+        return 0
     single_instance_enabled = str(QSettings().value("application/single_instance", "true")).lower() not in {"false", "0", "no"}
     instance_controller = SingleInstanceController(parent=app)
     if single_instance_enabled and instance_controller.forward_to_running(raw_arguments, stdin_image):

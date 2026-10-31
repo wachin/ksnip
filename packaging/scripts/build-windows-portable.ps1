@@ -70,6 +70,19 @@ $builtExe = Get-ChildItem -Path $NuitkaOutput -Recurse -Filter "ksnip-pyqt6.exe"
     Select-Object -First 1
 if (-not $builtExe) { throw "Nuitka output executable was not found under $NuitkaOutput" }
 
+# --version exits inside argparse, before QApplication exists, so it cannot
+# catch a missing Qt platform plugin or a Windows-only startup error. This runs
+# after QApplication and constructs the main window.
+try {
+    $env:QT_QPA_PLATFORM = "offscreen"
+    & $builtExe.FullName --smoke-test
+    if ($LASTEXITCODE -ne 0) {
+        throw "the built executable failed --smoke-test with exit code $LASTEXITCODE"
+    }
+} finally {
+    Remove-Item Env:\QT_QPA_PLATFORM -ErrorAction SilentlyContinue
+}
+
 # Copy the CONTENTS of the .dist directory. Copying the directory itself
 # would nest it inside the staging folder.
 New-Item -ItemType Directory -Force -Path $Staging | Out-Null
