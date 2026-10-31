@@ -14,23 +14,18 @@ checking the pipeline before pushing a tag.
 | Windows 10/11 | `ksnip-pyqt6-<version>-Windows-x64-portable.zip` | Nuitka `--standalone` | `windows-2025` |
 | Windows 10/11 | `ksnip-pyqt6-<version>-Windows-x64-setup.exe` | Nuitka + NSIS (per-user) | `windows-2025` |
 
-The release also carries `SHA256SUMS` and a GitHub build-provenance attestation.
+The workflow only builds and uploads artifacts. It never creates a release and
+never writes to the repository, so a run can be inspected and scanned before
+anything becomes public.
 
 ## How a release is produced
 
-The workflow is `.github/workflows/build.yml`.
+The workflow is `.github/workflows/build.yml`. It runs on `workflow_dispatch`
+and on any `v*` tag push, and stops once the five artifacts are uploaded.
 
-- `workflow_dispatch` builds every artifact and uploads them as workflow
-  artifacts. It does **not** create a release, so a run can be inspected before
-  it becomes public.
-- Pushing a tag that starts with `v` (for example `v0.1.1`) builds the same
-  artifacts and then the `release` job attaches them to the GitHub release for
-  that tag.
-
-```bash
-git tag v0.1.1
-git push origin v0.1.1
-```
+1. Start a run (Actions → *Build packages* → *Run workflow*), or push a tag.
+2. Download the artifacts from the run page.
+3. Create or edit the GitHub release and attach the files by hand.
 
 The version in `pyproject.toml` is used for workflow-dispatch runs. Tag runs use
 the tag without its leading `v`, so the tag and the package version stay in step.
@@ -71,6 +66,11 @@ own output:
   the distributions it is expected to run on.
 - **The Windows installer is per-user** (`RequestExecutionLevel user`) and does
   not prompt for UAC.
+- **The NSIS installer uses `SetCompressor ZLIB`**, the same setting as the
+  reference project that measured 0/68 detections on its installer. Solid LZMA
+  squeezed the 94 MB payload into a single opaque 34.7 MB block; ZLIB costs
+  about 9 MB and keeps the payload file-oriented, which is the shape ML
+  heuristics score less aggressively.
 - **The macOS bundle is unsigned.** Gatekeeper will warn on first launch; the
   user has to right-click the application and choose Open. Signing and
   notarization need an Apple Developer certificate and are not configured here.

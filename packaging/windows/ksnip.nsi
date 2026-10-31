@@ -33,7 +33,7 @@ OutFile "${INSTALLER_NAME}"
 InstallDir "$LOCALAPPDATA\Programs\${APP_DIR}"
 InstallDirRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}" "InstallLocation"
 RequestExecutionLevel user
-SetCompressor /SOLID lzma
+SetCompressor ZLIB
 
 VIProductVersion "${VERSION}"
 VIAddVersionKey "ProductName" "${APP_NAME}"
