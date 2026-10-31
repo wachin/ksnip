@@ -85,6 +85,13 @@ own output:
   embedding a second copy of Qt.
 - `lintian --fail-on error` gates the build. Warnings are reported but do not
   fail it.
+- The `[project]` metadata has to stay parseable by the setuptools that ships
+  with the build distribution, not by the newest one on PyPI. Ubuntu 24.04 has
+  setuptools 68.1.2, which predates PEP 639, so `license` uses the
+  `{text = "..."}` table and `license-files` lives under `[tool.setuptools]`.
+  The SPDX string form fails the pybuild wheel step with
+  `configuration error: 'project.license' must be valid exactly by one
+  definition`. Newer setuptools accepts both and only warns about the table.
 - OCR and the PaddlePaddle runtime are **not** bundled. They are hundreds of
   megabytes of ML code and models, and Debian policy does not favour embedding
   them in a desktop package. See the limitation below.
