@@ -71,6 +71,12 @@ own output:
   squeezed the 94 MB payload into a single opaque 34.7 MB block; ZLIB costs
   about 9 MB and keeps the payload file-oriented, which is the shape ML
   heuristics score less aggressively.
+- **NSIS is pinned to 3.10.0.** The first installers were built with 3.13.0
+  from Chocolatey's default package and drew one heuristic detection
+  (Trapmine `Malicious.high.ml.score`), while the portable ZIP built from the
+  same payload was clean. The reference installer that measured 0/68 was built
+  with the runner's preinstalled 3.10, so the stub is the variable being
+  isolated here.
 - **The macOS bundle is unsigned.** Gatekeeper will warn on first launch; the
   user has to right-click the application and choose Open. Signing and
   notarization need an Apple Developer certificate and are not configured here.
