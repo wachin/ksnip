@@ -25,6 +25,12 @@ from PyQt6.QtWidgets import (
 )
 
 
+def _is_frozen_build() -> bool:
+    """Return whether this code is running from a frozen application."""
+
+    return bool(getattr(sys, "frozen", False)) or "__compiled__" in globals()
+
+
 class ModelInfo:
     """Information about a downloadable model/component."""
 
@@ -196,6 +202,14 @@ class ModelCard(QWidget):
             }
         """)
         self.install_btn.clicked.connect(self._on_install_clicked)
+        if _is_frozen_build() and self._model.id != "external-ocr-script":
+            self.install_btn.setEnabled(False)
+            self.install_btn.setToolTip(
+                self.tr(
+                    "Not available in a packaged build. Use a source checkout or an "
+                    "external OCR script."
+                )
+            )
         button_layout.addWidget(self.install_btn)
 
         self.remove_btn = QPushButton(self.tr("Remove"))
@@ -332,6 +346,22 @@ class DownloadManagerDialog(QDialog):
         subtitle.setWordWrap(True)
         subtitle.setStyleSheet("color: #64748b; font-size: 12px; margin-top: 4px;")
         header_layout.addWidget(subtitle)
+
+        if _is_frozen_build():
+            notice = QLabel(
+                self.tr(
+                    "This is a packaged build. Installing Python packages (PaddleOCR, "
+                    "PaddlePaddle, PaddleX) is disabled because no Python interpreter is "
+                    "shipped with it. Use a source checkout, or configure an external OCR "
+                    "script under Settings → OCR."
+                )
+            )
+            notice.setWordWrap(True)
+            notice.setStyleSheet(
+                "background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; "
+                "border-radius: 6px; padding: 8px 10px; font-size: 12px; margin-top: 8px;"
+            )
+            header_layout.addWidget(notice)
 
         layout.addWidget(header)
 
