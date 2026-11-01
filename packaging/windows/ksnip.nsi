@@ -7,13 +7,13 @@
 ; Run this script from the directory that contains the payload folder
 ; (ksnip-pyqt6), LICENSE, ksnip.ico and the two .bmp files. The workflow stages
 ; all of them before calling makensis. VERSION must be a four-part numeric
-; version (for example 0.1.1.0).
+; version (for example 0.2.0.0).
 
 Unicode true
 !include "MUI.nsh"
 
 !ifndef VERSION
-  !define VERSION "0.1.1.0"
+  !define VERSION "0.2.0.0"
 !endif
 !ifndef INSTALLER_NAME
   !define INSTALLER_NAME "ksnip-pyqt6-setup.exe"
