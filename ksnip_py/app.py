@@ -161,4 +161,11 @@ def main(argv: list[str] | None = None) -> int:
         window.hide()
     else:
         window.show()
+        # Some Windows launch paths (the installer's finish page, a shortcut
+        # created while the source window was minimized) pass SW_SHOWMINIMIZED;
+        # Qt then maps the first window minimized and the user only finds a
+        # taskbar button. Clear that state explicitly at startup.
+        window.showNormal()
+        window.raise_()
+        window.activateWindow()
     return app.exec()

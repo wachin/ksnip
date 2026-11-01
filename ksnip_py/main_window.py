@@ -59,6 +59,7 @@ from .spellcheck import load_spellcheck_scheme, save_spellcheck_scheme
 from .sticker_picker import StickerPickerDialog
 from .uploader import ScriptUploader, UploadWorker
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
+from .download_manager import show_download_manager
 
 
 def migrate_normalized_sticker_scaling(settings: QSettings) -> bool:
@@ -171,11 +172,12 @@ class MainWindow(QMainWindow):
     def _load_icon(self, name: str) -> QIcon:
         base_path = self._icon_base_path()
         variant_order = ("light", "dark") if self._use_light_icons() else ("dark", "light")
-        candidates = [base_path / f"{name}.svg"]
+        candidates = [base_path / f"{name}.svg", base_path / f"{name}.png"]
         for variant in variant_order:
             candidates.extend(
                 [
                     base_path / variant / f"{name}.svg",
+                    base_path / variant / f"{name}.png",
                     base_path / "kimageannotator" / variant / f"{name}.svg",
                 ]
             )
@@ -957,6 +959,10 @@ class MainWindow(QMainWindow):
         self.settings_action = QAction(self._themed_icon("preferences-system", "action"), self.tr("Settings"), self)
         self.settings_action.triggered.connect(self.open_settings_dialog)
 
+        self.model_manager_action = QAction(self._load_icon("model_manager"), self.tr("Model Manager…"), self)
+        self.model_manager_action.setToolTip(self.tr("Download and manage OCR models and other components"))
+        self.model_manager_action.triggered.connect(self.open_model_manager)
+
         self.about_action = QAction(self._themed_icon("help-about", "ksnip"), self.tr("About"), self)
         self.about_action.triggered.connect(self.show_about)
 
@@ -1451,6 +1457,8 @@ class MainWindow(QMainWindow):
         options_menu.addAction(self.ocr_action)
         options_menu.addAction(self.ocr_structure_action)
         options_menu.addAction(self.settings_action)
+        options_menu.addSeparator()
+        options_menu.addAction(self.model_manager_action)
 
         watermark_menu = options_menu.addMenu(self.tr("Watermark"))
         watermark_menu.addAction(self.update_watermark_action)
@@ -3351,6 +3359,10 @@ class MainWindow(QMainWindow):
             self.status_label.setText(self.tr("Language changed. Restart ksnip to apply it."))
         else:
             self.status_label.setText(self.tr("Settings updated"))
+
+    def open_model_manager(self) -> None:
+        show_download_manager(self)
+        self.status_label.setText(self.tr("Model Manager opened"))
 
     def show_from_tray(self) -> None:
         # A window hidden while minimized still carries the minimized flag.

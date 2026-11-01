@@ -50,6 +50,7 @@ implementation lives in `ksnip_py/`.
 - [Development checks](#development-checks)
 - [Port status](#port-status)
 - [Building and packaging](#building-and-packaging)
+- [Model Manager](#model-manager)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -461,6 +462,23 @@ PaddleOCR is unavailable. The integrated PaddleOCR backend is validated on the
 reference Linux environment below; a script backend can also be configured in
 Settings.
 
+### Model Manager
+
+**Options → Model Manager…** provides a graphical interface to download OCR
+models and other optional components on demand. Models are cached in
+`~/.local/share/ksnip/models/` and reused across sessions.
+
+| Component | Size | Description |
+| --- | --- | --- |
+| PaddleOCR Line Models | ~150 MB | Text line recognition (80+ languages) |
+| PaddleOCR Structure | ~300 MB | Layout analysis, table recognition, Markdown export |
+| PaddleOCR Formula | ~50 MB | Mathematical formula recognition (LaTeX) |
+| External OCR Script | 0 MB | User-provided script/executable |
+| Spellcheck Dictionaries | ~50 MB | Hunspell dictionaries for text annotations |
+
+Click **Install** next to any component to download and configure it.
+No system-wide installation or virtual environment is required.
+
 ### Tested Linux OCR environment
 
 The integrated PaddleOCR backend has been successfully tested on the following
@@ -634,6 +652,30 @@ application icons, translations, licenses, and bundled stickers, so it is
 platform-independent; PyQt6 pulls in the appropriate Qt runtime at install
 time.
 
+### Release artifacts (built via GitHub Actions)
+
+The `Build packages` workflow runs on `workflow_dispatch` and on `v*` tags. It
+builds the following artifacts and uploads them to the workflow run; it does
+**not** create a GitHub release or write to the repository. Download the
+artifacts from the run page and attach them to a release by hand.
+
+| Platform | Artifact |
+| --- | --- |
+| Linux (Ubuntu 22.04+/Debian 13+) | `ksnip-pyqt6-<version>-x86_64.AppImage` |
+| Linux (Ubuntu/Debian) | `ksnip-pyqt6_<version>-1_all.deb` |
+| macOS (Intel) | `ksnip-pyqt6-<version>-macOS-x86_64.zip` |
+| Windows 10/11 | `ksnip-pyqt6-<version>-Windows-x64-portable.zip` |
+| Windows 10/11 | `ksnip-pyqt6-<version>-Windows-x64-setup.exe` |
+
+The Windows jobs scan the packaged `.exe` with Microsoft Defender before upload.
+A clean scan of the installer or the ZIP is not evidence that the `.exe` inside
+is clean. No artifact is code-signed yet, so Windows shows an "unknown
+publisher" warning.
+
+**OCR models are NOT bundled** in any artifact. Users download them on demand
+via **Options → Model Manager…** (see [Model Manager](#model-manager)).
+This complies with Debian policy and keeps downloads small.
+
 ### Debian package
 
 The `debian/` directory builds a native Debian package named `ksnip-pyqt6`
@@ -656,10 +698,19 @@ The build runs the test suite through `debian/rules`; pass
 reports no findings, and the smoke test in `debian/tests/` can be executed with
 `autopkgtest`.
 
-AppImage, RPM, EXE/MSI, and DMG recipes do not exist yet; those need separate
-packaging work. The GitHub Actions workflows build and test the Python
-distributions only (see the
-[packaging guide](docs/GITHUB_ACTIONS_PACKAGES_ES.md)).
+### CI/CD
+
+All artifacts are built in GitHub Actions (`.github/workflows/build.yml`):
+
+| Job | Runner | Tool |
+| --- | --- | --- |
+| `build-appimage` | `ubuntu-22.04` | PyInstaller + appimagetool |
+| `build-deb` | `ubuntu-latest` | debhelper + pybuild |
+| `build-macos` | `macos-15-intel` | PyInstaller + ditto |
+| `build-windows-portable` | `windows-2025` | Nuitka `--standalone` |
+| `build-windows-installer` | `windows-2025` | Nuitka + NSIS |
+
+See [PACKAGING.md](PACKAGING.md) for detailed packaging decisions.
 
 ## License
 

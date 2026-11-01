@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   id="model_manager_light"
+   x="0px"
+   y="0px"
+   viewBox="0 0 500 500"
+   xml:space="preserve"
+   width="500"
+   height="500"
+   sodipodi:docname="model_manager.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   id="namedview3"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="0.65309774"
+   inkscape:cx="385.85342"
+   inkscape:cy="285.56216"
+   inkscape:window-width="1366"
+   inkscape:window-height="713"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g3" />
+<defs
+   id="defs1" />
+<g
+   transform="matrix(1.315,0,0,1.315,-113.11507,-146.98904)"
+   id="g3">
+  <!-- Cloud shape for model storage -->
+  <path
+   style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:1.14559"
+   d="m 181.04958,272.49797 c 0,-36.77329 29.67065,-66.44394 66.44393,-66.44394 v 0 c 17.52745,0 32.53461,7.44631 42.61576,19.93319 12.02864,-11.79953 28.41051,-19.93319 47.31266,-19.93319 41.24106,0 75.03582,33.79476 75.03582,75.03582 v -8.59188 c 0,-30.35801 -24.63008,-54.98808 -54.98808,-54.98808 H 194.7966 c -30.358,0 -54.98808,24.63007 -54.98808,54.98808 v 0 c 0,30.35799 24.63008,54.98808 54.98808,54.98808 h 162.67307 c 30.358,0 54.98808,-24.63009 54.98808,-54.98808 z"
+   id="path1" />
+  <!-- Download arrow -->
+  <path
+   style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:1.0322"
+   d="m 294.19664,151.24844 -18.06351,18.0635 -18.06351,-18.0635 18.06352,-18.06351 z m -18.06351,92.89803 v -74.83453"
+   id="path2" />
+  <!-- Stack of boxes/models -->
+  <path
+   style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:1.0322"
+   d="m 178.07411,469.10959 v -41.28801 h 51.61001 v 41.28801 z m 72.25401,0 v -41.28801 h 51.61003 v 41.28801 z m 72.25403,0 v -41.28801 h 51.61001 v 41.28801 z M 178.07411,396.85557 v -41.28802 h 51.61001 v 41.28802 z m 72.25401,0 v -41.28802 h 51.61003 v 41.28802 z m 72.25403,0 v -41.28802 h 51.61001 v 41.28802 z"
+   id="path3" />
+</g>
+</svg>

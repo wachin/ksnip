@@ -309,6 +309,7 @@ class SettingsDialog(QDialog):
         self.saver_auto_save = QCheckBox(self.tr("Automatically save new captures to default location"), saver_group)
         self.saver_prompt_discard = QCheckBox(self.tr("Prompt to save before discarding unsaved changes"), saver_group)
         self.saver_remember_directory = QCheckBox(self.tr("Remember last Save Directory"), saver_group)
+        self.saver_remember_directory.setChecked(True)
         self.open_initial_directory_mode = QComboBox(saver_group)
         self.open_initial_directory_mode.addItem(
             self.tr("Capture save location"), "capture_location"
