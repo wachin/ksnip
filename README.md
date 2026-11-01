@@ -465,8 +465,8 @@ Settings.
 ### Model Manager
 
 **Options → Model Manager…** provides a graphical interface to download OCR
-models and other optional components on demand. Models are cached in
-`~/.local/share/ksnip/models/` and reused across sessions.
+models and other optional components on demand. Models are cached in the user's
+application data directory and reused across sessions.
 
 | Component | Size | Description |
 | --- | --- | --- |
@@ -476,8 +476,11 @@ models and other optional components on demand. Models are cached in
 | External OCR Script | 0 MB | User-provided script/executable |
 | Spellcheck Dictionaries | ~50 MB | Hunspell dictionaries for text annotations |
 
-Click **Install** next to any component to download and configure it.
-No system-wide installation or virtual environment is required.
+Click **Install** next to any component to download and configure it. This
+works from a source checkout. The frozen Windows and macOS artifacts do not
+bundle OCR or a Python interpreter: in those builds `sys.executable` is the
+application itself, so the pip-based installer cannot run and the dialog is
+informational. Use a source install or an external OCR script there.
 
 ### Tested Linux OCR environment
 
