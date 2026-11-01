@@ -3811,13 +3811,8 @@ class MainWindow(QMainWindow):
         if has_image == self._editor_visible:
             return
         self._editor_visible = has_image
-        # Keep the editor area and the status bar visible even with no image.
-        # The empty canvas draws its own "Take a screenshot or open an image"
-        # placeholder. Hiding both used to collapse the window to a toolbar-only
-        # strip; some window managers then kept a taller frame than the content,
-        # which looked like the bottom of the window had come loose.
-        self.tabs.setVisible(True)
-        self.statusBar().setVisible(True)
+        self.tabs.setVisible(has_image)
+        self.statusBar().setVisible(has_image)
         if has_image:
             self._set_docks_collapsed(self._docks_collapsed)
             self.controls_toolbar.setVisible(self._setting_bool("editor/show_controls_widget", False))
@@ -3825,6 +3820,26 @@ class MainWindow(QMainWindow):
             self.left_toolbar.setVisible(False)
             self.properties_toolbar.setVisible(False)
             self.controls_toolbar.setVisible(False)
+            delay = max(0, self._setting_int("application/resize_delay_ms", 10))
+            QTimer.singleShot(delay, self._collapse_to_empty)
+
+    def _collapse_to_empty(self) -> None:
+        if self._editor_visible:
+            return
+        # Always return to the compact toolbar-only window, even when the editor
+        # was maximized or full-screen. Skipping that case left a large blank
+        # area below the toolbar, which looked like the mini window had dropped
+        # a bottom panel.
+        if self.isMaximized() or self.isFullScreen():
+            self.showNormal()
+        self.resize(self.sizeHint())
+        # showNormal() is asynchronous on some window managers; re-apply the
+        # compact size once the normal state has been processed.
+        QTimer.singleShot(0, self._resize_empty_now)
+
+    def _resize_empty_now(self) -> None:
+        if not self._editor_visible and not (self.isMaximized() or self.isFullScreen()):
+            self.resize(self.sizeHint())
 
     def _update_actions(self) -> None:
         canvas = self.current_canvas()

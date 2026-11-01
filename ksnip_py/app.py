@@ -160,6 +160,12 @@ def main(argv: list[str] | None = None) -> int:
     elif window._setting_bool("tray/start_minimized", False) and window._tray_icon is not None and window._tray_icon.isVisible():
         window.hide()
     else:
+        # With no image the first window is the compact toolbar-only strip.
+        # Resize before showing so the window manager never maps it at the
+        # default 640x480 size and leaves an empty area below the toolbar.
+        canvas = window.current_canvas()
+        if canvas is None or not canvas.has_image():
+            window.resize(window.sizeHint())
         window.show()
         # Some Windows launch paths (the installer's finish page, a shortcut
         # created while the source window was minimized) pass SW_SHOWMINIMIZED;
