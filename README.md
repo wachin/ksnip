@@ -468,6 +468,8 @@ Settings.
 models and other optional components on demand. Models are cached in the user's
 application data directory and reused across sessions.
 
+![Model & Component Manager](images/model_and_component_manager.png)
+
 | Component | Size | Description |
 | --- | --- | --- |
 | PaddleOCR Line Models | ~150 MB | Text line recognition (80+ languages) |
