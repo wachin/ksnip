@@ -67,8 +67,8 @@ Download it from the [latest release](https://github.com/wachin/ksnip/releases/l
 and install it with `apt`, which resolves the runtime dependencies:
 
 ```bash
-wget https://github.com/wachin/ksnip/releases/latest/download/ksnip-pyqt6_0.2.0_all.deb
-sudo apt install ./ksnip-pyqt6_0.2.0_all.deb
+wget https://github.com/wachin/ksnip/releases/latest/download/ksnip-pyqt6_0.2.0-1_all.deb
+sudo apt install ./ksnip-pyqt6_0.2.0-1_all.deb
 ```
 
 The package provides the `ksnip-pyqt6` command, the desktop entry, the
@@ -694,12 +694,12 @@ dpkg-buildpackage -b -us -uc
 ```
 
 The package is written next to the repository as
-`../ksnip-pyqt6_0.2.0_all.deb`. Running `dpkg-buildpackage -us -uc` without `-b`
+`../ksnip-pyqt6_0.2.0-1_all.deb`. Running `dpkg-buildpackage -us -uc` without `-b`
 also produces the source package, and `debian/rules clean` removes the build tree
 afterwards.
 
 The build runs the test suite through `debian/rules`; pass
-`DEB_BUILD_OPTIONS=nocheck` to skip it. `lintian ../ksnip-pyqt6_0.2.0_all.deb`
+`DEB_BUILD_OPTIONS=nocheck` to skip it. `lintian ../ksnip-pyqt6_0.2.0-1_all.deb`
 reports no findings, and the smoke test in `debian/tests/` can be executed with
 `autopkgtest`.
 
