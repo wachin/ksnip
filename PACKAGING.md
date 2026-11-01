@@ -127,8 +127,16 @@ The installers do not include PaddleOCR, PaddlePaddle or PaddleX. The in-app
 Model Manager installs those packages with `pip`, which requires a real Python
 interpreter. In a frozen build `sys.executable` is the frozen application, so
 that install path does not work. OCR is therefore not available out of the box
-  in any artifact. The `.deb` can use a PaddleOCR runtime installed system-wide;
-  the frozen artifacts cannot install one.
+in any artifact. The `.deb` can use a PaddleOCR runtime installed system-wide;
+the frozen artifacts cannot install one.
+
+The external OCR script backend does work in frozen builds: the user installs
+Python and PaddleOCR in a separate environment and points
+**Settings → OCR → Script** at a wrapper. A complete Windows walkthrough is in
+[`docs/WINDOWS_OCR_SETUP.md`](docs/WINDOWS_OCR_SETUP.md). The Model Manager
+shows the External OCR Script card as installed once that path is set; the
+PaddleOCR cards remain "Not installed" because the frozen Python cannot import
+the external environment.
 
 Bundling OCR would make every artifact several hundred megabytes larger and
 would add a large native runtime to the Windows build, which is exactly the

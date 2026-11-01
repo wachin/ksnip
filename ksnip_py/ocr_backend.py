@@ -11,6 +11,8 @@ from pathlib import Path
 from PyQt6.QtCore import QObject, pyqtSignal
 from PyQt6.QtGui import QImage
 
+from .external_script import external_script_command
+
 
 class OcrError(Exception):
     pass
@@ -85,7 +87,7 @@ class OcrBackend:
             raise OcrError(f"OCR script does not exist: {script_path}")
         try:
             process = subprocess.Popen(
-                [script_path, image_path],
+                external_script_command(script_path, image_path),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,

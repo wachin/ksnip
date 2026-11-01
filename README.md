@@ -484,6 +484,11 @@ bundle OCR or a Python interpreter: in those builds `sys.executable` is the
 application itself, so the pip-based installer cannot run and the dialog is
 informational. Use a source install or an external OCR script there.
 
+For a complete Windows walkthrough — installing Python 3.12 in PATH, creating a
+dedicated virtual environment, installing PaddleOCR, and connecting a `.bat`
+wrapper to **Settings → OCR → Script** — see
+[Windows OCR setup](docs/WINDOWS_OCR_SETUP.md).
+
 ### Tested Linux OCR environment
 
 The integrated PaddleOCR backend has been successfully tested on the following

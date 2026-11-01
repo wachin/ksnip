@@ -12,6 +12,8 @@ from pathlib import Path
 from PyQt6.QtCore import QObject, pyqtSignal
 from PyQt6.QtGui import QImage
 
+from .external_script import external_script_command
+
 
 @dataclass
 class UploadResult:
@@ -44,7 +46,7 @@ class ScriptUploader:
 
             try:
                 process = subprocess.Popen(
-                    [script_path, temp_path],
+                    external_script_command(script_path, temp_path),
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     text=True,
