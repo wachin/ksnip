@@ -1,12 +1,13 @@
-ksnip-pyqt6 (0.2.0-1) unstable; urgency=medium
+ksnip-pyqt6 (0.2.1-1) unstable; urgency=medium
 
   * New upstream release.
   * Add the Model Manager dialog. Packaged builds show a notice and disable
     pip-based installs because they do not ship a Python interpreter.
   * Fix the Windows startup crash caused by os.getuid(), show the main window
     normally, and scan the packaged executable with Microsoft Defender.
-  * Keep the empty editor visible with its placeholder and status bar instead
-    of collapsing to a toolbar-only window.
+  * Keep the no-image window compact and collapse it back to the toolbar-only
+    strip even after leaving a maximized editor.
+  * Document the Windows external OCR setup and support .bat/.cmd scripts.
   * Add a --smoke-test path that starts Qt and constructs the main window, and
     run it on the portable and installed Windows artifacts.
 

@@ -181,7 +181,7 @@ bash packaging/scripts/build-macos-app.sh
 
 # Windows portable (run in PowerShell)
 python -m pip install -r requirements.txt "nuitka==4.1.3" ordered-set zstandard
-powershell -ExecutionPolicy Bypass -File packaging/scripts/build-windows-portable.ps1 -Version 0.2.0
+powershell -ExecutionPolicy Bypass -File packaging/scripts/build-windows-portable.ps1 -Version 0.2.1
 
 # Scan the executable, not only the installer or the ZIP
 Expand-Archive build\ksnip-pyqt6-*-portable.zip -DestinationPath build\scan -Force
