@@ -530,9 +530,11 @@ class MainWindowColorPickerTest(unittest.TestCase):
     def test_fonts_use_cpp_defaults_and_are_restored_per_tool(self) -> None:
         window = MainWindow()
         settings = window._settings
-        tools = (Tool.TEXT, Tool.NUMBER)
+        number_prefix = window._font_settings_prefix(Tool.NUMBER)
         suffixes = ("family", "size", "bold", "italic", "underline")
-        keys = [f"editor/tool_font/{tool.value}/{suffix}" for tool in tools for suffix in suffixes]
+        keys = [
+            f"editor/tool_font/{Tool.TEXT.value}/{suffix}" for suffix in suffixes
+        ] + [f"{number_prefix}/{suffix}" for suffix in suffixes]
         old_values = {key: settings.value(key) for key in keys}
         try:
             for key in keys:
@@ -551,6 +553,13 @@ class MainWindowColorPickerTest(unittest.TestCase):
             self.assertTrue(window.bold_button.isChecked())
             self.assertFalse(window.italic_button.isChecked())
             self.assertFalse(window.underline_button.isChecked())
+
+            # Number, Number Pointer and Number Arrow share one badge font.
+            window.font_size.setValue(23)
+            window.set_tool(Tool.NUMBER_POINTER)
+            self.assertEqual(window.font_size.value(), 23)
+            window.set_tool(Tool.NUMBER_ARROW)
+            self.assertEqual(window.font_size.value(), 23)
 
             window.set_tool(Tool.TEXT)
             self.assertEqual(window.font_size.value(), 17)

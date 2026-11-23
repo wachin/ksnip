@@ -93,6 +93,15 @@ def migrate_open_directory_default(settings: QSettings) -> bool:
 
 class MainWindow(QMainWindow):
     MAX_RECENT_IMAGES = 10
+    _NUMBER_TOOLS = frozenset({Tool.NUMBER, Tool.NUMBER_POINTER, Tool.NUMBER_ARROW})
+
+    @classmethod
+    def _font_settings_prefix(cls, tool: Tool) -> str:
+        # All number tools share one badge font, so Number, Number Pointer and
+        # Number Arrow cannot drift to different badge sizes.
+        if tool in cls._NUMBER_TOOLS:
+            return "editor/tool_font/number_badge"
+        return f"editor/tool_font/{tool.value}"
 
     def __init__(self) -> None:
         super().__init__()
@@ -2053,7 +2062,7 @@ class MainWindow(QMainWindow):
         font.setBold(True)
         if tool not in self._text_color_tools():
             return font
-        prefix = f"editor/tool_font/{tool.value}"
+        prefix = self._font_settings_prefix(tool)
         family = self._settings.value(f"{prefix}/family")
         if isinstance(family, str) and family:
             font.setFamily(family)
@@ -2240,7 +2249,7 @@ class MainWindow(QMainWindow):
         canvas.set_font_family(family)
         self._settings.setValue("editor/font_family", family)
         if canvas.tool() in self._text_color_tools():
-            self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/family", family)
+            self._settings.setValue(f"{self._font_settings_prefix(canvas.tool())}/family", family)
 
     def _apply_font_size(self, size: int) -> None:
         canvas = self.current_canvas()
@@ -2252,7 +2261,7 @@ class MainWindow(QMainWindow):
             self.status_label.setText(self.tr("Updated selected text size to %1").replace("%1", str(size)))
         self._settings.setValue("editor/font_point_size", size)
         if canvas.tool() in self._text_color_tools():
-            self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/size", size)
+            self._settings.setValue(f"{self._font_settings_prefix(canvas.tool())}/size", size)
 
     def _apply_opacity(self, opacity: int) -> None:
         canvas = self.current_canvas()
@@ -2293,7 +2302,7 @@ class MainWindow(QMainWindow):
         canvas.set_bold(checked)
         self._settings.setValue("editor/bold", checked)
         if canvas.tool() in self._text_color_tools():
-            self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/bold", checked)
+            self._settings.setValue(f"{self._font_settings_prefix(canvas.tool())}/bold", checked)
 
     def _apply_italic(self, checked: bool) -> None:
         canvas = self.current_canvas()
@@ -2305,7 +2314,7 @@ class MainWindow(QMainWindow):
         canvas.set_italic(checked)
         self._settings.setValue("editor/italic", checked)
         if canvas.tool() in self._text_color_tools():
-            self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/italic", checked)
+            self._settings.setValue(f"{self._font_settings_prefix(canvas.tool())}/italic", checked)
 
     def _apply_underline(self, checked: bool) -> None:
         canvas = self.current_canvas()
@@ -2316,7 +2325,7 @@ class MainWindow(QMainWindow):
             canvas.set_underline(checked)
         self._settings.setValue("editor/underline", checked)
         if canvas is not None and canvas.tool() in self._text_color_tools():
-            self._settings.setValue(f"editor/tool_font/{canvas.tool().value}/underline", checked)
+            self._settings.setValue(f"{self._font_settings_prefix(canvas.tool())}/underline", checked)
 
     def _apply_shadow_enabled(self, checked: bool) -> None:
         canvas = self.current_canvas()
