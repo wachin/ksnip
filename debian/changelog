@@ -9,6 +9,8 @@ ksnip-pyqt6 (0.2.2-1) unstable; urgency=medium
     strip even after leaving a maximized editor.
   * Remember the last directory used by Open and Save, including the folder of
     the last saved or opened image.
+  * Tear down the full-screen selection overlay before showing the editor, so
+    no leftover piece of the capture tool stays on screen.
   * Document the Windows external OCR setup and support .bat/.cmd scripts.
   * Add a --smoke-test path that starts Qt and constructs the main window, and
     run it on the portable and installed Windows artifacts.
