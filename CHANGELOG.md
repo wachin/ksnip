@@ -9,6 +9,7 @@
 * Fixed: The Number tool badge now matches the Number Pointer badge: filled circle, bordered, and more padding around the digit.
 * Fixed: Switching from Number Pointer to Select now clears the previous tool’s preview/drag state, so the first Select click works.
 * Fixed: Number, Number Pointer and Number Arrow share one badge font, so their badges cannot drift to different sizes.
+* New: Settings → Annotator → Number badge margin makes the circle around numbers configurable (0–40 px, default 10).
 * Fixed: The full-screen selection overlay is torn down before the editor opens, preventing a leftover piece of the capture tool from staying on screen.
 * New: Windows external OCR setup guide and explicit `.bat`/`.cmd` script support.
 * Packaging: Windows builds use Nuitka 4.1.3, scan the packaged executable with Microsoft Defender, and run a real `--smoke-test` after Qt starts.

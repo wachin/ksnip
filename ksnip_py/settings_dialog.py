@@ -50,6 +50,7 @@ class SettingsData:
     bold: bool
     italic: bool
     number_tool_seed_updates_all: bool
+    number_badge_padding: int
     switch_to_select_after_drawing: bool
     select_item_after_drawing: bool
     illustrator_style_grab: bool
@@ -457,6 +458,18 @@ class SettingsDialog(QDialog):
         self.illustrator_grab = QCheckBox(self.tr("Grab selected item when clicking it (Illustrator-style)"), annotator_group)
         self.switch_to_select_tool.toggled.connect(self.select_item_after_drawing.setEnabled)
         self.number_tool_seed_updates = QCheckBox(self.tr("Number Tool Seed change updates all Number Items"), annotator_group)
+        self.number_badge_padding = QSpinBox(annotator_group)
+        self.number_badge_padding.setRange(0, 40)
+        self.number_badge_padding.setSuffix(" px")
+        self.number_badge_padding.setValue(10)
+        self.number_badge_padding.setToolTip(
+            self.tr("Extra space around the digit inside the number badge. 0 makes it fit tightly.")
+        )
+        number_badge_row = QHBoxLayout()
+        number_badge_row.addWidget(QLabel(self.tr("Number badge margin:"), annotator_group))
+        number_badge_row.addWidget(self.number_badge_padding)
+        number_badge_row.addStretch()
+        annotator_layout.addLayout(number_badge_row)
         self.show_controls_widget = QCheckBox(self.tr("Show Controls Widget"), annotator_group)
         self.smooth_painter_paths = QCheckBox(self.tr("Smooth Painter Paths"), annotator_group)
         self.smooth_painter_paths.setEnabled(False)
@@ -965,6 +978,7 @@ class SettingsDialog(QDialog):
         self.bold.setChecked(initial.bold)
         self.italic.setChecked(initial.italic)
         self.number_tool_seed_updates.setChecked(initial.number_tool_seed_updates_all)
+        self.number_badge_padding.setValue(initial.number_badge_padding)
         self.switch_to_select_tool.setChecked(initial.switch_to_select_after_drawing)
         self.select_item_after_drawing.setChecked(initial.select_item_after_drawing)
         self.illustrator_grab.setChecked(initial.illustrator_style_grab)
@@ -1151,6 +1165,7 @@ class SettingsDialog(QDialog):
             bold=self.bold.isChecked(),
             italic=self.italic.isChecked(),
             number_tool_seed_updates_all=self.number_tool_seed_updates.isChecked(),
+            number_badge_padding=self.number_badge_padding.value(),
             switch_to_select_after_drawing=self.switch_to_select_tool.isChecked(),
             select_item_after_drawing=self.select_item_after_drawing.isChecked(),
             illustrator_style_grab=self.illustrator_grab.isChecked(),

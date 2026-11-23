@@ -472,6 +472,7 @@ class OverlayItem:
     image: QImage | None = None
     points: list[QPoint] | None = None
     rotation: int = 0
+    number_badge_padding: int = 10
 
     def clone(self) -> "OverlayItem":
         return OverlayItem(
@@ -497,6 +498,7 @@ class OverlayItem:
             image=self.image.copy() if self.image is not None else None,
             points=[QPoint(point) for point in self.points] if self.points is not None else None,
             rotation=self.rotation,
+            number_badge_padding=self.number_badge_padding,
         )
 
     def move_by(self, delta: QPoint) -> None:
@@ -537,7 +539,7 @@ class OverlayItem:
         # Keep a real margin around the glyphs. The previous 5 px adjustment
         # around the glyph bounding box made the badge look like a tight ring,
         # especially for a single digit.
-        padding = 10
+        padding = max(0, int(self.number_badge_padding))
         text_width = metrics.horizontalAdvance(self.text or " ")
         text_height = metrics.height()
         return max(24, text_width + 2 * padding, text_height + 2 * padding)
@@ -621,6 +623,7 @@ class AnnotationCanvas(QLabel):
         self._scaling = 1.0
         self._number_seed = 1
         self._number_seed_updates_all = False
+        self._number_badge_padding = 10
         self._switch_to_select_after_drawing = False
         self._select_item_after_drawing = True
         self._illustrator_grab = True
@@ -778,6 +781,7 @@ class AnnotationCanvas(QLabel):
             "shadow": item.shadow,
             "scaling": item.scaling,
             "rotation": item.rotation,
+            "number_badge_padding": item.number_badge_padding,
             "sticker_path": item.sticker_path,
             "image_png_base64": image_payload,
             "points": [[point.x(), point.y()] for point in item.points] if item.points is not None else None,
@@ -810,6 +814,7 @@ class AnnotationCanvas(QLabel):
             shadow=payload.get("shadow", False),
             scaling=payload.get("scaling", 1.0),
             rotation=payload.get("rotation", 0),
+            number_badge_padding=max(0, int(payload.get("number_badge_padding", 10))),
             sticker_path=payload.get("sticker_path"),
             image=image,
             points=[QPoint(x, y) for x, y in payload.get("points") or []] or None,
@@ -937,6 +942,30 @@ class AnnotationCanvas(QLabel):
 
     def set_scaling(self, scaling: float) -> None:
         self._scaling = max(0.0, scaling)
+
+    def set_number_badge_padding(self, padding: int, *, force: bool = False) -> None:
+        """Set the extra space around the digit in every number badge."""
+        resolved = max(0, min(40, int(padding)))
+        if resolved == self._number_badge_padding and not force:
+            return
+        self._number_badge_padding = resolved
+        for item in self._items:
+            if not self._is_number_like(item.kind):
+                continue
+            if item.kind == Tool.NUMBER:
+                item.number_badge_padding = resolved
+                self._resize_number_badge_to_font(item)
+            elif item.kind == Tool.NUMBER_POINTER:
+                center = item.number_pointer_bubble_rect().center()
+                item.number_badge_padding = resolved
+                diameter = item.number_badge_diameter()
+                bubble = QRect(QPoint(), QSize(diameter, diameter))
+                bubble.moveCenter(center)
+                item.start = bubble.topLeft()
+            else:
+                # NUMBER_ARROW keeps start as the badge center.
+                item.number_badge_padding = resolved
+        self._refresh()
 
     def set_number_seed(self, value: int) -> None:
         resolved = max(1, int(value))
@@ -3038,6 +3067,7 @@ class AnnotationCanvas(QLabel):
                 # badge look like a thin, tight ring (and could hide the number
                 # against a light background).
                 fill_mode=FillMode.BORDER_AND_FILL,
+                number_badge_padding=self._number_badge_padding,
             )
             self._resize_number_badge_to_font(item)
             return item
@@ -3224,6 +3254,7 @@ class AnnotationCanvas(QLabel):
             fill_mode=self._fill_mode if tool == Tool.NUMBER_ARROW else FillMode.BORDER_AND_FILL,
             text_color=QColor(self._text_color),
             shadow=self._shadow,
+            number_badge_padding=self._number_badge_padding,
         )
         if tool == Tool.NUMBER_POINTER:
             bubble = item.number_pointer_bubble_rect()

@@ -338,6 +338,27 @@ class MainWindowColorPickerTest(unittest.TestCase):
         self.assertEqual(canvas.image_effect(), "grayscale")
         self.assertEqual(window.bottom_effect_button.icon().cacheKey(), window.grayscale_action.icon().cacheKey())
 
+    def test_number_badge_padding_is_configurable(self) -> None:
+        window = MainWindow()
+        canvas = window.current_canvas()
+        window.set_tool(Tool.NUMBER)
+        item = canvas._build_click_item(Tool.NUMBER, QPoint(100, 100))
+        canvas._items.append(item)
+        wide = item.number_badge_diameter()
+
+        data = window._current_settings_data()
+        data.number_badge_padding = 0
+        window._apply_settings_data(data)
+
+        self.assertLess(item.number_badge_diameter(), wide)
+        self.assertEqual(window._settings.value("editor/number_badge_padding"), 0)
+
+        window.set_tool(Tool.NUMBER_POINTER)
+        pointer = canvas._build_number_drag_item(
+            Tool.NUMBER_POINTER, QPoint(200, 100), QPoint(250, 150), 2
+        )
+        self.assertEqual(pointer.number_badge_padding, 0)
+
     def test_item_settings_uses_a_second_toolbar_row_and_keeps_only_handle_when_empty(self) -> None:
         window = MainWindow()
         window.current_canvas().set_image(QImage(20, 20, QImage.Format.Format_ARGB32))

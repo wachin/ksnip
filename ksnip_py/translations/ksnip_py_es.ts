@@ -2442,6 +2442,16 @@ Directory: %2</source>
     </message>
     <message>
       <location filename="../settings_dialog.py" line="466" />
+      <source>Number badge margin:</source>
+      <translation>Margen del círculo numérico:</translation>
+    </message>
+    <message>
+      <location filename="../settings_dialog.py" line="470" />
+      <source>Extra space around the digit inside the number badge. 0 makes it fit tightly.</source>
+      <translation>Espacio extra alrededor del número dentro del círculo. 0 lo ajusta al máximo.</translation>
+    </message>
+    <message>
+      <location filename="../settings_dialog.py" line="466" />
       <source>Show Controls Widget</source>
       <translation>Mostrar panel de controles</translation>
     </message>
