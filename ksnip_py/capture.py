@@ -255,6 +255,12 @@ def grab_portal(*, interactive: bool = True, scale: bool = False) -> CaptureResu
     return CaptureResult(pixmap, "portal")
 
 
+def _pump_gui_events(milliseconds: int) -> None:
+    loop = QEventLoop()
+    QTimer.singleShot(milliseconds, loop.quit)
+    loop.exec()
+
+
 def grab_rectangular_area(parent: QWidget | None = None, *, magnifier: bool = True) -> CaptureResult | None:
     global _last_rect_area
     desktop = _grab_virtual_desktop()
@@ -265,12 +271,26 @@ def grab_rectangular_area(parent: QWidget | None = None, *, magnifier: bool = Tr
     overlay.show()
     overlay.raise_()
     overlay.activateWindow()
-    if overlay.wait_for_selection():
-        rect = overlay.selected_rect()
-        if rect is not None and not rect.isNull():
-            _last_rect_area = QRect(rect)
-            origin = QApplication.screens()[0].virtualGeometry().topLeft() + rect.topLeft()
-            return CaptureResult(desktop.copy(rect), "rect-area", origin)
+    accepted = False
+    rect = None
+    try:
+        accepted = overlay.wait_for_selection()
+        if accepted:
+            rect = overlay.selected_rect()
+    finally:
+        # Tear the full-screen tool window down before the caller shows the
+        # editor again. Leaving it merely hidden can leave a stale magnifier
+        # or dimmed tile on screen on compositors that do not repaint the
+        # exposed region immediately.
+        overlay.hide()
+        overlay.close()
+        overlay.deleteLater()
+        QApplication.processEvents()
+        _pump_gui_events(50)
+    if accepted and rect is not None and not rect.isNull():
+        _last_rect_area = QRect(rect)
+        origin = QApplication.screens()[0].virtualGeometry().topLeft() + rect.topLeft()
+        return CaptureResult(desktop.copy(rect), "rect-area", origin)
     return None
 
 
@@ -621,3 +641,10 @@ class SelectionOverlay(QWidget):
         if event.key() == Qt.Key.Key_Escape:
             self._accepted = False
             self.close()
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        # Drop the magnifier before the window unmaps. A deferred paint of the
+        # last magnifier circle is one of the ways a small piece of the capture
+        # tool can survive after the selection is accepted.
+        self._magnifier = None
+        super().closeEvent(event)
