@@ -1,4 +1,4 @@
-ksnip-pyqt6 (0.2.1-1) unstable; urgency=medium
+ksnip-pyqt6 (0.2.2-1) unstable; urgency=medium
 
   * New upstream release.
   * Add the Model Manager dialog. Packaged builds show a notice and disable

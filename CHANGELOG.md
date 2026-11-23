@@ -1,6 +1,6 @@
 # Change log
 
-## ksnip_py 0.2.1 - 2026-10-31
+## ksnip_py 0.2.2 - 2026-10-31
 * New: Model Manager dialog (Options → Model Manager…) for OCR models and optional components. Packaged builds show a notice and disable pip-based installs because they do not ship a Python interpreter.
 * Fixed: The Windows build crashed at startup because the single-instance controller used `os.getuid()`, which does not exist on Windows. The main window now also restores normally instead of starting minimized.
 * Fixed: The no-image window stays compact (toolbar only) and collapses back to that size even after leaving a maximized editor.
