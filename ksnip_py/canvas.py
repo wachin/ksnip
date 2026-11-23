@@ -3016,7 +3016,11 @@ class AnnotationCanvas(QLabel):
                 underline=self._underline,
                 text_color=QColor(self._text_color),
                 shadow=self._shadow,
-                fill_mode=self._fill_mode,
+                # Match the Number Pointer's badge: always draw the filled
+                # circle with a border. Using the global fill mode here made the
+                # badge look like a thin, tight ring (and could hide the number
+                # against a light background).
+                fill_mode=FillMode.BORDER_AND_FILL,
             )
             self._resize_number_badge_to_font(item)
             return item
