@@ -1143,7 +1143,20 @@ class MainWindow(QMainWindow):
         self.number_value.setFixedHeight(22)
         self.number_value.setToolTip(self.tr("Number value used by the next numbered annotation."))
         self.number_value.valueChanged.connect(self._apply_number_value)
-        self.property_number_group = self._make_property_group(self._make_icon_label("number", self.tr("Number")), self.number_value)
+
+        self.number_badge_padding = QSpinBox()
+        self.number_badge_padding.setRange(0, 40)
+        self.number_badge_padding.setSuffix(" px")
+        self.number_badge_padding.setFixedWidth(60)
+        self.number_badge_padding.setFixedHeight(22)
+        self.number_badge_padding.setValue(self._setting_int("editor/number_badge_padding", 10))
+        self.number_badge_padding.setToolTip(self.tr("Number badge margin:"))
+        self.number_badge_padding.valueChanged.connect(self._apply_number_badge_padding)
+        self.property_number_group = self._make_property_group(
+            self._make_icon_label("number", self.tr("Number")),
+            self.number_value,
+            self.number_badge_padding,
+        )
 
         self.blur_strength = QSpinBox()
         self.blur_strength.setRange(1, 60)
@@ -2356,6 +2369,13 @@ class MainWindow(QMainWindow):
                 self.status_label.setText(self.tr("Updated selected number to %1").replace("%1", str(value)))
             else:
                 canvas.set_number_seed(value)
+
+    def _apply_number_badge_padding(self, value: int) -> None:
+        self._settings.setValue("editor/number_badge_padding", value)
+        for index in range(self.tabs.count()):
+            canvas = self._canvas_from_tab_widget(self.tabs.widget(index))
+            if canvas is not None:
+                canvas.set_number_badge_padding(value, force=True)
 
     def _apply_blur_strength(self, value: int) -> None:
         if self.stroke_width.value() != value:
@@ -4365,6 +4385,10 @@ class MainWindow(QMainWindow):
         self.font_size.blockSignals(True)
         self.font_size.setValue(data.font_point_size)
         self.font_size.blockSignals(False)
+
+        self.number_badge_padding.blockSignals(True)
+        self.number_badge_padding.setValue(data.number_badge_padding)
+        self.number_badge_padding.blockSignals(False)
 
         fill_mode_index = self.fill_mode.findData(data.fill_mode)
         if fill_mode_index >= 0:

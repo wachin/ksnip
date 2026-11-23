@@ -342,6 +342,7 @@ class MainWindowColorPickerTest(unittest.TestCase):
         window = MainWindow()
         canvas = window.current_canvas()
         window.set_tool(Tool.NUMBER)
+        window.number_badge_padding.setValue(10)
         item = canvas._build_click_item(Tool.NUMBER, QPoint(100, 100))
         canvas._items.append(item)
         wide = item.number_badge_diameter()
@@ -358,6 +359,25 @@ class MainWindowColorPickerTest(unittest.TestCase):
             Tool.NUMBER_POINTER, QPoint(200, 100), QPoint(250, 150), 2
         )
         self.assertEqual(pointer.number_badge_padding, 0)
+
+    def test_number_badge_margin_toolbar_control_updates_the_canvas(self) -> None:
+        window = MainWindow()
+        window.resize(1400, 800)
+        canvas = window.current_canvas()
+        canvas.set_image(QImage(800, 600, QImage.Format.Format_ARGB32))
+        window._update_actions()
+        window.set_tool(Tool.NUMBER)
+        window.number_badge_padding.setValue(10)
+
+        item = canvas._build_click_item(Tool.NUMBER, QPoint(100, 100))
+        canvas._items.append(item)
+        wide = item.number_badge_diameter()
+
+        window.number_badge_padding.setValue(0)
+
+        self.assertEqual(window._settings.value("editor/number_badge_padding"), 0)
+        self.assertLess(item.number_badge_diameter(), wide)
+        self.assertEqual(item.number_badge_padding, 0)
 
     def test_item_settings_uses_a_second_toolbar_row_and_keeps_only_handle_when_empty(self) -> None:
         window = MainWindow()
