@@ -54,11 +54,23 @@ class RememberSaveDirectoryTest(unittest.TestCase):
             self.window._settings.setValue("paths/last_directory", directory)
             self.assertEqual(self.window._default_open_directory(), directory)
 
-    def test_default_open_directory_mode_is_last_used(self):
-        self.assertEqual(
-            str(self.window._settings.value("open/initial_directory_mode")),
-            "last_opened",
+    def test_open_remember_directory_is_enabled_by_default(self):
+        self.assertTrue(self.window._current_settings_data().open_remember_directory)
+        self.assertTrue(
+            str(self.window._settings.value("open/remember_last_directory")).lower()
+            in {"true", "1"}
         )
+
+    def test_settings_dialog_shows_open_remember_checked_by_default(self):
+        data = self.window._current_settings_data()
+        dialog = SettingsDialog(data, self.window._watermark_store, self.window)
+        self.assertTrue(dialog.open_remember_directory.isChecked())
+
+    def test_unchecking_open_remember_uses_the_capture_location(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.window._settings.setValue("paths/last_opened_image_dir", directory)
+            self.window._settings.setValue("open/remember_last_directory", False)
+            self.assertNotEqual(self.window._default_open_directory(), directory)
 
     def test_saving_updates_the_last_used_directory(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -73,7 +85,7 @@ class RememberSaveDirectoryTest(unittest.TestCase):
 
     def test_open_directory_falls_back_when_the_last_directory_is_gone(self):
         missing = "/nonexistent/ksnip-pyqt6-last-directory"
-        self.window._settings.setValue("open/initial_directory_mode", "last_opened")
+        self.window._settings.setValue("open/remember_last_directory", True)
         self.window._settings.setValue("paths/last_directory", missing)
         self.window._settings.setValue("paths/last_opened_image_dir", missing)
         self.window._settings.setValue("paths/last_image_dir", missing)

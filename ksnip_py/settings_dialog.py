@@ -76,7 +76,7 @@ class SettingsData:
     application_language: str
     saver_prompt_discard: bool
     saver_remember_directory: bool
-    open_initial_directory_mode: str
+    open_remember_directory: bool
     open_default_filter: str
     saver_quality_enabled: bool
     saver_quality_factor: int
@@ -310,16 +310,10 @@ class SettingsDialog(QDialog):
         self.saver_prompt_discard = QCheckBox(self.tr("Prompt to save before discarding unsaved changes"), saver_group)
         self.saver_remember_directory = QCheckBox(self.tr("Remember last Save Directory"), saver_group)
         self.saver_remember_directory.setChecked(True)
-        self.open_initial_directory_mode = QComboBox(saver_group)
-        # Kept as the existing source string so every translation catalog
-        # already has it. The value is updated by both Open and Save, so it is
-        # the last directory used either way.
-        self.open_initial_directory_mode.addItem(
-            self.tr("Directory of the last opened file"), "last_opened"
+        self.open_remember_directory = QCheckBox(
+            self.tr("Remember the last directory of the last opened image"), saver_group
         )
-        self.open_initial_directory_mode.addItem(
-            self.tr("Capture save location"), "capture_location"
-        )
+        self.open_remember_directory.setChecked(True)
         self.saver_default_format = QComboBox(saver_group)
         self.saver_default_format.addItem(self.tr("PNG image (*.png)"), "png")
         self.saver_default_format.addItem(self.tr("Ksnip project (*.ksnip)"), "ksnip")
@@ -337,10 +331,7 @@ class SettingsDialog(QDialog):
         saver_layout.addWidget(self.saver_auto_save)
         saver_layout.addWidget(self.saver_prompt_discard)
         saver_layout.addWidget(self.saver_remember_directory)
-        open_directory_row = QHBoxLayout()
-        open_directory_row.addWidget(QLabel(self.tr("Open file dialogs in:"), saver_group))
-        open_directory_row.addWidget(self.open_initial_directory_mode, 1)
-        saver_layout.addLayout(open_directory_row)
+        saver_layout.addWidget(self.open_remember_directory)
 
         self.open_default_filter = QComboBox(saver_group)
         self.open_default_filter.addItem(self.tr("Ksnip Projects (*.ksnip)"), "ksnip")
@@ -1004,8 +995,7 @@ class SettingsDialog(QDialog):
             self.application_language.setCurrentIndex(language_index)
         self.saver_prompt_discard.setChecked(initial.saver_prompt_discard)
         self.saver_remember_directory.setChecked(initial.saver_remember_directory)
-        open_directory_index = self.open_initial_directory_mode.findData(initial.open_initial_directory_mode)
-        self.open_initial_directory_mode.setCurrentIndex(open_directory_index if open_directory_index >= 0 else 0)
+        self.open_remember_directory.setChecked(initial.open_remember_directory)
         open_filter_index = self.open_default_filter.findData(initial.open_default_filter)
         self.open_default_filter.setCurrentIndex(open_filter_index if open_filter_index >= 0 else 0)
         self.saver_quality_factor.setChecked(initial.saver_quality_enabled)
@@ -1187,7 +1177,7 @@ class SettingsDialog(QDialog):
             application_language=str(self.application_language.currentData()),
             saver_prompt_discard=self.saver_prompt_discard.isChecked(),
             saver_remember_directory=self.saver_remember_directory.isChecked(),
-            open_initial_directory_mode=str(self.open_initial_directory_mode.currentData()),
+            open_remember_directory=self.open_remember_directory.isChecked(),
             open_default_filter=str(self.open_default_filter.currentData()),
             saver_quality_enabled=self.saver_quality_factor.isChecked(),
             saver_quality_factor=self.saver_quality_value.value(),

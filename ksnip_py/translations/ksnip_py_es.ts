@@ -2185,6 +2185,11 @@ Directory: %2</source>
       <translation>Recordar el último directorio de guardado</translation>
     </message>
     <message>
+      <location filename="../settings_dialog.py" line="316" />
+      <source>Remember the last directory of the last opened image</source>
+      <translation>Recordar el último directorio de la última imagen abierta</translation>
+    </message>
+    <message>
       <location filename="../settings_dialog.py" line="315" />
       <source>Capture save location</source>
       <translation>Ubicación de guardado de las capturas</translation>

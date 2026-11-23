@@ -5,6 +5,7 @@
 * Fixed: The Windows build crashed at startup because the single-instance controller used `os.getuid()`, which does not exist on Windows. The main window now also restores normally instead of starting minimized.
 * Fixed: The no-image window stays compact (toolbar only) and collapses back to that size even after leaving a maximized editor.
 * Fixed: Open and Save dialogs remember the last directory used, including the folder of the last saved or opened image.
+* New: Separate "Remember the last directory of the last opened image" checkbox in Settings → Application → Saving.
 * Fixed: The full-screen selection overlay is torn down before the editor opens, preventing a leftover piece of the capture tool from staying on screen.
 * New: Windows external OCR setup guide and explicit `.bat`/`.cmd` script support.
 * Packaging: Windows builds use Nuitka 4.1.3, scan the packaged executable with Microsoft Defender, and run a real `--smoke-test` after Qt starts.

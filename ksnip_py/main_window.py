@@ -74,22 +74,19 @@ def migrate_normalized_sticker_scaling(settings: QSettings) -> bool:
 
 
 def migrate_open_directory_default(settings: QSettings) -> bool:
-    """Make Open/Save remember the last directory used by default.
+    """Migrate the old Open-directory combo to the new checkbox.
 
-    Older builds defaulted the Open dialog to the capture save location. That
-    meant saving a file and then opening one ignored the folder the user had
-    just used. The setting keeps the old alternatives, but the once-only
-    migration switches an untouched or old-default value to the last-used
-    directory.
+    Older builds offered "Open file dialogs in: Capture save location /
+    Directory of the last opened file". The checkbox replaces that combo and is
+    enabled once for existing installations.
     """
 
-    migration_key = "open/last_directory_default_v1"
-    if str(settings.value(migration_key, "false")).lower() in {"true", "1", "yes"}:
+    key = "open/remember_last_directory"
+    if settings.contains(key):
         return False
-    mode = str(settings.value("open/initial_directory_mode", "")).strip()
-    if mode in {"", "capture_location"}:
-        settings.setValue("open/initial_directory_mode", "last_opened")
-    settings.setValue(migration_key, True)
+    # The old "Open file dialogs in" combo is replaced by an explicit checkbox.
+    # Enable it once for existing installations; the user can uncheck it later.
+    settings.setValue(key, True)
     settings.sync()
     return True
 
@@ -4112,12 +4109,11 @@ class MainWindow(QMainWindow):
         return []
 
     def _default_open_directory(self) -> str:
-        mode = str(self._settings.value("open/initial_directory_mode", "last_opened"))
-        if mode in {"last_opened", "last_used"}:
-            # last_directory is the single canonical "last place used" value,
-            # written by both opening and saving. The two older keys remain as
-            # fallbacks for settings written by previous versions.
-            for key in ("paths/last_directory", "paths/last_opened_image_dir", "paths/last_image_dir"):
+        if self._setting_bool("open/remember_last_directory", True):
+            # last_opened_image_dir is the directory of the last image opened
+            # or saved. last_directory and last_image_dir remain as fallbacks
+            # for settings written by previous versions.
+            for key in ("paths/last_opened_image_dir", "paths/last_directory", "paths/last_image_dir"):
                 configured = self._settings.value(key, "")
                 if isinstance(configured, str) and configured and Path(configured).is_dir():
                     return configured
@@ -4195,7 +4191,7 @@ class MainWindow(QMainWindow):
             application_language=str(self._settings.value("application/language", "")),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", True),
-            open_initial_directory_mode=str(self._settings.value("open/initial_directory_mode", "last_opened")),
+            open_remember_directory=self._setting_bool("open/remember_last_directory", True),
             open_default_filter=str(self._settings.value("open/default_filter", "image")),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
             saver_quality_factor=self._setting_int("saver/quality_factor", 50),
@@ -4304,7 +4300,7 @@ class MainWindow(QMainWindow):
         self.tabs.tabBar().setAutoHide(data.application_auto_hide_tabs)
         self._settings.setValue("saver/prompt_discard", data.saver_prompt_discard)
         self._settings.setValue("saver/remember_directory", data.saver_remember_directory)
-        self._settings.setValue("open/initial_directory_mode", data.open_initial_directory_mode)
+        self._settings.setValue("open/remember_last_directory", data.open_remember_directory)
         self._settings.setValue("open/default_filter", data.open_default_filter)
         self._settings.setValue("saver/quality_enabled", data.saver_quality_enabled)
         self._settings.setValue("saver/quality_factor", data.saver_quality_factor)
