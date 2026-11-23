@@ -7,6 +7,8 @@ ksnip-pyqt6 (0.2.1-1) unstable; urgency=medium
     normally, and scan the packaged executable with Microsoft Defender.
   * Keep the no-image window compact and collapse it back to the toolbar-only
     strip even after leaving a maximized editor.
+  * Remember the last directory used by Open and Save, including the folder of
+    the last saved or opened image.
   * Document the Windows external OCR setup and support .bat/.cmd scripts.
   * Add a --smoke-test path that starts Qt and constructs the main window, and
     run it on the portable and installed Windows artifacts.

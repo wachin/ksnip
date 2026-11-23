@@ -311,11 +311,14 @@ class SettingsDialog(QDialog):
         self.saver_remember_directory = QCheckBox(self.tr("Remember last Save Directory"), saver_group)
         self.saver_remember_directory.setChecked(True)
         self.open_initial_directory_mode = QComboBox(saver_group)
-        self.open_initial_directory_mode.addItem(
-            self.tr("Capture save location"), "capture_location"
-        )
+        # Kept as the existing source string so every translation catalog
+        # already has it. The value is updated by both Open and Save, so it is
+        # the last directory used either way.
         self.open_initial_directory_mode.addItem(
             self.tr("Directory of the last opened file"), "last_opened"
+        )
+        self.open_initial_directory_mode.addItem(
+            self.tr("Capture save location"), "capture_location"
         )
         self.saver_default_format = QComboBox(saver_group)
         self.saver_default_format.addItem(self.tr("PNG image (*.png)"), "png")

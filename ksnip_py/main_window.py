@@ -73,6 +73,27 @@ def migrate_normalized_sticker_scaling(settings: QSettings) -> bool:
     return True
 
 
+def migrate_open_directory_default(settings: QSettings) -> bool:
+    """Make Open/Save remember the last directory used by default.
+
+    Older builds defaulted the Open dialog to the capture save location. That
+    meant saving a file and then opening one ignored the folder the user had
+    just used. The setting keeps the old alternatives, but the once-only
+    migration switches an untouched or old-default value to the last-used
+    directory.
+    """
+
+    migration_key = "open/last_directory_default_v1"
+    if str(settings.value(migration_key, "false")).lower() in {"true", "1", "yes"}:
+        return False
+    mode = str(settings.value("open/initial_directory_mode", "")).strip()
+    if mode in {"", "capture_location"}:
+        settings.setValue("open/initial_directory_mode", "last_opened")
+    settings.setValue(migration_key, True)
+    settings.sync()
+    return True
+
+
 class MainWindow(QMainWindow):
     MAX_RECENT_IMAGES = 10
 
@@ -83,6 +104,7 @@ class MainWindow(QMainWindow):
         self._property_toolbar_has_controls = False
         self._editor_visible = True
         migrate_normalized_sticker_scaling(self._settings)
+        migrate_open_directory_default(self._settings)
         self._recent_image_paths = self._load_recent_image_paths()
         self._pin_windows: list[PinWindow] = []
         self._watermark_store = WatermarkStore()
@@ -4067,8 +4089,10 @@ class MainWindow(QMainWindow):
         self._recent_image_paths.insert(0, resolved)
         self._recent_image_paths = self._recent_image_paths[: self.MAX_RECENT_IMAGES]
         self._settings.setValue("recent_images/paths", self._recent_image_paths)
-        self._settings.setValue("paths/last_image_dir", str(Path(resolved).parent))
-        self._settings.setValue("paths/last_opened_image_dir", str(Path(resolved).parent))
+        parent = str(Path(resolved).parent)
+        self._settings.setValue("paths/last_directory", parent)
+        self._settings.setValue("paths/last_image_dir", parent)
+        self._settings.setValue("paths/last_opened_image_dir", parent)
         self._update_actions()
 
     def _remove_recent_image_path(self, path: str) -> None:
@@ -4088,11 +4112,15 @@ class MainWindow(QMainWindow):
         return []
 
     def _default_open_directory(self) -> str:
-        mode = str(self._settings.value("open/initial_directory_mode", "capture_location"))
-        if mode == "last_opened":
-            configured = self._settings.value("paths/last_opened_image_dir", "")
-            if isinstance(configured, str) and configured and Path(configured).is_dir():
-                return configured
+        mode = str(self._settings.value("open/initial_directory_mode", "last_opened"))
+        if mode in {"last_opened", "last_used"}:
+            # last_directory is the single canonical "last place used" value,
+            # written by both opening and saving. The two older keys remain as
+            # fallbacks for settings written by previous versions.
+            for key in ("paths/last_directory", "paths/last_opened_image_dir", "paths/last_image_dir"):
+                configured = self._settings.value(key, "")
+                if isinstance(configured, str) and configured and Path(configured).is_dir():
+                    return configured
         return self._capture_save_directory()
 
     def _capture_save_directory(self) -> str:
@@ -4167,7 +4195,7 @@ class MainWindow(QMainWindow):
             application_language=str(self._settings.value("application/language", "")),
             saver_prompt_discard=self._setting_bool("saver/prompt_discard", True),
             saver_remember_directory=self._setting_bool("saver/remember_directory", True),
-            open_initial_directory_mode=str(self._settings.value("open/initial_directory_mode", "capture_location")),
+            open_initial_directory_mode=str(self._settings.value("open/initial_directory_mode", "last_opened")),
             open_default_filter=str(self._settings.value("open/default_filter", "image")),
             saver_quality_enabled=self._setting_bool("saver/quality_enabled", False),
             saver_quality_factor=self._setting_int("saver/quality_factor", 50),

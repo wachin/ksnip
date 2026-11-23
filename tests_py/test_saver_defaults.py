@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import tempfile
 import unittest
+from pathlib import Path
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -47,6 +48,36 @@ class RememberSaveDirectoryTest(unittest.TestCase):
             self.window._settings.setValue("paths/last_image_dir", directory)
             self.window._settings.setValue("saver/remember_directory", False)
             self.assertNotEqual(self.window._default_image_directory(), directory)
+
+    def test_open_directory_defaults_to_last_used_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.window._settings.setValue("paths/last_directory", directory)
+            self.assertEqual(self.window._default_open_directory(), directory)
+
+    def test_default_open_directory_mode_is_last_used(self):
+        self.assertEqual(
+            str(self.window._settings.value("open/initial_directory_mode")),
+            "last_opened",
+        )
+
+    def test_saving_updates_the_last_used_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            saved_path = str(Path(directory) / "saved.png")
+            self.window._store_recent_image_path(saved_path)
+            self.assertEqual(self.window._settings.value("paths/last_directory"), directory)
+            self.assertEqual(self.window._settings.value("paths/last_image_dir"), directory)
+            self.assertEqual(
+                self.window._settings.value("paths/last_opened_image_dir"), directory
+            )
+            self.assertEqual(self.window._default_open_directory(), directory)
+
+    def test_open_directory_falls_back_when_the_last_directory_is_gone(self):
+        missing = "/nonexistent/ksnip-pyqt6-last-directory"
+        self.window._settings.setValue("open/initial_directory_mode", "last_opened")
+        self.window._settings.setValue("paths/last_directory", missing)
+        self.window._settings.setValue("paths/last_opened_image_dir", missing)
+        self.window._settings.setValue("paths/last_image_dir", missing)
+        self.assertNotEqual(self.window._default_open_directory(), missing)
 
 
 if __name__ == "__main__":
