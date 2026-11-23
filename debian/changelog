@@ -11,6 +11,7 @@ ksnip-pyqt6 (0.2.2-1) unstable; urgency=medium
     the last saved or opened image.
   * Add a separate checkbox to remember the last opened image directory.
   * Match the Number tool badge to the Number Pointer (filled, bordered, more padding).
+  * Reset transient tool state when switching tools so Select works after Number Pointer.
   * Tear down the full-screen selection overlay before showing the editor, so
     no leftover piece of the capture tool stays on screen.
   * Document the Windows external OCR setup and support .bat/.cmd scripts.

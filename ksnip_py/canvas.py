@@ -874,6 +874,17 @@ class AnnotationCanvas(QLabel):
         return self._items[index] if index is not None else None
 
     def set_tool(self, tool: Tool) -> None:
+        if tool != self._tool:
+            # Abandon any half-finished preview or item drag from the previous
+            # tool. Leaving these pointers behind made the next Select click
+            # behave like a continuation of the old tool.
+            self._preview_start = None
+            self._preview_end = None
+            self._last_point = None
+            self._preview_points = []
+            self._drag_start = None
+            self._active_handle = None
+            self._drag_undo_snapshot = None
         self._tool = tool
 
     def tool(self) -> Tool:
@@ -1382,6 +1393,12 @@ class AnnotationCanvas(QLabel):
         self._last_placed_sticker_index = None
 
         if self._tool == Tool.SELECT:
+            # A tool switch can leave a preview coordinate behind; the select
+            # path must start from a clean state.
+            self._preview_start = None
+            self._preview_end = None
+            self._last_point = None
+            self._preview_points = []
             primary_index = self._primary_selected_index()
             if self.has_single_selected_item() and primary_index is not None:
                 handle = self._find_handle_at(self._items[primary_index], image_point)

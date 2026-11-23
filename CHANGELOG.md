@@ -7,6 +7,7 @@
 * Fixed: Open and Save dialogs remember the last directory used, including the folder of the last saved or opened image.
 * New: Separate "Remember the last directory of the last opened image" checkbox in Settings → Application → Saving.
 * Fixed: The Number tool badge now matches the Number Pointer badge: filled circle, bordered, and more padding around the digit.
+* Fixed: Switching from Number Pointer to Select now clears the previous tool’s preview/drag state, so the first Select click works.
 * Fixed: The full-screen selection overlay is torn down before the editor opens, preventing a leftover piece of the capture tool from staying on screen.
 * New: Windows external OCR setup guide and explicit `.bat`/`.cmd` script support.
 * Packaging: Windows builds use Nuitka 4.1.3, scan the packaged executable with Microsoft Defender, and run a real `--smoke-test` after Qt starts.
