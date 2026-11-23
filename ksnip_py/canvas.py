@@ -533,8 +533,14 @@ class OverlayItem:
         font.setBold(self.bold)
         font.setItalic(self.italic)
         font.setUnderline(self.underline)
-        text_rect = QFontMetrics(font).boundingRect(self.text or " ").adjusted(-5, -5, 5, 5)
-        return max(16, text_rect.width(), text_rect.height())
+        metrics = QFontMetrics(font)
+        # Keep a real margin around the glyphs. The previous 5 px adjustment
+        # around the glyph bounding box made the badge look like a tight ring,
+        # especially for a single digit.
+        padding = 10
+        text_width = metrics.horizontalAdvance(self.text or " ")
+        text_height = metrics.height()
+        return max(24, text_width + 2 * padding, text_height + 2 * padding)
 
     def number_pointer_bubble_rect(self) -> QRect:
         diameter = self.number_badge_diameter()
