@@ -459,11 +459,11 @@ class SettingsDialog(QDialog):
         self.switch_to_select_tool.toggled.connect(self.select_item_after_drawing.setEnabled)
         self.number_tool_seed_updates = QCheckBox(self.tr("Number Tool Seed change updates all Number Items"), annotator_group)
         self.number_badge_padding = QSpinBox(annotator_group)
-        self.number_badge_padding.setRange(0, 40)
+        self.number_badge_padding.setRange(-2, 40)
         self.number_badge_padding.setSuffix(" px")
         self.number_badge_padding.setValue(10)
         self.number_badge_padding.setToolTip(
-            self.tr("Extra space around the digit inside the number badge. 0 makes it fit tightly.")
+            self.tr("Extra space around the digit inside the number badge. Negative values make it fit more tightly.")
         )
         number_badge_row = QHBoxLayout()
         number_badge_row.addWidget(QLabel(self.tr("Number badge margin:"), annotator_group))

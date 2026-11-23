@@ -539,7 +539,7 @@ class OverlayItem:
         # Keep a real margin around the glyphs. The previous 5 px adjustment
         # around the glyph bounding box made the badge look like a tight ring,
         # especially for a single digit.
-        padding = max(0, int(self.number_badge_padding))
+        padding = int(self.number_badge_padding)
         text_width = metrics.horizontalAdvance(self.text or " ")
         text_height = metrics.height()
         return max(24, text_width + 2 * padding, text_height + 2 * padding)
@@ -814,7 +814,7 @@ class AnnotationCanvas(QLabel):
             shadow=payload.get("shadow", False),
             scaling=payload.get("scaling", 1.0),
             rotation=payload.get("rotation", 0),
-            number_badge_padding=max(0, int(payload.get("number_badge_padding", 10))),
+            number_badge_padding=max(-2, min(40, int(payload.get("number_badge_padding", 10)))),
             sticker_path=payload.get("sticker_path"),
             image=image,
             points=[QPoint(x, y) for x, y in payload.get("points") or []] or None,
@@ -945,7 +945,7 @@ class AnnotationCanvas(QLabel):
 
     def set_number_badge_padding(self, padding: int, *, force: bool = False) -> None:
         """Set the extra space around the digit in every number badge."""
-        resolved = max(0, min(40, int(padding)))
+        resolved = max(-2, min(40, int(padding)))
         if resolved == self._number_badge_padding and not force:
             return
         self._number_badge_padding = resolved

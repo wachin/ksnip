@@ -1145,7 +1145,7 @@ class MainWindow(QMainWindow):
         self.number_value.valueChanged.connect(self._apply_number_value)
 
         self.number_badge_padding = QSpinBox()
-        self.number_badge_padding.setRange(0, 40)
+        self.number_badge_padding.setRange(-2, 40)
         self.number_badge_padding.setSuffix(" px")
         self.number_badge_padding.setFixedWidth(60)
         self.number_badge_padding.setFixedHeight(22)

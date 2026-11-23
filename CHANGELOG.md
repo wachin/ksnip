@@ -9,7 +9,7 @@
 * Fixed: The Number tool badge now matches the Number Pointer badge: filled circle, bordered, and more padding around the digit.
 * Fixed: Switching from Number Pointer to Select now clears the previous tool’s preview/drag state, so the first Select click works.
 * Fixed: Number, Number Pointer and Number Arrow share one badge font, so their badges cannot drift to different sizes.
-* New: Settings → Annotator → Number badge margin makes the circle around numbers configurable (0–40 px, default 10).
+* New: Settings → Annotator → Number badge margin makes the circle around numbers configurable (−2 to 40 px, default 10; negative values are tighter).
 * New: The same Number badge margin control is available in the annotation properties toolbar when a number tool is active.
 * Fixed: The full-screen selection overlay is torn down before the editor opens, preventing a leftover piece of the capture tool from staying on screen.
 * New: Windows external OCR setup guide and explicit `.bat`/`.cmd` script support.

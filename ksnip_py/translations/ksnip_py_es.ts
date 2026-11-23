@@ -2447,8 +2447,8 @@ Directory: %2</source>
     </message>
     <message>
       <location filename="../settings_dialog.py" line="470" />
-      <source>Extra space around the digit inside the number badge. 0 makes it fit tightly.</source>
-      <translation>Espacio extra alrededor del número dentro del círculo. 0 lo ajusta al máximo.</translation>
+      <source>Extra space around the digit inside the number badge. Negative values make it fit more tightly.</source>
+      <translation>Espacio extra alrededor del número dentro del círculo. Los valores negativos lo ajustan aún más.</translation>
     </message>
     <message>
       <location filename="../settings_dialog.py" line="466" />

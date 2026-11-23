@@ -353,12 +353,18 @@ class MainWindowColorPickerTest(unittest.TestCase):
 
         self.assertLess(item.number_badge_diameter(), wide)
         self.assertEqual(window._settings.value("editor/number_badge_padding"), 0)
+        zero_margin = item.number_badge_diameter()
+
+        data.number_badge_padding = -2
+        window._apply_settings_data(data)
+        self.assertLess(item.number_badge_diameter(), zero_margin)
+        self.assertEqual(window._settings.value("editor/number_badge_padding"), -2)
 
         window.set_tool(Tool.NUMBER_POINTER)
         pointer = canvas._build_number_drag_item(
             Tool.NUMBER_POINTER, QPoint(200, 100), QPoint(250, 150), 2
         )
-        self.assertEqual(pointer.number_badge_padding, 0)
+        self.assertEqual(pointer.number_badge_padding, -2)
 
     def test_number_badge_margin_toolbar_control_updates_the_canvas(self) -> None:
         window = MainWindow()
