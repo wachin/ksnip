@@ -271,7 +271,7 @@ tesseract "$1" stdout -l spa+eng
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="../main_window.py" line="3743" />
+      <location filename="../main_window.py" line="3785" />
       <location filename="../main_window.py" line="179" />
       <source>Ready</source>
       <translation>Готови</translation>
@@ -282,1204 +282,1214 @@ tesseract "$1" stdout -l spa+eng
       <translation>Нов</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4628" />
-      <location filename="../main_window.py" line="1436" />
+      <location filename="../main_window.py" line="4670" />
+      <location filename="../main_window.py" line="1444" />
       <location filename="../main_window.py" line="272" />
       <source>New Screenshot</source>
       <translation>Нова екранна снимка</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="524" />
+      <location filename="../main_window.py" line="525" />
       <source>Updated selected sticker</source>
       <translation>Актуализиран избран стикер</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="692" />
+      <location filename="../main_window.py" line="693" />
       <source>Rect Area</source>
       <translation>Права площ</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="695" />
+      <location filename="../main_window.py" line="696" />
       <source>Last Rect Area</source>
       <translation>Последна права област</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="698" />
+      <location filename="../main_window.py" line="699" />
       <source>Full Screen</source>
       <translation>Цял екран</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="701" />
+      <location filename="../main_window.py" line="702" />
       <source>Current Screen</source>
       <translation>Текущ екран</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="704" />
+      <location filename="../main_window.py" line="705" />
       <source>Active Window</source>
       <translation>Активен прозорец</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="707" />
+      <location filename="../main_window.py" line="708" />
       <source>Window Under Cursor</source>
       <translation>Прозорец под курсора</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="710" />
+      <location filename="../main_window.py" line="711" />
       <source>Portal</source>
       <translation>Портал</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="713" />
+      <location filename="../main_window.py" line="714" />
       <source>Include Mouse Cursor</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="717" />
+      <location filename="../main_window.py" line="718" />
       <source>Include the mouse cursor in new captures. Requires a capture delay greater than 0.</source>
       <translation type="unfinished" />
     </message>
     <message>
       <location filename="../main_window.py" line="721" />
+      <source>Use Arrow Pointer</source>
+      <translation type="unfinished" />
+    </message>
+    <message>
+      <location filename="../main_window.py" line="725" />
+      <source>Use a standard arrow instead of the actual pointer shape, such as the text I-beam.</source>
+      <translation type="unfinished" />
+    </message>
+    <message>
+      <location filename="../main_window.py" line="729" />
       <source>Open</source>
       <translation>Отворете</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="789" />
-      <location filename="../main_window.py" line="726" />
+      <location filename="../main_window.py" line="797" />
+      <location filename="../main_window.py" line="734" />
       <source>Save</source>
       <translation>Запазване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="791" />
-      <location filename="../main_window.py" line="731" />
+      <location filename="../main_window.py" line="799" />
+      <location filename="../main_window.py" line="739" />
       <source>Save As...</source>
       <translation>Запиши като...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="793" />
-      <location filename="../main_window.py" line="735" />
+      <location filename="../main_window.py" line="801" />
+      <location filename="../main_window.py" line="743" />
       <source>Save All</source>
       <translation>Запазване на всички</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="738" />
+      <location filename="../main_window.py" line="746" />
       <source>Export as SVG...</source>
       <translation>Експортиране като SVG...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="741" />
+      <location filename="../main_window.py" line="749" />
       <source>Print</source>
       <translation>Печат</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3069" />
-      <location filename="../main_window.py" line="745" />
+      <location filename="../main_window.py" line="3111" />
+      <location filename="../main_window.py" line="753" />
       <source>Print Preview</source>
       <translation>Преглед на печат</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="799" />
-      <location filename="../main_window.py" line="748" />
+      <location filename="../main_window.py" line="807" />
+      <location filename="../main_window.py" line="756" />
       <source>Copy</source>
       <translation>Копиране</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="752" />
+      <location filename="../main_window.py" line="760" />
       <source>Copy as data URI</source>
       <translation>Копиране като URI на данни</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="801" />
-      <location filename="../main_window.py" line="755" />
+      <location filename="../main_window.py" line="809" />
+      <location filename="../main_window.py" line="763" />
       <source>Copy Path</source>
       <translation>Копиране на пътя</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3099" />
-      <location filename="../main_window.py" line="795" />
-      <location filename="../main_window.py" line="758" />
+      <location filename="../main_window.py" line="3141" />
+      <location filename="../main_window.py" line="803" />
+      <location filename="../main_window.py" line="766" />
       <source>Rename</source>
       <translation>Преименуване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="762" />
+      <location filename="../main_window.py" line="770" />
       <source>Delete Image...</source>
       <translation>Изтриване на изображение...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="797" />
-      <location filename="../main_window.py" line="765" />
+      <location filename="../main_window.py" line="805" />
+      <location filename="../main_window.py" line="773" />
       <source>Open Directory</source>
       <translation>Отворете директорията</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="768" />
+      <location filename="../main_window.py" line="776" />
       <source>Copy Item</source>
       <translation>Копиране на елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="772" />
+      <location filename="../main_window.py" line="780" />
       <source>Close Tab</source>
       <translation>Затваряне на раздела</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="778" />
+      <location filename="../main_window.py" line="786" />
       <source>Close</source>
       <translation>Затвори</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="781" />
+      <location filename="../main_window.py" line="789" />
       <source>Close Other</source>
       <translation>Затвори другите</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="783" />
+      <location filename="../main_window.py" line="791" />
       <source>Close All</source>
       <translation>Затвори всички</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="785" />
+      <location filename="../main_window.py" line="793" />
       <source>Close All to the Left</source>
       <translation>Затвори всички вляво</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="787" />
+      <location filename="../main_window.py" line="795" />
       <source>Close All to the Right</source>
       <translation>Затвори всички вдясно</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="803" />
+      <location filename="../main_window.py" line="811" />
       <source>Delete</source>
       <translation>Изтриване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="806" />
+      <location filename="../main_window.py" line="814" />
       <source>Pen</source>
       <translation>Химилка</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="811" />
+      <location filename="../main_window.py" line="819" />
       <source>Marker Pen</source>
       <translation>Маркер химикалка</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="813" />
+      <location filename="../main_window.py" line="821" />
       <source>Line</source>
       <translation>Линия</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="818" />
+      <location filename="../main_window.py" line="826" />
       <source>Arrow</source>
       <translation>Стрелка</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="823" />
+      <location filename="../main_window.py" line="831" />
       <source>Double Arrow</source>
       <translation>Двойна стрелка</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="825" />
+      <location filename="../main_window.py" line="833" />
       <source>Rectangle</source>
       <translation>Правоъгълник</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="830" />
+      <location filename="../main_window.py" line="838" />
       <source>Ellipse</source>
       <translation>Елипса</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="835" />
+      <location filename="../main_window.py" line="843" />
       <source>Text</source>
       <translation>Текст</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="840" />
+      <location filename="../main_window.py" line="848" />
       <source>Text Pointer</source>
       <translation>Текстов указател</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="841" />
+      <location filename="../main_window.py" line="849" />
       <source>Text Arrow</source>
       <translation>Текстова стрелка</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="843" />
+      <location filename="../main_window.py" line="851" />
       <source>Blur</source>
       <translation>Размазване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="848" />
+      <location filename="../main_window.py" line="856" />
       <source>Pixelate</source>
       <translation>Пикселизиране</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="853" />
+      <location filename="../main_window.py" line="861" />
       <source>Crop</source>
       <translation>Изрязване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="858" />
+      <location filename="../main_window.py" line="866" />
       <source>Cut</source>
       <translation>Изрязване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="861" />
+      <location filename="../main_window.py" line="869" />
       <source>Select</source>
       <translation>Избиране</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="866" />
+      <location filename="../main_window.py" line="874" />
       <source>Duplicate</source>
       <translation>Дубликиране</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="869" />
+      <location filename="../main_window.py" line="877" />
       <source>Marker Rectangle</source>
       <translation>Маркер правоъгълник</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="870" />
+      <location filename="../main_window.py" line="878" />
       <source>Marker Ellipse</source>
       <translation>Маркер елипса</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1166" />
-      <location filename="../main_window.py" line="871" />
+      <location filename="../main_window.py" line="1174" />
+      <location filename="../main_window.py" line="879" />
       <source>Number</source>
       <translation>Номер</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="872" />
+      <location filename="../main_window.py" line="880" />
       <source>Number Pointer</source>
       <translation>Показалец - цифри</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="873" />
+      <location filename="../main_window.py" line="881" />
       <source>Number Arrow</source>
       <translation>Числова стрелка</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1185" />
-      <location filename="../main_window.py" line="874" />
+      <location filename="../main_window.py" line="1193" />
+      <location filename="../main_window.py" line="882" />
       <source>Sticker</source>
       <translation>Стикер</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="904" />
+      <location filename="../main_window.py" line="912" />
       <source>Color</source>
       <translation>Цвят</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="907" />
+      <location filename="../main_window.py" line="915" />
       <source>Undo</source>
       <translation>Отмяна</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="912" />
+      <location filename="../main_window.py" line="920" />
       <source>Redo</source>
       <translation>Повтаряне</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="917" />
+      <location filename="../main_window.py" line="925" />
       <source>Paste</source>
       <translation>Поставяне</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="922" />
+      <location filename="../main_window.py" line="930" />
       <source>Paste Embedded</source>
       <translation>Поставяне на вградено</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="926" />
+      <location filename="../main_window.py" line="934" />
       <source>Paste Item</source>
       <translation>Поставяне на елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="930" />
+      <location filename="../main_window.py" line="938" />
       <source>Delete Item</source>
       <translation>Изтриване на елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="934" />
+      <location filename="../main_window.py" line="942" />
       <source>Duplicate Item</source>
       <translation>Дублиращ се елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="938" />
+      <location filename="../main_window.py" line="946" />
       <source>Edit Text...</source>
       <translation>Редактиране на текст...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="941" />
+      <location filename="../main_window.py" line="949" />
       <source>Bring To Front</source>
       <translation>Извеждане на преден план</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="944" />
+      <location filename="../main_window.py" line="952" />
       <source>Send To Back</source>
       <translation>Изпрати назад</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="947" />
+      <location filename="../main_window.py" line="955" />
       <source>Rotate</source>
       <translation>Завъртане</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1204" />
-      <location filename="../main_window.py" line="950" />
+      <location filename="../main_window.py" line="1212" />
+      <location filename="../main_window.py" line="958" />
       <source>Scale</source>
       <translation>Мащаб</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3395" />
-      <location filename="../main_window.py" line="955" />
+      <location filename="../main_window.py" line="3437" />
+      <location filename="../main_window.py" line="963" />
       <source>No Effect</source>
       <translation>Без ефект</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3396" />
-      <location filename="../main_window.py" line="956" />
+      <location filename="../main_window.py" line="3438" />
+      <location filename="../main_window.py" line="964" />
       <source>Drop Shadow</source>
       <translation>Падаща сянка</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3397" />
-      <location filename="../main_window.py" line="957" />
+      <location filename="../main_window.py" line="3439" />
+      <location filename="../main_window.py" line="965" />
       <source>Grayscale</source>
       <translation>Сива скала</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3398" />
-      <location filename="../main_window.py" line="958" />
+      <location filename="../main_window.py" line="3440" />
+      <location filename="../main_window.py" line="966" />
       <source>Invert Color</source>
       <translation>Инвертиране на цвета</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3399" />
-      <location filename="../main_window.py" line="959" />
+      <location filename="../main_window.py" line="3441" />
+      <location filename="../main_window.py" line="967" />
       <source>Border</source>
       <translation>Граница</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="962" />
+      <location filename="../main_window.py" line="970" />
       <source>Modify Canvas...</source>
       <translation>Промяна на платното...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3276" />
-      <location filename="../main_window.py" line="965" />
+      <location filename="../main_window.py" line="3318" />
+      <location filename="../main_window.py" line="973" />
       <source>Hide Docks</source>
       <translation>Скриване на докове</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="969" />
+      <location filename="../main_window.py" line="977" />
       <source>Pin</source>
       <translation>ПИН</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="973" />
+      <location filename="../main_window.py" line="981" />
       <source>Add Watermark</source>
       <translation>Добавете воден знак</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3571" />
-      <location filename="../main_window.py" line="978" />
+      <location filename="../main_window.py" line="3613" />
+      <location filename="../main_window.py" line="986" />
       <source>Upload</source>
       <translation>Качване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="982" />
+      <location filename="../main_window.py" line="990" />
       <source>OCR Text Recognition</source>
       <translation>OCR разпознаване на текст</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="985" />
+      <location filename="../main_window.py" line="993" />
       <source>OCR Text Recognition (tables + Markdown)</source>
       <translation>OCR разпознаване на текст (таблици + Markdown)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="989" />
+      <location filename="../main_window.py" line="997" />
       <source>Update Watermark Image...</source>
       <translation>Актуализиране на изображението на воден знак...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="992" />
+      <location filename="../main_window.py" line="1000" />
       <source>Rotate Watermark</source>
       <translation>Завъртане на воден знак</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="997" />
+      <location filename="../main_window.py" line="1005" />
       <source>Settings</source>
       <translation>Настройки</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1000" />
+      <location filename="../main_window.py" line="1008" />
       <source>Model Manager…</source>
       <translation>Мениджър на модели…</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1001" />
+      <location filename="../main_window.py" line="1009" />
       <source>Download and manage OCR models and other components</source>
       <translation>Изтеглете и управлявайте OCR модели и други компоненти</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1004" />
+      <location filename="../main_window.py" line="1012" />
       <source>About</source>
       <translation>За</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1007" />
+      <location filename="../main_window.py" line="1015" />
       <source>Clear Recent Images</source>
       <translation>Изчистване на последните изображения</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1010" />
+      <location filename="../main_window.py" line="1018" />
       <source>Quit</source>
       <translation>Откажете се</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1013" />
+      <location filename="../main_window.py" line="1021" />
       <source>Zoom Out</source>
       <translation>Намаляване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1016" />
+      <location filename="../main_window.py" line="1024" />
       <source>Reset Zoom</source>
       <translation>Нулиране на мащаба</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1019" />
+      <location filename="../main_window.py" line="1027" />
       <source>Zoom In</source>
       <translation>Увеличете</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1022" />
+      <location filename="../main_window.py" line="1030" />
       <source>Fit Image</source>
       <translation>Вместване на изображение</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1044" />
+      <location filename="../main_window.py" line="1052" />
       <source>Capture delay</source>
       <translation>Забавяне на заснемането</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1265" />
-      <location filename="../main_window.py" line="1072" />
-      <location filename="../main_window.py" line="1065" />
+      <location filename="../main_window.py" line="1273" />
+      <location filename="../main_window.py" line="1080" />
+      <location filename="../main_window.py" line="1073" />
       <source>Stroke color</source>
       <translation>Цвят на щриха</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1081" />
+      <location filename="../main_window.py" line="1089" />
       <source>Stroke width: changes the thickness of the line or arrow shaft.</source>
       <translation>Ширина на линията: променя дебелината на линията или стрелката.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1083" />
+      <location filename="../main_window.py" line="1091" />
       <source>Stroke width</source>
       <translation>Ширина на хода</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1091" />
+      <location filename="../main_window.py" line="1099" />
       <source>Arrowhead size: changes the size of the triangular arrow tip.</source>
       <translation>Размер на върха на стрелката: променя размера на върха на триъгълната стрелка.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1094" />
+      <location filename="../main_window.py" line="1102" />
       <source>Arrowhead size</source>
       <translation>Размер на върха на стрелата</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1106" />
-      <location filename="../main_window.py" line="1102" />
+      <location filename="../main_window.py" line="1114" />
+      <location filename="../main_window.py" line="1110" />
       <source>Fill mode</source>
       <translation>Режим на попълване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1118" />
-      <location filename="../main_window.py" line="1111" />
+      <location filename="../main_window.py" line="1126" />
+      <location filename="../main_window.py" line="1119" />
       <source>Text color</source>
       <translation>Цвят на текста</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1125" />
+      <location filename="../main_window.py" line="1133" />
       <source>Font family used by the text or number.</source>
       <translation>Семейство шрифтове, използвани от текста или числото.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1133" />
+      <location filename="../main_window.py" line="1141" />
       <source>Font size of the text or number.</source>
       <translation>Размер на шрифта на текста или числото.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1136" />
+      <location filename="../main_window.py" line="1144" />
       <source>Font</source>
       <translation>Шрифт</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1141" />
+      <location filename="../main_window.py" line="1149" />
       <source>Bold</source>
       <translation>Удебелен</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1142" />
+      <location filename="../main_window.py" line="1150" />
       <source>Italic</source>
       <translation>Курсив</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1143" />
+      <location filename="../main_window.py" line="1151" />
       <source>Underline</source>
       <translation>Подчертаване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1154" />
+      <location filename="../main_window.py" line="1162" />
       <source>Number value used by the next numbered annotation.</source>
       <translation>Числова стойност, използвана от следващата номерирана анотация.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1163" />
+      <location filename="../main_window.py" line="1171" />
       <source>Number badge margin:</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1176" />
+      <location filename="../main_window.py" line="1184" />
       <source>Effect strength: controls the intensity of blur or pixelation.</source>
       <translation>Сила на ефекта: контролира интензитета на замъгляване или пикселизация.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1178" />
+      <location filename="../main_window.py" line="1186" />
       <source>Effect strength</source>
       <translation>Сила на ефекта</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1182" />
+      <location filename="../main_window.py" line="1190" />
       <source>Select Sticker</source>
       <translation>Изберете Стикер</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1193" />
-      <location filename="../main_window.py" line="1191" />
+      <location filename="../main_window.py" line="1201" />
+      <location filename="../main_window.py" line="1199" />
       <source>Item shadow</source>
       <translation>Сянка на предмета</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1202" />
+      <location filename="../main_window.py" line="1210" />
       <source>Sticker scale as a percentage of its original insertion size.</source>
       <translation>Мащаб на стикера като процент от първоначалния размер на вмъкване.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1212" />
+      <location filename="../main_window.py" line="1220" />
       <source>Opacity: 0% is transparent and 100% is fully visible.</source>
       <translation>Непрозрачност: 0% е прозрачен, а 100% е напълно видим.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1214" />
+      <location filename="../main_window.py" line="1222" />
       <source>Opacity</source>
       <translation>Прозрачност</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1330" />
+      <location filename="../main_window.py" line="1338" />
       <source>Zoom Out (%1)</source>
       <translation>Намаляване (%1)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1347" />
+      <location filename="../main_window.py" line="1355" />
       <source>Zoom In (%1)</source>
       <translation>Мащабиране (% 1)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1502" />
-      <location filename="../main_window.py" line="1369" />
+      <location filename="../main_window.py" line="1511" />
+      <location filename="../main_window.py" line="1377" />
       <source>Zoom</source>
       <translation>мащабиране</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3410" />
-      <location filename="../main_window.py" line="1391" />
+      <location filename="../main_window.py" line="3452" />
+      <location filename="../main_window.py" line="1399" />
       <source>Image Effect: %1</source>
       <translation>Ефект на изображението: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1406" />
+      <location filename="../main_window.py" line="1414" />
       <source>Controls</source>
       <translation>Основни настройки</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1434" />
+      <location filename="../main_window.py" line="1442" />
       <source>&amp;File</source>
       <translation>&amp;Файл</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1448" />
+      <location filename="../main_window.py" line="1457" />
       <source>Recent Images</source>
       <translation>Последни изображения</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1463" />
+      <location filename="../main_window.py" line="1472" />
       <source>&amp;Edit</source>
       <translation>&amp;Редактиране</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1478" />
+      <location filename="../main_window.py" line="1487" />
       <source>Effects</source>
       <translation>Ефекти</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1489" />
+      <location filename="../main_window.py" line="1498" />
       <source>Annotation Items</source>
       <translation>Анотационни елементи</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1498" />
+      <location filename="../main_window.py" line="1507" />
       <source>&amp;View</source>
       <translation>&amp;Преглед</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1508" />
+      <location filename="../main_window.py" line="1517" />
       <source>&amp;Options</source>
       <translation>&amp;Опции</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1516" />
+      <location filename="../main_window.py" line="1525" />
       <source>Watermark</source>
       <translation>Воден знак</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1520" />
+      <location filename="../main_window.py" line="1529" />
       <source>Annotation Tools</source>
       <translation>Инструменти за анотация</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1546" />
+      <location filename="../main_window.py" line="1555" />
       <source>&amp;Help</source>
       <translation>&amp;Помощ</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1579" />
+      <location filename="../main_window.py" line="1588" />
       <source>Show Editor</source>
       <translation>Покажи редактор</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1791" />
+      <location filename="../main_window.py" line="1800" />
       <source>ksnip PyQt6 is still running in the system tray.</source>
       <translation>ksnip PyQt6 все още работи в системната област.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1819" />
+      <location filename="../main_window.py" line="1828" />
       <source>OCR is still running; ksnip cannot close until it finishes.</source>
       <translation>OCR все още работи; ksnip не може да се затвори, докато не приключи.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1849" />
+      <location filename="../main_window.py" line="1858" />
       <source>ksnip PyQt6 was minimized to the system tray.</source>
       <translation>ksnip PyQt6 беше минимизиран в системната област.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1977" />
+      <location filename="../main_window.py" line="1986" />
       <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2190" />
+      <location filename="../main_window.py" line="2199" />
       <source>Select color</source>
       <translation>Изберете цвят</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2199" />
+      <location filename="../main_window.py" line="2208" />
       <source>Updated selected item color</source>
       <translation>Актуализиран цвят на избрания елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2218" />
+      <location filename="../main_window.py" line="2227" />
       <source>Updated selected item fill</source>
       <translation>Актуализирано попълване на избрания елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2228" />
+      <location filename="../main_window.py" line="2237" />
       <source>Select text color</source>
       <translation>Изберете цвят на текста</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2238" />
+      <location filename="../main_window.py" line="2247" />
       <source>Updated selected text color</source>
       <translation>Актуализиран цвят на избрания текст</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2254" />
+      <location filename="../main_window.py" line="2263" />
       <source>Updated selected item width to %1</source>
       <translation>Ширината на избрания елемент е актуализирана до %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2267" />
+      <location filename="../main_window.py" line="2276" />
       <source>Updated selected arrowhead size to %1</source>
       <translation>Актуализиран размер на избраната стрелка на %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2277" />
+      <location filename="../main_window.py" line="2286" />
       <source>Updated selected text font</source>
       <translation>Актуализиран шрифт на избрания текст</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2291" />
+      <location filename="../main_window.py" line="2300" />
       <source>Updated selected text size to %1</source>
       <translation>Размерът на избрания текст е актуализиран до %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2301" />
+      <location filename="../main_window.py" line="2310" />
       <source>Updated selected item opacity to %1%</source>
       <translation>Непрозрачността на избрания елемент е актуализирана до %1%</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2319" />
+      <location filename="../main_window.py" line="2328" />
       <source>Updated selected item fill mode</source>
       <translation>Актуализиран режим на попълване на избрания елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2330" />
+      <location filename="../main_window.py" line="2339" />
       <source>Updated selected text bold style</source>
       <translation>Актуализиран удебелен стил на избрания текст</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2342" />
+      <location filename="../main_window.py" line="2351" />
       <source>Updated selected text italic style</source>
       <translation>Актуализиран стил на курсив на избрания текст</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2353" />
+      <location filename="../main_window.py" line="2362" />
       <source>Updated selected text underline style</source>
       <translation>Актуализиран стил за подчертаване на избран текст</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2364" />
+      <location filename="../main_window.py" line="2373" />
       <source>Updated selected item shadow</source>
       <translation>Актуализирана сянка на избрания елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2376" />
+      <location filename="../main_window.py" line="2385" />
       <source>Updated selected item scale to %1%</source>
       <translation>Актуализира мащаба на избрания елемент до %1%</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2385" />
+      <location filename="../main_window.py" line="2394" />
       <source>Updated selected number to %1</source>
       <translation>Избраният номер е актуализиран до %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2773" />
-      <location filename="../main_window.py" line="2603" />
+      <location filename="../main_window.py" line="2815" />
+      <location filename="../main_window.py" line="2612" />
       <source>Portal capture canceled.</source>
       <translation>Заснемането на портала е отменено.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2612" />
+      <location filename="../main_window.py" line="2621" />
       <source>Set a capture delay to include the mouse cursor.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2697" />
+      <location filename="../main_window.py" line="2739" />
       <source>Loaded %1 capture and copied it to clipboard</source>
       <translation>Зареден е %1 запис и е копиран в клипборда</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2793" />
+      <location filename="../main_window.py" line="2835" />
       <source>Loaded %1 capture</source>
       <translation>Заредено е %1 заснемане</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2859" />
+      <location filename="../main_window.py" line="2901" />
       <source>Open image</source>
       <translation>Отворено изображение</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2861" />
+      <location filename="../main_window.py" line="2903" />
       <source>Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>Проекти Ksnip (*.ksnip);;Изображения (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2871" />
+      <location filename="../main_window.py" line="2913" />
       <source>Ksnip Projects (*.ksnip)</source>
       <translation>Проекти Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3526" />
-      <location filename="../main_window.py" line="2872" />
+      <location filename="../main_window.py" line="3568" />
+      <location filename="../main_window.py" line="2914" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>Изображения (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2949" />
-      <location filename="../main_window.py" line="2893" />
+      <location filename="../main_window.py" line="2991" />
+      <location filename="../main_window.py" line="2935" />
       <source>Save image as</source>
       <translation>Запазване на изображението като</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2951" />
-      <location filename="../main_window.py" line="2895" />
+      <location filename="../main_window.py" line="2993" />
+      <location filename="../main_window.py" line="2937" />
       <source>Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</source>
       <translation>Проект Ksnip (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2910" />
+      <location filename="../main_window.py" line="2952" />
       <source>Ksnip Project (*.ksnip)</source>
       <translation>Проект Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2911" />
+      <location filename="../main_window.py" line="2953" />
       <source>PNG (*.png)</source>
       <translation>PNG (*.png)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2918" />
+      <location filename="../main_window.py" line="2960" />
       <source>Export as SVG</source>
       <translation>Експортиране като SVG</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2926" />
+      <location filename="../main_window.py" line="2968" />
       <source>Unable to export SVG: %1</source>
       <translation>Не може да се експортира SVG: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2928" />
+      <location filename="../main_window.py" line="2970" />
       <source>Exported SVG to %1</source>
       <translation>SVG е експортиран в %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2976" />
+      <location filename="../main_window.py" line="3018" />
       <source>Saved %1 image(s), failed %2</source>
       <translation>Запазено %1 изображение(а), неуспешно %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2981" />
+      <location filename="../main_window.py" line="3023" />
       <source>Save All stopped early; these could not be saved:
 %1</source>
       <translation>Save All спря рано; тези не можаха да бъдат запазени:
 %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2985" />
+      <location filename="../main_window.py" line="3027" />
       <source>Saved %1 image(s)</source>
       <translation>Запазени %1 изображение(а)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3006" />
+      <location filename="../main_window.py" line="3048" />
       <source>Unable to save Ksnip project: %1</source>
       <translation>Не може да се запише Ksnip проект: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3021" />
+      <location filename="../main_window.py" line="3063" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
       <translation>Проектът Ksnip беше запазен, но придружаващото му изображение не можа да бъде запазено в %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3030" />
+      <location filename="../main_window.py" line="3072" />
       <source>Saved %1 and companion image %2</source>
       <translation>Запазени %1 и придружаващо изображение %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3043" />
+      <location filename="../main_window.py" line="3085" />
       <source>Saved %1</source>
       <translation>Запазено %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3051" />
+      <location filename="../main_window.py" line="3093" />
       <source>Copied image to clipboard</source>
       <translation>Изображението е копирано в клипборда</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3060" />
+      <location filename="../main_window.py" line="3102" />
       <source>Sent image to printer</source>
       <translation>Изображението е изпратено до принтера</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3099" />
+      <location filename="../main_window.py" line="3141" />
       <source>New name:</source>
       <translation>Ново име:</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3133" />
+      <location filename="../main_window.py" line="3175" />
       <source>Renamed to %1</source>
       <translation>Преименувано на %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3149" />
+      <location filename="../main_window.py" line="3191" />
       <source>Delete Image</source>
       <translation>Изтриване на изображение</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3150" />
+      <location filename="../main_window.py" line="3192" />
       <source>The item '%1' will be deleted.
 Do you want to continue?</source>
       <translation>Елементът „%1“ ще бъде изтрит.
 Искате ли да продължите?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3159" />
+      <location filename="../main_window.py" line="3201" />
       <source>Unable to delete %1: %2</source>
       <translation>Не може да се изтрие %1: %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3165" />
+      <location filename="../main_window.py" line="3207" />
       <source>Deleted %1</source>
       <translation>Изтрит %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3188" />
+      <location filename="../main_window.py" line="3230" />
       <source>Copied image as a base64 encoded Data URI</source>
       <translation>Копирано изображение като base64 кодиран URI на данни</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3195" />
+      <location filename="../main_window.py" line="3237" />
       <source>Copied path %1</source>
       <translation>Копиран път %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3205" />
+      <location filename="../main_window.py" line="3247" />
       <source>Opened directory %1</source>
       <translation>Отворена директория %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3212" />
+      <location filename="../main_window.py" line="3254" />
       <source>Copied selected item(s)</source>
       <translation>Копирани избрани елементи</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3225" />
+      <location filename="../main_window.py" line="3267" />
       <source>Loaded image from clipboard</source>
       <translation>Заредено изображение от клипборда</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3245" />
+      <location filename="../main_window.py" line="3287" />
       <source>Pasted embedded image from clipboard</source>
       <translation>Поставено вградено изображение от клипборда</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3259" />
+      <location filename="../main_window.py" line="3301" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation>Променено платно: %1 × %2 пиксела при (%3, %4)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3276" />
+      <location filename="../main_window.py" line="3318" />
       <source>Show Docks</source>
       <translation>Показване на докове</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3285" />
+      <location filename="../main_window.py" line="3327" />
       <source>Pasted item from clipboard</source>
       <translation>Поставен елемент от клипборда</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3312" />
+      <location filename="../main_window.py" line="3354" />
       <source>Deleted selected item</source>
       <translation>Изтрит избран елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3321" />
+      <location filename="../main_window.py" line="3363" />
       <source>Duplicated selected item</source>
       <translation>Дублиран избран елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3330" />
+      <location filename="../main_window.py" line="3372" />
       <source>Updated text item</source>
       <translation>Актуализиран текстов елемент</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3339" />
+      <location filename="../main_window.py" line="3381" />
       <source>Brought selected item to front</source>
       <translation>Премести избрания елемент отпред</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3348" />
+      <location filename="../main_window.py" line="3390" />
       <source>Sent selected item to back</source>
       <translation>Избраният елемент е изпратен назад</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3360" />
+      <location filename="../main_window.py" line="3402" />
       <source>Rotated image by %1 degrees</source>
       <translation>Изображението е завъртяно с %1 градуса</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3363" />
+      <location filename="../main_window.py" line="3405" />
       <source>Horizontal</source>
       <translation>Хоризонтално</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3363" />
+      <location filename="../main_window.py" line="3405" />
       <source>Vertical</source>
       <translation>Вертикално</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3364" />
+      <location filename="../main_window.py" line="3406" />
       <source>Flipped image: %1</source>
       <translation>Обърнато изображение: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3384" />
+      <location filename="../main_window.py" line="3426" />
       <source>Scaled image to %1 × %2 px</source>
       <translation>Изображението е мащабирано до %1 × %2 пиксела</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3403" />
+      <location filename="../main_window.py" line="3445" />
       <source>Image effect: %1</source>
       <translation>Ефект на изображението: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3422" />
+      <location filename="../main_window.py" line="3464" />
       <source>Image slice removed</source>
       <translation>Фрагментът на изображението е премахнат</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3437" />
+      <location filename="../main_window.py" line="3479" />
       <source>Pinned current image</source>
       <translation>Фиксирано текущо изображение</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3447" />
+      <location filename="../main_window.py" line="3489" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation>Езикът е променен. Рестартирайте ksnip, за да го приложите.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3449" />
+      <location filename="../main_window.py" line="3491" />
       <source>Settings updated</source>
       <translation>Настройките са актуализирани</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3453" />
+      <location filename="../main_window.py" line="3495" />
       <source>Model Manager opened</source>
       <translation>Мениджърът на модели е отворен</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3519" />
+      <location filename="../main_window.py" line="3561" />
       <source>Added watermark</source>
       <translation>Добавен воден знак</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3524" />
+      <location filename="../main_window.py" line="3566" />
       <source>Select watermark image</source>
       <translation>Изберете изображение на воден знак</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3534" />
+      <location filename="../main_window.py" line="3576" />
       <source>Updated watermark image</source>
       <translation>Актуализирано изображение на воден знак</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3543" />
+      <location filename="../main_window.py" line="3585" />
       <source>Upload Image</source>
       <translation>Качване на изображение</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3544" />
+      <location filename="../main_window.py" line="3586" />
       <source>Upload the current image?</source>
       <translation>Да се ​​качи текущото изображение?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3575" />
-      <location filename="../main_window.py" line="3570" />
+      <location filename="../main_window.py" line="3617" />
+      <location filename="../main_window.py" line="3612" />
       <source>Uploading image...</source>
       <translation>Изображението се качва...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3653" />
-      <location filename="../main_window.py" line="3570" />
+      <location filename="../main_window.py" line="3695" />
+      <location filename="../main_window.py" line="3612" />
       <source>Cancel</source>
       <translation>Отказ</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3612" />
+      <location filename="../main_window.py" line="3654" />
       <source>Upload canceled</source>
       <translation>Качването е отменено</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3615" />
+      <location filename="../main_window.py" line="3657" />
       <source>Upload failed</source>
       <translation>Качването не бе успешно</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3620" />
+      <location filename="../main_window.py" line="3662" />
       <source>Upload finished successfully</source>
       <translation>Качването завърши успешно</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3622" />
+      <location filename="../main_window.py" line="3664" />
       <source>Upload Successful</source>
       <translation>Качването е успешно</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3655" />
+      <location filename="../main_window.py" line="3697" />
       <source>OCR</source>
       <translation>Разпознаване</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3659" />
+      <location filename="../main_window.py" line="3701" />
       <source>Running OCR...</source>
       <translation>Изпълнява се OCR...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3665" />
+      <location filename="../main_window.py" line="3707" />
       <source>Running OCR layout and table recognition…
 First run loads several models and may take 1–3 minutes on CPU.</source>
       <translation>Изпълнява се разпознаване на оформление и таблици OCR…
 Първото стартиране зарежда няколко модела и може да отнеме 1-3 минути на процесора.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3669" />
+      <location filename="../main_window.py" line="3711" />
       <source>Running OCR text recognition...</source>
       <translation>Изпълнява се OCR разпознаване на текст...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3711" />
+      <location filename="../main_window.py" line="3753" />
       <source>OCR canceled</source>
       <translation>OCR е отменено</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3715" />
+      <location filename="../main_window.py" line="3757" />
       <source>OCR failed</source>
       <translation>OCR неуспешно</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3725" />
+      <location filename="../main_window.py" line="3767" />
       <source>OCR finished</source>
       <translation>OCR приключи</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4065" />
-      <location filename="../main_window.py" line="4035" />
+      <location filename="../main_window.py" line="4107" />
+      <location filename="../main_window.py" line="4077" />
       <source>Opened %1</source>
       <translation>Отворен %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4045" />
+      <location filename="../main_window.py" line="4087" />
       <source>Unable to open Ksnip project: %1</source>
       <translation>Не може да се отвори Ksnip проект: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4056" />
+      <location filename="../main_window.py" line="4098" />
       <source>Unable to restore Ksnip project: %1</source>
       <translation>Не може да се възстанови Ksnip проект: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4071" />
+      <location filename="../main_window.py" line="4113" />
       <source>Unable to open image data.</source>
       <translation>Данните за изображението не могат да се отворят.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4079" />
+      <location filename="../main_window.py" line="4121" />
       <source>Opened image from standard input</source>
       <translation>Отворено изображение от стандартен вход</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4742" />
-      <location filename="../main_window.py" line="4723" />
+      <location filename="../main_window.py" line="4784" />
+      <location filename="../main_window.py" line="4765" />
       <source>Unsaved changes</source>
       <translation>Незапазени промени</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4724" />
+      <location filename="../main_window.py" line="4766" />
       <source>Close this tab and discard unsaved changes?</source>
       <translation>Затваряне на този раздел и отхвърляне на незапазените промени?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4743" />
+      <location filename="../main_window.py" line="4785" />
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>Затваряне на ksnip PyQt6 и отхвърляне на незапазените промени в отворените раздели?</translation>
     </message>
@@ -1632,87 +1642,87 @@ Directory: %2</source>
   <context>
     <name>PortalDiagnostics</name>
     <message>
-      <location filename="../capture.py" line="147" />
+      <location filename="../capture.py" line="153" />
       <source>The screenshot portal did not return an image.</source>
       <translation>Порталът за екранни снимки не върна изображение.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="149" />
+      <location filename="../capture.py" line="155" />
       <source>Portal capture is unavailable: %1</source>
       <translation>Заснемането на портала не е налично: %1</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="150" />
+      <location filename="../capture.py" line="156" />
       <source>Detected desktop: %1</source>
       <translation>Открит работен плот: %1</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="151" />
+      <location filename="../capture.py" line="157" />
       <source>Session type: %1</source>
       <translation>Тип сесия: %1</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="152" />
+      <location filename="../capture.py" line="158" />
       <source>Install the portal frontend and the recommended backend:</source>
       <translation>Инсталирайте интерфейса на портала и препоръчания бекенд:</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="154" />
+      <location filename="../capture.py" line="160" />
       <source>With Fluxbox, Openbox, IceWM, or another manually assembled session, xdg-desktop-portal-gtk is the usual fallback. The session must export XDG_CURRENT_DESKTOP and may require a matching portals.conf file.</source>
       <translation>С Fluxbox, Openbox, IceWM или друга ръчно сглобена сесия, xdg-desktop-portal-gtk е обичайният резервен вариант. Сесията трябва да експортира XDG_CURRENT_DESKTOP и може да изисква съответстващ файл portals.conf.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="256" />
+      <location filename="../capture.py" line="262" />
       <source>D-Bus portal capture is only available on Linux.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../capture.py" line="263" />
+      <location filename="../capture.py" line="269" />
       <source>the D-Bus session bus is not available.</source>
       <translation>сесийната шина на D-Bus не е налична.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="272" />
+      <location filename="../capture.py" line="278" />
       <source>the xdg-desktop-portal service is not available.</source>
       <translation>услугата xdg-desktop-portal не е налична.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="277" />
+      <location filename="../capture.py" line="283" />
       <source>the Screenshot portal interface is unavailable.</source>
       <translation>интерфейсът на портала за екранни снимки е недостъпен.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="282" />
+      <location filename="../capture.py" line="288" />
       <source>the portal returned an invalid request path.</source>
       <translation>порталът върна невалиден път на заявка.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="294" />
+      <location filename="../capture.py" line="300" />
       <source>ksnip could not subscribe to the portal response.</source>
       <translation>ksnip не можа да се абонира за отговора на портала.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="309" />
+      <location filename="../capture.py" line="315" />
       <source>the portal response timed out.</source>
       <translation>отговорът на портала изтече.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="314" />
+      <location filename="../capture.py" line="320" />
       <source>capture was canceled.</source>
       <translation>заснемането беше отменено.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="316" />
+      <location filename="../capture.py" line="322" />
       <source>portal error code %1.</source>
       <translation>код за грешка на портала %1.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="322" />
+      <location filename="../capture.py" line="328" />
       <source>an empty path</source>
       <translation>празен път</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="323" />
+      <location filename="../capture.py" line="329" />
       <source>the returned image could not be loaded from %1.</source>
       <translation>върнатото изображение не можа да бъде заредено от %1.</translation>
     </message>
