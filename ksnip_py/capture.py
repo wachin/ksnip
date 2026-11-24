@@ -42,7 +42,8 @@ class CursorCaptureIndicator(QWidget):
             | Qt.WindowType.FramelessWindowHint
             | Qt.WindowType.WindowStaysOnTopHint
             | Qt.WindowType.WindowTransparentForInput
-            | Qt.WindowType.WindowDoesNotAcceptFocus,
+            | Qt.WindowType.WindowDoesNotAcceptFocus
+            | Qt.WindowType.NoDropShadowWindowHint,
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
         self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
@@ -96,10 +97,9 @@ class CursorCaptureIndicator(QWidget):
         center = self.rect().center()
         if self._ring_visible:
             painter.setBrush(Qt.BrushStyle.NoBrush)
-            # A dark edge keeps the yellow ring legible on light desktops.
-            painter.setPen(QPen(QColor(30, 24, 0, 230), 2))
-            painter.drawEllipse(center, 36, 36)
-            painter.setPen(QPen(QColor("#ffd400"), 4))
+            # Yellow only: the previous dark contrast stroke looked like a
+            # second black circle underneath the indicator.
+            painter.setPen(QPen(QColor("#ffd400"), 5))
             painter.drawEllipse(center, 34, 34)
         painter.end()
 
