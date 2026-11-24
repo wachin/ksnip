@@ -87,6 +87,14 @@ class CaptureCursorTest(unittest.TestCase):
         self.assertGreater(ring.red(), 200)
         self.assertGreater(ring.green(), 150)
         self.assertLess(ring.blue(), 100)
+        for y in range(image.height()):
+            for x in range(image.width()):
+                color = image.pixelColor(x, y)
+                if color.alpha() == 0:
+                    continue
+                self.assertGreater(color.red(), 150)
+                self.assertGreater(color.green(), 80)
+                self.assertLess(color.blue(), 150)
         indicator.deleteLater()
 
     def test_delayed_capture_uses_the_standard_arrow_by_default(self) -> None:

@@ -13,7 +13,7 @@
 * New: The same Number badge margin control is available in the annotation properties toolbar when a number tool is active.
 * Fixed: Crop and Cut start a selection even when the drag begins over an existing annotation, instead of moving that annotation.
 * Fixed: Crop now shows a selection with four corner handles; drag them inward, then press Enter or double-click to crop (Esc cancels).
-* Fixed: The cursor-delay indicator is now a yellow ring only; its dark contrast stroke and window shadow no longer look like a black circle underneath.
+* Fixed: The cursor-delay indicator is now a yellow ring only. Its dark contrast stroke and window shadow are gone, and the window mask covers only the painted yellow stroke so X11 cannot show a black ring underneath.
 * Changed: Mouse cursor capture is off by default and requires a capture delay. During the delay a yellow blinking ring surrounds the pointer; in the editor the cursor is a movable fixed-size item (no resize handles). A standard arrow is used by default, with the actual pointer shape (for example the text I-beam) available as an option. Toggle it in New Screenshot → Include Mouse Cursor.
 * Fixed: The full-screen selection overlay is torn down before the editor opens, preventing a leftover piece of the capture tool from staying on screen.
 * New: Windows external OCR setup guide and explicit `.bat`/`.cmd` script support.

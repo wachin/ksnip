@@ -43,7 +43,8 @@ class CursorCaptureIndicator(QWidget):
             | Qt.WindowType.WindowStaysOnTopHint
             | Qt.WindowType.WindowTransparentForInput
             | Qt.WindowType.WindowDoesNotAcceptFocus
-            | Qt.WindowType.NoDropShadowWindowHint,
+            | Qt.WindowType.NoDropShadowWindowHint
+            | Qt.WindowType.BypassWindowManagerHint,
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
         self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
@@ -53,8 +54,11 @@ class CursorCaptureIndicator(QWidget):
         self.setFixedSize(84, 84)
         # Keep only the ring visible. Without a mask, compositors that do not
         # honor translucent windows can paint a black square around the cursor.
-        outer = QRegion(QRect(2, 2, 80, 80), QRegion.RegionType.Ellipse)
-        inner = QRegion(QRect(14, 14, 56, 56), QRegion.RegionType.Ellipse)
+        # Match the mask to the painted stroke. A wider mask leaves unpainted
+        # pixels that some X11 sessions render black, producing a second dark
+        # ring behind the yellow one.
+        outer = QRegion(QRect(5, 5, 74, 74), QRegion.RegionType.Ellipse)
+        inner = QRegion(QRect(11, 11, 62, 62), QRegion.RegionType.Ellipse)
         self.setMask(outer.subtracted(inner))
         self._ring_visible = True
         self._follow_timer = QTimer(self)
@@ -99,7 +103,7 @@ class CursorCaptureIndicator(QWidget):
             painter.setBrush(Qt.BrushStyle.NoBrush)
             # Yellow only: the previous dark contrast stroke looked like a
             # second black circle underneath the indicator.
-            painter.setPen(QPen(QColor("#ffd400"), 5))
+            painter.setPen(QPen(QColor("#ffd400"), 6))
             painter.drawEllipse(center, 34, 34)
         painter.end()
 
