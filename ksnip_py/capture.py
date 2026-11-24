@@ -27,6 +27,78 @@ class CaptureResult:
     cursor_position: QPoint | None = None
 
 
+class CursorCaptureIndicator(QWidget):
+    """A blinking ring around the pointer during a capture delay.
+
+    The real system cursor stays visible. The ring makes it explicit that the
+    pointer will be part of the capture without changing the desktop cursor or
+    appearing in the screenshot itself.
+    """
+
+    def __init__(self) -> None:
+        super().__init__(
+            None,
+            Qt.WindowType.ToolTip
+            | Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.WindowStaysOnTopHint
+            | Qt.WindowType.WindowTransparentForInput
+            | Qt.WindowType.WindowDoesNotAcceptFocus,
+        )
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, True)
+        self.setFixedSize(56, 56)
+        self._ring_visible = True
+        self._follow_timer = QTimer(self)
+        self._follow_timer.setInterval(40)
+        self._follow_timer.timeout.connect(self._follow_cursor)
+        self._blink_timer = QTimer(self)
+        self._blink_timer.setInterval(280)
+        self._blink_timer.timeout.connect(self._blink)
+
+    def start(self) -> None:
+        if QGuiApplication.platformName() != "xcb":
+            # The cursor is read through XFixes, and Wayland does not allow a
+            # client to position a top-level window at a global pointer
+            # coordinate.
+            return
+        self._follow_cursor()
+        self.show()
+        self.raise_()
+        self._follow_timer.start()
+        self._blink_timer.start()
+
+    def stop(self) -> None:
+        self._follow_timer.stop()
+        self._blink_timer.stop()
+        self.hide()
+        self.deleteLater()
+
+    def _follow_cursor(self) -> None:
+        position = QCursor.pos()
+        self.move(position.x() - self.width() // 2, position.y() - self.height() // 2)
+
+    def _blink(self) -> None:
+        self._ring_visible = not self._ring_visible
+        self.update()
+
+    def paintEvent(self, event) -> None:  # noqa: N802
+        del event
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        center = self.rect().center()
+        if self._ring_visible:
+            painter.setPen(QPen(QColor(255, 255, 255, 230), 3))
+            painter.drawEllipse(center, 24, 24)
+            painter.setPen(QPen(QColor("#df5a17"), 3))
+            painter.drawEllipse(center, 20, 20)
+        else:
+            painter.setPen(Qt.PenStyle.NoPen)
+            painter.setBrush(QColor("#df5a17"))
+            painter.drawEllipse(center, 3, 3)
+        painter.end()
+
+
 _last_rect_area: QRect | None = None
 _portal_last_error = ""
 _portal_was_canceled = False

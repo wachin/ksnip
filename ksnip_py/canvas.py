@@ -473,6 +473,7 @@ class OverlayItem:
     points: list[QPoint] | None = None
     rotation: int = 0
     number_badge_padding: int = 2
+    fixed_size: bool = False
 
     def clone(self) -> "OverlayItem":
         return OverlayItem(
@@ -499,6 +500,7 @@ class OverlayItem:
             points=[QPoint(point) for point in self.points] if self.points is not None else None,
             rotation=self.rotation,
             number_badge_padding=self.number_badge_padding,
+            fixed_size=self.fixed_size,
         )
 
     def move_by(self, delta: QPoint) -> None:
@@ -732,7 +734,13 @@ class AnnotationCanvas(QLabel):
     def image_effect(self) -> str:
         return self._image_effect
 
-    def add_image_item(self, image: QImage, position: QPoint | None = None) -> bool:
+    def add_image_item(
+        self,
+        image: QImage,
+        position: QPoint | None = None,
+        *,
+        fixed_size: bool = False,
+    ) -> bool:
         if self._image.isNull() or image.isNull():
             return False
         self._push_undo_state()
@@ -749,6 +757,7 @@ class AnnotationCanvas(QLabel):
                 shadow=self._shadow,
                 scaling=1.0,
                 image=image.copy(),
+                fixed_size=fixed_size,
             )
         )
         self._select_single_item(len(self._items) - 1)
@@ -786,6 +795,7 @@ class AnnotationCanvas(QLabel):
             "scaling": item.scaling,
             "rotation": item.rotation,
             "number_badge_padding": item.number_badge_padding,
+            "fixed_size": item.fixed_size,
             "sticker_path": item.sticker_path,
             "image_png_base64": image_payload,
             "points": [[point.x(), point.y()] for point in item.points] if item.points is not None else None,
@@ -819,6 +829,7 @@ class AnnotationCanvas(QLabel):
             scaling=payload.get("scaling", 1.0),
             rotation=payload.get("rotation", 0),
             number_badge_padding=max(-2, min(40, int(payload.get("number_badge_padding", 2)))),
+            fixed_size=bool(payload.get("fixed_size", False)),
             sticker_path=payload.get("sticker_path"),
             image=image,
             points=[QPoint(x, y) for x, y in payload.get("points") or []] or None,
@@ -2245,7 +2256,7 @@ class AnnotationCanvas(QLabel):
             selection_pen = QPen(QColor("#1c7ed6"), 1, Qt.PenStyle.DashLine)
             painter.setPen(selection_pen)
             painter.setBrush(Qt.BrushStyle.NoBrush)
-            if show_handles and item.kind not in (Tool.PEN, Tool.MARKER_PEN):
+            if show_handles and not item.fixed_size and item.kind not in (Tool.PEN, Tool.MARKER_PEN):
                 handle_points = self._rotated_handle_points(item)
                 corners = [handle_points[name] for name in ("top_left", "top_right", "bottom_right", "bottom_left") if name in handle_points]
                 if corners:
@@ -2641,7 +2652,9 @@ class AnnotationCanvas(QLabel):
 
     def apply_scaling_to_selected_item(self, scaling_percent: int) -> bool:
         item_indices = [
-            index for index in self._selected_item_indices if self._items[index].kind in (Tool.IMAGE, Tool.STICKER)
+            index
+            for index in self._selected_item_indices
+            if self._items[index].kind in (Tool.IMAGE, Tool.STICKER) and not self._items[index].fixed_size
         ]
         if not item_indices:
             return False
@@ -2806,6 +2819,8 @@ class AnnotationCanvas(QLabel):
         self._arm_drag_undo()
 
     def _rotate_handle_point_local(self, item: "OverlayItem") -> QPoint | None:
+        if item.fixed_size:
+            return None
         if self._is_line_like(item.kind) or item.kind in (Tool.NUMBER_POINTER, Tool.TEXT_POINTER):
             start = QPoint(item.start)
             end = QPoint(item.end)
@@ -2845,7 +2860,7 @@ class AnnotationCanvas(QLabel):
         return result
 
     def _handle_points(self, item: OverlayItem) -> dict[str, QPoint]:
-        if item.kind in (Tool.PEN, Tool.MARKER_PEN):
+        if item.fixed_size or item.kind in (Tool.PEN, Tool.MARKER_PEN):
             return {}
         if self._is_line_like(item.kind):
             return {

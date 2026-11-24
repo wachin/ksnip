@@ -13,7 +13,7 @@
 * New: The same Number badge margin control is available in the annotation properties toolbar when a number tool is active.
 * Fixed: Crop and Cut start a selection even when the drag begins over an existing annotation, instead of moving that annotation.
 * Fixed: Crop now shows a selection with four corner handles; drag them inward, then press Enter or double-click to crop (Esc cancels).
-* Changed: Mouse cursor capture is off by default; when enabled, the cursor is baked into the capture instead of being inserted as a selected, resizable image item. Toggle it in New Screenshot → Include Mouse Cursor.
+* Changed: Mouse cursor capture is off by default and requires a capture delay. During the delay a blinking ring marks the pointer; in the editor the cursor is a movable fixed-size item (no resize handles). Toggle it in New Screenshot → Include Mouse Cursor.
 * Fixed: The full-screen selection overlay is torn down before the editor opens, preventing a leftover piece of the capture tool from staying on screen.
 * New: Windows external OCR setup guide and explicit `.bat`/`.cmd` script support.
 * Packaging: Windows builds use Nuitka 4.1.3, scan the packaged executable with Microsoft Defender, and run a real `--smoke-test` after Qt starts.

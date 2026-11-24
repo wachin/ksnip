@@ -107,7 +107,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 ## Current features
 
 - Rectangular, last-area, full-screen, current-screen, active-window, and window-under-cursor capture modes.
-- Optional real X11 cursor capture through XFixes, baked into the captured image and off by default; toggle it from New Screenshot → Include Mouse Cursor.
+- Optional real X11 cursor capture through XFixes; off by default, requires a capture delay, blinks a marker during the delay and adds the cursor as a movable fixed-size item. Toggle it from New Screenshot → Include Mouse Cursor.
 - Capture delay, implicit delay, startup capture, auto-copy, and auto-save preferences.
 - Open, paste, embedded paste, save, save as, save all, rename, delete, print, and print preview.
 - Editable `.ksnip` project files and SVG export for continued editing in Inkscape.

@@ -382,6 +382,9 @@ class SettingsDialog(QDialog):
         image_grabber_group = QGroupBox(self.tr("Image Grabber"), self)
         image_grabber_layout = QVBoxLayout(image_grabber_group)
         self.capture_mouse_cursor = QCheckBox(self.tr("Capture mouse cursor on screenshot"), image_grabber_group)
+        self.capture_mouse_cursor.setToolTip(
+            self.tr("The mouse cursor is captured only when a capture delay is set.")
+        )
         self.show_main_window_after_capture_checkbox = QCheckBox(self.tr("Show Main Window after capturing screenshot"), image_grabber_group)
         self.show_main_window_after_capture_checkbox.setChecked(True)
         self.hide_main_window_during_capture_checkbox = QCheckBox(self.tr("Hide Main Window during screenshot"), image_grabber_group)

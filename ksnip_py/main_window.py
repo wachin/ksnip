@@ -37,6 +37,7 @@ from .canvas import AnnotationCanvas, CutDialog, FillMode, ModifyCanvasDialog, R
 from .color_picker import ColorPaletteMenu
 from .file_dialogs import get_open_file_name, get_save_file_name
 from .capture import (
+    CursorCaptureIndicator,
     grab_active_window,
     grab_current_screen,
     grab_fullscreen,
@@ -712,7 +713,9 @@ class MainWindow(QMainWindow):
         self.capture_cursor_action = QAction(self.tr("Include Mouse Cursor"), self)
         self.capture_cursor_action.setCheckable(True)
         self.capture_cursor_action.setChecked(self._setting_bool("capture/include_cursor", False))
-        self.capture_cursor_action.setToolTip(self.tr("Include the mouse cursor in new captures"))
+        self.capture_cursor_action.setToolTip(
+            self.tr("Include the mouse cursor in new captures. Requires a capture delay greater than 0.")
+        )
         self.capture_cursor_action.toggled.connect(self._set_capture_include_cursor)
 
         self.open_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogOpenButton), self.tr("Open"), self)
@@ -2605,6 +2608,8 @@ class MainWindow(QMainWindow):
 
     def _set_capture_include_cursor(self, checked: bool) -> None:
         self._settings.setValue("capture/include_cursor", bool(checked))
+        if checked and self._setting_int("capture/delay_seconds", 0) <= 0:
+            self.status_label.setText(self.tr("Set a capture delay to include the mouse cursor."))
 
     def _capture_with_preferences(self, capture_fn, *, portal_interactive: bool = True, allow_forced_portal: bool = True):
         use_portal = allow_forced_portal and (
@@ -2632,26 +2637,30 @@ class MainWindow(QMainWindow):
             self._capture_cursor_override
             if self._capture_cursor_override is not None
             else self._setting_bool("capture/include_cursor", False)
-        )
+        ) and delay_seconds > 0
         self._capture_cursor_override = None
         delay_ms = max(0, delay_seconds * 1000)
         if was_visible:
             delay_ms = max(delay_ms, max(0, self._setting_int("capture/implicit_delay_ms", 200)))
         if delay_ms > 0:
-            self._wait_for_capture_delay(delay_ms)
+            self._wait_for_capture_delay(delay_ms, blink_cursor=include_cursor)
+
+        # Read the pointer after the delay but before the selection overlay
+        # replaces it with a crosshair. This preserves the arrow the user
+        # positioned during the delay; the selection can then include it if the
+        # chosen rectangle contains that position.
+        pending_cursor = grab_x11_cursor() if include_cursor else None
 
         try:
             result = capture_fn()
-            if result is not None and include_cursor:
-                cursor = grab_x11_cursor()
-                if cursor is not None:
-                    cursor_image, cursor_global_position = cursor
-                    cursor_position = cursor_global_position - result.global_origin
-                    cursor_rect = QRectF(cursor_position.x(), cursor_position.y(), cursor_image.width(), cursor_image.height())
-                    capture_rect = QRectF(0, 0, result.pixmap.width(), result.pixmap.height())
-                    if cursor_rect.intersects(capture_rect):
-                        result.cursor_image = cursor_image
-                        result.cursor_position = cursor_position
+            if result is not None and pending_cursor is not None and result.mode != "portal":
+                cursor_image, cursor_global_position = pending_cursor
+                cursor_position = cursor_global_position - result.global_origin
+                cursor_rect = QRectF(cursor_position.x(), cursor_position.y(), cursor_image.width(), cursor_image.height())
+                capture_rect = QRectF(0, 0, result.pixmap.width(), result.pixmap.height())
+                if cursor_rect.intersects(capture_rect):
+                    result.cursor_image = cursor_image
+                    result.cursor_position = cursor_position
         finally:
             if should_hide and self._setting_bool("capture/show_main_window_after_capture", True):
                 self.showNormal()
@@ -2660,21 +2669,34 @@ class MainWindow(QMainWindow):
 
         return result
 
-    def _wait_for_capture_delay(self, delay_ms: int) -> None:
-        loop = QEventLoop(self)
-        QTimer.singleShot(delay_ms, loop.quit)
-        loop.exec()
+    def _wait_for_capture_delay(self, delay_ms: int, *, blink_cursor: bool = False) -> None:
+        indicator = CursorCaptureIndicator() if blink_cursor else None
+        if indicator is not None:
+            indicator.start()
+        try:
+            loop = QEventLoop(self)
+            QTimer.singleShot(delay_ms, loop.quit)
+            loop.exec()
+        finally:
+            if indicator is not None:
+                indicator.stop()
 
     def _load_capture_result(self, result, title: str) -> None:
         if self._cli_direct_save or self._cli_upload:
             self._process_cli_capture(result)
             return
-        image = self._capture_image_with_cursor(result)
-        self._load_capture(image, title)
+        self._load_capture(result.pixmap.toImage(), title)
+        canvas = self.current_canvas()
+        if canvas is not None and result.cursor_image is not None and result.cursor_position is not None:
+            # Movable but not resizable: the cursor is part of the screenshot,
+            # not a resizable annotation. Keeping it as a fixed-size item lets
+            # the user drag it somewhere else after capturing.
+            canvas.add_image_item(result.cursor_image, position=result.cursor_position, fixed_size=True)
         if self._setting_bool("saver/auto_save", False):
             self._auto_save_current_capture()
         if self._setting_bool("capture/auto_copy_new_captures", False):
-            QGuiApplication.clipboard().setImage(image)
+            copied_image = canvas.image() if canvas is not None else result.pixmap.toImage()
+            QGuiApplication.clipboard().setImage(copied_image)
             self.status_label.setText(
                 self.tr("Loaded %1 capture and copied it to clipboard").replace("%1", title.lower())
             )
