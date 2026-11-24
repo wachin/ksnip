@@ -115,6 +115,19 @@ class CaptureCursorTest(unittest.TestCase):
         self.assertEqual(result.cursor_image.width(), 28)
         self.assertEqual(result.cursor_image.height(), 28)
 
+    def test_toolbar_cursor_checkbox_syncs_the_action_and_icon(self) -> None:
+        window = MainWindow()
+        off_icon = window.capture_cursor_icon.pixmap().toImage()
+
+        self.assertFalse(window.capture_cursor_toggle.isChecked())
+        window.capture_cursor_toggle.setChecked(True)
+
+        on_icon = window.capture_cursor_icon.pixmap().toImage()
+        self.assertTrue(window.capture_cursor_action.isChecked())
+        self.assertTrue(window._setting_bool("capture/include_cursor", False))
+        self.assertNotEqual(off_icon, on_icon)
+        self.assertIn("Image Grabber", window.capture_cursor_toggle.toolTip())
+
     def test_cursor_capture_is_off_by_default_and_toggleable(self) -> None:
         window = MainWindow()
 

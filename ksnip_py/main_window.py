@@ -10,6 +10,7 @@ from PyQt6.QtGui import QAction, QActionGroup, QColor, QCursor, QDesktopServices
 from PyQt6.QtPrintSupport import QPrintDialog, QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import (
     QApplication,
+    QCheckBox,
     QComboBox,
     QColorDialog,
     QDialog,
@@ -1059,6 +1060,23 @@ class MainWindow(QMainWindow):
         self.capture_delay_toolbar.setValue(self._setting_int("capture/delay_seconds", 0))
         self.capture_delay_toolbar.valueChanged.connect(self._apply_capture_delay)
         toolbar.addWidget(self.capture_delay_toolbar)
+        toolbar.addSeparator()
+
+        self.capture_cursor_toggle = QCheckBox(self)
+        self.capture_cursor_toggle.setChecked(self._setting_bool("capture/include_cursor", False))
+        self.capture_cursor_icon = QLabel(self)
+        self.capture_cursor_icon.setFixedSize(22, 22)
+        self.capture_cursor_icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        cursor_host = QWidget(self)
+        cursor_layout = QHBoxLayout(cursor_host)
+        cursor_layout.setContentsMargins(0, 0, 0, 0)
+        cursor_layout.setSpacing(2)
+        cursor_layout.addWidget(self.capture_cursor_toggle)
+        cursor_layout.addWidget(self.capture_cursor_icon)
+        cursor_host.setSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
+        self.capture_cursor_toggle.toggled.connect(self._set_capture_include_cursor)
+        self._sync_capture_cursor_toolbar()
+        toolbar.addWidget(cursor_host)
 
         properties_toolbar = QToolBar("Properties", self)
         properties_toolbar.setMovable(False)
@@ -2616,9 +2634,32 @@ class MainWindow(QMainWindow):
         self._load_capture_result(result, "Portal")
 
     def _set_capture_include_cursor(self, checked: bool) -> None:
-        self._settings.setValue("capture/include_cursor", bool(checked))
-        if checked and self._setting_int("capture/delay_seconds", 0) <= 0:
+        enabled = bool(checked)
+        self._settings.setValue("capture/include_cursor", enabled)
+        if hasattr(self, "capture_cursor_action"):
+            self.capture_cursor_action.blockSignals(True)
+            self.capture_cursor_action.setChecked(enabled)
+            self.capture_cursor_action.blockSignals(False)
+        if hasattr(self, "capture_cursor_toggle"):
+            self.capture_cursor_toggle.blockSignals(True)
+            self.capture_cursor_toggle.setChecked(enabled)
+            self.capture_cursor_toggle.blockSignals(False)
+        self._sync_capture_cursor_toolbar()
+        if enabled and self._setting_int("capture/delay_seconds", 0) <= 0:
             self.status_label.setText(self.tr("Set a capture delay to include the mouse cursor."))
+
+    def _sync_capture_cursor_toolbar(self) -> None:
+        if not hasattr(self, "capture_cursor_toggle") or not hasattr(self, "capture_cursor_icon"):
+            return
+        enabled = self.capture_cursor_toggle.isChecked()
+        icon = self._load_icon("captureCursor" if enabled else "captureCursorOff")
+        self.capture_cursor_icon.setPixmap(icon.pixmap(18, 18))
+        tooltip = self.tr(
+            "Capture the mouse cursor (also in Options > Settings > Image Grabber > "
+            "Capture mouse cursor on screenshot). Requires a capture delay."
+        )
+        self.capture_cursor_toggle.setToolTip(tooltip)
+        self.capture_cursor_icon.setToolTip(tooltip)
 
     def _set_capture_cursor_arrow(self, checked: bool) -> None:
         self._settings.setValue("capture/cursor_arrow", bool(checked))
@@ -4396,6 +4437,10 @@ class MainWindow(QMainWindow):
         self.capture_cursor_action.blockSignals(True)
         self.capture_cursor_action.setChecked(data.capture_include_cursor)
         self.capture_cursor_action.blockSignals(False)
+        self.capture_cursor_toggle.blockSignals(True)
+        self.capture_cursor_toggle.setChecked(data.capture_include_cursor)
+        self.capture_cursor_toggle.blockSignals(False)
+        self._sync_capture_cursor_toolbar()
         self._settings.setValue("capture/magnifying_glass", data.show_magnifying_glass)
         self._settings.setValue("capture/force_generic_wayland", data.force_generic_wayland)
         self._settings.setValue("capture/scale_generic_wayland", data.scale_generic_wayland)
