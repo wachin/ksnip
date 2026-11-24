@@ -62,20 +62,20 @@
   <context>
     <name>AnnotationCanvas</name>
     <message>
-      <location filename="../canvas.py" line="1694" />
+      <location filename="../canvas.py" line="1750" />
       <source>Take a screenshot or open an image.</source>
       <translation>একটি স্ক্রিনশট নিন বা একটি ছবি খুলুন।</translation>
     </message>
     <message>
-      <location filename="../canvas.py" line="2223" />
-      <location filename="../canvas.py" line="2190" />
+      <location filename="../canvas.py" line="2439" />
+      <location filename="../canvas.py" line="2406" />
       <source>Edit text</source>
       <translation>পাঠ্য সম্পাদনা করুন</translation>
     </message>
     <message>
-      <location filename="../canvas.py" line="3206" />
-      <location filename="../canvas.py" line="3182" />
-      <location filename="../canvas.py" line="3007" />
+      <location filename="../canvas.py" line="3436" />
+      <location filename="../canvas.py" line="3412" />
+      <location filename="../canvas.py" line="3237" />
       <source>Insert text</source>
       <translation>পাঠ্য সন্নিবেশ করান</translation>
     </message>
@@ -271,7 +271,7 @@ tesseract "$1" stdout -l spa+eng
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="../main_window.py" line="3704" />
+      <location filename="../main_window.py" line="3708" />
       <location filename="../main_window.py" line="178" />
       <source>Ready</source>
       <translation>প্রস্তুত</translation>
@@ -282,7 +282,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>নতুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4586" />
+      <location filename="../main_window.py" line="4590" />
       <location filename="../main_window.py" line="1426" />
       <location filename="../main_window.py" line="271" />
       <source>New Screenshot</source>
@@ -362,7 +362,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>প্রিন্ট</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3030" />
+      <location filename="../main_window.py" line="3034" />
       <location filename="../main_window.py" line="735" />
       <source>Print Preview</source>
       <translation>প্রিন্ট প্রিভিউ</translation>
@@ -385,7 +385,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>কপি পাথ</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3060" />
+      <location filename="../main_window.py" line="3064" />
       <location filename="../main_window.py" line="785" />
       <location filename="../main_window.py" line="748" />
       <source>Rename</source>
@@ -621,31 +621,31 @@ tesseract "$1" stdout -l spa+eng
       <translation>স্কেল</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3356" />
+      <location filename="../main_window.py" line="3360" />
       <location filename="../main_window.py" line="945" />
       <source>No Effect</source>
       <translation>কোন প্রভাব নেই</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3357" />
+      <location filename="../main_window.py" line="3361" />
       <location filename="../main_window.py" line="946" />
       <source>Drop Shadow</source>
       <translation>ড্রপ শ্যাডো</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3358" />
+      <location filename="../main_window.py" line="3362" />
       <location filename="../main_window.py" line="947" />
       <source>Grayscale</source>
       <translation>গ্রেস্কেল</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3359" />
+      <location filename="../main_window.py" line="3363" />
       <location filename="../main_window.py" line="948" />
       <source>Invert Color</source>
       <translation>উল্টানো রঙ</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3360" />
+      <location filename="../main_window.py" line="3364" />
       <location filename="../main_window.py" line="949" />
       <source>Border</source>
       <translation>বর্ডার</translation>
@@ -656,7 +656,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>ক্যানভাস পরিবর্তন করুন...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3237" />
+      <location filename="../main_window.py" line="3241" />
       <location filename="../main_window.py" line="955" />
       <source>Hide Docks</source>
       <translation>ডক লুকান</translation>
@@ -672,7 +672,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>ওয়াটারমার্ক যোগ করুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3532" />
+      <location filename="../main_window.py" line="3536" />
       <location filename="../main_window.py" line="968" />
       <source>Upload</source>
       <translation>আপলোড করুন</translation>
@@ -884,7 +884,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>জুম</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3371" />
+      <location filename="../main_window.py" line="3375" />
       <location filename="../main_window.py" line="1381" />
       <source>Image Effect: %1</source>
       <translation>চিত্র প্রভাব: %1</translation>
@@ -965,501 +965,506 @@ tesseract "$1" stdout -l spa+eng
       <translation>ksnip PyQt6 সিস্টেম ট্রেতে ছোট করা হয়েছে।</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2174" />
+      <location filename="../main_window.py" line="1965" />
+      <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
+      <translation type="unfinished" />
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2178" />
       <source>Select color</source>
       <translation>রঙ নির্বাচন করুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2183" />
+      <location filename="../main_window.py" line="2187" />
       <source>Updated selected item color</source>
       <translation>নির্বাচিত আইটেমের রঙ আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2202" />
+      <location filename="../main_window.py" line="2206" />
       <source>Updated selected item fill</source>
       <translation>আপডেট করা নির্বাচিত আইটেম পূরণ</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2212" />
+      <location filename="../main_window.py" line="2216" />
       <source>Select text color</source>
       <translation>পাঠ্যের রঙ নির্বাচন করুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2222" />
+      <location filename="../main_window.py" line="2226" />
       <source>Updated selected text color</source>
       <translation>নির্বাচিত পাঠ্যের রঙ আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2238" />
+      <location filename="../main_window.py" line="2242" />
       <source>Updated selected item width to %1</source>
       <translation>নির্বাচিত আইটেমের প্রস্থ %1 এ আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2251" />
+      <location filename="../main_window.py" line="2255" />
       <source>Updated selected arrowhead size to %1</source>
       <translation>নির্বাচিত তীরচিহ্নের আকার %1 এ আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2261" />
+      <location filename="../main_window.py" line="2265" />
       <source>Updated selected text font</source>
       <translation>নির্বাচিত পাঠ্য ফন্ট আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2275" />
+      <location filename="../main_window.py" line="2279" />
       <source>Updated selected text size to %1</source>
       <translation>নির্বাচিত পাঠ্যের আকার %1 এ আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2285" />
+      <location filename="../main_window.py" line="2289" />
       <source>Updated selected item opacity to %1%</source>
       <translation>নির্বাচিত আইটেমের অস্বচ্ছতা %1% এ আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2303" />
+      <location filename="../main_window.py" line="2307" />
       <source>Updated selected item fill mode</source>
       <translation>নির্বাচিত আইটেম পূরণ মোড আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2314" />
+      <location filename="../main_window.py" line="2318" />
       <source>Updated selected text bold style</source>
       <translation>নির্বাচিত পাঠ্য বোল্ড শৈলী আপডেট করা হয়েছে৷</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2326" />
+      <location filename="../main_window.py" line="2330" />
       <source>Updated selected text italic style</source>
       <translation>নির্বাচিত পাঠ্য তির্যক শৈলী আপডেট করা হয়েছে৷</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2337" />
+      <location filename="../main_window.py" line="2341" />
       <source>Updated selected text underline style</source>
       <translation>নির্বাচিত পাঠ্য আন্ডারলাইন শৈলী আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2348" />
+      <location filename="../main_window.py" line="2352" />
       <source>Updated selected item shadow</source>
       <translation>নির্বাচিত আইটেম ছায়া আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2360" />
+      <location filename="../main_window.py" line="2364" />
       <source>Updated selected item scale to %1%</source>
       <translation>নির্বাচিত আইটেম স্কেল %1% এ আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2369" />
+      <location filename="../main_window.py" line="2373" />
       <source>Updated selected number to %1</source>
       <translation>নির্বাচিত সংখ্যা %1 এ আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2734" />
-      <location filename="../main_window.py" line="2587" />
+      <location filename="../main_window.py" line="2738" />
+      <location filename="../main_window.py" line="2591" />
       <source>Portal capture canceled.</source>
       <translation>পোর্টাল ক্যাপচার বাতিল করা হয়েছে।</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2665" />
+      <location filename="../main_window.py" line="2669" />
       <source>Loaded %1 capture and copied it to clipboard</source>
       <translation>%1 ক্যাপচার লোড করা হয়েছে এবং ক্লিপবোর্ডে কপি করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2754" />
+      <location filename="../main_window.py" line="2758" />
       <source>Loaded %1 capture</source>
       <translation>লোড হয়েছে %1 ক্যাপচার</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2820" />
+      <location filename="../main_window.py" line="2824" />
       <source>Open image</source>
       <translation>ছবি খুলুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2822" />
+      <location filename="../main_window.py" line="2826" />
       <source>Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>প্রকল্প Ksnip (*.ksnip);;ছবি (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2832" />
+      <location filename="../main_window.py" line="2836" />
       <source>Ksnip Projects (*.ksnip)</source>
       <translation>প্রকল্প Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3487" />
-      <location filename="../main_window.py" line="2833" />
+      <location filename="../main_window.py" line="3491" />
+      <location filename="../main_window.py" line="2837" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>ছবি (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2910" />
-      <location filename="../main_window.py" line="2854" />
+      <location filename="../main_window.py" line="2914" />
+      <location filename="../main_window.py" line="2858" />
       <source>Save image as</source>
       <translation>হিসাবে ছবি সংরক্ষণ করুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2912" />
-      <location filename="../main_window.py" line="2856" />
+      <location filename="../main_window.py" line="2916" />
+      <location filename="../main_window.py" line="2860" />
       <source>Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</source>
       <translation>Ksnip প্রকল্প (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2871" />
+      <location filename="../main_window.py" line="2875" />
       <source>Ksnip Project (*.ksnip)</source>
       <translation>Ksnip প্রকল্প (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2872" />
+      <location filename="../main_window.py" line="2876" />
       <source>PNG (*.png)</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2879" />
+      <location filename="../main_window.py" line="2883" />
       <source>Export as SVG</source>
       <translation>SVG হিসাবে রপ্তানি করুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2887" />
+      <location filename="../main_window.py" line="2891" />
       <source>Unable to export SVG: %1</source>
       <translation>SVG রপ্তানি করতে অক্ষম: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2889" />
+      <location filename="../main_window.py" line="2893" />
       <source>Exported SVG to %1</source>
       <translation>%1 এ SVG রপ্তানি করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2937" />
+      <location filename="../main_window.py" line="2941" />
       <source>Saved %1 image(s), failed %2</source>
       <translation>সংরক্ষিত %1 ছবি(গুলি), ব্যর্থ হয়েছে %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2942" />
+      <location filename="../main_window.py" line="2946" />
       <source>Save All stopped early; these could not be saved:
 %1</source>
       <translation>সব সংরক্ষণ করুন তাড়াতাড়ি বন্ধ; এগুলি সংরক্ষণ করা যায়নি:
 %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2946" />
+      <location filename="../main_window.py" line="2950" />
       <source>Saved %1 image(s)</source>
       <translation>সংরক্ষিত %1 ছবি(গুলি)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2967" />
+      <location filename="../main_window.py" line="2971" />
       <source>Unable to save Ksnip project: %1</source>
       <translation>Ksnip প্রকল্প সংরক্ষণ করতে অক্ষম: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2982" />
+      <location filename="../main_window.py" line="2986" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
       <translation>Ksnip প্রকল্পটি সংরক্ষিত হয়েছে, কিন্তু এর সহচর চিত্রটি %1 এ সংরক্ষণ করা যায়নি</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2991" />
+      <location filename="../main_window.py" line="2995" />
       <source>Saved %1 and companion image %2</source>
       <translation>সংরক্ষিত %1 এবং সহচর ছবি %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3004" />
+      <location filename="../main_window.py" line="3008" />
       <source>Saved %1</source>
       <translation>সংরক্ষিত %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3012" />
+      <location filename="../main_window.py" line="3016" />
       <source>Copied image to clipboard</source>
       <translation>ক্লিপবোর্ডে ছবি কপি করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3021" />
+      <location filename="../main_window.py" line="3025" />
       <source>Sent image to printer</source>
       <translation>প্রিন্টারে ছবি পাঠানো হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3060" />
+      <location filename="../main_window.py" line="3064" />
       <source>New name:</source>
       <translation>নতুন নাম:</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3094" />
+      <location filename="../main_window.py" line="3098" />
       <source>Renamed to %1</source>
       <translation>নাম পরিবর্তন করে %1 করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3110" />
+      <location filename="../main_window.py" line="3114" />
       <source>Delete Image</source>
       <translation>ছবি মুছুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3111" />
+      <location filename="../main_window.py" line="3115" />
       <source>The item '%1' will be deleted.
 Do you want to continue?</source>
       <translation>আইটেম '%1' মুছে ফেলা হবে।
 আপনি কি চালিয়ে যেতে চান?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3120" />
+      <location filename="../main_window.py" line="3124" />
       <source>Unable to delete %1: %2</source>
       <translation>%1: %2 মুছতে অক্ষম</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3126" />
+      <location filename="../main_window.py" line="3130" />
       <source>Deleted %1</source>
       <translation>মুছে ফেলা হয়েছে %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3149" />
+      <location filename="../main_window.py" line="3153" />
       <source>Copied image as a base64 encoded Data URI</source>
       <translation>একটি base64 এনকোড করা ডেটা URI হিসেবে ছবি কপি করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3156" />
+      <location filename="../main_window.py" line="3160" />
       <source>Copied path %1</source>
       <translation>পাথ %1 কপি করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3166" />
+      <location filename="../main_window.py" line="3170" />
       <source>Opened directory %1</source>
       <translation>খোলা ডিরেক্টরি %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3173" />
+      <location filename="../main_window.py" line="3177" />
       <source>Copied selected item(s)</source>
       <translation>নির্বাচিত আইটেম(গুলি) কপি করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3186" />
+      <location filename="../main_window.py" line="3190" />
       <source>Loaded image from clipboard</source>
       <translation>ক্লিপবোর্ড থেকে ছবি লোড করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3206" />
+      <location filename="../main_window.py" line="3210" />
       <source>Pasted embedded image from clipboard</source>
       <translation>ক্লিপবোর্ড থেকে এমবেড করা ছবি আটকানো হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3220" />
+      <location filename="../main_window.py" line="3224" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation>ক্যানভাস পরিবর্তিত: %1 × %2 px এ (%3, %4)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3237" />
+      <location filename="../main_window.py" line="3241" />
       <source>Show Docks</source>
       <translation>ডক্স দেখান</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3246" />
+      <location filename="../main_window.py" line="3250" />
       <source>Pasted item from clipboard</source>
       <translation>ক্লিপবোর্ড থেকে আইটেম আটকানো হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3273" />
+      <location filename="../main_window.py" line="3277" />
       <source>Deleted selected item</source>
       <translation>নির্বাচিত আইটেম মুছে ফেলা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3282" />
+      <location filename="../main_window.py" line="3286" />
       <source>Duplicated selected item</source>
       <translation>সদৃশ নির্বাচিত আইটেম</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3291" />
+      <location filename="../main_window.py" line="3295" />
       <source>Updated text item</source>
       <translation>আপডেট করা পাঠ্য আইটেম</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3300" />
+      <location filename="../main_window.py" line="3304" />
       <source>Brought selected item to front</source>
       <translation>নির্বাচিত আইটেম সামনে আনা</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3309" />
+      <location filename="../main_window.py" line="3313" />
       <source>Sent selected item to back</source>
       <translation>নির্বাচিত আইটেম পিছনে পাঠানো হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3321" />
+      <location filename="../main_window.py" line="3325" />
       <source>Rotated image by %1 degrees</source>
       <translation>চিত্রটিকে %1 ডিগ্রি ঘোরানো হয়েছে৷</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3324" />
+      <location filename="../main_window.py" line="3328" />
       <source>Horizontal</source>
       <translation>অনুভূমিক</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3324" />
+      <location filename="../main_window.py" line="3328" />
       <source>Vertical</source>
       <translation>উল্লম্ব</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3325" />
+      <location filename="../main_window.py" line="3329" />
       <source>Flipped image: %1</source>
       <translation>ফ্লিপ করা ছবি: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3345" />
+      <location filename="../main_window.py" line="3349" />
       <source>Scaled image to %1 × %2 px</source>
       <translation>চিত্রকে %1 × %2 পিক্সে স্কেল করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3364" />
+      <location filename="../main_window.py" line="3368" />
       <source>Image effect: %1</source>
       <translation>চিত্র প্রভাব: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3383" />
+      <location filename="../main_window.py" line="3387" />
       <source>Image slice removed</source>
       <translation>ছবির স্লাইস সরানো হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3398" />
+      <location filename="../main_window.py" line="3402" />
       <source>Pinned current image</source>
       <translation>পিন করা বর্তমান ছবি</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3408" />
+      <location filename="../main_window.py" line="3412" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation>ভাষা পরিবর্তন হয়েছে। এটি প্রয়োগ করতে ksnip পুনরায় চালু করুন।</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3410" />
+      <location filename="../main_window.py" line="3414" />
       <source>Settings updated</source>
       <translation>সেটিংস আপডেট করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3414" />
+      <location filename="../main_window.py" line="3418" />
       <source>Model Manager opened</source>
       <translation>মডেল ম্যানেজার খুলেছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3480" />
+      <location filename="../main_window.py" line="3484" />
       <source>Added watermark</source>
       <translation>ওয়াটারমার্ক যোগ করা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3485" />
+      <location filename="../main_window.py" line="3489" />
       <source>Select watermark image</source>
       <translation>জলছাপ ছবি নির্বাচন করুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3495" />
+      <location filename="../main_window.py" line="3499" />
       <source>Updated watermark image</source>
       <translation>আপডেট করা ওয়াটারমার্ক ইমেজ</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3504" />
+      <location filename="../main_window.py" line="3508" />
       <source>Upload Image</source>
       <translation>ছবি আপলোড করুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3505" />
+      <location filename="../main_window.py" line="3509" />
       <source>Upload the current image?</source>
       <translation>বর্তমান ছবি আপলোড করবেন?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3536" />
-      <location filename="../main_window.py" line="3531" />
+      <location filename="../main_window.py" line="3540" />
+      <location filename="../main_window.py" line="3535" />
       <source>Uploading image...</source>
       <translation>ছবি আপলোড করা হচ্ছে...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3614" />
-      <location filename="../main_window.py" line="3531" />
+      <location filename="../main_window.py" line="3618" />
+      <location filename="../main_window.py" line="3535" />
       <source>Cancel</source>
       <translation>বাতিল করুন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3573" />
+      <location filename="../main_window.py" line="3577" />
       <source>Upload canceled</source>
       <translation>আপলোড বাতিল করা হয়েছে৷</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3576" />
+      <location filename="../main_window.py" line="3580" />
       <source>Upload failed</source>
       <translation>আপলোড ব্যর্থ হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3581" />
+      <location filename="../main_window.py" line="3585" />
       <source>Upload finished successfully</source>
       <translation>আপলোড সফলভাবে সমাপ্ত</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3583" />
+      <location filename="../main_window.py" line="3587" />
       <source>Upload Successful</source>
       <translation>আপলোড সফল</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3616" />
+      <location filename="../main_window.py" line="3620" />
       <source>OCR</source>
       <translation>ওসিআর</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3620" />
+      <location filename="../main_window.py" line="3624" />
       <source>Running OCR...</source>
       <translation>OCR চলমান...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3626" />
+      <location filename="../main_window.py" line="3630" />
       <source>Running OCR layout and table recognition…
 First run loads several models and may take 1–3 minutes on CPU.</source>
       <translation>OCR লেআউট ও টেবিল চেনাচালনা চালু হচ্ছে…
 প্রথম রান টি چندین মডেল লোড করে এবং সিপিইউ-তে ১-৩ মিনিট লাগতে পারে।</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3630" />
+      <location filename="../main_window.py" line="3634" />
       <source>Running OCR text recognition...</source>
       <translation>OCR পাঠ্য শনাক্তকরণ চলছে...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3672" />
+      <location filename="../main_window.py" line="3676" />
       <source>OCR canceled</source>
       <translation>ওসিআর বাতিল</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3676" />
+      <location filename="../main_window.py" line="3680" />
       <source>OCR failed</source>
       <translation>OCR ব্যর্থ হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3686" />
+      <location filename="../main_window.py" line="3690" />
       <source>OCR finished</source>
       <translation>ওসিআর শেষ</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4026" />
-      <location filename="../main_window.py" line="3996" />
+      <location filename="../main_window.py" line="4030" />
+      <location filename="../main_window.py" line="4000" />
       <source>Opened %1</source>
       <translation>%1 খোলা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4006" />
+      <location filename="../main_window.py" line="4010" />
       <source>Unable to open Ksnip project: %1</source>
       <translation>Ksnip প্রকল্প খুলতে অক্ষম: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4017" />
+      <location filename="../main_window.py" line="4021" />
       <source>Unable to restore Ksnip project: %1</source>
       <translation>Ksnip প্রকল্প পুনরুদ্ধার করতে অক্ষম: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4032" />
+      <location filename="../main_window.py" line="4036" />
       <source>Unable to open image data.</source>
       <translation>ছবি ডেটা খুলতে অক্ষম৷</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4040" />
+      <location filename="../main_window.py" line="4044" />
       <source>Opened image from standard input</source>
       <translation>স্ট্যান্ডার্ড ইনপুট থেকে ছবিটি খোলা হয়েছে</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4700" />
-      <location filename="../main_window.py" line="4681" />
+      <location filename="../main_window.py" line="4704" />
+      <location filename="../main_window.py" line="4685" />
       <source>Unsaved changes</source>
       <translation>অসংরক্ষিত পরিবর্তন</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4682" />
+      <location filename="../main_window.py" line="4686" />
       <source>Close this tab and discard unsaved changes?</source>
       <translation>এই ট্যাবটি বন্ধ করে অসংরক্ষিত পরিবর্তনগুলি বাতিল করবেন?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4701" />
+      <location filename="../main_window.py" line="4705" />
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>ksnip PyQt6 বন্ধ করবেন এবং খোলা ট্যাবে অসংরক্ষিত পরিবর্তনগুলি বাতিল করবেন?</translation>
     </message>

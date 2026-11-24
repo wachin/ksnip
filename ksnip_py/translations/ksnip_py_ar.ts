@@ -62,20 +62,20 @@
   <context>
     <name>AnnotationCanvas</name>
     <message>
-      <location filename="../canvas.py" line="1694" />
+      <location filename="../canvas.py" line="1750" />
       <source>Take a screenshot or open an image.</source>
       <translation>التقط لقطة شاشة أو افتح صورة.</translation>
     </message>
     <message>
-      <location filename="../canvas.py" line="2223" />
-      <location filename="../canvas.py" line="2190" />
+      <location filename="../canvas.py" line="2439" />
+      <location filename="../canvas.py" line="2406" />
       <source>Edit text</source>
       <translation>تحرير النص</translation>
     </message>
     <message>
-      <location filename="../canvas.py" line="3206" />
-      <location filename="../canvas.py" line="3182" />
-      <location filename="../canvas.py" line="3007" />
+      <location filename="../canvas.py" line="3436" />
+      <location filename="../canvas.py" line="3412" />
+      <location filename="../canvas.py" line="3237" />
       <source>Insert text</source>
       <translation>أدخل النص</translation>
     </message>
@@ -271,7 +271,7 @@ tesseract "$1" stdout -l spa+eng
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="../main_window.py" line="3704" />
+      <location filename="../main_window.py" line="3708" />
       <location filename="../main_window.py" line="178" />
       <source>Ready</source>
       <translation>مستعد</translation>
@@ -282,7 +282,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>جديد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4586" />
+      <location filename="../main_window.py" line="4590" />
       <location filename="../main_window.py" line="1426" />
       <location filename="../main_window.py" line="271" />
       <source>New Screenshot</source>
@@ -362,7 +362,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>مطبعة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3030" />
+      <location filename="../main_window.py" line="3034" />
       <location filename="../main_window.py" line="735" />
       <source>Print Preview</source>
       <translation>معاينة الطباعة</translation>
@@ -385,7 +385,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>نسخ المسار</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3060" />
+      <location filename="../main_window.py" line="3064" />
       <location filename="../main_window.py" line="785" />
       <location filename="../main_window.py" line="748" />
       <source>Rename</source>
@@ -621,31 +621,31 @@ tesseract "$1" stdout -l spa+eng
       <translation>حجم</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3356" />
+      <location filename="../main_window.py" line="3360" />
       <location filename="../main_window.py" line="945" />
       <source>No Effect</source>
       <translation>بلا تأثير</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3357" />
+      <location filename="../main_window.py" line="3361" />
       <location filename="../main_window.py" line="946" />
       <source>Drop Shadow</source>
       <translation>ظلال ساقطة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3358" />
+      <location filename="../main_window.py" line="3362" />
       <location filename="../main_window.py" line="947" />
       <source>Grayscale</source>
       <translation>رمادي</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3359" />
+      <location filename="../main_window.py" line="3363" />
       <location filename="../main_window.py" line="948" />
       <source>Invert Color</source>
       <translation>لون معكوس</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3360" />
+      <location filename="../main_window.py" line="3364" />
       <location filename="../main_window.py" line="949" />
       <source>Border</source>
       <translation>الحدود</translation>
@@ -656,7 +656,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>تعديل اللوحة القماشية...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3237" />
+      <location filename="../main_window.py" line="3241" />
       <location filename="../main_window.py" line="955" />
       <source>Hide Docks</source>
       <translation>إخفاء الاحواض</translation>
@@ -672,7 +672,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>أضف علامة مائية</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3532" />
+      <location filename="../main_window.py" line="3536" />
       <location filename="../main_window.py" line="968" />
       <source>Upload</source>
       <translation>رفع</translation>
@@ -884,7 +884,7 @@ tesseract "$1" stdout -l spa+eng
       <translation>تكبير</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3371" />
+      <location filename="../main_window.py" line="3375" />
       <location filename="../main_window.py" line="1381" />
       <source>Image Effect: %1</source>
       <translation>تأثير الصورة: %1</translation>
@@ -965,501 +965,506 @@ tesseract "$1" stdout -l spa+eng
       <translation>تم تصغير ksnip PyQt6 إلى علبة النظام.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2174" />
+      <location filename="../main_window.py" line="1965" />
+      <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
+      <translation type="unfinished" />
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2178" />
       <source>Select color</source>
       <translation>اختر اللون</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2183" />
+      <location filename="../main_window.py" line="2187" />
       <source>Updated selected item color</source>
       <translation>تم تحديث لون العنصر المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2202" />
+      <location filename="../main_window.py" line="2206" />
       <source>Updated selected item fill</source>
       <translation>تم تحديث تعبئة العنصر المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2212" />
+      <location filename="../main_window.py" line="2216" />
       <source>Select text color</source>
       <translation>حدد لون النص</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2222" />
+      <location filename="../main_window.py" line="2226" />
       <source>Updated selected text color</source>
       <translation>تم تحديث لون النص المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2238" />
+      <location filename="../main_window.py" line="2242" />
       <source>Updated selected item width to %1</source>
       <translation>تم تحديث عرض العنصر المحدد إلى %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2251" />
+      <location filename="../main_window.py" line="2255" />
       <source>Updated selected arrowhead size to %1</source>
       <translation>تم تحديث حجم رأس السهم المحدد إلى %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2261" />
+      <location filename="../main_window.py" line="2265" />
       <source>Updated selected text font</source>
       <translation>تم تحديث خط النص المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2275" />
+      <location filename="../main_window.py" line="2279" />
       <source>Updated selected text size to %1</source>
       <translation>تم تحديث حجم النص المحدد إلى %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2285" />
+      <location filename="../main_window.py" line="2289" />
       <source>Updated selected item opacity to %1%</source>
       <translation>تم تحديث عتامة العنصر المحدد إلى %1%</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2303" />
+      <location filename="../main_window.py" line="2307" />
       <source>Updated selected item fill mode</source>
       <translation>تم تحديث وضع تعبئة العنصر المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2314" />
+      <location filename="../main_window.py" line="2318" />
       <source>Updated selected text bold style</source>
       <translation>تم تحديث نمط النص الغامق المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2326" />
+      <location filename="../main_window.py" line="2330" />
       <source>Updated selected text italic style</source>
       <translation>تم تحديث النمط المائل للنص المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2337" />
+      <location filename="../main_window.py" line="2341" />
       <source>Updated selected text underline style</source>
       <translation>تم تحديث نمط تسطير النص المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2348" />
+      <location filename="../main_window.py" line="2352" />
       <source>Updated selected item shadow</source>
       <translation>تم تحديث ظل العنصر المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2360" />
+      <location filename="../main_window.py" line="2364" />
       <source>Updated selected item scale to %1%</source>
       <translation>تم تحديث مقياس العنصر المحدد إلى %1%</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2369" />
+      <location filename="../main_window.py" line="2373" />
       <source>Updated selected number to %1</source>
       <translation>تم تحديث الرقم المحدد إلى %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2734" />
-      <location filename="../main_window.py" line="2587" />
+      <location filename="../main_window.py" line="2738" />
+      <location filename="../main_window.py" line="2591" />
       <source>Portal capture canceled.</source>
       <translation>تم إلغاء التقاط البوابة.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2665" />
+      <location filename="../main_window.py" line="2669" />
       <source>Loaded %1 capture and copied it to clipboard</source>
       <translation>تم تحميل الالتقاط %1 ونسخه إلى الحافظة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2754" />
+      <location filename="../main_window.py" line="2758" />
       <source>Loaded %1 capture</source>
       <translation>تم تحميل %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2820" />
+      <location filename="../main_window.py" line="2824" />
       <source>Open image</source>
       <translation>افتح الصورة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2822" />
+      <location filename="../main_window.py" line="2826" />
       <source>Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>مشاريع Ksnip (*.ksnip);;صور (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2832" />
+      <location filename="../main_window.py" line="2836" />
       <source>Ksnip Projects (*.ksnip)</source>
       <translation>مشاريع Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3487" />
-      <location filename="../main_window.py" line="2833" />
+      <location filename="../main_window.py" line="3491" />
+      <location filename="../main_window.py" line="2837" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>الصور (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2910" />
-      <location filename="../main_window.py" line="2854" />
+      <location filename="../main_window.py" line="2914" />
+      <location filename="../main_window.py" line="2858" />
       <source>Save image as</source>
       <translation>حفظ الصورة باسم</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2912" />
-      <location filename="../main_window.py" line="2856" />
+      <location filename="../main_window.py" line="2916" />
+      <location filename="../main_window.py" line="2860" />
       <source>Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</source>
       <translation>مشروع Ksnip (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2871" />
+      <location filename="../main_window.py" line="2875" />
       <source>Ksnip Project (*.ksnip)</source>
       <translation>مشروع كسنيب (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2872" />
+      <location filename="../main_window.py" line="2876" />
       <source>PNG (*.png)</source>
       <translation>PNG (*.png)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2879" />
+      <location filename="../main_window.py" line="2883" />
       <source>Export as SVG</source>
       <translation>تصدير بصيغة SVG</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2887" />
+      <location filename="../main_window.py" line="2891" />
       <source>Unable to export SVG: %1</source>
       <translation>غير قادر على تصدير SVG: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2889" />
+      <location filename="../main_window.py" line="2893" />
       <source>Exported SVG to %1</source>
       <translation>تم تصدير SVG إلى %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2937" />
+      <location filename="../main_window.py" line="2941" />
       <source>Saved %1 image(s), failed %2</source>
       <translation>تم حفظ %1 صورة (صور)، فشل %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2942" />
+      <location filename="../main_window.py" line="2946" />
       <source>Save All stopped early; these could not be saved:
 %1</source>
       <translation>توقف حفظ الكل مبكرًا؛ لا يمكن حفظ هذه:
 %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2946" />
+      <location filename="../main_window.py" line="2950" />
       <source>Saved %1 image(s)</source>
       <translation>تم حفظ %1 صورة (صور)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2967" />
+      <location filename="../main_window.py" line="2971" />
       <source>Unable to save Ksnip project: %1</source>
       <translation>غير قادر على حفظ مشروع Ksnip: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2982" />
+      <location filename="../main_window.py" line="2986" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
       <translation>تم حفظ مشروع Ksnip، ولكن تعذر حفظ الصورة المصاحبة له في %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2991" />
+      <location filename="../main_window.py" line="2995" />
       <source>Saved %1 and companion image %2</source>
       <translation>تم حفظ %1 والصورة المصاحبة %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3004" />
+      <location filename="../main_window.py" line="3008" />
       <source>Saved %1</source>
       <translation>تم حفظ %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3012" />
+      <location filename="../main_window.py" line="3016" />
       <source>Copied image to clipboard</source>
       <translation>تم نسخ الصورة إلى الحافظة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3021" />
+      <location filename="../main_window.py" line="3025" />
       <source>Sent image to printer</source>
       <translation>أرسلت الصورة إلى الطابعة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3060" />
+      <location filename="../main_window.py" line="3064" />
       <source>New name:</source>
       <translation>الاسم الجديد:</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3094" />
+      <location filename="../main_window.py" line="3098" />
       <source>Renamed to %1</source>
       <translation>تمت إعادة تسميته إلى %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3110" />
+      <location filename="../main_window.py" line="3114" />
       <source>Delete Image</source>
       <translation>حذف الصورة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3111" />
+      <location filename="../main_window.py" line="3115" />
       <source>The item '%1' will be deleted.
 Do you want to continue?</source>
       <translation>سيتم حذف العنصر '%1'.
 هل تريد الاستمرار؟</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3120" />
+      <location filename="../main_window.py" line="3124" />
       <source>Unable to delete %1: %2</source>
       <translation>غير قادر على حذف %1: %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3126" />
+      <location filename="../main_window.py" line="3130" />
       <source>Deleted %1</source>
       <translation>تم حذف %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3149" />
+      <location filename="../main_window.py" line="3153" />
       <source>Copied image as a base64 encoded Data URI</source>
       <translation>الصورة المنسوخة باعتبارها URI للبيانات المشفرة base64</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3156" />
+      <location filename="../main_window.py" line="3160" />
       <source>Copied path %1</source>
       <translation>المسار المنسوخ %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3166" />
+      <location filename="../main_window.py" line="3170" />
       <source>Opened directory %1</source>
       <translation>تم فتح الدليل %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3173" />
+      <location filename="../main_window.py" line="3177" />
       <source>Copied selected item(s)</source>
       <translation>تم نسخ العنصر (العناصر) المحددة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3186" />
+      <location filename="../main_window.py" line="3190" />
       <source>Loaded image from clipboard</source>
       <translation>الصورة المحملة من الحافظة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3206" />
+      <location filename="../main_window.py" line="3210" />
       <source>Pasted embedded image from clipboard</source>
       <translation>تم لصق الصورة المضمنة من الحافظة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3220" />
+      <location filename="../main_window.py" line="3224" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation>تم تعديل اللوحة القماشية: %1 × %2 بكسل عند (%3, %4)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3237" />
+      <location filename="../main_window.py" line="3241" />
       <source>Show Docks</source>
       <translation>عرض الاحواض</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3246" />
+      <location filename="../main_window.py" line="3250" />
       <source>Pasted item from clipboard</source>
       <translation>تم لصق العنصر من الحافظة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3273" />
+      <location filename="../main_window.py" line="3277" />
       <source>Deleted selected item</source>
       <translation>تم حذف العنصر المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3282" />
+      <location filename="../main_window.py" line="3286" />
       <source>Duplicated selected item</source>
       <translation>تم تكرار العنصر المحدد</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3291" />
+      <location filename="../main_window.py" line="3295" />
       <source>Updated text item</source>
       <translation>تم تحديث العنصر النصي</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3300" />
+      <location filename="../main_window.py" line="3304" />
       <source>Brought selected item to front</source>
       <translation>جلب العنصر المحدد إلى الأمام</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3309" />
+      <location filename="../main_window.py" line="3313" />
       <source>Sent selected item to back</source>
       <translation>تم إرسال العنصر المحدد إلى الخلف</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3321" />
+      <location filename="../main_window.py" line="3325" />
       <source>Rotated image by %1 degrees</source>
       <translation>تم تدوير الصورة بمقدار %1 درجة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3324" />
+      <location filename="../main_window.py" line="3328" />
       <source>Horizontal</source>
       <translation>أفقي</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3324" />
+      <location filename="../main_window.py" line="3328" />
       <source>Vertical</source>
       <translation>رأسي</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3325" />
+      <location filename="../main_window.py" line="3329" />
       <source>Flipped image: %1</source>
       <translation>الصورة المعكوسة: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3345" />
+      <location filename="../main_window.py" line="3349" />
       <source>Scaled image to %1 × %2 px</source>
       <translation>تم تغيير حجم الصورة إلى %1 × %2 بكسل</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3364" />
+      <location filename="../main_window.py" line="3368" />
       <source>Image effect: %1</source>
       <translation>تأثير الصورة: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3383" />
+      <location filename="../main_window.py" line="3387" />
       <source>Image slice removed</source>
       <translation>تمت إزالة شريحة الصورة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3398" />
+      <location filename="../main_window.py" line="3402" />
       <source>Pinned current image</source>
       <translation>الصورة الحالية المثبتة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3408" />
+      <location filename="../main_window.py" line="3412" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation>تغيرت اللغة. أعد تشغيل ksnip لتطبيقه.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3410" />
+      <location filename="../main_window.py" line="3414" />
       <source>Settings updated</source>
       <translation>تم تحديث الإعدادات</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3414" />
+      <location filename="../main_window.py" line="3418" />
       <source>Model Manager opened</source>
       <translation>تم فتح مدير النماذج</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3480" />
+      <location filename="../main_window.py" line="3484" />
       <source>Added watermark</source>
       <translation>العلامة المائية المضافة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3485" />
+      <location filename="../main_window.py" line="3489" />
       <source>Select watermark image</source>
       <translation>حدد صورة العلامة المائية</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3495" />
+      <location filename="../main_window.py" line="3499" />
       <source>Updated watermark image</source>
       <translation>تم تحديث صورة العلامة المائية</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3504" />
+      <location filename="../main_window.py" line="3508" />
       <source>Upload Image</source>
       <translation>تحميل الصورة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3505" />
+      <location filename="../main_window.py" line="3509" />
       <source>Upload the current image?</source>
       <translation>تحميل الصورة الحالية؟</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3536" />
-      <location filename="../main_window.py" line="3531" />
+      <location filename="../main_window.py" line="3540" />
+      <location filename="../main_window.py" line="3535" />
       <source>Uploading image...</source>
       <translation>جارٍ تحميل الصورة...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3614" />
-      <location filename="../main_window.py" line="3531" />
+      <location filename="../main_window.py" line="3618" />
+      <location filename="../main_window.py" line="3535" />
       <source>Cancel</source>
       <translation>ألغ</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3573" />
+      <location filename="../main_window.py" line="3577" />
       <source>Upload canceled</source>
       <translation>تم إلغاء التحميل</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3576" />
+      <location filename="../main_window.py" line="3580" />
       <source>Upload failed</source>
       <translation>فشل التحميل</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3581" />
+      <location filename="../main_window.py" line="3585" />
       <source>Upload finished successfully</source>
       <translation>انتهى التحميل بنجاح</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3583" />
+      <location filename="../main_window.py" line="3587" />
       <source>Upload Successful</source>
       <translation>تم التحميل بنجاح</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3616" />
+      <location filename="../main_window.py" line="3620" />
       <source>OCR</source>
       <translation>التعرف الضوئي على الحروف</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3620" />
+      <location filename="../main_window.py" line="3624" />
       <source>Running OCR...</source>
       <translation>تشغيل التعرف الضوئي على الحروف...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3626" />
+      <location filename="../main_window.py" line="3630" />
       <source>Running OCR layout and table recognition…
 First run loads several models and may take 1–3 minutes on CPU.</source>
       <translation>جاري تنفيذ التعرف على التخطيط والجداول OCR…
 التشغيل الأول يحمل عدة نماذج وقد يستغرق 1-3 دقائق على المعالج.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3630" />
+      <location filename="../main_window.py" line="3634" />
       <source>Running OCR text recognition...</source>
       <translation>جارٍ تشغيل التعرف على النص بتقنية التعرف الضوئي على الحروف (OCR)...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3672" />
+      <location filename="../main_window.py" line="3676" />
       <source>OCR canceled</source>
       <translation>تم إلغاء التعرف الضوئي على الحروف</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3676" />
+      <location filename="../main_window.py" line="3680" />
       <source>OCR failed</source>
       <translation>فشل التعرف الضوئي على الحروف</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3686" />
+      <location filename="../main_window.py" line="3690" />
       <source>OCR finished</source>
       <translation>انتهى التعرف الضوئي على الحروف</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4026" />
-      <location filename="../main_window.py" line="3996" />
+      <location filename="../main_window.py" line="4030" />
+      <location filename="../main_window.py" line="4000" />
       <source>Opened %1</source>
       <translation>تم فتح %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4006" />
+      <location filename="../main_window.py" line="4010" />
       <source>Unable to open Ksnip project: %1</source>
       <translation>غير قادر على فتح مشروع Ksnip: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4017" />
+      <location filename="../main_window.py" line="4021" />
       <source>Unable to restore Ksnip project: %1</source>
       <translation>غير قادر على استعادة مشروع Ksnip: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4032" />
+      <location filename="../main_window.py" line="4036" />
       <source>Unable to open image data.</source>
       <translation>غير قادر على فتح بيانات الصورة.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4040" />
+      <location filename="../main_window.py" line="4044" />
       <source>Opened image from standard input</source>
       <translation>الصورة المفتوحة من الإدخال القياسي</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4700" />
-      <location filename="../main_window.py" line="4681" />
+      <location filename="../main_window.py" line="4704" />
+      <location filename="../main_window.py" line="4685" />
       <source>Unsaved changes</source>
       <translation>التغييرات غير المحفوظة</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4682" />
+      <location filename="../main_window.py" line="4686" />
       <source>Close this tab and discard unsaved changes?</source>
       <translation>هل تريد إغلاق علامة التبويب هذه وتجاهل التغييرات غير المحفوظة؟</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4701" />
+      <location filename="../main_window.py" line="4705" />
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>هل تريد إغلاق ksnip PyQt6 وتجاهل التغييرات غير المحفوظة في علامات التبويب المفتوحة؟</translation>
     </message>

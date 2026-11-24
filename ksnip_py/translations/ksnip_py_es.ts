@@ -62,20 +62,20 @@
   <context>
     <name>AnnotationCanvas</name>
     <message>
-      <location filename="../canvas.py" line="1694" />
+      <location filename="../canvas.py" line="1750" />
       <source>Take a screenshot or open an image.</source>
       <translation>Haz una captura de pantalla o abre una imagen.</translation>
     </message>
     <message>
-      <location filename="../canvas.py" line="2223" />
-      <location filename="../canvas.py" line="2190" />
+      <location filename="../canvas.py" line="2439" />
+      <location filename="../canvas.py" line="2406" />
       <source>Edit text</source>
       <translation>Editar texto</translation>
     </message>
     <message>
-      <location filename="../canvas.py" line="3206" />
-      <location filename="../canvas.py" line="3182" />
-      <location filename="../canvas.py" line="3007" />
+      <location filename="../canvas.py" line="3436" />
+      <location filename="../canvas.py" line="3412" />
+      <location filename="../canvas.py" line="3237" />
       <source>Insert text</source>
       <translation>Insertar texto</translation>
     </message>
@@ -271,7 +271,7 @@ Luego configura la ruta en Configuración → OCR → Script OCR externo.</trans
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="../main_window.py" line="3704" />
+      <location filename="../main_window.py" line="3708" />
       <location filename="../main_window.py" line="178" />
       <source>Ready</source>
       <translation>Listo</translation>
@@ -282,7 +282,7 @@ Luego configura la ruta en Configuración → OCR → Script OCR externo.</trans
       <translation>Nuevo</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4586" />
+      <location filename="../main_window.py" line="4590" />
       <location filename="../main_window.py" line="1426" />
       <location filename="../main_window.py" line="271" />
       <source>New Screenshot</source>
@@ -362,7 +362,7 @@ Luego configura la ruta en Configuración → OCR → Script OCR externo.</trans
       <translation>Imprimir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3030" />
+      <location filename="../main_window.py" line="3034" />
       <location filename="../main_window.py" line="735" />
       <source>Print Preview</source>
       <translation>Vista previa de impresión</translation>
@@ -385,7 +385,7 @@ Luego configura la ruta en Configuración → OCR → Script OCR externo.</trans
       <translation>Copiar ruta</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3060" />
+      <location filename="../main_window.py" line="3064" />
       <location filename="../main_window.py" line="785" />
       <location filename="../main_window.py" line="748" />
       <source>Rename</source>
@@ -621,31 +621,31 @@ Luego configura la ruta en Configuración → OCR → Script OCR externo.</trans
       <translation>Escalar</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3356" />
+      <location filename="../main_window.py" line="3360" />
       <location filename="../main_window.py" line="945" />
       <source>No Effect</source>
       <translation>Sin efecto</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3357" />
+      <location filename="../main_window.py" line="3361" />
       <location filename="../main_window.py" line="946" />
       <source>Drop Shadow</source>
       <translation>Sombra paralela</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3358" />
+      <location filename="../main_window.py" line="3362" />
       <location filename="../main_window.py" line="947" />
       <source>Grayscale</source>
       <translation>Escala de grises</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3359" />
+      <location filename="../main_window.py" line="3363" />
       <location filename="../main_window.py" line="948" />
       <source>Invert Color</source>
       <translation>Invertir color</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3360" />
+      <location filename="../main_window.py" line="3364" />
       <location filename="../main_window.py" line="949" />
       <source>Border</source>
       <translation>Borde</translation>
@@ -656,7 +656,7 @@ Luego configura la ruta en Configuración → OCR → Script OCR externo.</trans
       <translation>Modificar lienzo...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3237" />
+      <location filename="../main_window.py" line="3241" />
       <location filename="../main_window.py" line="955" />
       <source>Hide Docks</source>
       <translation>Ocultar paneles</translation>
@@ -672,7 +672,7 @@ Luego configura la ruta en Configuración → OCR → Script OCR externo.</trans
       <translation>Añadir marca de agua</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3532" />
+      <location filename="../main_window.py" line="3536" />
       <location filename="../main_window.py" line="968" />
       <source>Upload</source>
       <translation>Subir</translation>
@@ -884,7 +884,7 @@ Luego configura la ruta en Configuración → OCR → Script OCR externo.</trans
       <translation>Zoom</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3371" />
+      <location filename="../main_window.py" line="3375" />
       <location filename="../main_window.py" line="1381" />
       <source>Image Effect: %1</source>
       <translation>Efecto de imagen: %1</translation>
@@ -965,501 +965,506 @@ Luego configura la ruta en Configuración → OCR → Script OCR externo.</trans
       <translation>ksnip PyQt6 se minimizó a la bandeja del sistema.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2174" />
+      <location filename="../main_window.py" line="1965" />
+      <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
+      <translation>Arrastra los tiradores del recorte y pulsa Intro para recortar o Esc para cancelar.</translation>
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2178" />
       <source>Select color</source>
       <translation>Seleccionar color</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2183" />
+      <location filename="../main_window.py" line="2187" />
       <source>Updated selected item color</source>
       <translation>Color del elemento seleccionado actualizado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2202" />
+      <location filename="../main_window.py" line="2206" />
       <source>Updated selected item fill</source>
       <translation>Relleno del elemento seleccionado actualizado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2212" />
+      <location filename="../main_window.py" line="2216" />
       <source>Select text color</source>
       <translation>Seleccionar color del texto</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2222" />
+      <location filename="../main_window.py" line="2226" />
       <source>Updated selected text color</source>
       <translation>Color del texto seleccionado actualizado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2238" />
+      <location filename="../main_window.py" line="2242" />
       <source>Updated selected item width to %1</source>
       <translation>Anchura del elemento seleccionado actualizada a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2251" />
+      <location filename="../main_window.py" line="2255" />
       <source>Updated selected arrowhead size to %1</source>
       <translation>Se actualizó a %1 el tamaño de la punta seleccionada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2261" />
+      <location filename="../main_window.py" line="2265" />
       <source>Updated selected text font</source>
       <translation>Fuente del texto seleccionado actualizada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2275" />
+      <location filename="../main_window.py" line="2279" />
       <source>Updated selected text size to %1</source>
       <translation>Tamaño del texto seleccionado actualizado a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2285" />
+      <location filename="../main_window.py" line="2289" />
       <source>Updated selected item opacity to %1%</source>
       <translation>Opacidad del elemento seleccionado actualizada al %1%</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2303" />
+      <location filename="../main_window.py" line="2307" />
       <source>Updated selected item fill mode</source>
       <translation>Modo de relleno del elemento seleccionado actualizado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2314" />
+      <location filename="../main_window.py" line="2318" />
       <source>Updated selected text bold style</source>
       <translation>Negrita del texto seleccionado actualizada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2326" />
+      <location filename="../main_window.py" line="2330" />
       <source>Updated selected text italic style</source>
       <translation>Cursiva del texto seleccionado actualizada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2337" />
+      <location filename="../main_window.py" line="2341" />
       <source>Updated selected text underline style</source>
       <translation>Subrayado del texto seleccionado actualizado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2348" />
+      <location filename="../main_window.py" line="2352" />
       <source>Updated selected item shadow</source>
       <translation>Sombra del elemento seleccionado actualizada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2360" />
+      <location filename="../main_window.py" line="2364" />
       <source>Updated selected item scale to %1%</source>
       <translation>Escala del elemento seleccionado actualizada al %1%</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2369" />
+      <location filename="../main_window.py" line="2373" />
       <source>Updated selected number to %1</source>
       <translation>Número seleccionado actualizado a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2734" />
-      <location filename="../main_window.py" line="2587" />
+      <location filename="../main_window.py" line="2738" />
+      <location filename="../main_window.py" line="2591" />
       <source>Portal capture canceled.</source>
       <translation>Captura mediante el portal cancelada.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2665" />
+      <location filename="../main_window.py" line="2669" />
       <source>Loaded %1 capture and copied it to clipboard</source>
       <translation>Captura %1 cargada y copiada al portapapeles</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2754" />
+      <location filename="../main_window.py" line="2758" />
       <source>Loaded %1 capture</source>
       <translation>Captura %1 cargada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2820" />
+      <location filename="../main_window.py" line="2824" />
       <source>Open image</source>
       <translation>Abrir imagen</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2822" />
+      <location filename="../main_window.py" line="2826" />
       <source>Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>Proyectos de Ksnip (*.ksnip);;Imágenes (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2832" />
+      <location filename="../main_window.py" line="2836" />
       <source>Ksnip Projects (*.ksnip)</source>
       <translation>Proyectos de Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3487" />
-      <location filename="../main_window.py" line="2833" />
+      <location filename="../main_window.py" line="3491" />
+      <location filename="../main_window.py" line="2837" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>Imágenes (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2910" />
-      <location filename="../main_window.py" line="2854" />
+      <location filename="../main_window.py" line="2914" />
+      <location filename="../main_window.py" line="2858" />
       <source>Save image as</source>
       <translation>Guardar imagen como</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2912" />
-      <location filename="../main_window.py" line="2856" />
+      <location filename="../main_window.py" line="2916" />
+      <location filename="../main_window.py" line="2860" />
       <source>Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</source>
       <translation>Proyecto de Ksnip (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2871" />
+      <location filename="../main_window.py" line="2875" />
       <source>Ksnip Project (*.ksnip)</source>
       <translation>Proyecto de Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2872" />
+      <location filename="../main_window.py" line="2876" />
       <source>PNG (*.png)</source>
       <translation>PNG (*.png)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2879" />
+      <location filename="../main_window.py" line="2883" />
       <source>Export as SVG</source>
       <translation>Exportar como SVG</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2887" />
+      <location filename="../main_window.py" line="2891" />
       <source>Unable to export SVG: %1</source>
       <translation>No se pudo exportar el SVG: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2889" />
+      <location filename="../main_window.py" line="2893" />
       <source>Exported SVG to %1</source>
       <translation>SVG exportado a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2937" />
+      <location filename="../main_window.py" line="2941" />
       <source>Saved %1 image(s), failed %2</source>
       <translation>Se guardaron %1 imagen(es), %2 fallaron</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2942" />
+      <location filename="../main_window.py" line="2946" />
       <source>Save All stopped early; these could not be saved:
 %1</source>
       <translation>La opción Guardar todo se detuvo antes de tiempo; no se pudieron guardar:
 %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2946" />
+      <location filename="../main_window.py" line="2950" />
       <source>Saved %1 image(s)</source>
       <translation>%1 imagen(es) guardada(s)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2967" />
+      <location filename="../main_window.py" line="2971" />
       <source>Unable to save Ksnip project: %1</source>
       <translation>No se pudo guardar el proyecto Ksnip: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2982" />
+      <location filename="../main_window.py" line="2986" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
       <translation>El proyecto Ksnip se guardó, pero su imagen complementaria no se pudo guardar en %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2991" />
+      <location filename="../main_window.py" line="2995" />
       <source>Saved %1 and companion image %2</source>
       <translation>Se guardaron %1 y la imagen complementaria %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3004" />
+      <location filename="../main_window.py" line="3008" />
       <source>Saved %1</source>
       <translation>%1 guardado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3012" />
+      <location filename="../main_window.py" line="3016" />
       <source>Copied image to clipboard</source>
       <translation>Imagen copiada al portapapeles</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3021" />
+      <location filename="../main_window.py" line="3025" />
       <source>Sent image to printer</source>
       <translation>Imagen enviada a la impresora</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3060" />
+      <location filename="../main_window.py" line="3064" />
       <source>New name:</source>
       <translation>Nuevo nombre:</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3094" />
+      <location filename="../main_window.py" line="3098" />
       <source>Renamed to %1</source>
       <translation>Renombrado a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3110" />
+      <location filename="../main_window.py" line="3114" />
       <source>Delete Image</source>
       <translation>Eliminar imagen</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3111" />
+      <location filename="../main_window.py" line="3115" />
       <source>The item '%1' will be deleted.
 Do you want to continue?</source>
       <translation>El elemento '%1' se eliminará.
 ¿Quieres continuar?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3120" />
+      <location filename="../main_window.py" line="3124" />
       <source>Unable to delete %1: %2</source>
       <translation>No se pudo eliminar %1: %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3126" />
+      <location filename="../main_window.py" line="3130" />
       <source>Deleted %1</source>
       <translation>%1 eliminado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3149" />
+      <location filename="../main_window.py" line="3153" />
       <source>Copied image as a base64 encoded Data URI</source>
       <translation>Imagen copiada como URI de datos codificada en base64</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3156" />
+      <location filename="../main_window.py" line="3160" />
       <source>Copied path %1</source>
       <translation>Ruta %1 copiada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3166" />
+      <location filename="../main_window.py" line="3170" />
       <source>Opened directory %1</source>
       <translation>Directorio %1 abierto</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3173" />
+      <location filename="../main_window.py" line="3177" />
       <source>Copied selected item(s)</source>
       <translation>Elemento(s) seleccionado(s) copiado(s)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3186" />
+      <location filename="../main_window.py" line="3190" />
       <source>Loaded image from clipboard</source>
       <translation>Imagen cargada desde el portapapeles</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3206" />
+      <location filename="../main_window.py" line="3210" />
       <source>Pasted embedded image from clipboard</source>
       <translation>Imagen incrustada pegada desde el portapapeles</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3220" />
+      <location filename="../main_window.py" line="3224" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation>Lienzo modificado: %1 × %2 px en (%3, %4)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3237" />
+      <location filename="../main_window.py" line="3241" />
       <source>Show Docks</source>
       <translation>Mostrar paneles</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3246" />
+      <location filename="../main_window.py" line="3250" />
       <source>Pasted item from clipboard</source>
       <translation>Elemento pegado desde el portapapeles</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3273" />
+      <location filename="../main_window.py" line="3277" />
       <source>Deleted selected item</source>
       <translation>Elemento seleccionado eliminado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3282" />
+      <location filename="../main_window.py" line="3286" />
       <source>Duplicated selected item</source>
       <translation>Elemento seleccionado duplicado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3291" />
+      <location filename="../main_window.py" line="3295" />
       <source>Updated text item</source>
       <translation>Elemento de texto actualizado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3300" />
+      <location filename="../main_window.py" line="3304" />
       <source>Brought selected item to front</source>
       <translation>Elemento seleccionado traído al frente</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3309" />
+      <location filename="../main_window.py" line="3313" />
       <source>Sent selected item to back</source>
       <translation>Elemento seleccionado enviado al fondo</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3321" />
+      <location filename="../main_window.py" line="3325" />
       <source>Rotated image by %1 degrees</source>
       <translation>Imagen rotada %1 grados</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3324" />
+      <location filename="../main_window.py" line="3328" />
       <source>Horizontal</source>
       <translation>Horizontal</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3324" />
+      <location filename="../main_window.py" line="3328" />
       <source>Vertical</source>
       <translation>Vertical</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3325" />
+      <location filename="../main_window.py" line="3329" />
       <source>Flipped image: %1</source>
       <translation>Imagen volteada: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3345" />
+      <location filename="../main_window.py" line="3349" />
       <source>Scaled image to %1 × %2 px</source>
       <translation>Imagen escalada a %1 × %2 px</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3364" />
+      <location filename="../main_window.py" line="3368" />
       <source>Image effect: %1</source>
       <translation>Efecto de imagen: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3383" />
+      <location filename="../main_window.py" line="3387" />
       <source>Image slice removed</source>
       <translation>Franja de imagen eliminada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3398" />
+      <location filename="../main_window.py" line="3402" />
       <source>Pinned current image</source>
       <translation>Imagen actual fijada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3408" />
+      <location filename="../main_window.py" line="3412" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation>El idioma ha cambiado. Reinicie ksnip para aplicarlo.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3410" />
+      <location filename="../main_window.py" line="3414" />
       <source>Settings updated</source>
       <translation>Ajustes actualizados</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3414" />
+      <location filename="../main_window.py" line="3418" />
       <source>Model Manager opened</source>
       <translation>Gestor de Modelos abierto</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3480" />
+      <location filename="../main_window.py" line="3484" />
       <source>Added watermark</source>
       <translation>Marca de agua añadida</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3485" />
+      <location filename="../main_window.py" line="3489" />
       <source>Select watermark image</source>
       <translation>Seleccionar imagen de marca de agua</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3495" />
+      <location filename="../main_window.py" line="3499" />
       <source>Updated watermark image</source>
       <translation>Imagen de marca de agua actualizada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3504" />
+      <location filename="../main_window.py" line="3508" />
       <source>Upload Image</source>
       <translation>Subir imagen</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3505" />
+      <location filename="../main_window.py" line="3509" />
       <source>Upload the current image?</source>
       <translation>¿Subir la imagen actual?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3536" />
-      <location filename="../main_window.py" line="3531" />
+      <location filename="../main_window.py" line="3540" />
+      <location filename="../main_window.py" line="3535" />
       <source>Uploading image...</source>
       <translation>Subiendo imagen...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3614" />
-      <location filename="../main_window.py" line="3531" />
+      <location filename="../main_window.py" line="3618" />
+      <location filename="../main_window.py" line="3535" />
       <source>Cancel</source>
       <translation>Cancelar</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3573" />
+      <location filename="../main_window.py" line="3577" />
       <source>Upload canceled</source>
       <translation>Subida cancelada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3576" />
+      <location filename="../main_window.py" line="3580" />
       <source>Upload failed</source>
       <translation>La subida falló</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3581" />
+      <location filename="../main_window.py" line="3585" />
       <source>Upload finished successfully</source>
       <translation>Subida finalizada correctamente</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3583" />
+      <location filename="../main_window.py" line="3587" />
       <source>Upload Successful</source>
       <translation>Subida exitosa</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3616" />
+      <location filename="../main_window.py" line="3620" />
       <source>OCR</source>
       <translation>OCR</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3620" />
+      <location filename="../main_window.py" line="3624" />
       <source>Running OCR...</source>
       <translation>Ejecutando OCR...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3626" />
+      <location filename="../main_window.py" line="3630" />
       <source>Running OCR layout and table recognition…
 First run loads several models and may take 1–3 minutes on CPU.</source>
       <translation>Ejecutando el reconocimiento de diseño y tablas OCR…
 La primera ejecución carga varios modelos y puede tardar de 1 a 3 minutos en CPU.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3630" />
+      <location filename="../main_window.py" line="3634" />
       <source>Running OCR text recognition...</source>
       <translation>Ejecutando reconocimiento de texto OCR...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3672" />
+      <location filename="../main_window.py" line="3676" />
       <source>OCR canceled</source>
       <translation>OCR cancelado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3676" />
+      <location filename="../main_window.py" line="3680" />
       <source>OCR failed</source>
       <translation>El OCR falló</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3686" />
+      <location filename="../main_window.py" line="3690" />
       <source>OCR finished</source>
       <translation>OCR finalizado</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4026" />
-      <location filename="../main_window.py" line="3996" />
+      <location filename="../main_window.py" line="4030" />
+      <location filename="../main_window.py" line="4000" />
       <source>Opened %1</source>
       <translation>%1 abierto</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4006" />
+      <location filename="../main_window.py" line="4010" />
       <source>Unable to open Ksnip project: %1</source>
       <translation>No se pudo abrir el proyecto Ksnip: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4017" />
+      <location filename="../main_window.py" line="4021" />
       <source>Unable to restore Ksnip project: %1</source>
       <translation>No se pudo restaurar el proyecto Ksnip: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4032" />
+      <location filename="../main_window.py" line="4036" />
       <source>Unable to open image data.</source>
       <translation>No se pudieron abrir los datos de imagen.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4040" />
+      <location filename="../main_window.py" line="4044" />
       <source>Opened image from standard input</source>
       <translation>Imagen abierta desde la entrada estándar</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4700" />
-      <location filename="../main_window.py" line="4681" />
+      <location filename="../main_window.py" line="4704" />
+      <location filename="../main_window.py" line="4685" />
       <source>Unsaved changes</source>
       <translation>Cambios sin guardar</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4682" />
+      <location filename="../main_window.py" line="4686" />
       <source>Close this tab and discard unsaved changes?</source>
       <translation>¿Cerrar esta pestaña y descartar los cambios sin guardar?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4701" />
+      <location filename="../main_window.py" line="4705" />
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>¿Cerrar ksnip PyQt6 y descartar los cambios sin guardar de las pestañas abiertas?</translation>
     </message>
