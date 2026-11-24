@@ -461,7 +461,7 @@ class SettingsDialog(QDialog):
         self.number_badge_padding = QSpinBox(annotator_group)
         self.number_badge_padding.setRange(-2, 40)
         self.number_badge_padding.setSuffix(" px")
-        self.number_badge_padding.setValue(10)
+        self.number_badge_padding.setValue(2)
         self.number_badge_padding.setToolTip(
             self.tr("Extra space around the digit inside the number badge. Negative values make it fit more tightly.")
         )

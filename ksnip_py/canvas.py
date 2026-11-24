@@ -472,7 +472,7 @@ class OverlayItem:
     image: QImage | None = None
     points: list[QPoint] | None = None
     rotation: int = 0
-    number_badge_padding: int = 10
+    number_badge_padding: int = 2
 
     def clone(self) -> "OverlayItem":
         return OverlayItem(
@@ -623,7 +623,7 @@ class AnnotationCanvas(QLabel):
         self._scaling = 1.0
         self._number_seed = 1
         self._number_seed_updates_all = False
-        self._number_badge_padding = 10
+        self._number_badge_padding = 2
         self._switch_to_select_after_drawing = False
         self._select_item_after_drawing = True
         self._illustrator_grab = True
@@ -814,7 +814,7 @@ class AnnotationCanvas(QLabel):
             shadow=payload.get("shadow", False),
             scaling=payload.get("scaling", 1.0),
             rotation=payload.get("rotation", 0),
-            number_badge_padding=max(-2, min(40, int(payload.get("number_badge_padding", 10)))),
+            number_badge_padding=max(-2, min(40, int(payload.get("number_badge_padding", 2)))),
             sticker_path=payload.get("sticker_path"),
             image=image,
             points=[QPoint(x, y) for x, y in payload.get("points") or []] or None,
