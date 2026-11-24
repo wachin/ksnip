@@ -271,1225 +271,1230 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="../main_window.py" line="3785" />
-      <location filename="../main_window.py" line="179" />
+      <location filename="../main_window.py" line="3826" />
+      <location filename="../main_window.py" line="180" />
       <source>Ready</source>
       <translation>Amade</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="271" />
+      <location filename="../main_window.py" line="272" />
       <source>New</source>
       <translation>Nşh</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4670" />
-      <location filename="../main_window.py" line="1444" />
-      <location filename="../main_window.py" line="272" />
+      <location filename="../main_window.py" line="4715" />
+      <location filename="../main_window.py" line="1462" />
+      <location filename="../main_window.py" line="273" />
       <source>New Screenshot</source>
       <translation>Dîmena Nû</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="525" />
+      <location filename="../main_window.py" line="526" />
       <source>Updated selected sticker</source>
       <translation>Stîra hilbijartî nûve kirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="693" />
+      <location filename="../main_window.py" line="694" />
       <source>Rect Area</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="696" />
+      <location filename="../main_window.py" line="697" />
       <source>Last Rect Area</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="699" />
+      <location filename="../main_window.py" line="700" />
       <source>Full Screen</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="702" />
+      <location filename="../main_window.py" line="703" />
       <source>Current Screen</source>
       <translation>Screen Niha</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="705" />
+      <location filename="../main_window.py" line="706" />
       <source>Active Window</source>
       <translation>Pencereya Çalak</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="708" />
+      <location filename="../main_window.py" line="709" />
       <source>Window Under Cursor</source>
       <translation>Pencere Di bin Cursor</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="711" />
+      <location filename="../main_window.py" line="712" />
       <source>Portal</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="714" />
+      <location filename="../main_window.py" line="715" />
       <source>Include Mouse Cursor</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="718" />
+      <location filename="../main_window.py" line="719" />
       <source>Include the mouse cursor in new captures. Requires a capture delay greater than 0.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="721" />
+      <location filename="../main_window.py" line="722" />
       <source>Use Arrow Pointer</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="725" />
+      <location filename="../main_window.py" line="726" />
       <source>Use a standard arrow instead of the actual pointer shape, such as the text I-beam.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="729" />
+      <location filename="../main_window.py" line="730" />
       <source>Open</source>
       <translation>Vekirî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="797" />
-      <location filename="../main_window.py" line="734" />
+      <location filename="../main_window.py" line="798" />
+      <location filename="../main_window.py" line="735" />
       <source>Save</source>
       <translation>Rizgarkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="799" />
-      <location filename="../main_window.py" line="739" />
+      <location filename="../main_window.py" line="800" />
+      <location filename="../main_window.py" line="740" />
       <source>Save As...</source>
       <translation>Save Wek...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="801" />
-      <location filename="../main_window.py" line="743" />
+      <location filename="../main_window.py" line="802" />
+      <location filename="../main_window.py" line="744" />
       <source>Save All</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="746" />
+      <location filename="../main_window.py" line="747" />
       <source>Export as SVG...</source>
       <translation>Wek SVG derxe...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="749" />
+      <location filename="../main_window.py" line="750" />
       <source>Print</source>
       <translation>Çap</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3111" />
-      <location filename="../main_window.py" line="753" />
+      <location filename="../main_window.py" line="3152" />
+      <location filename="../main_window.py" line="754" />
       <source>Print Preview</source>
       <translation>Pêşdîtina çapkirinê</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="807" />
-      <location filename="../main_window.py" line="756" />
+      <location filename="../main_window.py" line="808" />
+      <location filename="../main_window.py" line="757" />
       <source>Copy</source>
       <translation>Kopî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="760" />
+      <location filename="../main_window.py" line="761" />
       <source>Copy as data URI</source>
       <translation>Wek URI daneyê kopî bikin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="809" />
-      <location filename="../main_window.py" line="763" />
+      <location filename="../main_window.py" line="810" />
+      <location filename="../main_window.py" line="764" />
       <source>Copy Path</source>
       <translation>Rêça kopî bikin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3141" />
-      <location filename="../main_window.py" line="803" />
-      <location filename="../main_window.py" line="766" />
+      <location filename="../main_window.py" line="3182" />
+      <location filename="../main_window.py" line="804" />
+      <location filename="../main_window.py" line="767" />
       <source>Rename</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="770" />
+      <location filename="../main_window.py" line="771" />
       <source>Delete Image...</source>
       <translation>Wêne jêbirin...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="805" />
-      <location filename="../main_window.py" line="773" />
+      <location filename="../main_window.py" line="806" />
+      <location filename="../main_window.py" line="774" />
       <source>Open Directory</source>
       <translation>Derhênerê vekin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="776" />
+      <location filename="../main_window.py" line="777" />
       <source>Copy Item</source>
       <translation>Babetê kopî bikin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="780" />
+      <location filename="../main_window.py" line="781" />
       <source>Close Tab</source>
       <translation>Tabê bigire</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="786" />
+      <location filename="../main_window.py" line="787" />
       <source>Close</source>
       <translation>داخەستن</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="789" />
+      <location filename="../main_window.py" line="790" />
       <source>Close Other</source>
       <translation>داخەستنی ئەوانی تر</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="791" />
+      <location filename="../main_window.py" line="792" />
       <source>Close All</source>
       <translation>داخەستنی هەموو</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="793" />
+      <location filename="../main_window.py" line="794" />
       <source>Close All to the Left</source>
       <translation>داخەستنی هەموو لە چەپەوە</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="795" />
+      <location filename="../main_window.py" line="796" />
       <source>Close All to the Right</source>
       <translation>داخەستنی هەموو لە ڕاستەوە</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="811" />
+      <location filename="../main_window.py" line="812" />
       <source>Delete</source>
       <translation>سڕینەوە</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="814" />
+      <location filename="../main_window.py" line="815" />
       <source>Pen</source>
       <translation>Nivîstok</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="819" />
+      <location filename="../main_window.py" line="820" />
       <source>Marker Pen</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="821" />
+      <location filename="../main_window.py" line="822" />
       <source>Line</source>
       <translation>Xet</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="826" />
+      <location filename="../main_window.py" line="827" />
       <source>Arrow</source>
       <translation>Tîr</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="831" />
+      <location filename="../main_window.py" line="832" />
       <source>Double Arrow</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="833" />
+      <location filename="../main_window.py" line="834" />
       <source>Rectangle</source>
       <translation>Çarqozî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="838" />
+      <location filename="../main_window.py" line="839" />
       <source>Ellipse</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="843" />
+      <location filename="../main_window.py" line="844" />
       <source>Text</source>
       <translation>Nivîstok</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="848" />
+      <location filename="../main_window.py" line="849" />
       <source>Text Pointer</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="849" />
+      <location filename="../main_window.py" line="850" />
       <source>Text Arrow</source>
       <translation>Tîra nivîsê</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="851" />
+      <location filename="../main_window.py" line="852" />
       <source>Blur</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="856" />
+      <location filename="../main_window.py" line="857" />
       <source>Pixelate</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="861" />
+      <location filename="../main_window.py" line="862" />
       <source>Crop</source>
       <translation>Zadçinî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="866" />
+      <location filename="../main_window.py" line="867" />
       <source>Cut</source>
       <translation>Birrîn</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="869" />
+      <location filename="../main_window.py" line="870" />
       <source>Select</source>
       <translation>Neqandin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="874" />
+      <location filename="../main_window.py" line="875" />
       <source>Duplicate</source>
       <translation>Cote</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="877" />
+      <location filename="../main_window.py" line="878" />
       <source>Marker Rectangle</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="878" />
+      <location filename="../main_window.py" line="879" />
       <source>Marker Ellipse</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1174" />
-      <location filename="../main_window.py" line="879" />
+      <location filename="../main_window.py" line="1192" />
+      <location filename="../main_window.py" line="880" />
       <source>Number</source>
       <translation>Jimare</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="880" />
+      <location filename="../main_window.py" line="881" />
       <source>Number Pointer</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="881" />
+      <location filename="../main_window.py" line="882" />
       <source>Number Arrow</source>
       <translation>Hejmara Arrow</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1193" />
-      <location filename="../main_window.py" line="882" />
+      <location filename="../main_window.py" line="1211" />
+      <location filename="../main_window.py" line="883" />
       <source>Sticker</source>
       <translation>Lezaqok</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="912" />
+      <location filename="../main_window.py" line="913" />
       <source>Color</source>
       <translation>Reng</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="915" />
+      <location filename="../main_window.py" line="916" />
       <source>Undo</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="920" />
+      <location filename="../main_window.py" line="921" />
       <source>Redo</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="925" />
+      <location filename="../main_window.py" line="926" />
       <source>Paste</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="930" />
+      <location filename="../main_window.py" line="931" />
       <source>Paste Embedded</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="934" />
+      <location filename="../main_window.py" line="935" />
       <source>Paste Item</source>
       <translation>Tiştek Paste</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="938" />
+      <location filename="../main_window.py" line="939" />
       <source>Delete Item</source>
       <translation>Tiştê jêbirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="942" />
+      <location filename="../main_window.py" line="943" />
       <source>Duplicate Item</source>
       <translation>Item Duplicate</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="946" />
+      <location filename="../main_window.py" line="947" />
       <source>Edit Text...</source>
       <translation>Nivîsar biguherîne...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="949" />
+      <location filename="../main_window.py" line="950" />
       <source>Bring To Front</source>
       <translation>Bînin Pêş</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="952" />
+      <location filename="../main_window.py" line="953" />
       <source>Send To Back</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="955" />
+      <location filename="../main_window.py" line="956" />
       <source>Rotate</source>
       <translation>Yîvirrîn</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1212" />
-      <location filename="../main_window.py" line="958" />
+      <location filename="../main_window.py" line="1230" />
+      <location filename="../main_window.py" line="959" />
       <source>Scale</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="3437" />
-      <location filename="../main_window.py" line="963" />
+      <location filename="../main_window.py" line="3478" />
+      <location filename="../main_window.py" line="964" />
       <source>No Effect</source>
       <translation>No Bandora</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3438" />
-      <location filename="../main_window.py" line="964" />
+      <location filename="../main_window.py" line="3479" />
+      <location filename="../main_window.py" line="965" />
       <source>Drop Shadow</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="3439" />
-      <location filename="../main_window.py" line="965" />
+      <location filename="../main_window.py" line="3480" />
+      <location filename="../main_window.py" line="966" />
       <source>Grayscale</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="3440" />
-      <location filename="../main_window.py" line="966" />
+      <location filename="../main_window.py" line="3481" />
+      <location filename="../main_window.py" line="967" />
       <source>Invert Color</source>
       <translation>Rengê Veguheztin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3441" />
-      <location filename="../main_window.py" line="967" />
+      <location filename="../main_window.py" line="3482" />
+      <location filename="../main_window.py" line="968" />
       <source>Border</source>
       <translation>Hidûd</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="970" />
+      <location filename="../main_window.py" line="971" />
       <source>Modify Canvas...</source>
       <translation>Biguherîne Canvas...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3318" />
-      <location filename="../main_window.py" line="973" />
+      <location filename="../main_window.py" line="3359" />
+      <location filename="../main_window.py" line="974" />
       <source>Hide Docks</source>
       <translation>Docks veşêre</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="977" />
+      <location filename="../main_window.py" line="978" />
       <source>Pin</source>
       <translation>Derzî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="981" />
+      <location filename="../main_window.py" line="982" />
       <source>Add Watermark</source>
       <translation>Watermark lê zêde bike</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3613" />
-      <location filename="../main_window.py" line="986" />
+      <location filename="../main_window.py" line="3654" />
+      <location filename="../main_window.py" line="987" />
       <source>Upload</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="990" />
+      <location filename="../main_window.py" line="991" />
       <source>OCR Text Recognition</source>
       <translation>OCR Text Naskirina</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="993" />
+      <location filename="../main_window.py" line="994" />
       <source>OCR Text Recognition (tables + Markdown)</source>
       <translation>Naskirina Nivîsarê OCR (tablo + Nîşankirin)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="997" />
+      <location filename="../main_window.py" line="998" />
       <source>Update Watermark Image...</source>
       <translation>Wêneyê Watermarkê nûve bike...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1000" />
+      <location filename="../main_window.py" line="1001" />
       <source>Rotate Watermark</source>
       <translation>Watermarkê bizivirîne</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1005" />
+      <location filename="../main_window.py" line="1006" />
       <source>Settings</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1008" />
+      <location filename="../main_window.py" line="1009" />
       <source>Model Manager…</source>
       <translation>بەڕێوەبەری مۆدێل…</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1009" />
+      <location filename="../main_window.py" line="1010" />
       <source>Download and manage OCR models and other components</source>
       <translation>داگرتن و بەڕێوەبردنی مۆدێلەکانی OCR و بەشەکانی تر</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1012" />
+      <location filename="../main_window.py" line="1013" />
       <source>About</source>
       <translation>دەربارە</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1015" />
+      <location filename="../main_window.py" line="1016" />
       <source>Clear Recent Images</source>
       <translation>Wêneyên Dawî Paqij bikin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1018" />
+      <location filename="../main_window.py" line="1019" />
       <source>Quit</source>
       <translation>Devjêberdan</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1021" />
+      <location filename="../main_window.py" line="1022" />
       <source>Zoom Out</source>
       <translation>Dûr xistin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1024" />
+      <location filename="../main_window.py" line="1025" />
       <source>Reset Zoom</source>
       <translation>Zoom ji nû ve bike</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1027" />
+      <location filename="../main_window.py" line="1028" />
       <source>Zoom In</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1030" />
+      <location filename="../main_window.py" line="1031" />
       <source>Fit Image</source>
       <translation>Wêneyê Fit</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1052" />
+      <location filename="../main_window.py" line="1053" />
       <source>Capture delay</source>
       <translation>Dereng girtin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1273" />
-      <location filename="../main_window.py" line="1080" />
-      <location filename="../main_window.py" line="1073" />
+      <location filename="../main_window.py" line="1291" />
+      <location filename="../main_window.py" line="1098" />
+      <location filename="../main_window.py" line="1091" />
       <source>Stroke color</source>
       <translation>Rengê lêdanê</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1089" />
+      <location filename="../main_window.py" line="1107" />
       <source>Stroke width: changes the thickness of the line or arrow shaft.</source>
       <translation>Firehiya lêdanê: qalindahiya xêz an tîrêjê diguhezîne.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1091" />
+      <location filename="../main_window.py" line="1109" />
       <source>Stroke width</source>
       <translation>Firehiya lêdanê</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1099" />
+      <location filename="../main_window.py" line="1117" />
       <source>Arrowhead size: changes the size of the triangular arrow tip.</source>
       <translation>Mezinahiya serê tîrê: mezinahiya tîra sêgoşeyî diguherîne.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1102" />
+      <location filename="../main_window.py" line="1120" />
       <source>Arrowhead size</source>
       <translation>Mezinahiya tîrê</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1114" />
-      <location filename="../main_window.py" line="1110" />
+      <location filename="../main_window.py" line="1132" />
+      <location filename="../main_window.py" line="1128" />
       <source>Fill mode</source>
       <translation>Moda dagirtin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1126" />
-      <location filename="../main_window.py" line="1119" />
+      <location filename="../main_window.py" line="1144" />
+      <location filename="../main_window.py" line="1137" />
       <source>Text color</source>
       <translation>Rengê nivîsê</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1133" />
+      <location filename="../main_window.py" line="1151" />
       <source>Font family used by the text or number.</source>
       <translation>Malbata tîpan ji hêla nivîs an hejmarê ve tê bikar anîn.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1141" />
+      <location filename="../main_window.py" line="1159" />
       <source>Font size of the text or number.</source>
       <translation>Mezinahiya tîpa nivîsê an hejmarê.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1144" />
+      <location filename="../main_window.py" line="1162" />
       <source>Font</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1149" />
+      <location filename="../main_window.py" line="1167" />
       <source>Bold</source>
       <translation>Hesabî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1150" />
+      <location filename="../main_window.py" line="1168" />
       <source>Italic</source>
       <translation>Îtalîk</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1151" />
+      <location filename="../main_window.py" line="1169" />
       <source>Underline</source>
       <translation>Binxetkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1162" />
+      <location filename="../main_window.py" line="1180" />
       <source>Number value used by the next numbered annotation.</source>
       <translation>Nirxa jimareyê ji hêla şîroveya jimarekirî ya din ve hatî bikar anîn.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1171" />
+      <location filename="../main_window.py" line="1189" />
       <source>Number badge margin:</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1184" />
+      <location filename="../main_window.py" line="1202" />
       <source>Effect strength: controls the intensity of blur or pixelation.</source>
       <translation>Hêza bandorê: tundiya şêrîn an pixelasyonê kontrol dike.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1186" />
+      <location filename="../main_window.py" line="1204" />
       <source>Effect strength</source>
       <translation>Hêza bandorê</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1190" />
+      <location filename="../main_window.py" line="1208" />
       <source>Select Sticker</source>
       <translation>Sticker hilbijêre</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1201" />
-      <location filename="../main_window.py" line="1199" />
+      <location filename="../main_window.py" line="1219" />
+      <location filename="../main_window.py" line="1217" />
       <source>Item shadow</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1210" />
+      <location filename="../main_window.py" line="1228" />
       <source>Sticker scale as a percentage of its original insertion size.</source>
       <translation>Pîvana stikerê wekî sedî ji mezinahiya têketina wê ya orjînal.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1220" />
+      <location filename="../main_window.py" line="1238" />
       <source>Opacity: 0% is transparent and 100% is fully visible.</source>
       <translation>Nerazîbûn: 0% zelal e û 100% bi tevahî xuya ye.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1222" />
+      <location filename="../main_window.py" line="1240" />
       <source>Opacity</source>
       <translation>Nerazîbûn</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1338" />
+      <location filename="../main_window.py" line="1356" />
       <source>Zoom Out (%1)</source>
       <translation>Kêmkirin (%1)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1355" />
+      <location filename="../main_window.py" line="1373" />
       <source>Zoom In (%1)</source>
       <translation>Zêdekirin (%1)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1511" />
-      <location filename="../main_window.py" line="1377" />
+      <location filename="../main_window.py" line="1529" />
+      <location filename="../main_window.py" line="1395" />
       <source>Zoom</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="3452" />
-      <location filename="../main_window.py" line="1399" />
+      <location filename="../main_window.py" line="3493" />
+      <location filename="../main_window.py" line="1417" />
       <source>Image Effect: %1</source>
       <translation>Bandora Wêne: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1414" />
+      <location filename="../main_window.py" line="1432" />
       <source>Controls</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1442" />
+      <location filename="../main_window.py" line="1460" />
       <source>&amp;File</source>
       <translation>&amp;Dosî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1457" />
+      <location filename="../main_window.py" line="1475" />
       <source>Recent Images</source>
       <translation>Wêneyên Dawî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1472" />
+      <location filename="../main_window.py" line="1490" />
       <source>&amp;Edit</source>
       <translation>&amp;Weşandin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1487" />
+      <location filename="../main_window.py" line="1505" />
       <source>Effects</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1498" />
+      <location filename="../main_window.py" line="1516" />
       <source>Annotation Items</source>
       <translation>Babetên Annotation</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1507" />
+      <location filename="../main_window.py" line="1525" />
       <source>&amp;View</source>
       <translation>&amp;Dîtinî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1517" />
+      <location filename="../main_window.py" line="1535" />
       <source>&amp;Options</source>
       <translation>&amp; Vebijêrk</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1525" />
+      <location filename="../main_window.py" line="1543" />
       <source>Watermark</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1529" />
+      <location filename="../main_window.py" line="1547" />
       <source>Annotation Tools</source>
       <translation>Amûrên Annotation</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1555" />
+      <location filename="../main_window.py" line="1573" />
       <source>&amp;Help</source>
       <translation>&amp;Alîkarî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1588" />
+      <location filename="../main_window.py" line="1606" />
       <source>Show Editor</source>
       <translation>Edîtor nîşan bide</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1800" />
+      <location filename="../main_window.py" line="1818" />
       <source>ksnip PyQt6 is still running in the system tray.</source>
       <translation>ksnip PyQt6 hîn jî di pelika pergalê de dixebite.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1828" />
+      <location filename="../main_window.py" line="1846" />
       <source>OCR is still running; ksnip cannot close until it finishes.</source>
       <translation>OCR hê jî dimeşe; ksnip heta ku neqede nikare bigire.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1858" />
+      <location filename="../main_window.py" line="1876" />
       <source>ksnip PyQt6 was minimized to the system tray.</source>
       <translation>ksnip PyQt6 li ser pelika pergalê hate kêm kirin.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1986" />
+      <location filename="../main_window.py" line="2004" />
       <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2199" />
+      <location filename="../main_window.py" line="2217" />
       <source>Select color</source>
       <translation>Rengê hilbijêre</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2208" />
+      <location filename="../main_window.py" line="2226" />
       <source>Updated selected item color</source>
       <translation>Rengê tişta hilbijartî nûve kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2227" />
+      <location filename="../main_window.py" line="2245" />
       <source>Updated selected item fill</source>
       <translation>Tiştek hilbijartî dagirtî hate nûve kirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2237" />
+      <location filename="../main_window.py" line="2255" />
       <source>Select text color</source>
       <translation>Rengê nivîsê hilbijêre</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2247" />
+      <location filename="../main_window.py" line="2265" />
       <source>Updated selected text color</source>
       <translation>Rengê nivîsa hilbijartî nûve kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2263" />
+      <location filename="../main_window.py" line="2281" />
       <source>Updated selected item width to %1</source>
       <translation>Firehiya babeta hilbijartî hat nûvekirin %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2276" />
+      <location filename="../main_window.py" line="2294" />
       <source>Updated selected arrowhead size to %1</source>
       <translation>Mezinahiya serê tîra hilbijartî hate nûvekirin %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2286" />
+      <location filename="../main_window.py" line="2304" />
       <source>Updated selected text font</source>
       <translation>Tîpa nivîsê ya hilbijartî nûve kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2300" />
+      <location filename="../main_window.py" line="2318" />
       <source>Updated selected text size to %1</source>
       <translation>Mezinahiya nivîsa hilbijartî hate nûvekirin %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2310" />
+      <location filename="../main_window.py" line="2328" />
       <source>Updated selected item opacity to %1%</source>
       <translation>Nerazîbûna babeta hilbijartî nûve kir %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2328" />
+      <location filename="../main_window.py" line="2346" />
       <source>Updated selected item fill mode</source>
       <translation>Moda dagirtina babeta hilbijartî nûve kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2339" />
+      <location filename="../main_window.py" line="2357" />
       <source>Updated selected text bold style</source>
       <translation>Şêweya stûr a nivîsa hilbijartî nûve kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2351" />
+      <location filename="../main_window.py" line="2369" />
       <source>Updated selected text italic style</source>
       <translation>Şêweya nivîsa hilbijartî nûve kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2362" />
+      <location filename="../main_window.py" line="2380" />
       <source>Updated selected text underline style</source>
       <translation>Şêweya binê nivîsa hilbijartî nûve kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2373" />
+      <location filename="../main_window.py" line="2391" />
       <source>Updated selected item shadow</source>
       <translation>Siya hêmanên hilbijartî nûve kirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2385" />
+      <location filename="../main_window.py" line="2403" />
       <source>Updated selected item scale to %1%</source>
       <translation>Pîvana babeta hilbijartî nûve kir %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2394" />
+      <location filename="../main_window.py" line="2412" />
       <source>Updated selected number to %1</source>
       <translation>Hejmara hilbijartî hate nûvekirin %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2815" />
-      <location filename="../main_window.py" line="2612" />
+      <location filename="../main_window.py" line="2856" />
+      <location filename="../main_window.py" line="2630" />
       <source>Portal capture canceled.</source>
       <translation>Girtina portalê hat betalkirin.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2621" />
+      <location filename="../main_window.py" line="2649" />
       <source>Set a capture delay to include the mouse cursor.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2739" />
+      <location filename="../main_window.py" line="2657" />
+      <source>Capture the mouse cursor (also in Options &gt; Settings &gt; Image Grabber &gt; Capture mouse cursor on screenshot). Requires a capture delay.</source>
+      <translation type="unfinished" />
+    </message>
+    <message>
+      <location filename="../main_window.py" line="2780" />
       <source>Loaded %1 capture and copied it to clipboard</source>
       <translation>Girtina %1 hat barkirin û li clipboardê kopî kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2835" />
+      <location filename="../main_window.py" line="2876" />
       <source>Loaded %1 capture</source>
       <translation>Girtina %1 hat barkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2901" />
+      <location filename="../main_window.py" line="2942" />
       <source>Open image</source>
       <translation>Wêne vekin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2903" />
+      <location filename="../main_window.py" line="2944" />
       <source>Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>پڕۆژە Ksnip (*.ksnip);;وێنە (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2913" />
+      <location filename="../main_window.py" line="2954" />
       <source>Ksnip Projects (*.ksnip)</source>
       <translation>پڕۆژە Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3568" />
-      <location filename="../main_window.py" line="2914" />
+      <location filename="../main_window.py" line="3609" />
+      <location filename="../main_window.py" line="2955" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>Wêne (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2991" />
-      <location filename="../main_window.py" line="2935" />
+      <location filename="../main_window.py" line="3032" />
+      <location filename="../main_window.py" line="2976" />
       <source>Save image as</source>
       <translation>Wêneyê wekî tomar bike</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2993" />
-      <location filename="../main_window.py" line="2937" />
+      <location filename="../main_window.py" line="3034" />
+      <location filename="../main_window.py" line="2978" />
       <source>Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</source>
       <translation>Projeya Ksnip (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2952" />
+      <location filename="../main_window.py" line="2993" />
       <source>Ksnip Project (*.ksnip)</source>
       <translation>Projeya Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2953" />
+      <location filename="../main_window.py" line="2994" />
       <source>PNG (*.png)</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2960" />
+      <location filename="../main_window.py" line="3001" />
       <source>Export as SVG</source>
       <translation>Wekî SVG derxînin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2968" />
+      <location filename="../main_window.py" line="3009" />
       <source>Unable to export SVG: %1</source>
       <translation>Nikare SVG derxe: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2970" />
+      <location filename="../main_window.py" line="3011" />
       <source>Exported SVG to %1</source>
       <translation>SVG ji %1 re hat derkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3018" />
+      <location filename="../main_window.py" line="3059" />
       <source>Saved %1 image(s), failed %2</source>
       <translation>%1 wêne(ên) hatin tomarkirin, %2 têk çû</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3023" />
+      <location filename="../main_window.py" line="3064" />
       <source>Save All stopped early; these could not be saved:
 %1</source>
       <translation>Save Hemû zû rawestandin; ev nehatin xilas kirin:
 %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3027" />
+      <location filename="../main_window.py" line="3068" />
       <source>Saved %1 image(s)</source>
       <translation>%1 wêne(ên) hatin tomarkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3048" />
+      <location filename="../main_window.py" line="3089" />
       <source>Unable to save Ksnip project: %1</source>
       <translation>Projeya Ksnip nayê hilanîn: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3063" />
+      <location filename="../main_window.py" line="3104" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
       <translation>Projeya Ksnip hate tomarkirin, lê wêneya hevalbendê wê li %1 nehat tomarkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3072" />
+      <location filename="../main_window.py" line="3113" />
       <source>Saved %1 and companion image %2</source>
       <translation>%1 û wêneya heval %2 hat tomarkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3085" />
+      <location filename="../main_window.py" line="3126" />
       <source>Saved %1</source>
       <translation>%1 hat tomarkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3093" />
+      <location filename="../main_window.py" line="3134" />
       <source>Copied image to clipboard</source>
       <translation>Wêneyek li clipboardê hate kopî kirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3102" />
+      <location filename="../main_window.py" line="3143" />
       <source>Sent image to printer</source>
       <translation>Wêne ji çaperê re şandin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3141" />
+      <location filename="../main_window.py" line="3182" />
       <source>New name:</source>
       <translation>Navê nû:</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3175" />
+      <location filename="../main_window.py" line="3216" />
       <source>Renamed to %1</source>
       <translation>Navê %1 hate guhertin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3191" />
+      <location filename="../main_window.py" line="3232" />
       <source>Delete Image</source>
       <translation>Wêne jêbirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3192" />
+      <location filename="../main_window.py" line="3233" />
       <source>The item '%1' will be deleted.
 Do you want to continue?</source>
       <translation>Babetê '%1' dê were jêbirin.
 Ma hûn dixwazin berdewam bikin?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3201" />
+      <location filename="../main_window.py" line="3242" />
       <source>Unable to delete %1: %2</source>
       <translation>Nikare %1 jê bibe: %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3207" />
+      <location filename="../main_window.py" line="3248" />
       <source>Deleted %1</source>
       <translation>%1 hat jêbirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3230" />
+      <location filename="../main_window.py" line="3271" />
       <source>Copied image as a base64 encoded Data URI</source>
       <translation>Wêneyek wekî URI ya daneya kodkirî ya base64 hate kopî kirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3237" />
+      <location filename="../main_window.py" line="3278" />
       <source>Copied path %1</source>
       <translation>Rêya %1 kopî kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3247" />
+      <location filename="../main_window.py" line="3288" />
       <source>Opened directory %1</source>
       <translation>Peldanka %1 vekir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3254" />
+      <location filename="../main_window.py" line="3295" />
       <source>Copied selected item(s)</source>
       <translation>Tişt(ên) hilbijartî kopî kirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3267" />
+      <location filename="../main_window.py" line="3308" />
       <source>Loaded image from clipboard</source>
       <translation>Wêneyek ji clipboardê hatî barkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3287" />
+      <location filename="../main_window.py" line="3328" />
       <source>Pasted embedded image from clipboard</source>
       <translation>Wêneyê bicîbûyî ji clipboard-ê hate pêçandin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3301" />
+      <location filename="../main_window.py" line="3342" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation>Canvas hate guherandin: %1 × %2 px li (%3, %4)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3318" />
+      <location filename="../main_window.py" line="3359" />
       <source>Show Docks</source>
       <translation>Docks nîşan bide</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3327" />
+      <location filename="../main_window.py" line="3368" />
       <source>Pasted item from clipboard</source>
       <translation>Tiştek ji klîpboardê hatî danîn</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3354" />
+      <location filename="../main_window.py" line="3395" />
       <source>Deleted selected item</source>
       <translation>Babetê hilbijartî jêbirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3363" />
+      <location filename="../main_window.py" line="3404" />
       <source>Duplicated selected item</source>
       <translation>Babetê hilbijartî dubare kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3372" />
+      <location filename="../main_window.py" line="3413" />
       <source>Updated text item</source>
       <translation>Babetê nivîsê nûve kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3381" />
+      <location filename="../main_window.py" line="3422" />
       <source>Brought selected item to front</source>
       <translation>Tişta hilbijartî anîn pêş</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3390" />
+      <location filename="../main_window.py" line="3431" />
       <source>Sent selected item to back</source>
       <translation>Tiştê hilbijartî şandin paş</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3402" />
+      <location filename="../main_window.py" line="3443" />
       <source>Rotated image by %1 degrees</source>
       <translation>Wêne bi %1 derece zivirî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3405" />
+      <location filename="../main_window.py" line="3446" />
       <source>Horizontal</source>
       <translation>Asumane</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3405" />
+      <location filename="../main_window.py" line="3446" />
       <source>Vertical</source>
       <translation>Çikanî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3406" />
+      <location filename="../main_window.py" line="3447" />
       <source>Flipped image: %1</source>
       <translation>Wêneyê zivirî: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3426" />
+      <location filename="../main_window.py" line="3467" />
       <source>Scaled image to %1 × %2 px</source>
       <translation>Wêneyê li %1 × %2 px hat pîvan</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3445" />
+      <location filename="../main_window.py" line="3486" />
       <source>Image effect: %1</source>
       <translation>Bandora wêneyê: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3464" />
+      <location filename="../main_window.py" line="3505" />
       <source>Image slice removed</source>
       <translation>Parçeya wêneyê hate rakirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3479" />
+      <location filename="../main_window.py" line="3520" />
       <source>Pinned current image</source>
       <translation>Wêneyê heyî pêça</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3489" />
+      <location filename="../main_window.py" line="3530" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation>Ziman guherî. ksnip-ê ji nû ve bidin destpêkirin da ku wê bicîh bikin.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3491" />
+      <location filename="../main_window.py" line="3532" />
       <source>Settings updated</source>
       <translation>Mîhengan nûve kirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3495" />
+      <location filename="../main_window.py" line="3536" />
       <source>Model Manager opened</source>
       <translation>بەڕێوەبەری مۆدێل کراوە</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3561" />
+      <location filename="../main_window.py" line="3602" />
       <source>Added watermark</source>
       <translation>Nîşana avê zêde kir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3566" />
+      <location filename="../main_window.py" line="3607" />
       <source>Select watermark image</source>
       <translation>Wêne nîşana avê hilbijêre</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3576" />
+      <location filename="../main_window.py" line="3617" />
       <source>Updated watermark image</source>
       <translation>Wêneya avê nîşana nûvekirî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3585" />
+      <location filename="../main_window.py" line="3626" />
       <source>Upload Image</source>
       <translation>Wêne barkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3586" />
+      <location filename="../main_window.py" line="3627" />
       <source>Upload the current image?</source>
       <translation>Wêneyê heyî barkirin?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3617" />
-      <location filename="../main_window.py" line="3612" />
+      <location filename="../main_window.py" line="3658" />
+      <location filename="../main_window.py" line="3653" />
       <source>Uploading image...</source>
       <translation>Barkirina wêneyê...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3695" />
-      <location filename="../main_window.py" line="3612" />
+      <location filename="../main_window.py" line="3736" />
+      <location filename="../main_window.py" line="3653" />
       <source>Cancel</source>
       <translation>Bişûndekirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3654" />
+      <location filename="../main_window.py" line="3695" />
       <source>Upload canceled</source>
       <translation>Barkirin hat betalkirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3657" />
+      <location filename="../main_window.py" line="3698" />
       <source>Upload failed</source>
       <translation>Barkirin têk çû</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3662" />
+      <location filename="../main_window.py" line="3703" />
       <source>Upload finished successfully</source>
       <translation>Barkirin bi serkeftî qediya</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3664" />
+      <location filename="../main_window.py" line="3705" />
       <source>Upload Successful</source>
       <translation>Barkirin Serkeftî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3697" />
+      <location filename="../main_window.py" line="3738" />
       <source>OCR</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="3701" />
+      <location filename="../main_window.py" line="3742" />
       <source>Running OCR...</source>
       <translation>OCR dimeşîne...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3707" />
+      <location filename="../main_window.py" line="3748" />
       <source>Running OCR layout and table recognition…
 First run loads several models and may take 1–3 minutes on CPU.</source>
       <translation>ئەنجامدانی ناسینەرەوەی پێکهاتە و خشتەکانی OCR…
 چالاککردنی یەکەم جار چەندین مۆدێل دەکرێتەوە و دەتوانێت ١-٣ خولەک بکات لەسەر CPU.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3711" />
+      <location filename="../main_window.py" line="3752" />
       <source>Running OCR text recognition...</source>
       <translation>Naskirina nivîsê ya OCR dimeşe...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3753" />
+      <location filename="../main_window.py" line="3794" />
       <source>OCR canceled</source>
       <translation>OCR betal kirin</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3757" />
+      <location filename="../main_window.py" line="3798" />
       <source>OCR failed</source>
       <translation>OCR têk çû</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3767" />
+      <location filename="../main_window.py" line="3808" />
       <source>OCR finished</source>
       <translation>OCR qediya</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4107" />
-      <location filename="../main_window.py" line="4077" />
+      <location filename="../main_window.py" line="4148" />
+      <location filename="../main_window.py" line="4118" />
       <source>Opened %1</source>
       <translation>%1 vebû</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4087" />
+      <location filename="../main_window.py" line="4128" />
       <source>Unable to open Ksnip project: %1</source>
       <translation>Projeya Ksnip nayê vekirin: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4098" />
+      <location filename="../main_window.py" line="4139" />
       <source>Unable to restore Ksnip project: %1</source>
       <translation>Projeya Ksnip nayê vegerandin: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4113" />
+      <location filename="../main_window.py" line="4154" />
       <source>Unable to open image data.</source>
       <translation>Nikare daneyên wêneyê veke.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4121" />
+      <location filename="../main_window.py" line="4162" />
       <source>Opened image from standard input</source>
       <translation>Wêne ji têketina standard vekir</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4784" />
-      <location filename="../main_window.py" line="4765" />
+      <location filename="../main_window.py" line="4829" />
+      <location filename="../main_window.py" line="4810" />
       <source>Unsaved changes</source>
       <translation>Guhertinên ne tomarkirî</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4766" />
+      <location filename="../main_window.py" line="4811" />
       <source>Close this tab and discard unsaved changes?</source>
       <translation>Vê tabloyê bigire û guhertinên nehatine hilanîn berde?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4785" />
+      <location filename="../main_window.py" line="4830" />
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>ksnip PyQt6 bigire û guhertinên neparastkirî yên di tabloyên vekirî de ji holê rake?</translation>
     </message>
@@ -1642,87 +1647,87 @@ Derhêner: %2</translation>
   <context>
     <name>PortalDiagnostics</name>
     <message>
-      <location filename="../capture.py" line="153" />
+      <location filename="../capture.py" line="157" />
       <source>The screenshot portal did not return an image.</source>
       <translation>Portala dîmenê wêneyek venedigerand.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="155" />
+      <location filename="../capture.py" line="159" />
       <source>Portal capture is unavailable: %1</source>
       <translation>Girtina portal ne berdest e: %1</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="156" />
+      <location filename="../capture.py" line="160" />
       <source>Detected desktop: %1</source>
       <translation>Sermaseya hat dîtin: %1</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="157" />
+      <location filename="../capture.py" line="161" />
       <source>Session type: %1</source>
       <translation>Cureyê danişînê: %1</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="158" />
+      <location filename="../capture.py" line="162" />
       <source>Install the portal frontend and the recommended backend:</source>
       <translation>Pêşiya portalê û paşiya pêşniyarkirî saz bikin:</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="160" />
+      <location filename="../capture.py" line="164" />
       <source>With Fluxbox, Openbox, IceWM, or another manually assembled session, xdg-desktop-portal-gtk is the usual fallback. The session must export XDG_CURRENT_DESKTOP and may require a matching portals.conf file.</source>
       <translation>Bi Fluxbox, Openbox, IceWM, an rûniştinek din a ku bi destan hatî berhev kirin, xdg-desktop-portal-gtk paşveçûna gelemperî ye. Divê danişîn XDG_CURRENT_DESKTOP derxîne û dibe ku pelek portals.conf lihevhatî hewce bike.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="262" />
+      <location filename="../capture.py" line="266" />
       <source>D-Bus portal capture is only available on Linux.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../capture.py" line="269" />
+      <location filename="../capture.py" line="273" />
       <source>the D-Bus session bus is not available.</source>
       <translation>otobusa danişîna D-Bus peyda nabe.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="278" />
+      <location filename="../capture.py" line="282" />
       <source>the xdg-desktop-portal service is not available.</source>
       <translation>karûbarê xdg-desktop-portal tune.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="283" />
+      <location filename="../capture.py" line="287" />
       <source>the Screenshot portal interface is unavailable.</source>
       <translation>pêwendiya portalê ya Screenshot ne berdest e.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="288" />
+      <location filename="../capture.py" line="292" />
       <source>the portal returned an invalid request path.</source>
       <translation>portal rêyek daxwazek nederbasdar vegerand.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="300" />
+      <location filename="../capture.py" line="304" />
       <source>ksnip could not subscribe to the portal response.</source>
       <translation>ksnip nikarîbû bibe abone li bersiva portalê.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="315" />
+      <location filename="../capture.py" line="319" />
       <source>the portal response timed out.</source>
       <translation>bersiva portalê bi dawî bû.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="320" />
+      <location filename="../capture.py" line="324" />
       <source>capture was canceled.</source>
       <translation>girtin hat betalkirin.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="322" />
+      <location filename="../capture.py" line="326" />
       <source>portal error code %1.</source>
       <translation>koda çewtiya portalê %1.</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="328" />
+      <location filename="../capture.py" line="332" />
       <source>an empty path</source>
       <translation>rêyek vala</translation>
     </message>
     <message>
-      <location filename="../capture.py" line="329" />
+      <location filename="../capture.py" line="333" />
       <source>the returned image could not be loaded from %1.</source>
       <translation>wêneya hatî vegerandin ji %1 nehat barkirin.</translation>
     </message>
