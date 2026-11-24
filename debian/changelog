@@ -17,7 +17,7 @@ ksnip-pyqt6 (0.2.2-1) unstable; urgency=medium
   * Expose the number badge margin in the annotation properties toolbar too.
   * Let Crop and Cut start over an existing annotation instead of grabbing it.
   * Give Crop a four-handle selection that applies with Enter or a double-click.
-  * Require a capture delay for the cursor, blink a marker during the delay, and add the cursor as a movable fixed-size item.
+  * Require a capture delay for the cursor, blink a yellow marker around it, use an arrow by default, and add the cursor as a movable fixed-size item.
   * Tear down the full-screen selection overlay before showing the editor, so
     no leftover piece of the capture tool stays on screen.
   * Document the Windows external OCR setup and support .bat/.cmd scripts.

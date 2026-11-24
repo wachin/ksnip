@@ -10,7 +10,7 @@ to be performed in real X11 and Wayland sessions.
 | X11 current screen | Uses the screen under `QCursor.pos()`, falling back to the primary screen | Implemented |
 | X11 active window | Resolves `_NET_ACTIVE_WINDOW` and captures the X11 window | Implemented |
 | X11 window under cursor | Resolves the X11 child window beneath the pointer | Implemented |
-| X11 cursor | Reads XFixes cursor pixels after a capture delay, blinks a marker during the delay, and adds a movable fixed-size item; off by default | Implemented, optional fallback |
+| X11 cursor | Reads XFixes cursor pixels after a capture delay, blinks a yellow marker around the pointer, and adds a movable fixed-size item. Uses a standard arrow by default and can retain the actual pointer shape; off by default | Implemented, optional fallback |
 | Wayland | Automatically redirects normal actions to the screenshot portal | Implemented |
 | Generic portal | Calls `org.freedesktop.portal.Screenshot`, handles success, cancellation, errors and a 120-second timeout | Implemented |
 | Portal full screen | Sends `interactive=false` | Implemented |

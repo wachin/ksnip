@@ -45,9 +45,16 @@ class CursorCaptureIndicator(QWidget):
             | Qt.WindowType.WindowDoesNotAcceptFocus,
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
         self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
         self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, True)
-        self.setFixedSize(56, 56)
+        self.setAutoFillBackground(False)
+        self.setFixedSize(84, 84)
+        # Keep only the ring visible. Without a mask, compositors that do not
+        # honor translucent windows can paint a black square around the cursor.
+        outer = QRegion(QRect(2, 2, 80, 80), QRegion.RegionType.Ellipse)
+        inner = QRegion(QRect(14, 14, 56, 56), QRegion.RegionType.Ellipse)
+        self.setMask(outer.subtracted(inner))
         self._ring_visible = True
         self._follow_timer = QTimer(self)
         self._follow_timer.setInterval(40)
@@ -88,14 +95,12 @@ class CursorCaptureIndicator(QWidget):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
         center = self.rect().center()
         if self._ring_visible:
-            painter.setPen(QPen(QColor(255, 255, 255, 230), 3))
-            painter.drawEllipse(center, 24, 24)
-            painter.setPen(QPen(QColor("#df5a17"), 3))
-            painter.drawEllipse(center, 20, 20)
-        else:
-            painter.setPen(Qt.PenStyle.NoPen)
-            painter.setBrush(QColor("#df5a17"))
-            painter.drawEllipse(center, 3, 3)
+            painter.setBrush(Qt.BrushStyle.NoBrush)
+            # A dark edge keeps the yellow ring legible on light desktops.
+            painter.setPen(QPen(QColor(30, 24, 0, 230), 2))
+            painter.drawEllipse(center, 36, 36)
+            painter.setPen(QPen(QColor("#ffd400"), 4))
+            painter.drawEllipse(center, 34, 34)
         painter.end()
 
 

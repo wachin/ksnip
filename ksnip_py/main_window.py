@@ -6,7 +6,7 @@ import re
 import sys
 
 from PyQt6.QtCore import QBuffer, QByteArray, QEvent, QEventLoop, QIODevice, QPoint, QRect, QRectF, QSettings, QSize, QThread, QTimer, Qt, QUrl
-from PyQt6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPainter, QPixmap
+from PyQt6.QtGui import QAction, QActionGroup, QColor, QCursor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPainter, QPen, QPixmap, QPolygon
 from PyQt6.QtPrintSupport import QPrintDialog, QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import (
     QApplication,
@@ -286,6 +286,7 @@ class MainWindow(QMainWindow):
         menu.addAction(self.new_capture_portal_action)
         menu.addSeparator()
         menu.addAction(self.capture_cursor_action)
+        menu.addAction(self.capture_cursor_arrow_action)
         button.setMenu(menu)
         return button
 
@@ -717,6 +718,13 @@ class MainWindow(QMainWindow):
             self.tr("Include the mouse cursor in new captures. Requires a capture delay greater than 0.")
         )
         self.capture_cursor_action.toggled.connect(self._set_capture_include_cursor)
+        self.capture_cursor_arrow_action = QAction(self.tr("Use Arrow Pointer"), self)
+        self.capture_cursor_arrow_action.setCheckable(True)
+        self.capture_cursor_arrow_action.setChecked(self._setting_bool("capture/cursor_arrow", True))
+        self.capture_cursor_arrow_action.setToolTip(
+            self.tr("Use a standard arrow instead of the actual pointer shape, such as the text I-beam.")
+        )
+        self.capture_cursor_arrow_action.toggled.connect(self._set_capture_cursor_arrow)
 
         self.open_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogOpenButton), self.tr("Open"), self)
         self.open_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
@@ -1443,6 +1451,7 @@ class MainWindow(QMainWindow):
         new_capture_menu.addAction(self.new_capture_portal_action)
         new_capture_menu.addSeparator()
         new_capture_menu.addAction(self.capture_cursor_action)
+        new_capture_menu.addAction(self.capture_cursor_arrow_action)
         file_menu.addSeparator()
         file_menu.addAction(self.open_action)
         self.recent_images_menu = file_menu.addMenu(self.tr("Recent Images"))
@@ -2611,6 +2620,33 @@ class MainWindow(QMainWindow):
         if checked and self._setting_int("capture/delay_seconds", 0) <= 0:
             self.status_label.setText(self.tr("Set a capture delay to include the mouse cursor."))
 
+    def _set_capture_cursor_arrow(self, checked: bool) -> None:
+        self._settings.setValue("capture/cursor_arrow", bool(checked))
+
+    @staticmethod
+    def _arrow_cursor_image() -> QImage:
+        image = QImage(28, 28, QImage.Format.Format_ARGB32_Premultiplied)
+        image.fill(QColor(0, 0, 0, 0))
+        painter = QPainter(image)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        painter.setBrush(QColor("#ffffff"))
+        painter.setPen(QPen(QColor("#111111"), 1.5))
+        painter.drawPolygon(
+            QPolygon(
+                [
+                    QPoint(3, 2),
+                    QPoint(3, 23),
+                    QPoint(8, 18),
+                    QPoint(12, 26),
+                    QPoint(16, 24),
+                    QPoint(12, 16),
+                    QPoint(20, 16),
+                ]
+            )
+        )
+        painter.end()
+        return image
+
     def _capture_with_preferences(self, capture_fn, *, portal_interactive: bool = True, allow_forced_portal: bool = True):
         use_portal = allow_forced_portal and (
             self._setting_bool("capture/force_generic_wayland", False) or is_wayland_session()
@@ -2650,6 +2686,8 @@ class MainWindow(QMainWindow):
         # positioned during the delay; the selection can then include it if the
         # chosen rectangle contains that position.
         pending_cursor = grab_x11_cursor() if include_cursor else None
+        if pending_cursor is not None and self._setting_bool("capture/cursor_arrow", True):
+            pending_cursor = (self._arrow_cursor_image(), QCursor.pos() - QPoint(3, 2))
 
         try:
             result = capture_fn()
