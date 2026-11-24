@@ -283,6 +283,8 @@ class MainWindow(QMainWindow):
         menu.addAction(self.new_capture_active_action)
         menu.addAction(self.new_capture_under_cursor_action)
         menu.addAction(self.new_capture_portal_action)
+        menu.addSeparator()
+        menu.addAction(self.capture_cursor_action)
         button.setMenu(menu)
         return button
 
@@ -707,6 +709,11 @@ class MainWindow(QMainWindow):
         self.new_capture_portal_action = QAction(self._load_icon("wayland"), self.tr("Portal"), self)
         self.new_capture_portal_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_portal_action.triggered.connect(self.capture_portal)
+        self.capture_cursor_action = QAction(self.tr("Include Mouse Cursor"), self)
+        self.capture_cursor_action.setCheckable(True)
+        self.capture_cursor_action.setChecked(self._setting_bool("capture/include_cursor", False))
+        self.capture_cursor_action.setToolTip(self.tr("Include the mouse cursor in new captures"))
+        self.capture_cursor_action.toggled.connect(self._set_capture_include_cursor)
 
         self.open_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogOpenButton), self.tr("Open"), self)
         self.open_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
@@ -1431,6 +1438,8 @@ class MainWindow(QMainWindow):
         new_capture_menu.addAction(self.new_capture_active_action)
         new_capture_menu.addAction(self.new_capture_under_cursor_action)
         new_capture_menu.addAction(self.new_capture_portal_action)
+        new_capture_menu.addSeparator()
+        new_capture_menu.addAction(self.capture_cursor_action)
         file_menu.addSeparator()
         file_menu.addAction(self.open_action)
         self.recent_images_menu = file_menu.addMenu(self.tr("Recent Images"))
@@ -2594,6 +2603,9 @@ class MainWindow(QMainWindow):
             return
         self._load_capture_result(result, "Portal")
 
+    def _set_capture_include_cursor(self, checked: bool) -> None:
+        self._settings.setValue("capture/include_cursor", bool(checked))
+
     def _capture_with_preferences(self, capture_fn, *, portal_interactive: bool = True, allow_forced_portal: bool = True):
         use_portal = allow_forced_portal and (
             self._setting_bool("capture/force_generic_wayland", False) or is_wayland_session()
@@ -2619,7 +2631,7 @@ class MainWindow(QMainWindow):
         include_cursor = (
             self._capture_cursor_override
             if self._capture_cursor_override is not None
-            else self._setting_bool("capture/include_cursor", True)
+            else self._setting_bool("capture/include_cursor", False)
         )
         self._capture_cursor_override = None
         delay_ms = max(0, delay_seconds * 1000)
@@ -2657,20 +2669,18 @@ class MainWindow(QMainWindow):
         if self._cli_direct_save or self._cli_upload:
             self._process_cli_capture(result)
             return
-        self._load_capture(result.pixmap.toImage(), title)
-        canvas = self.current_canvas()
-        if canvas is not None and result.cursor_image is not None and result.cursor_position is not None:
-            canvas.add_image_item(result.cursor_image, position=result.cursor_position)
+        image = self._capture_image_with_cursor(result)
+        self._load_capture(image, title)
         if self._setting_bool("saver/auto_save", False):
             self._auto_save_current_capture()
         if self._setting_bool("capture/auto_copy_new_captures", False):
-            QGuiApplication.clipboard().setImage(result.pixmap.toImage())
+            QGuiApplication.clipboard().setImage(image)
             self.status_label.setText(
                 self.tr("Loaded %1 capture and copied it to clipboard").replace("%1", title.lower())
             )
 
     def _process_cli_capture(self, result) -> None:
-        image = self._cli_capture_image(result)
+        image = self._capture_image_with_cursor(result)
         if self._cli_direct_save:
             self._save_cli_capture(image)
         if self._cli_upload:
@@ -2678,7 +2688,14 @@ class MainWindow(QMainWindow):
         self._finish_cli_capture()
 
     @staticmethod
-    def _cli_capture_image(result) -> QImage:
+    def _capture_image_with_cursor(result) -> QImage:
+        """Return the capture with an optional cursor baked into the pixels.
+
+        The cursor intentionally is not inserted as an editable image item:
+        doing that selected it, put resize handles on the pointer and made the
+        bottom-right corner awkward to use. Cursor capture is an image
+        property, so it belongs in the base image.
+        """
         image = result.pixmap.toImage()
         if result.cursor_image is not None and result.cursor_position is not None:
             image = image.copy()
@@ -4209,7 +4226,7 @@ class MainWindow(QMainWindow):
             rotate_watermark=self.rotate_watermark_action.isChecked(),
             capture_delay_seconds=self._setting_int("capture/delay_seconds", 0),
             capture_implicit_delay_ms=self._setting_int("capture/implicit_delay_ms", 200),
-            capture_include_cursor=self._setting_bool("capture/include_cursor", True),
+            capture_include_cursor=self._setting_bool("capture/include_cursor", False),
             show_magnifying_glass=self._setting_bool("capture/magnifying_glass", True),
             force_generic_wayland=self._setting_bool("capture/force_generic_wayland", False),
             scale_generic_wayland=self._setting_bool("capture/scale_generic_wayland", False),
@@ -4316,6 +4333,9 @@ class MainWindow(QMainWindow):
         self._settings.setValue("capture/delay_seconds", data.capture_delay_seconds)
         self._settings.setValue("capture/implicit_delay_ms", data.capture_implicit_delay_ms)
         self._settings.setValue("capture/include_cursor", data.capture_include_cursor)
+        self.capture_cursor_action.blockSignals(True)
+        self.capture_cursor_action.setChecked(data.capture_include_cursor)
+        self.capture_cursor_action.blockSignals(False)
         self._settings.setValue("capture/magnifying_glass", data.show_magnifying_glass)
         self._settings.setValue("capture/force_generic_wayland", data.force_generic_wayland)
         self._settings.setValue("capture/scale_generic_wayland", data.scale_generic_wayland)
