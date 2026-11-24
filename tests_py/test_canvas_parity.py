@@ -121,6 +121,27 @@ class CropAndCutParityTest(unittest.TestCase):
         canvas.undo()
         self.assertEqual(canvas._items[0].start, QPoint(6, 5))
 
+    def test_crop_starts_over_an_existing_overlay(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(400, 300))
+        canvas.resize(400, 300)
+        overlay = OverlayItem(
+            kind=Tool.RECT,
+            start=QPoint(10, 10),
+            end=QPoint(390, 290),
+            color=QColor("red"),
+            pen_width=2,
+        )
+        canvas._items = [overlay]
+        canvas.set_tool(Tool.CROP)
+
+        QTest.mousePress(canvas, Qt.MouseButton.LeftButton, pos=QPoint(100, 100))
+        QTest.mouseMove(canvas, QPoint(200, 200))
+        QTest.mouseRelease(canvas, Qt.MouseButton.LeftButton, pos=QPoint(200, 200))
+
+        self.assertEqual(canvas._image.width(), 101)
+        self.assertEqual(canvas._image.height(), 101)
+
     def test_cut_removes_a_full_axis_slice(self) -> None:
         source = coordinate_image()
         canvas = AnnotationCanvas()

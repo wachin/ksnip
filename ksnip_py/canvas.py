@@ -1455,7 +1455,12 @@ class AnnotationCanvas(QLabel):
             self._refresh()
             return
 
-        if self._tool != Tool.SELECT and self._illustrator_grab and image_point is not None:
+        if (
+            self._tool != Tool.SELECT
+            and self._tool not in (Tool.CROP, Tool.CUT, Tool.BLUR, Tool.PIXELATE)
+            and self._illustrator_grab
+            and image_point is not None
+        ):
             grab_index = self._find_item_at(image_point)
             if grab_index is not None:
                 handle = self._find_handle_at(self._items[grab_index], image_point)
