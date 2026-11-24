@@ -16,6 +16,7 @@ ksnip-pyqt6 (0.2.2-1) unstable; urgency=medium
   * Make the number badge margin configurable from Annotator settings (−2 to 40 px).
   * Expose the number badge margin in the annotation properties toolbar too.
   * Let Crop and Cut start over an existing annotation instead of grabbing it.
+  * Give Crop a four-handle selection that applies with Enter or a double-click.
   * Tear down the full-screen selection overlay before showing the editor, so
     no leftover piece of the capture tool stays on screen.
   * Document the Windows external OCR setup and support .bat/.cmd scripts.

@@ -1960,6 +1960,10 @@ class MainWindow(QMainWindow):
         self._restore_width_for_tool(tool)
         self._restore_shadow_and_opacity_for_tool(tool)
         self._sync_item_controls()
+        if tool == Tool.CROP:
+            self.status_label.setText(
+                self.tr("Drag the crop handles, then press Enter to crop or Esc to cancel.")
+            )
 
     @staticmethod
     def _default_fill_mode_for_tool(tool: Tool) -> FillMode:

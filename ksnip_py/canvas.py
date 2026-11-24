@@ -605,6 +605,7 @@ class AnnotationCanvas(QLabel):
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.setMouseTracking(True)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         self._tool = Tool.SELECT
         self._color = QColor("#df5a17")
@@ -624,6 +625,9 @@ class AnnotationCanvas(QLabel):
         self._number_seed = 1
         self._number_seed_updates_all = False
         self._number_badge_padding = 2
+        self._crop_rect: QRect | None = None
+        self._crop_handle: str | None = None
+        self._crop_drag_origin: QRect | None = None
         self._switch_to_select_after_drawing = False
         self._select_item_after_drawing = True
         self._illustrator_grab = True
@@ -834,6 +838,9 @@ class AnnotationCanvas(QLabel):
         self._preview_end = None
         self._last_point = None
         self._preview_points = []
+        self._crop_rect = self._image.rect() if self._tool == Tool.CROP else None
+        self._crop_handle = None
+        self._crop_drag_origin = None
         self._refresh()
 
     def selected_item_count(self) -> int:
@@ -879,6 +886,7 @@ class AnnotationCanvas(QLabel):
         return self._items[index] if index is not None else None
 
     def set_tool(self, tool: Tool) -> None:
+        was_crop = self._tool == Tool.CROP
         if tool != self._tool:
             # Abandon any half-finished preview or item drag from the previous
             # tool. Leaving these pointers behind made the next Select click
@@ -890,7 +898,16 @@ class AnnotationCanvas(QLabel):
             self._drag_start = None
             self._active_handle = None
             self._drag_undo_snapshot = None
+            self._crop_rect = None
+            self._crop_handle = None
+            self._crop_drag_origin = None
         self._tool = tool
+        if tool == Tool.CROP and self.has_image():
+            self._crop_rect = self._image.rect()
+            self.setFocus(Qt.FocusReason.OtherFocusReason)
+            self._refresh()
+        elif was_crop:
+            self._refresh()
 
     def tool(self) -> Tool:
         return self._tool
@@ -1309,6 +1326,9 @@ class AnnotationCanvas(QLabel):
         self._drag_start = None
         self._active_handle = None
         self._drag_undo_snapshot = None
+        self._crop_rect = self._image.rect() if self._tool == Tool.CROP else None
+        self._crop_handle = None
+        self._crop_drag_origin = None
 
     def _arm_drag_undo(self) -> None:
         self._drag_undo_snapshot = self._make_snapshot()
@@ -1403,6 +1423,18 @@ class AnnotationCanvas(QLabel):
                 return
         super().wheelEvent(event)
 
+    def keyPressEvent(self, event) -> None:  # noqa: N802
+        if self.has_image() and self._tool == Tool.CROP:
+            if event.key() in {Qt.Key.Key_Return, Qt.Key.Key_Enter}:
+                self.apply_crop_selection()
+                event.accept()
+                return
+            if event.key() == Qt.Key.Key_Escape:
+                self.cancel_crop_selection()
+                event.accept()
+                return
+        super().keyPressEvent(event)
+
     def mousePressEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if self._inline_text_editor is not None:
             if not self._inline_text_editor.geometry().contains(event.position().toPoint()):
@@ -1453,6 +1485,10 @@ class AnnotationCanvas(QLabel):
             if previous_selection != self._selected_item_indices:
                 self.changed.emit()
             self._refresh()
+            return
+
+        if self._tool == Tool.CROP:
+            self._begin_crop_press(image_point)
             return
 
         if (
@@ -1518,6 +1554,13 @@ class AnnotationCanvas(QLabel):
         if self._inline_text_editor is not None:
             event.accept()
             return
+        if self._tool == Tool.CROP:
+            image_point = self._map_to_image(event.position().toPoint())
+            if self._crop_handle is not None and image_point is not None:
+                self._drag_crop_selection(image_point)
+            else:
+                self._update_cursor_for_point(image_point)
+            return
         if not self.has_image() or self._preview_start is None:
             image_point = self._map_to_image(event.position().toPoint())
             if self._drag_start is not None and self.has_selected_item() and image_point is not None:
@@ -1567,6 +1610,10 @@ class AnnotationCanvas(QLabel):
             event.accept()
             return
         if not self.has_image():
+            return
+
+        if self._tool == Tool.CROP:
+            self._finish_crop_drag()
             return
 
         if self._tool == Tool.SELECT:
@@ -1644,12 +1691,16 @@ class AnnotationCanvas(QLabel):
         self._refresh()
 
     def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:  # noqa: N802
-        if not self.has_image() or self._tool not in (Tool.SELECT, Tool.STICKER):
+        if not self.has_image() or self._tool not in (Tool.SELECT, Tool.STICKER, Tool.CROP):
             super().mouseDoubleClickEvent(event)
             return
         image_point = self._map_to_image(event.position().toPoint())
         if image_point is None:
             super().mouseDoubleClickEvent(event)
+            return
+        if self._tool == Tool.CROP:
+            if self._crop_rect is not None and self._crop_rect.contains(image_point):
+                self.apply_crop_selection()
             return
         clicked_index = self._find_item_at(image_point)
         if clicked_index is None:
@@ -1788,6 +1839,8 @@ class AnnotationCanvas(QLabel):
                 painter.drawEllipse(rect)
             if self._tool in (Tool.BLUR, Tool.PIXELATE, Tool.CROP, Tool.CUT):
                 painter.fillRect(rect, QColor(255, 255, 255, 40))
+        if self._tool == Tool.CROP:
+            self._draw_crop_selection(painter, sx, sy)
         painter.end()
 
         self.setPixmap(display)
@@ -1849,6 +1902,164 @@ class AnnotationCanvas(QLabel):
         self._image = result
         self._clear_selection()
         return True
+
+    def _crop_handle_at(self, point: QPoint) -> str | None:
+        if self._crop_rect is None:
+            return None
+        rect = self._crop_rect
+        radius = max(4, round(10 * 100 / max(1, self._zoom_percent)))
+        handles = {
+            "top_left": rect.topLeft(),
+            "top_right": QPoint(rect.right(), rect.top()),
+            "bottom_left": QPoint(rect.left(), rect.bottom()),
+            "bottom_right": rect.bottomRight(),
+        }
+        for name, handle_point in handles.items():
+            hit = QRect(
+                handle_point.x() - radius,
+                handle_point.y() - radius,
+                radius * 2,
+                radius * 2,
+            )
+            if hit.contains(point):
+                return name
+        return None
+
+    def _begin_crop_press(self, point: QPoint) -> None:
+        if self._image.isNull():
+            return
+        if self._crop_rect is None:
+            self._crop_rect = self._image.rect()
+        handle = self._crop_handle_at(point)
+        self._crop_drag_origin = QRect(self._crop_rect)
+        self._drag_start = QPoint(point)
+        if handle is not None:
+            self._crop_handle = handle
+        elif self._crop_rect != self._image.rect() and self._crop_rect.contains(point):
+            self._crop_handle = "move"
+        else:
+            # Starting away from a handle begins a new crop rectangle. This
+            # keeps a click on the full-image selection from trying to move it.
+            self._crop_handle = "new"
+            self._crop_rect = QRect(point, point)
+        self._refresh()
+
+    @staticmethod
+    def _clamp_crop_rect(rect: QRect, bounds: QRect) -> QRect:
+        rect = rect.normalized().intersected(bounds)
+        if rect.width() < 2:
+            rect.setWidth(2)
+        if rect.height() < 2:
+            rect.setHeight(2)
+        return rect.intersected(bounds)
+
+    def _drag_crop_selection(self, point: QPoint) -> None:
+        if self._crop_handle is None or self._image.isNull():
+            return
+        bounds = self._image.rect()
+        if self._crop_handle == "new":
+            rect = QRect(self._drag_start, point).normalized()
+        elif self._crop_handle == "move":
+            delta = point - self._drag_start
+            rect = QRect(self._crop_drag_origin).translated(delta)
+            if rect.left() < bounds.left():
+                rect.moveLeft(bounds.left())
+            if rect.top() < bounds.top():
+                rect.moveTop(bounds.top())
+            if rect.right() > bounds.right():
+                rect.moveRight(bounds.right())
+            if rect.bottom() > bounds.bottom():
+                rect.moveBottom(bounds.bottom())
+        else:
+            rect = QRect(self._crop_drag_origin)
+            if "top" in self._crop_handle:
+                rect.setTop(point.y())
+            if "bottom" in self._crop_handle:
+                rect.setBottom(point.y())
+            if "left" in self._crop_handle:
+                rect.setLeft(point.x())
+            if "right" in self._crop_handle:
+                rect.setRight(point.x())
+            rect = rect.normalized()
+        self._crop_rect = self._clamp_crop_rect(rect, bounds)
+        self._refresh()
+
+    def _finish_crop_drag(self) -> None:
+        if self._crop_rect is not None and not self._image.isNull():
+            self._crop_rect = self._clamp_crop_rect(self._crop_rect, self._image.rect())
+            if self._crop_rect.width() < 2 or self._crop_rect.height() < 2:
+                self._crop_rect = self._image.rect()
+        self._crop_handle = None
+        self._crop_drag_origin = None
+        self._drag_start = None
+        self._refresh()
+
+    def apply_crop_selection(self) -> bool:
+        if self._tool != Tool.CROP or self._crop_rect is None or self._image.isNull():
+            return False
+        rect = self._crop_rect.normalized().intersected(self._image.rect())
+        if rect.width() < 2 or rect.height() < 2 or rect == self._image.rect():
+            return False
+        self._push_undo_state()
+        if not self._crop_to_rect(rect):
+            if self._undo_stack:
+                self._undo_stack.pop()
+            return False
+        self._crop_rect = self._image.rect()
+        self._crop_handle = None
+        self._crop_drag_origin = None
+        self._mark_dirty()
+        self._refresh()
+        return True
+
+    def cancel_crop_selection(self) -> None:
+        self._crop_rect = None
+        self._crop_handle = None
+        self._crop_drag_origin = None
+        self._drag_start = None
+        self._refresh()
+        self.select_tool_requested.emit()
+
+    def _draw_crop_selection(self, painter: QPainter, sx: float, sy: float) -> None:
+        if self._crop_rect is None or self._image.isNull():
+            return
+        rect = QRect(
+            round(self._crop_rect.x() * sx),
+            round(self._crop_rect.y() * sy),
+            max(1, round(self._crop_rect.width() * sx)),
+            max(1, round(self._crop_rect.height() * sy)),
+        )
+        device = painter.device()
+        full = QRect(0, 0, device.width(), device.height())
+        dim = QColor(0, 0, 0, 120)
+        painter.save()
+        painter.fillRect(QRect(0, 0, full.width(), max(0, rect.top())), dim)
+        painter.fillRect(
+            QRect(0, rect.bottom() + 1, full.width(), max(0, full.height() - rect.bottom() - 1)),
+            dim,
+        )
+        painter.fillRect(QRect(0, rect.top(), max(0, rect.left()), max(0, rect.height())), dim)
+        painter.fillRect(
+            QRect(rect.right() + 1, rect.top(), max(0, full.width() - rect.right() - 1), max(0, rect.height())),
+            dim,
+        )
+        painter.setBrush(Qt.BrushStyle.NoBrush)
+        painter.setPen(QPen(QColor("#ffffff"), 1, Qt.PenStyle.DashLine))
+        painter.drawRect(rect)
+        painter.setPen(QPen(QColor("#1c7ed6"), 1, Qt.PenStyle.SolidLine))
+        painter.drawRect(rect)
+        inset_x = min(5, max(1, rect.width() // 2))
+        inset_y = min(5, max(1, rect.height() // 2))
+        for point in (
+            QPoint(rect.left() + inset_x, rect.top() + inset_y),
+            QPoint(rect.right() - inset_x, rect.top() + inset_y),
+            QPoint(rect.left() + inset_x, rect.bottom() - inset_y),
+            QPoint(rect.right() - inset_x, rect.bottom() - inset_y),
+        ):
+            handle = QRect(point.x() - 5, point.y() - 5, 10, 10)
+            painter.fillRect(handle, QColor("#ffffff"))
+            painter.drawRect(handle)
+        painter.restore()
 
     def _crop_to_rect(self, rect: QRect) -> bool:
         crop = rect.normalized().intersected(self._image.rect())
@@ -2516,6 +2727,20 @@ class AnnotationCanvas(QLabel):
         painter.restore()
 
     def _update_cursor_for_point(self, point: QPoint | None) -> None:
+        if self._tool == Tool.CROP:
+            if point is None or self._crop_rect is None:
+                self.setCursor(Qt.CursorShape.ArrowCursor)
+                return
+            handle = self._crop_handle_at(point)
+            if handle in {"top_left", "bottom_right"}:
+                self.setCursor(Qt.CursorShape.SizeFDiagCursor)
+            elif handle in {"top_right", "bottom_left"}:
+                self.setCursor(Qt.CursorShape.SizeBDiagCursor)
+            elif self._crop_rect.contains(point) and self._crop_rect != self._image.rect():
+                self.setCursor(Qt.CursorShape.SizeAllCursor)
+            else:
+                self.setCursor(Qt.CursorShape.CrossCursor)
+            return
         if self._tool != Tool.SELECT or point is None or not self.has_single_selected_item():
             self.setCursor(Qt.CursorShape.ArrowCursor)
             return

@@ -121,7 +121,18 @@ class CropAndCutParityTest(unittest.TestCase):
         canvas.undo()
         self.assertEqual(canvas._items[0].start, QPoint(6, 5))
 
-    def test_crop_starts_over_an_existing_overlay(self) -> None:
+    def test_crop_exposes_four_corner_handles(self) -> None:
+        canvas = AnnotationCanvas()
+        canvas.set_image(coordinate_image(400, 300))
+        canvas.set_tool(Tool.CROP)
+
+        self.assertEqual(canvas._crop_rect, canvas._image.rect())
+        self.assertEqual(canvas._crop_handle_at(QPoint(0, 0)), "top_left")
+        self.assertEqual(canvas._crop_handle_at(QPoint(399, 0)), "top_right")
+        self.assertEqual(canvas._crop_handle_at(QPoint(0, 299)), "bottom_left")
+        self.assertEqual(canvas._crop_handle_at(QPoint(399, 299)), "bottom_right")
+
+    def test_crop_handles_resize_and_apply_over_an_existing_overlay(self) -> None:
         canvas = AnnotationCanvas()
         canvas.set_image(coordinate_image(400, 300))
         canvas.resize(400, 300)
@@ -135,12 +146,15 @@ class CropAndCutParityTest(unittest.TestCase):
         canvas._items = [overlay]
         canvas.set_tool(Tool.CROP)
 
-        QTest.mousePress(canvas, Qt.MouseButton.LeftButton, pos=QPoint(100, 100))
-        QTest.mouseMove(canvas, QPoint(200, 200))
-        QTest.mouseRelease(canvas, Qt.MouseButton.LeftButton, pos=QPoint(200, 200))
+        self.assertEqual(canvas._crop_rect, canvas._image.rect())
+        canvas._begin_crop_press(QPoint(0, 0))
+        self.assertEqual(canvas._crop_handle, "top_left")
+        canvas._drag_crop_selection(QPoint(100, 100))
+        canvas._finish_crop_drag()
+        self.assertTrue(canvas.apply_crop_selection())
 
-        self.assertEqual(canvas._image.width(), 101)
-        self.assertEqual(canvas._image.height(), 101)
+        self.assertEqual(canvas._image.width(), 300)
+        self.assertEqual(canvas._image.height(), 200)
 
     def test_cut_removes_a_full_axis_slice(self) -> None:
         source = coordinate_image()
