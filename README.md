@@ -129,7 +129,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 - Optional real X11 cursor capture through XFixes; off by default, requires a capture delay, blinks a yellow marker around the pointer and adds the cursor as a movable fixed-size item. A standard arrow is used by default; the actual pointer shape (such as the text I-beam) is optional. Toggle it from New Screenshot → Include Mouse Cursor.
 - Capture delay, implicit delay, startup capture, auto-copy, and auto-save preferences.
 - Open and Save dialogs remember their own window size and position across sessions.
-- System, Light, and Dark theme choices under View → Theme; a built-in dark palette works on Linux, Windows, and macOS.
+- System, Light, and Dark theme choices under View → Theme; switching applies immediately, and the built-in dark palette works on Linux, Windows, and macOS.
 - Open, paste, embedded paste, save, save as, save all, rename, delete, print, and print preview.
 - Editable `.ksnip` project files and SVG export for continued editing in Inkscape.
 - Multiple image tabs with dirty-state tracking and dynamic window titles.
@@ -259,10 +259,11 @@ Choose **View → Theme** to select:
 - **Light:** built-in Fusion light palette and light icons.
 - **Dark:** built-in Fusion dark palette and light-on-dark icons.
 
-The choice is saved in `application/theme`. A restart is required after
-changing it because the main window and its icons are constructed at startup.
-The built-in Light and Dark choices work on Linux, Windows, and macOS without
-extra packages.
+The choice is saved in `application/theme` and is applied immediately, including
+a reload of the matching light/dark icons. The built-in Light and Dark choices
+work on Linux, Windows, and macOS without extra packages. **System** follows
+the native color scheme and updates when Qt reports a system color-scheme
+change.
 
 ### Dark theme on Linux with qt6ct + Kvantum
 

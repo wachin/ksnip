@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from PyQt6.QtCore import QObject, Qt, pyqtSignal
 from PyQt6.QtGui import QColor, QIcon, QPalette
 from PyQt6.QtWidgets import QApplication
 
@@ -68,3 +69,96 @@ def apply_theme(app: QApplication, theme: object) -> str:
         app.setPalette(app.style().standardPalette())
         QIcon.setThemeName("Papirus")
     return resolved
+
+
+class ThemeManager(QObject):
+    """Central light/dark theme state for the whole application."""
+
+    theme_changed = pyqtSignal(str, str)  # mode, resolved light/dark
+
+    def __init__(self, app: QApplication) -> None:
+        super().__init__(app)
+        self._app = app
+        self._original_style = app.style().objectName()
+        self._original_palette = QPalette(app.palette())
+        self._original_icon_theme = QIcon.themeName()
+        self._mode = THEME_SYSTEM
+        self._resolved = self._system_resolved()
+        hints = app.styleHints()
+        signal = getattr(hints, "colorSchemeChanged", None)
+        if signal is not None:
+            signal.connect(self._on_system_color_scheme_changed)
+
+    @property
+    def mode(self) -> str:
+        return self._mode
+
+    @property
+    def resolved(self) -> str:
+        return self._resolved
+
+    def icon_variant(self) -> str:
+        # icons/light are light-coloured glyphs for a dark background.
+        return "light" if self._resolved == THEME_DARK else "dark"
+
+    def set_mode(self, mode: object, *, emit: bool = True) -> str:
+        previous_mode = self._mode
+        previous_resolved = self._resolved
+        resolved_mode = normalize_theme(mode)
+        self._mode = resolved_mode
+        if resolved_mode == THEME_SYSTEM:
+            self._restore_system_theme()
+            self._resolved = self._system_resolved()
+        else:
+            self._apply_explicit_theme(resolved_mode)
+            self._resolved = resolved_mode
+        if emit and (previous_mode != self._mode or previous_resolved != self._resolved):
+            self.theme_changed.emit(self._mode, self._resolved)
+        return self._mode
+
+    def _restore_system_theme(self) -> None:
+        if self._original_style:
+            self._app.setStyle(self._original_style)
+        self._app.setPalette(self._original_palette)
+        QIcon.setThemeName(self._original_icon_theme)
+
+    def _apply_explicit_theme(self, resolved: str) -> None:
+        self._app.setStyle("Fusion")
+        if resolved == THEME_DARK:
+            self._app.setPalette(_dark_palette())
+            QIcon.setThemeName("Papirus-Dark")
+        else:
+            self._app.setPalette(self._app.style().standardPalette())
+            QIcon.setThemeName("Papirus")
+
+    def _system_resolved(self) -> str:
+        hints = self._app.styleHints()
+        scheme = hints.colorScheme() if hasattr(hints, "colorScheme") else None
+        if scheme == Qt.ColorScheme.Dark:
+            return THEME_DARK
+        if scheme == Qt.ColorScheme.Light:
+            return THEME_LIGHT
+        window = self._app.palette().color(QPalette.ColorRole.Window)
+        return THEME_DARK if window.lightness() < 128 else THEME_LIGHT
+
+    def _on_system_color_scheme_changed(self, *_args) -> None:
+        if self._mode != THEME_SYSTEM:
+            return
+        resolved = self._system_resolved()
+        if resolved != self._resolved:
+            self._resolved = resolved
+            self.theme_changed.emit(self._mode, self._resolved)
+
+
+_theme_manager: ThemeManager | None = None
+
+
+def init_theme_manager(app: QApplication) -> ThemeManager:
+    global _theme_manager
+    if _theme_manager is None:
+        _theme_manager = ThemeManager(app)
+    return _theme_manager
+
+
+def theme_manager() -> ThemeManager | None:
+    return _theme_manager

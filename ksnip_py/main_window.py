@@ -59,7 +59,7 @@ from .project_io import export_svg, load_project, save_project
 from .settings_dialog import SettingsData, SettingsDialog
 from .spellcheck import load_spellcheck_scheme, save_spellcheck_scheme
 from .sticker_picker import StickerPickerDialog
-from .theme import THEME_DARK, THEME_LIGHT, THEME_SYSTEM, normalize_theme
+from .theme import THEME_DARK, THEME_LIGHT, THEME_SYSTEM, init_theme_manager, normalize_theme, theme_manager
 from .uploader import ScriptUploader, UploadWorker
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
 from .download_manager import show_download_manager
@@ -109,7 +109,11 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self._settings = QSettings()
-        self._current_theme = normalize_theme(self._settings.value("application/theme", THEME_SYSTEM))
+        self._theme_manager = theme_manager() or init_theme_manager(QApplication.instance())
+        self._current_theme = self._theme_manager.mode
+        self._icon_names_by_cache_key: dict[int, str] = {}
+        self._themed_icon_names: dict[int, tuple[str, str]] = {}
+        self._theme_icon_labels: dict[QLabel, str] = {}
         self._docks_collapsed = False
         self._property_toolbar_has_controls = False
         self._editor_visible = True
@@ -186,6 +190,7 @@ class MainWindow(QMainWindow):
         self._build_tab_context_menu()
         self._build_toolbar()
         self._build_menus()
+        self._theme_manager.theme_changed.connect(self._on_theme_changed)
         QGuiApplication.clipboard().dataChanged.connect(self._update_actions)
         self._restore_ui_settings()
         self._setup_tray_icon()
@@ -215,7 +220,9 @@ class MainWindow(QMainWindow):
             )
         for candidate in candidates:
             if candidate.exists():
-                return QIcon(str(candidate))
+                icon = QIcon(str(candidate))
+                self._icon_names_by_cache_key[icon.cacheKey()] = name
+                return icon
         return QIcon()
 
     def _load_first_icon(self, *names: str) -> QIcon:
@@ -227,7 +234,10 @@ class MainWindow(QMainWindow):
 
     def _themed_icon(self, theme_name: str, fallback_name: str) -> QIcon:
         """Load a desktop icon while keeping a packaged fallback for minimal WMs."""
-        return QIcon.fromTheme(theme_name, self._load_icon(fallback_name))
+        icon = QIcon.fromTheme(theme_name, self._load_icon(fallback_name))
+        if not icon.isNull():
+            self._themed_icon_names[icon.cacheKey()] = (theme_name, fallback_name)
+        return icon
 
     def _apply_window_icon(self) -> None:
         icon_path = self._icon_base_path() / "ksnip.svg"
@@ -256,6 +266,7 @@ class MainWindow(QMainWindow):
         if not icon.isNull():
             label.setPixmap(icon.pixmap(16, 16))
         label.setToolTip(tooltip)
+        self._theme_icon_labels[label] = icon_name
         return label
 
     def _make_tool_toggle(self, icon_name: str, tooltip: str, checked: bool, slot) -> QToolButton:
@@ -1467,14 +1478,61 @@ class MainWindow(QMainWindow):
         resolved = normalize_theme(theme)
         self._settings.setValue("application/theme", resolved)
         self._settings.sync()
+        self._current_theme = resolved
         self._sync_theme_actions()
-        if resolved != self._current_theme:
-            self._current_theme = resolved
-            QMessageBox.information(
-                self,
-                self.tr("Theme"),
-                self.tr("Restart ksnip_py to apply the theme."),
-            )
+        self._theme_manager.set_mode(resolved)
+
+    def _on_theme_changed(self, mode: str, _resolved: str) -> None:
+        self._current_theme = mode
+        self._sync_theme_actions()
+        self._refresh_theme_icons()
+        self._repolish_theme()
+
+    def _refresh_theme_icons(self) -> None:
+        for action in self.findChildren(QAction):
+            key = action.icon().cacheKey()
+            name = self._icon_names_by_cache_key.get(key)
+            if name:
+                action.setIcon(self._load_icon(name))
+                continue
+            themed = self._themed_icon_names.get(key)
+            if themed:
+                action.setIcon(self._themed_icon(*themed))
+        for button in self.findChildren(QToolButton):
+            if button.defaultAction() is not None:
+                continue
+            key = button.icon().cacheKey()
+            name = self._icon_names_by_cache_key.get(key)
+            if name:
+                button.setIcon(self._load_icon(name))
+                continue
+            themed = self._themed_icon_names.get(key)
+            if themed:
+                button.setIcon(self._themed_icon(*themed))
+        for menu in self.findChildren(QMenu):
+            key = menu.icon().cacheKey()
+            name = self._icon_names_by_cache_key.get(key)
+            if name:
+                menu.setIcon(self._load_icon(name))
+                continue
+            themed = self._themed_icon_names.get(key)
+            if themed:
+                menu.setIcon(self._themed_icon(*themed))
+        for label, name in list(self._theme_icon_labels.items()):
+            icon = self._load_icon(name)
+            if not icon.isNull():
+                label.setPixmap(icon.pixmap(16, 16))
+        self._sync_capture_cursor_toolbar()
+
+    def _repolish_theme(self) -> None:
+        app = QApplication.instance()
+        if app is None:
+            return
+        for widget in app.allWidgets():
+            style = widget.style()
+            style.unpolish(widget)
+            style.polish(widget)
+            widget.update()
 
     def _build_menus(self) -> None:
         file_menu = self.menuBar().addMenu(self.tr("&File"))
