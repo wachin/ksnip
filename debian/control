@@ -23,6 +23,7 @@ Depends: ${python3:Depends},
          python3-pyqt6,
          python3-pyqt6.qtsvg
 Recommends: python3-pyqt6.qtpdf,
+            qt6-translations-l10n,
             hunspell,
             hunspell-en-us,
             xdotool,

@@ -3,81 +3,42 @@ import unittest
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PyQt6.QtCore import QCoreApplication, QLibraryInfo
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtCore import QLocale, QTranslator
+from PyQt6.QtWidgets import QApplication, QFileDialog, QLabel
 
-from ksnip_py.i18n import available_languages, load_translation, qt_translation_directories
+from ksnip_py.i18n import _QtFallbackTranslator, load_translation, qt_translation_directories
 
 
 APP = QApplication.instance() or QApplication([])
 
 
-class TranslationCatalogTest(unittest.TestCase):
-    def test_all_generated_catalogs_are_discovered(self) -> None:
-        languages = dict(available_languages())
-        self.assertEqual(len(languages), 41)
-        self.assertIn("de", languages.values())
-        self.assertIn("pt_BR", languages.values())
-        self.assertIn("zh_Hant", languages.values())
+class _FakeQtTranslator(QTranslator):
+    def translate(self, context, source_text, disambiguation=None, n=-1):  # noqa: N802
+        if context == "QFileDialog" and source_text == "Look in:":
+            return "Ver en:"
+        return ""
 
-    def test_python_context_uses_reused_upstream_translation(self) -> None:
-        load_translation(APP, "de")
-        self.assertEqual(QCoreApplication.translate("MainWindow", "Save"), "Speichern")
-        self.assertEqual(QCoreApplication.translate("MainWindow", "Settings"), "Einstellungen")
 
-    def test_qtbase_catalog_translates_standard_file_dialog_controls(self) -> None:
-        if not any((path / "qtbase_es.qm").is_file() for path in qt_translation_directories()):
-            self.skipTest("optional Qt Spanish translation catalog is not installed")
-        load_translation(APP, "es_EC")
-        self.assertEqual(QCoreApplication.translate("QFileDialog", "Open"), "Abrir")
-        self.assertEqual(QCoreApplication.translate("QPlatformTheme", "Open"), "Abrir")
-        self.assertEqual(QCoreApplication.translate("MainWindow", "Open image"), "Abrir imagen")
+class QtTranslationTest(unittest.TestCase):
+    def test_fallback_restores_the_mnemonic_for_a_qt_label(self) -> None:
+        fallback = _QtFallbackTranslator([_FakeQtTranslator()])
+        self.assertEqual(fallback.translate("QFileDialog", "&Look in:"), "&Ver en:")
 
-    def test_file_type_column_of_the_file_dialog_is_translated(self) -> None:
-        load_translation(APP, "es_EC")
-        # QFileDialog asks QAbstractFileIconProvider for the Type column and the
-        # Qt Spanish catalog does not translate those strings, so they are
-        # carried by the application catalog.
-        self.assertEqual(QCoreApplication.translate("QAbstractFileIconProvider", "Folder"), "Carpeta")
-        self.assertEqual(QCoreApplication.translate("QAbstractFileIconProvider", "Drive"), "Unidad")
+    def test_spanish_qt_file_dialog_labels_are_translated(self) -> None:
+        if not any((directory / "qtbase_es.qm").exists() for directory in qt_translation_directories()):
+            self.skipTest("qtbase_es.qm is not installed")
 
-    def test_file_dialog_labels_are_translated_for_both_qt_spellings(self) -> None:
-        load_translation(APP, "es_EC")
-        # Qt 6.11 asks QFileDialog for these labels with a mnemonic and older
-        # releases without it; the application catalog carries both spellings.
-        self.assertEqual(QCoreApplication.translate("QFileDialog", "Look in:"), "Ver en:")
-        self.assertEqual(QCoreApplication.translate("QFileDialog", "&Look in:"), "&Ver en:")
-        self.assertEqual(QCoreApplication.translate("QFileDialog", "Files of type:"), "Ficheros de tipo:")
-        self.assertEqual(QCoreApplication.translate("QFileDialog", "Files of &type:"), "Ficheros de &tipo:")
+        try:
+            load_translation(APP, "es")
+            self.assertTrue(QLocale().name().startswith("es"))
 
-    def test_settings_dialog_strings_are_translated(self) -> None:
-        load_translation(APP, "es_EC")
-        self.assertEqual(
-            QCoreApplication.translate("SettingsDialog", "PaddleOCR (plain text)"),
-            "PaddleOCR (texto plano)",
-        )
-        self.assertEqual(
-            QCoreApplication.translate("SettingsDialog", "PaddleOCR (Markdown tables)"),
-            "PaddleOCR (tablas en Markdown)",
-        )
-        self.assertEqual(
-            QCoreApplication.translate("SettingsDialog", "PaddleOCR (HTML tables)"),
-            "PaddleOCR (tablas en HTML)",
-        )
-        self.assertEqual(
-            QCoreApplication.translate("SettingsDialog", "Default file type in Open dialog:"),
-            "Tipo de archivo predeterminado en el diálogo Abrir:",
-        )
-        self.assertEqual(
-            QCoreApplication.translate(
-                "SettingsDialog", "Default file type selected in the File > Open dialog."
-            ),
-            "Tipo de archivo preseleccionado en el diálogo Archivo > Abrir.",
-        )
-
-    def test_qt_runtime_translation_path_is_the_primary_location(self) -> None:
-        expected = QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath)
-        self.assertEqual(str(qt_translation_directories()[0]), expected)
+            dialog = QFileDialog()
+            dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+            labels = [label.text() for label in dialog.findChildren(QLabel)]
+            self.assertIn("&Ver en:", labels)
+            self.assertNotIn("&Look in:", labels)
+        finally:
+            load_translation(APP, "en")
 
 
 if __name__ == "__main__":

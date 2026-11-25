@@ -19,12 +19,15 @@ def qt_translation_directories() -> list[Path]:
     except AttributeError:  # PyQt6/Qt older than 6.8
         configured = [QLibraryInfo.path(translation_path)]
 
-    candidates = [Path(path) for path in configured if path]
+    candidates: list[Path] = []
     if sys.platform.startswith("linux"):
+        # Prefer the distribution package (qt6-translations-l10n) on Linux;
+        # fall back to the Qt deployment selected by PyQt6.
         data_roots = os.environ.get("XDG_DATA_DIRS", "/usr/local/share:/usr/share")
         for root in data_roots.split(os.pathsep):
             if root:
                 candidates.extend((Path(root) / "qt6" / "translations", Path(root) / "qt" / "translations"))
+    candidates.extend(Path(path) for path in configured if path)
 
     unique: list[Path] = []
     for candidate in candidates:
@@ -33,14 +36,47 @@ def qt_translation_directories() -> list[Path]:
     return unique
 
 
-def _install_translator(app, locale: QLocale, catalog: str, directories: list[Path]) -> bool:
+class _QtFallbackTranslator(QTranslator):
+    """Fill Qt's missing mnemonic-prefixed variants.
+
+    Some QFileDialog labels are asked for as ``&Look in:`` while the official
+    qtbase catalog only contains ``Look in:``. Qt then leaves the label in
+    English even though the catalog is loaded. Query the catalog without the
+    leading ampersand and restore the mnemonic in the translated text.
+    """
+
+    def __init__(self, bases: list[QTranslator], parent=None) -> None:
+        super().__init__(parent)
+        self._bases = bases
+
+    def translate(self, context, source_text, disambiguation=None, n=-1):  # noqa: N802
+        for base in self._bases:
+            text = base.translate(context, source_text, disambiguation or "", n)
+            if text:
+                return text
+        if source_text.startswith("&"):
+            stripped = source_text[1:]
+            for base in self._bases:
+                text = base.translate(context, stripped, disambiguation or "", n)
+                if text:
+                    return text if "&" in text else "&" + text
+        return ""
+
+
+def _load_translator(app, locale: QLocale, catalog: str, directories: list[Path]) -> QTranslator | None:
     for directory in directories:
         translator = QTranslator(app)
         if translator.load(locale, catalog, "_", str(directory)):
-            app.installTranslator(translator)
-            _translators.append(translator)
-            return True
-    return False
+            return translator
+    return None
+
+
+def _install_translator(app, locale: QLocale, catalog: str, directories: list[Path]) -> QTranslator | None:
+    translator = _load_translator(app, locale, catalog, directories)
+    if translator is not None:
+        app.installTranslator(translator)
+        _translators.append(translator)
+    return translator
 
 
 def available_languages() -> list[tuple[str, str]]:
@@ -64,8 +100,18 @@ def load_translation(app, locale_name: str | None = None) -> str:
     _translators.clear()
 
     locale = QLocale(locale_name) if locale_name else QLocale.system()
+    QLocale.setDefault(locale)
     translations_path = Path(__file__).resolve().parent / "translations"
-    _install_translator(app, locale, "qtbase", qt_translation_directories())
+    qt_directories = qt_translation_directories()
+    qt_translators: list[QTranslator] = []
+    for catalog in ("qtbase", "qt"):
+        translator = _install_translator(app, locale, catalog, qt_directories)
+        if translator is not None:
+            qt_translators.append(translator)
+    if qt_translators:
+        fallback = _QtFallbackTranslator(qt_translators, app)
+        app.installTranslator(fallback)
+        _translators.append(fallback)
     for catalog in ("ksnip", "ksnip_py"):
         _install_translator(app, locale, catalog, [translations_path])
     return locale.name()
