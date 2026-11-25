@@ -771,7 +771,7 @@ class MainWindow(QMainWindow):
         self.delete_image_action = QAction(self._load_icon("delete"), self.tr("Delete Image..."), self)
         self.delete_image_action.triggered.connect(self.delete_current_image_file)
 
-        self.open_directory_action = QAction(self._themed_icon("folder-open", "action"), self.tr("Open Directory"), self)
+        self.open_directory_action = QAction(self._load_icon("folder"), self.tr("Open Directory"), self)
         self.open_directory_action.triggered.connect(self.open_image_directory)
 
         self.copy_item_action = QAction(self._themed_icon("edit-copy", "copy"), self.tr("Copy Item"), self)
@@ -971,7 +971,7 @@ class MainWindow(QMainWindow):
         self.modify_canvas_action = QAction(self._load_icon("modifycanvas"), self.tr("Modify Canvas..."), self)
         self.modify_canvas_action.triggered.connect(self.modify_canvas)
 
-        self.toggle_docks_action = QAction(self._themed_icon("view-restore", "action"), self.tr("Hide Docks"), self)
+        self.toggle_docks_action = QAction(self._load_icon("panels"), self.tr("Hide Docks"), self)
         self.toggle_docks_action.setShortcut("Tab")
         self.toggle_docks_action.triggered.connect(self.toggle_docks)
 
@@ -984,7 +984,7 @@ class MainWindow(QMainWindow):
         self.add_watermark_action.setShortcut("Shift+W")
         self.add_watermark_action.triggered.connect(self.add_watermark)
 
-        self.upload_action = QAction(self._themed_icon("network-transmit", "action"), self.tr("Upload"), self)
+        self.upload_action = QAction(self._load_icon("uploadCloud"), self.tr("Upload"), self)
         self.upload_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.upload_action.triggered.connect(self.upload_image)
 
