@@ -15,7 +15,7 @@ ksnip-pyqt6 (0.2.2-1) unstable; urgency=medium
   * Share one badge font across Number, Number Pointer and Number Arrow.
   * Make the number badge margin configurable from Annotator settings (−2 to 40 px).
   * Expose the number badge margin in the annotation properties toolbar too.
-  * Add a toolbar checkbox for cursor capture with a red-X off state and a settings-path tooltip.
+  * Add a cursor-capture checkbox and state icon beside the capture delay; a red X means the cursor is excluded, and checking the box removes it.
   * Let Crop and Cut start over an existing annotation instead of grabbing it.
   * Give Crop a four-handle selection that applies with Enter or a double-click.
   * Require a capture delay for the cursor, blink a yellow marker around it, use an arrow by default, and add the cursor as a movable fixed-size item.

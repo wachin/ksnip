@@ -11,7 +11,7 @@
 * Fixed: Number, Number Pointer and Number Arrow share one badge font, so their badges cannot drift to different sizes.
 * New: Settings → Annotator → Number badge margin makes the circle around numbers configurable (−2 to 40 px, default 2; negative values are tighter).
 * New: The same Number badge margin control is available in the annotation properties toolbar when a number tool is active.
-* New: The main toolbar has a cursor-capture checkbox next to the capture delay; a red X means the cursor is excluded, and its tooltip points to Options > Settings > Image Grabber.
+* New: Cursor-capture checkbox and state icon beside the capture delay: a red X means the cursor is excluded; checking the box removes the X, and its tooltip points to Options > Settings > Image Grabber > Capture mouse cursor on screenshot.
 * Fixed: Crop and Cut start a selection even when the drag begins over an existing annotation, instead of moving that annotation.
 * Fixed: Crop now shows a selection with four corner handles; drag them inward, then press Enter or double-click to crop (Esc cancels).
 * Fixed: The cursor-delay indicator is now a yellow ring only. Its dark contrast stroke and window shadow are gone, and the window mask covers only the painted yellow stroke so X11 cannot show a black ring underneath.
