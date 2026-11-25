@@ -117,24 +117,25 @@ class ModelCard(QWidget):
         layout.setSpacing(8)
         self.setStyleSheet("""
             ModelCard {
-                background: #ffffff;
-                border: 1px solid #e0e0e0;
+                background: palette(base);
+                border: 1px solid palette(mid);
                 border-radius: 8px;
             }
             ModelCard:hover {
-                border: 1px solid #b0b0b0;
+                border: 1px solid palette(highlight);
             }
         """)
 
         # Header with name and category
         header_layout = QHBoxLayout()
         self.name_label = QLabel(self._model.name)
-        self.name_label.setStyleSheet("font-weight: bold; font-size: 14px; color: #222;")
+        self.name_label.setStyleSheet("font-weight: bold; font-size: 14px; color: palette(text);")
         header_layout.addWidget(self.name_label)
 
         self.category_label = QLabel(self._model.category)
         self.category_label.setStyleSheet(
-            "color: #555; font-size: 11px; background: #eef2f7; padding: 3px 8px; border-radius: 4px; font-weight: 500;"
+            "color: palette(text); font-size: 11px; background: palette(alternate-base); "
+            "padding: 3px 8px; border-radius: 4px; font-weight: 500;"
         )
         header_layout.addWidget(self.category_label)
         header_layout.addStretch()
@@ -143,7 +144,7 @@ class ModelCard(QWidget):
         # Description
         self.desc_label = QLabel(self._model.description)
         self.desc_label.setWordWrap(True)
-        self.desc_label.setStyleSheet("color: #555; font-size: 12px; line-height: 1.4;")
+        self.desc_label.setStyleSheet("color: palette(text); font-size: 12px; line-height: 1.4;")
         layout.addWidget(self.desc_label)
 
         # Size info
@@ -152,7 +153,7 @@ class ModelCard(QWidget):
         else:
             size_text = self.tr("No download required")
         self.size_label = QLabel(size_text)
-        self.size_label.setStyleSheet("color: #888; font-size: 11px;")
+        self.size_label.setStyleSheet("color: palette(mid); font-size: 11px;")
         layout.addWidget(self.size_label)
 
         # Progress bar (hidden initially)
@@ -162,13 +163,13 @@ class ModelCard(QWidget):
         self.progress_bar.setTextVisible(True)
         self.progress_bar.setStyleSheet("""
             QProgressBar {
-                border: 1px solid #ccc;
+                border: 1px solid palette(mid);
                 border-radius: 4px;
                 text-align: center;
                 height: 18px;
             }
             QProgressBar::chunk {
-                background-color: #3b82f6;
+                background-color: palette(highlight);
                 border-radius: 3px;
             }
         """)
@@ -177,7 +178,7 @@ class ModelCard(QWidget):
 
         # Status label
         self.status_label = QLabel(self.tr("Checking status..."))
-        self.status_label.setStyleSheet("color: #888; font-size: 11px; font-style: italic;")
+        self.status_label.setStyleSheet("color: palette(mid); font-size: 11px; font-style: italic;")
         layout.addWidget(self.status_label)
 
         # Buttons
@@ -188,17 +189,17 @@ class ModelCard(QWidget):
         self.install_btn.setFixedWidth(110)
         self.install_btn.setStyleSheet("""
             QPushButton {
-                background-color: #2563eb;
-                color: white;
+                background-color: palette(highlight);
+                color: palette(highlighted-text);
                 font-weight: bold;
                 border-radius: 5px;
                 padding: 6px 12px;
             }
             QPushButton:hover {
-                background-color: #1d4ed8;
+                background-color: palette(dark);
             }
             QPushButton:disabled {
-                background-color: #93c5fd;
+                background-color: palette(mid);
             }
         """)
         self.install_btn.clicked.connect(self._on_install_clicked)
@@ -216,14 +217,14 @@ class ModelCard(QWidget):
         self.remove_btn.setFixedWidth(90)
         self.remove_btn.setStyleSheet("""
             QPushButton {
-                background-color: #f3f4f6;
-                color: #374151;
-                border: 1px solid #d1d5db;
+                background-color: palette(button);
+                color: palette(button-text);
+                border: 1px solid palette(mid);
                 border-radius: 5px;
                 padding: 6px 12px;
             }
             QPushButton:hover {
-                background-color: #e5e7eb;
+                background-color: palette(mid);
             }
         """)
         self.remove_btn.clicked.connect(self._on_remove_clicked)
@@ -238,12 +239,12 @@ class ModelCard(QWidget):
             self.install_btn.setText(self.tr("Reinstall"))
             self.remove_btn.setVisible(True)
             self.status_label.setText(self.tr("✓ Installed"))
-            self.status_label.setStyleSheet("color: #16a34a; font-size: 11px; font-weight: bold;")
+            self.status_label.setStyleSheet("color: palette(text); font-size: 11px; font-weight: bold;")
         else:
             self.install_btn.setText(self.tr("Install"))
             self.remove_btn.setVisible(False)
             self.status_label.setText(self.tr("Not installed"))
-            self.status_label.setStyleSheet("color: #888; font-size: 11px;")
+            self.status_label.setStyleSheet("color: palette(mid); font-size: 11px;")
 
     def _on_install_clicked(self) -> None:
         if self._worker and self._worker.isRunning():
@@ -255,7 +256,7 @@ class ModelCard(QWidget):
         self.progress_bar.setValue(0)
         self.status_label.setVisible(True)
         self.status_label.setText(self.tr("Starting download..."))
-        self.status_label.setStyleSheet("color: #2563eb; font-size: 11px;")
+        self.status_label.setStyleSheet("color: palette(highlight); font-size: 11px;")
 
         self._worker = DownloadWorker(self._model)
         self._worker.progress.connect(self.progress_bar.setValue)
@@ -280,12 +281,12 @@ class ModelCard(QWidget):
 
         if success:
             self.status_label.setText(self.tr("✓ Installed successfully"))
-            self.status_label.setStyleSheet("color: #16a34a; font-size: 11px; font-weight: bold;")
+            self.status_label.setStyleSheet("color: palette(text); font-size: 11px; font-weight: bold;")
             self.install_btn.setText(self.tr("Reinstall"))
             self.remove_btn.setVisible(True)
         else:
             self.status_label.setText(self.tr("✗ Installation failed"))
-            self.status_label.setStyleSheet("color: #dc2626; font-size: 11px; font-weight: bold;")
+            self.status_label.setStyleSheet("color: palette(text); font-size: 11px; font-weight: bold;")
 
 
 class DownloadManagerDialog(QDialog):
@@ -308,13 +309,13 @@ class DownloadManagerDialog(QDialog):
 
         # Header
         header = QWidget()
-        header.setStyleSheet("background: #f8fafc; border-bottom: 1px solid #e2e8f0;")
+        header.setStyleSheet("background: palette(window); border-bottom: 1px solid palette(mid);")
         header_layout = QVBoxLayout(header)
         header_layout.setContentsMargins(20, 18, 20, 18)
 
         title_layout = QHBoxLayout()
         title = QLabel(self.tr("Model & Component Manager"))
-        title.setStyleSheet("font-size: 18px; font-weight: bold; color: #1e293b;")
+        title.setStyleSheet("font-size: 18px; font-weight: bold; color: palette(text);")
         title_layout.addWidget(title)
 
         self.global_progress = QProgressBar()
@@ -324,12 +325,12 @@ class DownloadManagerDialog(QDialog):
         self.global_progress.setTextVisible(False)
         self.global_progress.setStyleSheet("""
             QProgressBar {
-                border: 1px solid #cbd5e1;
+                border: 1px solid palette(mid);
                 border-radius: 3px;
-                background: #f1f5f9;
+                background: palette(base);
             }
             QProgressBar::chunk {
-                background-color: #3b82f6;
+                background-color: palette(highlight);
             }
         """)
         title_layout.addWidget(self.global_progress)
@@ -344,7 +345,7 @@ class DownloadManagerDialog(QDialog):
             )
         )
         subtitle.setWordWrap(True)
-        subtitle.setStyleSheet("color: #64748b; font-size: 12px; margin-top: 4px;")
+        subtitle.setStyleSheet("color: palette(mid); font-size: 12px; margin-top: 4px;")
         header_layout.addWidget(subtitle)
 
         if _is_frozen_build():
@@ -358,8 +359,9 @@ class DownloadManagerDialog(QDialog):
             )
             notice.setWordWrap(True)
             notice.setStyleSheet(
-                "background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; "
-                "border-radius: 6px; padding: 8px 10px; font-size: 12px; margin-top: 8px;"
+                "background: palette(alternate-base); color: palette(text); "
+                "border: 1px solid palette(mid); border-radius: 6px; padding: 8px 10px; "
+                "font-size: 12px; margin-top: 8px;"
             )
             header_layout.addWidget(notice)
 
@@ -369,10 +371,10 @@ class DownloadManagerDialog(QDialog):
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        scroll.setStyleSheet("border: none; background: #f1f5f9;")
+        scroll.setStyleSheet("border: none; background: palette(window);")
 
         self.models_container = QWidget()
-        self.models_container.setStyleSheet("background: #f1f5f9;")
+        self.models_container.setStyleSheet("background: palette(window);")
         self.models_layout = QVBoxLayout(self.models_container)
         self.models_layout.setContentsMargins(20, 16, 20, 16)
         self.models_layout.setSpacing(12)
@@ -384,7 +386,7 @@ class DownloadManagerDialog(QDialog):
         # Button box
         button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
         button_box.rejected.connect(self.accept)
-        button_box.setStyleSheet("padding: 14px 20px; background: #ffffff; border-top: 1px solid #e2e8f0;")
+        button_box.setStyleSheet("padding: 14px 20px; background: palette(window); border-top: 1px solid palette(mid);")
         layout.addWidget(button_box)
 
     def _load_models(self) -> None:

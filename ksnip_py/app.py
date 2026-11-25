@@ -1,16 +1,36 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
-from PyQt6.QtCore import QSettings, QTimer
+from PyQt6.QtCore import QLibraryInfo, QSettings, QTimer
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication
 
 from .main_window import MainWindow
 from .i18n import load_translation
 from .single_instance import SingleInstanceController
+
+
+def configure_qt_platform_theme() -> None:
+    """Use qt6ct on Linux when its platform theme is available.
+
+    The qt6ct plugin must live in the Qt plugin path of the Python process.
+    Debian system PyQt6 satisfies that; a pip PyQt6 wheel may bundle a different
+    Qt ABI and cannot load the distribution plugin.
+    """
+
+    if not sys.platform.startswith("linux"):
+        return
+    current = os.environ.get("QT_QPA_PLATFORMTHEME", "")
+    if current and current not in {"qt5ct", "qt6ct"}:
+        # Respect an explicit gtk3, kde, lxqt, etc. selection.
+        return
+    plugin_path = Path(QLibraryInfo.path(QLibraryInfo.LibraryPath.PluginsPath))
+    if (plugin_path / "platformthemes" / "libqt6ct.so").exists():
+        os.environ["QT_QPA_PLATFORMTHEME"] = "qt6ct"
 
 
 def _non_negative_int(value: str) -> int:
@@ -101,6 +121,7 @@ def main(argv: list[str] | None = None) -> int:
     if arguments.image and arguments.edit:
         parser.error("use either IMAGE or --edit, not both")
 
+    configure_qt_platform_theme()
     app = QApplication([sys.argv[0]])
     app.setOrganizationName("ksnip")
     app.setOrganizationDomain("ksnip.ksnip.org")

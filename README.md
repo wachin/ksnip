@@ -193,6 +193,11 @@ sudo apt install \
   libxfixes3 \
   qt6-svg-plugins \
   qt6-translations-l10n \
+  qt6ct \
+  qt-style-kvantum \
+  qt-style-kvantum-l10n \
+  papirus-icon-theme \
+  breeze-icon-theme \
   xdg-desktop-portal \
   xdg-desktop-portal-gtk \
   x11-utils \
@@ -209,6 +214,9 @@ Important runtime dependencies:
 - `qt6-translations-l10n` provides the official translations for standard Qt6
   controls such as file-dialog buttons, menus, and labels. It is separate from
   the translation catalogs maintained by ksnip_py itself.
+- `qt6ct`, `qt-style-kvantum`, `qt-style-kvantum-l10n`,
+  `papirus-icon-theme`, and `breeze-icon-theme` are optional Linux packages
+  used for the dark Qt theme. They are not needed for the application to run.
 
 Spell-checking dependency:
 
@@ -240,6 +248,55 @@ hunspell -D
 The source-artwork extraction tools are development utilities, not runtime
 requirements. Regenerating the Geeko, Konqi & Katie, or GNU Baby collections additionally
 requires `python3-pil`, `python3-numpy`, and `python3-scipy`.
+
+## Dark theme on Linux (qt6ct + Kvantum)
+
+The application uses the desktop's Qt platform theme. On Linux, qt6ct can
+apply the Kvantum dark style and a dark icon theme to ksnip_py and to standard
+Qt dialogs such as Open, Save, and Save As.
+
+Install the optional packages:
+
+```bash
+sudo apt install qt6ct qt-style-kvantum qt-style-kvantum-l10n \
+    papirus-icon-theme breeze-icon-theme
+```
+
+Then open `qt6ct` and configure:
+
+- **Appearance → Style:** `kvantum-dark`
+- **Appearance → Icon theme:** `Papirus-Dark` or `Breeze-Dark`
+
+Apply the configuration and start ksnip_py. Before creating the QApplication,
+ksnip_py selects `QT_QPA_PLATFORMTHEME=qt6ct` automatically when the qt6ct
+plugin is present in the active Qt plugin path. An explicit `gtk3`, `kde`, or
+similar platform-theme choice is respected.
+
+### Important Qt ABI requirement
+
+qt6ct and Kvantum are built against the distribution's Qt version. On Debian 13
+that is Qt 6.8, while a pip PyQt6 wheel may bundle a newer Qt (for example
+6.11). A newer PyQt6 wheel cannot load the distribution's qt6ct/Kvantum plugins.
+
+For the dark theme, use the Debian package or the system PyQt6. If you need a
+virtual environment, create it with access to the system packages and do not
+install the pip PyQt6 wheel:
+
+```bash
+python3 -m venv --system-site-packages .venv
+source .venv/bin/activate
+python -m pip install -e . --no-deps
+```
+
+If ksnip_py runs with a pip-only PyQt6 wheel, it still works, but qt6ct/Kvantum
+from the distribution are ignored by Qt because of the ABI mismatch.
+
+### Windows and macOS
+
+`qt6ct`, Kvantum, Papirus, and Breeze are Linux packages. On Windows and macOS
+the application follows Qt's native platform theme; there is no `qt6ct`
+equivalent to install, and the Linux packages above do not apply. Dark mode
+depends on the operating system/Qt theme support.
 
 ## Sticker collections and artwork sources
 

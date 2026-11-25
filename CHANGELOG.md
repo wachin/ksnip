@@ -14,6 +14,7 @@
 * New: Cursor-capture checkbox and state icon beside the capture delay: a red X means the cursor is excluded; checking the box removes the X, and its tooltip points to Options > Settings > Image Grabber > Capture mouse cursor on screenshot.
 * New: Open and Save dialogs remember their own window size and position across sessions.
 * Fixed: Restored file-dialog geometry is clamped to the visible screen immediately and again after the window manager maps it, so a mini main window at the left edge no longer opens the Open/Save dialog off-screen.
+* New: Linux dark-theme integration through qt6ct and Kvantum; the Debian package recommends qt6ct, Kvantum, Papirus and Breeze icon themes, and the README explains the Qt ABI requirement.
 * New: The Options → Settings entry uses a gear icon instead of the generic action icon.
 * New: Cloud-upload, folder, and panel icons for File → Upload, View → Open Directory, and View → Hide/Show Docks.
 * Fixed: Crop and Cut start a selection even when the drag begins over an existing annotation, instead of moving that annotation.
