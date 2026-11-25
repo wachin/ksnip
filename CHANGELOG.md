@@ -19,6 +19,7 @@
 * Fixed: The full-screen selection overlay is torn down before the editor opens, preventing a leftover piece of the capture tool from staying on screen.
 * New: Windows external OCR setup guide and explicit `.bat`/`.cmd` script support.
 * Packaging: Windows builds use Nuitka 4.1.3, scan the packaged executable with Microsoft Defender, and run a real `--smoke-test` after Qt starts.
+* Packaging: retry the NSIS installation up to five times when Chocolatey returns a transient error.
 * New: Right-click tab context menu with Close, Close Other, Close All, Close All to the Left, Close All to the Right, Save, Save As, Save All, Rename, Open Directory, Copy, Copy Path and Delete.
 * New: Configurable default file type for the File > Open dialog (Settings > Application > Saving).
 * New: Remember Main Window position on move and load it on startup.

@@ -252,7 +252,20 @@ jobs:
           "APP_VERSION=$version" >> $env:GITHUB_ENV
 
       - name: Install NSIS
-        run: choco install nsis --version=3.12.0 -y --no-progress
+        shell: pwsh
+        run: |
+          $installed = $false
+          for ($attempt = 1; $attempt -le 5; $attempt++) {
+            choco install nsis --version=3.12.0 -y --no-progress
+            if ($LASTEXITCODE -eq 0) {
+              $installed = $true
+              break
+            }
+            Start-Sleep -Seconds (10 * $attempt)
+          }
+          if (-not $installed) {
+            throw "NSIS installation failed after retries"
+          }
 
       - name: Show the NSIS version
         shell: pwsh
