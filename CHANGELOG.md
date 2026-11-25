@@ -12,6 +12,7 @@
 * New: Settings → Annotator → Number badge margin makes the circle around numbers configurable (−2 to 40 px, default 2; negative values are tighter).
 * New: The same Number badge margin control is available in the annotation properties toolbar when a number tool is active.
 * New: Cursor-capture checkbox and state icon beside the capture delay: a red X means the cursor is excluded; checking the box removes the X, and its tooltip points to Options > Settings > Image Grabber > Capture mouse cursor on screenshot.
+* New: Open and Save dialogs remember their own window size and position across sessions.
 * New: The Options → Settings entry uses a gear icon instead of the generic action icon.
 * New: Cloud-upload, folder, and panel icons for File → Upload, View → Open Directory, and View → Hide/Show Docks.
 * Fixed: Crop and Cut start a selection even when the drag begins over an existing annotation, instead of moving that annotation.

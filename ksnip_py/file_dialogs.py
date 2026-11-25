@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from PyQt6.QtCore import QSettings, QUrl
-from PyQt6.QtWidgets import QFileDialog
+from PyQt6.QtCore import QByteArray, QCoreApplication, QEvent, QSettings, QUrl
+from PyQt6.QtWidgets import QApplication, QDialog, QFileDialog
 
 
 _URL_LIST_KEYS = ("shortcuts", "history")
@@ -103,23 +102,102 @@ def normalize_qt_file_dialog_url_settings(settings: QSettings | None = None) -> 
     store.sync()
 
 
-def _run_dialog(method: Callable[..., Any], *args, **kwargs):
+def _dialog_settings() -> QSettings:
+    return QSettings()
+
+
+def _dialog_arguments(args: tuple[Any, ...], kwargs: dict[str, Any]) -> tuple[Any, str, str, str, str, QFileDialog.Option]:
+    parent = args[0] if len(args) > 0 else kwargs.get("parent")
+    caption = args[1] if len(args) > 1 else kwargs.get("caption", "")
+    directory = args[2] if len(args) > 2 else kwargs.get("directory", "")
+    name_filter = args[3] if len(args) > 3 else kwargs.get("filter", "")
+    initial_filter = args[4] if len(args) > 4 else kwargs.get("initialFilter", "")
+    options = args[5] if len(args) > 5 else kwargs.get("options", QFileDialog.Option(0))
+    if options is None:
+        options = QFileDialog.Option(0)
+    return parent, str(caption or ""), str(directory or ""), str(name_filter or ""), str(initial_filter or ""), QFileDialog.Option(options)
+
+
+class _GeometryFileDialog(QFileDialog):
+    """QFileDialog that applies a saved geometry after Qt has shown it."""
+
+    def __init__(self, *args, geometry: Any = None, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self._pending_geometry = geometry
+
+    def showEvent(self, event) -> None:  # noqa: N802
+        super().showEvent(event)
+        geometry = self._pending_geometry
+        self._pending_geometry = None
+        _restore_geometry(self, geometry)
+
+
+def _restore_geometry(dialog: QFileDialog, stored: Any) -> None:
+    if stored is None:
+        return
+    if isinstance(stored, QByteArray):
+        geometry = stored
+    elif isinstance(stored, (bytes, bytearray)):
+        geometry = QByteArray(stored)
+    else:
+        return
+    if not geometry.isEmpty():
+        dialog.restoreGeometry(geometry)
+
+
+def _run_dialog(mode: str, args: tuple[Any, ...], kwargs: dict[str, Any]):
+    parent, caption, directory, name_filter, initial_filter, options = _dialog_arguments(args, kwargs)
+    key = "dialogs/save_geometry" if mode == "save" else "dialogs/open_geometry"
+    settings = _dialog_settings()
+    dialog = _GeometryFileDialog(
+        parent,
+        caption,
+        directory,
+        name_filter,
+        geometry=settings.value(key),
+    )
+    if mode == "open_many":
+        dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
+    elif mode == "save":
+        dialog.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
+        dialog.setFileMode(QFileDialog.FileMode.AnyFile)
+    else:
+        dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+    if options:
+        dialog.setOptions(options)
+    if initial_filter:
+        dialog.selectNameFilter(initial_filter)
+
+    accepted = False
+    files: list[str] = []
+    selected_filter = ""
     normalize_qt_file_dialog_url_settings()
     try:
-        return method(*args, **kwargs)
+        accepted = dialog.exec() == QDialog.DialogCode.Accepted
+        if accepted:
+            files = dialog.selectedFiles()
+            selected_filter = dialog.selectedNameFilter()
     finally:
-        # Static QFileDialog helpers destroy their temporary dialog before
-        # returning, which is when Qt writes sidebarUrls() back to QSettings.
+        settings.setValue(key, dialog.saveGeometry())
+        settings.sync()
+        dialog.close()
+        dialog.deleteLater()
+        QCoreApplication.sendPostedEvents(dialog, QEvent.Type.DeferredDelete)
+        QApplication.processEvents()
         normalize_qt_file_dialog_url_settings()
+
+    if mode == "open_many":
+        return files, selected_filter
+    return (files[0] if files else ""), selected_filter
 
 
 def get_open_file_name(*args, **kwargs) -> tuple[str, str]:
-    return _run_dialog(QFileDialog.getOpenFileName, *args, **kwargs)
+    return _run_dialog("open", args, kwargs)
 
 
 def get_open_file_names(*args, **kwargs) -> tuple[list[str], str]:
-    return _run_dialog(QFileDialog.getOpenFileNames, *args, **kwargs)
+    return _run_dialog("open_many", args, kwargs)
 
 
 def get_save_file_name(*args, **kwargs) -> tuple[str, str]:
-    return _run_dialog(QFileDialog.getSaveFileName, *args, **kwargs)
+    return _run_dialog("save", args, kwargs)

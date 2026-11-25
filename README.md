@@ -128,6 +128,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 - Rectangular, last-area, full-screen, current-screen, active-window, and window-under-cursor capture modes.
 - Optional real X11 cursor capture through XFixes; off by default, requires a capture delay, blinks a yellow marker around the pointer and adds the cursor as a movable fixed-size item. A standard arrow is used by default; the actual pointer shape (such as the text I-beam) is optional. Toggle it from New Screenshot → Include Mouse Cursor.
 - Capture delay, implicit delay, startup capture, auto-copy, and auto-save preferences.
+- Open and Save dialogs remember their own window size and position across sessions.
 - Open, paste, embedded paste, save, save as, save all, rename, delete, print, and print preview.
 - Editable `.ksnip` project files and SVG export for continued editing in Inkscape.
 - Multiple image tabs with dirty-state tracking and dynamic window titles.
@@ -357,9 +358,10 @@ Images supplied through standard input are forwarded as image bytes when another
 The PyQt6 port loads Qt Linguist `.qm` catalogs using the language selected under `Settings > Application > Language`, or the system locale by default. Use `--language LOCALE` (for example, `--language es`, `de`, `pt_BR` or `zh_Hant`) for a temporary command-line override. The language selector is generated from the 41 catalogs shipped with the package. Missing messages safely fall back to English.
 
 The official `qtbase_*.qm` catalog is loaded separately for standard Qt6
-widgets, including the Open and Save dialogs. Its location comes primarily
-from `QLibraryInfo.TranslationsPath`; see `docs/FILE_DIALOGS.md` for the
-Unicode bookmark diagnosis, Linux fallback, and Windows/macOS deployment
+widgets, including the Open and Save dialogs. On Linux the distribution
+translation paths from `qt6-translations-l10n` are preferred; the Qt runtime's
+`QLibraryInfo.TranslationsPath` is the fallback. See `docs/FILE_DIALOGS.md` for
+the Unicode bookmark diagnosis, dialog geometry, and Windows/macOS deployment
 behavior.
 
 Compatible strings from the original C++ `ksnip` catalogs are reused by the port. The `ksnip_py` catalog contains messages that only exist in the Python implementation.

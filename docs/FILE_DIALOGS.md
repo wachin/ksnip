@@ -70,3 +70,22 @@ while `qtbase_<locale>.qm` only contains the unprefixed source (`Look in:`).
 ksnip_py installs a small fallback translator that retries the lookup without
 the leading `&` and restores the mnemonic, so those labels do not remain in
 English.
+
+## Dialog geometry
+
+The Open, multi-Open, and Save helpers use an instance of `QFileDialog` instead
+of the static `getOpenFileName`/`getSaveFileName` functions, because only the
+instance exposes the window geometry. Before `exec()`, the wrapper restores the
+last geometry from the application `QSettings`; after the dialog closes it
+saves `QFileDialog.saveGeometry()` again, even when the user cancels.
+
+The keys are separate so Open and Save can keep different sizes and positions:
+
+```text
+dialogs/open_geometry
+dialogs/save_geometry
+```
+
+Qt's non-native widget dialog honors this geometry. A native platform dialog
+may be positioned by the operating system instead; on Windows and macOS the
+native file dialog normally remembers its own geometry.

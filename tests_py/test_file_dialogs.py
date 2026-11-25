@@ -5,9 +5,18 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from PyQt6.QtCore import QSettings, QUrl
+from PyQt6.QtCore import QByteArray, QSettings, QUrl
+from PyQt6.QtGui import QShowEvent
+from PyQt6.QtWidgets import QApplication, QDialog, QFileDialog
 
-from ksnip_py.file_dialogs import get_open_file_name, normalize_qt_file_dialog_url_settings
+from ksnip_py.file_dialogs import (
+    _GeometryFileDialog,
+    get_open_file_name,
+    normalize_qt_file_dialog_url_settings,
+)
+
+
+APP = QApplication.instance() or QApplication([])
 
 
 class FileDialogPersistenceTest(unittest.TestCase):
@@ -83,14 +92,44 @@ class FileDialogPersistenceTest(unittest.TestCase):
             self.assertEqual(values[0], "file:")
             self.assertEqual(values[1], "not a valid URL %")
 
-    def test_dialog_wrapper_normalizes_before_and_after_static_helper(self) -> None:
+    def test_dialog_wrapper_normalizes_and_returns_the_selection(self) -> None:
         with (
             patch("ksnip_py.file_dialogs.normalize_qt_file_dialog_url_settings") as normalize,
-            patch("ksnip_py.file_dialogs.QFileDialog.getOpenFileName", return_value=("/tmp/a.png", "PNG")) as dialog,
+            patch.object(QFileDialog, "exec", return_value=QDialog.DialogCode.Accepted),
+            patch.object(QFileDialog, "selectedFiles", return_value=["/tmp/a.png"]),
+            patch.object(QFileDialog, "selectedNameFilter", return_value="PNG"),
+            patch.object(QFileDialog, "saveGeometry", return_value=QByteArray(b"geometry")),
+            patch.object(QFileDialog, "restoreGeometry"),
         ):
             self.assertEqual(get_open_file_name(None, "Open"), ("/tmp/a.png", "PNG"))
         self.assertEqual(normalize.call_count, 2)
-        dialog.assert_called_once_with(None, "Open")
+
+    def test_dialog_geometry_is_saved(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            settings = QSettings(str(Path(directory) / "app.ini"), QSettings.Format.IniFormat)
+            with (
+                patch("ksnip_py.file_dialogs._dialog_settings", return_value=settings),
+                patch.object(QFileDialog, "exec", return_value=QDialog.DialogCode.Accepted),
+                patch.object(QFileDialog, "selectedFiles", return_value=["/tmp/a.png"]),
+                patch.object(QFileDialog, "selectedNameFilter", return_value="PNG"),
+                patch.object(QFileDialog, "saveGeometry", return_value=QByteArray(b"geometry")),
+            ):
+                get_open_file_name(None, "Open")
+
+        self.assertEqual(settings.value("dialogs/open_geometry"), QByteArray(b"geometry"))
+
+    def test_geometry_is_applied_when_the_dialog_is_shown(self) -> None:
+        dialog = _GeometryFileDialog(
+            None,
+            "Open",
+            "",
+            "",
+            geometry=QByteArray(b"geometry"),
+        )
+        with patch("ksnip_py.file_dialogs._restore_geometry") as restore:
+            dialog.showEvent(QShowEvent())
+        restore.assert_called_once()
+        self.assertEqual(bytes(restore.call_args.args[1]), b"geometry")
 
 
 if __name__ == "__main__":
