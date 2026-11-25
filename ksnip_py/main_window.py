@@ -1003,7 +1003,7 @@ class MainWindow(QMainWindow):
         self.rotate_watermark_action.setChecked(self._setting_bool("watermark/rotate", True))
         self.rotate_watermark_action.toggled.connect(self._set_rotate_watermark)
 
-        self.settings_action = QAction(self._themed_icon("preferences-system", "action"), self.tr("Settings"), self)
+        self.settings_action = QAction(self._load_icon("settings"), self.tr("Settings"), self)
         self.settings_action.triggered.connect(self.open_settings_dialog)
 
         self.model_manager_action = QAction(self._load_icon("model_manager"), self.tr("Model Manager…"), self)
