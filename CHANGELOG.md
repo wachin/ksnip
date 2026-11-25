@@ -13,6 +13,7 @@
 * New: The same Number badge margin control is available in the annotation properties toolbar when a number tool is active.
 * New: Cursor-capture checkbox and state icon beside the capture delay: a red X means the cursor is excluded; checking the box removes the X, and its tooltip points to Options > Settings > Image Grabber > Capture mouse cursor on screenshot.
 * New: Open and Save dialogs remember their own window size and position across sessions.
+* Fixed: Restored file-dialog geometry is clamped to the visible screen, so moving the main window to the left no longer opens the Open/Save dialog off-screen.
 * New: The Options → Settings entry uses a gear icon instead of the generic action icon.
 * New: Cloud-upload, folder, and panel icons for File → Upload, View → Open Directory, and View → Hide/Show Docks.
 * Fixed: Crop and Cut start a selection even when the drag begins over an existing annotation, instead of moving that annotation.

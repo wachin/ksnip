@@ -3,7 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from PyQt6.QtCore import QByteArray, QCoreApplication, QEvent, QSettings, QUrl
+from PyQt6.QtCore import QByteArray, QCoreApplication, QEvent, QPoint, QSettings, QUrl
+from PyQt6.QtGui import QGuiApplication
 from PyQt6.QtWidgets import QApplication, QDialog, QFileDialog
 
 
@@ -130,6 +131,34 @@ class _GeometryFileDialog(QFileDialog):
         geometry = self._pending_geometry
         self._pending_geometry = None
         _restore_geometry(self, geometry)
+        _keep_dialog_on_screen(self)
+
+
+def _keep_dialog_on_screen(dialog: QFileDialog) -> None:
+    """Clamp a restored dialog to a visible screen's available area."""
+
+    if dialog.isMaximized() or dialog.isFullScreen():
+        return
+    frame = dialog.frameGeometry()
+    screen = QGuiApplication.screenAt(frame.center())
+    if screen is None and dialog.parentWidget() is not None:
+        parent_frame = dialog.parentWidget().window().frameGeometry()
+        screen = QGuiApplication.screenAt(parent_frame.center())
+    if screen is None:
+        screen = QGuiApplication.primaryScreen()
+    if screen is None:
+        return
+
+    available = screen.availableGeometry().adjusted(8, 8, -8, -8)
+    if available.width() <= 0 or available.height() <= 0:
+        return
+    width = min(frame.width(), available.width())
+    height = min(frame.height(), available.height())
+    x = min(max(frame.left(), available.left()), available.right() - width + 1)
+    y = min(max(frame.top(), available.top()), available.bottom() - height + 1)
+    if width != frame.width() or height != frame.height():
+        dialog.resize(width, height)
+    dialog.move(QPoint(x, y))
 
 
 def _restore_geometry(dialog: QFileDialog, stored: Any) -> None:

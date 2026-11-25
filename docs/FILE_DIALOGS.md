@@ -86,6 +86,12 @@ dialogs/open_geometry
 dialogs/save_geometry
 ```
 
-Qt's non-native widget dialog honors this geometry. A native platform dialog
-may be positioned by the operating system instead; on Windows and macOS the
-native file dialog normally remembers its own geometry.
+Qt's non-native widget dialog honors this geometry. After restoring, the
+wrapper clamps the dialog to the available area of the screen under its center
+(or the parent window's screen and then the primary screen). This prevents a
+remembered position from opening the dialog outside the visible desktop after
+the main window or monitor layout changes. A maximized or full-screen dialog is
+left alone.
+
+A native platform dialog may be positioned by the operating system instead; on
+Windows and macOS the native file dialog normally remembers its own geometry.

@@ -6,11 +6,12 @@ from pathlib import Path
 from unittest.mock import patch
 
 from PyQt6.QtCore import QByteArray, QSettings, QUrl
-from PyQt6.QtGui import QShowEvent
+from PyQt6.QtGui import QGuiApplication, QShowEvent
 from PyQt6.QtWidgets import QApplication, QDialog, QFileDialog
 
 from ksnip_py.file_dialogs import (
     _GeometryFileDialog,
+    _keep_dialog_on_screen,
     get_open_file_name,
     normalize_qt_file_dialog_url_settings,
 )
@@ -117,6 +118,20 @@ class FileDialogPersistenceTest(unittest.TestCase):
                 get_open_file_name(None, "Open")
 
         self.assertEqual(settings.value("dialogs/open_geometry"), QByteArray(b"geometry"))
+
+    def test_offscreen_geometry_is_clamped_to_the_available_screen(self) -> None:
+        dialog = QFileDialog()
+        dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+        dialog.setGeometry(-500, -400, 300, 200)
+
+        _keep_dialog_on_screen(dialog)
+
+        screen = QGuiApplication.primaryScreen().availableGeometry()
+        frame = dialog.frameGeometry()
+        self.assertGreaterEqual(frame.left(), screen.left())
+        self.assertGreaterEqual(frame.top(), screen.top())
+        self.assertLessEqual(frame.right(), screen.right())
+        self.assertLessEqual(frame.bottom(), screen.bottom())
 
     def test_geometry_is_applied_when_the_dialog_is_shown(self) -> None:
         dialog = _GeometryFileDialog(
