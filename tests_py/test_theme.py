@@ -4,7 +4,14 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+from PyQt6.QtGui import QIcon, QPalette
+from PyQt6.QtWidgets import QApplication
+
 from ksnip_py.app import configure_qt_platform_theme
+from ksnip_py.theme import THEME_DARK, THEME_LIGHT, THEME_SYSTEM, apply_theme, normalize_theme
+
+
+APP = QApplication.instance() or QApplication([])
 
 
 class PlatformThemeTest(unittest.TestCase):
@@ -33,6 +40,29 @@ class PlatformThemeTest(unittest.TestCase):
             ):
                 configure_qt_platform_theme()
                 self.assertEqual(os.environ["QT_QPA_PLATFORMTHEME"], "gtk3")
+
+    def test_theme_names_are_normalized(self) -> None:
+        self.assertEqual(normalize_theme("dark"), THEME_DARK)
+        self.assertEqual(normalize_theme("LIGHT"), THEME_LIGHT)
+        self.assertEqual(normalize_theme("unknown"), THEME_SYSTEM)
+        self.assertEqual(normalize_theme(None), THEME_SYSTEM)
+
+    def test_builtin_dark_and_light_palettes_are_contrasting(self) -> None:
+        original_palette = APP.palette()
+        original_style = APP.style().objectName()
+        original_theme = QIcon.themeName()
+        try:
+            apply_theme(APP, THEME_DARK)
+            dark_window = APP.palette().color(QPalette.ColorRole.Window)
+            self.assertLess(dark_window.lightness(), 128)
+
+            apply_theme(APP, THEME_LIGHT)
+            light_window = APP.palette().color(QPalette.ColorRole.Window)
+            self.assertGreater(light_window.lightness(), 128)
+        finally:
+            APP.setStyle(original_style)
+            APP.setPalette(original_palette)
+            QIcon.setThemeName(original_theme)
 
     def test_missing_qt6ct_plugin_leaves_the_environment_alone(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

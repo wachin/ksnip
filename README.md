@@ -129,6 +129,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 - Optional real X11 cursor capture through XFixes; off by default, requires a capture delay, blinks a yellow marker around the pointer and adds the cursor as a movable fixed-size item. A standard arrow is used by default; the actual pointer shape (such as the text I-beam) is optional. Toggle it from New Screenshot → Include Mouse Cursor.
 - Capture delay, implicit delay, startup capture, auto-copy, and auto-save preferences.
 - Open and Save dialogs remember their own window size and position across sessions.
+- System, Light, and Dark theme choices under View → Theme; a built-in dark palette works on Linux, Windows, and macOS.
 - Open, paste, embedded paste, save, save as, save all, rename, delete, print, and print preview.
 - Editable `.ksnip` project files and SVG export for continued editing in Inkscape.
 - Multiple image tabs with dirty-state tracking and dynamic window titles.
@@ -249,11 +250,25 @@ The source-artwork extraction tools are development utilities, not runtime
 requirements. Regenerating the Geeko, Konqi & Katie, or GNU Baby collections additionally
 requires `python3-pil`, `python3-numpy`, and `python3-scipy`.
 
-## Dark theme on Linux (qt6ct + Kvantum)
+## Themes
 
-The application uses the desktop's Qt platform theme. On Linux, qt6ct can
-apply the Kvantum dark style and a dark icon theme to ksnip_py and to standard
-Qt dialogs such as Open, Save, and Save As.
+Choose **View → Theme** to select:
+
+- **System:** follows the platform theme. On Linux this can be qt6ct with
+  Kvantum; on Windows and macOS it follows the native system theme.
+- **Light:** built-in Fusion light palette and light icons.
+- **Dark:** built-in Fusion dark palette and light-on-dark icons.
+
+The choice is saved in `application/theme`. A restart is required after
+changing it because the main window and its icons are constructed at startup.
+The built-in Light and Dark choices work on Linux, Windows, and macOS without
+extra packages.
+
+### Dark theme on Linux with qt6ct + Kvantum
+
+For the **System** choice, qt6ct can apply the Kvantum dark style and a dark
+icon theme to ksnip_py and to standard Qt dialogs such as Open, Save, and Save
+As.
 
 Install the optional packages:
 
@@ -294,9 +309,9 @@ from the distribution are ignored by Qt because of the ABI mismatch.
 ### Windows and macOS
 
 `qt6ct`, Kvantum, Papirus, and Breeze are Linux packages. On Windows and macOS
-the application follows Qt's native platform theme; there is no `qt6ct`
-equivalent to install, and the Linux packages above do not apply. Dark mode
-depends on the operating system/Qt theme support.
+there is no `qt6ct` equivalent to install, and the Linux packages above do not
+apply. Use **View → Theme → Dark** for the built-in dark palette; **System**
+follows the native operating-system theme.
 
 ## Sticker collections and artwork sources
 

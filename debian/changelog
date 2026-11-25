@@ -18,6 +18,7 @@ ksnip-pyqt6 (0.2.2-1) unstable; urgency=medium
   * Add a cursor-capture checkbox and state icon beside the capture delay; a red X means the cursor is excluded, and checking the box removes it.
   * Remember the Open and Save dialog window sizes and positions separately.
   * Clamp restored file-dialog geometry immediately and after mapping, so a mini main window cannot open it off-screen.
+  * Add View → Theme choices for System, Light, and Dark palettes.
   * Recommend qt6ct, Kvantum, Papirus and Breeze icon themes for the Linux dark theme.
   * Use a gear icon for the Options → Settings entry.
   * Use cloud-upload, folder, and panel icons for Upload, Open Directory, and Hide/Show Docks.

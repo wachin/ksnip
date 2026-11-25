@@ -12,6 +12,7 @@ from PyQt6.QtWidgets import QApplication
 from .main_window import MainWindow
 from .i18n import load_translation
 from .single_instance import SingleInstanceController
+from .theme import THEME_SYSTEM, apply_theme, normalize_theme
 
 
 def configure_qt_platform_theme() -> None:
@@ -128,6 +129,7 @@ def main(argv: list[str] | None = None) -> int:
     app.setApplicationName("ksnip-pyqt6")
     app.setApplicationVersion("0.2.2")
     app.setDesktopFileName("org.ksnip.ksnip-pyqt6")
+    apply_theme(app, normalize_theme(QSettings().value("application/theme", THEME_SYSTEM)))
     image_argument = arguments.image or arguments.edit
     stdin_image = sys.stdin.buffer.read() if image_argument == "-" else None
     configured_language = arguments.language or str(QSettings().value("application/language", "")) or None

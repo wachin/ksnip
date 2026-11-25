@@ -59,6 +59,7 @@ from .project_io import export_svg, load_project, save_project
 from .settings_dialog import SettingsData, SettingsDialog
 from .spellcheck import load_spellcheck_scheme, save_spellcheck_scheme
 from .sticker_picker import StickerPickerDialog
+from .theme import THEME_DARK, THEME_LIGHT, THEME_SYSTEM, normalize_theme
 from .uploader import ScriptUploader, UploadWorker
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
 from .download_manager import show_download_manager
@@ -108,6 +109,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self._settings = QSettings()
+        self._current_theme = normalize_theme(self._settings.value("application/theme", THEME_SYSTEM))
         self._docks_collapsed = False
         self._property_toolbar_has_controls = False
         self._editor_visible = True
@@ -1456,6 +1458,24 @@ class MainWindow(QMainWindow):
         self._set_tool_group_default_action("effect", self.blur_action)
         self._set_tool_group_default_action("shape", self.rect_action)
 
+    def _sync_theme_actions(self) -> None:
+        action = self.theme_actions.get(self._current_theme)
+        if action is not None:
+            action.setChecked(True)
+
+    def _set_theme(self, theme: str) -> None:
+        resolved = normalize_theme(theme)
+        self._settings.setValue("application/theme", resolved)
+        self._settings.sync()
+        self._sync_theme_actions()
+        if resolved != self._current_theme:
+            self._current_theme = resolved
+            QMessageBox.information(
+                self,
+                self.tr("Theme"),
+                self.tr("Restart ksnip_py to apply the theme."),
+            )
+
     def _build_menus(self) -> None:
         file_menu = self.menuBar().addMenu(self.tr("&File"))
         self.file_menu = file_menu
@@ -1526,6 +1546,23 @@ class MainWindow(QMainWindow):
         view_menu.addAction(self.open_directory_action)
         view_menu.addAction(self.toggle_docks_action)
         view_menu.addAction(self.modify_canvas_action)
+        theme_menu = view_menu.addMenu(self.tr("Theme"))
+        self.theme_action_group = QActionGroup(self)
+        self.theme_action_group.setExclusive(True)
+        self.theme_actions: dict[str, QAction] = {}
+        for theme, label in (
+            (THEME_SYSTEM, self.tr("System")),
+            (THEME_LIGHT, self.tr("Light")),
+            (THEME_DARK, self.tr("Dark")),
+        ):
+            action = QAction(label, self)
+            action.setCheckable(True)
+            action.setData(theme)
+            action.triggered.connect(lambda _checked=False, value=theme: self._set_theme(value))
+            self.theme_action_group.addAction(action)
+            theme_menu.addAction(action)
+            self.theme_actions[theme] = action
+        self._sync_theme_actions()
         zoom_menu = view_menu.addMenu(self.tr("Zoom"))
         zoom_menu.addAction(self.zoom_in_action)
         zoom_menu.addAction(self.zoom_out_action)
