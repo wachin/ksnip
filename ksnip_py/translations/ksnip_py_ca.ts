@@ -271,1256 +271,1250 @@ A continuació, configureu el camí a Configuració → OCR → Script OCR exter
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="../main_window.py" line="3863" />
-      <location filename="../main_window.py" line="182" />
+      <location filename="../main_window.py" line="3921" />
+      <location filename="../main_window.py" line="186" />
       <source>Ready</source>
       <translation>A punt</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="274" />
+      <location filename="../main_window.py" line="285" />
       <source>New</source>
       <translation>Nou</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4752" />
-      <location filename="../main_window.py" line="1482" />
-      <location filename="../main_window.py" line="275" />
+      <location filename="../main_window.py" line="4810" />
+      <location filename="../main_window.py" line="1540" />
+      <location filename="../main_window.py" line="286" />
       <source>New Screenshot</source>
       <translation>Nova captura de pantalla</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="528" />
+      <location filename="../main_window.py" line="539" />
       <source>Updated selected sticker</source>
       <translation>Adhesiu seleccionat actualitzat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="696" />
+      <location filename="../main_window.py" line="707" />
       <source>Rect Area</source>
       <translation>Àrea Rect</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="699" />
+      <location filename="../main_window.py" line="710" />
       <source>Last Rect Area</source>
       <translation>Última Zona Rect</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="702" />
+      <location filename="../main_window.py" line="713" />
       <source>Full Screen</source>
       <translation>Pantalla completa</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="705" />
+      <location filename="../main_window.py" line="716" />
       <source>Current Screen</source>
       <translation>Pantalla actual</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="708" />
+      <location filename="../main_window.py" line="719" />
       <source>Active Window</source>
       <translation>Finestra activa</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="711" />
+      <location filename="../main_window.py" line="722" />
       <source>Window Under Cursor</source>
       <translation>Finestra sota el cursor</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="714" />
+      <location filename="../main_window.py" line="725" />
       <source>Portal</source>
       <translation>Portal</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="717" />
+      <location filename="../main_window.py" line="728" />
       <source>Include Mouse Cursor</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="721" />
+      <location filename="../main_window.py" line="732" />
       <source>Include the mouse cursor in new captures. Requires a capture delay greater than 0.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="724" />
+      <location filename="../main_window.py" line="735" />
       <source>Use Arrow Pointer</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="728" />
+      <location filename="../main_window.py" line="739" />
       <source>Use a standard arrow instead of the actual pointer shape, such as the text I-beam.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="732" />
+      <location filename="../main_window.py" line="743" />
       <source>Open</source>
       <translation>Obre</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="800" />
-      <location filename="../main_window.py" line="737" />
+      <location filename="../main_window.py" line="811" />
+      <location filename="../main_window.py" line="748" />
       <source>Save</source>
       <translation>Desa</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="802" />
-      <location filename="../main_window.py" line="742" />
+      <location filename="../main_window.py" line="813" />
+      <location filename="../main_window.py" line="753" />
       <source>Save As...</source>
       <translation>Anomena i desa…</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="804" />
-      <location filename="../main_window.py" line="746" />
+      <location filename="../main_window.py" line="815" />
+      <location filename="../main_window.py" line="757" />
       <source>Save All</source>
       <translation>Desa-ho tot</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="749" />
+      <location filename="../main_window.py" line="760" />
       <source>Export as SVG...</source>
       <translation>Exporta com a SVG...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="752" />
+      <location filename="../main_window.py" line="763" />
       <source>Print</source>
       <translation>Imprimeix</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3189" />
-      <location filename="../main_window.py" line="756" />
+      <location filename="../main_window.py" line="3247" />
+      <location filename="../main_window.py" line="767" />
       <source>Print Preview</source>
       <translation>Vista prèvia d'impressió</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="810" />
-      <location filename="../main_window.py" line="759" />
+      <location filename="../main_window.py" line="821" />
+      <location filename="../main_window.py" line="770" />
       <source>Copy</source>
       <translation>Copia</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="763" />
+      <location filename="../main_window.py" line="774" />
       <source>Copy as data URI</source>
       <translation>Copia com a URI de dades</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="812" />
-      <location filename="../main_window.py" line="766" />
+      <location filename="../main_window.py" line="823" />
+      <location filename="../main_window.py" line="777" />
       <source>Copy Path</source>
       <translation>Copia el camí</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3219" />
-      <location filename="../main_window.py" line="806" />
-      <location filename="../main_window.py" line="769" />
+      <location filename="../main_window.py" line="3277" />
+      <location filename="../main_window.py" line="817" />
+      <location filename="../main_window.py" line="780" />
       <source>Rename</source>
       <translation>Canvia el nom</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="773" />
+      <location filename="../main_window.py" line="784" />
       <source>Delete Image...</source>
       <translation>Suprimeix la imatge...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="808" />
-      <location filename="../main_window.py" line="776" />
+      <location filename="../main_window.py" line="819" />
+      <location filename="../main_window.py" line="787" />
       <source>Open Directory</source>
       <translation>Directori obert</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="779" />
+      <location filename="../main_window.py" line="790" />
       <source>Copy Item</source>
       <translation>Copia l'element</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="783" />
+      <location filename="../main_window.py" line="794" />
       <source>Close Tab</source>
       <translation>Tanca la pestanya</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="789" />
+      <location filename="../main_window.py" line="800" />
       <source>Close</source>
       <translation>Tanca</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="792" />
+      <location filename="../main_window.py" line="803" />
       <source>Close Other</source>
       <translation>Tanca les altres</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="794" />
+      <location filename="../main_window.py" line="805" />
       <source>Close All</source>
       <translation>Tanca totes</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="796" />
+      <location filename="../main_window.py" line="807" />
       <source>Close All to the Left</source>
       <translation>Tanca totes a l'esquerra</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="798" />
+      <location filename="../main_window.py" line="809" />
       <source>Close All to the Right</source>
       <translation>Tanca totes a la dreta</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="814" />
+      <location filename="../main_window.py" line="825" />
       <source>Delete</source>
       <translation>Elimina</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="817" />
+      <location filename="../main_window.py" line="828" />
       <source>Pen</source>
       <translation>Bolígraf</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="822" />
+      <location filename="../main_window.py" line="833" />
       <source>Marker Pen</source>
       <translation>Marcador bolígraf</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="824" />
+      <location filename="../main_window.py" line="835" />
       <source>Line</source>
       <translation>Línia</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="829" />
+      <location filename="../main_window.py" line="840" />
       <source>Arrow</source>
       <translation>Fletxa</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="834" />
+      <location filename="../main_window.py" line="845" />
       <source>Double Arrow</source>
       <translation>Fletxa doble</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="836" />
+      <location filename="../main_window.py" line="847" />
       <source>Rectangle</source>
       <translation>Rectangle</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="841" />
+      <location filename="../main_window.py" line="852" />
       <source>Ellipse</source>
       <translation>El·lipse</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="846" />
+      <location filename="../main_window.py" line="857" />
       <source>Text</source>
       <translation>Text</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="851" />
+      <location filename="../main_window.py" line="862" />
       <source>Text Pointer</source>
       <translation>Apuntador de text</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="852" />
+      <location filename="../main_window.py" line="863" />
       <source>Text Arrow</source>
       <translation>Text amb fletxa</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="854" />
+      <location filename="../main_window.py" line="865" />
       <source>Blur</source>
       <translation>Difuminat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="859" />
+      <location filename="../main_window.py" line="870" />
       <source>Pixelate</source>
       <translation>Pixela</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="864" />
+      <location filename="../main_window.py" line="875" />
       <source>Crop</source>
       <translation>Escapça</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="869" />
+      <location filename="../main_window.py" line="880" />
       <source>Cut</source>
       <translation>Tallar</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="872" />
+      <location filename="../main_window.py" line="883" />
       <source>Select</source>
       <translation>Selecciona</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="877" />
+      <location filename="../main_window.py" line="888" />
       <source>Duplicate</source>
       <translation>Duplica</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="880" />
+      <location filename="../main_window.py" line="891" />
       <source>Marker Rectangle</source>
       <translation>Marcador rectangle</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="881" />
+      <location filename="../main_window.py" line="892" />
       <source>Marker Ellipse</source>
       <translation>Marcador el·lipse</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1194" />
-      <location filename="../main_window.py" line="882" />
+      <location filename="../main_window.py" line="1205" />
+      <location filename="../main_window.py" line="893" />
       <source>Number</source>
       <translation>Número</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="883" />
+      <location filename="../main_window.py" line="894" />
       <source>Number Pointer</source>
       <translation>Apuntador numèric</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="884" />
+      <location filename="../main_window.py" line="895" />
       <source>Number Arrow</source>
       <translation>Número amb fletxa</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1213" />
-      <location filename="../main_window.py" line="885" />
+      <location filename="../main_window.py" line="1224" />
+      <location filename="../main_window.py" line="896" />
       <source>Sticker</source>
       <translation>Adhesiu</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="915" />
+      <location filename="../main_window.py" line="926" />
       <source>Color</source>
       <translation>Color</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="918" />
+      <location filename="../main_window.py" line="929" />
       <source>Undo</source>
       <translation>Desfés</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="923" />
+      <location filename="../main_window.py" line="934" />
       <source>Redo</source>
       <translation>Refés</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="928" />
+      <location filename="../main_window.py" line="939" />
       <source>Paste</source>
       <translation>Enganxa</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="933" />
+      <location filename="../main_window.py" line="944" />
       <source>Paste Embedded</source>
       <translation>Enganxa incrustat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="937" />
+      <location filename="../main_window.py" line="948" />
       <source>Paste Item</source>
       <translation>Enganxa l'element</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="941" />
+      <location filename="../main_window.py" line="952" />
       <source>Delete Item</source>
       <translation>Suprimeix l'element</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="945" />
+      <location filename="../main_window.py" line="956" />
       <source>Duplicate Item</source>
       <translation>Element duplicat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="949" />
+      <location filename="../main_window.py" line="960" />
       <source>Edit Text...</source>
       <translation>Edita el text...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="952" />
+      <location filename="../main_window.py" line="963" />
       <source>Bring To Front</source>
       <translation>Porta al davant</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="955" />
+      <location filename="../main_window.py" line="966" />
       <source>Send To Back</source>
       <translation>Envia cap enrere</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="958" />
+      <location filename="../main_window.py" line="969" />
       <source>Rotate</source>
       <translation>Gira</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1232" />
-      <location filename="../main_window.py" line="961" />
+      <location filename="../main_window.py" line="1243" />
+      <location filename="../main_window.py" line="972" />
       <source>Scale</source>
       <translation>Escala</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3515" />
-      <location filename="../main_window.py" line="966" />
+      <location filename="../main_window.py" line="3573" />
+      <location filename="../main_window.py" line="977" />
       <source>No Effect</source>
       <translation>Sense efectes</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3516" />
-      <location filename="../main_window.py" line="967" />
+      <location filename="../main_window.py" line="3574" />
+      <location filename="../main_window.py" line="978" />
       <source>Drop Shadow</source>
       <translation>Ombra</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3517" />
-      <location filename="../main_window.py" line="968" />
+      <location filename="../main_window.py" line="3575" />
+      <location filename="../main_window.py" line="979" />
       <source>Grayscale</source>
       <translation>Escala de grisos</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3518" />
-      <location filename="../main_window.py" line="969" />
+      <location filename="../main_window.py" line="3576" />
+      <location filename="../main_window.py" line="980" />
       <source>Invert Color</source>
       <translation>Inverteix els colors</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3519" />
-      <location filename="../main_window.py" line="970" />
+      <location filename="../main_window.py" line="3577" />
+      <location filename="../main_window.py" line="981" />
       <source>Border</source>
       <translation>Vora</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="973" />
+      <location filename="../main_window.py" line="984" />
       <source>Modify Canvas...</source>
       <translation>Modifica el llenç...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3396" />
-      <location filename="../main_window.py" line="976" />
+      <location filename="../main_window.py" line="3454" />
+      <location filename="../main_window.py" line="987" />
       <source>Hide Docks</source>
       <translation>Amaga els molls</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="980" />
+      <location filename="../main_window.py" line="991" />
       <source>Pin</source>
       <translation>Fixar</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="984" />
+      <location filename="../main_window.py" line="995" />
       <source>Add Watermark</source>
       <translation>Afegeix una marca d’aigua</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3691" />
-      <location filename="../main_window.py" line="989" />
+      <location filename="../main_window.py" line="3749" />
+      <location filename="../main_window.py" line="1000" />
       <source>Upload</source>
       <translation>Puja</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="993" />
+      <location filename="../main_window.py" line="1004" />
       <source>OCR Text Recognition</source>
       <translation>Reconeixement de text OCR</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="996" />
+      <location filename="../main_window.py" line="1007" />
       <source>OCR Text Recognition (tables + Markdown)</source>
       <translation>Reconeixement de text OCR (taules + Markdown)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1000" />
+      <location filename="../main_window.py" line="1011" />
       <source>Update Watermark Image...</source>
       <translation>Actualitza la imatge de la marca d'aigua...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1003" />
+      <location filename="../main_window.py" line="1014" />
       <source>Rotate Watermark</source>
       <translation>Gira la marca d’aigua</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1008" />
+      <location filename="../main_window.py" line="1019" />
       <source>Settings</source>
       <translation>Paràmetres</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1011" />
+      <location filename="../main_window.py" line="1022" />
       <source>Model Manager…</source>
       <translation>Gestor de models…</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1012" />
+      <location filename="../main_window.py" line="1023" />
       <source>Download and manage OCR models and other components</source>
       <translation>Descarregar i gestionar models OCR i altres components</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1015" />
+      <location filename="../main_window.py" line="1026" />
       <source>About</source>
       <translation>Quant a</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1018" />
+      <location filename="../main_window.py" line="1029" />
       <source>Clear Recent Images</source>
       <translation>Esborra les imatges recents</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1021" />
+      <location filename="../main_window.py" line="1032" />
       <source>Quit</source>
       <translation>Surt</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1024" />
+      <location filename="../main_window.py" line="1035" />
       <source>Zoom Out</source>
       <translation>Allunya el zoom</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1027" />
+      <location filename="../main_window.py" line="1038" />
       <source>Reset Zoom</source>
       <translation>Reinicia el zoom</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1030" />
+      <location filename="../main_window.py" line="1041" />
       <source>Zoom In</source>
       <translation>Apropa</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1033" />
+      <location filename="../main_window.py" line="1044" />
       <source>Fit Image</source>
       <translation>Ajusta la imatge</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1055" />
+      <location filename="../main_window.py" line="1066" />
       <source>Capture delay</source>
       <translation>Retard de captura</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1293" />
-      <location filename="../main_window.py" line="1100" />
-      <location filename="../main_window.py" line="1093" />
+      <location filename="../main_window.py" line="1304" />
+      <location filename="../main_window.py" line="1111" />
+      <location filename="../main_window.py" line="1104" />
       <source>Stroke color</source>
       <translation>Color del traç</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1109" />
+      <location filename="../main_window.py" line="1120" />
       <source>Stroke width: changes the thickness of the line or arrow shaft.</source>
       <translation>Amplada del traç: canvia el gruix de la línia o de la fletxa.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1111" />
+      <location filename="../main_window.py" line="1122" />
       <source>Stroke width</source>
       <translation>Amplada del traç</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1119" />
+      <location filename="../main_window.py" line="1130" />
       <source>Arrowhead size: changes the size of the triangular arrow tip.</source>
       <translation>Mida de la punta de fletxa: canvia la mida de la punta de la fletxa triangular.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1122" />
+      <location filename="../main_window.py" line="1133" />
       <source>Arrowhead size</source>
       <translation>Mida de la punta de fletxa</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1134" />
-      <location filename="../main_window.py" line="1130" />
+      <location filename="../main_window.py" line="1145" />
+      <location filename="../main_window.py" line="1141" />
       <source>Fill mode</source>
       <translation>Mode d'ompliment</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1146" />
-      <location filename="../main_window.py" line="1139" />
+      <location filename="../main_window.py" line="1157" />
+      <location filename="../main_window.py" line="1150" />
       <source>Text color</source>
       <translation>Color del text</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1153" />
+      <location filename="../main_window.py" line="1164" />
       <source>Font family used by the text or number.</source>
       <translation>Família de tipus de lletra utilitzada pel text o el número.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1161" />
+      <location filename="../main_window.py" line="1172" />
       <source>Font size of the text or number.</source>
       <translation>Mida de la lletra del text o del número.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1164" />
+      <location filename="../main_window.py" line="1175" />
       <source>Font</source>
       <translation>Tipus de lletra</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1169" />
+      <location filename="../main_window.py" line="1180" />
       <source>Bold</source>
       <translation>Negreta</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1170" />
+      <location filename="../main_window.py" line="1181" />
       <source>Italic</source>
       <translation>Cursiva</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1171" />
+      <location filename="../main_window.py" line="1182" />
       <source>Underline</source>
       <translation>Subratllat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1182" />
+      <location filename="../main_window.py" line="1193" />
       <source>Number value used by the next numbered annotation.</source>
       <translation>Valor numèric utilitzat per la següent anotació numerada.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1191" />
+      <location filename="../main_window.py" line="1202" />
       <source>Number badge margin:</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1204" />
+      <location filename="../main_window.py" line="1215" />
       <source>Effect strength: controls the intensity of blur or pixelation.</source>
       <translation>Intensitat de l'efecte: controla la intensitat del desenfocament o la pixelació.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1206" />
+      <location filename="../main_window.py" line="1217" />
       <source>Effect strength</source>
       <translation>Força de l'efecte</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1210" />
+      <location filename="../main_window.py" line="1221" />
       <source>Select Sticker</source>
       <translation>Seleccioneu Adhesiu</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1221" />
-      <location filename="../main_window.py" line="1219" />
+      <location filename="../main_window.py" line="1232" />
+      <location filename="../main_window.py" line="1230" />
       <source>Item shadow</source>
       <translation>Ombra de l'element</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1230" />
+      <location filename="../main_window.py" line="1241" />
       <source>Sticker scale as a percentage of its original insertion size.</source>
       <translation>Escala de l'adhesiu com a percentatge de la seva mida d'inserció original.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1240" />
+      <location filename="../main_window.py" line="1251" />
       <source>Opacity: 0% is transparent and 100% is fully visible.</source>
       <translation>Opacitat: el 0% és transparent i el 100% és totalment visible.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1242" />
+      <location filename="../main_window.py" line="1253" />
       <source>Opacity</source>
       <translation>Opacitat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1358" />
+      <location filename="../main_window.py" line="1369" />
       <source>Zoom Out (%1)</source>
       <translation>Allunya (%1)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1375" />
+      <location filename="../main_window.py" line="1386" />
       <source>Zoom In (%1)</source>
       <translation>Apropa (%1)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1566" />
-      <location filename="../main_window.py" line="1397" />
+      <location filename="../main_window.py" line="1624" />
+      <location filename="../main_window.py" line="1408" />
       <source>Zoom</source>
       <translation>Ampliar</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3530" />
-      <location filename="../main_window.py" line="1419" />
+      <location filename="../main_window.py" line="3588" />
+      <location filename="../main_window.py" line="1430" />
       <source>Image Effect: %1</source>
       <translation>Efecte d'imatge: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1434" />
+      <location filename="../main_window.py" line="1445" />
       <source>Controls</source>
       <translation>Controls</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1549" />
-      <location filename="../main_window.py" line="1475" />
-      <source>Theme</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <location filename="../main_window.py" line="1476" />
-      <source>Restart ksnip_py to apply the theme.</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <location filename="../main_window.py" line="1480" />
+      <location filename="../main_window.py" line="1538" />
       <source>&amp;File</source>
       <translation>&amp;Fitxer</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1495" />
+      <location filename="../main_window.py" line="1553" />
       <source>Recent Images</source>
       <translation>Imatges recents</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1510" />
+      <location filename="../main_window.py" line="1568" />
       <source>&amp;Edit</source>
       <translation>&amp;Edita</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1525" />
+      <location filename="../main_window.py" line="1583" />
       <source>Effects</source>
       <translation>Efectes</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1536" />
+      <location filename="../main_window.py" line="1594" />
       <source>Annotation Items</source>
       <translation>Elements d'anotació</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1545" />
+      <location filename="../main_window.py" line="1603" />
       <source>&amp;View</source>
       <translation>&amp;Visualitza</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1554" />
+      <location filename="../main_window.py" line="1607" />
+      <source>Theme</source>
+      <translation type="unfinished" />
+    </message>
+    <message>
+      <location filename="../main_window.py" line="1612" />
       <source>System</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1555" />
+      <location filename="../main_window.py" line="1613" />
       <source>Light</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1556" />
+      <location filename="../main_window.py" line="1614" />
       <source>Dark</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="1572" />
+      <location filename="../main_window.py" line="1630" />
       <source>&amp;Options</source>
       <translation>&amp;Opcions</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1580" />
+      <location filename="../main_window.py" line="1638" />
       <source>Watermark</source>
       <translation>Marca d’aigua</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1584" />
+      <location filename="../main_window.py" line="1642" />
       <source>Annotation Tools</source>
       <translation>Eines d'anotació</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1610" />
+      <location filename="../main_window.py" line="1668" />
       <source>&amp;Help</source>
       <translation>&amp;Ajuda</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1643" />
+      <location filename="../main_window.py" line="1701" />
       <source>Show Editor</source>
       <translation>Mostra l’editor</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1855" />
+      <location filename="../main_window.py" line="1913" />
       <source>ksnip PyQt6 is still running in the system tray.</source>
       <translation>ksnip PyQt6 encara s'està executant a la safata del sistema.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1883" />
+      <location filename="../main_window.py" line="1941" />
       <source>OCR is still running; ksnip cannot close until it finishes.</source>
       <translation>L'OCR encara s'està executant; ksnip no es pot tancar fins que acabi.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="1913" />
+      <location filename="../main_window.py" line="1971" />
       <source>ksnip PyQt6 was minimized to the system tray.</source>
       <translation>ksnip PyQt6 es va minimitzar a la safata del sistema.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2041" />
+      <location filename="../main_window.py" line="2099" />
       <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2254" />
+      <location filename="../main_window.py" line="2312" />
       <source>Select color</source>
       <translation>Seleccioneu el color</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2263" />
+      <location filename="../main_window.py" line="2321" />
       <source>Updated selected item color</source>
       <translation>S'ha actualitzat el color de l'element seleccionat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2282" />
+      <location filename="../main_window.py" line="2340" />
       <source>Updated selected item fill</source>
       <translation>S'ha actualitzat l'emplenament de l'element seleccionat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2292" />
+      <location filename="../main_window.py" line="2350" />
       <source>Select text color</source>
       <translation>Seleccioneu el color del text</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2302" />
+      <location filename="../main_window.py" line="2360" />
       <source>Updated selected text color</source>
       <translation>S'ha actualitzat el color del text seleccionat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2318" />
+      <location filename="../main_window.py" line="2376" />
       <source>Updated selected item width to %1</source>
       <translation>S'ha actualitzat l'amplada de l'element seleccionat a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2331" />
+      <location filename="../main_window.py" line="2389" />
       <source>Updated selected arrowhead size to %1</source>
       <translation>S'ha actualitzat la mida de la punta de fletxa seleccionada a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2341" />
+      <location filename="../main_window.py" line="2399" />
       <source>Updated selected text font</source>
       <translation>S'ha actualitzat el tipus de lletra del text seleccionat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2355" />
+      <location filename="../main_window.py" line="2413" />
       <source>Updated selected text size to %1</source>
       <translation>S'ha actualitzat la mida del text seleccionat a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2365" />
+      <location filename="../main_window.py" line="2423" />
       <source>Updated selected item opacity to %1%</source>
       <translation>S'ha actualitzat l'opacitat de l'element seleccionat a %1%</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2383" />
+      <location filename="../main_window.py" line="2441" />
       <source>Updated selected item fill mode</source>
       <translation>S'ha actualitzat el mode d'ompliment de l'element seleccionat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2394" />
+      <location filename="../main_window.py" line="2452" />
       <source>Updated selected text bold style</source>
       <translation>S'ha actualitzat l'estil en negreta del text seleccionat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2406" />
+      <location filename="../main_window.py" line="2464" />
       <source>Updated selected text italic style</source>
       <translation>S'ha actualitzat l'estil en cursiva del text seleccionat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2417" />
+      <location filename="../main_window.py" line="2475" />
       <source>Updated selected text underline style</source>
       <translation>S'ha actualitzat l'estil de subratllat del text seleccionat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2428" />
+      <location filename="../main_window.py" line="2486" />
       <source>Updated selected item shadow</source>
       <translation>S'ha actualitzat l'ombra de l'element seleccionat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2440" />
+      <location filename="../main_window.py" line="2498" />
       <source>Updated selected item scale to %1%</source>
       <translation>S'ha actualitzat l'escala de l'element seleccionat a %1%</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2449" />
+      <location filename="../main_window.py" line="2507" />
       <source>Updated selected number to %1</source>
       <translation>S'ha actualitzat el número seleccionat a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2893" />
-      <location filename="../main_window.py" line="2667" />
+      <location filename="../main_window.py" line="2951" />
+      <location filename="../main_window.py" line="2725" />
       <source>Portal capture canceled.</source>
       <translation>S'ha cancel·lat la captura del portal.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2686" />
+      <location filename="../main_window.py" line="2744" />
       <source>Set a capture delay to include the mouse cursor.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2694" />
+      <location filename="../main_window.py" line="2752" />
       <source>Capture the mouse cursor (also in Options &gt; Settings &gt; Image Grabber &gt; Capture mouse cursor on screenshot). Requires a capture delay.</source>
       <translation type="unfinished" />
     </message>
     <message>
-      <location filename="../main_window.py" line="2817" />
+      <location filename="../main_window.py" line="2875" />
       <source>Loaded %1 capture and copied it to clipboard</source>
       <translation>S'ha carregat la captura %1 i l'ha copiat al porta-retalls</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2913" />
+      <location filename="../main_window.py" line="2971" />
       <source>Loaded %1 capture</source>
       <translation>S'ha carregat la captura %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2979" />
+      <location filename="../main_window.py" line="3037" />
       <source>Open image</source>
       <translation>Imatge oberta</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2981" />
+      <location filename="../main_window.py" line="3039" />
       <source>Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>Projectes Ksnip (*.ksnip);;Imatges (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="2991" />
+      <location filename="../main_window.py" line="3049" />
       <source>Ksnip Projects (*.ksnip)</source>
       <translation>Projectes Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3646" />
-      <location filename="../main_window.py" line="2992" />
+      <location filename="../main_window.py" line="3704" />
+      <location filename="../main_window.py" line="3050" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
       <translation>Imatges (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3069" />
-      <location filename="../main_window.py" line="3013" />
+      <location filename="../main_window.py" line="3127" />
+      <location filename="../main_window.py" line="3071" />
       <source>Save image as</source>
       <translation>Desa la imatge com a</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3071" />
-      <location filename="../main_window.py" line="3015" />
+      <location filename="../main_window.py" line="3129" />
+      <location filename="../main_window.py" line="3073" />
       <source>Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</source>
       <translation>Projecte Ksnip (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3030" />
+      <location filename="../main_window.py" line="3088" />
       <source>Ksnip Project (*.ksnip)</source>
       <translation>Projecte Ksnip (*.ksnip)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3031" />
+      <location filename="../main_window.py" line="3089" />
       <source>PNG (*.png)</source>
       <translation>PNG (*.png)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3038" />
+      <location filename="../main_window.py" line="3096" />
       <source>Export as SVG</source>
       <translation>Exporta com a SVG</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3046" />
+      <location filename="../main_window.py" line="3104" />
       <source>Unable to export SVG: %1</source>
       <translation>No es pot exportar SVG: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3048" />
+      <location filename="../main_window.py" line="3106" />
       <source>Exported SVG to %1</source>
       <translation>S'ha exportat SVG a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3096" />
+      <location filename="../main_window.py" line="3154" />
       <source>Saved %1 image(s), failed %2</source>
       <translation>S'han desat %1 imatge(s), ha fallat %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3101" />
+      <location filename="../main_window.py" line="3159" />
       <source>Save All stopped early; these could not be saved:
 %1</source>
       <translation>Save All es va aturar aviat; no s'han pogut desar:
 %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3105" />
+      <location filename="../main_window.py" line="3163" />
       <source>Saved %1 image(s)</source>
       <translation>S'han desat %1 imatges</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3126" />
+      <location filename="../main_window.py" line="3184" />
       <source>Unable to save Ksnip project: %1</source>
       <translation>No es pot desar el projecte Ksnip: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3141" />
+      <location filename="../main_window.py" line="3199" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
       <translation>El projecte Ksnip s'ha desat, però la seva imatge complementària no s'ha pogut desar a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3150" />
+      <location filename="../main_window.py" line="3208" />
       <source>Saved %1 and companion image %2</source>
       <translation>S'han desat %1 i la imatge complementària %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3163" />
+      <location filename="../main_window.py" line="3221" />
       <source>Saved %1</source>
       <translation>Desat %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3171" />
+      <location filename="../main_window.py" line="3229" />
       <source>Copied image to clipboard</source>
       <translation>S'ha copiat la imatge al porta-retalls</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3180" />
+      <location filename="../main_window.py" line="3238" />
       <source>Sent image to printer</source>
       <translation>Imatge enviada a la impressora</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3219" />
+      <location filename="../main_window.py" line="3277" />
       <source>New name:</source>
       <translation>Nom nou:</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3253" />
+      <location filename="../main_window.py" line="3311" />
       <source>Renamed to %1</source>
       <translation>S'ha canviat el nom a %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3269" />
+      <location filename="../main_window.py" line="3327" />
       <source>Delete Image</source>
       <translation>Suprimeix la imatge</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3270" />
+      <location filename="../main_window.py" line="3328" />
       <source>The item '%1' will be deleted.
 Do you want to continue?</source>
       <translation>L'element '%1' s'eliminarà.
 Vols continuar?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3279" />
+      <location filename="../main_window.py" line="3337" />
       <source>Unable to delete %1: %2</source>
       <translation>No es pot suprimir %1: %2</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3285" />
+      <location filename="../main_window.py" line="3343" />
       <source>Deleted %1</source>
       <translation>S'ha suprimit %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3308" />
+      <location filename="../main_window.py" line="3366" />
       <source>Copied image as a base64 encoded Data URI</source>
       <translation>Imatge copiada com a URI de dades codificat en base64</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3315" />
+      <location filename="../main_window.py" line="3373" />
       <source>Copied path %1</source>
       <translation>S'ha copiat el camí %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3325" />
+      <location filename="../main_window.py" line="3383" />
       <source>Opened directory %1</source>
       <translation>S'ha obert el directori %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3332" />
+      <location filename="../main_window.py" line="3390" />
       <source>Copied selected item(s)</source>
       <translation>S'han copiat els elements seleccionats</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3345" />
+      <location filename="../main_window.py" line="3403" />
       <source>Loaded image from clipboard</source>
       <translation>S'ha carregat la imatge del porta-retalls</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3365" />
+      <location filename="../main_window.py" line="3423" />
       <source>Pasted embedded image from clipboard</source>
       <translation>S'ha enganxat la imatge incrustada des del porta-retalls</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3379" />
+      <location filename="../main_window.py" line="3437" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
       <translation>Llenç modificat: %1 × %2 px a (%3, %4)</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3396" />
+      <location filename="../main_window.py" line="3454" />
       <source>Show Docks</source>
       <translation>Mostra els molls</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3405" />
+      <location filename="../main_window.py" line="3463" />
       <source>Pasted item from clipboard</source>
       <translation>Element enganxat del porta-retalls</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3432" />
+      <location filename="../main_window.py" line="3490" />
       <source>Deleted selected item</source>
       <translation>S'ha suprimit l'element seleccionat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3441" />
+      <location filename="../main_window.py" line="3499" />
       <source>Duplicated selected item</source>
       <translation>Element seleccionat duplicat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3450" />
+      <location filename="../main_window.py" line="3508" />
       <source>Updated text item</source>
       <translation>Element de text actualitzat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3459" />
+      <location filename="../main_window.py" line="3517" />
       <source>Brought selected item to front</source>
       <translation>S'ha portat l'element seleccionat al davant</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3468" />
+      <location filename="../main_window.py" line="3526" />
       <source>Sent selected item to back</source>
       <translation>S'ha enviat l'element seleccionat al darrere</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3480" />
+      <location filename="../main_window.py" line="3538" />
       <source>Rotated image by %1 degrees</source>
       <translation>Imatge girada %1 graus</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3483" />
+      <location filename="../main_window.py" line="3541" />
       <source>Horizontal</source>
       <translation>Horitzontal</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3483" />
+      <location filename="../main_window.py" line="3541" />
       <source>Vertical</source>
       <translation>Vertical</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3484" />
+      <location filename="../main_window.py" line="3542" />
       <source>Flipped image: %1</source>
       <translation>Imatge invertida: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3504" />
+      <location filename="../main_window.py" line="3562" />
       <source>Scaled image to %1 × %2 px</source>
       <translation>Imatge escalada a %1 × %2 px</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3523" />
+      <location filename="../main_window.py" line="3581" />
       <source>Image effect: %1</source>
       <translation>Efecte d'imatge: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3542" />
+      <location filename="../main_window.py" line="3600" />
       <source>Image slice removed</source>
       <translation>S'ha eliminat el tros d'imatge</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3557" />
+      <location filename="../main_window.py" line="3615" />
       <source>Pinned current image</source>
       <translation>Imatge actual fixada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3567" />
+      <location filename="../main_window.py" line="3625" />
       <source>Language changed. Restart ksnip to apply it.</source>
       <translation>El llenguatge ha canviat. Reinicieu ksnip per aplicar-lo.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3569" />
+      <location filename="../main_window.py" line="3627" />
       <source>Settings updated</source>
       <translation>S'ha actualitzat la configuració</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3573" />
+      <location filename="../main_window.py" line="3631" />
       <source>Model Manager opened</source>
       <translation>Gestor de models obert</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3639" />
+      <location filename="../main_window.py" line="3697" />
       <source>Added watermark</source>
       <translation>S'ha afegit una marca d'aigua</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3644" />
+      <location filename="../main_window.py" line="3702" />
       <source>Select watermark image</source>
       <translation>Seleccioneu la imatge de la marca d'aigua</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3654" />
+      <location filename="../main_window.py" line="3712" />
       <source>Updated watermark image</source>
       <translation>Imatge de marca d'aigua actualitzada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3663" />
+      <location filename="../main_window.py" line="3721" />
       <source>Upload Image</source>
       <translation>Carrega la imatge</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3664" />
+      <location filename="../main_window.py" line="3722" />
       <source>Upload the current image?</source>
       <translation>Vols penjar la imatge actual?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3695" />
-      <location filename="../main_window.py" line="3690" />
+      <location filename="../main_window.py" line="3753" />
+      <location filename="../main_window.py" line="3748" />
       <source>Uploading image...</source>
       <translation>S'està carregant la imatge...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3773" />
-      <location filename="../main_window.py" line="3690" />
+      <location filename="../main_window.py" line="3831" />
+      <location filename="../main_window.py" line="3748" />
       <source>Cancel</source>
       <translation>Cancel·la</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3732" />
+      <location filename="../main_window.py" line="3790" />
       <source>Upload canceled</source>
       <translation>Pujada cancel·lada</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3735" />
+      <location filename="../main_window.py" line="3793" />
       <source>Upload failed</source>
       <translation>La càrrega ha fallat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3740" />
+      <location filename="../main_window.py" line="3798" />
       <source>Upload finished successfully</source>
       <translation>La càrrega s'ha acabat correctament</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3742" />
+      <location filename="../main_window.py" line="3800" />
       <source>Upload Successful</source>
       <translation>Pujada correcta</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3775" />
+      <location filename="../main_window.py" line="3833" />
       <source>OCR</source>
       <translation>OCR</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3779" />
+      <location filename="../main_window.py" line="3837" />
       <source>Running OCR...</source>
       <translation>S'està executant OCR...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3785" />
+      <location filename="../main_window.py" line="3843" />
       <source>Running OCR layout and table recognition…
 First run loads several models and may take 1–3 minutes on CPU.</source>
       <translation>Executant el reconeixement de disseny i taules OCR…
 La primera execució carrega diversos models i pot trigar 1-3 minuts a la CPU.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3789" />
+      <location filename="../main_window.py" line="3847" />
       <source>Running OCR text recognition...</source>
       <translation>S'està executant el reconeixement de text OCR...</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3831" />
+      <location filename="../main_window.py" line="3889" />
       <source>OCR canceled</source>
       <translation>OCR cancel·lat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3835" />
+      <location filename="../main_window.py" line="3893" />
       <source>OCR failed</source>
       <translation>L'OCR ha fallat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="3845" />
+      <location filename="../main_window.py" line="3903" />
       <source>OCR finished</source>
       <translation>OCR acabat</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4185" />
-      <location filename="../main_window.py" line="4155" />
+      <location filename="../main_window.py" line="4243" />
+      <location filename="../main_window.py" line="4213" />
       <source>Opened %1</source>
       <translation>S'ha obert %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4165" />
+      <location filename="../main_window.py" line="4223" />
       <source>Unable to open Ksnip project: %1</source>
       <translation>No es pot obrir el projecte Ksnip: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4176" />
+      <location filename="../main_window.py" line="4234" />
       <source>Unable to restore Ksnip project: %1</source>
       <translation>No es pot restaurar el projecte Ksnip: %1</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4191" />
+      <location filename="../main_window.py" line="4249" />
       <source>Unable to open image data.</source>
       <translation>No es poden obrir les dades d'imatge.</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4199" />
+      <location filename="../main_window.py" line="4257" />
       <source>Opened image from standard input</source>
       <translation>Imatge oberta des de l'entrada estàndard</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4866" />
-      <location filename="../main_window.py" line="4847" />
+      <location filename="../main_window.py" line="4924" />
+      <location filename="../main_window.py" line="4905" />
       <source>Unsaved changes</source>
       <translation>Canvis no desats</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4848" />
+      <location filename="../main_window.py" line="4906" />
       <source>Close this tab and discard unsaved changes?</source>
       <translation>Tancar aquesta pestanya i descartar els canvis no desats?</translation>
     </message>
     <message>
-      <location filename="../main_window.py" line="4867" />
+      <location filename="../main_window.py" line="4925" />
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>Tanqueu ksnip PyQt6 i descarteu els canvis no desats a les pestanyes obertes?</translation>
     </message>
