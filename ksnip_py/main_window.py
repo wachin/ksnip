@@ -203,6 +203,9 @@ class MainWindow(QMainWindow):
         return Path(__file__).resolve().parent / "icons"
 
     def _use_light_icons(self) -> bool:
+        manager = getattr(self, "_theme_manager", None)
+        if manager is not None:
+            return manager.resolved == THEME_DARK
         window_color = self.palette().color(self.backgroundRole())
         return window_color.lightness() < 128
 
@@ -1485,8 +1488,8 @@ class MainWindow(QMainWindow):
     def _on_theme_changed(self, mode: str, _resolved: str) -> None:
         self._current_theme = mode
         self._sync_theme_actions()
-        self._refresh_theme_icons()
         self._repolish_theme()
+        self._refresh_theme_icons()
 
     def _refresh_theme_icons(self) -> None:
         for action in self.findChildren(QAction):

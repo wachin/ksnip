@@ -8,7 +8,8 @@ from PyQt6.QtGui import QIcon, QPalette
 from PyQt6.QtWidgets import QApplication
 
 from ksnip_py.app import configure_qt_platform_theme
-from ksnip_py.theme import THEME_DARK, THEME_LIGHT, THEME_SYSTEM, apply_theme, normalize_theme
+from ksnip_py.main_window import MainWindow
+from ksnip_py.theme import THEME_DARK, THEME_LIGHT, THEME_SYSTEM, apply_theme, init_theme_manager, normalize_theme
 
 
 APP = QApplication.instance() or QApplication([])
@@ -63,6 +64,19 @@ class PlatformThemeTest(unittest.TestCase):
             APP.setStyle(original_style)
             APP.setPalette(original_palette)
             QIcon.setThemeName(original_theme)
+
+    def test_live_theme_choice_controls_the_icon_variant(self) -> None:
+        manager = init_theme_manager(APP)
+        original = manager.mode
+        window = MainWindow()
+        try:
+            manager.set_mode(THEME_DARK, emit=False)
+            self.assertTrue(window._use_light_icons())
+            manager.set_mode(THEME_LIGHT, emit=False)
+            self.assertFalse(window._use_light_icons())
+        finally:
+            manager.set_mode(original, emit=False)
+            window.close()
 
     def test_missing_qt6ct_plugin_leaves_the_environment_alone(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
