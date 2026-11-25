@@ -48,14 +48,25 @@ bookmarks, or assume that all platforms use the same dialog implementation.
 Application catalogs (`ksnip_*.qm` and `ksnip_py_*.qm`) translate ksnip
 content. Standard widget text belongs to Qt's `qtbase_*.qm` catalogs.
 
-At startup, ksnip_py now loads `qtbase` for the selected application locale
-before installing its own translators. The primary directory is obtained from
-`QLibraryInfo.path(QLibraryInfo.TranslationsPath)` (or `paths()` where
-available). This follows the Qt runtime actually imported by PyQt6, including
-PyQt6 installed with pip and Qt deployments on Windows or macOS.
+At startup, ksnip_py loads `qtbase` and `qt` for the selected application
+locale before installing its own translators, and sets `QLocale.setDefault()`.
 
-On Linux only, XDG data directories are checked as a fallback for
-`qt6/translations` and `qt/translations`. Debian and Ubuntu provide these
-catalogs in `qt6-translations-l10n`. Windows and macOS do not use that Debian
-package; their application/runtime bundle must include the desired
-`qtbase_<locale>.qm` files in the translation path reported by Qt.
+On Linux, the distribution paths (`/usr/local/share/qt6/translations` and
+`/usr/share/qt6/translations`) are checked first. Debian and Ubuntu provide
+these catalogs in `qt6-translations-l10n`, so a virtual environment can use the
+system package even though `pip` does not install it:
+
+```bash
+sudo apt install qt6-translations-l10n
+```
+
+The Qt runtime selected by PyQt6 (`QLibraryInfo.TranslationsPath` or `paths()`)
+is the fallback. Windows and macOS do not use that Debian package; their
+application/runtime bundle must include the desired `qtbase_<locale>.qm` files
+in the translation path reported by Qt.
+
+Some Qt file-dialog labels are requested with a mnemonic prefix (`&Look in:`)
+while `qtbase_<locale>.qm` only contains the unprefixed source (`Look in:`).
+ksnip_py installs a small fallback translator that retries the lookup without
+the leading `&` and restores the mnemonic, so those labels do not remain in
+English.

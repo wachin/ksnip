@@ -72,7 +72,9 @@ sudo apt install ./ksnip-pyqt6_0.2.2-1_all.deb
 ```
 
 The package provides the `ksnip-pyqt6` command, the desktop entry, the
-AppStream metadata, and a manual page. See
+AppStream metadata, and a manual page. It depends on
+`qt6-translations-l10n`, which supplies Qt's own translations for file
+dialogs, buttons, and other standard widgets. See
 [Building and packaging](#building-and-packaging) to build it from source.
 
 ### Run from the repository
@@ -88,6 +90,23 @@ python3 -m ksnip_py
 
 For optional Python dependencies such as PaddleOCR, use the
 [virtual-environment installation](#run-from-a-virtual-environment).
+
+### Qt interface translations by installation method
+
+`qt6-translations-l10n` contains Qt's own `qtbase_<locale>.qm` catalogs. It is
+separate from ksnip_py's application catalogs.
+
+| Installation method | What to install |
+| --- | --- |
+| Debian package | Automatic: `qt6-translations-l10n` is a hard dependency. |
+| Debian/MX Linux source checkout | `sudo apt install qt6-translations-l10n` |
+| Python virtual environment on Linux | `sudo apt install qt6-translations-l10n` |
+| AppImage | No separate Debian package; the bundle must include the PyQt6/Qt translation files. |
+| Windows 10/11 or macOS | No Debian package; the PyQt6/Qt deployment must ship `qtbase_<locale>.qm` in its translations directory. |
+
+On Linux, ksnip_py checks the distribution paths
+`/usr/local/share/qt6/translations` and `/usr/share/qt6/translations` first,
+then falls back to the Qt runtime selected by PyQt6.
 
 ## Help wanted
 
@@ -252,7 +271,10 @@ For `Number Arrow`, the properties toolbar controls the shaft thickness and arro
 
 ## Run from system packages
 
+Install Qt's own translations together with the other Debian dependencies:
+
 ```bash
+sudo apt install qt6-translations-l10n
 git clone https://github.com/wachin/ksnip.git
 cd ksnip
 python3 -m ksnip_py
@@ -266,6 +288,9 @@ Debian uses an externally managed system Python, so Python-only optional depende
 git clone https://github.com/wachin/ksnip.git
 cd ksnip
 
+# Qt's translations are a system package, not a pip package.
+sudo apt install qt6-translations-l10n
+
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip setuptools wheel
@@ -276,14 +301,14 @@ ksnip-pyqt6
 
 The spell checker continues to use the system `hunspell` executable and dictionaries when the application runs inside a virtual environment.
 
-Qt's standard translations are resolved from the Qt runtime selected by
-PyQt6 through `QLibraryInfo.TranslationsPath`. A pip installation therefore
-does not assume Debian's `/usr/share/qt6/translations` path. On Windows and
+On Linux, ksnip_py checks `/usr/local/share/qt6/translations` and
+`/usr/share/qt6/translations` first; those directories are provided by
+`qt6-translations-l10n`. It then falls back to the Qt runtime selected by PyQt6
+through `QLibraryInfo.TranslationsPath`. A pip installation therefore works
+with the distribution catalogs inside a virtual environment. On Windows and
 macOS there is no `qt6-translations-l10n` package: the PyQt6/Qt deployment must
 ship the desired `qtbase_<locale>.qm` catalogs in its own Qt translations
-directory. On Linux, ksnip_py additionally checks the standard XDG data
-directories, allowing a pip PyQt6 environment to use distribution-provided
-Qt6 catalogs when compatible ones are available.
+directory, or Qt-owned text falls back to English.
 
 ## Desktop theme integration
 
@@ -682,6 +707,11 @@ A clean scan of the installer or the ZIP is not evidence that the `.exe` inside
 is clean. No artifact is code-signed yet, so Windows shows an "unknown
 publisher" warning.
 
+On Linux, install `qt6-translations-l10n` for Qt's standard dialog
+translations. AppImage, Windows, and macOS have no Debian package; their
+bundles must include the PyQt6/Qt translation files, otherwise Qt-owned text
+falls back to English.
+
 **OCR models are NOT bundled** in any artifact. Users download them on demand
 via **Options → Model Manager…** (see [Model Manager](#model-manager)).
 This complies with Debian policy and keeps downloads small.
@@ -694,7 +724,7 @@ build from the repository root:
 
 ```bash
 sudo apt install debhelper dh-python pybuild-plugin-pyproject python3-all \
-    python3-pytest python3-pyqt6 python3-setuptools
+    python3-pytest python3-pyqt6 python3-setuptools qt6-translations-l10n
 dpkg-buildpackage -b -us -uc
 ```
 

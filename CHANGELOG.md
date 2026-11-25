@@ -19,7 +19,7 @@
 * Fixed: The cursor-delay indicator is now a yellow ring only. Its dark contrast stroke and window shadow are gone, and the window mask covers only the painted yellow stroke so X11 cannot show a black ring underneath.
 * Changed: Mouse cursor capture is off by default and requires a capture delay. During the delay a yellow blinking ring surrounds the pointer; in the editor the cursor is a movable fixed-size item (no resize handles). A standard arrow is used by default, with the actual pointer shape (for example the text I-beam) available as an option. Toggle it in New Screenshot → Include Mouse Cursor.
 * Fixed: Qt 6 translations from the distribution package qt6-translations-l10n are preferred on Linux, and file-dialog labels whose catalog lacks the ampersand-prefixed source string (such as "Look in:") are now translated too.
-* Packaging: the Debian package recommends qt6-translations-l10n.
+* Packaging: the Debian package depends on qt6-translations-l10n.
 * Fixed: File-dialog sidebar shortcuts corrupted by repeated UTF-8/Latin-1 conversions (for example Imágenes shown as ImÃ¡…) are repaired from their ASCII skeleton when the real directory exists.
 * Fixed: The full-screen selection overlay is torn down before the editor opens, preventing a leftover piece of the capture tool from staying on screen.
 * New: Windows external OCR setup guide and explicit `.bat`/`.cmd` script support.
