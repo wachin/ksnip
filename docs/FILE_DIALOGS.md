@@ -90,8 +90,10 @@ Qt's non-native widget dialog honors this geometry. After restoring, the
 wrapper clamps the dialog to the available area of the screen under its center
 (or the parent window's screen and then the primary screen). This prevents a
 remembered position from opening the dialog outside the visible desktop after
-the main window or monitor layout changes. A maximized or full-screen dialog is
-left alone.
+the main window or monitor layout changes. The clamp is repeated 120 ms after
+the dialog is mapped, because some window managers center a dialog over its
+parent only after the show event. A maximized or full-screen dialog is left
+alone.
 
 A native platform dialog may be positioned by the operating system instead; on
 Windows and macOS the native file dialog normally remembers its own geometry.

@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from PyQt6.QtCore import QByteArray, QCoreApplication, QEvent, QPoint, QSettings, QUrl
+from PyQt6.QtCore import QByteArray, QCoreApplication, QEvent, QPoint, QSettings, QTimer, QUrl
 from PyQt6.QtGui import QGuiApplication
 from PyQt6.QtWidgets import QApplication, QDialog, QFileDialog
 
@@ -125,6 +125,9 @@ class _GeometryFileDialog(QFileDialog):
     def __init__(self, *args, geometry: Any = None, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self._pending_geometry = geometry
+        self._clamp_timer = QTimer(self)
+        self._clamp_timer.setSingleShot(True)
+        self._clamp_timer.timeout.connect(self._clamp_after_show)
 
     def showEvent(self, event) -> None:  # noqa: N802
         super().showEvent(event)
@@ -132,6 +135,13 @@ class _GeometryFileDialog(QFileDialog):
         self._pending_geometry = None
         _restore_geometry(self, geometry)
         _keep_dialog_on_screen(self)
+        # A window manager may center a dialog over its parent after the show
+        # event has already run. Re-check once the dialog has been mapped.
+        self._clamp_timer.start(120)
+
+    def _clamp_after_show(self) -> None:
+        if self.isVisible():
+            _keep_dialog_on_screen(self)
 
 
 def _keep_dialog_on_screen(dialog: QFileDialog) -> None:
