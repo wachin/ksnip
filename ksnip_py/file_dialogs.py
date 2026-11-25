@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from pathlib import Path
 from typing import Any
 
 from PyQt6.QtCore import QSettings, QUrl
@@ -22,6 +23,46 @@ def _url_from_persisted_value(value: object) -> QUrl:
     return QUrl.fromLocalFile(text) if text.startswith("/") else QUrl(text)
 
 
+def _repair_mojibake_path(path: str) -> str:
+    """Undo repeated UTF-8/Latin-1 mojibake in an existing local path.
+
+    Older Qt file-dialog sessions could persist a sidebar URL whose path had
+    been decoded as Latin-1 one or more times (``Imágenes`` becoming
+    ``ImÃ¡genes`` and so on). Only accept a repaired spelling when that path
+    actually exists, so a legitimate filename containing ``Ã`` is untouched.
+    """
+
+    if not path or Path(path).exists():
+        return path
+    candidate = path
+    for _ in range(6):
+        try:
+            candidate = candidate.encode("latin-1").decode("utf-8")
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            break
+        if Path(candidate).exists():
+            return candidate
+
+    # Very old sessions may have lost bytes and cannot be decoded losslessly.
+    # Match the surviving ASCII skeleton against real sibling directories,
+    # accepting the repair only when exactly one directory matches.
+    original = Path(path)
+    skeleton = "".join(char for char in original.name if ord(char) < 128)
+    if skeleton and original.parent.is_dir():
+        try:
+            candidates = [
+                child
+                for child in original.parent.iterdir()
+                if child.is_dir()
+                and "".join(char for char in child.name if ord(char) < 128) == skeleton
+            ]
+        except OSError:
+            candidates = []
+        if len(candidates) == 1:
+            return str(candidates[0])
+    return path
+
+
 def _fully_encoded_url(value: object) -> str:
     url = value if isinstance(value, QUrl) else _url_from_persisted_value(value)
     if not url.isValid() or url.isEmpty():
@@ -29,7 +70,7 @@ def _fully_encoded_url(value: object) -> str:
     if not url.scheme() and not str(value).startswith("/"):
         return str(value)
     if url.isLocalFile():
-        local_path = url.toLocalFile()
+        local_path = _repair_mojibake_path(url.toLocalFile())
         if local_path:
             url = QUrl.fromLocalFile(local_path)
     return url.toString(QUrl.ComponentFormattingOption.FullyEncoded)

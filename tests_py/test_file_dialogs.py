@@ -46,6 +46,30 @@ class FileDialogPersistenceTest(unittest.TestCase):
             self.assertEqual(history, ["file:///home/wachin/Im%C3%A1genes/tutoriales"])
             self.assertEqual(last_visited, "file:///home/wachin/M%C3%BAsica")
 
+    def test_mojibake_shortcut_is_repaired_from_its_ascii_skeleton(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            pictures = root / "Imágenes"
+            pictures.mkdir()
+            corrupted = root / (
+                "ImÃ\x83Â\x83Ã\x82Â\x83Ã\x83Â\x82ÃÂÂ\x83Ã\x83Â\x83"
+                "Ã\x82Â\x82ÃÃ\x82ÂÃÂ\x82¡genes"
+            )
+            settings = QSettings(str(root / "QtProject.ini"), QSettings.Format.IniFormat)
+            settings.beginGroup("FileDialog")
+            settings.setValue(
+                "shortcuts",
+                [QUrl.fromLocalFile(str(corrupted)).toString(QUrl.ComponentFormattingOption.FullyEncoded)],
+            )
+            settings.endGroup()
+
+            normalize_qt_file_dialog_url_settings(settings)
+            settings.beginGroup("FileDialog")
+            values = settings.value("shortcuts")
+            settings.endGroup()
+
+            self.assertEqual(QUrl(values[0]).toLocalFile(), str(pictures))
+
     def test_non_url_values_are_preserved(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             settings = QSettings(str(Path(directory) / "QtProject.ini"), QSettings.Format.IniFormat)

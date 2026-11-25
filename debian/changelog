@@ -22,6 +22,7 @@ ksnip-pyqt6 (0.2.2-1) unstable; urgency=medium
   * Give Crop a four-handle selection that applies with Enter or a double-click.
   * Require a capture delay for the cursor, blink a yellow marker around it, use an arrow by default, and add the cursor as a movable fixed-size item.
   * Remove the dark outline/shadow and tighten the window mask so no black ring appears under the yellow cursor-delay indicator.
+  * Repair mojibake file-dialog sidebar shortcuts when the intended directory exists.
   * Tear down the full-screen selection overlay before showing the editor, so
     no leftover piece of the capture tool stays on screen.
   * Document the Windows external OCR setup and support .bat/.cmd scripts.
