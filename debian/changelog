@@ -1,3 +1,18 @@
+ksnip-pyqt6 (0.2.2-26) unstable; urgency=medium
+
+  * Ensure the installed package, not only a source checkout, uses the custom
+    disabled-icon engine and the solid #5c5c5c disabled foreground.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 10:50:00 -0500
+
+ksnip-pyqt6 (0.2.2-25) unstable; urgency=medium
+
+  * Apply the solid #5c5c5c disabled rendering through a custom icon engine and
+    the application style, so it also works in the installed package with the
+    system PyQt6/Qt build. Wrap the Print and Print Preview system icons too.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 10:35:00 -0500
+
 ksnip-pyqt6 (0.2.2-24) unstable; urgency=medium
 
   * Render disabled actions with a solid #5c5c5c foreground and icon instead of

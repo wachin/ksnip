@@ -36,7 +36,9 @@
 * Fixed: Disabled menu entries in the dark theme, such as Save and Save As in
   the empty mini window, used a low-contrast gray that looked blurry. Disabled
   text and icons now use a solid #5c5c5c color without opacity or blur, in
-  both themes, while enabled entries keep the normal foreground color.
+  both themes, while enabled entries keep the normal foreground color. A
+  custom icon engine applies the same rendering in the installed package,
+  including the system-themed Print and Print Preview icons.
 * Docs: Added `docs/OCR_PLUGIN_ARCHITECTURE.md`, describing the plugin
   boundary, the entry-point contract, the managed environment, the packaging
   split, and the Debian main-archive constraints. Added the document to the

@@ -6,7 +6,7 @@ import re
 import sys
 
 from PyQt6.QtCore import QBuffer, QByteArray, QEvent, QEventLoop, QIODevice, QPoint, QRect, QRectF, QSettings, QSize, QThread, QTimer, Qt, QUrl
-from PyQt6.QtGui import QAction, QActionGroup, QColor, QCursor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPainter, QPalette, QPen, QPixmap, QPolygon
+from PyQt6.QtGui import QAction, QActionGroup, QColor, QCursor, QDesktopServices, QFont, QGuiApplication, QIcon, QIconEngine, QImage, QKeySequence, QPainter, QPalette, QPen, QPixmap, QPolygon
 from PyQt6.QtPrintSupport import QPrintDialog, QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import (
     QApplication,
@@ -64,6 +64,47 @@ from .theme import THEME_DARK, THEME_LIGHT, THEME_SYSTEM, init_theme_manager, no
 from .uploader import ScriptUploader, UploadWorker
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
 from .download_manager import show_download_manager
+
+
+class _TintedDisabledIconEngine(QIconEngine):
+    """Return a solid-gray pixmap for disabled actions on every Qt version."""
+
+    def __init__(self, icon: QIcon) -> None:
+        super().__init__()
+        self._icon = icon
+
+    @staticmethod
+    def _disabled_pixmap(pixmap: QPixmap) -> QPixmap:
+        image = pixmap.toImage().convertToFormat(
+            QImage.Format.Format_ARGB32_Premultiplied
+        )
+        painter = QPainter(image)
+        painter.setCompositionMode(
+            QPainter.CompositionMode.CompositionMode_SourceIn
+        )
+        painter.fillRect(image.rect(), QColor("#5c5c5c"))
+        painter.end()
+        return QPixmap.fromImage(image)
+
+    def pixmap(
+        self,
+        size: QSize,
+        mode: QIcon.Mode,
+        state: QIcon.State,
+    ) -> QPixmap:
+        pixmap = self._icon.pixmap(size, QIcon.Mode.Normal, state)
+        if mode == QIcon.Mode.Disabled:
+            return self._disabled_pixmap(pixmap)
+        return pixmap
+
+    def paint(self, painter, rect, mode, state) -> None:  # noqa: ANN001
+        painter.drawPixmap(rect, self.pixmap(rect.size(), mode, state))
+
+    def clone(self) -> QIconEngine:
+        return _TintedDisabledIconEngine(self._icon)
+
+    def availableSizes(self):  # noqa: N802
+        return self._icon.availableSizes()
 
 
 def migrate_normalized_sticker_scaling(settings: QSettings) -> bool:
@@ -193,6 +234,10 @@ class MainWindow(QMainWindow):
         self._build_tab_context_menu()
         self._build_toolbar()
         self._build_menus()
+        self.setStyleSheet(
+            self.styleSheet()
+            + "QMenu::item:disabled { color: #5c5c5c; }"
+        )
         self._theme_manager.theme_changed.connect(self._on_theme_changed)
         QGuiApplication.clipboard().dataChanged.connect(self._update_actions)
         self._restore_ui_settings()
@@ -226,32 +271,12 @@ class MainWindow(QMainWindow):
             )
         for candidate in candidates:
             if candidate.exists():
-                icon = self._add_disabled_icon_variant(QIcon(str(candidate)))
+                icon = QIcon(
+                    _TintedDisabledIconEngine(QIcon(str(candidate)))
+                )
                 self._icon_names_by_cache_key[icon.cacheKey()] = name
                 return icon
         return QIcon()
-
-    @staticmethod
-    def _add_disabled_icon_variant(icon: QIcon) -> QIcon:
-        if icon.isNull():
-            return icon
-        for size in (16, 20, 24, 32, 48):
-            source = icon.pixmap(QSize(size, size))
-            if source.isNull():
-                continue
-            image = source.toImage().convertToFormat(
-                QImage.Format.Format_ARGB32_Premultiplied
-            )
-            painter = QPainter(image)
-            painter.setCompositionMode(
-                QPainter.CompositionMode.CompositionMode_SourceIn
-            )
-            painter.fillRect(image.rect(), QColor("#5c5c5c"))
-            painter.end()
-            disabled = QPixmap.fromImage(image)
-            icon.addPixmap(disabled, QIcon.Mode.Disabled, QIcon.State.Off)
-            icon.addPixmap(disabled, QIcon.Mode.Disabled, QIcon.State.On)
-        return icon
 
     def _load_first_icon(self, *names: str) -> QIcon:
         for name in names:
@@ -269,10 +294,15 @@ class MainWindow(QMainWindow):
         """
         icon = self._load_icon(fallback_name)
         if icon.isNull():
-            icon = self._add_disabled_icon_variant(QIcon.fromTheme(theme_name))
+            icon = QIcon(
+                _TintedDisabledIconEngine(QIcon.fromTheme(theme_name))
+            )
         if not icon.isNull():
             self._themed_icon_names[icon.cacheKey()] = (theme_name, fallback_name)
         return icon
+
+    def _system_icon(self, theme_name: str) -> QIcon:
+        return QIcon(_TintedDisabledIconEngine(QIcon.fromTheme(theme_name)))
 
     def _apply_window_icon(self) -> None:
         icon_path = self._icon_base_path() / "ksnip.svg"
@@ -795,11 +825,13 @@ class MainWindow(QMainWindow):
         self.export_svg_action = QAction(self._themed_icon("image-x-generic", "saveAs"), self.tr("Export as SVG..."), self)
         self.export_svg_action.triggered.connect(self.export_current_svg)
 
-        self.print_action = QAction(QIcon.fromTheme("document-print"), self.tr("Print"), self)
+        self.print_action = QAction(self._system_icon("document-print"), self.tr("Print"), self)
+        self.print_action.setEnabled(False)
         self.print_action.setShortcut(QKeySequence.StandardKey.Print)
         self.print_action.triggered.connect(self.print_current_image)
 
-        self.print_preview_action = QAction(QIcon.fromTheme("document-print-preview"), self.tr("Print Preview"), self)
+        self.print_preview_action = QAction(self._system_icon("document-print-preview"), self.tr("Print Preview"), self)
+        self.print_preview_action.setEnabled(False)
         self.print_preview_action.triggered.connect(self.preview_current_image)
 
         self.copy_action = QAction(self._load_icon("copy"), self.tr("Copy"), self)
