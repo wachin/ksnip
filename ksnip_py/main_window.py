@@ -234,6 +234,10 @@ class MainWindow(QMainWindow):
         self._build_tab_context_menu()
         self._build_toolbar()
         self._build_menus()
+        # Qt's Fusion style can render disabled menu text with the normal
+        # foreground color instead of the disabled palette entry.  This rule
+        # makes the requested solid disabled gray explicit for both the venv
+        # and the system PyQt6/Qt builds.
         self.setStyleSheet(
             self.styleSheet()
             + "QMenu::item:disabled { color: #5c5c5c; }"
