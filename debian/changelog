@@ -1,3 +1,10 @@
+ksnip-pyqt6 (0.2.2-16) unstable; urgency=medium
+
+  * Complete the Hebrew (he) translation, including the two new MainWindow
+    strings.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 08:50:00 -0500
+
 ksnip-pyqt6 (0.2.2-15) unstable; urgency=medium
 
   * Complete the Georgian (ka) translation, including the two new MainWindow
