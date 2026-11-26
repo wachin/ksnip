@@ -4,6 +4,8 @@ from PyQt6.QtCore import QObject, Qt, pyqtSignal
 from PyQt6.QtGui import QColor, QIcon, QPalette
 from PyQt6.QtWidgets import QApplication
 
+from .menu_style import create_menu_safe_style
+
 
 _DISABLED_TEXT = QColor("#5c5c5c")
 
@@ -17,6 +19,11 @@ THEMES = (THEME_SYSTEM, THEME_LIGHT, THEME_DARK)
 def normalize_theme(value: object) -> str:
     theme = str(value or THEME_SYSTEM).strip().lower()
     return theme if theme in THEMES else THEME_SYSTEM
+
+
+def _set_style(app: QApplication, name: str | None) -> None:
+    """Install a style wrapped so disabled menu items stay solid gray."""
+    app.setStyle(create_menu_safe_style(name))
 
 
 def _dark_palette() -> QPalette:
@@ -75,7 +82,7 @@ def apply_theme(app: QApplication, theme: object) -> str:
     if resolved == THEME_SYSTEM:
         return resolved
 
-    app.setStyle("Fusion")
+    _set_style(app, "Fusion")
     if resolved == THEME_DARK:
         app.setPalette(_dark_palette())
         QIcon.setThemeName("Papirus-Dark")
@@ -133,12 +140,12 @@ class ThemeManager(QObject):
 
     def _restore_system_theme(self) -> None:
         if self._original_style:
-            self._app.setStyle(self._original_style)
+            _set_style(self._app, self._original_style)
         self._app.setPalette(self._original_palette)
         QIcon.setThemeName(self._original_icon_theme)
 
     def _apply_explicit_theme(self, resolved: str) -> None:
-        self._app.setStyle("Fusion")
+        _set_style(self._app, "Fusion")
         if resolved == THEME_DARK:
             self._app.setPalette(_dark_palette())
             QIcon.setThemeName("Papirus-Dark")

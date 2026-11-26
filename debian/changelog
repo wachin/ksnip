@@ -1,3 +1,12 @@
+ksnip-pyqt6 (0.2.2-28) unstable; urgency=medium
+
+  * Render disabled QMenu items through a QProxyStyle that draws the item as
+    enabled into a transparent buffer and fills its alpha silhouette with solid
+    #5c5c5c. This removes the etched/duplicated text produced by the system
+    style while leaving enabled items untouched.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 17:30:00 -0500
+
 ksnip-pyqt6 (0.2.2-27) unstable; urgency=medium
 
   * Restore the explicit disabled-menu text rule. Qt may otherwise ignore the

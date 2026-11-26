@@ -37,8 +37,9 @@
   the empty mini window, used a low-contrast gray that looked blurry. Disabled
   text and icons now use a solid #5c5c5c color without opacity or blur, in
   both themes, while enabled entries keep the normal foreground color. A
-  custom icon engine and an explicit QMenu disabled-color rule apply the same
-  rendering in the installed package and under system PyQt6/Qt.
+  custom icon engine, an explicit QMenu disabled-color rule, and a QProxyStyle
+  that renders the item silhouette in solid gray apply the same rendering in
+  the installed package and under system PyQt6/Qt.
 * Docs: Added `docs/OCR_PLUGIN_ARCHITECTURE.md`, describing the plugin
   boundary, the entry-point contract, the managed environment, the packaging
   split, and the Debian main-archive constraints. Added the document to the
