@@ -1,3 +1,19 @@
+ksnip-pyqt6 (0.2.2-5) unstable; urgency=medium
+
+  * Documentation and changelog update. No code changes.
+  * Consolidate the OCR fixes from 0.2.2-2 through 0.2.2-4: the main OCR
+    action honors the configured backend, the Model Manager reads
+    ocr/script_path, optional OCR plugins are discovered through the
+    ksnip_py.ocr entry-point group, and the translation fallback preserves
+    untranslated plugin strings without aborting on Unicode source text.
+  * Document the optional OCR plugin boundary and the Debian main-archive
+    constraints in docs/OCR_PLUGIN_ARCHITECTURE.md.
+  * The managed PaddleOCR environment, storage-size inspector, legacy-cache
+    reporting, and upstream .deb are provided by the separate
+    ksnip-pyqt6-ocr package. They are not part of this Debian source package.
+
+ -- wachin <wachin.id@gmail.com>  Wed, 25 Nov 2026 21:20:00 -0500
+
 ksnip-pyqt6 (0.2.2-4) unstable; urgency=medium
 
   * Fix the translation fallback for untranslated plugin strings. Returning an

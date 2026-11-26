@@ -1,5 +1,60 @@
 # Change log
 
+## ksnip_py 0.2.2 OCR plugin and packaging update - 2026-11-25
+
+### Core OCR fixes and plugin architecture
+
+* Fixed: The main OCR action now honors the OCR backend selected in Settings
+  instead of always invoking PaddleOCR. This makes the Script backend usable
+  from packaged builds.
+* Fixed: The Model Manager now reads the configured external OCR script from
+  `ocr/script_path` instead of the nonexistent `ocr/external_script_path` key.
+* New: Optional OCR plugins are discovered through the `ksnip_py.ocr`
+  entry-point group with API version 1. Broken, incompatible, or duplicate
+  plugins are isolated and do not prevent the core application from starting.
+* New: `KSNIP_DISABLE_OCR_PLUGINS=1` disables OCR plugin discovery for
+  troubleshooting and distribution builds.
+* New: The core Model Manager entry routes to an installed OCR plugin's Model
+  Manager and keeps the built-in manager as a fallback.
+* Fixed: Untranslated strings returned by a plugin are kept visible instead of
+  becoming empty labels or titles.
+* Fixed: Non-ASCII `tr()` source strings can no longer abort Qt through a
+  `UnicodeEncodeError` in the translation fallback. Translatable source
+  strings should remain ASCII, while translation catalogs may contain Unicode.
+* Docs: Added `docs/OCR_PLUGIN_ARCHITECTURE.md`, describing the plugin
+  boundary, the entry-point contract, the managed environment, the packaging
+  split, and the Debian main-archive constraints. Added the document to the
+  README documentation table.
+* Packaging: Debian revisions 0.2.2-2 through 0.2.2-5 contain the OCR action fix,
+  plugin discovery, the translation fallback fix, and the consolidated
+  documentation update respectively.
+
+### Optional ksnip-pyqt6-ocr plugin (separate repository)
+
+* New: Added the optional [`ksnip-pyqt6-ocr`](https://github.com/wachin/ksnip-pyqt6-ocr)
+  plugin, kept separate from the core source package.
+* New: The plugin creates a private environment under
+  `~/.local/share/ksnip-pyqt6/ocr-venv/`, installs pinned PaddlePaddle,
+  PaddleOCR, PaddleX, and supporting dependencies after an explicit user
+  action, and configures the core Script backend.
+* New: The Model Manager shows the managed environment, PaddleX model cache,
+  legacy PaddleOCR cache, pip download cache, and installed Python package
+  directory with their sizes and buttons that open them in the system file
+  manager.
+* New: Directory sizes are calculated in a background thread, with a
+  **Refresh sizes** action and safe worker cleanup when the dialog or
+  application closes.
+* New: The legacy `~/.paddleocr` cache is labeled as optional. PaddleOCR 3.x
+  and PaddleX use `~/.paddlex/official_models`; absence of `~/.paddleocr` is
+  normal and does not indicate a missing OCR component.
+* New: Added an upstream-only `.deb` package for the plugin
+  (`ksnip-pyqt6-ocr`). It is distributed separately from the Debian main
+  package, because it downloads Python packages at runtime.
+
+The OCR plugin does not change the Debian main policy conclusion: the core
+package remains self-contained, while the optional managed PaddleOCR
+environment is an upstream/GitHub add-on.
+
 ## ksnip_py 0.2.2 - 2026-10-31
 * New: Model Manager dialog (Options → Model Manager…) for OCR models and optional components. Packaged builds show a notice and disable pip-based installs because they do not ship a Python interpreter.
 * Fixed: The Windows build crashed at startup because the single-instance controller used `os.getuid()`, which does not exist on Windows. The main window now also restores normally instead of starting minimized.
