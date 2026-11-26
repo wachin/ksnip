@@ -205,7 +205,7 @@ class MainWindow(QMainWindow):
     def _icon_base_path(self) -> Path:
         return Path(__file__).resolve().parent / "icons"
 
-    def _use_light_icons(self) -> bool:
+    def _use_dark_icons(self) -> bool:
         manager = getattr(self, "_theme_manager", None)
         if manager is not None:
             return manager.resolved == THEME_DARK
@@ -214,7 +214,7 @@ class MainWindow(QMainWindow):
 
     def _load_icon(self, name: str) -> QIcon:
         base_path = self._icon_base_path()
-        variant_order = ("light", "dark") if self._use_light_icons() else ("dark", "light")
+        variant_order = ("dark", "light") if self._use_dark_icons() else ("light", "dark")
         candidates = [base_path / f"{name}.svg", base_path / f"{name}.png"]
         for variant in variant_order:
             candidates.extend(

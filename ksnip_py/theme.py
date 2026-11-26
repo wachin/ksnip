@@ -98,8 +98,9 @@ class ThemeManager(QObject):
         return self._resolved
 
     def icon_variant(self) -> str:
-        # icons/light are light-coloured glyphs for a dark background.
-        return "light" if self._resolved == THEME_DARK else "dark"
+        # icons/dark are light-coloured glyphs for a dark background;
+        # icons/light are dark glyphs for a light background.
+        return "dark" if self._resolved == THEME_DARK else "light"
 
     def set_mode(self, mode: object, *, emit: bool = True) -> str:
         previous_mode = self._mode

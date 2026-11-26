@@ -71,9 +71,9 @@ class PlatformThemeTest(unittest.TestCase):
         window = MainWindow()
         try:
             manager.set_mode(THEME_DARK, emit=False)
-            self.assertTrue(window._use_light_icons())
+            self.assertTrue(window._use_dark_icons())
             manager.set_mode(THEME_LIGHT, emit=False)
-            self.assertFalse(window._use_light_icons())
+            self.assertFalse(window._use_dark_icons())
         finally:
             manager.set_mode(original, emit=False)
             window.close()

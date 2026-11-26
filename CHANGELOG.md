@@ -24,6 +24,9 @@
 * Fixed: The table/Markdown and HTML OCR actions can use an optional structure
   script from the managed PaddleOCR plugin. The core passes the mode, language,
   and formula flag to the launcher and converts HTML table output to Markdown.
+* Fixed: Dark/light packaged icon variants were mixed. Upload, Hide Docks,
+  Settings, Model Manager, and the other theme-aware actions now load light
+  glyphs on a dark background and dark glyphs on a light background.
 * Docs: Added `docs/OCR_PLUGIN_ARCHITECTURE.md`, describing the plugin
   boundary, the entry-point contract, the managed environment, the packaging
   split, and the Debian main-archive constraints. Added the document to the

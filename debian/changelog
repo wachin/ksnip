@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-19) unstable; urgency=medium
+
+  * Fix the dark/light icon variant selection. The Upload, Hide Docks,
+    Settings, Model Manager, and other packaged icons now use light glyphs on
+    a dark background and dark glyphs on a light background.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 09:10:00 -0500
+
 ksnip-pyqt6 (0.2.2-18) unstable; urgency=medium
 
   * Complete the Persian (fa) translation. All 41 application catalogs now
