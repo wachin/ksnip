@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-22) unstable; urgency=medium
+
+  * Refine the capture-cursor checkbox: use a dark interior with a light
+    border on dark backgrounds, and a light interior with a dark border on
+    light backgrounds, while keeping the checked state highlighted.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 09:50:00 -0500
+
 ksnip-pyqt6 (0.2.2-21) unstable; urgency=medium
 
   * Give the capture-cursor toolbar checkbox a bordered, themed indicator so

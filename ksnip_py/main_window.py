@@ -2766,7 +2766,7 @@ class MainWindow(QMainWindow):
             return
         app = QApplication.instance()
         palette = app.palette() if app is not None else self.palette()
-        fill = palette.color(QPalette.ColorRole.Midlight).name()
+        fill = palette.color(QPalette.ColorRole.Base).name()
         border = palette.color(QPalette.ColorRole.WindowText).name()
         highlight = palette.color(QPalette.ColorRole.Highlight).name()
         check_icon = self._icon_base_path() / "kimageannotator" / "dark" / "check.svg"
