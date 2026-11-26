@@ -33,6 +33,10 @@
   background. It now has a bordered indicator, a dark interior on dark
   backgrounds, a light interior on light backgrounds, and a highlighted
   checked state with a check mark.
+* Fixed: Disabled menu entries in the dark theme, such as Save and Save As in
+  the empty mini window, used a low-contrast gray that looked blurry. The dark
+  palette's disabled text is lighter while still distinguishable from enabled
+  entries.
 * Docs: Added `docs/OCR_PLUGIN_ARCHITECTURE.md`, describing the plugin
   boundary, the entry-point contract, the managed environment, the packaging
   split, and the Debian main-archive constraints. Added the document to the

@@ -22,7 +22,7 @@ def _dark_palette() -> QPalette:
     base = QColor("#232323")
     alternate = QColor("#2a2a2a")
     text = QColor("#f2f2f2")
-    disabled = QColor("#8a8a8a")
+    disabled = QColor("#b5b5b5")
     highlight = QColor("#2a82da")
     palette.setColor(QPalette.ColorRole.Window, window)
     palette.setColor(QPalette.ColorRole.WindowText, text)

@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-23) unstable; urgency=medium
+
+  * Lighten disabled text in the built-in dark palette. This keeps unavailable
+    menu entries such as Save and Save As legible when the mini window is empty,
+    while enabled entries remain brighter.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 10:05:00 -0500
+
 ksnip-pyqt6 (0.2.2-22) unstable; urgency=medium
 
   * Refine the capture-cursor checkbox: use a dark interior with a light
