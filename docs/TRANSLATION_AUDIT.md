@@ -24,14 +24,14 @@ Qt Linguist.
 
 - 41 `.ts` catalogs and 41 non-empty `.qm` catalogs exist.
 - Structural validation passes for all catalogs.
-- Spanish and the 38 previously incomplete locales now contain 569
+- Spanish and the 39 previously incomplete locales now contain 569
   messages with no unfinished entries:
   Arabic, Basque, Bulgarian, Bengali (Bangladesh), Catalan, Central Kurdish,
   Czech, Danish, German, Galician, Georgian, Greek, Estonian, Finnish,
   French (Canada), French, Croatian, Hebrew, Hungarian, Indonesian, Italian,
   Japanese, Korean, Dutch, Norwegian, Polish, Portuguese (Brazil), Portuguese,
-  Romanian, Russian, Sinhala, Swedish, Tamil, Turkish, Ukrainian, Simplified
-  Chinese, Traditional Chinese, and Albanian.
+  Romanian, Russian, Sinhala, Slovenian, Swedish, Tamil, Turkish, Ukrainian,
+  Simplified Chinese, Traditional Chinese, and Albanian.
 - The two missing MainWindow strings were added to those catalogs:
 
   ```text
