@@ -147,8 +147,7 @@
     <message>
       <location filename="../download_manager.py" line="353" />
       <source>This is a packaged build. Installing Python packages (PaddleOCR, PaddlePaddle, PaddleX) is disabled because no Python interpreter is shipped with it. Use a source checkout, or configure an external OCR script under Settings → OCR.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>这是打包版本。由于未附带 Python 解释器，已禁用安装 Python 包（PaddleOCR、PaddlePaddle、PaddleX）。请使用源代码检出，或在“设置 → OCR”中配置外部 OCR 脚本。</translation></message>
     <message>
       <location filename="../download_manager.py" line="426" />
       <source>PaddleOCR Line Models (PP-OCRv5)</source>
@@ -331,23 +330,19 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="728" />
       <source>Include Mouse Cursor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>包含鼠标光标</translation></message>
     <message>
       <location filename="../main_window.py" line="732" />
       <source>Include the mouse cursor in new captures. Requires a capture delay greater than 0.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>在新截图中包含鼠标光标。需要大于 0 的捕获延迟。</translation></message>
     <message>
       <location filename="../main_window.py" line="735" />
       <source>Use Arrow Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>使用箭头指针</translation></message>
     <message>
       <location filename="../main_window.py" line="739" />
       <source>Use a standard arrow instead of the actual pointer shape, such as the text I-beam.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>使用标准箭头代替实际指针形状，例如文本光标条。</translation></message>
     <message>
       <location filename="../main_window.py" line="743" />
       <source>Open</source>
@@ -849,8 +844,7 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="1202" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>数字标记边距：</translation></message>
     <message>
       <location filename="../main_window.py" line="1215" />
       <source>Effect strength: controls the intensity of blur or pixelation.</source>
@@ -947,23 +941,19 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="1607" />
       <source>Theme</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>主题</translation></message>
     <message>
       <location filename="../main_window.py" line="1612" />
       <source>System</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>系统</translation></message>
     <message>
       <location filename="../main_window.py" line="1613" />
       <source>Light</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>浅色</translation></message>
     <message>
       <location filename="../main_window.py" line="1614" />
       <source>Dark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>深色</translation></message>
     <message>
       <location filename="../main_window.py" line="1630" />
       <source>&amp;Options</source>
@@ -1007,8 +997,7 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="2099" />
       <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>拖动裁剪手柄，然后按 Enter 裁剪或按 Esc 取消。</translation></message>
     <message>
       <location filename="../main_window.py" line="2312" />
       <source>Select color</source>
@@ -1103,13 +1092,11 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="2744" />
       <source>Set a capture delay to include the mouse cursor.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>设置捕获延迟以包含鼠标光标。</translation></message>
     <message>
       <location filename="../main_window.py" line="2752" />
       <source>Capture the mouse cursor (also in Options &gt; Settings &gt; Image Grabber &gt; Capture mouse cursor on screenshot). Requires a capture delay.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>捕获鼠标光标（也可在“选项 &gt; 设置 &gt; 图像捕获 &gt; 在截图中捕获鼠标光标”中设置）。需要捕获延迟。</translation></message>
     <message>
       <location filename="../main_window.py" line="2875" />
       <source>Loaded %1 capture and copied it to clipboard</source>
@@ -1518,7 +1505,7 @@ First run loads several models and may take 1–3 minutes on CPU.</source>
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>Close ksnip PyQt6 and discard unsaved changes in open tabs?</translation>
     </message>
-  </context>
+  <message><source>Model Manager</source><translation>模型管理器</translation></message><message><source>The OCR plugin failed to open: %1</source><translation>无法打开 OCR 插件：%1</translation></message></context>
   <context>
     <name>ModelCard</name>
     <message>
@@ -1545,8 +1532,7 @@ First run loads several models and may take 1–3 minutes on CPU.</source>
     <message>
       <location filename="../download_manager.py" line="209" />
       <source>Not available in a packaged build. Use a source checkout or an external OCR script.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>打包版本中不可用。请使用源代码检出或外部 OCR 脚本。</translation></message>
     <message>
       <location filename="../download_manager.py" line="216" />
       <source>Remove</source>
@@ -1699,8 +1685,7 @@ Directory: %2</translation>
     <message>
       <location filename="../capture.py" line="266" />
       <source>D-Bus portal capture is only available on Linux.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>D-Bus 门户捕获仅在 Linux 上可用。</translation></message>
     <message>
       <location filename="../capture.py" line="273" />
       <source>the D-Bus session bus is not available.</source>
@@ -2195,8 +2180,7 @@ Directory: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="315" />
       <source>Remember the last directory of the last opened image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>记住最后打开图像的最后一个文件夹</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="325" />
       <location filename="../settings_dialog.py" line="319" />
@@ -2306,8 +2290,7 @@ Directory: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="386" />
       <source>The mouse cursor is captured only when a capture delay is set.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>只有在设置了捕获延迟时才会捕获鼠标光标。</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="388" />
       <source>Show Main Window after capturing screenshot</source>
@@ -2441,13 +2424,11 @@ Directory: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="469" />
       <source>Extra space around the digit inside the number badge. Negative values make it fit more tightly.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>数字标记中数字周围的额外间距。负值会使其更紧凑。</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="472" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>数字标记边距：</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="476" />
       <source>Show Controls Widget</source>

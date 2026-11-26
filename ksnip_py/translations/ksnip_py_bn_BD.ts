@@ -147,8 +147,7 @@
     <message>
       <location filename="../download_manager.py" line="353" />
       <source>This is a packaged build. Installing Python packages (PaddleOCR, PaddlePaddle, PaddleX) is disabled because no Python interpreter is shipped with it. Use a source checkout, or configure an external OCR script under Settings → OCR.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>এটি একটি প্যাকেজড বিল্ড। Python ইন্টারপ্রেটার অন্তর্ভুক্ত না থাকায় Python প্যাকেজ (PaddleOCR, PaddlePaddle, PaddleX) ইনস্টল করা নিষ্ক্রিয় আছে। সোর্স কোড চেকআউট ব্যবহার করুন বা সেটিংস → OCR-এ একটি বাহ্যিক OCR স্ক্রিপ্ট কনফিগার করুন।</translation></message>
     <message>
       <location filename="../download_manager.py" line="426" />
       <source>PaddleOCR Line Models (PP-OCRv5)</source>
@@ -331,23 +330,19 @@ tesseract "$1" stdout -l spa+eng
     <message>
       <location filename="../main_window.py" line="728" />
       <source>Include Mouse Cursor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>মাউস কার্সর অন্তর্ভুক্ত করুন</translation></message>
     <message>
       <location filename="../main_window.py" line="732" />
       <source>Include the mouse cursor in new captures. Requires a capture delay greater than 0.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>নতুন ক্যাপচারে মাউস কার্সর অন্তর্ভুক্ত করুন। 0-এর বেশি ক্যাপচার বিলম্ব প্রয়োজন।</translation></message>
     <message>
       <location filename="../main_window.py" line="735" />
       <source>Use Arrow Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>তীর পয়েন্টার ব্যবহার করুন</translation></message>
     <message>
       <location filename="../main_window.py" line="739" />
       <source>Use a standard arrow instead of the actual pointer shape, such as the text I-beam.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>পয়েন্টারের আসল আকৃতির পরিবর্তে একটি সাধারণ তীর ব্যবহার করুন, যেমন টেক্সট কার্সর বার।</translation></message>
     <message>
       <location filename="../main_window.py" line="743" />
       <source>Open</source>
@@ -849,8 +844,7 @@ tesseract "$1" stdout -l spa+eng
     <message>
       <location filename="../main_window.py" line="1202" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>নম্বর ব্যাজের মার্জিন:</translation></message>
     <message>
       <location filename="../main_window.py" line="1215" />
       <source>Effect strength: controls the intensity of blur or pixelation.</source>
@@ -947,23 +941,19 @@ tesseract "$1" stdout -l spa+eng
     <message>
       <location filename="../main_window.py" line="1607" />
       <source>Theme</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>থিম</translation></message>
     <message>
       <location filename="../main_window.py" line="1612" />
       <source>System</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>সিস্টেম</translation></message>
     <message>
       <location filename="../main_window.py" line="1613" />
       <source>Light</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>হালকা</translation></message>
     <message>
       <location filename="../main_window.py" line="1614" />
       <source>Dark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>গাঢ়</translation></message>
     <message>
       <location filename="../main_window.py" line="1630" />
       <source>&amp;Options</source>
@@ -1007,8 +997,7 @@ tesseract "$1" stdout -l spa+eng
     <message>
       <location filename="../main_window.py" line="2099" />
       <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ক্রপ হ্যান্ডলগুলো টেনে নিন, তারপর ক্রপ করতে Enter বা বাতিল করতে Esc চাপুন।</translation></message>
     <message>
       <location filename="../main_window.py" line="2312" />
       <source>Select color</source>
@@ -1103,13 +1092,11 @@ tesseract "$1" stdout -l spa+eng
     <message>
       <location filename="../main_window.py" line="2744" />
       <source>Set a capture delay to include the mouse cursor.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>মাউস কার্সর অন্তর্ভুক্ত করতে একটি ক্যাপচার বিলম্ব সেট করুন।</translation></message>
     <message>
       <location filename="../main_window.py" line="2752" />
       <source>Capture the mouse cursor (also in Options &gt; Settings &gt; Image Grabber &gt; Capture mouse cursor on screenshot). Requires a capture delay.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>মাউস কার্সর ক্যাপচার করুন (বিকল্প &gt; সেটিংস &gt; ইমেজ ক্যাপচার &gt; স্ক্রিনশটে মাউস কার্সর ক্যাপচার-এও)। একটি ক্যাপচার বিলম্ব প্রয়োজন।</translation></message>
     <message>
       <location filename="../main_window.py" line="2875" />
       <source>Loaded %1 capture and copied it to clipboard</source>
@@ -1161,8 +1148,7 @@ tesseract "$1" stdout -l spa+eng
     <message>
       <location filename="../main_window.py" line="3089" />
       <source>PNG (*.png)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PNG (*.png)</translation></message>
     <message>
       <location filename="../main_window.py" line="3096" />
       <source>Export as SVG</source>
@@ -1518,7 +1504,7 @@ First run loads several models and may take 1–3 minutes on CPU.</source>
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>ksnip PyQt6 বন্ধ করবেন এবং খোলা ট্যাবে অসংরক্ষিত পরিবর্তনগুলি বাতিল করবেন?</translation>
     </message>
-  </context>
+  <message><source>Model Manager</source><translation>মডেল ম্যানেজার</translation></message><message><source>The OCR plugin failed to open: %1</source><translation>OCR প্লাগইন খোলা যায়নি: %1</translation></message></context>
   <context>
     <name>ModelCard</name>
     <message>
@@ -1545,8 +1531,7 @@ First run loads several models and may take 1–3 minutes on CPU.</source>
     <message>
       <location filename="../download_manager.py" line="209" />
       <source>Not available in a packaged build. Use a source checkout or an external OCR script.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>প্যাকেজড বিল্ডে উপলব্ধ নয়। সোর্স কোড চেকআউট বা বাহ্যিক OCR স্ক্রিপ্ট ব্যবহার করুন।</translation></message>
     <message>
       <location filename="../download_manager.py" line="216" />
       <source>Remove</source>
@@ -1699,8 +1684,7 @@ Directory: %2</source>
     <message>
       <location filename="../capture.py" line="266" />
       <source>D-Bus portal capture is only available on Linux.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>D-Bus পোর্টালের মাধ্যমে ক্যাপচার শুধুমাত্র Linux-এ উপলব্ধ।</translation></message>
     <message>
       <location filename="../capture.py" line="273" />
       <source>the D-Bus session bus is not available.</source>
@@ -2195,8 +2179,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="315" />
       <source>Remember the last directory of the last opened image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>সর্বশেষ খোলা ছবির শেষ ফোল্ডার মনে রাখুন</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="325" />
       <location filename="../settings_dialog.py" line="319" />
@@ -2306,8 +2289,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="386" />
       <source>The mouse cursor is captured only when a capture delay is set.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ক্যাপচার বিলম্ব সেট করা থাকলেই কেবল মাউস কার্সর ক্যাপচার হয়।</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="388" />
       <source>Show Main Window after capturing screenshot</source>
@@ -2441,13 +2423,11 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="469" />
       <source>Extra space around the digit inside the number badge. Negative values make it fit more tightly.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>নম্বর ব্যাজের ভেতরে অঙ্কের চারপাশে অতিরিক্ত স্থান। ঋণাত্মক মান এটিকে আরও আঁটসাঁট করে।</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="472" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>নম্বর ব্যাজের মার্জিন:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="476" />
       <source>Show Controls Widget</source>

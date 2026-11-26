@@ -147,8 +147,7 @@
     <message>
       <location filename="../download_manager.py" line="353" />
       <source>This is a packaged build. Installing Python packages (PaddleOCR, PaddlePaddle, PaddleX) is disabled because no Python interpreter is shipped with it. Use a source checkout, or configure an external OCR script under Settings → OCR.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Tämä on paketoitu versio. Python-pakettien (PaddleOCR, PaddlePaddle, PaddleX) asennus on poistettu käytöstä, koska mukana ei toimiteta Python-tulkkia. Käytä lähdekoodin kopiota tai määritä ulkoinen OCR-skripti kohdassa Asetukset → OCR.</translation></message>
     <message>
       <location filename="../download_manager.py" line="426" />
       <source>PaddleOCR Line Models (PP-OCRv5)</source>
@@ -331,23 +330,19 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="728" />
       <source>Include Mouse Cursor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Sisällytä hiiren osoitin</translation></message>
     <message>
       <location filename="../main_window.py" line="732" />
       <source>Include the mouse cursor in new captures. Requires a capture delay greater than 0.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Sisällytä hiiren osoitin uusiin kaappauksiin. Vaatii yli 0 sekunnin kaappausviiveen.</translation></message>
     <message>
       <location filename="../main_window.py" line="735" />
       <source>Use Arrow Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Käytä nuoliosoitinta</translation></message>
     <message>
       <location filename="../main_window.py" line="739" />
       <source>Use a standard arrow instead of the actual pointer shape, such as the text I-beam.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Käytä tavallista nuolta osoittimen todellisen muodon, kuten tekstikohdistimen palkin, sijaan.</translation></message>
     <message>
       <location filename="../main_window.py" line="743" />
       <source>Open</source>
@@ -849,8 +844,7 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="1202" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Numeromerkin reunus:</translation></message>
     <message>
       <location filename="../main_window.py" line="1215" />
       <source>Effect strength: controls the intensity of blur or pixelation.</source>
@@ -947,23 +941,19 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="1607" />
       <source>Theme</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Teema</translation></message>
     <message>
       <location filename="../main_window.py" line="1612" />
       <source>System</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Järjestelmä</translation></message>
     <message>
       <location filename="../main_window.py" line="1613" />
       <source>Light</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Vaalea</translation></message>
     <message>
       <location filename="../main_window.py" line="1614" />
       <source>Dark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Tumma</translation></message>
     <message>
       <location filename="../main_window.py" line="1630" />
       <source>&amp;Options</source>
@@ -1007,8 +997,7 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="2099" />
       <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Vedä rajauskahvoja ja paina sitten Enter rajataksesi tai Esc peruuttaaksesi.</translation></message>
     <message>
       <location filename="../main_window.py" line="2312" />
       <source>Select color</source>
@@ -1103,13 +1092,11 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="2744" />
       <source>Set a capture delay to include the mouse cursor.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Aseta kaappausviive, jos haluat sisällyttää hiiren osoittimen.</translation></message>
     <message>
       <location filename="../main_window.py" line="2752" />
       <source>Capture the mouse cursor (also in Options &gt; Settings &gt; Image Grabber &gt; Capture mouse cursor on screenshot). Requires a capture delay.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kaappaa hiiren osoitin (myös kohdassa Asetukset &gt; Asetukset &gt; Kuvankaappaus &gt; Kaappaa hiiren osoitin kuvakaappaukseen). Vaatii kaappausviiveen.</translation></message>
     <message>
       <location filename="../main_window.py" line="2875" />
       <source>Loaded %1 capture and copied it to clipboard</source>
@@ -1518,7 +1505,7 @@ Ensimmäinen suoritus lataa useita malleja ja voi kestää 1-3 minuuttia CPU:lla
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>Close ksnip PyQt6 and discard unsaved changes in open tabs?</translation>
     </message>
-  </context>
+  <message><source>Model Manager</source><translation>Mallien hallinta</translation></message><message><source>The OCR plugin failed to open: %1</source><translation>OCR-laajennusta ei voitu avata: %1</translation></message></context>
   <context>
     <name>ModelCard</name>
     <message>
@@ -1545,8 +1532,7 @@ Ensimmäinen suoritus lataa useita malleja ja voi kestää 1-3 minuuttia CPU:lla
     <message>
       <location filename="../download_manager.py" line="209" />
       <source>Not available in a packaged build. Use a source checkout or an external OCR script.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ei saatavilla paketoidussa versiossa. Käytä lähdekoodin kopiota tai ulkoista OCR-skriptiä.</translation></message>
     <message>
       <location filename="../download_manager.py" line="216" />
       <source>Remove</source>
@@ -1699,8 +1685,7 @@ Directory: %2</translation>
     <message>
       <location filename="../capture.py" line="266" />
       <source>D-Bus portal capture is only available on Linux.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>D-Bus-portaalin kautta kaappaaminen on saatavilla vain Linuxissa.</translation></message>
     <message>
       <location filename="../capture.py" line="273" />
       <source>the D-Bus session bus is not available.</source>
@@ -2195,8 +2180,7 @@ Directory: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="315" />
       <source>Remember the last directory of the last opened image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Muista viimeksi avatun kuvan viimeisin kansio</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="325" />
       <location filename="../settings_dialog.py" line="319" />
@@ -2306,8 +2290,7 @@ Directory: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="386" />
       <source>The mouse cursor is captured only when a capture delay is set.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hiiren osoitin kaapataan vain, kun kaappausviive on asetettu.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="388" />
       <source>Show Main Window after capturing screenshot</source>
@@ -2441,13 +2424,11 @@ Directory: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="469" />
       <source>Extra space around the digit inside the number badge. Negative values make it fit more tightly.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Lisätila numeromerkin numeron ympärillä. Negatiiviset arvot tekevät siitä tiiviimmän.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="472" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Numeromerkin reunus:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="476" />
       <source>Show Controls Widget</source>

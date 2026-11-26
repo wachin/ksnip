@@ -147,8 +147,7 @@
     <message>
       <location filename="../download_manager.py" line="353" />
       <source>This is a packaged build. Installing Python packages (PaddleOCR, PaddlePaddle, PaddleX) is disabled because no Python interpreter is shipped with it. Use a source checkout, or configure an external OCR script under Settings → OCR.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Bu paketlenmiş bir derlemedir. Python paketlerinin (PaddleOCR, PaddlePaddle, PaddleX) kurulumu devre dışıdır çünkü bir Python yorumlayıcısı dahil edilmez. Kaynak kodu kopyası kullanın veya Ayarlar → OCR bölümünde harici bir OCR betiği yapılandırın.</translation></message>
     <message>
       <location filename="../download_manager.py" line="426" />
       <source>PaddleOCR Line Models (PP-OCRv5)</source>
@@ -331,23 +330,19 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="728" />
       <source>Include Mouse Cursor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fare imlecini dahil et</translation></message>
     <message>
       <location filename="../main_window.py" line="732" />
       <source>Include the mouse cursor in new captures. Requires a capture delay greater than 0.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Yeni yakalamalara fare imlecini dahil et. 0'dan büyük bir yakalama gecikmesi gerektirir.</translation></message>
     <message>
       <location filename="../main_window.py" line="735" />
       <source>Use Arrow Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ok işaretçisini kullan</translation></message>
     <message>
       <location filename="../main_window.py" line="739" />
       <source>Use a standard arrow instead of the actual pointer shape, such as the text I-beam.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>İşaretçinin gerçek şekli yerine standart bir ok kullan, örneğin metin imleci çubuğu.</translation></message>
     <message>
       <location filename="../main_window.py" line="743" />
       <source>Open</source>
@@ -849,8 +844,7 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="1202" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Numara rozeti kenar boşluğu:</translation></message>
     <message>
       <location filename="../main_window.py" line="1215" />
       <source>Effect strength: controls the intensity of blur or pixelation.</source>
@@ -947,23 +941,19 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="1607" />
       <source>Theme</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Tema</translation></message>
     <message>
       <location filename="../main_window.py" line="1612" />
       <source>System</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Sistem</translation></message>
     <message>
       <location filename="../main_window.py" line="1613" />
       <source>Light</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Açık</translation></message>
     <message>
       <location filename="../main_window.py" line="1614" />
       <source>Dark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Koyu</translation></message>
     <message>
       <location filename="../main_window.py" line="1630" />
       <source>&amp;Options</source>
@@ -1007,8 +997,7 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="2099" />
       <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kırpma tutamaçlarını sürükleyin, ardından kırpmak için Enter'a veya iptal için Esc'ye basın.</translation></message>
     <message>
       <location filename="../main_window.py" line="2312" />
       <source>Select color</source>
@@ -1103,13 +1092,11 @@ Then configure the path in Settings → OCR → External OCR script.</translatio
     <message>
       <location filename="../main_window.py" line="2744" />
       <source>Set a capture delay to include the mouse cursor.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fare imlecini dahil etmek için bir yakalama gecikmesi ayarlayın.</translation></message>
     <message>
       <location filename="../main_window.py" line="2752" />
       <source>Capture the mouse cursor (also in Options &gt; Settings &gt; Image Grabber &gt; Capture mouse cursor on screenshot). Requires a capture delay.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fare imlecini yakala (ayrıca Seçenekler &gt; Ayarlar &gt; Görüntü Yakalama &gt; Ekran görüntüsünde fare imlecini yakala). Bir yakalama gecikmesi gerektirir.</translation></message>
     <message>
       <location filename="../main_window.py" line="2875" />
       <source>Loaded %1 capture and copied it to clipboard</source>
@@ -1518,7 +1505,7 @@ First run loads several models and may take 1–3 minutes on CPU.</source>
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>Close ksnip PyQt6 and discard unsaved changes in open tabs?</translation>
     </message>
-  </context>
+  <message><source>Model Manager</source><translation>Model Yöneticisi</translation></message><message><source>The OCR plugin failed to open: %1</source><translation>OCR eklentisi açılamadı: %1</translation></message></context>
   <context>
     <name>ModelCard</name>
     <message>
@@ -1545,8 +1532,7 @@ First run loads several models and may take 1–3 minutes on CPU.</source>
     <message>
       <location filename="../download_manager.py" line="209" />
       <source>Not available in a packaged build. Use a source checkout or an external OCR script.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Paketlenmiş bir derlemede kullanılamaz. Kaynak kodu kopyası veya harici bir OCR betiği kullanın.</translation></message>
     <message>
       <location filename="../download_manager.py" line="216" />
       <source>Remove</source>
@@ -1699,8 +1685,7 @@ Directory: %2</translation>
     <message>
       <location filename="../capture.py" line="266" />
       <source>D-Bus portal capture is only available on Linux.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>D-Bus portalı üzerinden yakalama yalnızca Linux'ta kullanılabilir.</translation></message>
     <message>
       <location filename="../capture.py" line="273" />
       <source>the D-Bus session bus is not available.</source>
@@ -2195,8 +2180,7 @@ Directory: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="315" />
       <source>Remember the last directory of the last opened image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Son açılan görüntünün son klasörünü hatırla</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="325" />
       <location filename="../settings_dialog.py" line="319" />
@@ -2306,8 +2290,7 @@ Directory: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="386" />
       <source>The mouse cursor is captured only when a capture delay is set.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fare imleci yalnızca bir yakalama gecikmesi ayarlandığında yakalanır.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="388" />
       <source>Show Main Window after capturing screenshot</source>
@@ -2441,13 +2424,11 @@ Directory: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="469" />
       <source>Extra space around the digit inside the number badge. Negative values make it fit more tightly.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Numara rozetindeki rakamın çevresinde ekstra boşluk. Negatif değerler daha sıkı oturmasını sağlar.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="472" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Numara rozeti kenar boşluğu:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="476" />
       <source>Show Controls Widget</source>

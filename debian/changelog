@@ -1,3 +1,12 @@
+ksnip-pyqt6 (0.2.2-8) unstable; urgency=medium
+
+  * Complete the 19 missing strings, plus the Model Manager and OCR plugin
+    error strings, in the 30 catalogs that only had the smaller gap.
+  * Update the translation audit to reflect the completed catalogs and the
+    remaining ten larger translation gaps.
+
+ -- wachin <wachin.id@gmail.com>  Wed, 25 Nov 2026 22:55:00 -0500
+
 ksnip-pyqt6 (0.2.2-7) unstable; urgency=medium
 
   * Add the missing Spanish translations for the Model Manager title and the

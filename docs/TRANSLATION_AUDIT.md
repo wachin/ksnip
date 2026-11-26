@@ -23,16 +23,23 @@ Qt Linguist.
 ## Results
 
 - 41 `.ts` catalogs and 41 non-empty `.qm` catalogs exist.
-- Every catalog contains 567 messages, except Spanish, which was updated to 569
-  while adding the two missing MainWindow strings below.
-- Spanish has no unfinished messages.
-- Thirty locales have 19 unfinished messages each:
+- Structural validation passes for all catalogs.
+- Spanish and the 30 previously incomplete locales now contain 569
+  messages with no unfinished entries:
   Arabic, Bulgarian, Bengali (Bangladesh), Catalan, Czech, Danish, German,
   Greek, Estonian, Finnish, French (Canada), French, Croatian, Hungarian,
   Indonesian, Italian, Japanese, Korean, Dutch, Norwegian, Polish, Portuguese
   (Brazil), Portuguese, Romanian, Russian, Swedish, Turkish, Ukrainian,
   Simplified Chinese, and Traditional Chinese.
-- Larger gaps remain in these catalogs:
+- The two missing MainWindow strings were added to those catalogs:
+
+  ```text
+  Model Manager
+  The OCR plugin failed to open: %1
+  ```
+
+- The remaining gaps are in the ten catalogs that already had larger missing
+  sections. They still have 567 messages and need native-speaker review:
 
   | Locale | Unfinished messages |
   | --- | ---: |
@@ -46,17 +53,6 @@ Qt Linguist.
   | Slovenian (`sl`) | 540 |
   | Albanian (`sq`) | 454 |
   | Tamil (`ta`) | 336 |
-
-- Two current source strings were missing from the catalogs:
-
-  ```text
-  Model Manager
-  The OCR plugin failed to open: %1
-  ```
-
-  Both were added to the Spanish catalog. The other catalogs still need those
-  entries, which `python3 tools/update_pyqt_translations.py` will add as
-  unfinished messages after the Spanish template is refreshed.
 
 ## Tools used
 
