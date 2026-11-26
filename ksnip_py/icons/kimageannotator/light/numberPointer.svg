@@ -27,7 +27,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1"
      inkscape:cx="-230.39147"
-     inkscape:cy="419.10574"
+     inkscape:cy="259.10574"
      inkscape:document-units="px"
      inkscape:current-layer="g4206"
      showgrid="false"
@@ -69,14 +69,13 @@
        transform="matrix(0.70039429,0,0,0.70263157,629.41753,-52.891508)"
        style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-opacity:1">
       <g
-         style="fill:#e6e6e6;fill-opacity:1;stroke:#4d4d4d;stroke-opacity:1"
-         id="g824-6"
-         transform="translate(3.8845987,-4.3861664)">
+         id="g824"
+         transform="translate(7.138836,-5.692884)">
         <path
            inkscape:connector-curvature="0"
            id="path4697-1"
            d="m -585.48805,965.08699 a 292.6485,293.80832 0 0 0 -292.6485,293.80831 292.6485,293.80832 0 0 0 292.6485,293.8083 292.6485,293.80832 0 0 0 292.64851,-293.8083 292.6485,293.80832 0 0 0 -292.64851,-293.80831 z m -0.1944,88.02481 h 68.05219 v 393.2641 h -82.79039 v -227.5665 l 0.80593,-37.3888 1.33752,-40.8864 c -13.75363,13.8081 -23.309,22.8648 -28.66755,27.1686 l -45.01186,36.3129 -39.92194,-50.0335 z"
-           style="opacity:1;fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:32.87641907;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:32.87641907;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
         <path
            inkscape:transform-center-y="23.284414"
            inkscape:transform-center-x="5.4781082"
@@ -93,7 +92,7 @@
            sodipodi:cx="782"
            sodipodi:sides="3"
            id="path841-7"
-           style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+           style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
            sodipodi:type="star" />
       </g>
     </g>

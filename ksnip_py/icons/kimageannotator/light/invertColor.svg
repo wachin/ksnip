@@ -15,7 +15,7 @@
    y="0px"
    viewBox="0 0 500 500"
    xml:space="preserve"
-   sodipodi:docname="invertColor.svg"
+   sodipodi:docname="invert.svg"
    width="500"
    height="500"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06"><metadata
@@ -36,7 +36,7 @@
      id="namedview39"
      showgrid="false"
      inkscape:zoom="0.57259316"
-     inkscape:cx="-107.40611"
+     inkscape:cx="206.08"
      inkscape:cy="206.08"
      inkscape:window-x="157"
      inkscape:window-y="87"
@@ -44,13 +44,13 @@
      inkscape:current-layer="Capa_1" /><g
      id="g6"
      transform="matrix(1.2865698,0,0,1.1016947,-15.395283,24.968134)"
-     style="fill:#e6e6e6;fill-opacity:1"><g
+     style="fill:#4d4d4d;fill-opacity:1"><g
        id="g4"
-       style="fill:#e6e6e6;fill-opacity:1"><path
+       style="fill:#4d4d4d;fill-opacity:1"><path
          d="M 326.72,120.747 206.08,0 85.44,120.747 c -66.667,66.667 -66.667,174.72 0,241.387 33.28,33.28 77.013,50.027 120.64,50.027 43.627,0 87.36,-16.64 120.64,-50.027 66.667,-66.667 66.667,-174.721 0,-241.387 z m -120.64,248.64 c -34.24,0 -66.347,-13.333 -90.453,-37.547 C 91.414,307.733 78.08,275.627 78.08,241.387 c 0,-34.24 13.333,-66.347 37.547,-90.56 L 206.08,60.374 Z"
          id="path2"
          inkscape:connector-curvature="0"
-         style="fill:#e6e6e6;fill-opacity:1" /></g></g><g
+         style="fill:#4d4d4d;fill-opacity:1" /></g></g><g
      id="g8"
      transform="translate(0,87.839996)" /><g
      id="g10"

@@ -70,11 +70,12 @@
        transform="matrix(0.70039429,0,0,0.70263157,629.41753,-52.891508)"
        style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-opacity:1">
       <g
-         id="g923">
+         id="g884"
+         transform="matrix(1.0976603,0,0,1.0976603,82.237162,-148.9471)">
         <path
            inkscape:transform-center-y="23.284414"
            inkscape:transform-center-x="5.4781082"
-           transform="matrix(0.76008619,0.21802611,-0.29494308,0.79536593,-1045.211,1067.5024)"
+           transform="matrix(0.69246031,0.19862804,-0.2687016,0.72460116,-1027.1376,1108.2204)"
            inkscape:randomized="0"
            inkscape:rounded="0"
            inkscape:flatsided="false"
@@ -86,13 +87,13 @@
            sodipodi:cx="782"
            sodipodi:sides="3"
            id="path841-7"
-           style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+           style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
            sodipodi:type="star"
            d="M 536,-212 713.5718,-330.52113 891.1436,-449.04225 905,-235.99999 918.8564,-22.957749 727.4282,-117.47888 Z" />
         <path
            id="rect860"
-           style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:1372.02;stroke-opacity:1"
-           d="m -842.07407,1016.329 v 508.8269 h 501.68568 V 1016.329 Z m 225.44467,55.721 h 52.85944 l 175.25436,401.7755 h -61.98413 l -43.73477,-104.8604 h -191.93343 l -43.10421,104.8604 h -62.2994 z m 26.42819,65.3994 -77.71739,187.9172 h 155.75003 z" />
+           style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1249.95;stroke-opacity:1"
+           d="m -842.07403,1061.5999 v 463.5559 h 457.05004 v -463.5559 z m 205.38656,50.7635 h 48.15646 l 159.66175,366.029 h -56.46932 l -39.84363,-95.5309 h -174.85686 l -39.26917,95.5309 h -56.75654 z m 24.07684,59.5807 -70.80277,171.1979 h 141.89274 z" />
       </g>
     </g>
   </g>

@@ -239,8 +239,15 @@ class MainWindow(QMainWindow):
         return QIcon()
 
     def _themed_icon(self, theme_name: str, fallback_name: str) -> QIcon:
-        """Load a desktop icon while keeping a packaged fallback for minimal WMs."""
-        icon = QIcon.fromTheme(theme_name, self._load_icon(fallback_name))
+        """Load a packaged icon, with a desktop-theme icon only as fallback.
+
+        The packaged dark/light variants are the only reliable way to follow
+        the application's own theme choice.  A system icon theme can otherwise
+        keep a light or dark glyph that does not match the selected palette.
+        """
+        icon = self._load_icon(fallback_name)
+        if icon.isNull():
+            icon = QIcon.fromTheme(theme_name)
         if not icon.isNull():
             self._themed_icon_names[icon.cacheKey()] = (theme_name, fallback_name)
         return icon

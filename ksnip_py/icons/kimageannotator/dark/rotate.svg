@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.2" width="132.29mm" height="132.29mm" viewBox="0 0 13229 13229" preserveAspectRatio="xMidYMid" fill-rule="evenodd" stroke-width="28.222" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" xmlns:ooo="http://xml.openoffice.org/svg/export" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:presentation="http://sun.com/xmlns/staroffice/presentation" xmlns:smil="http://www.w3.org/2001/SMIL20/" xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xml:space="preserve">
+<svg version="1.2" width="132.55mm" height="132.55mm" viewBox="0 0 13255 13255" preserveAspectRatio="xMidYMid" fill-rule="evenodd" stroke-width="28.222" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" xmlns:ooo="http://xml.openoffice.org/svg/export" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:presentation="http://sun.com/xmlns/staroffice/presentation" xmlns:smil="http://www.w3.org/2001/SMIL20/" xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xml:space="preserve">
  <defs class="ClipPathGroup">
   <clipPath id="presentation_clip_path" clipPathUnits="userSpaceOnUse">
-   <rect x="0" y="0" width="13229" height="13229"/>
+   <rect x="0" y="0" width="13255" height="13255"/>
   </clipPath>
   <clipPath id="presentation_clip_path_shrink" clipPathUnits="userSpaceOnUse">
-   <rect x="13" y="13" width="13203" height="13203"/>
+   <rect x="13" y="13" width="13229" height="13229"/>
   </clipPath>
  </defs>
  <defs class="TextShapeIndex">
-  <g ooo:slide="id1" ooo:id-list="id3 id4"/>
+  <g ooo:slide="id1" ooo:id-list="id3"/>
  </defs>
  <defs class="EmbeddedBulletChars">
   <g id="bullet-char-template-57356" transform="scale(0.00048828125,-0.00048828125)">
@@ -57,23 +57,26 @@
      <g class="Page">
       <g class="Graphic">
        <g id="id3">
-        <rect class="BoundingBox" stroke="none" fill="none" x="2287" y="-962" width="12002" height="12002"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="0" y="0" width="13255" height="13255"/>
         <defs>
          <clipPath id="clip_path_1" clipPathUnits="userSpaceOnUse">
-          <path d="M 12489,-962 L 14287,9238 4086,11038 2288,839 12489,-962 Z"/>
+          <path d="M 537,13 L 13241,13 13241,12717 537,12717 537,13 Z"/>
          </clipPath>
         </defs>
-        <g clip-path="url(#clip_path_1)">
-         <path fill="rgb(77,77,77)" stroke="none" d="M 5308,2051 C 3659,3710 3667,6408 5325,8056 L 6113,7264 C 4882,6041 4876,4069 6100,2838 7323,1607 9296,1601 10527,2824 11758,4047 11763,6020 10540,7251 L 11332,8038 C 12981,6379 12973,3681 11314,2032 9656,384 6957,392 5308,2051 Z"/>
-         <path fill="rgb(77,77,77)" stroke="none" d="M 9787,6441 L 9793,8794 12146,8786 9787,6441 Z"/>
+        <g clip-path="url(#clip_path_1)"/>
+        <defs>
+         <clipPath id="clip_path_2" clipPathUnits="userSpaceOnUse">
+          <path d="M 12670,13 L 13241,3249 13241,9437 4099,11050 2301,852 7053,13 12670,13 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_2)">
+         <path fill="rgb(230,230,230)" stroke="none" d="M 5321,2064 C 3672,3723 3680,6421 5338,8068 L 6126,7276 C 4895,6054 4889,4082 6113,2851 7335,1620 9308,1614 10539,2837 11770,4060 11775,6033 10552,7263 L 11344,8050 C 12993,6392 12985,3694 11326,2045 9668,397 6969,405 5321,2064 L 5321,2064 Z"/>
+         <path fill="rgb(230,230,230)" stroke="none" d="M 9799,6454 L 9805,8806 12158,8798 9799,6454 9799,6454 Z"/>
         </g>
-       </g>
-      </g>
-      <g class="com.sun.star.drawing.CustomShape">
-       <g id="id4">
-        <rect class="BoundingBox" stroke="none" fill="none" x="537" y="4690" width="8003" height="8003"/>
-        <path fill="rgb(77,77,77)" stroke="none" d="M 4538,12691 L 538,12691 538,4691 8538,4691 8538,12691 4538,12691 Z"/>
-        <path fill="none" stroke="rgb(77,77,77)" d="M 4538,12691 L 538,12691 538,4691 8538,4691 8538,12691 4538,12691 Z"/>
+        <g clip-path="url(#clip_path_1)">
+         <path fill="rgb(230,230,230)" stroke="none" d="M 4551,12703 L 551,12703 551,4704 8550,4704 8550,12703 4551,12703 4551,12703 Z"/>
+         <path fill="none" stroke="rgb(230,230,230)" stroke-width="28" stroke-linejoin="round" d="M 4551,12703 L 551,12703 551,4704 8550,4704 8550,12703 4551,12703 4551,12703 Z"/>
+        </g>
        </g>
       </g>
      </g>

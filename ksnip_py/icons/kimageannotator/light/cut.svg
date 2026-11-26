@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="152.39347"
+     inkscape:cx="24.179184"
      inkscape:cy="221.49464"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,13 +55,13 @@
      id="layer1"
      transform="translate(0,-552.36216)">
     <path
-       style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:12.29186344;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:6.69999981;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke"
-       d="M 21.071849,632.36188 V 968.07673 H 193.92927 V 632.36188 Z m 283.570311,0 V 968.07673 H 477.49958 V 632.36188 Z"
-       id="rect935-2"
+       style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:12.29186344;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:6.69999981;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke"
+       d="M 23.571708,633.07642 V 968.79127 H 196.42913 V 633.07642 Z m 283.570312,0 V 968.79127 H 479.99945 V 633.07642 Z"
+       id="rect935"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:37.79527664;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke"
-       d="m 231.78572,573.07674 v 39.28516 h 35 v -39.28516 z m 0,82.85743 v 41.33789 h 35 v -41.33789 z m 0,84.91015 v 41.33985 h 35 v -41.33985 z m 0,84.91016 v 41.33984 h 35 v -41.33984 z m 0,84.91015 v 41.33985 h 35 v -41.33985 z m 0,84.91211 v 31.78516 h 35 v -31.78516 z"
+       style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:37.79527664;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke"
+       d="m 234.28558,573.79128 v 39.28516 h 35 v -39.28516 z m 0,82.85743 v 41.33789 h 35 v -41.33789 z m 0,84.91015 v 41.33985 h 35 v -41.33985 z m 0,84.91016 v 41.33984 h 35 v -41.33984 z m 0,84.91015 v 41.33985 h 35 v -41.33985 z m 0,84.91211 v 31.78512 h 35 v -31.78512 z"
        id="rect1697"
        inkscape:connector-curvature="0" />
   </g>

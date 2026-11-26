@@ -26,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="269.10853"
+     inkscape:cx="98.10853"
      inkscape:cy="259.10574"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
-     inkscape:window-height="1019"
-     inkscape:window-x="0"
+     inkscape:window-height="1025"
+     inkscape:window-x="1920"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,7 +55,7 @@
      id="layer1"
      transform="translate(0,-552.36216)">
     <path
-       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:25.22677994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:25.22677994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 250.90625,574.4559 a 225,225.00001 0 0 0 -225,225.00001 225,225.00001 0 0 0 225,224.99999 225,225.00001 0 0 0 225,-224.99999 225,225.00001 0 0 0 -225,-225.00001 z m -0.14941,67.40991 52.32128,0 0,301.16383 -63.65259,0 0,-174.27173 0.61963,-28.63257 1.02833,-31.31104 c -10.57435,10.57434 -17.9209,17.51001 -22.04077,20.80591 l -34.60694,27.8086 -30.6936,-38.31593 97.02466,-77.24707 z"
        id="path4697"
        inkscape:connector-curvature="0" />
@@ -69,5 +69,5 @@
            height="68.571426"
            x="264.28571"
            y="119.28571" /></flowRegion><flowPara
-         id="flowPara4709"></flowPara></flowRoot>  </g>
+         id="flowPara4709" /></flowRoot>  </g>
 </svg>

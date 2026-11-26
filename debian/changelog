@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-20) unstable; urgency=medium
+
+  * Normalize the kImageAnnotator dark/light icon pairs and prefer packaged
+    theme variants over system icon-theme fallbacks. This removes the remaining
+    white glyphs on light backgrounds and dark glyphs on dark backgrounds.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 09:25:00 -0500
+
 ksnip-pyqt6 (0.2.2-19) unstable; urgency=medium
 
   * Fix the dark/light icon variant selection. The Upload, Hide Docks,

@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,20 +55,20 @@
      id="layer1"
      transform="translate(0,-552.36209)">
     <g
-       id="g894"
-       transform="rotate(180,249.99995,802.36206)">
+       id="g908">
       <ellipse
+         transform="scale(-1)"
          ry="215.19566"
          rx="215.19565"
-         cy="802.36206"
-         cx="249.99995"
+         cy="-802.36206"
+         cx="-249.99994"
          id="path5878"
-         style="opacity:1;fill:none;fill-opacity:1;stroke:#4d4d4d;stroke-width:39.99874115;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:79.9974823, 79.9974823;stroke-dashoffset:327.98968506;stroke-opacity:1" />
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#e6e6e6;stroke-width:39.99874115;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:79.9974823, 79.99748230000000149;stroke-dashoffset:327.98968506;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path5878-3"
-         d="M 250.15459,587.18077 V 1017.5577 A 215.19565,215.19566 0 0 0 465.1956,802.36827 215.19565,215.19566 0 0 0 250.15459,587.18077 Z"
-         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:39.99874115;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:327.98968506;stroke-opacity:1" />
+         d="m 249.84531,1017.5434 0,-430.37698 A 215.19565,215.19566 0 0 0 34.8043,802.35585 215.19565,215.19566 0 0 0 249.84531,1017.5434 Z"
+         style="opacity:1;fill:#e6e6e6;fill-opacity:1;stroke:#e6e6e6;stroke-width:39.99874115;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:327.98968506;stroke-opacity:1" />
     </g>
   </g>
 </svg>

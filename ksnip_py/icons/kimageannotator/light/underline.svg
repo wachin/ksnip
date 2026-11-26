@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="121.27366"
+     inkscape:cx="243.41652"
      inkscape:cy="273.49958"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -56,16 +56,15 @@
      transform="translate(0,-552.36216)">
     <g
        id="g4143"
-       transform="matrix(1.0840957,0,0,1.0169037,-29.190389,-10.102636)"
-       style="fill:#e6e6e6">
+       transform="matrix(1.0840957,0,0,1.0169037,-29.190389,-10.102636)">
       <g
          id="text14"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:640.34503174px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:16.00862503"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:640.34503174px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:16.00862503"
          transform="matrix(1.2591636,0,0,0.79417798,-0.32416371,-3.5714286)">
         <path
            inkscape:connector-curvature="0"
            id="path4141"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:16.00862503;fill:#e6e6e6"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:16.00862503"
            d="m 369.56074,731.91523 0,309.54177 q -0.31266,64.4097 -40.6469,105.3693 -40.02156,40.9596 -108.80863,45.9623 l -15.94609,0.6253 q -74.72776,0 -119.126686,-40.3342 -44.398923,-40.3343 -45.02426,-110.9973 l 0,-310.16717 59.40701,0 0,308.29107 q 0,49.4017 27.202156,76.9165 27.20216,27.2021 77.54178,27.2021 50.96496,0 77.85445,-27.2021 27.20216,-27.2022 27.20216,-76.6038 l 0,-308.60377 60.34501,0 z" />
       </g>
       <rect
@@ -74,7 +73,7 @@
          height="39.440994"
          width="415.0925"
          id="rect16"
-         style="fill:#e6e6e6;stroke-width:1.27456939" />
+         style="fill:#4d4d4d;stroke-width:1.27456939" />
     </g>
   </g>
 </svg>

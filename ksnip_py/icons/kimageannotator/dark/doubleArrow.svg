@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="71.883464"
+     inkscape:cx="-100.85262"
      inkscape:cy="264.53192"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -54,7 +54,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -65,13 +65,14 @@
      transform="translate(0,-552.36216)">
     <g
        id="g4177"
-       transform="matrix(1.0172454,0,0,1.0128201,-8.15095,-7.5514872)">
+       transform="matrix(1.0172454,0,0,1.0128201,-8.15095,-7.5514872)"
+       style="fill:#e6e6e6;stroke:#e6e6e6">
       <g
-         style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-opacity:1"
+         style="fill:#e6e6e6;fill-opacity:1;stroke:#e6e6e6;stroke-opacity:1"
          transform="matrix(1.0094638,0,0,1.0126884,14.392444,-26.899602)"
          id="g4206">
         <rect
-           style="fill:#4d4d4d;fill-opacity:1;fill-rule:evenodd;stroke:#4d4d4d;stroke-width:1.12539124px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           style="fill:#e6e6e6;fill-opacity:1;fill-rule:evenodd;stroke:#e6e6e6;stroke-width:1.12539124px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            id="rect3336"
            width="441.62137"
            height="49.912373"
@@ -83,7 +84,7 @@
            inkscape:transform-center-y="6.2424504" />
         <path
            sodipodi:type="star"
-           style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:16.55035591;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:#e6e6e6;fill-opacity:1;stroke:#e6e6e6;stroke-width:16.55035591;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            id="path4204"
            sodipodi:sides="3"
            sodipodi:cx="140.41119"
@@ -101,11 +102,11 @@
            transform="matrix(-0.79825902,0.80030512,-0.79292504,-0.80980152,980.86364,1057.5024)" />
       </g>
       <g
-         style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-opacity:1"
+         style="fill:#e6e6e6;fill-opacity:1;stroke:#e6e6e6;stroke-opacity:1"
          transform="matrix(-1.0094638,0,0,-1.0126884,493.19642,1626.0553)"
          id="g4206-3">
         <rect
-           style="fill:#4d4d4d;fill-opacity:1;fill-rule:evenodd;stroke:#4d4d4d;stroke-width:1.12539124px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           style="fill:#e6e6e6;fill-opacity:1;fill-rule:evenodd;stroke:#e6e6e6;stroke-width:1.12539124px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            id="rect3336-6"
            width="441.62137"
            height="49.912373"
@@ -117,7 +118,7 @@
            inkscape:transform-center-y="6.2424504" />
         <path
            sodipodi:type="star"
-           style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:16.55035591;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:#e6e6e6;fill-opacity:1;stroke:#e6e6e6;stroke-width:16.55035591;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            id="path4204-7"
            sodipodi:sides="3"
            sodipodi:cx="140.41119"
