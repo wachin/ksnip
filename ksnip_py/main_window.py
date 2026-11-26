@@ -3836,6 +3836,7 @@ class MainWindow(QMainWindow):
             backend=used_backend,
             language=str(self._settings.value("ocr/language", "english")),
             script_path=str(self._settings.value("ocr/script_path", "")),
+            structure_script_path=str(self._settings.value("ocr/structure_script_path", "")),
             structure_formulas=self._setting_bool("ocr/structure_formulas", False),
         )
         self._ocr_thread = QThread(self)

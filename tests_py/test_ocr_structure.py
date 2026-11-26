@@ -1,8 +1,12 @@
 from __future__ import annotations
 
+import os
+import stat
 import sys
+import tempfile
 import types
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 from ksnip_py.ocr_backend import (
@@ -148,6 +152,52 @@ class StructureMissingDependencyTest(unittest.TestCase):
         message = OcrBackend._structure_dependency_message()
         self.assertIn("requirements-ocr.txt", message)
         self.assertIn("tables + Markdown", message)
+
+
+class StructureScriptTest(unittest.TestCase):
+    def test_structure_script_is_used_and_receives_mode_and_language(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            script = Path(directory) / "structure-ocr"
+            script.write_text(
+                "#!/bin/sh\n"
+                "printf 'mode=%s lang=%s formulas=%s\\n' "
+                '"$KSNIP_OCR_MODE" "$KSNIP_OCR_LANG" "$KSNIP_OCR_FORMULAS"\n',
+                encoding="utf-8",
+            )
+            script.chmod(script.stat().st_mode | stat.S_IXUSR)
+            text = OcrBackend().recognize_file(
+                "/tmp/capture.png",
+                OcrOptions(
+                    backend="paddleocr_structure",
+                    language="spanish",
+                    structure_script_path=str(script),
+                ),
+            )
+        self.assertEqual(text, "mode=markdown lang=spanish formulas=0")
+
+    def test_structure_script_output_is_table_converted(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            script = Path(directory) / "structure-ocr"
+            script.write_text(
+                "#!/bin/sh\n"
+                "printf '<table><tr><th>A</th></tr><tr><td>B</td></tr></table>\\n'\n",
+                encoding="utf-8",
+            )
+            script.chmod(script.stat().st_mode | stat.S_IXUSR)
+            text = OcrBackend().recognize_file(
+                "/tmp/capture.png",
+                OcrOptions(
+                    backend="paddleocr_structure",
+                    language="english",
+                    structure_script_path=str(script),
+                ),
+            )
+        self.assertIn("| A |", text)
+        self.assertIn("| B |", text)
+
+    def test_structure_script_defaults_to_direct_pipeline(self) -> None:
+        options = OcrOptions(backend="paddleocr_structure", language="english")
+        self.assertEqual(options.structure_script_path, "")
 
 
 class StructureMarkdownExtractionTest(unittest.TestCase):

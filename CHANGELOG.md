@@ -21,13 +21,16 @@
 * Fixed: Non-ASCII `tr()` source strings can no longer abort Qt through a
   `UnicodeEncodeError` in the translation fallback. Translatable source
   strings should remain ASCII, while translation catalogs may contain Unicode.
+* Fixed: The table/Markdown and HTML OCR actions can use an optional structure
+  script from the managed PaddleOCR plugin. The core passes the mode, language,
+  and formula flag to the launcher and converts HTML table output to Markdown.
 * Docs: Added `docs/OCR_PLUGIN_ARCHITECTURE.md`, describing the plugin
   boundary, the entry-point contract, the managed environment, the packaging
   split, and the Debian main-archive constraints. Added the document to the
   README documentation table.
-* Packaging: Debian revisions 0.2.2-2 through 0.2.2-5 contain the OCR action fix,
-  plugin discovery, the translation fallback fix, and the consolidated
-  documentation update respectively.
+* Packaging: Debian revisions 0.2.2-2 through 0.2.2-6 contain the OCR action fix,
+  plugin discovery, the translation fallback fix, the consolidated
+  documentation update, and the structure-script backend fix respectively.
 
 ### Optional ksnip-pyqt6-ocr plugin (separate repository)
 

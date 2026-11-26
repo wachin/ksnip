@@ -47,6 +47,9 @@ class OcrOptions:
     backend: str
     language: str
     script_path: str = ""
+    # Optional external script for the layout/table backends.  A plugin can
+    # point this at a launcher from a private PaddleOCR environment.
+    structure_script_path: str = ""
     # PP-StructureV3 only: also run the formula model so maths comes back as
     # LaTeX inside the Markdown.  It downloads an extra model, so it is off by
     # default.
@@ -61,16 +64,31 @@ class OcrBackend:
         on_process: Callable[[subprocess.Popen], None] | None = None,
     ) -> str:
         if options.backend == _SCRIPT_BACKEND:
-            return self._recognize_with_script(image_path, options.script_path, on_process)
+            return self._recognize_with_script(
+                image_path,
+                options.script_path,
+                on_process,
+                language=options.language,
+            )
         if options.backend == _PRIMARY_BACKEND:
             return self._recognize_with_paddleocr(image_path, options.language)
         if options.backend == _STRUCTURE_BACKEND:
             return self._recognize_with_pp_structure(
-                image_path, options.language, options.structure_formulas, output_format="markdown"
+                image_path,
+                options.language,
+                options.structure_formulas,
+                output_format="markdown",
+                script_path=options.structure_script_path,
+                on_process=on_process,
             )
         if options.backend == _STRUCTURE_HTML_BACKEND:
             return self._recognize_with_pp_structure(
-                image_path, options.language, options.structure_formulas, output_format="html"
+                image_path,
+                options.language,
+                options.structure_formulas,
+                output_format="html",
+                script_path=options.structure_script_path,
+                on_process=on_process,
             )
         raise OcrError(f"Unsupported OCR backend: {options.backend}")
 
@@ -79,18 +97,31 @@ class OcrBackend:
         image_path: str,
         script_path: str,
         on_process: Callable[[subprocess.Popen], None] | None = None,
+        *,
+        mode: str | None = None,
+        formulas: bool = False,
+        language: str = "",
     ) -> str:
         if not script_path:
             raise OcrError("No OCR script configured.")
         path = Path(script_path)
         if not path.exists():
             raise OcrError(f"OCR script does not exist: {script_path}")
+        env = None
+        if mode or language:
+            env = os.environ.copy()
+            if mode:
+                env["KSNIP_OCR_MODE"] = mode
+                env["KSNIP_OCR_FORMULAS"] = "1" if formulas else "0"
+            if language:
+                env["KSNIP_OCR_LANG"] = language
         try:
             process = subprocess.Popen(
                 external_script_command(script_path, image_path),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
+                env=env,
                 # Own process group so a cancel can kill the script's children,
                 # which would otherwise hold the pipes open and block here.
                 # Windows has no POSIX process groups.
@@ -163,6 +194,8 @@ class OcrBackend:
         language: str,
         recognize_formulas: bool = False,
         output_format: str = "markdown",
+        script_path: str = "",
+        on_process: Callable[[subprocess.Popen], None] | None = None,
     ) -> str:
         """Recognize text keeping the document layout and return Markdown or HTML.
 
@@ -172,6 +205,19 @@ class OcrBackend:
         as Markdown or HTML.  That is what keeps tables as tables instead of a
         flat list of cells.  It is slower and needs extra models, so it is opt-in.
         """
+        if script_path:
+            content = self._recognize_with_script(
+                image_path,
+                script_path,
+                on_process,
+                mode=output_format,
+                formulas=recognize_formulas,
+                language=language,
+            )
+            if output_format == "markdown" and "<table" in content.lower():
+                content = self._html_tables_to_markdown(content)
+            return content
+
         try:
             from paddleocr import PPStructureV3
         except ImportError as exc:

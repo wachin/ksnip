@@ -223,13 +223,16 @@ internal modules.
 The plugin communicates with the core through the existing OCR settings:
 
 ```text
-ocr/backend     = "script"
-ocr/script_path = "<managed launcher path>"
+ocr/backend               = "script"
+ocr/script_path           = "<managed launcher path>"
+ocr/structure_script_path = "<managed launcher path>"
 ```
 
 The core's Script backend continues to pass the image path as the first
-argument and read the recognized text from stdout. No Paddle-specific code is
-needed in the core.
+argument and read the recognized text from stdout. The structure launcher is
+used only by the layout/table backends; the core sets `KSNIP_OCR_MODE` to
+`markdown` or `html`, plus the selected language and formula flag. No
+Paddle-specific code is needed in the core.
 
 The plugin may store its own state under a namespaced key, for example:
 

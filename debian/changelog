@@ -1,3 +1,16 @@
+ksnip-pyqt6 (0.2.2-6) unstable; urgency=medium
+
+  * Route the layout/table and HTML OCR backends through an optional
+    structure script when one is configured. This lets the separate
+    ksnip-pyqt6-ocr plugin run PP-StructureV3 in its managed environment
+    instead of requiring PaddleOCR in the system Python.
+  * Pass KSNIP_OCR_MODE, KSNIP_OCR_LANG, and KSNIP_OCR_FORMULAS to the script,
+    and convert HTML table output to Markdown in the core.
+  * Keep the direct in-process PP-StructureV3 path for installations that
+    have PaddleOCR available in the core interpreter.
+
+ -- wachin <wachin.id@gmail.com>  Wed, 25 Nov 2026 21:35:00 -0500
+
 ksnip-pyqt6 (0.2.2-5) unstable; urgency=medium
 
   * Documentation and changelog update. No code changes.
