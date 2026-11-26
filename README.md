@@ -171,6 +171,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 | Startup and single-instance behavior | [Startup lifecycle parity](docs/STARTUP_LIFECYCLE_PARITY.md) |
 | Building distributions and CI workflows | [GitHub Actions and packaging guide (Spanish)](docs/GITHUB_ACTIONS_PACKAGES_ES.md) |
 | OCR installation on Debian derivatives | [PaddleOCR guide (Spanish)](docs/OCR_PADDLEOCR_ES.md) |
+| OCR plugin architecture and Debian packaging rationale | [OCR plugin architecture](docs/OCR_PLUGIN_ARCHITECTURE.md) |
 | Script uploader verification | [Script uploader tests (Spanish)](docs/PRUEBAS_UPLOADER_SCRIPT_ES.md) |
 | Deferred Imgur implementation | [Imgur port notes (Spanish)](docs/imgur/README_ES.md) |
 | Debian packaging and policy compliance | [debian/](debian/) |

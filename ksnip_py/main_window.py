@@ -53,6 +53,7 @@ from .capture import (
     portal_failure_message,
 )
 from .ocr_backend import OcrBackend, OcrOptions, OcrWorker
+from .ocr_plugins import discover_ocr_plugins
 from .ocr_result_dialog import OcrResultDialog
 from .pin_window import PinWindow
 from .project_io import export_svg, load_project, save_project
@@ -125,6 +126,8 @@ class MainWindow(QMainWindow):
         self._watermark_preparer = WatermarkPreparer()
         self._script_uploader = ScriptUploader()
         self._ocr_backend = OcrBackend()
+        self._ocr_plugins = discover_ocr_plugins()
+        self._ocr_plugin = self._ocr_plugins[0] if self._ocr_plugins else None
         self._ocr_thread: QThread | None = None
         self._ocr_worker: OcrWorker | None = None
         self._ocr_progress: QProgressDialog | None = None
@@ -1006,7 +1009,10 @@ class MainWindow(QMainWindow):
 
         self.ocr_action = QAction(self._themed_icon("edit-find", "text"), self.tr("OCR Text Recognition"), self)
         self.ocr_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
-        self.ocr_action.triggered.connect(lambda: self.run_ocr("paddleocr"))
+        # Honour the backend configured in Settings -> OCR.  In particular,
+        # packaged builds without PaddlePaddle must be able to use the external
+        # script backend through the normal OCR action.
+        self.ocr_action.triggered.connect(lambda _checked=False: self.run_ocr(None))
         self.ocr_structure_action = QAction(self._themed_icon("edit-find", "text"), self.tr("OCR Text Recognition (tables + Markdown)"), self)
         self.ocr_structure_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.ocr_structure_action.triggered.connect(lambda: self.run_ocr("paddleocr_structure"))
@@ -3630,6 +3636,16 @@ class MainWindow(QMainWindow):
             self.status_label.setText(self.tr("Settings updated"))
 
     def open_model_manager(self) -> None:
+        if self._ocr_plugin is not None:
+            try:
+                self._ocr_plugin.open_model_manager(self, self._settings)
+            except Exception as exc:  # noqa: BLE001
+                QMessageBox.critical(
+                    self,
+                    self.tr("Model Manager"),
+                    self.tr("The OCR plugin failed to open: %1").replace("%1", str(exc)),
+                )
+            return
         show_download_manager(self)
         self.status_label.setText(self.tr("Model Manager opened"))
 

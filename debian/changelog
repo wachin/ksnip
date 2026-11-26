@@ -1,3 +1,21 @@
+ksnip-pyqt6 (0.2.2-3) unstable; urgency=medium
+
+  * Discover optional OCR plugins through the ksnip_py.ocr entry-point group.
+  * Route the core Model Manager entry to an installed OCR plugin while
+    retaining the built-in manager as a fallback.
+  * Keep plugin discovery isolated from startup failures and provide
+    KSNIP_DISABLE_OCR_PLUGINS as a troubleshooting switch.
+
+ -- wachin <wachin.id@gmail.com>  Wed, 25 Nov 2026 20:20:00 -0500
+
+ksnip-pyqt6 (0.2.2-2) unstable; urgency=medium
+
+  * Make the main OCR action honor the backend configured in Settings, so
+    packaged builds can use the external OCR script backend.
+  * Fix the Model Manager check for the configured external OCR script path.
+
+ -- wachin <wachin.id@gmail.com>  Wed, 25 Nov 2026 17:45:00 -0500
+
 ksnip-pyqt6 (0.2.2-1) unstable; urgency=medium
 
   * New upstream release.

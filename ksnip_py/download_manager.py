@@ -528,7 +528,7 @@ class DownloadManagerDialog(QDialog):
 
     def _check_external_script(self) -> bool:
         settings = QSettings()
-        script_path = settings.value("ocr/external_script_path", "")
+        script_path = settings.value("ocr/script_path", "")
         return bool(script_path and Path(script_path).exists())
 
     def _check_spellcheck_dicts(self) -> bool:
