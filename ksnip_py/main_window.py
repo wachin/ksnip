@@ -226,10 +226,32 @@ class MainWindow(QMainWindow):
             )
         for candidate in candidates:
             if candidate.exists():
-                icon = QIcon(str(candidate))
+                icon = self._add_disabled_icon_variant(QIcon(str(candidate)))
                 self._icon_names_by_cache_key[icon.cacheKey()] = name
                 return icon
         return QIcon()
+
+    @staticmethod
+    def _add_disabled_icon_variant(icon: QIcon) -> QIcon:
+        if icon.isNull():
+            return icon
+        for size in (16, 20, 24, 32, 48):
+            source = icon.pixmap(QSize(size, size))
+            if source.isNull():
+                continue
+            image = source.toImage().convertToFormat(
+                QImage.Format.Format_ARGB32_Premultiplied
+            )
+            painter = QPainter(image)
+            painter.setCompositionMode(
+                QPainter.CompositionMode.CompositionMode_SourceIn
+            )
+            painter.fillRect(image.rect(), QColor("#5c5c5c"))
+            painter.end()
+            disabled = QPixmap.fromImage(image)
+            icon.addPixmap(disabled, QIcon.Mode.Disabled, QIcon.State.Off)
+            icon.addPixmap(disabled, QIcon.Mode.Disabled, QIcon.State.On)
+        return icon
 
     def _load_first_icon(self, *names: str) -> QIcon:
         for name in names:
@@ -247,7 +269,7 @@ class MainWindow(QMainWindow):
         """
         icon = self._load_icon(fallback_name)
         if icon.isNull():
-            icon = QIcon.fromTheme(theme_name)
+            icon = self._add_disabled_icon_variant(QIcon.fromTheme(theme_name))
         if not icon.isNull():
             self._themed_icon_names[icon.cacheKey()] = (theme_name, fallback_name)
         return icon

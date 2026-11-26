@@ -5,6 +5,9 @@ from PyQt6.QtGui import QColor, QIcon, QPalette
 from PyQt6.QtWidgets import QApplication
 
 
+_DISABLED_TEXT = QColor("#5c5c5c")
+
+
 THEME_SYSTEM = "system"
 THEME_LIGHT = "light"
 THEME_DARK = "dark"
@@ -22,7 +25,7 @@ def _dark_palette() -> QPalette:
     base = QColor("#232323")
     alternate = QColor("#2a2a2a")
     text = QColor("#f2f2f2")
-    disabled = QColor("#b5b5b5")
+    disabled = QColor(_DISABLED_TEXT)
     highlight = QColor("#2a82da")
     palette.setColor(QPalette.ColorRole.Window, window)
     palette.setColor(QPalette.ColorRole.WindowText, text)
@@ -48,6 +51,17 @@ def _dark_palette() -> QPalette:
     return palette
 
 
+def _with_disabled_text(palette: QPalette) -> QPalette:
+    for role in (
+        QPalette.ColorRole.WindowText,
+        QPalette.ColorRole.Text,
+        QPalette.ColorRole.ButtonText,
+        QPalette.ColorRole.ToolTipText,
+    ):
+        palette.setColor(QPalette.ColorGroup.Disabled, role, _DISABLED_TEXT)
+    return palette
+
+
 def apply_theme(app: QApplication, theme: object) -> str:
     """Apply the selected theme for the next UI construction.
 
@@ -66,7 +80,7 @@ def apply_theme(app: QApplication, theme: object) -> str:
         app.setPalette(_dark_palette())
         QIcon.setThemeName("Papirus-Dark")
     else:
-        app.setPalette(app.style().standardPalette())
+        app.setPalette(_with_disabled_text(app.style().standardPalette()))
         QIcon.setThemeName("Papirus")
     return resolved
 
@@ -129,7 +143,7 @@ class ThemeManager(QObject):
             self._app.setPalette(_dark_palette())
             QIcon.setThemeName("Papirus-Dark")
         else:
-            self._app.setPalette(self._app.style().standardPalette())
+            self._app.setPalette(_with_disabled_text(self._app.style().standardPalette()))
             QIcon.setThemeName("Papirus")
 
     def _system_resolved(self) -> str:

@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-24) unstable; urgency=medium
+
+  * Render disabled actions with a solid #5c5c5c foreground and icon instead of
+    a faded disabled rendering. This matches the supplied visual reference and
+    removes the blurry appearance in the empty mini window.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 10:20:00 -0500
+
 ksnip-pyqt6 (0.2.2-23) unstable; urgency=medium
 
   * Lighten disabled text in the built-in dark palette. This keeps unavailable
