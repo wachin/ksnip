@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-4) unstable; urgency=medium
+
+  * Fix the translation fallback for untranslated plugin strings. Returning an
+    empty string made plugin dialogs lose their titles and labels; non-ASCII
+    tr() source strings could also trigger a UnicodeEncodeError and abort Qt.
+
+ -- wachin <wachin.id@gmail.com>  Wed, 25 Nov 2026 20:30:00 -0500
+
 ksnip-pyqt6 (0.2.2-3) unstable; urgency=medium
 
   * Discover optional OCR plugins through the ksnip_py.ocr entry-point group.

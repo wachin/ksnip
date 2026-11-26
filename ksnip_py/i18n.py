@@ -51,16 +51,29 @@ class _QtFallbackTranslator(QTranslator):
 
     def translate(self, context, source_text, disambiguation=None, n=-1):  # noqa: N802
         for base in self._bases:
-            text = base.translate(context, source_text, disambiguation or "", n)
+            try:
+                text = base.translate(context, source_text, disambiguation or "", n)
+            except UnicodeEncodeError:
+                # QTranslator::translate takes a const char* source string.
+                # PyQt6 encodes that argument as ASCII, so a plugin or caller
+                # cannot use a non-ASCII source literal in tr().  Translation
+                # catalogs may still return Unicode text; only the lookup key
+                # has to remain ASCII.
+                continue
             if text:
                 return text
         if source_text.startswith("&"):
             stripped = source_text[1:]
             for base in self._bases:
-                text = base.translate(context, stripped, disambiguation or "", n)
+                try:
+                    text = base.translate(context, stripped, disambiguation or "", n)
+                except UnicodeEncodeError:
+                    continue
                 if text:
                     return text if "&" in text else "&" + text
-        return ""
+        # QTranslator subclasses must provide a displayable fallback.  Returning
+        # an empty string makes untranslated plugin/UI strings disappear.
+        return source_text
 
 
 def _load_translator(app, locale: QLocale, catalog: str, directories: list[Path]) -> QTranslator | None:
