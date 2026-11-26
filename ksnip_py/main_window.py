@@ -6,7 +6,7 @@ import re
 import sys
 
 from PyQt6.QtCore import QBuffer, QByteArray, QEvent, QEventLoop, QIODevice, QPoint, QRect, QRectF, QSettings, QSize, QThread, QTimer, Qt, QUrl
-from PyQt6.QtGui import QAction, QActionGroup, QColor, QCursor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPainter, QPen, QPixmap, QPolygon
+from PyQt6.QtGui import QAction, QActionGroup, QColor, QCursor, QDesktopServices, QFont, QGuiApplication, QIcon, QImage, QKeySequence, QPainter, QPalette, QPen, QPixmap, QPolygon
 from PyQt6.QtPrintSupport import QPrintDialog, QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import (
     QApplication,
@@ -1093,6 +1093,8 @@ class MainWindow(QMainWindow):
 
         self.capture_cursor_toggle = QCheckBox(self)
         self.capture_cursor_toggle.setChecked(self._setting_bool("capture/include_cursor", False))
+        self.capture_cursor_toggle.setAccessibleName(self.tr("Include Mouse Cursor"))
+        self.capture_cursor_toggle.setFixedSize(18, 18)
         self.capture_cursor_icon = QLabel(self)
         self.capture_cursor_icon.setFixedSize(22, 22)
         self.capture_cursor_icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -2759,9 +2761,34 @@ class MainWindow(QMainWindow):
         if enabled and self._setting_int("capture/delay_seconds", 0) <= 0:
             self.status_label.setText(self.tr("Set a capture delay to include the mouse cursor."))
 
+    def _style_capture_cursor_toggle(self) -> None:
+        if not hasattr(self, "capture_cursor_toggle"):
+            return
+        app = QApplication.instance()
+        palette = app.palette() if app is not None else self.palette()
+        fill = palette.color(QPalette.ColorRole.Midlight).name()
+        border = palette.color(QPalette.ColorRole.WindowText).name()
+        highlight = palette.color(QPalette.ColorRole.Highlight).name()
+        check_icon = self._icon_base_path() / "kimageannotator" / "dark" / "check.svg"
+        image = f"image: url({check_icon.as_posix()});" if check_icon.exists() else ""
+        self.capture_cursor_toggle.setStyleSheet(
+            "QCheckBox { margin: 0px; padding: 0px; }"
+            "QCheckBox::indicator {"
+            " width: 16px; height: 16px;"
+            f" border: 1px solid {border}; border-radius: 3px;"
+            f" background-color: {fill};"
+            " }"
+            f"QCheckBox::indicator:hover {{ border-color: {highlight}; }}"
+            "QCheckBox::indicator:checked {"
+            f" background-color: {highlight}; border-color: {highlight};"
+            f" {image}"
+            " }"
+        )
+
     def _sync_capture_cursor_toolbar(self) -> None:
         if not hasattr(self, "capture_cursor_toggle") or not hasattr(self, "capture_cursor_icon"):
             return
+        self._style_capture_cursor_toggle()
         enabled = self.capture_cursor_toggle.isChecked()
         icon = self._load_icon("captureCursor" if enabled else "captureCursorOff")
         self.capture_cursor_icon.setPixmap(icon.pixmap(18, 18))

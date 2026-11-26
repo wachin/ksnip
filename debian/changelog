@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-21) unstable; urgency=medium
+
+  * Give the capture-cursor toolbar checkbox a bordered, themed indicator so
+    it is visible on both dark and light backgrounds, with a checked state and
+    a check mark.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 09:40:00 -0500
+
 ksnip-pyqt6 (0.2.2-20) unstable; urgency=medium
 
   * Normalize the kImageAnnotator dark/light icon pairs and prefer packaged

@@ -29,6 +29,9 @@
   theme-aware actions now load light glyphs on a dark background and dark
   glyphs on a light background. System icon-theme fallbacks are used only when
   no packaged variant exists.
+* Fixed: The capture-cursor checkbox in the toolbar blended into the dark
+  background. It now has a bordered indicator, a contrasting checked state,
+  and a check mark in both themes.
 * Docs: Added `docs/OCR_PLUGIN_ARCHITECTURE.md`, describing the plugin
   boundary, the entry-point contract, the managed environment, the packaging
   split, and the Debian main-archive constraints. Added the document to the
