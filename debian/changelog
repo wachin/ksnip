@@ -1,3 +1,10 @@
+ksnip-pyqt6 (0.2.2-12) unstable; urgency=medium
+
+  * Complete the Galician (gl) translation, including the two new MainWindow
+    strings.
+
+ -- wachin <wachin.id@gmail.com>  Wed, 25 Nov 2026 23:40:00 -0500
+
 ksnip-pyqt6 (0.2.2-11) unstable; urgency=medium
 
   * Complete the Basque (eu) translation, including the two new MainWindow
