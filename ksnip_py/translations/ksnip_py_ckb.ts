@@ -21,13 +21,11 @@
     <message>
       <location filename="../about_dialog.py" line="85" />
       <source>Email</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ئیمەیڵ</translation></message>
     <message>
       <location filename="../about_dialog.py" line="86" />
       <source>Website</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ماڵپەڕ</translation></message>
     <message>
       <location filename="../about_dialog.py" line="87" />
       <source>License</source>
@@ -51,8 +49,7 @@
     <message>
       <location filename="../about_dialog.py" line="98" />
       <source>Technologies</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>تەکنەلۆژیاکان</translation></message>
     <message>
       <location filename="../about_dialog.py" line="98" />
       <source>Python 3, PyQt6 (Qt 6 Widgets), PaddleOCR (optional OCR backend)</source>
@@ -113,8 +110,7 @@
     <message>
       <location filename="../canvas.py" line="112" />
       <source>Orientation:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ئاراستە:</translation></message>
     <message>
       <location filename="../canvas.py" line="113" />
       <source>Position:</source>
@@ -147,8 +143,7 @@
     <message>
       <location filename="../download_manager.py" line="353" />
       <source>This is a packaged build. Installing Python packages (PaddleOCR, PaddlePaddle, PaddleX) is disabled because no Python interpreter is shipped with it. Use a source checkout, or configure an external OCR script under Settings → OCR.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ئەمە وەشانێکی پاکەتکراوە. دامەزراندنی پاکێتەکانی Python (PaddleOCR، PaddlePaddle، PaddleX) ناچالاکە چونکە هیچ مفسرێکی Python لەگەڵدا نییە. کۆپی سەرچاوەی کۆد بەکاربهێنە، یان سکریپتێکی OCRی دەرەکی لە ڕێکخستن → OCR دا ڕێکبخە.</translation></message>
     <message>
       <location filename="../download_manager.py" line="426" />
       <source>PaddleOCR Line Models (PP-OCRv5)</source>
@@ -165,8 +160,7 @@
       <location filename="../download_manager.py" line="448" />
       <location filename="../download_manager.py" line="434" />
       <source>OCR</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR</translation></message>
     <message>
       <location filename="../download_manager.py" line="440" />
       <source>PaddleOCR Structure (PP-StructureV3)</source>
@@ -296,18 +290,15 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="707" />
       <source>Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ناوچەی چوارگۆشە</translation></message>
     <message>
       <location filename="../main_window.py" line="710" />
       <source>Last Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>دوایین ناوچەی چوارگۆشە</translation></message>
     <message>
       <location filename="../main_window.py" line="713" />
       <source>Full Screen</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>شاشەی تەواو</translation></message>
     <message>
       <location filename="../main_window.py" line="716" />
       <source>Current Screen</source>
@@ -326,28 +317,23 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="725" />
       <source>Portal</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پۆرتال</translation></message>
     <message>
       <location filename="../main_window.py" line="728" />
       <source>Include Mouse Cursor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نیشاندەری ماوس زیاد بکە</translation></message>
     <message>
       <location filename="../main_window.py" line="732" />
       <source>Include the mouse cursor in new captures. Requires a capture delay greater than 0.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نیشاندەری ماوس لە وێنەگرتنە نوێیەکاندا زیاد بکە. پێویستی بە دواکەوتنی وێنەگرتنێکی زیاتر لە 0 هەیە.</translation></message>
     <message>
       <location filename="../main_window.py" line="735" />
       <source>Use Arrow Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نیشاندەری تیر بەکاربهێنە</translation></message>
     <message>
       <location filename="../main_window.py" line="739" />
       <source>Use a standard arrow instead of the actual pointer shape, such as the text I-beam.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>تیرێکی ئاسایی بەکاربهێنە لە جیاتی شێوەی ڕاستەقینەی نیشاندەر، وەک هێڵی نیشاندەری دەق.</translation></message>
     <message>
       <location filename="../main_window.py" line="743" />
       <source>Open</source>
@@ -369,8 +355,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
       <location filename="../main_window.py" line="815" />
       <location filename="../main_window.py" line="757" />
       <source>Save All</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>هەموو پاشەکەوت بکە</translation></message>
     <message>
       <location filename="../main_window.py" line="760" />
       <source>Export as SVG...</source>
@@ -409,8 +394,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
       <location filename="../main_window.py" line="817" />
       <location filename="../main_window.py" line="780" />
       <source>Rename</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ناونیشان بگۆڕە</translation></message>
     <message>
       <location filename="../main_window.py" line="784" />
       <source>Delete Image...</source>
@@ -470,8 +454,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="833" />
       <source>Marker Pen</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>قەڵەمی نیشانەکردن</translation></message>
     <message>
       <location filename="../main_window.py" line="835" />
       <source>Line</source>
@@ -485,8 +468,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="845" />
       <source>Double Arrow</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>تیری دووانە</translation></message>
     <message>
       <location filename="../main_window.py" line="847" />
       <source>Rectangle</source>
@@ -495,8 +477,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="852" />
       <source>Ellipse</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بیضی</translation></message>
     <message>
       <location filename="../main_window.py" line="857" />
       <source>Text</source>
@@ -505,8 +486,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="862" />
       <source>Text Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نیشاندەری دەق</translation></message>
     <message>
       <location filename="../main_window.py" line="863" />
       <source>Text Arrow</source>
@@ -515,13 +495,11 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="865" />
       <source>Blur</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>شێوێنکردن</translation></message>
     <message>
       <location filename="../main_window.py" line="870" />
       <source>Pixelate</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پیکسڵکردن</translation></message>
     <message>
       <location filename="../main_window.py" line="875" />
       <source>Crop</source>
@@ -545,13 +523,11 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="891" />
       <source>Marker Rectangle</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>مستطیلی نیشانەکردن</translation></message>
     <message>
       <location filename="../main_window.py" line="892" />
       <source>Marker Ellipse</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بیضیی نیشانەکردن</translation></message>
     <message>
       <location filename="../main_window.py" line="1205" />
       <location filename="../main_window.py" line="893" />
@@ -561,8 +537,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="894" />
       <source>Number Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نیشاندەری ژمارە</translation></message>
     <message>
       <location filename="../main_window.py" line="895" />
       <source>Number Arrow</source>
@@ -582,23 +557,19 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="929" />
       <source>Undo</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پاشگەزبوونەوە</translation></message>
     <message>
       <location filename="../main_window.py" line="934" />
       <source>Redo</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>دووبارەکردنەوە</translation></message>
     <message>
       <location filename="../main_window.py" line="939" />
       <source>Paste</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>لکاندن</translation></message>
     <message>
       <location filename="../main_window.py" line="944" />
       <source>Paste Embedded</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>لکاندنی ناوەکی</translation></message>
     <message>
       <location filename="../main_window.py" line="948" />
       <source>Paste Item</source>
@@ -627,8 +598,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="966" />
       <source>Send To Back</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بنێرە بۆ دواوە</translation></message>
     <message>
       <location filename="../main_window.py" line="969" />
       <source>Rotate</source>
@@ -638,8 +608,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
       <location filename="../main_window.py" line="1243" />
       <location filename="../main_window.py" line="972" />
       <source>Scale</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پێوانە</translation></message>
     <message>
       <location filename="../main_window.py" line="3573" />
       <location filename="../main_window.py" line="977" />
@@ -650,14 +619,12 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
       <location filename="../main_window.py" line="3574" />
       <location filename="../main_window.py" line="978" />
       <source>Drop Shadow</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>سێبەری داکەوتوو</translation></message>
     <message>
       <location filename="../main_window.py" line="3575" />
       <location filename="../main_window.py" line="979" />
       <source>Grayscale</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕەنگخۆڵەمێشی</translation></message>
     <message>
       <location filename="../main_window.py" line="3576" />
       <location filename="../main_window.py" line="980" />
@@ -695,8 +662,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
       <location filename="../main_window.py" line="3749" />
       <location filename="../main_window.py" line="1000" />
       <source>Upload</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بارکردن</translation></message>
     <message>
       <location filename="../main_window.py" line="1004" />
       <source>OCR Text Recognition</source>
@@ -720,8 +686,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="1019" />
       <source>Settings</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕێکخستن</translation></message>
     <message>
       <location filename="../main_window.py" line="1022" />
       <source>Model Manager…</source>
@@ -760,8 +725,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="1041" />
       <source>Zoom In</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نزیککردنەوە</translation></message>
     <message>
       <location filename="../main_window.py" line="1044" />
       <source>Fit Image</source>
@@ -824,8 +788,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="1175" />
       <source>Font</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>فۆنت</translation></message>
     <message>
       <location filename="../main_window.py" line="1180" />
       <source>Bold</source>
@@ -849,8 +812,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="1202" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بۆشایی نیشانەی ژمارە:</translation></message>
     <message>
       <location filename="../main_window.py" line="1215" />
       <source>Effect strength: controls the intensity of blur or pixelation.</source>
@@ -870,8 +832,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
       <location filename="../main_window.py" line="1232" />
       <location filename="../main_window.py" line="1230" />
       <source>Item shadow</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>سێبەری بەند</translation></message>
     <message>
       <location filename="../main_window.py" line="1241" />
       <source>Sticker scale as a percentage of its original insertion size.</source>
@@ -901,8 +862,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
       <location filename="../main_window.py" line="1624" />
       <location filename="../main_window.py" line="1408" />
       <source>Zoom</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>زووم</translation></message>
     <message>
       <location filename="../main_window.py" line="3588" />
       <location filename="../main_window.py" line="1430" />
@@ -912,8 +872,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="1445" />
       <source>Controls</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>کۆنترۆڵەکان</translation></message>
     <message>
       <location filename="../main_window.py" line="1538" />
       <source>&amp;File</source>
@@ -932,8 +891,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="1583" />
       <source>Effects</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>کاریگەرییەکان</translation></message>
     <message>
       <location filename="../main_window.py" line="1594" />
       <source>Annotation Items</source>
@@ -947,23 +905,19 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="1607" />
       <source>Theme</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕووکار</translation></message>
     <message>
       <location filename="../main_window.py" line="1612" />
       <source>System</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>سیستەم</translation></message>
     <message>
       <location filename="../main_window.py" line="1613" />
       <source>Light</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕووناک</translation></message>
     <message>
       <location filename="../main_window.py" line="1614" />
       <source>Dark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>تاریک</translation></message>
     <message>
       <location filename="../main_window.py" line="1630" />
       <source>&amp;Options</source>
@@ -972,8 +926,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="1638" />
       <source>Watermark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>واتەرمارک</translation></message>
     <message>
       <location filename="../main_window.py" line="1642" />
       <source>Annotation Tools</source>
@@ -1007,8 +960,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="2099" />
       <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>دەستگیرەکانی بڕین ڕابکێشە، پاشان Enter دابگرە بۆ بڕین یان Esc بۆ پەشیمانبوونەوە.</translation></message>
     <message>
       <location filename="../main_window.py" line="2312" />
       <source>Select color</source>
@@ -1103,13 +1055,11 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="2744" />
       <source>Set a capture delay to include the mouse cursor.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>دواکەوتنی وێنەگرتنێک دابنێ بۆ ئەوەی نیشاندەری ماوس زیاد بکرێت.</translation></message>
     <message>
       <location filename="../main_window.py" line="2752" />
       <source>Capture the mouse cursor (also in Options &gt; Settings &gt; Image Grabber &gt; Capture mouse cursor on screenshot). Requires a capture delay.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نیشاندەری ماوس بگرە (هەروەها لە هەڵبژاردنەکان &gt; ڕێکخستن &gt; گرتنی وێنە &gt; نیشاندەری ماوس لە وێنەی شاشەدا بگرە). پێویستی بە دواکەوتنی وێنەگرتن هەیە.</translation></message>
     <message>
       <location filename="../main_window.py" line="2875" />
       <source>Loaded %1 capture and copied it to clipboard</source>
@@ -1161,8 +1111,7 @@ Dûv re rê li Mîhengan → OCR → Nivîsara OCR ya Derve mîheng bikin.</tran
     <message>
       <location filename="../main_window.py" line="3089" />
       <source>PNG (*.png)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PNG (*.png)</translation></message>
     <message>
       <location filename="../main_window.py" line="3096" />
       <source>Export as SVG</source>
@@ -1442,8 +1391,7 @@ Ma hûn dixwazin berdewam bikin?</translation>
     <message>
       <location filename="../main_window.py" line="3833" />
       <source>OCR</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR</translation></message>
     <message>
       <location filename="../main_window.py" line="3837" />
       <source>Running OCR...</source>
@@ -1518,7 +1466,7 @@ First run loads several models and may take 1–3 minutes on CPU.</source>
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>ksnip PyQt6 bigire û guhertinên neparastkirî yên di tabloyên vekirî de ji holê rake?</translation>
     </message>
-  </context>
+  <message><source>Model Manager</source><translation>بەڕێوەبەری مۆدێلەکان</translation></message><message><source>The OCR plugin failed to open: %1</source><translation>پێوەکراوی OCR نەتوانرا بکرێتەوە: %1</translation></message></context>
   <context>
     <name>ModelCard</name>
     <message>
@@ -1545,8 +1493,7 @@ First run loads several models and may take 1–3 minutes on CPU.</source>
     <message>
       <location filename="../download_manager.py" line="209" />
       <source>Not available in a packaged build. Use a source checkout or an external OCR script.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>لە وەشانێکی پاکەتکراودا بەردەست نییە. کۆپی سەرچاوەی کۆد یان سکریپتێکی OCRی دەرەکی بەکاربهێنە.</translation></message>
     <message>
       <location filename="../download_manager.py" line="216" />
       <source>Remove</source>
@@ -1556,8 +1503,7 @@ First run loads several models and may take 1–3 minutes on CPU.</source>
       <location filename="../download_manager.py" line="285" />
       <location filename="../download_manager.py" line="239" />
       <source>Reinstall</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>دووبارە دامەزراندن</translation></message>
     <message>
       <location filename="../download_manager.py" line="241" />
       <source>✓ Installed</source>
@@ -1623,23 +1569,19 @@ Derhêner: %2</translation>
     <message>
       <location filename="../canvas.py" line="339" />
       <source>X:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>X:</translation></message>
     <message>
       <location filename="../canvas.py" line="340" />
       <source>Y:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Y:</translation></message>
     <message>
       <location filename="../canvas.py" line="341" />
       <source>W:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>W:</translation></message>
     <message>
       <location filename="../canvas.py" line="342" />
       <source>H:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>H:</translation></message>
     <message>
       <location filename="../canvas.py" line="344" />
       <source>Apply</source>
@@ -1699,8 +1641,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../capture.py" line="266" />
       <source>D-Bus portal capture is only available on Linux.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>گرتنی پۆرتالی D-Bus تەنها لە Linux دا بەردەستە.</translation></message>
     <message>
       <location filename="../capture.py" line="273" />
       <source>the D-Bus session bus is not available.</source>
@@ -1762,18 +1703,15 @@ Derhêner: %2</translation>
     <message>
       <location filename="../canvas.py" line="178" />
       <source>180°</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>180°</translation></message>
     <message>
       <location filename="../canvas.py" line="179" />
       <source>90° Clockwise</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>90° بە ئاراستەی کاتژمێر</translation></message>
     <message>
       <location filename="../canvas.py" line="180" />
       <source>90° Counter Clockwise</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>90° دژە ئاراستەی کاتژمێر</translation></message>
     <message>
       <location filename="../canvas.py" line="181" />
       <source>Arbitrary</source>
@@ -1797,16 +1735,14 @@ Derhêner: %2</translation>
     <message>
       <location filename="../canvas.py" line="199" />
       <source>Flip</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پێچەوانەکردنەوە</translation></message>
   </context>
   <context>
     <name>ScaleDialog</name>
     <message>
       <location filename="../canvas.py" line="237" />
       <source>Scale Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پێوانەکردنی وێنە</translation></message>
     <message>
       <location filename="../canvas.py" line="239" />
       <source>Keep Aspect Ratio</source>
@@ -1815,8 +1751,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../canvas.py" line="246" />
       <source>Pixel</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پیکسڵ</translation></message>
     <message>
       <location filename="../canvas.py" line="252" />
       <location filename="../canvas.py" line="248" />
@@ -1841,8 +1776,7 @@ Derhêner: %2</translation>
       <location filename="../settings_dialog.py" line="1089" />
       <location filename="../settings_dialog.py" line="116" />
       <source>Settings</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕێکخستن</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="124" />
       <source>Search Settings...</source>
@@ -1866,8 +1800,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="150" />
       <source>Marker Pen</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>قەڵەمی نیشانەکردن</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="151" />
       <source>Line</source>
@@ -1881,8 +1814,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="153" />
       <source>Double Arrow</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>تیری دووانە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="154" />
       <source>Rectangle</source>
@@ -1891,18 +1823,15 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="155" />
       <source>Ellipse</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بیضی</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="156" />
       <source>Marker Rectangle</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>مستطیلی نیشانەکردن</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="157" />
       <source>Marker Ellipse</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بیضیی نیشانەکردن</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="158" />
       <source>Text</source>
@@ -1911,8 +1840,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="159" />
       <source>Text Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نیشاندەری دەق</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="160" />
       <source>Text Arrow</source>
@@ -1926,8 +1854,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="162" />
       <source>Number Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نیشاندەری ژمارە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="163" />
       <source>Number Arrow</source>
@@ -1936,13 +1863,11 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="164" />
       <source>Blur</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>شێوێنکردن</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="165" />
       <source>Pixelate</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پیکسڵکردن</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="166" />
       <source>Sticker</source>
@@ -1966,8 +1891,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="175" />
       <source>Font Family</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>خێزانی فۆنت</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="179" />
       <source>Font Size</source>
@@ -1986,8 +1910,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="184" />
       <source>No Border and No Fill</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بێ سنوور و بێ پڕکردنەوە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="185" />
       <source>Shape Fill Mode</source>
@@ -2011,13 +1934,11 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="198" />
       <source>Text Style</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>شێوازی دەق</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="200" />
       <source>Watermark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>واتەرمارک</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="203" />
       <source>Rotate Watermark 45°</source>
@@ -2121,8 +2042,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="273" />
       <source>System default</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بنەڕەتی سیستەم</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="617" />
       <location filename="../settings_dialog.py" line="274" />
@@ -2144,13 +2064,11 @@ Derhêner: %2</translation>
       <location filename="../settings_dialog.py" line="818" />
       <location filename="../settings_dialog.py" line="287" />
       <source>Browse</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>گەڕان</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="293" />
       <source>Temp Directory</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>فۆڵدەری کاتی</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="519" />
       <location filename="../settings_dialog.py" line="295" />
@@ -2175,8 +2093,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="308" />
       <source>Saver</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پاشەکەوتکەر</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="310" />
       <source>Automatically save new captures to default location</source>
@@ -2195,8 +2112,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="315" />
       <source>Remember the last directory of the last opened image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>دوایین فۆڵدەری دوایین وێنەی کراوە لەبیر بگرە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="325" />
       <location filename="../settings_dialog.py" line="319" />
@@ -2257,8 +2173,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="353" />
       <source>Save Quality</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>کوالیتی پاشەکەوت</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="808" />
       <location filename="../settings_dialog.py" line="355" />
@@ -2306,8 +2221,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="386" />
       <source>The mouse cursor is captured only when a capture delay is set.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نیشاندەری ماوس تەنها کاتێک دەگیرێت کە دواکەوتنی وێنەگرتن دیاریکرابێت.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="388" />
       <source>Show Main Window after capturing screenshot</source>
@@ -2346,8 +2260,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="411" />
       <source>Implicit capture delay</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>دواکەوتنی ناڕاستەوخۆی وێنەگرتن</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="413" />
       <source>Snipping Area</source>
@@ -2401,8 +2314,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="453" />
       <source>Snipping Area cursor thickness</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ئەستووری نیشاندەری ناوچەی بڕین</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="454" />
       <source>Snipping Area Transparency</source>
@@ -2411,8 +2323,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="456" />
       <source>Annotator</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>تێبینی‌کەر</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="458" />
       <source>Remember annotation tool selection and load on startup</source>
@@ -2441,13 +2352,11 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="469" />
       <source>Extra space around the digit inside the number badge. Negative values make it fit more tightly.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بۆشایی زیادە لە دەوری ژمارەکە لە نیشانەی ژمارەدا. بەها نەرێنییەکان وای دەکەن توندتر جێگا ببێتەوە.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="472" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بۆشایی نیشانەی ژمارە:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="476" />
       <source>Show Controls Widget</source>
@@ -2471,8 +2380,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="499" />
       <source>Canvas Color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕەنگی کەنواس</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="500" />
       <source>Tray Icon</source>
@@ -2496,8 +2404,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="506" />
       <source>Start Minimized To Tray</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>دەستپێکردن بە بچووککراوە لە سینی سیستەم</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="507" />
       <source>Display Tray Notifications</source>
@@ -2521,18 +2428,15 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="523" />
       <source>Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ناوچەی چوارگۆشە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="524" />
       <source>Last Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>دوایین ناوچەی چوارگۆشە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="525" />
       <source>Full Screen</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>شاشەی تەواو</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="526" />
       <source>Current Screen</source>
@@ -2551,8 +2455,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="529" />
       <source>Portal</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پۆرتال</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="530" />
       <source>Capture Mode</source>
@@ -2576,18 +2479,15 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="547" />
       <source>Rect Area Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>گرتنی ناوچەی چوارگۆشە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="548" />
       <source>Last Rect Area Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>گرتنی دوایین ناوچەی چوارگۆشە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="549" />
       <source>Full Screen Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>گرتنی شاشەی تەواو</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="550" />
       <source>Current Screen Capture</source>
@@ -2621,13 +2521,11 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="556" />
       <source>Paste Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>لکاندنی وێنە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="557" />
       <source>Pin Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>هەڵواسینی وێنە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="558" />
       <source>Add Watermark</source>
@@ -2651,8 +2549,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="574" />
       <source>Uploader</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بارکەر</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="576" />
       <source>Ask for confirmation before uploading</source>
@@ -2668,8 +2565,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="586" />
       <source>Uploader Type</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>جۆری بارکەر</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="588" />
       <source>Script Uploader</source>
@@ -2683,8 +2579,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="604" />
       <source>Filter</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>فلتر</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="606" />
       <source>Treat stderr as failure</source>
@@ -2693,13 +2588,11 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="608" />
       <source>OCR</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="610" />
       <source>Enable OCR actions</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>کردارەکانی OCR چالاک بکە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="612" />
       <source>PaddleOCR (plain text)</source>
@@ -2723,8 +2616,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="619" />
       <source>Spanish + English (script backend recommended)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ئیسپانی + ئینگلیزی (backendی سکریپت پێشنیار دەکرێت)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="620" />
       <source>Recognize mathematical formulas (LaTeX)</source>
@@ -2738,13 +2630,11 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="631" />
       <source>Backend</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>باکئێند</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="635" />
       <source>Script Path</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕێڕەوی سکریپت</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="639" />
       <source>Color scheme for misspelled words</source>
@@ -2764,48 +2654,39 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="647" />
       <source>Text fill color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕەنگی پڕکردنەوەی دەق</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="647" />
       <source>Underline color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕەنگی هێڵی ژێرەوە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="697" />
       <source>Imgur Uploader</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بارکەری Imgur</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="699" />
       <source>Native Imgur uploader parity is still pending.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>هاوتای بارکەری Imgurی ڕەسەن هێشتا چاوەڕوانە.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="710" />
       <source>FTP Uploader</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بارکەری FTP</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="712" />
       <source>Native FTP uploader parity is still pending.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>هاوتای بارکەری FTPی ڕەسەن هێشتا چاوەڕوانە.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="730" />
       <source>Stickers</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ستیکەرەکان</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="732" />
       <source>Sticker management and picker parity are still pending.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بەڕێوەبردن و هەڵبژاردنی ستیکەر هێشتا چاوەڕوانە.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="763" />
       <source>OK</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>باشە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="764" />
       <source>Cancel</source>
@@ -2814,8 +2695,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="785" />
       <source>Actions</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>کردارەکان</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="789" />
       <source>Add</source>
@@ -2824,18 +2704,15 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="795" />
       <source>Add new actions by pressing the 'Add' tab button.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>کرداری نوێ زیاد بکە بە داگرتنی دوگمەی 'زیادکردن' لە تابەکەدا.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="803" />
       <source>Plugins</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>پێوەکراوەکان</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="806" />
       <source>Search Path</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕێڕەوی گەڕان</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="827" />
       <source>Version</source>
@@ -2844,8 +2721,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="837" />
       <source>Detect</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>دۆزینەوە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="876" />
       <source>Select color</source>
@@ -2854,8 +2730,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="1071" />
       <source>No watermark image configured</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>هیچ وێنەی واتەرمارک ڕێک نەخراوە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1073" />
       <source>%1x%2 image configured</source>
@@ -2869,26 +2744,22 @@ Derhêner: %2</translation>
     <message>
       <location filename="../settings_dialog.py" line="1088" />
       <source>Unable to load watermark image: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نەتوانرا وێنەی واتەرمارک بار بکرێت: %1</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1113" />
       <source>Select upload script</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>سکریپتی بارکردن هەڵبژێرە</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1129" />
       <source>Select OCR script</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>سکریپتی OCR هەڵبژێرە</translation></message>
   </context>
   <context>
     <name>SpellCheckTextEdit</name>
     <message>
       <location filename="../spellcheck.py" line="301" />
       <source>No suggestions</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>هیچ پێشنیارێک نییە</translation></message>
   </context>
   <context>
     <name>StickerPickerDialog</name>
@@ -2900,8 +2771,7 @@ Derhêner: %2</translation>
     <message>
       <location filename="../sticker_picker.py" line="117" />
       <source>Pinned Stickers</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ستیکەرە هەڵواسراوەکان</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="161" />
       <source>Use the star button to pin frequently used stickers.</source>
@@ -2910,66 +2780,54 @@ Derhêner: %2</translation>
     <message>
       <location filename="../sticker_picker.py" line="171" />
       <source>User</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>بەکارهێنەر</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="193" />
       <source>Add Images...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>وێنەکان زیاد بکە...</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="196" />
       <source>Open Here with File Manager</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>لێرە بیکەرەوە بە بەڕێوەبەری فایل</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="205" />
       <source>Add your own images to use them as stickers.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>وێنەکانی خۆت زیاد بکە بۆ بەکارهێنانیان وەک ستیکەر.</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="207" />
       <source>Sticker theme is not installed: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ڕووکاری ستیکەر دامەزراو نییە: %1</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="228" />
       <source>Add Sticker Images</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>وێنەکانی ستیکەر زیاد بکە</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="230" />
       <source>Images (*.png *.jpg *.jpeg *.webp *.bmp *.gif *.svg *.xpm);;All Files (*)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>وێنەکان (*.png *.jpg *.jpeg *.webp *.bmp *.gif *.svg *.xpm);;هەموو فایلەکان (*)</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="238" />
       <source>Unable to Add Images</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>نەتوانرا وێنەکان زیاد بکرێن</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="239" />
       <source>Some files could not be imported as stickers.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>هەندێک فایل نەتوانرا وەک ستیکەر وارد بکرێن.</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="270" />
       <location filename="../sticker_picker.py" line="255" />
       <source>Unpin Sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ستیكەرەکە لابەرەوە</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="270" />
       <source>Pin Sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ستیكەرەکە هەڵواسە</translation></message>
   </context>
   <context>
     <name>TextInputDialog</name>
     <message>
       <location filename="../canvas.py" line="24" />
       <source>Shift+Enter adds a new line. Ctrl+Enter accepts.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shift+Enter هێڵێکی نوێ زیاد دەکات. Ctrl+Enter پەسەند دەکات.</translation></message>
   </context>
 </TS>
