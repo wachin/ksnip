@@ -1518,7 +1518,7 @@ La primera ejecución carga varios modelos y puede tardar de 1 a 3 minutos en CP
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
       <translation>¿Cerrar ksnip PyQt6 y descartar los cambios sin guardar de las pestañas abiertas?</translation>
     </message>
-  </context>
+  <message><source>Model Manager</source><translation>Gestor de modelos</translation></message><message><source>The OCR plugin failed to open: %1</source><translation>No se pudo abrir el plugin OCR: %1</translation></message></context>
   <context>
     <name>ModelCard</name>
     <message>

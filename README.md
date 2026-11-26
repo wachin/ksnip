@@ -172,6 +172,7 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 | Building distributions and CI workflows | [GitHub Actions and packaging guide (Spanish)](docs/GITHUB_ACTIONS_PACKAGES_ES.md) |
 | OCR installation on Debian derivatives | [PaddleOCR guide (Spanish)](docs/OCR_PADDLEOCR_ES.md) |
 | OCR plugin architecture and Debian packaging rationale | [OCR plugin architecture](docs/OCR_PLUGIN_ARCHITECTURE.md) |
+| Translation review and current catalog gaps | [Translation audit](docs/TRANSLATION_AUDIT.md) |
 | Script uploader verification | [Script uploader tests (Spanish)](docs/PRUEBAS_UPLOADER_SCRIPT_ES.md) |
 | Deferred Imgur implementation | [Imgur port notes (Spanish)](docs/imgur/README_ES.md) |
 | Debian packaging and policy compliance | [debian/](debian/) |
@@ -440,11 +441,52 @@ behavior.
 
 Compatible strings from the original C++ `ksnip` catalogs are reused by the port. The `ksnip_py` catalog contains messages that only exist in the Python implementation.
 
-Translation workflow for contributors. The synchronization script extracts the Python messages, carries over the existing `ksnip_py` translations (and, when present, matching entries from the original C++ catalogs), and compiles every `.qm` file:
+### Translation workflow and review
+
+Install the Qt translation tools:
+
+```bash
+sudo apt install linguist-qt6 qt6-l10n-tools pyqt6-dev-tools
+```
+
+The packages provide:
+
+- `linguist6`: Qt Linguist, the graphical `.ts` editor;
+- `lrelease`: compiles `.ts` files into `.qm`;
+- `pylupdate6`: extracts translatable strings from the Python sources.
+
+Open a catalog for review:
+
+```bash
+linguist6 ksnip_py/translations/ksnip_py_es.ts
+```
+
+In Qt Linguist, review the source and target columns, complete unfinished
+messages, and check that placeholders such as `%1` are preserved. Do not
+translate product names or technical identifiers such as `PaddleOCR`,
+`PaddlePaddle`, `PaddleX`, `PP-OCRv5`, `PP-StructureV3`, or
+`PP-FormulaNet_plus-L`.
+
+To synchronize the catalogs after changing Python strings, run:
 
 ```bash
 python3 tools/update_pyqt_translations.py
 ```
+
+The script extracts the Python messages, carries over the existing
+`ksnip_py` translations (and, when present, matching entries from the
+original C++ catalogs), and compiles every `.qm` file. To compile one catalog
+manually:
+
+```bash
+lrelease ksnip_py/translations/ksnip_py_es.ts \
+  -qm ksnip_py/translations/ksnip_py_es.qm
+```
+
+`python3 tools/update_pyqt_translations.py` is the supported way to refresh
+all 41 catalogs at once. Some catalogs still contain unfinished messages;
+Qt Linguist shows them in the "Unfinished" filter and Qt falls back to the
+English source text only for those messages.
 
 ## Keyboard shortcuts
 

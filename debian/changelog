@@ -1,3 +1,13 @@
+ksnip-pyqt6 (0.2.2-7) unstable; urgency=medium
+
+  * Add the missing Spanish translations for the Model Manager title and the
+    OCR plugin startup error.
+  * Document translation review with Qt Linguist, lrelease, and pylupdate6.
+  * Add a repository translation audit recording the remaining gaps in the
+    non-Spanish catalogs.
+
+ -- wachin <wachin.id@gmail.com>  Wed, 25 Nov 2026 22:40:00 -0500
+
 ksnip-pyqt6 (0.2.2-6) unstable; urgency=medium
 
   * Route the layout/table and HTML OCR backends through an optional
