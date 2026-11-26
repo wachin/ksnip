@@ -50,6 +50,9 @@
 * New: The legacy `~/.paddleocr` cache is labeled as optional. PaddleOCR 3.x
   and PaddleX use `~/.paddlex/official_models`; absence of `~/.paddleocr` is
   normal and does not indicate a missing OCR component.
+* New: The PaddleX cache description identifies which model families serve
+  plain text, PP-StructureV3 Markdown/HTML tables, and PP-FormulaNet formula
+  recognition, so users can audit the downloaded weights.
 * New: Added an upstream-only `.deb` package for the plugin
   (`ksnip-pyqt6-ocr`). It is distributed separately from the Debian main
   package, because it downloads Python packages at runtime.
