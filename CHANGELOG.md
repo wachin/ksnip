@@ -56,9 +56,8 @@
 * New: Added an upstream-only `.deb` package for the plugin
   (`ksnip-pyqt6-ocr`). It is distributed separately from the Debian main
   package, because it downloads Python packages at runtime.
-* New: The Model Manager loads its own Qt translation catalogs. Spanish is
-  translated; the other ksnip_py locales fall back to English until their
-  catalogs are added.
+* New: The Model Manager loads its own Qt translation catalogs. It is
+  translated into all 41 locales supported by ksnip_py.
 
 The OCR plugin does not change the Debian main policy conclusion: the core
 package remains self-contained, while the optional managed PaddleOCR
