@@ -166,7 +166,7 @@
       <translation>வெளிப்புற OCR ஸ்கிரிப்ட்</translation></message>
     <message>
       <location filename="../download_manager.py" line="469" />
-      <source>Use any custom OCR engine via a script/executable. The script receives the image path as its only argument and must print the recognized text to stdout. 
+      <source>Use any custom OCR engine via a script/executable. The script receives the image path as its only argument and must print the recognized text to stdout.
 
 Example script (save as ~/ocr.sh):
 #!/bin/bash
@@ -174,7 +174,7 @@ tesseract "$1" stdout -l spa+eng
 
 Make it executable: chmod +x ~/ocr.sh
 Then configure the path in Settings → OCR → External OCR script.</source>
-      <translation>ஸ்கிரிப்ட்/எக்ஸிகியூட்டபிள் வழியாக எந்த தனிப்பயன் OCR இன்ஜினையும் பயன்படுத்தவும். ஸ்கிரிப்ட் படத்தின் பாதையை அதன் ஒரே வாதமாகப் பெறுகிறது மற்றும் அங்கீகரிக்கப்பட்ட உரையை stdout க்கு அச்சிட வேண்டும். 
+      <translation>ஸ்கிரிப்ட்/எக்ஸிகியூட்டபிள் வழியாக எந்த தனிப்பயன் OCR இன்ஜினையும் பயன்படுத்தவும். ஸ்கிரிப்ட் படத்தின் பாதையை அதன் ஒரே வாதமாகப் பெறுகிறது மற்றும் அங்கீகரிக்கப்பட்ட உரையை stdout க்கு அச்சிட வேண்டும்.
 
 எடுத்துக்காட்டு ஸ்கிரிப்ட் (~/ocr.sh ஆக சேமிக்கவும்):
 #!/பின்/பாஷ்
