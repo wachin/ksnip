@@ -166,7 +166,7 @@
       <translation>Kanpoko OCR gidoia</translation></message>
     <message>
       <location filename="../download_manager.py" line="469" />
-      <source>Use any custom OCR engine via a script/executable. The script receives the image path as its only argument and must print the recognized text to stdout. 
+      <source>Use any custom OCR engine via a script/executable. The script receives the image path as its only argument and must print the recognized text to stdout.
 
 Example script (save as ~/ocr.sh):
 #!/bin/bash
@@ -174,7 +174,7 @@ tesseract "$1" stdout -l spa+eng
 
 Make it executable: chmod +x ~/ocr.sh
 Then configure the path in Settings → OCR → External OCR script.</source>
-      <translation>Erabili edozein OCR motor pertsonalizatu script/exekutatu baten bidez. Scriptak irudiaren bidea jasotzen du argumentu bakar gisa eta aitortutako testua inprimatu behar du stdout-en. 
+      <translation>Erabili edozein OCR motor pertsonalizatu script/exekutatu baten bidez. Scriptak irudiaren bidea jasotzen du argumentu bakar gisa eta aitortutako testua inprimatu behar du stdout-en.
 
 Script adibidea (gorde ~/ocr.sh gisa):
 #!/bin/bash
