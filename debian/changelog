@@ -1,3 +1,10 @@
+ksnip-pyqt6 (0.2.2-13) unstable; urgency=medium
+
+  * Complete the Albanian (sq) translation, including the two new MainWindow
+    strings.
+
+ -- wachin <wachin.id@gmail.com>  Thu, 26 Nov 2026 08:10:00 -0500
+
 ksnip-pyqt6 (0.2.2-12) unstable; urgency=medium
 
   * Complete the Galician (gl) translation, including the two new MainWindow

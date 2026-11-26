@@ -6,92 +6,76 @@
     <message>
       <location filename="../about_dialog.py" line="29" />
       <source>About ksnip PyQt6</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Rreth ksnip PyQt6</translation></message>
     <message>
       <location filename="../about_dialog.py" line="81" />
       <source>Original project</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Projekt origjinal</translation></message>
     <message>
       <location filename="../about_dialog.py" line="84" />
       <source>PyQt6 port</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Porta PyQt6</translation></message>
     <message>
       <location filename="../about_dialog.py" line="85" />
       <source>Email</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Email</translation></message>
     <message>
       <location filename="../about_dialog.py" line="86" />
       <source>Website</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Faqja e internetit</translation></message>
     <message>
       <location filename="../about_dialog.py" line="87" />
       <source>License</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Licenca</translation></message>
     <message>
       <location filename="../about_dialog.py" line="95" />
       <source>Version</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Versioni</translation></message>
     <message>
       <location filename="../about_dialog.py" line="96" />
       <source>A screenshot and annotation tool, ported from the original C++/Qt ksnip to Python with PyQt6.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Një mjet për pamjen e ekranit dhe shënimin, i transferuar nga ksnip origjinal C++/Qt në Python me PyQt6.</translation></message>
     <message>
       <location filename="../about_dialog.py" line="97" />
       <source>Capture, annotate and share screenshots with rectangles, arrows, text, numbering, blur, watermark, OCR, pin windows and upload.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Regjistroni, shënoni dhe ndani pamjet e ekranit me drejtkëndësha, shigjeta, tekst, numërim, turbullim, filigran, OCR, pin dritare dhe ngarkoni.</translation></message>
     <message>
       <location filename="../about_dialog.py" line="98" />
       <source>Technologies</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>teknologjitë</translation></message>
     <message>
       <location filename="../about_dialog.py" line="98" />
       <source>Python 3, PyQt6 (Qt 6 Widgets), PaddleOCR (optional OCR backend)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Python 3, PyQt6 (Widgets Qt 6), PaddleOCR (backend opsional OCR)</translation></message>
   </context>
   <context>
     <name>AnnotationCanvas</name>
     <message>
       <location filename="../canvas.py" line="1761" />
       <source>Take a screenshot or open an image.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Merrni një pamje nga ekrani ose hapni një imazh.</translation></message>
     <message>
       <location filename="../canvas.py" line="2450" />
       <location filename="../canvas.py" line="2417" />
       <source>Edit text</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Redakto tekstin</translation></message>
     <message>
       <location filename="../canvas.py" line="3451" />
       <location filename="../canvas.py" line="3427" />
       <location filename="../canvas.py" line="3252" />
       <source>Insert text</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fut tekst</translation></message>
   </context>
   <context>
     <name>ColorPaletteMenu</name>
     <message>
       <location filename="../color_picker.py" line="91" />
       <source>Custom color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjyra me porosi</translation></message>
     <message>
       <location filename="../color_picker.py" line="108" />
       <source>Select color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni ngjyrën</translation></message>
   </context>
   <context>
     <name>CutDialog</name>
@@ -113,18 +97,15 @@
     <message>
       <location filename="../canvas.py" line="112" />
       <source>Orientation:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Orientimi:</translation></message>
     <message>
       <location filename="../canvas.py" line="113" />
       <source>Position:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Pozicioni:</translation></message>
     <message>
       <location filename="../canvas.py" line="114" />
       <source>Slice width:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Gjerësia e fetës:</translation></message>
     <message>
       <location filename="../canvas.py" line="117" />
       <source>Apply</source>
@@ -137,64 +118,53 @@
       <location filename="../download_manager.py" line="317" />
       <location filename="../download_manager.py" line="297" />
       <source>Model &amp; Component Manager</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Menaxheri i modelit dhe komponentëve</translation></message>
     <message>
       <location filename="../download_manager.py" line="342" />
       <source>Download additional components for OCR and other features. Models are stored in your user directory and are not bundled with the application.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shkarkoni komponentë shtesë për OCR dhe veçori të tjera. Modelet ruhen në drejtorinë tuaj të përdoruesve dhe nuk janë të bashkuara me aplikacionin.</translation></message>
     <message>
       <location filename="../download_manager.py" line="353" />
       <source>This is a packaged build. Installing Python packages (PaddleOCR, PaddlePaddle, PaddleX) is disabled because no Python interpreter is shipped with it. Use a source checkout, or configure an external OCR script under Settings → OCR.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ky është një ndërtim i paketuar. Instalimi i paketave Python (PaddleOCR, PaddlePaddle, PaddleX) është i çaktivizuar sepse asnjë interpretues Python nuk dërgohet me të. Përdorni një arkë burimi ose konfiguroni një skript të jashtëm OCR nën Cilësimet → OCR.</translation></message>
     <message>
       <location filename="../download_manager.py" line="426" />
       <source>PaddleOCR Line Models (PP-OCRv5)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Modelet e linjës PaddleOCR (PP-OCRv5)</translation></message>
     <message>
       <location filename="../download_manager.py" line="427" />
       <source>Lightweight OCR models for text line recognition. Supports English, Spanish, and 80+ languages.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Modele të lehta OCR për njohjen e rreshtave të tekstit. Mbështet anglisht, spanjisht dhe mbi 80 gjuhë.</translation></message>
     <message>
       <location filename="../download_manager.py" line="484" />
       <location filename="../download_manager.py" line="462" />
       <location filename="../download_manager.py" line="448" />
       <location filename="../download_manager.py" line="434" />
       <source>OCR</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR</translation></message>
     <message>
       <location filename="../download_manager.py" line="440" />
       <source>PaddleOCR Structure (PP-StructureV3)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Struktura PaddleOCR (PP-StructureV3)</translation></message>
     <message>
       <location filename="../download_manager.py" line="441" />
       <source>Document layout analysis and table recognition. Converts tables to Markdown/HTML.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Analiza e paraqitjes së dokumentit dhe njohja e tabelës. Konverton tabelat në Markdown/HTML.</translation></message>
     <message>
       <location filename="../download_manager.py" line="454" />
       <source>PaddleOCR Formula Recognition</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PaddleOCR Formula Njohja</translation></message>
     <message>
       <location filename="../download_manager.py" line="455" />
       <source>Mathematical formula recognition (LaTeX output). Optional extra for structure pipeline.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Njohja matematikore e formulës (dalja LaTeX). Shtesa opsionale për tubacionin e strukturës.</translation></message>
     <message>
       <location filename="../download_manager.py" line="468" />
       <source>External OCR Script</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Skript i jashtëm OCR</translation></message>
     <message>
       <location filename="../download_manager.py" line="469" />
-      <source>Use any custom OCR engine via a script/executable. The script receives the image path as its only argument and must print the recognized text to stdout. 
+      <source>Use any custom OCR engine via a script/executable. The script receives the image path as its only argument and must print the recognized text to stdout.
 
 Example script (save as ~/ocr.sh):
 #!/bin/bash
@@ -202,64 +172,59 @@ tesseract "$1" stdout -l spa+eng
 
 Make it executable: chmod +x ~/ocr.sh
 Then configure the path in Settings → OCR → External OCR script.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përdorni çdo motor OCR të personalizuar nëpërmjet një skripti/ekzekutues. Skripti merr shtegun e imazhit si argumentin e tij të vetëm dhe duhet të printojë tekstin e njohur në stdout.
+
+Shembull i skriptit (ruaj si ~/ocr.sh):
+#!/bin/bash
+tesseract "$1" stdout -l spa+eng
+
+Bëjeni të ekzekutueshëm: chmod +x ~/ocr.sh
+Më pas konfiguroni shtegun në Cilësimet → OCR → Skript i jashtëm OCR.</translation></message>
     <message>
       <location filename="../download_manager.py" line="490" />
       <source>Spellcheck Dictionaries (Hunspell)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fjalorët e kontrollit drejtshkrimor (Hunspell)</translation></message>
     <message>
       <location filename="../download_manager.py" line="491" />
       <source>Additional language dictionaries for spell checking in text annotations.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fjalorë të gjuhës shtesë për kontrollin drejtshkrimor në shënimet e tekstit.</translation></message>
     <message>
       <location filename="../download_manager.py" line="498" />
       <source>Spellcheck</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kontrolli drejtshkrimor</translation></message>
     <message>
       <location filename="../download_manager.py" line="544" />
       <source>Downloading &amp; installing packages (pip)...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shkarkimi dhe instalimi i paketave (pip)...</translation></message>
     <message>
       <location filename="../download_manager.py" line="562" />
       <source>Downloading: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Po shkarkon: %1</translation></message>
     <message>
       <location filename="../download_manager.py" line="570" />
       <source>Initializing model cache...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Inicializimi i memories së modelit...</translation></message>
     <message>
       <location filename="../download_manager.py" line="623" />
       <location filename="../download_manager.py" line="582" />
       <source>Installation complete!</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Instalimi përfundoi!</translation></message>
     <message>
       <location filename="../download_manager.py" line="594" />
       <source>Installing PaddleX with OCR extra...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Po instalon PaddleX me OCR shtesë...</translation></message>
     <message>
       <location filename="../download_manager.py" line="610" />
       <source>Initializing layout model...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Modeli i paraqitjes po inicohet...</translation></message>
     <message>
       <location filename="../download_manager.py" line="641" />
       <source>Configure script path in Settings → OCR</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Konfiguro shtegun e skriptit te Cilësimet → OCR</translation></message>
     <message>
       <location filename="../download_manager.py" line="650" />
       <source>Install hunspell packages with apt/dnf</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Instaloni paketat hunspell me apt/dnf</translation></message>
   </context>
   <context>
     <name>MainWindow</name>
@@ -267,119 +232,97 @@ Then configure the path in Settings → OCR → External OCR script.</source>
       <location filename="../main_window.py" line="3921" />
       <location filename="../main_window.py" line="186" />
       <source>Ready</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Gati</translation></message>
     <message>
       <location filename="../main_window.py" line="285" />
       <source>New</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>E re</translation></message>
     <message>
       <location filename="../main_window.py" line="4810" />
       <location filename="../main_window.py" line="1540" />
       <location filename="../main_window.py" line="286" />
       <source>New Screenshot</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Pamje e re e ekranit</translation></message>
     <message>
       <location filename="../main_window.py" line="539" />
       <source>Updated selected sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjitësja e zgjedhur u përditësua</translation></message>
     <message>
       <location filename="../main_window.py" line="707" />
       <source>Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zona drejtkëndëshe</translation></message>
     <message>
       <location filename="../main_window.py" line="710" />
       <source>Last Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zona e fundit Rect</translation></message>
     <message>
       <location filename="../main_window.py" line="713" />
       <source>Full Screen</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ekrani i plotë</translation></message>
     <message>
       <location filename="../main_window.py" line="716" />
       <source>Current Screen</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ekrani aktual</translation></message>
     <message>
       <location filename="../main_window.py" line="719" />
       <source>Active Window</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Dritarja aktive</translation></message>
     <message>
       <location filename="../main_window.py" line="722" />
       <source>Window Under Cursor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Dritarja nën Kursorin</translation></message>
     <message>
       <location filename="../main_window.py" line="725" />
       <source>Portal</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Portali</translation></message>
     <message>
       <location filename="../main_window.py" line="728" />
       <source>Include Mouse Cursor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përfshi kursorin e miut</translation></message>
     <message>
       <location filename="../main_window.py" line="732" />
       <source>Include the mouse cursor in new captures. Requires a capture delay greater than 0.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përfshini kursorin e miut në kapjet e reja. Kërkon një vonesë kapjeje më të madhe se 0.</translation></message>
     <message>
       <location filename="../main_window.py" line="735" />
       <source>Use Arrow Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përdorni treguesin e shigjetave</translation></message>
     <message>
       <location filename="../main_window.py" line="739" />
       <source>Use a standard arrow instead of the actual pointer shape, such as the text I-beam.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përdorni një shigjetë standarde në vend të formës aktuale të treguesit, siç është teksti I-beam.</translation></message>
     <message>
       <location filename="../main_window.py" line="743" />
       <source>Open</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hapur</translation></message>
     <message>
       <location filename="../main_window.py" line="811" />
       <location filename="../main_window.py" line="748" />
       <source>Save</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ruaj</translation></message>
     <message>
       <location filename="../main_window.py" line="813" />
       <location filename="../main_window.py" line="753" />
       <source>Save As...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ruaj si...</translation></message>
     <message>
       <location filename="../main_window.py" line="815" />
       <location filename="../main_window.py" line="757" />
       <source>Save All</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ruaj të gjitha</translation></message>
     <message>
       <location filename="../main_window.py" line="760" />
       <source>Export as SVG...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Eksporto si SVG...</translation></message>
     <message>
       <location filename="../main_window.py" line="763" />
       <source>Print</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Printo</translation></message>
     <message>
       <location filename="../main_window.py" line="3247" />
       <location filename="../main_window.py" line="767" />
       <source>Print Preview</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Pamja paraprake e printimit</translation></message>
     <message>
       <location filename="../main_window.py" line="821" />
       <location filename="../main_window.py" line="770" />
@@ -389,42 +332,35 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="774" />
       <source>Copy as data URI</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kopjo si URI të dhënash</translation></message>
     <message>
       <location filename="../main_window.py" line="823" />
       <location filename="../main_window.py" line="777" />
       <source>Copy Path</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kopjo shtegun</translation></message>
     <message>
       <location filename="../main_window.py" line="3277" />
       <location filename="../main_window.py" line="817" />
       <location filename="../main_window.py" line="780" />
       <source>Rename</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Riemërto</translation></message>
     <message>
       <location filename="../main_window.py" line="784" />
       <source>Delete Image...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fshi imazhin...</translation></message>
     <message>
       <location filename="../main_window.py" line="819" />
       <location filename="../main_window.py" line="787" />
       <source>Open Directory</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hap Drejtorinë</translation></message>
     <message>
       <location filename="../main_window.py" line="790" />
       <source>Copy Item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kopjo artikullin</translation></message>
     <message>
       <location filename="../main_window.py" line="794" />
       <source>Close Tab</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mbyll skedën</translation></message>
     <message>
       <location filename="../main_window.py" line="800" />
       <source>Close</source>
@@ -590,38 +526,31 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="944" />
       <source>Paste Embedded</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjit Embedded</translation></message>
     <message>
       <location filename="../main_window.py" line="948" />
       <source>Paste Item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjit artikullin</translation></message>
     <message>
       <location filename="../main_window.py" line="952" />
       <source>Delete Item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fshi artikullin</translation></message>
     <message>
       <location filename="../main_window.py" line="956" />
       <source>Duplicate Item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Artikull i kopjuar</translation></message>
     <message>
       <location filename="../main_window.py" line="960" />
       <source>Edit Text...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Redakto tekstin...</translation></message>
     <message>
       <location filename="../main_window.py" line="963" />
       <source>Bring To Front</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Sillni në front</translation></message>
     <message>
       <location filename="../main_window.py" line="966" />
       <source>Send To Back</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Dërgo Prapa</translation></message>
     <message>
       <location filename="../main_window.py" line="969" />
       <source>Rotate</source>
@@ -643,7 +572,7 @@ Then configure the path in Settings → OCR → External OCR script.</source>
       <location filename="../main_window.py" line="3574" />
       <location filename="../main_window.py" line="978" />
       <source>Drop Shadow</source>
-      <translation>Drop Shadow</translation>
+      <translation>Hije e hedhur</translation>
     </message>
     <message>
       <location filename="../main_window.py" line="3575" />
@@ -666,55 +595,45 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="984" />
       <source>Modify Canvas...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Modifiko kanavacën...</translation></message>
     <message>
       <location filename="../main_window.py" line="3454" />
       <location filename="../main_window.py" line="987" />
       <source>Hide Docks</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fshih doket</translation></message>
     <message>
       <location filename="../main_window.py" line="991" />
       <source>Pin</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fikso</translation></message>
     <message>
       <location filename="../main_window.py" line="995" />
       <source>Add Watermark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shto filigran</translation></message>
     <message>
       <location filename="../main_window.py" line="3749" />
       <location filename="../main_window.py" line="1000" />
       <source>Upload</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarko</translation></message>
     <message>
       <location filename="../main_window.py" line="1004" />
       <source>OCR Text Recognition</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Njohja e tekstit OCR</translation></message>
     <message>
       <location filename="../main_window.py" line="1007" />
       <source>OCR Text Recognition (tables + Markdown)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Njohja e tekstit OCR (tabelat + shënimi)</translation></message>
     <message>
       <location filename="../main_window.py" line="1011" />
       <source>Update Watermark Image...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përditëso imazhin e filigranit...</translation></message>
     <message>
       <location filename="../main_window.py" line="1014" />
       <source>Rotate Watermark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Rrotulloni filigranin</translation></message>
     <message>
       <location filename="../main_window.py" line="1019" />
       <source>Settings</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Cilësimet</translation></message>
     <message>
       <location filename="../main_window.py" line="1022" />
       <source>Model Manager…</source>
@@ -728,97 +647,79 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1026" />
       <source>About</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Rreth</translation></message>
     <message>
       <location filename="../main_window.py" line="1029" />
       <source>Clear Recent Images</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Pastro imazhet e fundit</translation></message>
     <message>
       <location filename="../main_window.py" line="1032" />
       <source>Quit</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hiq dorë</translation></message>
     <message>
       <location filename="../main_window.py" line="1035" />
       <source>Zoom Out</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zmadhoni</translation></message>
     <message>
       <location filename="../main_window.py" line="1038" />
       <source>Reset Zoom</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Rivendos zmadhimin</translation></message>
     <message>
       <location filename="../main_window.py" line="1041" />
       <source>Zoom In</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zmadhoni</translation></message>
     <message>
       <location filename="../main_window.py" line="1044" />
       <source>Fit Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazh i përshtatshëm</translation></message>
     <message>
       <location filename="../main_window.py" line="1066" />
       <source>Capture delay</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Vonesa e kapjes</translation></message>
     <message>
       <location filename="../main_window.py" line="1304" />
       <location filename="../main_window.py" line="1111" />
       <location filename="../main_window.py" line="1104" />
       <source>Stroke color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjyra e goditjes</translation></message>
     <message>
       <location filename="../main_window.py" line="1120" />
       <source>Stroke width: changes the thickness of the line or arrow shaft.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Gjerësia e goditjes: ndryshon trashësinë e vijës ose të boshtit të shigjetës.</translation></message>
     <message>
       <location filename="../main_window.py" line="1122" />
       <source>Stroke width</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Gjerësia e goditjes</translation></message>
     <message>
       <location filename="../main_window.py" line="1130" />
       <source>Arrowhead size: changes the size of the triangular arrow tip.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Madhësia e majës së shigjetës: ndryshon madhësinë e majës së shigjetës trekëndore.</translation></message>
     <message>
       <location filename="../main_window.py" line="1133" />
       <source>Arrowhead size</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Madhësia e majës së shigjetës</translation></message>
     <message>
       <location filename="../main_window.py" line="1145" />
       <location filename="../main_window.py" line="1141" />
       <source>Fill mode</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Modaliteti i mbushjes</translation></message>
     <message>
       <location filename="../main_window.py" line="1157" />
       <location filename="../main_window.py" line="1150" />
       <source>Text color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjyra e tekstit</translation></message>
     <message>
       <location filename="../main_window.py" line="1164" />
       <source>Font family used by the text or number.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Familja e shkronjave të përdorura nga teksti ose numri.</translation></message>
     <message>
       <location filename="../main_window.py" line="1172" />
       <source>Font size of the text or number.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Madhësia e shkronjave të tekstit ose numrit.</translation></message>
     <message>
       <location filename="../main_window.py" line="1175" />
       <source>Font</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fonti</translation></message>
     <message>
       <location filename="../main_window.py" line="1180" />
       <source>Bold</source>
@@ -837,44 +738,36 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1193" />
       <source>Number value used by the next numbered annotation.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Vlera e numrit e përdorur nga shënimi tjetër i numëruar.</translation></message>
     <message>
       <location filename="../main_window.py" line="1202" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Margjina e distinktivit të numrit:</translation></message>
     <message>
       <location filename="../main_window.py" line="1215" />
       <source>Effect strength: controls the intensity of blur or pixelation.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Forca e efektit: kontrollon intensitetin e turbullimit ose pikselimit.</translation></message>
     <message>
       <location filename="../main_window.py" line="1217" />
       <source>Effect strength</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Forca e efektit</translation></message>
     <message>
       <location filename="../main_window.py" line="1221" />
       <source>Select Sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni Ngjitësin</translation></message>
     <message>
       <location filename="../main_window.py" line="1232" />
       <location filename="../main_window.py" line="1230" />
       <source>Item shadow</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hija e artikullit</translation></message>
     <message>
       <location filename="../main_window.py" line="1241" />
       <source>Sticker scale as a percentage of its original insertion size.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shkalla e ngjitëses si përqindje e madhësisë së saj origjinale të futjes.</translation></message>
     <message>
       <location filename="../main_window.py" line="1251" />
       <source>Opacity: 0% is transparent and 100% is fully visible.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Opaciteti: 0% është transparente dhe 100% është plotësisht e dukshme.</translation></message>
     <message>
       <location filename="../main_window.py" line="1253" />
       <source>Opacity</source>
@@ -894,14 +787,12 @@ Then configure the path in Settings → OCR → External OCR script.</source>
       <location filename="../main_window.py" line="1624" />
       <location filename="../main_window.py" line="1408" />
       <source>Zoom</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zmadhoni</translation></message>
     <message>
       <location filename="../main_window.py" line="3588" />
       <location filename="../main_window.py" line="1430" />
       <source>Image Effect: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Efekti i imazhit: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="1445" />
       <source>Controls</source>
@@ -910,214 +801,172 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1538" />
       <source>&amp;File</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>&amp;Skedar</translation></message>
     <message>
       <location filename="../main_window.py" line="1553" />
       <source>Recent Images</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhet e fundit</translation></message>
     <message>
       <location filename="../main_window.py" line="1568" />
       <source>&amp;Edit</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>&amp;Redakto</translation></message>
     <message>
       <location filename="../main_window.py" line="1583" />
       <source>Effects</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Efektet</translation></message>
     <message>
       <location filename="../main_window.py" line="1594" />
       <source>Annotation Items</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Artikujt e shënimeve</translation></message>
     <message>
       <location filename="../main_window.py" line="1603" />
       <source>&amp;View</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>&amp;Shiko</translation></message>
     <message>
       <location filename="../main_window.py" line="1607" />
       <source>Theme</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Tema</translation></message>
     <message>
       <location filename="../main_window.py" line="1612" />
       <source>System</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Sistemi</translation></message>
     <message>
       <location filename="../main_window.py" line="1613" />
       <source>Light</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Drita</translation></message>
     <message>
       <location filename="../main_window.py" line="1614" />
       <source>Dark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>E errët</translation></message>
     <message>
       <location filename="../main_window.py" line="1630" />
       <source>&amp;Options</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>&amp;Opsionet</translation></message>
     <message>
       <location filename="../main_window.py" line="1638" />
       <source>Watermark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Filigram</translation></message>
     <message>
       <location filename="../main_window.py" line="1642" />
       <source>Annotation Tools</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mjetet e shënimit</translation></message>
     <message>
       <location filename="../main_window.py" line="1668" />
       <source>&amp;Help</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>&amp;Ndihmë</translation></message>
     <message>
       <location filename="../main_window.py" line="1701" />
       <source>Show Editor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq redaktorin</translation></message>
     <message>
       <location filename="../main_window.py" line="1913" />
       <source>ksnip PyQt6 is still running in the system tray.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ksnip PyQt6 është ende duke u ekzekutuar në sirtarin e sistemit.</translation></message>
     <message>
       <location filename="../main_window.py" line="1941" />
       <source>OCR is still running; ksnip cannot close until it finishes.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR është ende në punë; ksnip nuk mund të mbyllet derisa të përfundojë.</translation></message>
     <message>
       <location filename="../main_window.py" line="1971" />
       <source>ksnip PyQt6 was minimized to the system tray.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ksnip PyQt6 u minimizua në tabaka e sistemit.</translation></message>
     <message>
       <location filename="../main_window.py" line="2099" />
       <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zvarritni dorezat e prerjes, më pas shtypni Enter për të prerë ose Esc për të anuluar.</translation></message>
     <message>
       <location filename="../main_window.py" line="2312" />
       <source>Select color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni ngjyrën</translation></message>
     <message>
       <location filename="../main_window.py" line="2321" />
       <source>Updated selected item color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjyra e artikullit të zgjedhur u përditësua</translation></message>
     <message>
       <location filename="../main_window.py" line="2340" />
       <source>Updated selected item fill</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mbushja e artikullit të zgjedhur u përditësua</translation></message>
     <message>
       <location filename="../main_window.py" line="2350" />
       <source>Select text color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni ngjyrën e tekstit</translation></message>
     <message>
       <location filename="../main_window.py" line="2360" />
       <source>Updated selected text color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjyra e zgjedhur e tekstit u përditësua</translation></message>
     <message>
       <location filename="../main_window.py" line="2376" />
       <source>Updated selected item width to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Gjerësia e artikullit të zgjedhur u përditësua në %1</translation></message>
     <message>
       <location filename="../main_window.py" line="2389" />
       <source>Updated selected arrowhead size to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Madhësia e zgjedhur e majës së shigjetës u përditësua në %1</translation></message>
     <message>
       <location filename="../main_window.py" line="2399" />
       <source>Updated selected text font</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>U përditësua fonti i zgjedhur i tekstit</translation></message>
     <message>
       <location filename="../main_window.py" line="2413" />
       <source>Updated selected text size to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përditësuar madhësinë e zgjedhur të tekstit në %1</translation></message>
     <message>
       <location filename="../main_window.py" line="2423" />
       <source>Updated selected item opacity to %1%</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Opaciteti i artikullit të zgjedhur u përditësua në %1%</translation></message>
     <message>
       <location filename="../main_window.py" line="2441" />
       <source>Updated selected item fill mode</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Modaliteti i mbushjes së artikullit të zgjedhur u përditësua</translation></message>
     <message>
       <location filename="../main_window.py" line="2452" />
       <source>Updated selected text bold style</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>U përditësua stili i theksuar i tekstit të zgjedhur</translation></message>
     <message>
       <location filename="../main_window.py" line="2464" />
       <source>Updated selected text italic style</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>U përditësua stili i pjerrët i tekstit të zgjedhur</translation></message>
     <message>
       <location filename="../main_window.py" line="2475" />
       <source>Updated selected text underline style</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>U përditësua stili i nënvizimit të tekstit të zgjedhur</translation></message>
     <message>
       <location filename="../main_window.py" line="2486" />
       <source>Updated selected item shadow</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hija e artikullit të zgjedhur u përditësua</translation></message>
     <message>
       <location filename="../main_window.py" line="2498" />
       <source>Updated selected item scale to %1%</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shkalla e artikullit të zgjedhur u përditësua në %1%</translation></message>
     <message>
       <location filename="../main_window.py" line="2507" />
       <source>Updated selected number to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Numri i zgjedhur u përditësua në %1</translation></message>
     <message>
       <location filename="../main_window.py" line="2951" />
       <location filename="../main_window.py" line="2725" />
       <source>Portal capture canceled.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Regjistrimi i portalit u anulua.</translation></message>
     <message>
       <location filename="../main_window.py" line="2744" />
       <source>Set a capture delay to include the mouse cursor.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Vendosni një vonesë regjistrimi për të përfshirë kursorin e miut.</translation></message>
     <message>
       <location filename="../main_window.py" line="2752" />
       <source>Capture the mouse cursor (also in Options &gt; Settings &gt; Image Grabber &gt; Capture mouse cursor on screenshot). Requires a capture delay.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kapni kursorin e miut (gjithashtu te Opsionet &gt; Cilësimet &gt; Grabuesi i imazhit &gt; Regjistroni kursorin e miut në pamjen e ekranit). Kërkon një vonesë të kapjes.</translation></message>
     <message>
       <location filename="../main_window.py" line="2875" />
       <source>Loaded %1 capture and copied it to clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kapja %1 u ngarkua dhe u kopjua në kujtesën e fragmenteve</translation></message>
     <message>
       <location filename="../main_window.py" line="2971" />
       <source>Loaded %1 capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kapja %1 u ngarkua</translation></message>
     <message>
       <location filename="../main_window.py" line="3037" />
       <source>Open image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hap imazhin</translation></message>
     <message>
       <location filename="../main_window.py" line="3039" />
       <source>Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
@@ -1132,197 +981,161 @@ Then configure the path in Settings → OCR → External OCR script.</source>
       <location filename="../main_window.py" line="3704" />
       <location filename="../main_window.py" line="3050" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhet (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation></message>
     <message>
       <location filename="../main_window.py" line="3127" />
       <location filename="../main_window.py" line="3071" />
       <source>Save image as</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ruaje imazhin si</translation></message>
     <message>
       <location filename="../main_window.py" line="3129" />
       <location filename="../main_window.py" line="3073" />
       <source>Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Projekti Ksnip (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</translation></message>
     <message>
       <location filename="../main_window.py" line="3088" />
       <source>Ksnip Project (*.ksnip)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Projekti Ksnip (*.ksnip)</translation></message>
     <message>
       <location filename="../main_window.py" line="3089" />
       <source>PNG (*.png)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PNG (*.png)</translation></message>
     <message>
       <location filename="../main_window.py" line="3096" />
       <source>Export as SVG</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Eksporto si SVG</translation></message>
     <message>
       <location filename="../main_window.py" line="3104" />
       <source>Unable to export SVG: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>SVG nuk mund të eksportohet: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3106" />
       <source>Exported SVG to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>SVG u eksportua në %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3154" />
       <source>Saved %1 image(s), failed %2</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>U ruajtën %1 imazhe, dështuan %2</translation></message>
     <message>
       <location filename="../main_window.py" line="3159" />
       <source>Save All stopped early; these could not be saved:
 %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Save All ndaloi herët; këto nuk mund të ruheshin:
+%1</translation></message>
     <message>
       <location filename="../main_window.py" line="3163" />
       <source>Saved %1 image(s)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>%1 imazhe të ruajtura</translation></message>
     <message>
       <location filename="../main_window.py" line="3184" />
       <source>Unable to save Ksnip project: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Projekti Ksnip nuk mund të ruhet: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3199" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Projekti Ksnip u ruajt, por imazhi i tij shoqërues nuk mund të ruhej në %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3208" />
       <source>Saved %1 and companion image %2</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>%1 u ruajt dhe imazhi shoqërues %2</translation></message>
     <message>
       <location filename="../main_window.py" line="3221" />
       <source>Saved %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>U ruajt %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3229" />
       <source>Copied image to clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi u kopjua në kujtesën e fragmenteve</translation></message>
     <message>
       <location filename="../main_window.py" line="3238" />
       <source>Sent image to printer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi u dërgua në printer</translation></message>
     <message>
       <location filename="../main_window.py" line="3277" />
       <source>New name:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Emri i ri:</translation></message>
     <message>
       <location filename="../main_window.py" line="3311" />
       <source>Renamed to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Riemërtuar në %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3327" />
       <source>Delete Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fshi imazhin</translation></message>
     <message>
       <location filename="../main_window.py" line="3328" />
       <source>The item '%1' will be deleted.
 Do you want to continue?</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Artikulli '%1' do të fshihet.
+Dëshironi të vazhdoni?</translation></message>
     <message>
       <location filename="../main_window.py" line="3337" />
       <source>Unable to delete %1: %2</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Nuk mund të fshihet %1: %2</translation></message>
     <message>
       <location filename="../main_window.py" line="3343" />
       <source>Deleted %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>U fshi %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3366" />
       <source>Copied image as a base64 encoded Data URI</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi i kopjuar si një URI e të dhënave e koduar bazë64</translation></message>
     <message>
       <location filename="../main_window.py" line="3373" />
       <source>Copied path %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shtegu i kopjuar %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3383" />
       <source>Opened directory %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Drejtoria e hapur %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3390" />
       <source>Copied selected item(s)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Artikujt e zgjedhur u kopjuan</translation></message>
     <message>
       <location filename="../main_window.py" line="3403" />
       <source>Loaded image from clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi i ngarkuar nga kujtesa e fragmenteve</translation></message>
     <message>
       <location filename="../main_window.py" line="3423" />
       <source>Pasted embedded image from clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjit imazhin e integruar nga kujtesa e fragmenteve</translation></message>
     <message>
       <location filename="../main_window.py" line="3437" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kanavacë e modifikuar: %1 × %2 px në (%3, %4)</translation></message>
     <message>
       <location filename="../main_window.py" line="3454" />
       <source>Show Docks</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq Doket</translation></message>
     <message>
       <location filename="../main_window.py" line="3463" />
       <source>Pasted item from clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Artikulli u ngjit nga kujtesa e fragmenteve</translation></message>
     <message>
       <location filename="../main_window.py" line="3490" />
       <source>Deleted selected item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>U fshi artikulli i zgjedhur</translation></message>
     <message>
       <location filename="../main_window.py" line="3499" />
       <source>Duplicated selected item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Artikulli i zgjedhur i dublikuar</translation></message>
     <message>
       <location filename="../main_window.py" line="3508" />
       <source>Updated text item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Artikull teksti i përditësuar</translation></message>
     <message>
       <location filename="../main_window.py" line="3517" />
       <source>Brought selected item to front</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>E solli artikullin e zgjedhur përpara</translation></message>
     <message>
       <location filename="../main_window.py" line="3526" />
       <source>Sent selected item to back</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Dërgoi artikullin e zgjedhur në mbrapa</translation></message>
     <message>
       <location filename="../main_window.py" line="3538" />
       <source>Rotated image by %1 degrees</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi u rrotullua me %1 gradë</translation></message>
     <message>
       <location filename="../main_window.py" line="3541" />
       <source>Horizontal</source>
@@ -1336,38 +1149,31 @@ Do you want to continue?</source>
     <message>
       <location filename="../main_window.py" line="3542" />
       <source>Flipped image: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi i kthyer: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3562" />
       <source>Scaled image to %1 × %2 px</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi i shkallëzuar në %1 × %2 px</translation></message>
     <message>
       <location filename="../main_window.py" line="3581" />
       <source>Image effect: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Efekti i imazhit: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3600" />
       <source>Image slice removed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Pjesa e imazhit u hoq</translation></message>
     <message>
       <location filename="../main_window.py" line="3615" />
       <source>Pinned current image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi aktual i gozhduar</translation></message>
     <message>
       <location filename="../main_window.py" line="3625" />
       <source>Language changed. Restart ksnip to apply it.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Gjuha ndryshoi. Rinisni ksnip për ta zbatuar atë.</translation></message>
     <message>
       <location filename="../main_window.py" line="3627" />
       <source>Settings updated</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Cilësimet u përditësuan</translation></message>
     <message>
       <location filename="../main_window.py" line="3631" />
       <source>Model Manager opened</source>
@@ -1376,34 +1182,28 @@ Do you want to continue?</source>
     <message>
       <location filename="../main_window.py" line="3697" />
       <source>Added watermark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ujëra e shtuar</translation></message>
     <message>
       <location filename="../main_window.py" line="3702" />
       <source>Select watermark image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni imazhin e filigranit</translation></message>
     <message>
       <location filename="../main_window.py" line="3712" />
       <source>Updated watermark image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi i filigranit të përditësuar</translation></message>
     <message>
       <location filename="../main_window.py" line="3721" />
       <source>Upload Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarko imazh</translation></message>
     <message>
       <location filename="../main_window.py" line="3722" />
       <source>Upload the current image?</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Të ngarkohet imazhi aktual?</translation></message>
     <message>
       <location filename="../main_window.py" line="3753" />
       <location filename="../main_window.py" line="3748" />
       <source>Uploading image...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Po ngarkohet imazhi...</translation></message>
     <message>
       <location filename="../main_window.py" line="3831" />
       <location filename="../main_window.py" line="3748" />
@@ -1413,33 +1213,27 @@ Do you want to continue?</source>
     <message>
       <location filename="../main_window.py" line="3790" />
       <source>Upload canceled</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarkimi u anulua</translation></message>
     <message>
       <location filename="../main_window.py" line="3793" />
       <source>Upload failed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarkimi dështoi</translation></message>
     <message>
       <location filename="../main_window.py" line="3798" />
       <source>Upload finished successfully</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarkimi përfundoi me sukses</translation></message>
     <message>
       <location filename="../main_window.py" line="3800" />
       <source>Upload Successful</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarkimi u krye me sukses</translation></message>
     <message>
       <location filename="../main_window.py" line="3833" />
       <source>OCR</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR</translation></message>
     <message>
       <location filename="../main_window.py" line="3837" />
       <source>Running OCR...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Po ekzekutohet OCR...</translation></message>
     <message>
       <location filename="../main_window.py" line="3843" />
       <source>Running OCR layout and table recognition…
@@ -1450,150 +1244,125 @@ Ekzekutimi i parë ngarkon disa modele dhe mund të zgjasë 1-3 minuta në CPU.<
     <message>
       <location filename="../main_window.py" line="3847" />
       <source>Running OCR text recognition...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Po ekzekuton njohjen e tekstit OCR...</translation></message>
     <message>
       <location filename="../main_window.py" line="3889" />
       <source>OCR canceled</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR u anulua</translation></message>
     <message>
       <location filename="../main_window.py" line="3893" />
       <source>OCR failed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR dështoi</translation></message>
     <message>
       <location filename="../main_window.py" line="3903" />
       <source>OCR finished</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR përfundoi</translation></message>
     <message>
       <location filename="../main_window.py" line="4243" />
       <location filename="../main_window.py" line="4213" />
       <source>Opened %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>U hap %1</translation></message>
     <message>
       <location filename="../main_window.py" line="4223" />
       <source>Unable to open Ksnip project: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Nuk mund të hapet projekti Ksnip: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="4234" />
       <source>Unable to restore Ksnip project: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Nuk mund të rivendoset projekti Ksnip: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="4249" />
       <source>Unable to open image data.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Të dhënat e imazhit nuk mund të hapen.</translation></message>
     <message>
       <location filename="../main_window.py" line="4257" />
       <source>Opened image from standard input</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi u hap nga hyrja standarde</translation></message>
     <message>
       <location filename="../main_window.py" line="4924" />
       <location filename="../main_window.py" line="4905" />
       <source>Unsaved changes</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ndryshime të paruajtura</translation></message>
     <message>
       <location filename="../main_window.py" line="4906" />
       <source>Close this tab and discard unsaved changes?</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Të mbyllet kjo skedë dhe të hiqen ndryshimet e paruajtura?</translation></message>
     <message>
       <location filename="../main_window.py" line="4925" />
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
-      <translation type="unfinished" />
-    </message>
-  </context>
+      <translation>Të mbyllet ksnip PyQt6 dhe të hiqen ndryshimet e paruajtura në skedat e hapura?</translation></message>
+  <message><source>Model Manager</source><translation>Menaxheri i modeleve</translation></message><message><source>The OCR plugin failed to open: %1</source><translation>Shtojca OCR nuk mund të hapej: %1</translation></message></context>
   <context>
     <name>ModelCard</name>
     <message>
       <location filename="../download_manager.py" line="152" />
       <source>Download size: ~%1 MB</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Madhësia e shkarkimit: ~%1 MB</translation></message>
     <message>
       <location filename="../download_manager.py" line="154" />
       <source>No download required</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Nuk kërkohet shkarkim</translation></message>
     <message>
       <location filename="../download_manager.py" line="180" />
       <source>Checking status...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Po kontrollon statusin...</translation></message>
     <message>
       <location filename="../download_manager.py" line="244" />
       <location filename="../download_manager.py" line="188" />
       <source>Install</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Instaloni</translation></message>
     <message>
       <location filename="../download_manager.py" line="209" />
       <source>Not available in a packaged build. Use a source checkout or an external OCR script.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Nuk disponohet në një ndërtim të paketuar. Përdorni një arkë burimi ose një skript të jashtëm OCR.</translation></message>
     <message>
       <location filename="../download_manager.py" line="216" />
       <source>Remove</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hiq</translation></message>
     <message>
       <location filename="../download_manager.py" line="285" />
       <location filename="../download_manager.py" line="239" />
       <source>Reinstall</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Riinstaloni</translation></message>
     <message>
       <location filename="../download_manager.py" line="241" />
       <source>✓ Installed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>✓ Instaluar</translation></message>
     <message>
       <location filename="../download_manager.py" line="246" />
       <source>Not installed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Nuk është instaluar</translation></message>
     <message>
       <location filename="../download_manager.py" line="258" />
       <source>Starting download...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Po fillon shkarkimi...</translation></message>
     <message>
       <location filename="../download_manager.py" line="270" />
       <source>Remove Model</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hiq modelin</translation></message>
     <message>
       <location filename="../download_manager.py" line="271" />
       <source>To remove %1, you can clear its cached directory or uninstall its package via pip.
 
 Directory: %2</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Për të hequr %1, mund të pastroni direktorinë e tij të memorizuar ose të çinstaloni paketën e tij nëpërmjet pip.
+
+Drejtoria: %2</translation></message>
     <message>
       <location filename="../download_manager.py" line="283" />
       <source>✓ Installed successfully</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>✓ Instaluar me sukses</translation></message>
     <message>
       <location filename="../download_manager.py" line="288" />
       <source>✗ Installation failed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>✗ Instalimi dështoi</translation></message>
   </context>
   <context>
     <name>ModifyCanvasDialog</name>
     <message>
       <location filename="../canvas.py" line="320" />
       <source>Modify Canvas</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Modifiko kanavacën</translation></message>
     <message>
       <location filename="../canvas.py" line="325" />
       <source>Restricted</source>
@@ -1602,8 +1371,7 @@ Directory: %2</source>
     <message>
       <location filename="../canvas.py" line="326" />
       <source>When enabled, the canvas must include the background image.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kur aktivizohet, kanavacë duhet të përfshijë imazhin e sfondit.</translation></message>
     <message>
       <location filename="../canvas.py" line="338" />
       <source>Color:</source>
@@ -1645,101 +1413,82 @@ Directory: %2</source>
     <message>
       <location filename="../ocr_result_dialog.py" line="10" />
       <source>OCR Text Recognition</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Njohja e tekstit OCR</translation></message>
     <message>
       <location filename="../ocr_result_dialog.py" line="19" />
       <source>Copy to Clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kopjo në Clipboard</translation></message>
   </context>
   <context>
     <name>PortalDiagnostics</name>
     <message>
       <location filename="../capture.py" line="157" />
       <source>The screenshot portal did not return an image.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Portali i pamjes së ekranit nuk ktheu një imazh.</translation></message>
     <message>
       <location filename="../capture.py" line="159" />
       <source>Portal capture is unavailable: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Regjistrimi i portalit nuk ofrohet: %1</translation></message>
     <message>
       <location filename="../capture.py" line="160" />
       <source>Detected desktop: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Desktop i zbuluar: %1</translation></message>
     <message>
       <location filename="../capture.py" line="161" />
       <source>Session type: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Lloji i seancës: %1</translation></message>
     <message>
       <location filename="../capture.py" line="162" />
       <source>Install the portal frontend and the recommended backend:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Instaloni frontendin e portalit dhe bazën e rekomanduar:</translation></message>
     <message>
       <location filename="../capture.py" line="164" />
       <source>With Fluxbox, Openbox, IceWM, or another manually assembled session, xdg-desktop-portal-gtk is the usual fallback. The session must export XDG_CURRENT_DESKTOP and may require a matching portals.conf file.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Me Fluxbox, Openbox, IceWM ose një sesion tjetër të montuar manualisht, xdg-desktop-portal-gtk është kthimi i zakonshëm. Sesioni duhet të eksportojë XDG_CURRENT_DESKTOP dhe mund të kërkojë një skedar portals.conf që përputhet.</translation></message>
     <message>
       <location filename="../capture.py" line="266" />
       <source>D-Bus portal capture is only available on Linux.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Regjistrimi i portalit D-Bus disponohet vetëm në Linux.</translation></message>
     <message>
       <location filename="../capture.py" line="273" />
       <source>the D-Bus session bus is not available.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>autobusi i sesionit D-Bus nuk është i disponueshëm.</translation></message>
     <message>
       <location filename="../capture.py" line="282" />
       <source>the xdg-desktop-portal service is not available.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>shërbimi xdg-desktop-portal nuk është i disponueshëm.</translation></message>
     <message>
       <location filename="../capture.py" line="287" />
       <source>the Screenshot portal interface is unavailable.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ndërfaqja e portalit Screenshot nuk është e disponueshme.</translation></message>
     <message>
       <location filename="../capture.py" line="292" />
       <source>the portal returned an invalid request path.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>portali ktheu një shteg kërkese të pavlefshme.</translation></message>
     <message>
       <location filename="../capture.py" line="304" />
       <source>ksnip could not subscribe to the portal response.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ksnip nuk mund të abonohej në përgjigjen e portalit.</translation></message>
     <message>
       <location filename="../capture.py" line="319" />
       <source>the portal response timed out.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>koha e përgjigjes së portalit ka mbaruar.</translation></message>
     <message>
       <location filename="../capture.py" line="324" />
       <source>capture was canceled.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>kapja u anulua.</translation></message>
     <message>
       <location filename="../capture.py" line="326" />
       <source>portal error code %1.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>kodi i gabimit të portalit %1.</translation></message>
     <message>
       <location filename="../capture.py" line="332" />
       <source>an empty path</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>një shteg bosh</translation></message>
     <message>
       <location filename="../capture.py" line="333" />
       <source>the returned image could not be loaded from %1.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>imazhi i kthyer nuk mund të ngarkohej nga %1.</translation></message>
   </context>
   <context>
     <name>RotateDialog</name>
@@ -1830,18 +1579,15 @@ Directory: %2</source>
       <location filename="../settings_dialog.py" line="1089" />
       <location filename="../settings_dialog.py" line="116" />
       <source>Settings</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Cilësimet</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="124" />
       <source>Search Settings...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Cilësimet e kërkimit...</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="144" />
       <source>Editor Defaults</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Parazgjedhjet e redaktorit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="148" />
       <source>Select</source>
@@ -1945,18 +1691,15 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="168" />
       <source>Default Tool</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Vegla e parazgjedhur</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="172" />
       <source>Stroke Width</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Gjerësia e goditjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="175" />
       <source>Font Family</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Familja e shkronjave</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="179" />
       <source>Font Size</source>
@@ -1980,13 +1723,11 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="185" />
       <source>Shape Fill Mode</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Modaliteti i mbushjes së formës</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="189" />
       <source>Opacity %</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Perde %</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="192" />
       <source>Bold</source>
@@ -2000,228 +1741,184 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="198" />
       <source>Text Style</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Stili i tekstit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="200" />
       <source>Watermark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Filigram</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="203" />
       <source>Rotate Watermark 45°</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Rrotulloni filigranin 45°</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="208" />
       <source>Update Image...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përditëso imazhin...</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="214" />
       <source>Stored Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi i ruajtur</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="216" />
       <source>Application</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Aplikimi</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="219" />
       <source>Automatically copy new captures to clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kopjoni automatikisht fotografitë e reja në kujtesën e fragmenteve</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="222" />
       <source>Remember Main Window position on move and load on startup</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mbani mend pozicionin e dritares kryesore në lëvizje dhe ngarkimin gjatë nisjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="225" />
       <source>Remember capture window size and position</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mos harroni të kapni madhësinë dhe pozicionin e dritares</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="227" />
       <source>After you move or resize the window while an image is open, reuse that size and position for the next capture instead of maximizing.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Pasi të lëvizni ose ndryshoni madhësinë e dritares ndërsa një imazh është i hapur, ripërdoreni atë madhësi dhe pozicion për kapjen e radhës në vend që ta maksimizoni.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="231" />
       <source>Capture screenshot at startup with default mode</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Regjistroni pamjen e ekranit gjatë nisjes me modalitetin e paracaktuar</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="234" />
       <source>Use Tabs</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përdorni Skedat</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="239" />
       <source>Auto hide Tabs</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fshih automatikisht skedat</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="242" />
       <source>Run ksnip as single instance</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ekzekutoni ksnip si shembull të vetëm</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="245" />
       <source>Auto hide Docks</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fshih automatikisht Doket</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="249" />
       <source>When the first image is loaded:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kur ngarkohet imazhi i parë:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="251" />
       <source>Maximize the window</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Maksimizoni dritaren</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="252" />
       <source>Fit the window intelligently to the image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përshtatni dritaren në mënyrë inteligjente me imazhin</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="254" />
       <source>Maximize keeps the editor maximized for later images. Smart fit preserves enough room for the tool controls.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Maximize e mban redaktuesin të maksimizuar për imazhet e mëvonshme. Përshtatja inteligjente ruan hapësirë ​​të mjaftueshme për kontrollet e veglave.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="259" />
       <source>Enable Debugging</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Aktivizo korrigjimin</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="263" />
       <source>Appearance and Paths</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Pamja dhe Shtigjet</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="270" />
       <source>Resize delay</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Vonesa e ndryshimit të madhësisë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="273" />
       <source>System default</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Parazgjedhja e sistemit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="617" />
       <location filename="../settings_dialog.py" line="274" />
       <source>English</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>anglisht</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="632" />
       <location filename="../settings_dialog.py" line="277" />
       <source>Language</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Gjuha</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="282" />
       <source>Application Style</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Stili i Aplikimit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="818" />
       <location filename="../settings_dialog.py" line="287" />
       <source>Browse</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfletoni</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="293" />
       <source>Temp Directory</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Drejtoria Temp</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="519" />
       <location filename="../settings_dialog.py" line="295" />
       <source>Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kapni</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="301" />
       <source>Capture Delay</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Vonesa e kapjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="303" />
       <source>Hide Main Window During Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fshih dritaren kryesore gjatë kapjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="304" />
       <source>Show Main Window After Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq dritaren kryesore pas kapjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="308" />
       <source>Saver</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kursimtar</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="310" />
       <source>Automatically save new captures to default location</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ruani automatikisht fotografitë e reja në vendndodhjen e paracaktuar</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="311" />
       <source>Prompt to save before discarding unsaved changes</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kërkoni të ruani përpara se të hidhni poshtë ndryshimet e paruajtura</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="312" />
       <source>Remember last Save Directory</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mbani mend dosjen e fundit të Ruajtjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="315" />
       <source>Remember the last directory of the last opened image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mbani mend drejtorinë e fundit të imazhit të fundit të hapur</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="325" />
       <location filename="../settings_dialog.py" line="319" />
       <source>PNG image (*.png)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi PNG (*.png)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="320" />
       <source>Ksnip project (*.ksnip)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Projekti Ksnip (*.ksnip)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="322" />
       <source>Default save format:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Formati i parazgjedhur i ruajtjes:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="326" />
       <source>JPEG image (*.jpg)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi JPEG (*.jpg)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="327" />
       <source>WebP image (*.webp)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi WebP (*.webp)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="328" />
       <source>BMP image (*.bmp)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi BMP (*.bmp)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="330" />
       <source>Image saved alongside Ksnip projects:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi i ruajtur së bashku me projektet Ksnip:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="338" />
       <source>Ksnip Projects (*.ksnip)</source>
@@ -2231,192 +1928,155 @@ Directory: %2</source>
       <location filename="../settings_dialog.py" line="1083" />
       <location filename="../settings_dialog.py" line="340" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhet (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="343" />
       <source>Default file type selected in the File &gt; Open dialog.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Lloji i parazgjedhur i skedarit është zgjedhur në dialogun Skedar &gt; Hap.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="346" />
       <source>Default file type in Open dialog:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Lloji i parazgjedhur i skedarit në dialogun Hap:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="353" />
       <source>Save Quality</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Cilësia e ruajtjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="808" />
       <location filename="../settings_dialog.py" line="355" />
       <source>Default</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>E paracaktuar</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="357" />
       <source>Factor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Faktori</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1121" />
       <location filename="../settings_dialog.py" line="369" />
       <source>Capture save location and filename</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Regjistroni vendndodhjen e ruajtjes dhe emrin e skedarit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="372" />
       <source>Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mbështet $Y, $M, $D, $h, $m, $s, $T dhe # karaktere të njëpasnjëshme si numërues.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="624" />
       <location filename="../settings_dialog.py" line="592" />
       <location filename="../settings_dialog.py" line="373" />
       <source>Browse...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfleto...</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="378" />
       <source>Overwrite file with same name</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mbishkruani skedarin me të njëjtin emër</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="382" />
       <source>Image Grabber</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Grabber i imazhit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="384" />
       <source>Capture mouse cursor on screenshot</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Regjistroni kursorin e miut në pamjen e ekranit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="386" />
       <source>The mouse cursor is captured only when a capture delay is set.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kursori i miut kapet vetëm kur vendoset një vonesë e kapjes.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="388" />
       <source>Show Main Window after capturing screenshot</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq dritaren kryesore pas kapjes së pamjes së ekranit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="390" />
       <source>Hide Main Window during screenshot</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fshih dritaren kryesore gjatë pamjes së ekranit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="392" />
       <source>Force Generic Wayland (xdg-desktop-portal) Screenshot</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Force Generic Wayland (xdg-desktop-portal) Pamja e ekranit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="393" />
       <source>Scale Generic Wayland (xdg-desktop-portal) Screenshots</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Scale Generic Wayland (xdg-desktop-portal) Pamjet e ekranit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="394" />
       <source>Use the desktop screenshot portal for every capture mode, including on X11.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përdorni portalin e pamjes së ekranit të desktopit për çdo modalitet fotografimi, duke përfshirë X11.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="396" />
       <source>Apply the primary screen scale factor to portal screenshots without resampling their pixels.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zbato faktorin kryesor të shkallës së ekranit në pamjet e portalit pa rikampionuar pikselët e tyre.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="404" />
       <source>Delays</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Vonesat</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="411" />
       <source>Implicit capture delay</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Vonesa e nënkuptuar e kapjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="413" />
       <source>Snipping Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zona e prerjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="415" />
       <source>Freeze Image while snipping</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngrini imazhin gjatë prerjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="417" />
       <source>Show magnifying glass on snipping area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq xham zmadhues në zonën e prerjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="419" />
       <source>Show Snipping Area rulers</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq vizoret e zonës së prerjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="421" />
       <source>Show Snipping Area position and size info</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq pozicionin dhe madhësinë e zonës së prerjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="423" />
       <source>Allow resizing rect area selection by default</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Lejo ndryshimin e madhësisë së zgjedhjes së zonës së drejtë si parazgjedhje</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="425" />
       <source>Show Snipping Area info text</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq tekstin e informacionit të Zonës Snipping</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="437" />
       <source>Appearance</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Pamja e jashtme</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="451" />
       <source>Snipping Area adorner color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjyra e zbukurimit të Zonës Snipping</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="452" />
       <source>Snipping Area cursor color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjyra e kursorit të zonës së prerë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="453" />
       <source>Snipping Area cursor thickness</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Trashësia e kursorit të zonës së prerjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="454" />
       <source>Snipping Area Transparency</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Transparenca e zonës së prerjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="456" />
       <source>Annotator</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Anotuesi</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="458" />
       <source>Remember annotation tool selection and load on startup</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mbani mend zgjedhjen e mjetit të shënimeve dhe ngarkoni në fillim</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="459" />
       <source>Switch to Select Tool after drawing Item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kaloni te "Mjeti i përzgjedhjes" pas vizatimit të artikullit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="460" />
       <source>Select Item after drawing</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni artikullin pas vizatimit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="461" />
       <source>Grab selected item when clicking it (Illustrator-style)</source>
@@ -2425,375 +2085,302 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="463" />
       <source>Number Tool Seed change updates all Number Items</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Number Tool Ndryshimi i farës përditëson të gjithë artikujt e numrave</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="469" />
       <source>Extra space around the digit inside the number badge. Negative values make it fit more tightly.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hapësirë shtesë rreth shifrës brenda distinktivit të numrit. Vlerat negative e bëjnë atë të përshtatet më fort.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="472" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Margjina e distinktivit të numrit:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="476" />
       <source>Show Controls Widget</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq miniaplikacionin e kontrolleve</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="477" />
       <source>Smooth Painter Paths</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shtigjet e lëmuara të piktorit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="490" />
       <source>Canvas</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kanavacë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="498" />
       <source>Smooth Factor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Faktori i qetë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="499" />
       <source>Canvas Color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjyra e kanavacës</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="500" />
       <source>Tray Icon</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ikona e tabakasë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="503" />
       <source>Use Tray Icon</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përdorni ikonën e tabakasë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="504" />
       <source>Minimize To Tray</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Minimizo në tabaka</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="505" />
       <source>Close To Tray</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Afër Tesisë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="506" />
       <source>Start Minimized To Tray</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Filloni të minimizohet në tabaka</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="507" />
       <source>Display Tray Notifications</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq njoftimet e tabakasë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="515" />
       <source>Default Action</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Veprimi i parazgjedhur</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="518" />
       <source>Show Editor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shfaq redaktorin</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="520" />
       <source>Action</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Veprimi</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="523" />
       <source>Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zona drejtkëndëshe</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="524" />
       <source>Last Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zona e fundit Rect</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="525" />
       <source>Full Screen</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ekrani i plotë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="526" />
       <source>Current Screen</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ekrani aktual</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="527" />
       <source>Active Window</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Dritarja aktive</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="528" />
       <source>Window Under Cursor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Dritarja nën Kursorin</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="529" />
       <source>Portal</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Portali</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="530" />
       <source>Capture Mode</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Mënyra e kapjes</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="532" />
       <source>Application Shortcuts</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shkurtoret e aplikacionit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="534" />
       <source>Enable Application Shortcuts</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Aktivizo shkurtoret e aplikacionit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="537" />
       <source>These shortcuts work while ksnip is active. For system-wide shortcuts, configure your desktop to run the ksnip command-line capture actions.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Këto shkurtore funksionojnë ndërsa ksnip është aktiv. Për shkurtoret në të gjithë sistemin, konfiguroni desktopin tuaj për të ekzekutuar veprimet e kapjes së linjës së komandës ksnip.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="547" />
       <source>Rect Area Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kapja e zonës drejtkëndëshe</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="548" />
       <source>Last Rect Area Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kapja e fundit e zonës së drejtë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="549" />
       <source>Full Screen Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Regjistrimi i ekranit të plotë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="550" />
       <source>Current Screen Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Regjistrimi aktual i ekranit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="551" />
       <source>Active Window Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kapja aktive e dritares</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="552" />
       <source>Window Under Cursor Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Dritarja nën kapjen e kursorit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="553" />
       <source>Portal Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kapja e portalit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="554" />
       <source>Open Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hap imazhin</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="555" />
       <source>Save</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ruaj</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="556" />
       <source>Paste Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjit imazhin</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="557" />
       <source>Pin Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Gozhdoni imazhin</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="558" />
       <source>Add Watermark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shto filigran</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="559" />
       <source>Upload Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarko imazh</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="560" />
       <source>OCR Text Recognition</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Njohja e tekstit OCR</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="564" />
       <source>Clear</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>E qartë</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="574" />
       <source>Uploader</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarkuesi</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="576" />
       <source>Ask for confirmation before uploading</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kërkoni konfirmim përpara se të ngarkoni</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="615" />
       <location filename="../settings_dialog.py" line="598" />
       <location filename="../settings_dialog.py" line="581" />
       <source>Script</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Skript</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="586" />
       <source>Uploader Type</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Lloji i ngarkuesit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="588" />
       <source>Script Uploader</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarkuesi i skriptit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="600" />
       <source>Copy script output to clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kopjo daljen e skriptit në kujtesën e fragmenteve</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="604" />
       <source>Filter</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Filtro</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="606" />
       <source>Treat stderr as failure</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Trajtoje stderr si dështim</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="608" />
       <source>OCR</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="610" />
       <source>Enable OCR actions</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Aktivizo veprimet OCR</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="612" />
       <source>PaddleOCR (plain text)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PaddleOCR (tekst i thjeshtë)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="613" />
       <source>PaddleOCR (Markdown tables)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PaddleOCR (tabelat e shënimit)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="614" />
       <source>PaddleOCR (HTML tables)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PaddleOCR (tabelat HTML)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="618" />
       <source>Spanish</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>spanjisht</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="619" />
       <source>Spanish + English (script backend recommended)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Spanjisht + Anglisht (rekomandohet mbështetja e skriptit)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="620" />
       <source>Recognize mathematical formulas (LaTeX)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Njohja e formulave matematikore (LaTeX)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="621" />
       <source>Copy OCR result to clipboard automatically</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Kopjo automatikisht rezultatin OCR në kujtesën e fragmenteve</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="631" />
       <source>Backend</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Backend</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="635" />
       <source>Script Path</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Rruga e Skriptit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="639" />
       <source>Color scheme for misspelled words</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Skema e ngjyrave për fjalët e shkruara gabim</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="641" />
       <source>%1 base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjyrat e skemës bazë %1 të përdorura nga ngjyra e mbushjes së mjetit Tekst në të majtë dhe ngjyra e nënvizimit për fjalët e shkruara gabim në të djathtë.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="827" />
       <location filename="../settings_dialog.py" line="647" />
       <source>Name</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Emri</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="647" />
       <source>Text fill color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjyra e mbushjes së tekstit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="647" />
       <source>Underline color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Nënvizoni ngjyrën</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="697" />
       <source>Imgur Uploader</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarkuesi Imgur</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="699" />
       <source>Native Imgur uploader parity is still pending.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Pariteti i ngarkuesit vendas të Imgur është ende në pritje.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="710" />
       <source>FTP Uploader</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngarkues FTP</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="712" />
       <source>Native FTP uploader parity is still pending.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Pariteti origjinal i ngarkuesit FTP është ende në pritje.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="730" />
       <source>Stickers</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjitëse</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="732" />
       <source>Sticker management and picker parity are still pending.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Menaxhimi i ngjitëseve dhe barazia e zgjedhësve janë ende në pritje.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="763" />
       <source>OK</source>
-      <translation>OK</translation>
+      <translation>Në rregull</translation>
     </message>
     <message>
       <location filename="../settings_dialog.py" line="764" />
@@ -2803,162 +2390,132 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="785" />
       <source>Actions</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Veprimet</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="789" />
       <source>Add</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shto</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="795" />
       <source>Add new actions by pressing the 'Add' tab button.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shtoni veprime të reja duke shtypur butonin e skedës "Shto".</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="803" />
       <source>Plugins</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shtojcat</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="806" />
       <source>Search Path</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Rruga e kërkimit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="827" />
       <source>Version</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Versioni</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="837" />
       <source>Detect</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zbuloni</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="876" />
       <source>Select color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni ngjyrën</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1071" />
       <source>No watermark image configured</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Nuk është konfiguruar asnjë imazh filigrani</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1073" />
       <source>%1x%2 image configured</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>imazhi %1x%2 u konfigurua</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1081" />
       <source>Select watermark image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni imazhin e filigranit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1088" />
       <source>Unable to load watermark image: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Imazhi i filigranit nuk mund të ngarkohet: %1</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1113" />
       <source>Select upload script</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni skriptin e ngarkimit</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1129" />
       <source>Select OCR script</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni skriptin OCR</translation></message>
   </context>
   <context>
     <name>SpellCheckTextEdit</name>
     <message>
       <location filename="../spellcheck.py" line="301" />
       <source>No suggestions</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Asnjë sugjerim</translation></message>
   </context>
   <context>
     <name>StickerPickerDialog</name>
     <message>
       <location filename="../sticker_picker.py" line="114" />
       <source>Select Sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zgjidhni Ngjitësin</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="117" />
       <source>Pinned Stickers</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjitëse të gozhduara</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="161" />
       <source>Use the star button to pin frequently used stickers.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përdorni butonin yll për të ngjitur ngjitëse të përdorura shpesh.</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="171" />
       <source>User</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Përdoruesi</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="193" />
       <source>Add Images...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shto imazhe...</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="196" />
       <source>Open Here with File Manager</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Hapni Këtu me File Manager</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="205" />
       <source>Add your own images to use them as stickers.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shtoni imazhet tuaja për t'i përdorur ato si ngjitëse.</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="207" />
       <source>Sticker theme is not installed: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Tema ngjitëse nuk është e instaluar: %1</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="228" />
       <source>Add Sticker Images</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shto imazhe ngjitëse</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="230" />
       <source>Images (*.png *.jpg *.jpeg *.webp *.bmp *.gif *.svg *.xpm);;All Files (*)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Images (*.png *.jpg *.jpeg *.webp *.bmp *.gif *.svg *.xpm);;All Files (*)</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="238" />
       <source>Unable to Add Images</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Nuk mund të shtohen imazhe</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="239" />
       <source>Some files could not be imported as stickers.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Disa skedarë nuk mund të importoheshin si ngjitëse.</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="270" />
       <location filename="../sticker_picker.py" line="255" />
       <source>Unpin Sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Zhgozhdoni ngjitësen</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="270" />
       <source>Pin Sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ngjitëse me gjilpërë</translation></message>
   </context>
   <context>
     <name>TextInputDialog</name>
     <message>
       <location filename="../canvas.py" line="24" />
       <source>Shift+Enter adds a new line. Ctrl+Enter accepts.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shift+Enter adds a new line. Ctrl+Enter accepts.</translation></message>
   </context>
 </TS>
