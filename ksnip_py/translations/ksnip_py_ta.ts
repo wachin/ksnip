@@ -6,33 +6,27 @@
     <message>
       <location filename="../about_dialog.py" line="29" />
       <source>About ksnip PyQt6</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ksnip PyQt6 பற்றி</translation></message>
     <message>
       <location filename="../about_dialog.py" line="81" />
       <source>Original project</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அசல் திட்டம்</translation></message>
     <message>
       <location filename="../about_dialog.py" line="84" />
       <source>PyQt6 port</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PyQt6 போர்ட்</translation></message>
     <message>
       <location filename="../about_dialog.py" line="85" />
       <source>Email</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>மின்னஞ்சல்</translation></message>
     <message>
       <location filename="../about_dialog.py" line="86" />
       <source>Website</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>இணையதளம்</translation></message>
     <message>
       <location filename="../about_dialog.py" line="87" />
       <source>License</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரிமம்</translation></message>
     <message>
       <location filename="../about_dialog.py" line="95" />
       <source>Version</source>
@@ -41,57 +35,48 @@
     <message>
       <location filename="../about_dialog.py" line="96" />
       <source>A screenshot and annotation tool, ported from the original C++/Qt ksnip to Python with PyQt6.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்கிரீன்ஷாட் மற்றும் சிறுகுறிப்பு கருவி, அசல் C++/Qt ksnip இலிருந்து PyQt6 உடன் பைத்தானுக்கு போர்ட் செய்யப்பட்டது.</translation></message>
     <message>
       <location filename="../about_dialog.py" line="97" />
       <source>Capture, annotate and share screenshots with rectangles, arrows, text, numbering, blur, watermark, OCR, pin windows and upload.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>செவ்வகங்கள், அம்புகள், உரை, எண்ணிடுதல், மங்கலான, வாட்டர்மார்க், OCR, பின் ஜன்னல்கள் மற்றும் பதிவேற்றம் மூலம் ஸ்கிரீன் ஷாட்களைப் பிடிக்கவும், சிறுகுறிப்பு செய்யவும் மற்றும் பகிரவும்.</translation></message>
     <message>
       <location filename="../about_dialog.py" line="98" />
       <source>Technologies</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தொழில்நுட்பங்கள்</translation></message>
     <message>
       <location filename="../about_dialog.py" line="98" />
       <source>Python 3, PyQt6 (Qt 6 Widgets), PaddleOCR (optional OCR backend)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பைதான் 3, PyQt6 (Qt 6 விட்ஜெட்டுகள்), PaddleOCR (விரும்பினால் OCR பின்தளம்)</translation></message>
   </context>
   <context>
     <name>AnnotationCanvas</name>
     <message>
       <location filename="../canvas.py" line="1761" />
       <source>Take a screenshot or open an image.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்கிரீன்ஷாட் எடுக்கவும் அல்லது படத்தைத் திறக்கவும்.</translation></message>
     <message>
       <location filename="../canvas.py" line="2450" />
       <location filename="../canvas.py" line="2417" />
       <source>Edit text</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரையைத் திருத்து</translation></message>
     <message>
       <location filename="../canvas.py" line="3451" />
       <location filename="../canvas.py" line="3427" />
       <location filename="../canvas.py" line="3252" />
       <source>Insert text</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரையைச் செருகவும்</translation></message>
   </context>
   <context>
     <name>ColorPaletteMenu</name>
     <message>
       <location filename="../color_picker.py" line="91" />
       <source>Custom color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>விருப்ப நிறம்</translation></message>
     <message>
       <location filename="../color_picker.py" line="108" />
       <source>Select color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வண்ணத்தைத் தேர்ந்தெடுக்கவும்</translation></message>
   </context>
   <context>
     <name>CutDialog</name>
@@ -113,18 +98,15 @@
     <message>
       <location filename="../canvas.py" line="112" />
       <source>Orientation:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நோக்குநிலை:</translation></message>
     <message>
       <location filename="../canvas.py" line="113" />
       <source>Position:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதவி:</translation></message>
     <message>
       <location filename="../canvas.py" line="114" />
       <source>Slice width:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>துண்டு அகலம்:</translation></message>
     <message>
       <location filename="../canvas.py" line="117" />
       <source>Apply</source>
@@ -137,28 +119,23 @@
       <location filename="../download_manager.py" line="317" />
       <location filename="../download_manager.py" line="297" />
       <source>Model &amp; Component Manager</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>மாடல் &amp; கூறு மேலாளர்</translation></message>
     <message>
       <location filename="../download_manager.py" line="342" />
       <source>Download additional components for OCR and other features. Models are stored in your user directory and are not bundled with the application.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR மற்றும் பிற அம்சங்களுக்கான கூடுதல் கூறுகளைப் பதிவிறக்கவும். மாதிரிகள் உங்கள் பயனர் கோப்பகத்தில் சேமிக்கப்பட்டு, பயன்பாட்டுடன் தொகுக்கப்படவில்லை.</translation></message>
     <message>
       <location filename="../download_manager.py" line="353" />
       <source>This is a packaged build. Installing Python packages (PaddleOCR, PaddlePaddle, PaddleX) is disabled because no Python interpreter is shipped with it. Use a source checkout, or configure an external OCR script under Settings → OCR.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>இது தொகுக்கப்பட்ட உருவாக்கம். பைதான் தொகுப்புகளை நிறுவுதல் (PaddleOCR, PaddlePaddle, PaddleX) முடக்கப்பட்டுள்ளது, ஏனெனில் எந்த பைதான் மொழிபெயர்ப்பாளரும் அதனுடன் அனுப்பப்படவில்லை. மூல செக் அவுட்டைப் பயன்படுத்தவும் அல்லது அமைப்புகள் → OCR இன் கீழ் வெளிப்புற OCR ஸ்கிரிப்டை உள்ளமைக்கவும்.</translation></message>
     <message>
       <location filename="../download_manager.py" line="426" />
       <source>PaddleOCR Line Models (PP-OCRv5)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PaddleOCR வரி மாதிரிகள் (PP-OCRv5)</translation></message>
     <message>
       <location filename="../download_manager.py" line="427" />
       <source>Lightweight OCR models for text line recognition. Supports English, Spanish, and 80+ languages.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரை வரி அங்கீகாரத்திற்கான இலகுரக OCR மாதிரிகள். ஆங்கிலம், ஸ்பானிஷ் மற்றும் 80+ மொழிகளை ஆதரிக்கிறது.</translation></message>
     <message>
       <location filename="../download_manager.py" line="484" />
       <location filename="../download_manager.py" line="462" />
@@ -170,28 +147,23 @@
     <message>
       <location filename="../download_manager.py" line="440" />
       <source>PaddleOCR Structure (PP-StructureV3)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PaddleOCR அமைப்பு (PP-StructureV3)</translation></message>
     <message>
       <location filename="../download_manager.py" line="441" />
       <source>Document layout analysis and table recognition. Converts tables to Markdown/HTML.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஆவண தளவமைப்பு பகுப்பாய்வு மற்றும் அட்டவணை அங்கீகாரம். அட்டவணைகளை Markdown/HTML ஆக மாற்றுகிறது.</translation></message>
     <message>
       <location filename="../download_manager.py" line="454" />
       <source>PaddleOCR Formula Recognition</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PaddleOCR ஃபார்முலா அங்கீகாரம்</translation></message>
     <message>
       <location filename="../download_manager.py" line="455" />
       <source>Mathematical formula recognition (LaTeX output). Optional extra for structure pipeline.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கணித சூத்திர அங்கீகாரம் (LaTeX வெளியீடு). கட்டமைப்பு குழாய்க்கு விருப்ப கூடுதல்.</translation></message>
     <message>
       <location filename="../download_manager.py" line="468" />
       <source>External OCR Script</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வெளிப்புற OCR ஸ்கிரிப்ட்</translation></message>
     <message>
       <location filename="../download_manager.py" line="469" />
       <source>Use any custom OCR engine via a script/executable. The script receives the image path as its only argument and must print the recognized text to stdout. 
@@ -202,64 +174,59 @@ tesseract "$1" stdout -l spa+eng
 
 Make it executable: chmod +x ~/ocr.sh
 Then configure the path in Settings → OCR → External OCR script.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்கிரிப்ட்/எக்ஸிகியூட்டபிள் வழியாக எந்த தனிப்பயன் OCR இன்ஜினையும் பயன்படுத்தவும். ஸ்கிரிப்ட் படத்தின் பாதையை அதன் ஒரே வாதமாகப் பெறுகிறது மற்றும் அங்கீகரிக்கப்பட்ட உரையை stdout க்கு அச்சிட வேண்டும். 
+
+எடுத்துக்காட்டு ஸ்கிரிப்ட் (~/ocr.sh ஆக சேமிக்கவும்):
+#!/பின்/பாஷ்
+tesseract "$1" stdout -l spa+eng
+
+அதை இயக்கக்கூடியதாக ஆக்குங்கள்: chmod +x ~/ocr.sh
+பின்னர் பாதையை அமைப்புகள் → OCR → External OCR ஸ்கிரிப்ட்டில் உள்ளமைக்கவும்.</translation></message>
     <message>
       <location filename="../download_manager.py" line="490" />
       <source>Spellcheck Dictionaries (Hunspell)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>எழுத்துப்பிழை சரிபார்ப்பு அகராதிகள் (ஹன்ஸ்பெல்)</translation></message>
     <message>
       <location filename="../download_manager.py" line="491" />
       <source>Additional language dictionaries for spell checking in text annotations.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரை சிறுகுறிப்புகளில் எழுத்துப்பிழை சரிபார்ப்புக்கான கூடுதல் மொழி அகராதிகள்.</translation></message>
     <message>
       <location filename="../download_manager.py" line="498" />
       <source>Spellcheck</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>எழுத்துப்பிழை சரிபார்ப்பு</translation></message>
     <message>
       <location filename="../download_manager.py" line="544" />
       <source>Downloading &amp; installing packages (pip)...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தொகுப்புகளைப் பதிவிறக்கி நிறுவுகிறது (பிப்)...</translation></message>
     <message>
       <location filename="../download_manager.py" line="562" />
       <source>Downloading: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதிவிறக்குகிறது: %1</translation></message>
     <message>
       <location filename="../download_manager.py" line="570" />
       <source>Initializing model cache...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>மாதிரி தற்காலிக சேமிப்பை துவக்குகிறது...</translation></message>
     <message>
       <location filename="../download_manager.py" line="623" />
       <location filename="../download_manager.py" line="582" />
       <source>Installation complete!</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நிறுவல் முடிந்தது!</translation></message>
     <message>
       <location filename="../download_manager.py" line="594" />
       <source>Installing PaddleX with OCR extra...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR உடன் PaddleX ஐ நிறுவுகிறது கூடுதல்...</translation></message>
     <message>
       <location filename="../download_manager.py" line="610" />
       <source>Initializing layout model...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தளவமைப்பு மாதிரியை துவக்குகிறது...</translation></message>
     <message>
       <location filename="../download_manager.py" line="641" />
       <source>Configure script path in Settings → OCR</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அமைப்புகள் → OCR இல் ஸ்கிரிப்ட் பாதையை உள்ளமைக்கவும்</translation></message>
     <message>
       <location filename="../download_manager.py" line="650" />
       <source>Install hunspell packages with apt/dnf</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>apt/dnf உடன் ஹன்ஸ்பெல் தொகுப்புகளை நிறுவவும்</translation></message>
   </context>
   <context>
     <name>MainWindow</name>
@@ -267,8 +234,7 @@ Then configure the path in Settings → OCR → External OCR script.</source>
       <location filename="../main_window.py" line="3921" />
       <location filename="../main_window.py" line="186" />
       <source>Ready</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தயார்</translation></message>
     <message>
       <location filename="../main_window.py" line="285" />
       <source>New</source>
@@ -279,28 +245,23 @@ Then configure the path in Settings → OCR → External OCR script.</source>
       <location filename="../main_window.py" line="1540" />
       <location filename="../main_window.py" line="286" />
       <source>New Screenshot</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>புதிய ஸ்கிரீன்ஷாட்</translation></message>
     <message>
       <location filename="../main_window.py" line="539" />
       <source>Updated selected sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட ஸ்டிக்கர் புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="707" />
       <source>Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நேர் பகுதி</translation></message>
     <message>
       <location filename="../main_window.py" line="710" />
       <source>Last Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கடைசி ரெக்ட் ஏரியா</translation></message>
     <message>
       <location filename="../main_window.py" line="713" />
       <source>Full Screen</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>முழுத்திரை</translation></message>
     <message>
       <location filename="../main_window.py" line="716" />
       <source>Current Screen</source>
@@ -319,28 +280,23 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="725" />
       <source>Portal</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>போர்டல்</translation></message>
     <message>
       <location filename="../main_window.py" line="728" />
       <source>Include Mouse Cursor</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>மவுஸ் கர்சரைச் சேர்க்கவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="732" />
       <source>Include the mouse cursor in new captures. Requires a capture delay greater than 0.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>புதிய பிடிப்புகளில் மவுஸ் கர்சரைச் சேர்க்கவும். 0 க்கும் அதிகமான பிடிப்பு தாமதம் தேவை.</translation></message>
     <message>
       <location filename="../main_window.py" line="735" />
       <source>Use Arrow Pointer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அம்புக்குறியைப் பயன்படுத்தவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="739" />
       <source>Use a standard arrow instead of the actual pointer shape, such as the text I-beam.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஐ-பீம் போன்ற உண்மையான சுட்டி வடிவத்திற்குப் பதிலாக நிலையான அம்புக்குறியைப் பயன்படுத்தவும்.</translation></message>
     <message>
       <location filename="../main_window.py" line="743" />
       <source>Open</source>
@@ -367,8 +323,7 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="760" />
       <source>Export as SVG...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>SVG ஆக ஏற்றுமதி செய்யவும்...</translation></message>
     <message>
       <location filename="../main_window.py" line="763" />
       <source>Print</source>
@@ -407,8 +362,7 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="784" />
       <source>Delete Image...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தை நீக்கு...</translation></message>
     <message>
       <location filename="../main_window.py" line="819" />
       <location filename="../main_window.py" line="787" />
@@ -418,13 +372,11 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="790" />
       <source>Copy Item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பொருளை நகலெடுக்கவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="794" />
       <source>Close Tab</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தாவலை மூடு</translation></message>
     <message>
       <location filename="../main_window.py" line="800" />
       <source>Close</source>
@@ -595,33 +547,27 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="948" />
       <source>Paste Item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உருப்படியை ஒட்டவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="952" />
       <source>Delete Item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உருப்படியை நீக்கு</translation></message>
     <message>
       <location filename="../main_window.py" line="956" />
       <source>Duplicate Item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நகல் பொருள்</translation></message>
     <message>
       <location filename="../main_window.py" line="960" />
       <source>Edit Text...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரையைத் திருத்து...</translation></message>
     <message>
       <location filename="../main_window.py" line="963" />
       <source>Bring To Front</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>முன்னால் கொண்டு வாருங்கள்</translation></message>
     <message>
       <location filename="../main_window.py" line="966" />
       <source>Send To Back</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பின்னுக்கு அனுப்பு</translation></message>
     <message>
       <location filename="../main_window.py" line="969" />
       <source>Rotate</source>
@@ -666,8 +612,7 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="984" />
       <source>Modify Canvas...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கேன்வாஸை மாற்றவும்...</translation></message>
     <message>
       <location filename="../main_window.py" line="3454" />
       <location filename="../main_window.py" line="987" />
@@ -693,18 +638,15 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1004" />
       <source>OCR Text Recognition</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR உரை அங்கீகாரம்</translation></message>
     <message>
       <location filename="../main_window.py" line="1007" />
       <source>OCR Text Recognition (tables + Markdown)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR உரை அங்கீகாரம் (அட்டவணைகள் + மார்க் டவுன்)</translation></message>
     <message>
       <location filename="../main_window.py" line="1011" />
       <source>Update Watermark Image...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வாட்டர்மார்க் படத்தைப் புதுப்பிக்கவும்...</translation></message>
     <message>
       <location filename="../main_window.py" line="1014" />
       <source>Rotate Watermark</source>
@@ -733,8 +675,7 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1029" />
       <source>Clear Recent Images</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சமீபத்திய படங்களை அழி</translation></message>
     <message>
       <location filename="../main_window.py" line="1032" />
       <source>Quit</source>
@@ -743,8 +684,7 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1035" />
       <source>Zoom Out</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பெரிதாக்கவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="1038" />
       <source>Reset Zoom</source>
@@ -753,8 +693,7 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1041" />
       <source>Zoom In</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பெரிதாக்கவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="1044" />
       <source>Fit Image</source>
@@ -763,62 +702,51 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1066" />
       <source>Capture delay</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பிடிப்பு தாமதம்</translation></message>
     <message>
       <location filename="../main_window.py" line="1304" />
       <location filename="../main_window.py" line="1111" />
       <location filename="../main_window.py" line="1104" />
       <source>Stroke color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பக்கவாதம் நிறம்</translation></message>
     <message>
       <location filename="../main_window.py" line="1120" />
       <source>Stroke width: changes the thickness of the line or arrow shaft.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்ட்ரோக் அகலம்: கோட்டின் தடிமன் அல்லது அம்பு தண்டு மாற்றுகிறது.</translation></message>
     <message>
       <location filename="../main_window.py" line="1122" />
       <source>Stroke width</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்ட்ரோக் அகலம்</translation></message>
     <message>
       <location filename="../main_window.py" line="1130" />
       <source>Arrowhead size: changes the size of the triangular arrow tip.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அம்புக்குறி அளவு: முக்கோண அம்பு முனையின் அளவை மாற்றுகிறது.</translation></message>
     <message>
       <location filename="../main_window.py" line="1133" />
       <source>Arrowhead size</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அம்புக்குறி அளவு</translation></message>
     <message>
       <location filename="../main_window.py" line="1145" />
       <location filename="../main_window.py" line="1141" />
       <source>Fill mode</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நிரப்பு முறை</translation></message>
     <message>
       <location filename="../main_window.py" line="1157" />
       <location filename="../main_window.py" line="1150" />
       <source>Text color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரை நிறம்</translation></message>
     <message>
       <location filename="../main_window.py" line="1164" />
       <source>Font family used by the text or number.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரை அல்லது எண்ணால் பயன்படுத்தப்படும் எழுத்துரு குடும்பம்.</translation></message>
     <message>
       <location filename="../main_window.py" line="1172" />
       <source>Font size of the text or number.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரை அல்லது எண்ணின் எழுத்துரு அளவு.</translation></message>
     <message>
       <location filename="../main_window.py" line="1175" />
       <source>Font</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>எழுத்துரு</translation></message>
     <message>
       <location filename="../main_window.py" line="1180" />
       <source>Bold</source>
@@ -837,44 +765,36 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1193" />
       <source>Number value used by the next numbered annotation.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அடுத்த எண்ணிடப்பட்ட சிறுகுறிப்பில் பயன்படுத்தப்படும் எண் மதிப்பு.</translation></message>
     <message>
       <location filename="../main_window.py" line="1202" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>எண் பேட்ஜ் விளிம்பு:</translation></message>
     <message>
       <location filename="../main_window.py" line="1215" />
       <source>Effect strength: controls the intensity of blur or pixelation.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>விளைவு வலிமை: மங்கலான அல்லது பிக்சலேஷனின் தீவிரத்தை கட்டுப்படுத்துகிறது.</translation></message>
     <message>
       <location filename="../main_window.py" line="1217" />
       <source>Effect strength</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>விளைவு வலிமை</translation></message>
     <message>
       <location filename="../main_window.py" line="1221" />
       <source>Select Sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்டிக்கரைத் தேர்ந்தெடுக்கவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="1232" />
       <location filename="../main_window.py" line="1230" />
       <source>Item shadow</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பொருள் நிழல்</translation></message>
     <message>
       <location filename="../main_window.py" line="1241" />
       <source>Sticker scale as a percentage of its original insertion size.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்டிக்கர் அளவு அதன் அசல் செருகும் அளவின் சதவீதமாக உள்ளது.</translation></message>
     <message>
       <location filename="../main_window.py" line="1251" />
       <source>Opacity: 0% is transparent and 100% is fully visible.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஒளிபுகாநிலை: 0% வெளிப்படையானது மற்றும் 100% முழுமையாகத் தெரியும்.</translation></message>
     <message>
       <location filename="../main_window.py" line="1253" />
       <source>Opacity</source>
@@ -894,14 +814,12 @@ Then configure the path in Settings → OCR → External OCR script.</source>
       <location filename="../main_window.py" line="1624" />
       <location filename="../main_window.py" line="1408" />
       <source>Zoom</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பெரிதாக்கு</translation></message>
     <message>
       <location filename="../main_window.py" line="3588" />
       <location filename="../main_window.py" line="1430" />
       <source>Image Effect: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பட விளைவு: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="1445" />
       <source>Controls</source>
@@ -915,8 +833,7 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1553" />
       <source>Recent Images</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சமீபத்திய படங்கள்</translation></message>
     <message>
       <location filename="../main_window.py" line="1568" />
       <source>&amp;Edit</source>
@@ -925,13 +842,11 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1583" />
       <source>Effects</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>விளைவுகள்</translation></message>
     <message>
       <location filename="../main_window.py" line="1594" />
       <source>Annotation Items</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சிறுகுறிப்பு பொருட்கள்</translation></message>
     <message>
       <location filename="../main_window.py" line="1603" />
       <source>&amp;View</source>
@@ -940,23 +855,19 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1607" />
       <source>Theme</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தீம்</translation></message>
     <message>
       <location filename="../main_window.py" line="1612" />
       <source>System</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அமைப்பு</translation></message>
     <message>
       <location filename="../main_window.py" line="1613" />
       <source>Light</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஒளி</translation></message>
     <message>
       <location filename="../main_window.py" line="1614" />
       <source>Dark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>இருள்</translation></message>
     <message>
       <location filename="../main_window.py" line="1630" />
       <source>&amp;Options</source>
@@ -970,8 +881,7 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1642" />
       <source>Annotation Tools</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சிறுகுறிப்பு கருவிகள்</translation></message>
     <message>
       <location filename="../main_window.py" line="1668" />
       <source>&amp;Help</source>
@@ -985,139 +895,112 @@ Then configure the path in Settings → OCR → External OCR script.</source>
     <message>
       <location filename="../main_window.py" line="1913" />
       <source>ksnip PyQt6 is still running in the system tray.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ksnip PyQt6 இன்னும் சிஸ்டம் ட்ரேயில் இயங்குகிறது.</translation></message>
     <message>
       <location filename="../main_window.py" line="1941" />
       <source>OCR is still running; ksnip cannot close until it finishes.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR இன்னும் இயங்குகிறது; ksnip முடியும் வரை மூட முடியாது.</translation></message>
     <message>
       <location filename="../main_window.py" line="1971" />
       <source>ksnip PyQt6 was minimized to the system tray.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ksnip PyQt6 சிஸ்டம் ட்ரேயில் குறைக்கப்பட்டது.</translation></message>
     <message>
       <location filename="../main_window.py" line="2099" />
       <source>Drag the crop handles, then press Enter to crop or Esc to cancel.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>செதுக்கும் கைப்பிடிகளை இழுத்து, பின்னர் Enter ஐ அழுத்தவும் அல்லது ரத்துசெய்ய Esc ஐ அழுத்தவும்.</translation></message>
     <message>
       <location filename="../main_window.py" line="2312" />
       <source>Select color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வண்ணத்தைத் தேர்ந்தெடுக்கவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="2321" />
       <source>Updated selected item color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட பொருளின் நிறம் புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2340" />
       <source>Updated selected item fill</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உருப்படி நிரப்புதல் புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2350" />
       <source>Select text color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரை நிறத்தைத் தேர்ந்தெடுக்கவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="2360" />
       <source>Updated selected text color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உரை வண்ணம் புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2376" />
       <source>Updated selected item width to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உருப்படியின் அகலம் %1 க்கு புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2389" />
       <source>Updated selected arrowhead size to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட அம்புக்குறி அளவு %1 க்கு புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2399" />
       <source>Updated selected text font</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உரை எழுத்துரு புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2413" />
       <source>Updated selected text size to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உரை அளவு %1 க்கு புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2423" />
       <source>Updated selected item opacity to %1%</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உருப்படியின் ஒளிபுகாநிலை %1% க்கு புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2441" />
       <source>Updated selected item fill mode</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உருப்படி நிரப்பு பயன்முறை புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2452" />
       <source>Updated selected text bold style</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உரை தடிமனான நடை புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2464" />
       <source>Updated selected text italic style</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உரை சாய்வு நடை புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2475" />
       <source>Updated selected text underline style</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உரையின் அடிக்கோடிட்டு நடை புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2486" />
       <source>Updated selected item shadow</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உருப்படி நிழல் புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2498" />
       <source>Updated selected item scale to %1%</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உருப்படி அளவு %1% க்கு புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2507" />
       <source>Updated selected number to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட எண் %1 க்கு புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2951" />
       <location filename="../main_window.py" line="2725" />
       <source>Portal capture canceled.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>போர்டல் பிடிப்பு ரத்து செய்யப்பட்டது.</translation></message>
     <message>
       <location filename="../main_window.py" line="2744" />
       <source>Set a capture delay to include the mouse cursor.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>மவுஸ் கர்சரைச் சேர்க்க பிடிப்பு தாமதத்தை அமைக்கவும்.</translation></message>
     <message>
       <location filename="../main_window.py" line="2752" />
       <source>Capture the mouse cursor (also in Options &gt; Settings &gt; Image Grabber &gt; Capture mouse cursor on screenshot). Requires a capture delay.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>மவுஸ் கர்சரைப் பிடிக்கவும் (விருப்பங்கள் &gt; அமைப்புகள் &gt; பட கிராப்பர் &gt; ஸ்கிரீன்ஷாட்டில் மவுஸ் கர்சரைப் பிடிக்கவும்). பிடிப்பு தாமதம் தேவை.</translation></message>
     <message>
       <location filename="../main_window.py" line="2875" />
       <source>Loaded %1 capture and copied it to clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>%1 பிடிப்பு ஏற்றப்பட்டு, கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="2971" />
       <source>Loaded %1 capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>%1 பிடிப்பு ஏற்றப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3037" />
       <source>Open image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தைத் திற</translation></message>
     <message>
       <location filename="../main_window.py" line="3039" />
       <source>Ksnip Projects (*.ksnip);;Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
@@ -1132,157 +1015,129 @@ Then configure the path in Settings → OCR → External OCR script.</source>
       <location filename="../main_window.py" line="3704" />
       <location filename="../main_window.py" line="3050" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படங்கள் (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation></message>
     <message>
       <location filename="../main_window.py" line="3127" />
       <location filename="../main_window.py" line="3071" />
       <source>Save image as</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தை இவ்வாறு சேமிக்கவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="3129" />
       <location filename="../main_window.py" line="3073" />
       <source>Ksnip Project (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ksnip திட்டம் (*.ksnip);;PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;WebP (*.webp)</translation></message>
     <message>
       <location filename="../main_window.py" line="3088" />
       <source>Ksnip Project (*.ksnip)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ksnip திட்டம் (*.ksnip)</translation></message>
     <message>
       <location filename="../main_window.py" line="3089" />
       <source>PNG (*.png)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PNG (*.png)</translation></message>
     <message>
       <location filename="../main_window.py" line="3096" />
       <source>Export as SVG</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>SVG ஆக ஏற்றுமதி செய்யவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="3104" />
       <source>Unable to export SVG: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>SVG ஐ ஏற்றுமதி செய்ய முடியவில்லை: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3106" />
       <source>Exported SVG to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>SVG %1க்கு ஏற்றுமதி செய்யப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3154" />
       <source>Saved %1 image(s), failed %2</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சேமிக்கப்பட்டது %1 படம்(கள்), தோல்வி %2</translation></message>
     <message>
       <location filename="../main_window.py" line="3159" />
       <source>Save All stopped early; these could not be saved:
 %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அனைத்தையும் சேமி முன்கூட்டியே நிறுத்தப்பட்டது; இவற்றைச் சேமிக்க முடியவில்லை:
+%1</translation></message>
     <message>
       <location filename="../main_window.py" line="3163" />
       <source>Saved %1 image(s)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சேமிக்கப்பட்ட %1 படம்(கள்)</translation></message>
     <message>
       <location filename="../main_window.py" line="3184" />
       <source>Unable to save Ksnip project: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ksnip திட்டத்தைச் சேமிக்க முடியவில்லை: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3199" />
       <source>The Ksnip project was saved, but its companion image could not be saved to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ksnip திட்டம் சேமிக்கப்பட்டது, ஆனால் அதன் துணை படத்தை %1 இல் சேமிக்க முடியவில்லை</translation></message>
     <message>
       <location filename="../main_window.py" line="3208" />
       <source>Saved %1 and companion image %2</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சேமிக்கப்பட்டது %1 மற்றும் துணைப் படம் %2</translation></message>
     <message>
       <location filename="../main_window.py" line="3221" />
       <source>Saved %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சேமிக்கப்பட்டது %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3229" />
       <source>Copied image to clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கிளிப்போர்டுக்கு படம் நகலெடுக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3238" />
       <source>Sent image to printer</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படம் பிரிண்டருக்கு அனுப்பப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3277" />
       <source>New name:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>புதிய பெயர்:</translation></message>
     <message>
       <location filename="../main_window.py" line="3311" />
       <source>Renamed to %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>%1 என மறுபெயரிடப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3327" />
       <source>Delete Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தை நீக்கு</translation></message>
     <message>
       <location filename="../main_window.py" line="3328" />
       <source>The item '%1' will be deleted.
 Do you want to continue?</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>'%1' உருப்படி நீக்கப்படும்.
+தொடர வேண்டுமா?</translation></message>
     <message>
       <location filename="../main_window.py" line="3337" />
       <source>Unable to delete %1: %2</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>%1: %2 ஐ நீக்க முடியவில்லை</translation></message>
     <message>
       <location filename="../main_window.py" line="3343" />
       <source>Deleted %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>%1 நீக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3366" />
       <source>Copied image as a base64 encoded Data URI</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படம் அடிப்படை64 குறியிடப்பட்ட தரவு URI ஆக நகலெடுக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3373" />
       <source>Copied path %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நகலெடுக்கப்பட்ட பாதை %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3383" />
       <source>Opened directory %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>திறந்த அடைவு %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3390" />
       <source>Copied selected item(s)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உருப்படி(கள்) நகலெடுக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3403" />
       <source>Loaded image from clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கிளிப்போர்டிலிருந்து படம் ஏற்றப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3423" />
       <source>Pasted embedded image from clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கிளிப்போர்டில் இருந்து உட்பொதிக்கப்பட்ட படம் ஒட்டப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3437" />
       <source>Canvas modified: %1 × %2 px at (%3, %4)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கேன்வாஸ் மாற்றப்பட்டது: %1 × %2 px இல் (%3, %4)</translation></message>
     <message>
       <location filename="../main_window.py" line="3454" />
       <source>Show Docks</source>
@@ -1291,38 +1146,31 @@ Do you want to continue?</source>
     <message>
       <location filename="../main_window.py" line="3463" />
       <source>Pasted item from clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கிளிப்போர்டிலிருந்து உருப்படி ஒட்டப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3490" />
       <source>Deleted selected item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உருப்படி நீக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3499" />
       <source>Duplicated selected item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நகல் தேர்ந்தெடுக்கப்பட்ட உருப்படி</translation></message>
     <message>
       <location filename="../main_window.py" line="3508" />
       <source>Updated text item</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>புதுப்பிக்கப்பட்ட உரை உருப்படி</translation></message>
     <message>
       <location filename="../main_window.py" line="3517" />
       <source>Brought selected item to front</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உருப்படியை முன்னால் கொண்டு வந்தேன்</translation></message>
     <message>
       <location filename="../main_window.py" line="3526" />
       <source>Sent selected item to back</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தேர்ந்தெடுக்கப்பட்ட உருப்படி பின்னால் அனுப்பப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3538" />
       <source>Rotated image by %1 degrees</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படம் %1 டிகிரி சுழற்றப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3541" />
       <source>Horizontal</source>
@@ -1336,38 +1184,31 @@ Do you want to continue?</source>
     <message>
       <location filename="../main_window.py" line="3542" />
       <source>Flipped image: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>புரட்டப்பட்ட படம்: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3562" />
       <source>Scaled image to %1 × %2 px</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படம் %1 × %2 px க்கு அளவிடப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3581" />
       <source>Image effect: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பட விளைவு: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="3600" />
       <source>Image slice removed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத் துண்டு அகற்றப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3615" />
       <source>Pinned current image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தற்போதைய படம் பின் செய்யப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3625" />
       <source>Language changed. Restart ksnip to apply it.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>மொழி மாறியது. அதைப் பயன்படுத்த ksnip ஐ மீண்டும் தொடங்கவும்.</translation></message>
     <message>
       <location filename="../main_window.py" line="3627" />
       <source>Settings updated</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அமைப்புகள் புதுப்பிக்கப்பட்டன</translation></message>
     <message>
       <location filename="../main_window.py" line="3631" />
       <source>Model Manager opened</source>
@@ -1376,34 +1217,28 @@ Do you want to continue?</source>
     <message>
       <location filename="../main_window.py" line="3697" />
       <source>Added watermark</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வாட்டர்மார்க் சேர்க்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3702" />
       <source>Select watermark image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வாட்டர்மார்க் படத்தைத் தேர்ந்தெடுக்கவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="3712" />
       <source>Updated watermark image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வாட்டர்மார்க் படம் புதுப்பிக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3721" />
       <source>Upload Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தை பதிவேற்றவும்</translation></message>
     <message>
       <location filename="../main_window.py" line="3722" />
       <source>Upload the current image?</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தற்போதைய படத்தை பதிவேற்றவா?</translation></message>
     <message>
       <location filename="../main_window.py" line="3753" />
       <location filename="../main_window.py" line="3748" />
       <source>Uploading image...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தை பதிவேற்றுகிறது...</translation></message>
     <message>
       <location filename="../main_window.py" line="3831" />
       <location filename="../main_window.py" line="3748" />
@@ -1413,23 +1248,19 @@ Do you want to continue?</source>
     <message>
       <location filename="../main_window.py" line="3790" />
       <source>Upload canceled</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதிவேற்றம் ரத்து செய்யப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3793" />
       <source>Upload failed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதிவேற்றம் தோல்வியடைந்தது</translation></message>
     <message>
       <location filename="../main_window.py" line="3798" />
       <source>Upload finished successfully</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதிவேற்றம் வெற்றிகரமாக முடிந்தது</translation></message>
     <message>
       <location filename="../main_window.py" line="3800" />
       <source>Upload Successful</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதிவேற்றம் வெற்றி</translation></message>
     <message>
       <location filename="../main_window.py" line="3833" />
       <source>OCR</source>
@@ -1438,8 +1269,7 @@ Do you want to continue?</source>
     <message>
       <location filename="../main_window.py" line="3837" />
       <source>Running OCR...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR இயங்குகிறது...</translation></message>
     <message>
       <location filename="../main_window.py" line="3843" />
       <source>Running OCR layout and table recognition…
@@ -1450,142 +1280,118 @@ First run loads several models and may take 1–3 minutes on CPU.</source>
     <message>
       <location filename="../main_window.py" line="3847" />
       <source>Running OCR text recognition...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR உரை அங்கீகாரம் இயங்குகிறது...</translation></message>
     <message>
       <location filename="../main_window.py" line="3889" />
       <source>OCR canceled</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR ரத்து செய்யப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="3893" />
       <source>OCR failed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR தோல்வியடைந்தது</translation></message>
     <message>
       <location filename="../main_window.py" line="3903" />
       <source>OCR finished</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR முடிந்தது</translation></message>
     <message>
       <location filename="../main_window.py" line="4243" />
       <location filename="../main_window.py" line="4213" />
       <source>Opened %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>திறக்கப்பட்டது %1</translation></message>
     <message>
       <location filename="../main_window.py" line="4223" />
       <source>Unable to open Ksnip project: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ksnip திட்டத்தை திறக்க முடியவில்லை: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="4234" />
       <source>Unable to restore Ksnip project: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ksnip திட்டத்தை மீட்டெடுக்க முடியவில்லை: %1</translation></message>
     <message>
       <location filename="../main_window.py" line="4249" />
       <source>Unable to open image data.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத் தரவைத் திறக்க முடியவில்லை.</translation></message>
     <message>
       <location filename="../main_window.py" line="4257" />
       <source>Opened image from standard input</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நிலையான உள்ளீட்டிலிருந்து படம் திறக்கப்பட்டது</translation></message>
     <message>
       <location filename="../main_window.py" line="4924" />
       <location filename="../main_window.py" line="4905" />
       <source>Unsaved changes</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சேமிக்கப்படாத மாற்றங்கள்</translation></message>
     <message>
       <location filename="../main_window.py" line="4906" />
       <source>Close this tab and discard unsaved changes?</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>இந்தத் தாவலை மூடிவிட்டு, சேமிக்கப்படாத மாற்றங்களை நிராகரிக்கவா?</translation></message>
     <message>
       <location filename="../main_window.py" line="4925" />
       <source>Close ksnip PyQt6 and discard unsaved changes in open tabs?</source>
-      <translation type="unfinished" />
-    </message>
-  </context>
+      <translation>ksnip PyQt6 ஐ மூடிவிட்டு, திறந்த தாவல்களில் சேமிக்கப்படாத மாற்றங்களை நிராகரிக்கவா?</translation></message>
+  <message><source>Model Manager</source><translation>மாதிரி மேலாளர்</translation></message><message><source>The OCR plugin failed to open: %1</source><translation>OCR செருகுநிரலைத் திறக்க முடியவில்லை: %1</translation></message></context>
   <context>
     <name>ModelCard</name>
     <message>
       <location filename="../download_manager.py" line="152" />
       <source>Download size: ~%1 MB</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதிவிறக்க அளவு: ~%1 MB</translation></message>
     <message>
       <location filename="../download_manager.py" line="154" />
       <source>No download required</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதிவிறக்கம் தேவையில்லை</translation></message>
     <message>
       <location filename="../download_manager.py" line="180" />
       <source>Checking status...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நிலையைச் சரிபார்க்கிறது...</translation></message>
     <message>
       <location filename="../download_manager.py" line="244" />
       <location filename="../download_manager.py" line="188" />
       <source>Install</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நிறுவவும்</translation></message>
     <message>
       <location filename="../download_manager.py" line="209" />
       <source>Not available in a packaged build. Use a source checkout or an external OCR script.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தொகுக்கப்பட்ட கட்டமைப்பில் கிடைக்காது. மூல செக் அவுட் அல்லது வெளிப்புற OCR ஸ்கிரிப்டைப் பயன்படுத்தவும்.</translation></message>
     <message>
       <location filename="../download_manager.py" line="216" />
       <source>Remove</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அகற்று</translation></message>
     <message>
       <location filename="../download_manager.py" line="285" />
       <location filename="../download_manager.py" line="239" />
       <source>Reinstall</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>மீண்டும் நிறுவவும்</translation></message>
     <message>
       <location filename="../download_manager.py" line="241" />
       <source>✓ Installed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>✓ நிறுவப்பட்டது</translation></message>
     <message>
       <location filename="../download_manager.py" line="246" />
       <source>Not installed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நிறுவப்படவில்லை</translation></message>
     <message>
       <location filename="../download_manager.py" line="258" />
       <source>Starting download...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதிவிறக்கம் தொடங்குகிறது...</translation></message>
     <message>
       <location filename="../download_manager.py" line="270" />
       <source>Remove Model</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>மாதிரியை அகற்று</translation></message>
     <message>
       <location filename="../download_manager.py" line="271" />
       <source>To remove %1, you can clear its cached directory or uninstall its package via pip.
 
 Directory: %2</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>%1 ஐ அகற்ற, நீங்கள் அதன் தற்காலிக சேமிப்பில் உள்ள கோப்பகத்தை அழிக்கலாம் அல்லது அதன் தொகுப்பை pip வழியாக நிறுவல் நீக்கலாம்.
+
+அடைவு: %2</translation></message>
     <message>
       <location filename="../download_manager.py" line="283" />
       <source>✓ Installed successfully</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>✓ வெற்றிகரமாக நிறுவப்பட்டது</translation></message>
     <message>
       <location filename="../download_manager.py" line="288" />
       <source>✗ Installation failed</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>✗ நிறுவல் தோல்வியடைந்தது</translation></message>
   </context>
   <context>
     <name>ModifyCanvasDialog</name>
@@ -1602,8 +1408,7 @@ Directory: %2</source>
     <message>
       <location filename="../canvas.py" line="326" />
       <source>When enabled, the canvas must include the background image.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>இயக்கப்பட்டால், கேன்வாஸில் பின்னணிப் படம் இருக்க வேண்டும்.</translation></message>
     <message>
       <location filename="../canvas.py" line="338" />
       <source>Color:</source>
@@ -1645,101 +1450,82 @@ Directory: %2</source>
     <message>
       <location filename="../ocr_result_dialog.py" line="10" />
       <source>OCR Text Recognition</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR உரை அங்கீகாரம்</translation></message>
     <message>
       <location filename="../ocr_result_dialog.py" line="19" />
       <source>Copy to Clipboard</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கிளிப்போர்டுக்கு நகலெடுக்கவும்</translation></message>
   </context>
   <context>
     <name>PortalDiagnostics</name>
     <message>
       <location filename="../capture.py" line="157" />
       <source>The screenshot portal did not return an image.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்கிரீன்ஷாட் போர்ட்டல் படத்தை வழங்கவில்லை.</translation></message>
     <message>
       <location filename="../capture.py" line="159" />
       <source>Portal capture is unavailable: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>போர்டல் பிடிப்பு கிடைக்கவில்லை: %1</translation></message>
     <message>
       <location filename="../capture.py" line="160" />
       <source>Detected desktop: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கண்டறியப்பட்ட டெஸ்க்டாப்: %1</translation></message>
     <message>
       <location filename="../capture.py" line="161" />
       <source>Session type: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அமர்வு வகை: %1</translation></message>
     <message>
       <location filename="../capture.py" line="162" />
       <source>Install the portal frontend and the recommended backend:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>போர்டல் முன்பக்கம் மற்றும் பரிந்துரைக்கப்பட்ட பின்தளத்தை நிறுவவும்:</translation></message>
     <message>
       <location filename="../capture.py" line="164" />
       <source>With Fluxbox, Openbox, IceWM, or another manually assembled session, xdg-desktop-portal-gtk is the usual fallback. The session must export XDG_CURRENT_DESKTOP and may require a matching portals.conf file.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Fluxbox, Openbox, IceWM அல்லது கைமுறையாக அசெம்பிள் செய்யப்பட்ட மற்றொரு அமர்வு, xdg-desktop-portal-gtk என்பது வழக்கமான ஃபால்பேக் ஆகும். அமர்வு XDG_CURRENT_DESKTOP ஐ ஏற்றுமதி செய்ய வேண்டும், மேலும் பொருத்தமான portals.conf கோப்பு தேவைப்படலாம்.</translation></message>
     <message>
       <location filename="../capture.py" line="266" />
       <source>D-Bus portal capture is only available on Linux.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>டி-பஸ் போர்டல் பிடிப்பு லினக்ஸில் மட்டுமே கிடைக்கும்.</translation></message>
     <message>
       <location filename="../capture.py" line="273" />
       <source>the D-Bus session bus is not available.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>டி-பஸ் அமர்வு பேருந்து கிடைக்கவில்லை.</translation></message>
     <message>
       <location filename="../capture.py" line="282" />
       <source>the xdg-desktop-portal service is not available.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>xdg-desktop-portal சேவை கிடைக்கவில்லை.</translation></message>
     <message>
       <location filename="../capture.py" line="287" />
       <source>the Screenshot portal interface is unavailable.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்கிரீன்ஷாட் போர்டல் இடைமுகம் கிடைக்கவில்லை.</translation></message>
     <message>
       <location filename="../capture.py" line="292" />
       <source>the portal returned an invalid request path.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>போர்டல் தவறான கோரிக்கைப் பாதையை வழங்கியது.</translation></message>
     <message>
       <location filename="../capture.py" line="304" />
       <source>ksnip could not subscribe to the portal response.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ksnip போர்டல் பதிலுக்கு குழுசேர முடியவில்லை.</translation></message>
     <message>
       <location filename="../capture.py" line="319" />
       <source>the portal response timed out.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>போர்டல் பதில் நேரம் முடிந்தது.</translation></message>
     <message>
       <location filename="../capture.py" line="324" />
       <source>capture was canceled.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பிடிப்பு ரத்து செய்யப்பட்டது.</translation></message>
     <message>
       <location filename="../capture.py" line="326" />
       <source>portal error code %1.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>போர்டல் பிழை குறியீடு %1.</translation></message>
     <message>
       <location filename="../capture.py" line="332" />
       <source>an empty path</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஒரு வெற்று பாதை</translation></message>
     <message>
       <location filename="../capture.py" line="333" />
       <source>the returned image could not be loaded from %1.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>திரும்பிய படத்தை %1 இலிருந்து ஏற்ற முடியவில்லை.</translation></message>
   </context>
   <context>
     <name>RotateDialog</name>
@@ -1840,8 +1626,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="144" />
       <source>Editor Defaults</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>எடிட்டர் இயல்புநிலைகள்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="148" />
       <source>Select</source>
@@ -1945,18 +1730,15 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="168" />
       <source>Default Tool</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>இயல்புநிலை கருவி</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="172" />
       <source>Stroke Width</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்ட்ரோக் அகலம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="175" />
       <source>Font Family</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>எழுத்துரு குடும்பம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="179" />
       <source>Font Size</source>
@@ -1980,13 +1762,11 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="185" />
       <source>Shape Fill Mode</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வடிவ நிரப்பு முறை</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="189" />
       <source>Opacity %</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஒளிபுகாநிலை %</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="192" />
       <source>Bold</source>
@@ -2000,8 +1780,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="198" />
       <source>Text Style</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரை நடை</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="200" />
       <source>Watermark</source>
@@ -2010,18 +1789,15 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="203" />
       <source>Rotate Watermark 45°</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வாட்டர்மார்க் 45° சுழற்று</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="208" />
       <source>Update Image...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தைப் புதுப்பிக்கவும்...</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="214" />
       <source>Stored Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சேமிக்கப்பட்ட படம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="216" />
       <source>Application</source>
@@ -2040,13 +1816,11 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="225" />
       <source>Remember capture window size and position</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சாளரத்தின் அளவு மற்றும் நிலையைப் பிடிக்க நினைவில் கொள்ளுங்கள்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="227" />
       <source>After you move or resize the window while an image is open, reuse that size and position for the next capture instead of maximizing.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஒரு படம் திறந்திருக்கும் போது நீங்கள் சாளரத்தை நகர்த்த அல்லது மறுஅளவாக்கிய பிறகு, பெரிதாக்குவதற்குப் பதிலாக, அடுத்த படப்பிடிப்பிற்கு அந்த அளவு மற்றும் நிலையை மீண்டும் பயன்படுத்தவும்.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="231" />
       <source>Capture screenshot at startup with default mode</source>
@@ -2075,23 +1849,19 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="249" />
       <source>When the first image is loaded:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>முதல் படம் ஏற்றப்படும் போது:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="251" />
       <source>Maximize the window</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சாளரத்தை பெரிதாக்கவும்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="252" />
       <source>Fit the window intelligently to the image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சாளரத்தை படத்திற்கு புத்திசாலித்தனமாக பொருத்தவும்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="254" />
       <source>Maximize keeps the editor maximized for later images. Smart fit preserves enough room for the tool controls.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Maximize ஆனது எடிட்டரை பிந்தைய படங்களுக்கு பெரிதாக்குகிறது. ஸ்மார்ட் ஃபிட் கருவி கட்டுப்பாடுகளுக்கு போதுமான இடத்தைப் பாதுகாக்கிறது.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="259" />
       <source>Enable Debugging</source>
@@ -2100,8 +1870,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="263" />
       <source>Appearance and Paths</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தோற்றம் மற்றும் பாதைகள்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="270" />
       <source>Resize delay</source>
@@ -2110,20 +1879,17 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="273" />
       <source>System default</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கணினி இயல்புநிலை</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="617" />
       <location filename="../settings_dialog.py" line="274" />
       <source>English</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஆங்கிலம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="632" />
       <location filename="../settings_dialog.py" line="277" />
       <source>Language</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>மொழி</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="282" />
       <source>Application Style</source>
@@ -2149,18 +1915,15 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="301" />
       <source>Capture Delay</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பிடிப்பு தாமதம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="303" />
       <source>Hide Main Window During Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பிடிப்பின் போது பிரதான சாளரத்தை மறை</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="304" />
       <source>Show Main Window After Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கைப்பற்றிய பிறகு முதன்மை சாளரத்தைக் காட்டு</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="308" />
       <source>Saver</source>
@@ -2184,44 +1947,36 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="315" />
       <source>Remember the last directory of the last opened image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கடைசியாக திறக்கப்பட்ட படத்தின் கடைசி கோப்பகத்தை நினைவில் கொள்க</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="325" />
       <location filename="../settings_dialog.py" line="319" />
       <source>PNG image (*.png)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PNG படம் (*.png)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="320" />
       <source>Ksnip project (*.ksnip)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ksnip திட்டம் (*.ksnip)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="322" />
       <source>Default save format:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>இயல்புநிலை சேமிப்பு வடிவம்:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="326" />
       <source>JPEG image (*.jpg)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>JPEG படம் (*.jpg)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="327" />
       <source>WebP image (*.webp)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>WebP படம் (*.webp)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="328" />
       <source>BMP image (*.bmp)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>BMP படம் (*.bmp)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="330" />
       <source>Image saved alongside Ksnip projects:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Ksnip திட்டங்களுடன் படம் சேமிக்கப்பட்டது:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="338" />
       <source>Ksnip Projects (*.ksnip)</source>
@@ -2231,18 +1986,15 @@ Directory: %2</source>
       <location filename="../settings_dialog.py" line="1083" />
       <location filename="../settings_dialog.py" line="340" />
       <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படங்கள் (*.png *.jpg *.jpeg *.bmp *.gif *.webp)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="343" />
       <source>Default file type selected in the File &gt; Open dialog.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கோப்பு &gt; திற உரையாடலில் இயல்புநிலை கோப்பு வகை தேர்ந்தெடுக்கப்பட்டது.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="346" />
       <source>Default file type in Open dialog:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>திறந்த உரையாடலில் இயல்புநிலை கோப்பு வகை:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="353" />
       <source>Save Quality</source>
@@ -2268,15 +2020,13 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="372" />
       <source>Supports $Y, $M, $D, $h, $m, $s, $T and consecutive # characters as a counter.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>$Y, $M, $D, $h, $m, $s, $T மற்றும் தொடர்ச்சியாக # எழுத்துகளை கவுண்டராக ஆதரிக்கிறது.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="624" />
       <location filename="../settings_dialog.py" line="592" />
       <location filename="../settings_dialog.py" line="373" />
       <source>Browse...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உலாவுக...</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="378" />
       <source>Overwrite file with same name</source>
@@ -2295,8 +2045,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="386" />
       <source>The mouse cursor is captured only when a capture delay is set.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பிடிப்பு தாமதம் அமைக்கப்பட்டால் மட்டுமே மவுஸ் கர்சர் கைப்பற்றப்படும்.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="388" />
       <source>Show Main Window after capturing screenshot</source>
@@ -2320,18 +2069,15 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="394" />
       <source>Use the desktop screenshot portal for every capture mode, including on X11.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>X11 உட்பட, ஒவ்வொரு பிடிப்பு முறைக்கும் டெஸ்க்டாப் ஸ்கிரீன்ஷாட் போர்ட்டலைப் பயன்படுத்தவும்.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="396" />
       <source>Apply the primary screen scale factor to portal screenshots without resampling their pixels.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>முதன்மை திரை அளவிலான காரணியை அவற்றின் பிக்சல்களை மறுவடிவமைக்காமல் போர்டல் ஸ்கிரீன்ஷாட்களுக்குப் பயன்படுத்தவும்.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="404" />
       <source>Delays</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தாமதங்கள்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="411" />
       <source>Implicit capture delay</source>
@@ -2375,8 +2121,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="437" />
       <source>Appearance</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தோற்றம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="451" />
       <source>Snipping Area adorner color</source>
@@ -2430,13 +2175,11 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="469" />
       <source>Extra space around the digit inside the number badge. Negative values make it fit more tightly.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>எண் பேட்ஜின் உள்ளே இலக்கத்தைச் சுற்றி கூடுதல் இடம். எதிர்மறை மதிப்புகள் அதை இன்னும் இறுக்கமாக பொருத்துகிறது.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="472" />
       <source>Number badge margin:</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>எண் பேட்ஜ் விளிம்பு:</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="476" />
       <source>Show Controls Widget</source>
@@ -2450,8 +2193,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="490" />
       <source>Canvas</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கேன்வாஸ்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="498" />
       <source>Smooth Factor</source>
@@ -2475,28 +2217,23 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="504" />
       <source>Minimize To Tray</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சிறிதாக்கு</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="505" />
       <source>Close To Tray</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தட்டுக்கு அருகில்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="506" />
       <source>Start Minimized To Tray</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தட்டுக்கு சிறிதாக்கப்பட்டதைத் தொடங்கவும்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="507" />
       <source>Display Tray Notifications</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தட்டு அறிவிப்புகளைக் காண்பி</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="515" />
       <source>Default Action</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>இயல்புநிலை செயல்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="518" />
       <source>Show Editor</source>
@@ -2510,18 +2247,15 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="523" />
       <source>Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நேர் பகுதி</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="524" />
       <source>Last Rect Area</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கடைசி ரெக்ட் ஏரியா</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="525" />
       <source>Full Screen</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>முழுத்திரை</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="526" />
       <source>Current Screen</source>
@@ -2540,8 +2274,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="529" />
       <source>Portal</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>போர்டல்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="530" />
       <source>Capture Mode</source>
@@ -2550,58 +2283,47 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="532" />
       <source>Application Shortcuts</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பயன்பாட்டு குறுக்குவழிகள்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="534" />
       <source>Enable Application Shortcuts</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பயன்பாட்டு குறுக்குவழிகளை இயக்கு</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="537" />
       <source>These shortcuts work while ksnip is active. For system-wide shortcuts, configure your desktop to run the ksnip command-line capture actions.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ksnip செயலில் இருக்கும்போது இந்த குறுக்குவழிகள் வேலை செய்யும். கணினி முழுவதும் குறுக்குவழிகளுக்கு, ksnip கட்டளை வரி பிடிப்பு செயல்களை இயக்க உங்கள் டெஸ்க்டாப்பை உள்ளமைக்கவும்.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="547" />
       <source>Rect Area Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ரெக்ட் ஏரியா பிடிப்பு</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="548" />
       <source>Last Rect Area Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கடைசி ரெக்ட் ஏரியா பிடிப்பு</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="549" />
       <source>Full Screen Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>முழு திரை பிடிப்பு</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="550" />
       <source>Current Screen Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தற்போதைய திரை பிடிப்பு</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="551" />
       <source>Active Window Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>செயலில் உள்ள சாளர பிடிப்பு</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="552" />
       <source>Window Under Cursor Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கர்சர் பிடிப்பின் கீழ் சாளரம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="553" />
       <source>Portal Capture</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>போர்டல் பிடிப்பு</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="554" />
       <source>Open Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தைத் திற</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="555" />
       <source>Save</source>
@@ -2610,13 +2332,11 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="556" />
       <source>Paste Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தை ஒட்டவும்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="557" />
       <source>Pin Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தைப் பின் செய்யவும்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="558" />
       <source>Add Watermark</source>
@@ -2625,13 +2345,11 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="559" />
       <source>Upload Image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படத்தை பதிவேற்றவும்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="560" />
       <source>OCR Text Recognition</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR உரை அங்கீகாரம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="564" />
       <source>Clear</source>
@@ -2657,8 +2375,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="586" />
       <source>Uploader Type</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதிவேற்றி வகை</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="588" />
       <source>Script Uploader</source>
@@ -2672,13 +2389,11 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="604" />
       <source>Filter</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வடிகட்டி</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="606" />
       <source>Treat stderr as failure</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>stderr ஐ தோல்வியாகக் கருதுங்கள்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="608" />
       <source>OCR</source>
@@ -2687,63 +2402,51 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="610" />
       <source>Enable OCR actions</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR செயல்களை இயக்கு</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="612" />
       <source>PaddleOCR (plain text)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PaddleOCR (வெற்று உரை)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="613" />
       <source>PaddleOCR (Markdown tables)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PaddleOCR (மார்க்டவுன் அட்டவணைகள்)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="614" />
       <source>PaddleOCR (HTML tables)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>PaddleOCR (HTML அட்டவணைகள்)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="618" />
       <source>Spanish</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்பானிஷ்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="619" />
       <source>Spanish + English (script backend recommended)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்பானிஷ் + ஆங்கிலம் (ஸ்கிரிப்ட் பின்தளத்தில் பரிந்துரைக்கப்படுகிறது)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="620" />
       <source>Recognize mathematical formulas (LaTeX)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கணித சூத்திரங்களை அங்கீகரிக்கவும் (LaTeX)</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="621" />
       <source>Copy OCR result to clipboard automatically</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR முடிவை தானாகவே கிளிப்போர்டுக்கு நகலெடுக்கவும்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="631" />
       <source>Backend</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பின்தளம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="635" />
       <source>Script Path</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்கிரிப்ட் பாதை</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="639" />
       <source>Color scheme for misspelled words</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>தவறாக எழுதப்பட்ட வார்த்தைகளுக்கான வண்ணத் திட்டம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="641" />
       <source>%1 base scheme colors used by the Text tool fill color on the left and the underline color for misspelled words on the right.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரைக் கருவியால் பயன்படுத்தப்படும் %1 அடிப்படைத் திட்ட வண்ணங்கள் இடதுபுறத்தில் வண்ணத்தை நிரப்புகின்றன மற்றும் வலதுபுறத்தில் தவறாக எழுதப்பட்ட வார்த்தைகளுக்கு அடிக்கோடிடும் வண்ணம்.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="827" />
       <location filename="../settings_dialog.py" line="647" />
@@ -2753,13 +2456,11 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="647" />
       <source>Text fill color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>உரை நிரப்பு வண்ணம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="647" />
       <source>Underline color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அடிக்கோடு வண்ணம்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="697" />
       <source>Imgur Uploader</source>
@@ -2768,8 +2469,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="699" />
       <source>Native Imgur uploader parity is still pending.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நேட்டிவ் இம்குர் பதிவேற்றி சமநிலை இன்னும் நிலுவையில் உள்ளது.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="710" />
       <source>FTP Uploader</source>
@@ -2778,8 +2478,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="712" />
       <source>Native FTP uploader parity is still pending.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>நேட்டிவ் FTP பதிவேற்றி சமநிலை இன்னும் நிலுவையில் உள்ளது.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="730" />
       <source>Stickers</source>
@@ -2788,8 +2487,7 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="732" />
       <source>Sticker management and picker parity are still pending.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்டிக்கர் மேலாண்மை மற்றும் பிக்கர் சமநிலை இன்னும் நிலுவையில் உள்ளன.</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="763" />
       <source>OK</source>
@@ -2838,127 +2536,104 @@ Directory: %2</source>
     <message>
       <location filename="../settings_dialog.py" line="876" />
       <source>Select color</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வண்ணத்தைத் தேர்ந்தெடுக்கவும்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1071" />
       <source>No watermark image configured</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வாட்டர்மார்க் படம் எதுவும் கட்டமைக்கப்படவில்லை</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1073" />
       <source>%1x%2 image configured</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>%1x%2 படம் உள்ளமைக்கப்பட்டது</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1081" />
       <source>Select watermark image</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வாட்டர்மார்க் படத்தைத் தேர்ந்தெடுக்கவும்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1088" />
       <source>Unable to load watermark image: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>வாட்டர்மார்க் படத்தை ஏற்ற முடியவில்லை: %1</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1113" />
       <source>Select upload script</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பதிவேற்ற ஸ்கிரிப்டைத் தேர்ந்தெடுக்கவும்</translation></message>
     <message>
       <location filename="../settings_dialog.py" line="1129" />
       <source>Select OCR script</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>OCR ஸ்கிரிப்டைத் தேர்ந்தெடுக்கவும்</translation></message>
   </context>
   <context>
     <name>SpellCheckTextEdit</name>
     <message>
       <location filename="../spellcheck.py" line="301" />
       <source>No suggestions</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பரிந்துரைகள் இல்லை</translation></message>
   </context>
   <context>
     <name>StickerPickerDialog</name>
     <message>
       <location filename="../sticker_picker.py" line="114" />
       <source>Select Sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்டிக்கரைத் தேர்ந்தெடுக்கவும்</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="117" />
       <source>Pinned Stickers</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பின் செய்யப்பட்ட ஸ்டிக்கர்கள்</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="161" />
       <source>Use the star button to pin frequently used stickers.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>அடிக்கடி பயன்படுத்தப்படும் ஸ்டிக்கர்களை பின் செய்ய நட்சத்திர பொத்தானைப் பயன்படுத்தவும்.</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="171" />
       <source>User</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பயனர்</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="193" />
       <source>Add Images...</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படங்களைச் சேர்...</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="196" />
       <source>Open Here with File Manager</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>கோப்பு மேலாளருடன் இங்கே திறக்கவும்</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="205" />
       <source>Add your own images to use them as stickers.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்டிக்கர்களாகப் பயன்படுத்த உங்கள் சொந்த படங்களைச் சேர்க்கவும்.</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="207" />
       <source>Sticker theme is not installed: %1</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்டிக்கர் தீம் நிறுவப்படவில்லை: %1</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="228" />
       <source>Add Sticker Images</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்டிக்கர் படங்களைச் சேர்க்கவும்</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="230" />
       <source>Images (*.png *.jpg *.jpeg *.webp *.bmp *.gif *.svg *.xpm);;All Files (*)</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Images (*.png *.jpg *.jpeg *.webp *.bmp *.gif *.svg *.xpm);;All Files (*)</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="238" />
       <source>Unable to Add Images</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>படங்களைச் சேர்க்க முடியவில்லை</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="239" />
       <source>Some files could not be imported as stickers.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>சில கோப்புகளை ஸ்டிக்கர்களாக இறக்குமதி செய்ய முடியவில்லை.</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="270" />
       <location filename="../sticker_picker.py" line="255" />
       <source>Unpin Sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>ஸ்டிக்கரை அகற்று</translation></message>
     <message>
       <location filename="../sticker_picker.py" line="270" />
       <source>Pin Sticker</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>பின் ஸ்டிக்கர்</translation></message>
   </context>
   <context>
     <name>TextInputDialog</name>
     <message>
       <location filename="../canvas.py" line="24" />
       <source>Shift+Enter adds a new line. Ctrl+Enter accepts.</source>
-      <translation type="unfinished" />
-    </message>
+      <translation>Shift+Enter adds a new line. Ctrl+Enter accepts.</translation></message>
   </context>
 </TS>

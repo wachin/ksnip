@@ -1,3 +1,10 @@
+ksnip-pyqt6 (0.2.2-10) unstable; urgency=medium
+
+  * Complete the Tamil (ta) translation, including the two new MainWindow
+    strings.
+
+ -- wachin <wachin.id@gmail.com>  Wed, 25 Nov 2026 23:20:00 -0500
+
 ksnip-pyqt6 (0.2.2-9) unstable; urgency=medium
 
   * Complete the Central Kurdish (ckb) translation, including the two new

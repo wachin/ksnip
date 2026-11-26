@@ -24,12 +24,12 @@ Qt Linguist.
 
 - 41 `.ts` catalogs and 41 non-empty `.qm` catalogs exist.
 - Structural validation passes for all catalogs.
-- Spanish and the 31 previously incomplete locales now contain 569
+- Spanish and the 32 previously incomplete locales now contain 569
   messages with no unfinished entries:
   Arabic, Bulgarian, Bengali (Bangladesh), Catalan, Central Kurdish, Czech,
   Danish, German, Greek, Estonian, Finnish, French (Canada), French, Croatian,
   Hungarian, Indonesian, Italian, Japanese, Korean, Dutch, Norwegian, Polish,
-  Portuguese (Brazil), Portuguese, Romanian, Russian, Swedish, Turkish,
+  Portuguese (Brazil), Portuguese, Romanian, Russian, Swedish, Tamil, Turkish,
   Ukrainian, Simplified Chinese, and Traditional Chinese.
 - The two missing MainWindow strings were added to those catalogs:
 
@@ -38,7 +38,7 @@ Qt Linguist.
   The OCR plugin failed to open: %1
   ```
 
-- The remaining gaps are in nine catalogs that still need native-speaker
+- The remaining gaps are in eight catalogs that still need native-speaker
   review:
 
   | Locale | Unfinished messages |
@@ -51,7 +51,6 @@ Qt Linguist.
   | Sinhala (`si`) | 456 |
   | Slovenian (`sl`) | 540 |
   | Albanian (`sq`) | 454 |
-  | Tamil (`ta`) | 336 |
 
 ## Tools used
 
