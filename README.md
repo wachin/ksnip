@@ -6,7 +6,7 @@
     <a href="ROADMAP.md"><img alt="Port status: active development" src="https://img.shields.io/badge/status-active%20development-F59E0B"></a>
     <a href="pyproject.toml"><img alt="Python 3.11 or newer" src="https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&amp;logoColor=white"></a>
     <a href="pyproject.toml"><img alt="PyQt6 6.6 or newer" src="https://img.shields.io/badge/PyQt6-6.6%2B-41CD52?logo=qt&amp;logoColor=white"></a>
-    <a href="#debian-13--mx-linux-25"><img alt="Tested on Debian 13" src="https://img.shields.io/badge/tested-Debian%2013-A81D33?logo=debian&amp;logoColor=white"></a>
+    <a href="#linux-manual"><img alt="Tested on Debian 13" src="https://img.shields.io/badge/tested-Debian%2013-A81D33?logo=debian&amp;logoColor=white"></a>
   </p>
   <p>
     <a href="https://github.com/wachin/ksnip/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/wachin/ksnip?label=release&amp;color=2ea44f"></a>
@@ -28,18 +28,20 @@ implementation lives in `ksnip_py/`.
 > upstream ksnip. Consult the [roadmap](ROADMAP.md) for the features that are
 > still missing.
 
+<p align="center">
+  <img src="images/02-ksnip-cuando-a-hecho-su-primer-captura-de-pantalla.png" alt="ksnip PyQt6 interface after taking a screenshot">
+</p>
+
 ## Navigation
 
-- [Quick start](#quick-start)
-- [Features](#current-features)
+- [Installation manual: Linux, Windows, and macOS](#installation-manual-choose-one-operating-system)
+- [Current features](#current-features)
 - [Help wanted](#help-wanted)
 - [Known gaps](#known-gaps)
 - [Documentation](#documentation)
-- [Debian and MX Linux dependencies](#debian-13--mx-linux-25)
+- [Linux dependency reference](#linux-dependency-reference)
 - [Sticker collections and artwork sources](#sticker-collections-and-artwork-sources)
 - [Editable projects and SVG](#editable-projects-and-svg)
-- [Run from system packages](#run-from-system-packages)
-- [Run from a virtual environment](#run-from-a-virtual-environment)
 - [Desktop theme integration](#desktop-theme-integration)
 - [Command line](#command-line)
 - [Keyboard shortcuts](#keyboard-shortcuts)
@@ -54,59 +56,714 @@ implementation lives in `ksnip_py/`.
 - [Contributing](#contributing)
 - [License](#license)
 
-<p align="center">
-  <img src="images/02-ksnip-cuando-a-hecho-su-primer-captura-de-pantalla.png" alt="ksnip PyQt6 interface after taking a screenshot">
-</p>
+## Installation manual: choose one operating system
 
-## Quick start
+This section is written for people who are installing ksnip_py for the first
+time. Choose **only one** of the three manuals below. Do not mix the commands
+from Linux, Windows, and macOS.
 
-### Install the packaged release
+> [!IMPORTANT]
+> Throughout these manuals:
+>
+> - **One-time step** means that you run it only during the first installation,
+>   or after a major update.
+> - **Every-time step** means that you run it each time you want to open
+>   ksnip_py.
+> - Commands are shown in boxes. Copy the complete line, paste it into the
+>   terminal, and press Enter.
+> - A terminal is the text window used to type commands. On Windows it is
+>   called **PowerShell**.
 
-Every release publishes a Debian package for Debian 13 and its derivatives.
-Download it from the [latest release](https://github.com/wachin/ksnip/releases/latest)
-and install it with `apt`, which resolves the runtime dependencies:
+| Operating system | Easiest method | Method for developers |
+| --- | --- | --- |
+| Ubuntu, Debian, MX Linux | [Debian package](#linux-manual) | [System PyQt6](#linux-system-python) or [pip + venv](#linux-pip-venv) |
+| Windows 10 or 11 | [Windows installer](#windows-manual) | [Python 3.12 + venv](#windows-python-venv) |
+| macOS | [macOS application bundle](#macos-manual) | [Python 3.12 + venv](#macos-python-venv) |
+
+---
+
+<a id="linux-manual"></a>
+
+# Manual 1: Linux (Ubuntu, Debian, MX Linux)
+
+There are three ways to install ksnip_py on Linux. **Most users should choose
+Option A.** Developers and users who need Python-only dependencies such as
+PaddleOCR can choose Option B or Option C.
+
+## Linux Option A: install the Debian package (recommended for most users)
+
+The `.deb` package installs the application, its menu entry, its icon, its
+manual page, and its required Qt dependencies. The user does not need to
+create a virtual environment or install Python packages with `pip`.
+
+### One-time installation
+
+| Step | When to do it |
+| --- | --- |
+| Download the `.deb` and run `sudo apt install` | One time |
+| Open the menu entry or run `ksnip-pyqt6` | Every time |
+
+1. Open the [latest release](https://github.com/wachin/ksnip/releases/latest)
+   in a web browser.
+2. Download the file whose name starts with `ksnip-pyqt6_` and ends with
+   `_all.deb`.
+3. Open the **Downloads** folder.
+4. Open a terminal in that folder: right-click the folder background and choose
+   **Open Terminal** (the exact wording depends on the file manager).
+5. Install the package. The `*` means "use the downloaded file":
+
+   ```bash
+   sudo apt install ./ksnip-pyqt6_*.deb
+   ```
+
+6. Type your login password when `sudo` asks for it. The password is not shown
+   while you type; this is normal. Press Enter.
+7. If apt asks whether to continue, type `Y` and press Enter.
+
+The package manager downloads or confirms the required dependencies itself.
+You do not need to run `pip`, activate a virtual environment, or edit the
+`PATH`.
+
+### Every time you want to use it
+
+Open **ksnip_py** from the application menu, or run:
 
 ```bash
-wget https://github.com/wachin/ksnip/releases/latest/download/ksnip-pyqt6_0.2.2-1_all.deb
-sudo apt install ./ksnip-pyqt6_0.2.2-1_all.deb
+ksnip-pyqt6
 ```
 
-The package provides the `ksnip-pyqt6` command, the desktop entry, the
-AppStream metadata, and a manual page. It depends on
-`qt6-translations-l10n`, which supplies Qt's own translations for file
-dialogs, buttons, and other standard widgets. See
-[Building and packaging](#building-and-packaging) to build it from source.
+That is all. There is no environment to activate.
 
-### Run from the repository
+### Updating or removing the package
 
-After installing the [Debian/MX Linux dependencies](#debian-13--mx-linux-25),
-run the port directly from the repository:
+To update, download the newer `.deb` and install it with the same
+`sudo apt install ./ksnip-pyqt6_*.deb` command. To remove it:
 
 ```bash
-git clone https://github.com/wachin/ksnip.git
-cd ksnip
+sudo apt remove ksnip-pyqt6
+```
+
+The package is intended for Debian 13, Ubuntu 24.04 or newer, and compatible
+derivatives. On an older distribution, use the AppImage or the pip method
+instead.
+
+### Linux Option A2: AppImage (no installation)
+
+If a `.deb` package is not suitable for your distribution, download the
+AppImage from the same release page. It is a single executable file:
+
+```bash
+chmod +x ksnip-pyqt6-*.AppImage
+./ksnip-pyqt6-*.AppImage
+```
+
+The `chmod` command is a one-time step. The `./...AppImage` command is the
+every-time step. If the AppImage cannot start because FUSE is unavailable, run
+it in extract-and-run mode:
+
+```bash
+./ksnip-pyqt6-*.AppImage --appimage-extract-and-run
+```
+
+## Linux Option B: use the distribution's PyQt6 packages
+
+<a id="linux-system-python"></a>
+
+This method runs the Python source directly with the PyQt6 supplied by Ubuntu
+or Debian. It is the simplest source-based method and is recommended when you
+do not need PaddleOCR or other pip-only packages.
+
+### One-time installation
+
+| Step | When to do it |
+| --- | --- |
+| Install apt packages, `git clone` | One time |
+| `cd` and `python3 -m ksnip_py` | Every time |
+
+1. Install the required system packages:
+
+   ```bash
+   sudo apt update
+   sudo apt install python3-pyqt6 python3-pyqt6.qtsvg \
+       qt6-translations-l10n libxcb-cursor0
+   ```
+
+   If `git` is not installed yet:
+
+   ```bash
+   sudo apt install git
+   ```
+
+2. Download the project:
+
+   ```bash
+   git clone https://github.com/wachin/ksnip.git
+   cd ksnip
+   ```
+
+   If you do not want to use Git, download the repository ZIP from GitHub,
+   extract it, and open a terminal inside the extracted `ksnip` folder.
+
+### Every time you want to use it
+
+```bash
+cd ~/ksnip
 python3 -m ksnip_py
 ```
 
-For optional Python dependencies such as PaddleOCR, use the
-[virtual-environment installation](#run-from-a-virtual-environment).
+Replace `~/ksnip` with the folder where you downloaded the project. There is
+no virtual environment to activate and no `pip install` step.
 
-### Qt interface translations by installation method
+### Optional packages for this method
 
-`qt6-translations-l10n` contains Qt's own `qtbase_<locale>.qm` catalogs. It is
-separate from ksnip_py's application catalogs.
+These are not required just to start the program:
 
-| Installation method | What to install |
+```bash
+sudo apt install hunspell hunspell-en-us hunspell-es \
+    x11-utils xdotool xdg-desktop-portal xdg-desktop-portal-gtk
+```
+
+- `hunspell` enables the integrated spell checker.
+- `x11-utils` and `xdotool` improve active-window and window-under-cursor
+  capture on X11.
+- The portal packages enable screenshot capture on Wayland desktops.
+
+`qt6ct`, Kvantum, Papirus, and Breeze are optional appearance packages. They
+are not needed for the built-in Light and Dark themes.
+
+## Linux Option C: pip inside a virtual environment
+
+<a id="linux-pip-venv"></a>
+
+Use this method if you are developing ksnip_py, need pip-only packages such as
+PaddleOCR, or want an isolated Python environment. **Never use `sudo pip` and
+never use `--break-system-packages` on Ubuntu or Debian.**
+
+A virtual environment is a private Python folder named `.venv`. It keeps the
+program's packages separate from the operating system.
+
+### One-time installation
+
+| Step | When to do it |
 | --- | --- |
-| Debian package | Automatic: `qt6-translations-l10n` is a hard dependency. |
-| Debian/MX Linux source checkout | `sudo apt install qt6-translations-l10n` |
-| Python virtual environment on Linux | `sudo apt install qt6-translations-l10n` |
-| AppImage | No separate Debian package; the bundle must include the PyQt6/Qt translation files. |
-| Windows 10/11 or macOS | No Debian package; the PyQt6/Qt deployment must ship `qtbase_<locale>.qm` in its translations directory. |
+| Install apt packages, create `.venv`, run `pip install` | One time |
+| `source .venv/bin/activate` and start the app | Every time |
 
-On Linux, ksnip_py checks the distribution paths
-`/usr/local/share/qt6/translations` and `/usr/share/qt6/translations` first,
-then falls back to the Qt runtime selected by PyQt6.
+1. Install the system packages needed to create the environment and run Qt:
+
+   ```bash
+   sudo apt update
+   sudo apt install python3-pyqt6 python3-pyqt6.qtsvg \
+       python3-venv python3-pip git \
+       qt6-translations-l10n libxcb-cursor0
+   ```
+
+2. Download the project and enter its folder:
+
+   ```bash
+   git clone https://github.com/wachin/ksnip.git
+   cd ksnip
+   ```
+
+3. Create the virtual environment:
+
+   ```bash
+   python3 -m venv .venv
+   ```
+
+   If you want Qt to use the distribution's qt6ct/Kvantum theme, create it with
+   access to the system packages instead:
+
+   ```bash
+   python3 -m venv --system-site-packages .venv
+   ```
+
+4. Activate the environment:
+
+   ```bash
+   source .venv/bin/activate
+   ```
+
+   The prompt normally changes to show `(.venv)`. This means the private
+   environment is active.
+
+5. Install ksnip_py and its Python dependencies:
+
+   ```bash
+   python -m pip install --upgrade pip setuptools wheel
+   python -m pip install -e .
+   ```
+
+   If you created the environment with `--system-site-packages` and want to use
+   the system PyQt6 instead of downloading another copy, use:
+
+   ```bash
+   python -m pip install -e . --no-deps
+   ```
+
+6. Optional: install the OCR dependencies. This downloads hundreds of
+   megabytes and is not required for normal screenshots:
+
+   ```bash
+   python -m pip install -r requirements-ocr.txt
+   ```
+
+### Every time you want to use it
+
+You must activate the environment and then start the program:
+
+```bash
+cd ~/ksnip
+source .venv/bin/activate
+ksnip-pyqt6
+```
+
+Alternatively, use the virtual environment's Python directly without
+activation:
+
+```bash
+~/ksnip/.venv/bin/python -m ksnip_py
+```
+
+To leave the environment in a terminal, run:
+
+```bash
+deactivate
+```
+
+The command `source .venv/bin/activate` is **not** needed if you use the
+direct `.venv/bin/python` command.
+
+### Linux dependency reference
+
+| Package | Why it is needed |
+| --- | --- |
+| `python3-pyqt6` | Qt 6 Python bindings. |
+| `python3-pyqt6.qtsvg` | SVG image support used by icons and stickers. |
+| `qt6-translations-l10n` | Translations for Qt's own Open/Save dialogs and standard buttons. |
+| `libxcb-cursor0` | Required by Qt's X11 backend on many Ubuntu/Debian systems. |
+| `hunspell` + dictionary | Optional spell checking. |
+| `x11-utils`, `xdotool` | Optional X11 active-window capture helpers. |
+| `xdg-desktop-portal` + backend | Optional Wayland screenshot support. |
+
+### Linux troubleshooting
+
+- **`ModuleNotFoundError: No module named 'PyQt6'`**
+  Install `python3-pyqt6`, or make sure the correct virtual environment is
+  active. With a virtual environment, run `python -m pip install -e .` again.
+
+- **Qt complains about the `xcb` platform plugin**
+  Install `libxcb-cursor0` and try again.
+
+- **`error: externally-managed-environment`**
+  You tried to install packages into the system Python. Do not use
+  `--break-system-packages`. Use a virtual environment as shown above.
+
+- **`No module named venv`**
+  Install `python3-venv`.
+
+- **`ksnip-pyqt6: command not found`**
+  In a virtual environment, activate it first, or run
+  `.venv/bin/python -m ksnip_py`. For the Debian package, reinstall the `.deb`.
+
+- **Wayland capture does not open**
+  Install `xdg-desktop-portal` and the backend recommended for your desktop.
+  The application prints the detected desktop and a suggested package when
+  portal capture fails.
+
+---
+
+# Manual 2: Windows 10 and Windows 11
+
+<a id="windows-manual"></a>
+
+There are two methods. **Option A is the easiest for non-developers.**
+Option B is for developers, for users who want to run from source, or for users
+who need an external OCR script.
+
+## Windows Option A: install the ready-made application
+
+1. Open the [latest release](https://github.com/wachin/ksnip/releases/latest).
+2. Download the file whose name ends with `Windows-x64-setup.exe`.
+3. Run the downloaded file.
+4. Windows may show a blue **Windows protected your PC** message because the
+   installer is not code-signed. Choose **More info**, then **Run anyway**.
+5. Follow the installer. It installs for the current user and does not require
+   administrator rights.
+6. Start ksnip_py from the Start menu or the desktop shortcut.
+
+This is a one-time installation. Every later launch is simply the Start-menu
+shortcut; no Python, terminal, virtual environment, or `pip` command is needed.
+
+> [!NOTE]
+> A ZIP portable build is also published. Extract the ZIP and run
+> `ksnip-pyqt6.exe` inside its folder. Do not run an executable directly from
+> inside the ZIP file.
+
+## Windows Option B: Python 3.12 + virtual environment
+
+<a id="windows-python-venv"></a>
+
+Use this method for development or when you need pip packages. The recommended
+Python version is **Python 3.12, 64-bit**. Python 3.12 is the version with the
+best compatibility with the optional PaddleOCR packages; Python 3.13 can fail
+when installing PaddlePaddle on Windows.
+
+### One-time installation
+
+| Step | When to do it |
+| --- | --- |
+| Install Python 3.12, create `.venv`, run `pip install` | One time |
+| Activate `.venv` and run `ksnip-pyqt6` | Every time |
+
+#### 1. Install Python 3.12
+
+1. Open <https://www.python.org/downloads/release/python-3120/> or the general
+   Windows download page: <https://www.python.org/downloads/windows/>.
+2. Download **Python 3.12.x — Windows installer (64-bit)**.
+3. Run the installer.
+4. On the first page, check **Add python.exe to PATH**. This is important.
+5. Click **Install Now** and wait for it to finish.
+6. Close the installer, then open a **new** PowerShell window. A PowerShell
+   window that was already open will not see the new PATH.
+
+Verify the installation:
+
+```powershell
+py -3.12 --version
+python --version
+```
+
+Both commands should show a Python 3.12 version. If `python` opens the
+Microsoft Store, use `py -3.12` in the remaining commands, or install Python
+again with the PATH option enabled.
+
+#### 2. Get the ksnip_py source
+
+If Git is installed:
+
+```powershell
+cd $HOME
+git clone https://github.com/wachin/ksnip.git
+cd ksnip
+```
+
+If Git is not installed, download the GitHub ZIP, extract it, and open
+PowerShell inside the extracted `ksnip` folder. In File Explorer, you can
+right-click the folder background and choose **Open in Terminal** or
+**Open PowerShell here**.
+
+#### 3. Allow the virtual-environment activation script
+
+PowerShell sometimes blocks the activation script with this message:
+
+```text
+running scripts is disabled on this system
+```
+
+Run this command once to allow locally created scripts for your user:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+Answer `Y` if PowerShell asks for confirmation. This is a one-time setting.
+It does not require administrator rights.
+
+#### 4. Create and prepare the virtual environment
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -e .
+```
+
+The prompt should show `(.venv)` after activation.
+
+If `Activate.ps1` is still blocked, use Command Prompt (`cmd.exe`) for this
+step:
+
+```bat
+.venv\Scripts\activate.bat
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -e .
+```
+
+#### 5. Start ksnip_py once
+
+```powershell
+ksnip-pyqt6
+```
+
+If Windows does not find that command, use the full path:
+
+```powershell
+.\.venv\Scripts\ksnip-pyqt6.exe
+```
+
+### Every time you want to use it
+
+Open PowerShell and run:
+
+```powershell
+cd $HOME\ksnip
+.\.venv\Scripts\Activate.ps1
+ksnip-pyqt6
+```
+
+If you do not want to activate the environment, this single command is enough:
+
+```powershell
+$HOME\ksnip\.venv\Scripts\ksnip-pyqt6.exe
+```
+
+You can also right-click
+`C:\Users\<your-name>\ksnip\.venv\Scripts\ksnip-pyqt6.exe`, choose **Send to →
+Desktop (create shortcut)**, and launch it from the desktop. The path will
+contain your actual Windows user name instead of `<your-name>`.
+
+### Optional Windows components
+
+- **OCR:** the easiest route is the separate Windows OCR guide:
+  [Windows OCR setup](docs/WINDOWS_OCR_SETUP.md). It explains how to install
+  Python 3.12, PaddleOCR, a wrapper script, and how to select the script in
+  **Settings → OCR**.
+- **Spell checking:** Hunspell is not bundled with the Windows installer.
+  Without a Hunspell executable and dictionary on `PATH`, the application
+  simply runs without spell checking.
+- **Qt translations:** PyQt6 supplies the Qt runtime. The application's own 41
+  language catalogs are included in the repository and package.
+
+### Windows capture and feature limitations
+
+The Qt-based capture modes (rectangular area, full screen, and current screen)
+are available. Some Linux-specific helpers are not:
+
+| Feature | Windows status |
+| --- | --- |
+| Rectangular area capture | Available through Qt |
+| Full-screen and current-screen capture | Available through Qt |
+| Active-window capture | Not implemented on Windows (X11-only helper) |
+| Window-under-cursor capture | Not implemented on Windows (X11-only helper) |
+| Automatic mouse-cursor capture | X11-only |
+| `xdg-desktop-portal` | Linux-only |
+| Built-in Light/Dark themes | Available |
+
+If a Linux-only action fails, use rectangular or full-screen capture instead.
+The application remains usable for opening, editing, annotating, saving, and
+exporting existing images.
+
+### Windows troubleshooting
+
+- **`python` opens the Microsoft Store**
+  Use `py -3.12` instead, or reinstall Python 3.12 with **Add python.exe to
+  PATH** checked.
+
+- **`running scripts is disabled on this system`**
+  Run the `Set-ExecutionPolicy` command shown above once, then open a new
+  PowerShell window.
+
+- **`ksnip-pyqt6` is not recognized**
+  Activate `.venv` first, or run
+  `.\.venv\Scripts\ksnip-pyqt6.exe`.
+
+- **PaddleOCR installation fails**
+  Confirm that you are using 64-bit Python 3.12, not 3.13:
+
+  ```powershell
+  py -3.12 -c "import struct; print(struct.calcsize('P') * 8)"
+  ```
+
+  The result must be `64`. See the
+  [Windows OCR setup](docs/WINDOWS_OCR_SETUP.md).
+
+- **Windows Defender or SmartScreen warns about the installer**
+  The installer is not code-signed. Use **More info → Run anyway** only if you
+  downloaded it from this project's official GitHub release page. Build the
+  program from source if your organization does not allow unsigned installers.
+
+---
+
+# Manual 3: macOS
+
+<a id="macos-manual"></a>
+
+The current prebuilt macOS application is distributed as a ZIP containing a
+`.app` bundle. It is unsigned, so macOS Gatekeeper may warn on the first
+launch. The source installation uses Python 3.12 and a virtual environment.
+
+## macOS Option A: use the prebuilt application bundle
+
+1. Open the [latest release](https://github.com/wachin/ksnip/releases/latest).
+2. Download the file ending with `macOS-x86_64.zip`. The current build targets
+   Intel Macs and macOS 14 or newer.
+3. Double-click the ZIP to extract it.
+4. Move `ksnip-pyqt6.app` to the **Applications** folder.
+5. The first time, right-click the app and choose **Open**, then confirm
+   **Open**. This is required because the bundle is not signed or notarized.
+6. Grant Screen Recording permission when macOS asks. If it does not ask, open
+   **System Settings → Privacy & Security → Screen Recording**, add
+   `ksnip-pyqt6`, and restart the app.
+
+This is a one-time installation. Every later launch is from Launchpad,
+Spotlight, or the Applications folder.
+
+> [!NOTE]
+> The published macOS ZIP is an Intel build. Apple Silicon Macs can run it
+> through Rosetta, or use the source installation below for a native arm64
+> Python environment.
+
+## macOS Option B: Python 3.12 + virtual environment
+
+<a id="macos-python-venv"></a>
+
+### One-time installation
+
+| Step | When to do it |
+| --- | --- |
+| Install Python 3.12, create `.venv`, run `pip install` | One time |
+| Activate `.venv` and run `ksnip-pyqt6` | Every time |
+
+1. Install **Python 3.12, 64-bit**:
+   - Recommended for most users: download the macOS installer from
+     <https://www.python.org/downloads/release/python-3120/> and run it.
+   - Homebrew users can run:
+
+     ```bash
+     brew install python@3.12
+     ```
+
+2. Verify Python:
+
+   ```bash
+   python3.12 --version
+   ```
+
+3. Install Git if it is not already available. Running this command may open
+   the Apple developer-tools installer:
+
+   ```bash
+   xcode-select --install
+   ```
+
+   Alternatively, download the GitHub ZIP and extract it manually.
+
+4. Download the project and enter its folder:
+
+   ```bash
+   cd ~
+   git clone https://github.com/wachin/ksnip.git
+   cd ksnip
+   ```
+
+5. Create the virtual environment:
+
+   ```bash
+   python3.12 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+6. Install ksnip_py:
+
+   ```bash
+   python -m pip install --upgrade pip setuptools wheel
+   python -m pip install -e .
+   ```
+
+7. Start it once:
+
+   ```bash
+   ksnip-pyqt6
+   ```
+
+### Every time you want to use it
+
+```bash
+cd ~/ksnip
+source .venv/bin/activate
+ksnip-pyqt6
+```
+
+Without activation:
+
+```bash
+~/ksnip/.venv/bin/python -m ksnip_py
+```
+
+### macOS Screen Recording permission
+
+macOS protects screen capture. On the first capture, macOS should ask for
+permission. If the screenshot is black or empty, open:
+
+**System Settings → Privacy & Security → Screen Recording**
+
+Enable the application or the terminal program that launched it (Terminal,
+iTerm2, or Visual Studio Code). Quit and reopen that program, then try again.
+
+### macOS capture and feature limitations
+
+The Qt-based rectangular, full-screen, and current-screen capture modes are
+the supported ones. As on Windows, the active-window and window-under-cursor
+helpers are X11/Linux-specific, and automatic mouse-cursor capture is
+X11-only. The `xdg-desktop-portal` backend is Linux-only.
+
+### Optional macOS components
+
+- **Spell checking:** install Hunspell with Homebrew if you want it:
+
+  ```bash
+  brew install hunspell
+  ```
+
+  Without Hunspell and a dictionary, the editor works normally but does not
+  underline misspelled words.
+
+- **OCR:** use an external OCR script and select it in **Settings → OCR**.
+  PaddleOCR availability depends on the packages published for your Mac and
+  Python version; the source installation does not guarantee a working
+  PaddlePaddle wheel on every macOS release.
+
+### macOS troubleshooting
+
+- **The app cannot be opened because the developer cannot be verified**
+  Right-click the `.app`, choose **Open**, then **Open** again. This is
+  expected for the unsigned build.
+
+- **Captured images are black or empty**
+  Grant Screen Recording permission as described above, then restart the
+  terminal or the application.
+
+- **`python3.12: command not found`**
+  Reinstall Python 3.12 from python.org, or use the full path printed by the
+  installer. With Homebrew, check `brew --prefix python@3.12`.
+
+- **`No module named PyQt6`**
+  Activate `.venv` and run `python -m pip install -e .` again.
+
+---
+
+## After installation: a quick health check
+
+These commands should print a version number and then exit:
+
+```bash
+ksnip-pyqt6 --version
+```
+
+When running from a source checkout without an installed command:
+
+```bash
+python3 -m ksnip_py --version
+```
+
+If the command starts the graphical application instead, that is also a
+successful installation. Close the window normally.
+
+The built-in **Light** and **Dark** themes need no extra packages on any of the
+three operating systems. Linux users who want the **System** theme to follow
+qt6ct/Kvantum should read [Desktop theme integration](#desktop-theme-integration)
+and the [Qt ABI note](#important-qt-abi-requirement).
 
 ## Help wanted
 
@@ -176,81 +833,6 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 | Script uploader verification | [Script uploader tests (Spanish)](docs/PRUEBAS_UPLOADER_SCRIPT_ES.md) |
 | Deferred Imgur implementation | [Imgur port notes (Spanish)](docs/imgur/README_ES.md) |
 | Debian packaging and policy compliance | [debian/](debian/) |
-
-## Debian 13 / MX Linux 25
-
-The current development environment is AV Linux MXe based on Debian 13 and MX Linux 25.
-
-Install the system runtime and development dependencies:
-
-```bash
-sudo apt update
-sudo apt install \
-  python3-pyqt6 \
-  python3-venv \
-  python3-pip \
-  hunspell \
-  hunspell-en-us \
-  hunspell-es \
-  libxcb-cursor0 \
-  libxfixes3 \
-  qt6-svg-plugins \
-  qt6-translations-l10n \
-  qt6ct \
-  qt-style-kvantum \
-  qt-style-kvantum-l10n \
-  papirus-icon-theme \
-  breeze-icon-theme \
-  xdg-desktop-portal \
-  xdg-desktop-portal-gtk \
-  x11-utils \
-  xdotool
-```
-
-Important runtime dependencies:
-
-- `libxcb-cursor0` is required by the Qt 6 `xcb` platform plugin. Without it, PyQt6 may fail to start on X11.
-- `libxfixes3` is used to capture the real mouse cursor.
-- `qt6-svg-plugins` provides the Qt SVG image-format plugin used to render the bundled SVG icons and to load SVG artwork.
-- `x11-utils` supplies helpers used for active-window geometry.
-- `xdotool` is used to identify the window under the cursor.
-- `qt6-translations-l10n` provides the official translations for standard Qt6
-  controls such as file-dialog buttons, menus, and labels. It is separate from
-  the translation catalogs maintained by ksnip_py itself.
-- `qt6ct`, `qt-style-kvantum`, `qt-style-kvantum-l10n`,
-  `papirus-icon-theme`, and `breeze-icon-theme` are optional Linux packages
-  used for the dark Qt theme. They are not needed for the application to run.
-
-Spell-checking dependency:
-
-- `hunspell` is a required runtime dependency for ksnip_py's integrated spell
-  checker. The application invokes the system `hunspell` executable; installing
-  only dictionary packages is not sufficient.
-- At least one Hunspell dictionary is needed for the languages to be checked.
-  The installation example includes `hunspell-es` and `hunspell-en-us` for
-  Spanish and US English. Install equivalent dictionary packages for other
-  languages as needed.
-
-Portal dependencies:
-
-- `xdg-desktop-portal` is the desktop-independent frontend used by `--portal`.
-- One backend is also required. Backend selection follows `XDG_CURRENT_DESKTOP`, not merely the window manager currently drawing windows.
-- For AV Linux MXe, MX Linux, XFCE, LXDE, Openbox, Fluxbox, and IceWM sessions, `xdg-desktop-portal-gtk` is the practical default. Bare or manually assembled window-manager sessions may additionally need a `portals.conf` configuration and a correctly exported `XDG_CURRENT_DESKTOP`.
-- Use `xdg-desktop-portal-kde` for Plasma, `xdg-desktop-portal-lxqt` for LXQt, `xdg-desktop-portal-xapp` for Cinnamon, `xdg-desktop-portal-phosh` for Phosh, and `xdg-desktop-portal-wlr` for wlroots-based Wayland compositors. GNOME/Ubuntu sessions normally use `xdg-desktop-portal-gnome`.
-- ksnip reports the detected desktop and session type and recommends a package if portal capture is unavailable.
-
-The `xdg-desktop-portal-dev` package is not a runtime dependency. It contains development files used to build portal backend implementations; this PyQt6 port is a portal client over D-Bus and does not need it.
-
-After installation, verify that the executable and dictionaries are visible:
-
-```bash
-hunspell -v
-hunspell -D
-```
-
-The source-artwork extraction tools are development utilities, not runtime
-requirements. Regenerating the Geeko, Konqi & Katie, or GNU Baby collections additionally
-requires `python3-pil`, `python3-numpy`, and `python3-scipy`.
 
 ## Themes
 
@@ -344,47 +926,6 @@ New files use PNG as their primary save format by default. Under `Settings > Sav
 Choose `File > Export as SVG...` to create a document for Inkscape. The screenshot is embedded as PNG while supported annotations remain SVG vectors and text. Raster overlays are embedded as PNG. SVG is intended for interchange with vector editors; use `.ksnip` as the lossless working project format.
 
 For `Number Arrow`, the properties toolbar controls the shaft thickness and arrowhead size independently. These values remain editable in `.ksnip` projects and are preserved during SVG export. Hover over a property control to see a short explanation of its purpose.
-
-## Run from system packages
-
-Install Qt's own translations together with the other Debian dependencies:
-
-```bash
-sudo apt install qt6-translations-l10n
-git clone https://github.com/wachin/ksnip.git
-cd ksnip
-python3 -m ksnip_py
-```
-
-## Run from a virtual environment
-
-Debian uses an externally managed system Python, so Python-only optional dependencies should be installed in a virtual environment:
-
-```bash
-git clone https://github.com/wachin/ksnip.git
-cd ksnip
-
-# Qt's translations are a system package, not a pip package.
-sudo apt install qt6-translations-l10n
-
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip setuptools wheel
-python -m pip install -e .
-
-ksnip-pyqt6
-```
-
-The spell checker continues to use the system `hunspell` executable and dictionaries when the application runs inside a virtual environment.
-
-On Linux, ksnip_py checks `/usr/local/share/qt6/translations` and
-`/usr/share/qt6/translations` first; those directories are provided by
-`qt6-translations-l10n`. It then falls back to the Qt runtime selected by PyQt6
-through `QLibraryInfo.TranslationsPath`. A pip installation therefore works
-with the distribution catalogs inside a virtual environment. On Windows and
-macOS there is no `qt6-translations-l10n` package: the PyQt6/Qt deployment must
-ship the desired `qtbase_<locale>.qm` catalogs in its own Qt translations
-directory, or Qt-owned text falls back to English.
 
 ## Desktop theme integration
 
@@ -815,7 +1356,7 @@ artifacts from the run page and attach them to a release by hand.
 | Platform | Artifact |
 | --- | --- |
 | Linux (Ubuntu 22.04+/Debian 13+) | `ksnip-pyqt6-<version>-x86_64.AppImage` |
-| Linux (Ubuntu/Debian) | `ksnip-pyqt6_<version>-1_all.deb` |
+| Linux (Ubuntu/Debian) | `ksnip-pyqt6_<version>_all.deb` |
 | macOS (Intel) | `ksnip-pyqt6-<version>-macOS-x86_64.zip` |
 | Windows 10/11 | `ksnip-pyqt6-<version>-Windows-x64-portable.zip` |
 | Windows 10/11 | `ksnip-pyqt6-<version>-Windows-x64-setup.exe` |
@@ -847,12 +1388,12 @@ dpkg-buildpackage -b -us -uc
 ```
 
 The package is written next to the repository as
-`../ksnip-pyqt6_0.2.2-1_all.deb`. Running `dpkg-buildpackage -us -uc` without `-b`
+`../ksnip-pyqt6_*_all.deb`. Running `dpkg-buildpackage -us -uc` without `-b`
 also produces the source package, and `debian/rules clean` removes the build tree
 afterwards.
 
 The build runs the test suite through `debian/rules`; pass
-`DEB_BUILD_OPTIONS=nocheck` to skip it. `lintian ../ksnip-pyqt6_0.2.2-1_all.deb`
+`DEB_BUILD_OPTIONS=nocheck` to skip it. `lintian ../ksnip-pyqt6_*_all.deb`
 reports no findings, and the smoke test in `debian/tests/` can be executed with
 `autopkgtest`.
 
