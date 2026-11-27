@@ -67,7 +67,8 @@ def _light_palette(palette: QPalette) -> QPalette:
         QPalette.ColorRole.ButtonText,
         QPalette.ColorRole.ToolTipText,
     ):
-        palette.setColor(role, _LIGHT_TEXT)
+        palette.setColor(QPalette.ColorGroup.Active, role, _LIGHT_TEXT)
+        palette.setColor(QPalette.ColorGroup.Inactive, role, _LIGHT_TEXT)
         palette.setColor(QPalette.ColorGroup.Disabled, role, _LIGHT_DISABLED)
     palette.setColor(QPalette.ColorRole.PlaceholderText, _LIGHT_DISABLED)
     return palette

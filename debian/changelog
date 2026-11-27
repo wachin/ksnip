@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-30) unstable; urgency=medium
+
+  * Apply the light-theme #111214 enabled text color to the inactive palette
+    group as well, so menu shortcut labels use the same color as their menu
+    text and icons.
+
+ -- wachin <wachin.id@gmail.com>  Fri, 27 Nov 2026 08:45:00 -0500
+
 ksnip-pyqt6 (0.2.2-29) unstable; urgency=medium
 
   * Match the light theme requested palette: enabled menu text and icons use
