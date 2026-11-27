@@ -286,7 +286,7 @@ jobs:
           $target = Join-Path $stage "ksnip-pyqt6"
           New-Item -ItemType Directory -Force -Path $target | Out-Null
           Copy-Item (Join-Path $payload.FullName "*") $target -Recurse -Force
-          Copy-Item "LICENSE.txt" (Join-Path $stage "LICENSE") -Force
+          Copy-Item "LICENSE" (Join-Path $stage "LICENSE") -Force
           Copy-Item "packaging\windows\ksnip.ico" (Join-Path $stage "ksnip.ico") -Force
           Copy-Item "packaging\windows\nsis-header.bmp" (Join-Path $stage "nsis-header.bmp") -Force
           Copy-Item "packaging\windows\nsis-welcome.bmp" (Join-Path $stage "nsis-welcome.bmp") -Force

@@ -10,7 +10,7 @@
   </p>
   <p>
     <a href="https://github.com/wachin/ksnip/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/wachin/ksnip?label=release&amp;color=2ea44f"></a>
-    <a href="LICENSE.txt"><img alt="License: GPL 3.0" src="https://img.shields.io/badge/license-GPL--3.0-blue"></a>
+    <a href="LICENSE"><img alt="License: GPL 3.0" src="https://img.shields.io/badge/license-GPL--3.0-blue"></a>
     <a href="#contributing"><img alt="Contributions welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen"></a>
     <a href="https://github.com/wachin/ksnip/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/wachin/ksnip"></a>
     <a href="https://github.com/wachin/ksnip/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/wachin/ksnip?style=flat"></a>
@@ -1450,7 +1450,7 @@ See [PACKAGING.md](PACKAGING.md) for detailed packaging decisions.
 
 ## License
 
-This project follows the existing ksnip licensing terms. See [LICENSE.txt](LICENSE.txt).
+This project follows the existing ksnip licensing terms. See [LICENSE](LICENSE).
 
 Bundled artwork, icons, and stickers are documented in
 [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) and, in machine-readable
