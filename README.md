@@ -518,6 +518,9 @@ If you do not want to activate the environment, this single command is enough:
 $HOME\ksnip\.venv\Scripts\ksnip-pyqt6.exe
 ```
 
+If you downloaded the ZIP instead of cloning, replace `$HOME\ksnip` with the
+folder where you extracted it.
+
 You can also right-click
 `C:\Users\<your-name>\ksnip\.venv\Scripts\ksnip-pyqt6.exe`, choose **Send to →
 Desktop (create shortcut)**, and launch it from the desktop. The path will
@@ -690,6 +693,9 @@ Without activation:
 ```bash
 ~/ksnip/.venv/bin/python -m ksnip_py
 ```
+
+If you did not clone into your home folder, replace `~/ksnip` with the actual
+project folder.
 
 ### macOS Screen Recording permission
 
