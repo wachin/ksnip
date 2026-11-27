@@ -479,7 +479,7 @@ It does not require administrator rights.
 #### 4. Create and prepare the virtual environment
 
 ```powershell
-py -3.12 -m venv .venv
+py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -e .
