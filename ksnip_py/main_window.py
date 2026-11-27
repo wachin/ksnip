@@ -65,6 +65,7 @@ from .theme import THEME_DARK, THEME_LIGHT, THEME_SYSTEM, init_theme_manager, no
 from .uploader import ScriptUploader, UploadWorker
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
 from .download_manager import show_download_manager
+from .menu_style import SolidMenu
 
 
 class _TintedDisabledIconEngine(QIconEngine):
@@ -1643,8 +1644,14 @@ class MainWindow(QMainWindow):
             style.polish(widget)
             widget.update()
 
+    def _top_menu(self, title: str) -> SolidMenu:
+        menu = SolidMenu(self)
+        menu.setTitle(title)
+        self.menuBar().addMenu(menu)
+        return menu
+
     def _build_menus(self) -> None:
-        file_menu = self.menuBar().addMenu(self.tr("&File"))
+        file_menu = self._top_menu(self.tr("&File"))
         self.file_menu = file_menu
         new_capture_menu = file_menu.addMenu(self._load_icon("drawRect"), self.tr("New Screenshot"))
         new_capture_menu.addAction(self.new_capture_rect_action)
@@ -1674,7 +1681,7 @@ class MainWindow(QMainWindow):
         file_menu.addSeparator()
         file_menu.addAction(self.quit_action)
 
-        edit_menu = self.menuBar().addMenu(self.tr("&Edit"))
+        edit_menu = self._top_menu(self.tr("&Edit"))
         edit_menu.addAction(self.undo_action)
         edit_menu.addAction(self.redo_action)
         edit_menu.addSeparator()
@@ -1709,7 +1716,7 @@ class MainWindow(QMainWindow):
         annotation_edit_menu.addAction(self.bring_to_front_action)
         annotation_edit_menu.addAction(self.send_to_back_action)
 
-        view_menu = self.menuBar().addMenu(self.tr("&View"))
+        view_menu = self._top_menu(self.tr("&View"))
         view_menu.addAction(self.open_directory_action)
         view_menu.addAction(self.toggle_docks_action)
         view_menu.addAction(self.modify_canvas_action)
@@ -1736,7 +1743,7 @@ class MainWindow(QMainWindow):
         zoom_menu.addAction(self.zoom_reset_action)
         zoom_menu.addAction(self.zoom_fit_action)
 
-        options_menu = self.menuBar().addMenu(self.tr("&Options"))
+        options_menu = self._top_menu(self.tr("&Options"))
         options_menu.addAction(self.pin_action)
         options_menu.addAction(self.ocr_action)
         options_menu.addAction(self.ocr_structure_action)
@@ -1774,7 +1781,7 @@ class MainWindow(QMainWindow):
         ):
             annotation_tools_menu.addAction(action)
 
-        help_menu = self.menuBar().addMenu(self.tr("&Help"))
+        help_menu = self._top_menu(self.tr("&Help"))
         help_menu.addAction(self.about_action)
 
     def current_canvas(self) -> AnnotationCanvas | None:

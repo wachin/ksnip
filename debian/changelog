@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-31) unstable; urgency=medium
+
+  * Use a SolidMenu subclass for the main menu bar so enabled shortcut labels
+    are repainted with the enabled theme color (#111214 in the light theme).
+    QMenu otherwise draws shortcuts with a separate, lighter color.
+
+ -- wachin <wachin.id@gmail.com>  Fri, 27 Nov 2026 09:00:00 -0500
+
 ksnip-pyqt6 (0.2.2-30) unstable; urgency=medium
 
   * Apply the light-theme #111214 enabled text color to the inactive palette
