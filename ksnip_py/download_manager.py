@@ -2,13 +2,26 @@ from __future__ import annotations
 
 import importlib.util
 import os
-import shutil
 import subprocess
 import sys
+import tempfile
+import traceback
+from collections import deque
+from datetime import datetime
 from pathlib import Path
 from typing import Callable, Optional
 
-from PyQt6.QtCore import QObject, QSettings, QThread, QTimer, Qt, pyqtSignal
+from PyQt6.QtCore import (
+    QObject,
+    QSettings,
+    QStandardPaths,
+    QThread,
+    QTimer,
+    Qt,
+    QUrl,
+    pyqtSignal,
+)
+from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import (
     QApplication,
     QDialog,
@@ -29,6 +42,41 @@ def _is_frozen_build() -> bool:
     """Return whether this code is running from a frozen application."""
 
     return bool(getattr(sys, "frozen", False)) or "__compiled__" in globals()
+
+
+def _model_manager_log_path() -> Path:
+    """Return the log file that records every Model Manager installation.
+
+    The download manager runs long, network-bound steps in a worker thread and
+    the dialog only has room for one line of text, so the full pip output and
+    every traceback are appended here.  That log is the only way to see why an
+    installation failed, especially on Windows where the GUI has no console.
+    """
+
+    base = QStandardPaths.writableLocation(
+        QStandardPaths.StandardLocation.GenericDataLocation
+    )
+    candidates = [Path(base) / "ksnip-pyqt6" / "logs"] if base else []
+    candidates.append(Path.home() / ".local" / "share" / "ksnip-pyqt6" / "logs")
+    for directory in candidates:
+        try:
+            directory.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            continue
+        return directory / "model-manager.log"
+    return Path(tempfile.gettempdir()) / "ksnip-pyqt6-model-manager.log"
+
+
+def _append_log(log_path: Optional[Path], text: str) -> None:
+    """Append ``text`` to the installation log, ignoring a broken log path."""
+
+    if log_path is None:
+        return
+    try:
+        with log_path.open("a", encoding="utf-8") as handle:
+            handle.write(text)
+    except OSError:
+        pass
 
 
 class ModelInfo:
@@ -83,9 +131,11 @@ class DownloadWorker(QThread):
     def __init__(
         self,
         model: ModelInfo,
+        errors: Optional[dict[str, str]] = None,
     ):
         super().__init__()
         self._model = model
+        self._errors = errors if errors is not None else {}
 
     def run(self) -> None:
         try:
@@ -98,17 +148,26 @@ class DownloadWorker(QThread):
             success = self._model.install_action(progress, status)
             self.finished.emit(success, self._model.id)
         except Exception as e:
+            self._errors[self._model.id] = f"{type(e).__name__}: {e}"
             self.status.emit(f"Error: {e}")
-            self.finished.emit(False, str(e))
+            self.finished.emit(False, self._model.id)
 
 
 class ModelCard(QWidget):
     """UI card for a single model."""
 
-    def __init__(self, model: ModelInfo, parent: Optional[QWidget] = None):
+    def __init__(
+        self,
+        model: ModelInfo,
+        errors: Optional[dict[str, str]] = None,
+        log_path: Optional[Path] = None,
+        parent: Optional[QWidget] = None,
+    ):
         super().__init__(parent)
         self._model = model
         self._worker: Optional[DownloadWorker] = None
+        self._errors = errors if errors is not None else {}
+        self._log_path = log_path
         self._setup_ui()
 
     def _setup_ui(self) -> None:
@@ -231,10 +290,33 @@ class ModelCard(QWidget):
         self.remove_btn.setVisible(False)
         button_layout.addWidget(self.remove_btn)
 
+        self.log_btn = QPushButton(self.tr("Show log"))
+        self.log_btn.setFixedWidth(110)
+        self.log_btn.setStyleSheet("""
+            QPushButton {
+                background-color: palette(button);
+                color: palette(button-text);
+                border: 1px solid palette(mid);
+                border-radius: 5px;
+                padding: 6px 12px;
+            }
+            QPushButton:hover {
+                background-color: palette(mid);
+            }
+        """)
+        self.log_btn.setToolTip(
+            self.tr("Open the installation log with the full pip and Paddle output.")
+        )
+        self.log_btn.clicked.connect(self._on_show_log_clicked)
+        self.log_btn.setVisible(False)
+        button_layout.addWidget(self.log_btn)
+
         layout.addLayout(button_layout)
 
     def set_installed_status(self, installed: bool) -> None:
         """Called asynchronously when background check completes."""
+        self.status_label.setToolTip("")
+        self.log_btn.setVisible(False)
         if installed:
             self.install_btn.setText(self.tr("Reinstall"))
             self.remove_btn.setVisible(True)
@@ -252,13 +334,15 @@ class ModelCard(QWidget):
 
         self.install_btn.setEnabled(False)
         self.remove_btn.setEnabled(False)
+        self.log_btn.setVisible(False)
+        self.status_label.setToolTip("")
         self.progress_bar.setVisible(True)
         self.progress_bar.setValue(0)
         self.status_label.setVisible(True)
         self.status_label.setText(self.tr("Starting download..."))
         self.status_label.setStyleSheet("color: palette(highlight); font-size: 11px;")
 
-        self._worker = DownloadWorker(self._model)
+        self._worker = DownloadWorker(self._model, self._errors)
         self._worker.progress.connect(self.progress_bar.setValue)
         self._worker.status.connect(self.status_label.setText)
         self._worker.finished.connect(self._on_finished)
@@ -274,19 +358,50 @@ class ModelCard(QWidget):
             ).replace("%1", self._model.name).replace("%2", str(Path.home() / ".paddlex")),
         )
 
+    def _on_show_log_clicked(self) -> None:
+        if self._log_path is None:
+            return
+        if not self._log_path.exists():
+            QMessageBox.information(
+                self,
+                self.tr("Installation log"),
+                self.tr("The log file has not been created yet."),
+            )
+            return
+        QDesktopServices.openUrl(QUrl.fromLocalFile(str(self._log_path)))
+
     def _on_finished(self, success: bool, model_id: str) -> None:
         self.install_btn.setEnabled(True)
         self.remove_btn.setEnabled(True)
         self.progress_bar.setVisible(False)
 
         if success:
+            self._errors.pop(model_id, None)
+            self.log_btn.setVisible(False)
+            self.status_label.setToolTip("")
             self.status_label.setText(self.tr("✓ Installed successfully"))
             self.status_label.setStyleSheet("color: palette(text); font-size: 11px; font-weight: bold;")
             self.install_btn.setText(self.tr("Reinstall"))
             self.remove_btn.setVisible(True)
         else:
-            self.status_label.setText(self.tr("✗ Installation failed"))
+            message = (self._errors.get(model_id) or "").strip()
+            summary = message.splitlines()[0] if message else ""
+            if len(summary) > 120:
+                summary = summary[:117] + "…"
+            self.status_label.setText(
+                self.tr("✗ Installation failed")
+                + (f": {summary}" if summary else "")
+            )
             self.status_label.setStyleSheet("color: palette(text); font-size: 11px; font-weight: bold;")
+            tooltip = message
+            if self._log_path is not None:
+                tooltip = (
+                    f"{tooltip}\n\n{self.tr('Full log')}: {self._log_path}"
+                    if tooltip
+                    else f"{self.tr('Full log')}: {self._log_path}"
+                )
+                self.log_btn.setVisible(True)
+            self.status_label.setToolTip(tooltip)
 
 
 class DownloadManagerDialog(QDialog):
@@ -299,6 +414,8 @@ class DownloadManagerDialog(QDialog):
         self._models: list[ModelInfo] = []
         self._cards: dict[str, ModelCard] = {}
         self._checker_worker: Optional[CheckModelsWorker] = None
+        self._errors: dict[str, str] = {}
+        self._log_path: Optional[Path] = _model_manager_log_path()
         self._setup_ui()
         self._load_models()
 
@@ -398,7 +515,7 @@ class DownloadManagerDialog(QDialog):
         self._models = self._get_available_models()
 
         for model in self._models:
-            card = ModelCard(model)
+            card = ModelCard(model, self._errors, self._log_path)
             self._cards[model.id] = card
             self.models_layout.insertWidget(self.models_layout.count() - 1, card)
 
@@ -442,7 +559,7 @@ class DownloadManagerDialog(QDialog):
                 "Document layout analysis and table recognition. "
                 "Converts tables to Markdown/HTML."
             ),
-            size_mb=300,
+            size_mb=1800,
             check_installed=self._check_paddleocr_structure,
             install_action=self._install_paddleocr_structure,
             category=self.tr("OCR"),
@@ -456,7 +573,7 @@ class DownloadManagerDialog(QDialog):
                 "Mathematical formula recognition (LaTeX output). "
                 "Optional extra for structure pipeline."
             ),
-            size_mb=50,
+            size_mb=700,
             check_installed=self._check_paddleocr_formula,
             install_action=self._install_paddleocr_formula,
             category=self.tr("OCR"),
@@ -482,20 +599,6 @@ class DownloadManagerDialog(QDialog):
             check_installed=self._check_external_script,
             install_action=self._install_external_script,
             category=self.tr("OCR"),
-        ))
-
-        # Spellcheck dictionaries
-        models.append(ModelInfo(
-            id="spellcheck-dicts",
-            name=self.tr("Spellcheck Dictionaries (Hunspell)"),
-            description=self.tr(
-                "Additional language dictionaries for spell checking "
-                "in text annotations."
-            ),
-            size_mb=50,
-            check_installed=self._check_spellcheck_dicts,
-            install_action=self._install_spellcheck_dicts,
-            category=self.tr("Spellcheck"),
         ))
 
         return models
@@ -531,45 +634,119 @@ class DownloadManagerDialog(QDialog):
         script_path = settings.value("ocr/script_path", "")
         return bool(script_path and Path(script_path).exists())
 
-    def _check_spellcheck_dicts(self) -> bool:
-        dict_dir = Path("/usr/share/hunspell")
-        return dict_dir.exists() and any(dict_dir.glob("*.dic"))
+    def _run_pip(
+        self,
+        args: list[str],
+        status: Callable[[str], None],
+        progress: Callable[[int], None],
+        progress_after: int,
+    ) -> tuple[bool, str]:
+        """Run ``pip install`` and return ``(ok, tail_of_output)``.
+
+        Unlike a bare ``subprocess.run(..., check=True)``, this keeps pip's
+        output: the last lines are what explain a failure (missing wheel for the
+        interpreter, network error, dependency conflict), and they are also
+        appended to the installation log.
+        """
+
+        command = [sys.executable, "-m", "pip", "install", *args]
+        _append_log(
+            self._log_path,
+            f"\n=== {datetime.now().isoformat(timespec='seconds')} pip install "
+            f"{' '.join(args)} ===\n",
+        )
+
+        tail: deque[str] = deque(maxlen=60)
+        try:
+            process = subprocess.Popen(
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                bufsize=1,
+            )
+        except OSError as exc:
+            return False, f"{type(exc).__name__}: {exc}"
+
+        handle = None
+        if self._log_path is not None:
+            try:
+                handle = self._log_path.open("a", encoding="utf-8")
+            except OSError:
+                handle = None
+
+        try:
+            if process.stdout is not None:
+                for line in process.stdout:
+                    if handle is not None:
+                        try:
+                            handle.write(line)
+                        except OSError:
+                            pass
+                    tail.append(line.rstrip())
+                    stripped = line.strip()
+                    if stripped.startswith("Downloading "):
+                        progress(progress_after)
+                        status(
+                            self.tr("Downloading: %1").replace("%1", stripped[:60])
+                        )
+                    elif stripped.startswith("Installing collected packages"):
+                        status(self.tr("Installing packages..."))
+            return process.wait() == 0, "\n".join(tail)
+        finally:
+            if handle is not None:
+                handle.close()
+
+    def _fail(
+        self,
+        model_id: str,
+        status: Callable[[str], None],
+        summary: str,
+        detail: str = "",
+    ) -> bool:
+        """Record a readable failure reason and keep the details in the log."""
+
+        summary = summary.strip() or self.tr("Unknown error")
+        self._errors[model_id] = summary
+        _append_log(
+            self._log_path,
+            f"\n=== {datetime.now().isoformat(timespec='seconds')} "
+            f"{model_id} FAILED ===\n{summary}\n{detail}\n",
+        )
+        status(f"{self.tr('Installation failed')}: {summary}")
+        return False
 
     def _install_paddleocr_line(
         self,
         progress: Callable[[int], None],
         status: Callable[[str], None],
     ) -> bool:
-        try:
-            status(self.tr("Downloading & installing packages (pip)..."))
-            progress(15)
+        model_id = "paddleocr-line"
+        self._errors.pop(model_id, None)
+        status(self.tr("Downloading & installing packages (pip)..."))
+        progress(15)
 
-            process = subprocess.Popen(
-                [
-                    sys.executable, "-m", "pip", "install",
-                    "paddlepaddle==3.3.1",
-                    "paddleocr==3.7.0",
-                    "protobuf==3.20.2",
-                ],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
+        ok, tail = self._run_pip(
+            ["paddlepaddle==3.3.1", "paddleocr==3.7.0", "protobuf==3.20.2"],
+            status,
+            progress,
+            40,
+        )
+        if not ok:
+            return self._fail(
+                model_id,
+                status,
+                self.tr("pip could not install the PaddleOCR packages"),
+                tail,
             )
 
-            if process.stdout:
-                for line in process.stdout:
-                    if "Downloading" in line:
-                        status(self.tr("Downloading: %1").replace("%1", line.strip()[:60]))
-                        progress(40)
-
-            process.wait()
-            if process.returncode != 0:
-                return False
-
-            progress(85)
-            status(self.tr("Initializing model cache..."))
-
+        progress(70)
+        status(self.tr("Downloading the recognition models (~150 MB)..."))
+        try:
             from paddleocr import PaddleOCR
+
             _ = PaddleOCR(
                 lang="en",
                 enable_mkldnn=False,
@@ -577,61 +754,117 @@ class DownloadManagerDialog(QDialog):
                 use_doc_unwarping=False,
                 use_textline_orientation=False,
             )
+        except Exception as exc:  # noqa: BLE001
+            return self._fail(
+                model_id,
+                status,
+                f"{type(exc).__name__}: {exc}",
+                traceback.format_exc(),
+            )
 
-            progress(100)
-            status(self.tr("Installation complete!"))
-            return True
-        except Exception as e:
-            status(f"Error: {e}")
-            return False
+        progress(100)
+        status(self.tr("Installation complete!"))
+        return True
+
+    @staticmethod
+    def _structure_kwargs(with_formula: bool) -> dict:
+        """Return the PP-StructureV3 arguments used by both install and OCR.
+
+        Keeping these identical to ``OcrBackend._recognize_with_pp_structure``
+        means the installer downloads exactly the models the OCR action later
+        loads, instead of caching a second, larger set.
+        """
+
+        return {
+            "lang": "en",
+            "enable_mkldnn": False,
+            "use_doc_orientation_classify": False,
+            "use_doc_unwarping": False,
+            "use_textline_orientation": False,
+            "use_table_recognition": True,
+            "use_formula_recognition": with_formula,
+            "layout_detection_model_name": "PP-DocLayout_plus-L",
+            "text_detection_model_name": "PP-OCRv5_mobile_det",
+            "text_recognition_model_name": "PP-OCRv5_mobile_rec",
+            "wired_table_structure_recognition_model_name": "SLANeXt_wired",
+            "wireless_table_structure_recognition_model_name": "SLANet_plus",
+            "wired_table_cells_detection_model_name": "RT-DETR-L_wired_table_cell_det",
+            "wireless_table_cells_detection_model_name": "RT-DETR-L_wireless_table_cell_det",
+        }
+
+    def _install_paddle_structure(
+        self,
+        model_id: str,
+        progress: Callable[[int], None],
+        status: Callable[[str], None],
+        with_formula: bool,
+        download_mb: int,
+    ) -> bool:
+        self._errors.pop(model_id, None)
+        status(self.tr("Installing PaddleX with OCR extra..."))
+        progress(10)
+
+        ok, tail = self._run_pip(
+            [
+                "paddlepaddle==3.3.1",
+                "paddleocr==3.7.0",
+                "protobuf==3.20.2",
+                "paddlex[ocr]==3.7.2",
+                "markdownify",
+            ],
+            status,
+            progress,
+            40,
+        )
+        if not ok:
+            return self._fail(
+                model_id,
+                status,
+                self.tr("pip could not install the PaddleOCR packages"),
+                tail,
+            )
+
+        progress(60)
+        status(
+            self.tr(
+                "Downloading layout and table models (~%1 MB, one time). "
+                "This can take a long time; the progress bar will not move until it ends."
+            ).replace("%1", str(download_mb))
+        )
+
+        try:
+            from paddleocr import PPStructureV3
+
+            _ = PPStructureV3(**self._structure_kwargs(with_formula))
+        except Exception as exc:  # noqa: BLE001
+            return self._fail(
+                model_id,
+                status,
+                f"{type(exc).__name__}: {exc}",
+                traceback.format_exc(),
+            )
+
+        progress(100)
+        status(self.tr("Installation complete!"))
+        return True
 
     def _install_paddleocr_structure(
         self,
         progress: Callable[[int], None],
         status: Callable[[str], None],
     ) -> bool:
-        try:
-            status(self.tr("Installing PaddleX with OCR extra..."))
-            progress(15)
-
-            subprocess.run(
-                [
-                    sys.executable, "-m", "pip", "install",
-                    "paddlepaddle==3.3.1",
-                    "paddleocr==3.7.0",
-                    "protobuf==3.20.2",
-                    "paddlex[ocr]==3.7.2",
-                    "markdownify",
-                ],
-                check=True,
-            )
-
-            progress(75)
-            status(self.tr("Initializing layout model..."))
-
-            from paddleocr import PPStructureV3
-            _ = PPStructureV3(
-                lang="en",
-                enable_mkldnn=False,
-                use_doc_orientation_classify=False,
-                use_doc_unwarping=False,
-                use_textline_orientation=False,
-                use_table_recognition=True,
-            )
-
-            progress(100)
-            status(self.tr("Installation complete!"))
-            return True
-        except Exception as e:
-            status(f"Error: {e}")
-            return False
+        return self._install_paddle_structure(
+            "paddleocr-structure", progress, status, with_formula=False, download_mb=1800
+        )
 
     def _install_paddleocr_formula(
         self,
         progress: Callable[[int], None],
         status: Callable[[str], None],
     ) -> bool:
-        return self._install_paddleocr_structure(progress, status)
+        return self._install_paddle_structure(
+            "paddleocr-formula", progress, status, with_formula=True, download_mb=700
+        )
 
     def _install_external_script(
         self,
@@ -639,15 +872,6 @@ class DownloadManagerDialog(QDialog):
         status: Callable[[str], None],
     ) -> bool:
         status(self.tr("Configure script path in Settings → OCR"))
-        progress(100)
-        return True
-
-    def _install_spellcheck_dicts(
-        self,
-        progress: Callable[[int], None],
-        status: Callable[[str], None],
-    ) -> bool:
-        status(self.tr("Install hunspell packages with apt/dnf"))
         progress(100)
         return True
 

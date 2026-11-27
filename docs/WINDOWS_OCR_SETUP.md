@@ -270,6 +270,52 @@ python -m ksnip_py
 then the PaddleOCR cards can detect the packages and show as installed, and the
 in-process PaddleOCR backends also become available.
 
+## 9. Model Manager in a source checkout (Windows)
+
+Section 8 describes the packaged build. When you run ksnip-pyqt6 from a source
+checkout in its virtual environment, the **PaddleOCR** cards install real
+packages and models into that environment, and they stay installed.
+
+Download sizes shown in the dialog:
+
+| Card | What it installs | Download |
+| --- | --- | --- |
+| PaddleOCR Line Models (PP-OCRv5) | `paddlepaddle`, `paddleocr`, `protobuf`, plus the detection and recognition weights | ~150 MB |
+| PaddleOCR Structure (PP-StructureV3) | the same packages, `paddlex[ocr]` and `markdownify`, plus the layout, table-classification, table-structure and table-cell weights | ~1.8 GB |
+| PaddleOCR Formula Recognition | PP-StructureV3 with `use_formula_recognition=True`, which adds `PP-FormulaNet_plus-L` | ~700 MB |
+
+The Python packages install in a couple of minutes. Almost all of the time is
+the model download that happens afterwards, and Paddle does not report per-file
+progress, so the progress bar stays still while it runs. On a slow connection
+the structure step can take a long time; it is not stuck.
+
+Downloaded weights are cached in `%USERPROFILE%\.paddlex\official_models` and
+reused later, so retrying the same card does not download them again. A failed
+attempt keeps whatever finished, and the next attempt continues from there.
+
+### When a card says "Installation failed"
+
+The card shows the real reason instead of a generic message, and **Show log**
+opens the full log:
+
+```text
+%LOCALAPPDATA%\ksnip-pyqt6\logs\model-manager.log
+```
+
+That file records every `pip` command with its complete output and the
+traceback of any failure. It is the place to look when the application has no
+console, for example when it is started from the Start menu or from a shortcut
+whose window closes too fast to read.
+
+A pip failure there usually means the pinned wheels do not exist for the
+interpreter running the application. Check the version with:
+
+```powershell
+python -c "import sys; print(sys.version)"
+```
+
+Python 3.12 is the tested interpreter for `paddlepaddle==3.3.1` on Windows.
+
 ## Troubleshooting
 
 ### `python` is not recognized, or opens the Microsoft Store
