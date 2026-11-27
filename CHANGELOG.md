@@ -40,6 +40,9 @@
   custom icon engine, an explicit QMenu disabled-color rule, and a QProxyStyle
   that renders the item silhouette in solid gray apply the same rendering in
   the installed package and under system PyQt6/Qt.
+* Fixed: The light theme now uses #111214 for enabled menu text and icons and
+  #cccccc for disabled ones, with the themed icon engine and disabled-menu
+  proxy style both receiving those colors.
 * Docs: Added `docs/OCR_PLUGIN_ARCHITECTURE.md`, describing the plugin
   boundary, the entry-point contract, the managed environment, the packaging
   split, and the Debian main-archive constraints. Added the document to the

@@ -25,6 +25,7 @@ from PyQt6.QtWidgets import (
     QScrollArea,
     QSizePolicy,
     QSpinBox,
+    QStyle,
     QSystemTrayIcon,
     QTabWidget,
     QToolBar,
@@ -67,14 +68,21 @@ from .download_manager import show_download_manager
 
 
 class _TintedDisabledIconEngine(QIconEngine):
-    """Return a solid-gray pixmap for disabled actions on every Qt version."""
+    """Return theme-tinted pixmaps for enabled and disabled actions."""
 
-    def __init__(self, icon: QIcon) -> None:
+    def __init__(
+        self,
+        icon: QIcon,
+        enabled_color: QColor | None = None,
+        disabled_color: QColor = QColor("#5c5c5c"),
+    ) -> None:
         super().__init__()
         self._icon = icon
+        self._enabled_color = QColor(enabled_color) if enabled_color is not None else None
+        self._disabled_color = QColor(disabled_color)
 
     @staticmethod
-    def _disabled_pixmap(pixmap: QPixmap) -> QPixmap:
+    def _tint_pixmap(pixmap: QPixmap, color: QColor) -> QPixmap:
         image = pixmap.toImage().convertToFormat(
             QImage.Format.Format_ARGB32_Premultiplied
         )
@@ -82,7 +90,7 @@ class _TintedDisabledIconEngine(QIconEngine):
         painter.setCompositionMode(
             QPainter.CompositionMode.CompositionMode_SourceIn
         )
-        painter.fillRect(image.rect(), QColor("#5c5c5c"))
+        painter.fillRect(image.rect(), color)
         painter.end()
         return QPixmap.fromImage(image)
 
@@ -94,14 +102,23 @@ class _TintedDisabledIconEngine(QIconEngine):
     ) -> QPixmap:
         pixmap = self._icon.pixmap(size, QIcon.Mode.Normal, state)
         if mode == QIcon.Mode.Disabled:
-            return self._disabled_pixmap(pixmap)
+            return self._tint_pixmap(pixmap, self._disabled_color)
+        if (
+            mode in (QIcon.Mode.Normal, QIcon.Mode.Active)
+            and self._enabled_color is not None
+        ):
+            return self._tint_pixmap(pixmap, self._enabled_color)
         return pixmap
 
     def paint(self, painter, rect, mode, state) -> None:  # noqa: ANN001
         painter.drawPixmap(rect, self.pixmap(rect.size(), mode, state))
 
     def clone(self) -> QIconEngine:
-        return _TintedDisabledIconEngine(self._icon)
+        return _TintedDisabledIconEngine(
+            self._icon,
+            self._enabled_color,
+            self._disabled_color,
+        )
 
     def availableSizes(self):  # noqa: N802
         return self._icon.availableSizes()
@@ -253,6 +270,11 @@ class MainWindow(QMainWindow):
         window_color = self.palette().color(self.backgroundRole())
         return window_color.lightness() < 128
 
+    def _icon_tint_colors(self) -> tuple[QColor | None, QColor]:
+        if self._use_dark_icons():
+            return None, QColor("#5c5c5c")
+        return QColor("#111214"), QColor("#cccccc")
+
     def _load_icon(self, name: str) -> QIcon:
         base_path = self._icon_base_path()
         variant_order = ("dark", "light") if self._use_dark_icons() else ("light", "dark")
@@ -268,7 +290,10 @@ class MainWindow(QMainWindow):
         for candidate in candidates:
             if candidate.exists():
                 icon = QIcon(
-                    _TintedDisabledIconEngine(QIcon(str(candidate)))
+                    _TintedDisabledIconEngine(
+                        QIcon(str(candidate)),
+                        *self._icon_tint_colors(),
+                    )
                 )
                 self._icon_names_by_cache_key[icon.cacheKey()] = name
                 return icon
@@ -291,14 +316,30 @@ class MainWindow(QMainWindow):
         icon = self._load_icon(fallback_name)
         if icon.isNull():
             icon = QIcon(
-                _TintedDisabledIconEngine(QIcon.fromTheme(theme_name))
+                _TintedDisabledIconEngine(
+                    QIcon.fromTheme(theme_name),
+                    *self._icon_tint_colors(),
+                )
             )
         if not icon.isNull():
             self._themed_icon_names[icon.cacheKey()] = (theme_name, fallback_name)
         return icon
 
     def _system_icon(self, theme_name: str) -> QIcon:
-        return QIcon(_TintedDisabledIconEngine(QIcon.fromTheme(theme_name)))
+        return QIcon(
+            _TintedDisabledIconEngine(
+                QIcon.fromTheme(theme_name),
+                *self._icon_tint_colors(),
+            )
+        )
+
+    def _standard_icon(self, standard: QStyle.StandardPixmap) -> QIcon:
+        return QIcon(
+            _TintedDisabledIconEngine(
+                self.style().standardIcon(standard),
+                *self._icon_tint_colors(),
+            )
+        )
 
     def _apply_window_icon(self) -> None:
         icon_path = self._icon_base_path() / "ksnip.svg"
@@ -801,7 +842,7 @@ class MainWindow(QMainWindow):
         )
         self.capture_cursor_arrow_action.toggled.connect(self._set_capture_cursor_arrow)
 
-        self.open_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogOpenButton), self.tr("Open"), self)
+        self.open_action = QAction(self._standard_icon(QStyle.StandardPixmap.SP_DialogOpenButton), self.tr("Open"), self)
         self.open_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.open_action.setShortcut(QKeySequence.StandardKey.Open)
         self.open_action.triggered.connect(self.open_image)
@@ -1095,7 +1136,7 @@ class MainWindow(QMainWindow):
         self.clear_recent_images_action = QAction(self._themed_icon("edit-clear-history", "delete"), self.tr("Clear Recent Images"), self)
         self.clear_recent_images_action.triggered.connect(self.clear_recent_images)
 
-        self.quit_action = QAction(self.style().standardIcon(self.style().StandardPixmap.SP_DialogCloseButton), self.tr("Quit"), self)
+        self.quit_action = QAction(self._standard_icon(QStyle.StandardPixmap.SP_DialogCloseButton), self.tr("Quit"), self)
         self.quit_action.triggered.connect(self.quit_application)
 
         self.zoom_out_action = QAction(self._themed_icon("zoom-out", "zoom"), self.tr("Zoom Out"), self)

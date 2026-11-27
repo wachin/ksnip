@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-29) unstable; urgency=medium
+
+  * Match the light theme requested palette: enabled menu text and icons use
+    #111214 and disabled menu text and icons use #cccccc. The disabled-menu
+    proxy style now receives the theme-specific gray.
+
+ -- wachin <wachin.id@gmail.com>  Fri, 27 Nov 2026 08:20:00 -0500
+
 ksnip-pyqt6 (0.2.2-28) unstable; urgency=medium
 
   * Render disabled QMenu items through a QProxyStyle that draws the item as

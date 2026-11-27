@@ -121,9 +121,12 @@ class SolidDisabledMenuStyle(QProxyStyle):
         return 0.0 if not data else sum(1 for b in data if b > 128) / len(data)
 
 
-def create_menu_safe_style(name: str | None) -> QStyle:
+def create_menu_safe_style(
+    name: str | None,
+    color: QColor = DISABLED_MENU_COLOR,
+) -> QStyle:
     """Return the named style wrapped in :class:`SolidDisabledMenuStyle`."""
     base = QStyleFactory.create(name) if name else None
     if base is None:
         base = QStyleFactory.create("Fusion")
-    return SolidDisabledMenuStyle(base)
+    return SolidDisabledMenuStyle(base, color)

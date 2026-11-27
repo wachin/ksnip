@@ -8,6 +8,8 @@ from .menu_style import create_menu_safe_style
 
 
 _DISABLED_TEXT = QColor("#5c5c5c")
+_LIGHT_TEXT = QColor("#111214")
+_LIGHT_DISABLED = QColor("#cccccc")
 
 
 THEME_SYSTEM = "system"
@@ -21,9 +23,9 @@ def normalize_theme(value: object) -> str:
     return theme if theme in THEMES else THEME_SYSTEM
 
 
-def _set_style(app: QApplication, name: str | None) -> None:
+def _set_style(app: QApplication, name: str | None, disabled: QColor = _DISABLED_TEXT) -> None:
     """Install a style wrapped so disabled menu items stay solid gray."""
-    app.setStyle(create_menu_safe_style(name))
+    app.setStyle(create_menu_safe_style(name, disabled))
 
 
 def _dark_palette() -> QPalette:
@@ -58,14 +60,16 @@ def _dark_palette() -> QPalette:
     return palette
 
 
-def _with_disabled_text(palette: QPalette) -> QPalette:
+def _light_palette(palette: QPalette) -> QPalette:
     for role in (
         QPalette.ColorRole.WindowText,
         QPalette.ColorRole.Text,
         QPalette.ColorRole.ButtonText,
         QPalette.ColorRole.ToolTipText,
     ):
-        palette.setColor(QPalette.ColorGroup.Disabled, role, _DISABLED_TEXT)
+        palette.setColor(role, _LIGHT_TEXT)
+        palette.setColor(QPalette.ColorGroup.Disabled, role, _LIGHT_DISABLED)
+    palette.setColor(QPalette.ColorRole.PlaceholderText, _LIGHT_DISABLED)
     return palette
 
 
@@ -82,12 +86,13 @@ def apply_theme(app: QApplication, theme: object) -> str:
     if resolved == THEME_SYSTEM:
         return resolved
 
-    _set_style(app, "Fusion")
     if resolved == THEME_DARK:
+        _set_style(app, "Fusion", _DISABLED_TEXT)
         app.setPalette(_dark_palette())
         QIcon.setThemeName("Papirus-Dark")
     else:
-        app.setPalette(_with_disabled_text(app.style().standardPalette()))
+        _set_style(app, "Fusion", _LIGHT_DISABLED)
+        app.setPalette(_light_palette(app.style().standardPalette()))
         QIcon.setThemeName("Papirus")
     return resolved
 
@@ -140,17 +145,23 @@ class ThemeManager(QObject):
 
     def _restore_system_theme(self) -> None:
         if self._original_style:
-            _set_style(self._app, self._original_style)
+            disabled = (
+                _LIGHT_DISABLED
+                if self._resolved == THEME_LIGHT
+                else _DISABLED_TEXT
+            )
+            _set_style(self._app, self._original_style, disabled)
         self._app.setPalette(self._original_palette)
         QIcon.setThemeName(self._original_icon_theme)
 
     def _apply_explicit_theme(self, resolved: str) -> None:
-        _set_style(self._app, "Fusion")
         if resolved == THEME_DARK:
+            _set_style(self._app, "Fusion", _DISABLED_TEXT)
             self._app.setPalette(_dark_palette())
             QIcon.setThemeName("Papirus-Dark")
         else:
-            self._app.setPalette(_with_disabled_text(self._app.style().standardPalette()))
+            _set_style(self._app, "Fusion", _LIGHT_DISABLED)
+            self._app.setPalette(_light_palette(self._app.style().standardPalette()))
             QIcon.setThemeName("Papirus")
 
     def _system_resolved(self) -> str:
