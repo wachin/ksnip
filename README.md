@@ -221,15 +221,18 @@ These are not required just to start the program:
 ```bash
 sudo apt install hunspell hunspell-en-us hunspell-es \
     x11-utils xdotool xdg-desktop-portal xdg-desktop-portal-gtk
+
+sudo apt install qt6ct qt-style-kvantum qt-style-kvantum-l10n \
+    adwaita-qt6 papirus-icon-theme breeze-icon-theme
 ```
 
 - `hunspell` enables the integrated spell checker.
 - `x11-utils` and `xdotool` improve active-window and window-under-cursor
   capture on X11.
 - The portal packages enable screenshot capture on Wayland desktops.
-
-`qt6ct`, Kvantum, Papirus, and Breeze are optional appearance packages. They
-are not needed for the built-in Light and Dark themes.
+- `qt6ct`, Kvantum, and Adwaita are optional appearance packages. They are
+  needed for the **System** theme to follow the desktop light/dark setting;
+  the built-in **Light** and **Dark** themes work without them.
 
 ## Linux Option C: pip inside a virtual environment
 
@@ -345,6 +348,9 @@ direct `.venv/bin/python` command.
 | `hunspell` + dictionary | Optional spell checking. |
 | `x11-utils`, `xdotool` | Optional X11 active-window capture helpers. |
 | `xdg-desktop-portal` + backend | Optional Wayland screenshot support. |
+| `qt6ct` | Optional configuration tool for the **System** light/dark theme. |
+| `qt-style-kvantum`, `qt-style-kvantum-l10n` | Optional Kvantum dark style for qt6ct. |
+| `adwaita-qt6` | Optional Adwaita/Adwaita-Dark style for qt6ct. |
 
 ### Linux troubleshooting
 
@@ -844,8 +850,9 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 
 Choose **View → Theme** to select:
 
-- **System:** follows the platform theme. On Linux this can be qt6ct with
-  Kvantum; on Windows and macOS it follows the native system theme.
+- **System:** follows the platform theme. On Linux this can be qt6ct with a
+  Kvantum or Adwaita dark style; on Windows and macOS it follows the native
+  system theme.
 - **Light:** built-in Fusion light palette and light icons.
 - **Dark:** built-in Fusion dark palette and light-on-dark icons.
 
@@ -855,28 +862,51 @@ work on Linux, Windows, and macOS without extra packages. **System** follows
 the native color scheme and updates when Qt reports a system color-scheme
 change.
 
-### Dark theme on Linux with qt6ct + Kvantum
+### System light/dark theme on Linux with qt6ct
 
-For the **System** choice, qt6ct can apply the Kvantum dark style and a dark
-icon theme to ksnip_py and to standard Qt dialogs such as Open, Save, and Save
-As.
+`qt6ct` is the Qt 6 configuration tool that tells Qt applications which style
+and icon theme to use. Applications such as **Krusader** and **Gwenview** use
+it to follow the light or dark theme selected in the desktop environment.
+ksnip_py uses the same configuration when **View → Theme → System** is
+selected. The built-in **Light** and **Dark** themes do not require qt6ct.
 
-Install the optional packages:
+Install qt6ct and the two dark Qt styles used in Debian 13:
 
 ```bash
-sudo apt install qt6ct qt-style-kvantum qt-style-kvantum-l10n \
-    papirus-icon-theme breeze-icon-theme
+sudo apt update
+sudo apt install qt6ct qt-style-kvantum qt-style-kvantum-l10n adwaita-qt6
 ```
 
-Then open `qt6ct` and configure:
+The icon packages are optional but make the dark theme look complete:
 
-- **Appearance → Style:** `kvantum-dark`
-- **Appearance → Icon theme:** `Papirus-Dark` or `Breeze-Dark`
+```bash
+sudo apt install papirus-icon-theme breeze-icon-theme
+```
 
-Apply the configuration and start ksnip_py. Before creating the QApplication,
-ksnip_py selects `QT_QPA_PLATFORMTHEME=qt6ct` automatically when the qt6ct
-plugin is present in the active Qt plugin path. An explicit `gtk3`, `kde`, or
-similar platform-theme choice is respected.
+Open `qt6ct` from the application menu or run:
+
+```bash
+qt6ct
+```
+
+In the **Appearance** page, choose one of the dark styles:
+
+- **Style:** `Kvantum-Dark` (provided by `qt-style-kvantum`)
+- **Style:** `Adwaita-Dark` (provided by `adwaita-qt6`)
+- **Icon theme:** `Papirus-Dark` or `Breeze-Dark`
+
+In Debian 13, these are the two dark Qt styles used for this setup. For a
+light theme, choose the corresponding light style, or simply use ksnip_py's
+built-in **View → Theme → Light**.
+
+After applying the configuration, start ksnip_py and select **View → Theme →
+System**. Before creating the QApplication, ksnip_py selects
+`QT_QPA_PLATFORMTHEME=qt6ct` automatically when the qt6ct plugin is present in
+the active Qt plugin path. An explicit `gtk3`, `kde`, or similar
+platform-theme choice is respected.
+
+The exact capitalization in qt6ct can vary slightly between versions; the
+entries are the Kvantum and Adwaita dark variants shown in the style list.
 
 ### Important Qt ABI requirement
 
@@ -894,8 +924,9 @@ source .venv/bin/activate
 python -m pip install -e . --no-deps
 ```
 
-If ksnip_py runs with a pip-only PyQt6 wheel, it still works, but qt6ct/Kvantum
-from the distribution are ignored by Qt because of the ABI mismatch.
+If ksnip_py runs with a pip-only PyQt6 wheel, it still works, but qt6ct,
+Kvantum, and Adwaita from the distribution are ignored by Qt because of the ABI
+mismatch.
 
 ### Windows and macOS
 
