@@ -1,3 +1,11 @@
+ksnip-pyqt6 (0.2.2-32) unstable; urgency=medium
+
+  * Remove the shortcut overlay rectangle introduced with SolidMenu. Enabled
+    shortcuts are now rendered once in the enabled color without clearing or
+    overpainting the menu background.
+
+ -- wachin <wachin.id@gmail.com>  Fri, 27 Nov 2026 09:20:00 -0500
+
 ksnip-pyqt6 (0.2.2-31) unstable; urgency=medium
 
   * Use a SolidMenu subclass for the main menu bar so enabled shortcut labels

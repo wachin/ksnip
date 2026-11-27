@@ -97,6 +97,11 @@ class SolidDisabledMenuStyle(QProxyStyle):
         image.fill(Qt.GlobalColor.transparent)
 
         item = QStyleOptionMenuItem(option)
+        # Strip the shortcut from the buffered item. Qt draws the shortcut
+        # again after CE_MenuItem; SolidMenu repaints that copy in the enabled
+        # color. Keeping it here would leave a duplicate gray copy behind.
+        if option.state & QStyle.StateFlag.State_Enabled and "\t" in item.text:
+            item.text = item.text.split("\t", 1)[0]
         # Draw as a plain *enabled*, un-highlighted item: no disabled branch of
         # the base style (etch, dither, palette quirks) can run.
         item.state = (item.state | QStyle.StateFlag.State_Enabled) & ~(
@@ -150,31 +155,19 @@ class SolidDisabledMenuStyle(QProxyStyle):
 
 
 class SolidMenu(QMenu):
-    """QMenu that repaints enabled shortcut labels in the enabled text color."""
+    """QMenu that paints enabled shortcut labels in the enabled text color.
 
-    def addMenu(self, *args):  # noqa: N802
-        if len(args) == 1 and isinstance(args[0], str):
-            icon, title = None, args[0]
-        elif len(args) == 2:
-            icon, title = args
-        else:
-            return super().addMenu(*args)
-        menu = SolidMenu(self)
-        menu.setTitle(title)
-        if icon is not None:
-            menu.setIcon(icon)
-        self.addAction(menu.menuAction())
-        return menu
+    Qt draws enabled shortcut labels with a separate, lighter color. The
+    disabled-menu style removes that shortcut from its buffered item; this
+    subclass draws it once in the enabled color. Disabled shortcuts stay in
+    the buffered item and keep the theme's disabled gray.
+    """
 
     def paintEvent(self, event):  # noqa: N802
         super().paintEvent(event)
-        app = QApplication.instance()
-        if app is None:
-            return
         color = self.palette().color(
             QPalette.ColorGroup.Active, QPalette.ColorRole.WindowText
         )
-        background = self.palette().color(QPalette.ColorRole.AlternateBase)
         painter = QPainter(self)
         painter.setFont(self.font())
         painter.setPen(color)
@@ -199,22 +192,26 @@ class SolidMenu(QMenu):
                 continue
             width = metrics.horizontalAdvance(shortcut)
             x = self.width() - 10 - width
-            # QMenu may draw the shortcut itself at a slightly different
-            # position.  Clear the whole right-hand shortcut zone so no gray
-            # duplicate remains behind the recolored text.
-            clear = QRect(
-                self.width() - 120,
-                rect.y() + 2,
-                120,
-                rect.height() - 4,
-            )
-            painter.fillRect(clear, background)
             painter.drawText(
                 QRect(x, rect.y(), width, rect.height()),
                 int(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter),
                 shortcut,
             )
         painter.end()
+
+    def addMenu(self, *args):  # noqa: N802
+        if len(args) == 1 and isinstance(args[0], str):
+            icon, title = None, args[0]
+        elif len(args) == 2:
+            icon, title = args
+        else:
+            return super().addMenu(*args)
+        menu = SolidMenu(self)
+        menu.setTitle(title)
+        if icon is not None:
+            menu.setIcon(icon)
+        self.addAction(menu.menuAction())
+        return menu
 
 
 def create_menu_safe_style(
