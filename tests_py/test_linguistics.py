@@ -44,8 +44,10 @@ class ToolkitLocationTest(unittest.TestCase):
         self.assertEqual(linguistics.toolkit_directory(), expected)
 
     def test_missing_toolkit_reports_why_it_is_unavailable(self):
-        original = linguistics.toolkit_directory
+        original_directory = linguistics.toolkit_directory
+        original_platform = linguistics.toolkit_supported_platform
         try:
+            linguistics.toolkit_supported_platform = lambda: True
             linguistics.toolkit_directory = lambda: Path("missing-toolkit-directory")
             linguistics.reset_toolkit_cache()
             self.assertFalse(linguistics.ensure_toolkit_importable())
@@ -53,7 +55,21 @@ class ToolkitLocationTest(unittest.TestCase):
             self.assertIn("not found", linguistics.toolkit_error() or "")
             self.assertIsNone(linguistics.shared_service())
         finally:
-            linguistics.toolkit_directory = original
+            linguistics.toolkit_directory = original_directory
+            linguistics.toolkit_supported_platform = original_platform
+            linguistics.reset_toolkit_cache()
+
+    def test_linux_and_macos_never_use_the_toolkit(self):
+        original = linguistics.toolkit_supported_platform
+        try:
+            linguistics.toolkit_supported_platform = lambda: False
+            linguistics.reset_toolkit_cache()
+            self.assertFalse(linguistics.toolkit_available())
+            self.assertIn("Windows only", linguistics.toolkit_error() or "")
+            self.assertIsNone(linguistics.shared_service())
+            self.assertIsNone(linguistics.dictionary_storage_directory())
+        finally:
+            linguistics.toolkit_supported_platform = original
             linguistics.reset_toolkit_cache()
 
 

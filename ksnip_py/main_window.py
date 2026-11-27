@@ -65,7 +65,11 @@ from .theme import THEME_DARK, THEME_LIGHT, THEME_SYSTEM, init_theme_manager, no
 from .uploader import ScriptUploader, UploadWorker
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
 from .download_manager import show_download_manager
-from .linguistics import shared_service as shared_linguistic_service, toolkit_available
+from .linguistics import (
+    shared_service as shared_linguistic_service,
+    toolkit_available,
+    toolkit_supported_platform,
+)
 from .menu_style import SolidMenu
 
 
@@ -1143,13 +1147,22 @@ class MainWindow(QMainWindow):
         self.dictionaries_action.triggered.connect(self.open_dictionary_manager)
         if not toolkit_available():
             # Without the bundled toolkit there is nothing to download from the
-            # application; Linux distributions provide hunspell packages instead.
+            # application: on Linux spell checking uses the distribution's
+            # hunspell packages instead.
             self.dictionaries_action.setEnabled(False)
-            self.dictionaries_action.setToolTip(
-                self.tr(
-                    "Requires the bundled linguistic toolkit (libs/pyqt6-linguistic-tools)."
+            if toolkit_supported_platform():
+                self.dictionaries_action.setToolTip(
+                    self.tr(
+                        "Requires the bundled linguistic toolkit (libs/pyqt6-linguistic-tools)."
+                    )
                 )
-            )
+            else:
+                self.dictionaries_action.setToolTip(
+                    self.tr(
+                        "Windows only. On Linux, spell checking uses the hunspell "
+                        "packages of your distribution."
+                    )
+                )
 
         self.about_action = QAction(self._themed_icon("help-about", "ksnip"), self.tr("About"), self)
         self.about_action.triggered.connect(self.show_about)

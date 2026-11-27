@@ -2,19 +2,14 @@
 
 The toolkit lives in the ``libs/pyqt6-linguistic-tools`` git submodule.  It is a
 portable spelling and thesaurus stack (Spylls + PyThes) with verified dictionary
-downloads, which is what makes spell checking work on Windows, where no system
-Hunspell installation exists.
+downloads, and it is what makes spell checking work on **Windows**, where no
+system Hunspell installation exists.
 
-It is optional at runtime:
-
-* from a source checkout the submodule sits next to the ``ksnip_py`` package and
-  is used;
-* from an installed package (``.deb``, wheel, PyInstaller build) the directory
-  is absent, :func:`toolkit_available` returns ``False`` and
-  :mod:`ksnip_py.spellcheck` falls back to the system ``hunspell`` program.
-
-Linux distributions package hunspell and its dictionaries, so the fallback keeps
-spell checking working there without vendoring the toolkit.
+It is used on Windows only.  Linux distributions package hunspell and its
+dictionaries, so ksnip prefers the system ``hunspell`` program there and this
+module reports the toolkit as unavailable; a ``.deb``, wheel or PyInstaller build
+therefore needs no submodule at all.  macOS keeps the same fallback because no
+system Hunspell is guaranteed either.
 """
 
 from __future__ import annotations
@@ -28,9 +23,20 @@ from typing import Any, Optional
 TOOLKIT_DIRECTORY_NAME = "pyqt6-linguistic-tools"
 DICTIONARY_NAMESPACE = "ksnip-pyqt6"
 
+# Windows has no system Hunspell installation, so it is the only platform where
+# ksnip uses the bundled toolkit. Linux distributions already package hunspell
+# and its dictionaries, and the system backend is preferred there on purpose.
+TOOLKIT_PLATFORMS = ("win32",)
+
 _toolkit_checked = False
 _toolkit_error: Optional[str] = None
 _shared_service: Any = None
+
+
+def toolkit_supported_platform() -> bool:
+    """Return whether this platform uses the bundled toolkit at all."""
+
+    return sys.platform in TOOLKIT_PLATFORMS
 
 
 def repository_root() -> Path:
@@ -61,6 +67,13 @@ def ensure_toolkit_importable() -> bool:
     if _toolkit_checked:
         return _toolkit_error is None
     _toolkit_checked = True
+
+    if not toolkit_supported_platform():
+        _toolkit_error = (
+            "the linguistic toolkit is used on Windows only; this system uses "
+            "the hunspell program and the dictionaries of its distribution"
+        )
+        return False
 
     directory = toolkit_directory()
     if not directory.is_dir():
