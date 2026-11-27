@@ -59,12 +59,13 @@ from .ocr_result_dialog import OcrResultDialog
 from .pin_window import PinWindow
 from .project_io import export_svg, load_project, save_project
 from .settings_dialog import SettingsData, SettingsDialog
-from .spellcheck import load_spellcheck_scheme, save_spellcheck_scheme
+from .spellcheck import load_spellcheck_scheme, reset_spell_checking, save_spellcheck_scheme
 from .sticker_picker import StickerPickerDialog
 from .theme import THEME_DARK, THEME_LIGHT, THEME_SYSTEM, init_theme_manager, normalize_theme, theme_manager
 from .uploader import ScriptUploader, UploadWorker
 from .watermark import WatermarkPreparer, WatermarkStore, random_watermark_position
 from .download_manager import show_download_manager
+from .linguistics import shared_service as shared_linguistic_service, toolkit_available
 from .menu_style import SolidMenu
 
 
@@ -1131,6 +1132,25 @@ class MainWindow(QMainWindow):
         self.model_manager_action.setToolTip(self.tr("Download and manage OCR models and other components"))
         self.model_manager_action.triggered.connect(self.open_model_manager)
 
+        self.dictionaries_action = QAction(
+            self._themed_icon("accessories-dictionary", "model_manager"),
+            self.tr("Dictionary Download Manager…"),
+            self,
+        )
+        self.dictionaries_action.setToolTip(
+            self.tr("Download spell-check and thesaurus dictionaries")
+        )
+        self.dictionaries_action.triggered.connect(self.open_dictionary_manager)
+        if not toolkit_available():
+            # Without the bundled toolkit there is nothing to download from the
+            # application; Linux distributions provide hunspell packages instead.
+            self.dictionaries_action.setEnabled(False)
+            self.dictionaries_action.setToolTip(
+                self.tr(
+                    "Requires the bundled linguistic toolkit (libs/pyqt6-linguistic-tools)."
+                )
+            )
+
         self.about_action = QAction(self._themed_icon("help-about", "ksnip"), self.tr("About"), self)
         self.about_action.triggered.connect(self.show_about)
 
@@ -1750,6 +1770,7 @@ class MainWindow(QMainWindow):
         options_menu.addAction(self.settings_action)
         options_menu.addSeparator()
         options_menu.addAction(self.model_manager_action)
+        options_menu.addAction(self.dictionaries_action)
 
         watermark_menu = options_menu.addMenu(self.tr("Watermark"))
         watermark_menu.addAction(self.update_watermark_action)
@@ -3780,6 +3801,58 @@ class MainWindow(QMainWindow):
             return
         show_download_manager(self)
         self.status_label.setText(self.tr("Model Manager opened"))
+
+    def open_dictionary_manager(self) -> None:
+        """Open the toolkit's verified dictionary download manager.
+
+        Windows has no system Hunspell installation, so spell checking there
+        depends on dictionaries downloaded from the bundled catalog.  Linux
+        distributions ship hunspell packages, and the action stays available
+        because the toolkit also reads them.
+        """
+
+        service = shared_linguistic_service()
+        if service is None:
+            QMessageBox.information(
+                self,
+                self.tr("Dictionary Download Manager"),
+                self.tr(
+                    "The bundled linguistic toolkit is not available in this "
+                    "installation. Install the libs/pyqt6-linguistic-tools "
+                    "submodule, or install the hunspell packages of your system."
+                ),
+            )
+            return
+        try:
+            from pyqt6_linguistic_tools import load_bundled_dictionary_catalog
+            from pyqt6_linguistic_tools.qt import DictionaryDownloadManagerDialog
+        except Exception as exc:  # noqa: BLE001
+            QMessageBox.critical(
+                self,
+                self.tr("Dictionary Download Manager"),
+                self.tr("The dictionary manager could not be loaded: %1").replace(
+                    "%1", str(exc)
+                ),
+            )
+            return
+
+        try:
+            catalog = load_bundled_dictionary_catalog()
+            dialog = DictionaryDownloadManagerDialog(service, catalog=catalog, parent=self)
+        except Exception as exc:  # noqa: BLE001
+            QMessageBox.critical(
+                self,
+                self.tr("Dictionary Download Manager"),
+                self.tr("The dictionary manager could not be opened: %1").replace(
+                    "%1", str(exc)
+                ),
+            )
+            return
+
+        dialog.exec()
+        # A dictionary installed now has to work without restarting the app.
+        reset_spell_checking()
+        self.status_label.setText(self.tr("Dictionaries updated"))
 
     def show_from_tray(self) -> None:
         # A window hidden while minimized still carries the minimized flag.

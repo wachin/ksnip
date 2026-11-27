@@ -1,14 +1,18 @@
 from __future__ import annotations
 
 import json
+import locale as _locale
 import re
 import shutil
 import subprocess
 from dataclasses import dataclass
+from typing import Optional
 
 from PyQt6.QtCore import QSettings, Qt
 from PyQt6.QtGui import QAction, QColor, QSyntaxHighlighter, QTextCharFormat, QTextCursor
-from PyQt6.QtWidgets import QMenu, QPlainTextEdit
+from PyQt6.QtWidgets import QApplication, QMenu, QPlainTextEdit
+
+from . import linguistics
 
 
 WORD_RE = re.compile(r"[^\W\d_]+(?:['’\-][^\W\d_]+)*", re.UNICODE)
@@ -73,14 +77,75 @@ def save_spellcheck_scheme(rows: list[tuple[str, QColor, QColor]], settings: QSe
     resolved_settings.setValue(SPELLCHECK_SCHEME_KEY, json.dumps(payload))
 
 
-class HunspellSpellChecker:
+class SpellChecker:
+    """Spell checker for annotation text.
+
+    Uses the vendored :mod:`pyqt6_linguistic_tools` service when it is
+    available.  That backend is pure Python (Spylls) and reads the dictionaries
+    the user downloads from the Dictionary Download Manager, which is the only
+    way spell checking works on Windows.
+
+    When the toolkit is absent (installed package, or a Linux build that does not
+    vendor it) the checker falls back to the system ``hunspell`` program, so
+    distributions that package hunspell keep working unchanged.
+    """
+
     def __init__(self) -> None:
-        self._hunspell = shutil.which("hunspell")
-        self._dictionary_names = self._preferred_dictionaries()
         self._cache: dict[str, SpellResult] = {}
+        self._backend: Optional[str] = None
+        self._locale: Optional[str] = None
+        self._service = None
+        self._hunspell: Optional[str] = None
+        self._dictionary_names: tuple[str, ...] = ()
+        self.refresh()
+
+    # ── backend selection ──
+
+    def refresh(self) -> None:
+        """Re-select the backend; call after dictionaries are installed."""
+
+        self._cache.clear()
+        self._backend = None
+        self._locale = None
+        self._service = None
+        self._hunspell = None
+        self._dictionary_names = ()
+
+        service = linguistics.shared_service()
+        if service is not None:
+            locale_name = linguistics.resolve_spellcheck_locale(
+                service, linguistics.preferred_languages()
+            )
+            if locale_name is not None:
+                try:
+                    if service.language != locale_name:
+                        service.set_language(locale_name)
+                    if service.capabilities(locale_name).spell_check:
+                        self._service = service
+                        self._locale = locale_name
+                        self._backend = "toolkit"
+                        return
+                except Exception:  # noqa: BLE001 - fall through to hunspell
+                    pass
+
+        self._hunspell = shutil.which("hunspell")
+        if self._hunspell:
+            self._dictionary_names = self._preferred_dictionaries()
+            if self._dictionary_names:
+                self._backend = "hunspell"
+
+    def backend_name(self) -> str:
+        """Return ``toolkit``, ``hunspell`` or ``none``."""
+
+        return self._backend or "none"
+
+    def dictionary_locale(self) -> Optional[str]:
+        return self._locale
 
     def is_available(self) -> bool:
-        return bool(self._hunspell and self._dictionary_names)
+        return self._backend is not None
+
+    # ── queries ──
 
     def result_for_word(self, word: str) -> SpellResult:
         normalized = word.strip()
@@ -89,18 +154,38 @@ class HunspellSpellChecker:
         cached = self._cache.get(normalized)
         if cached is not None:
             return cached
-        if not self.is_available():
+        if self._backend == "toolkit":
+            result = self._toolkit_result(normalized)
+        elif self._backend == "hunspell":
+            result = self._query_words([normalized]).get(normalized, SpellResult(True, ()))
+        else:
             result = SpellResult(True, ())
-            self._cache[normalized] = result
-            return result
-        results = self._query_words([normalized])
-        return results.get(normalized, SpellResult(True, ()))
+        self._cache[normalized] = result
+        return result
 
     def check_words(self, words: list[str]) -> dict[str, SpellResult]:
         pending = [word for word in dict.fromkeys(words) if word and word not in self._cache]
-        if pending and self.is_available():
-            self._query_words(pending)
+        if pending:
+            if self._backend == "toolkit":
+                for word in pending:
+                    self._cache[word] = self._toolkit_result(word)
+            elif self._backend == "hunspell":
+                self._query_words(pending)
         return {word: self._cache.get(word, SpellResult(True, ())) for word in words}
+
+    def _toolkit_result(self, word: str) -> SpellResult:
+        service = self._service
+        if service is None:
+            return SpellResult(True, ())
+        try:
+            if service.check_word(word, locale=self._locale):
+                return SpellResult(True, ())
+            suggestions = tuple(service.suggestions(word, locale=self._locale))
+        except Exception:  # noqa: BLE001 - never break the editor
+            return SpellResult(True, ())
+        return SpellResult(False, suggestions)
+
+    # ── hunspell fallback ──
 
     def _preferred_dictionaries(self) -> tuple[str, ...]:
         if not self._hunspell:
@@ -125,10 +210,20 @@ class HunspellSpellChecker:
                 dictionaries.append(entry.rsplit("/", 1)[-1])
         if not dictionaries:
             return ()
-        spanish = "es_MX" if "es_MX" in dictionaries else "es_ES" if "es_ES" in dictionaries else next((name for name in dictionaries if name.startswith("es_")), None)
-        english = "en_US" if "en_US" in dictionaries else "en_GB" if "en_GB" in dictionaries else next((name for name in dictionaries if name.startswith("en_")), None)
-        ordered = [name for name in (spanish, english) if name]
-        return tuple(ordered)
+        preferred: list[str] = []
+        languages = [
+            value.split("_")[0]
+            for value in linguistics.preferred_languages()
+            if value
+        ]
+        for language in dict.fromkeys(languages):
+            match = next((name for name in dictionaries if name.startswith(f"{language}_")), None)
+            if match and match not in preferred:
+                preferred.append(match)
+        for fallback in ("es_MX", "es_ES", "en_US", "en_GB"):
+            if fallback in dictionaries and fallback not in preferred:
+                preferred.append(fallback)
+        return tuple(preferred)
 
     def _query_words(self, words: list[str]) -> dict[str, SpellResult]:
         if not self._hunspell or not self._dictionary_names:
@@ -172,8 +267,38 @@ class HunspellSpellChecker:
         return SpellResult(True, ())
 
 
+_shared_checker: Optional["SpellChecker"] = None
+
+
+def shared_spell_checker() -> "SpellChecker":
+    """Return the process-wide checker, so every editor shares one service."""
+
+    global _shared_checker
+    if _shared_checker is None:
+        _shared_checker = SpellChecker()
+    return _shared_checker
+
+
+def reset_spell_checking() -> None:
+    """Reload dictionaries and repaint open editors after an install.
+
+    Called after the Dictionary Download Manager closes: a freshly installed
+    dictionary has to become visible without restarting the application.
+    """
+
+    linguistics.reset_shared_service()
+    checker = shared_spell_checker()
+    checker.refresh()
+    app = QApplication.instance()
+    if app is None:
+        return
+    for widget in app.allWidgets():
+        if isinstance(widget, SpellCheckTextEdit):
+            widget.refresh_spellcheck()
+
+
 class SpellCheckHighlighter(QSyntaxHighlighter):
-    def __init__(self, document, checker: HunspellSpellChecker) -> None:
+    def __init__(self, document, checker: SpellChecker) -> None:
         super().__init__(document)
         self._checker = checker
         self._misspelled_format = QTextCharFormat()
@@ -196,11 +321,17 @@ class SpellCheckHighlighter(QSyntaxHighlighter):
 
 
 class SpellCheckTextEdit(QPlainTextEdit):
-    def __init__(self, parent=None, *, checker: HunspellSpellChecker | None = None) -> None:
+    def __init__(self, parent=None, *, checker: SpellChecker | None = None) -> None:
         super().__init__(parent)
-        self._spell_checker = checker or HunspellSpellChecker()
+        self._spell_checker = checker or shared_spell_checker()
         self._spell_highlighter = SpellCheckHighlighter(self.document(), self._spell_checker)
         self._spellcheck_scheme = load_spellcheck_scheme()
+
+    def refresh_spellcheck(self) -> None:
+        """Reload the colour scheme and repaint every block."""
+
+        self._spellcheck_scheme = load_spellcheck_scheme()
+        self._spell_highlighter.rehighlight()
 
     @staticmethod
     def _complementary_color(color: QColor) -> QColor:

@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import QApplication
 
 from .main_window import MainWindow
 from .i18n import load_translation
+from .linguistics import install_toolkit_translations
 from .single_instance import SingleInstanceController
 from .theme import THEME_SYSTEM, init_theme_manager, normalize_theme
 
@@ -135,6 +136,9 @@ def main(argv: list[str] | None = None) -> int:
     stdin_image = sys.stdin.buffer.read() if image_argument == "-" else None
     configured_language = arguments.language or str(QSettings().value("application/language", "")) or None
     load_translation(app, configured_language)
+    # The bundled linguistic toolkit owns the Dictionary Download Manager UI and
+    # ships its own catalogs; installing them keeps that window translated.
+    install_toolkit_translations(app, configured_language)
     if arguments.smoke_test:
         icon_path = Path(__file__).resolve().parent / "icons" / "ksnip.svg"
         icon = QIcon(str(icon_path))
