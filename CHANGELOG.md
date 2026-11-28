@@ -26,6 +26,10 @@
   and installs exactly the models the OCR action loads.
 * Docs: `docs/SPELLCHECK.md`, and `docs/ocr-samples/` with a sample workbook,
   its capture, the OCR result and measured accuracy at two resolutions.
+* Docs: The README documents OCR on Windows from a source checkout (Model
+  Manager, backends, cache, verified versions), spell checking with the
+  Dictionary Download Manager, and the corrected sizes and Python versions
+  (3.11 or 3.12, not 3.13). `docs/WINDOWS_OCR_SETUP.md` was updated to match.
 
 ## ksnip_py 0.2.2 OCR plugin and packaging update - 2026-11-25
 

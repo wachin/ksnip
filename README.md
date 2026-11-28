@@ -77,7 +77,7 @@ from Linux, Windows, and macOS.
 | Operating system | Easiest method | Method for developers |
 | --- | --- | --- |
 | Ubuntu, Debian, MX Linux | [Debian package](#linux-manual) | [System PyQt6](#linux-system-python) or [pip + venv](#linux-pip-venv) |
-| Windows 10 or 11 | [Windows installer](#windows-manual) | [Python 3.12 + venv](#windows-python-venv) |
+| Windows 10 or 11 | [Windows installer](#windows-manual) | [Python + venv](#windows-python-venv) |
 | macOS | [macOS application bundle](#macos-manual) | [Python 3.12 + venv](#macos-python-venv) |
 
 ---
@@ -401,32 +401,36 @@ who need an external OCR script.
 This is a one-time installation. Every later launch is simply the Start-menu
 shortcut; no Python, terminal, virtual environment, or `pip` command is needed.
 
+The packaged build contains the capture and editor features. OCR and spell
+checking are not included, because they need Python packages and dictionaries:
+use the source installation (Option B below) for those.
+
 > [!NOTE]
 > A ZIP portable build is also published. Extract the ZIP and run
 > `ksnip-pyqt6.exe` inside its folder. Do not run an executable directly from
 > inside the ZIP file.
 
-## Windows Option B: Python 3.12 + virtual environment
+## Windows Option B: Python 3.11 or 3.12 + virtual environment
 
 <a id="windows-python-venv"></a>
 
-Use this method for development or when you need pip packages. The recommended
-Python version is **Python 3.12, 64-bit**. Python 3.12 is the version with the
-best compatibility with the optional PaddleOCR packages; Python 3.13 can fail
-when installing PaddlePaddle on Windows.
+Use this method for development, to run from source, or to use the built-in OCR
+on Windows. Install **Python 3.11 or 3.12, 64-bit**: both have Windows wheels for
+PaddlePaddle 3.3.1, while Python 3.13 does not. The steps below work with either
+version.
 
 ### One-time installation
 
 | Step | When to do it |
 | --- | --- |
-| Install Python 3.12, create `.venv`, run `pip install` | One time |
+| Install Python 3.11 or 3.12, create `.venv`, run `pip install` | One time |
 | Activate `.venv` and run `ksnip-pyqt6` | Every time |
 
-#### 1. Install Python 3.12
+#### 1. Install Python 3.11 or 3.12
 
-1. Open <https://www.python.org/downloads/release/python-3120/> or the general
-   Windows download page: <https://www.python.org/downloads/windows/>.
-2. Download **Python 3.12.x — Windows installer (64-bit)**.
+1. Open <https://www.python.org/downloads/windows/>.
+2. Download **Python 3.12.x — Windows installer (64-bit)**, or the 3.11.x
+   installer if you already use that version.
 3. Run the installer.
 4. On the first page, check **Add python.exe to PATH**. This is important.
 5. Click **Install Now** and wait for it to finish.
@@ -436,13 +440,15 @@ when installing PaddlePaddle on Windows.
 Verify the installation:
 
 ```powershell
-py -3.12 --version
+py -0p
 python --version
 ```
 
-Both commands should show a Python 3.12 version. If `python` opens the
-Microsoft Store, use `py -3.12` in the remaining commands, or install Python
-again with the PATH option enabled.
+`py -0p` lists every installed interpreter and marks the default one. The
+`python --version` output must be `3.11.x` or `3.12.x`. If `python` opens the
+Microsoft Store, use `py` in the remaining commands, or install Python again with
+the PATH option enabled. Python 3.13 is not supported for OCR because
+PaddlePaddle 3.3.1 publishes no wheel for it.
 
 #### 2. Get the ksnip_py source
 
@@ -508,6 +514,10 @@ If Windows does not find that command, use the full path:
 .\.venv\Scripts\ksnip-pyqt6.exe
 ```
 
+Steps 4 and 5 are enough to start the application. OCR packages and models are
+installed later from the application itself, as described in
+[OCR on Windows](#ocr-on-windows-works-from-source) below.
+
 ### Every time you want to use it
 
 Open PowerShell and run:
@@ -532,15 +542,73 @@ You can also right-click
 Desktop (create shortcut)**, and launch it from the desktop. The path will
 contain your actual Windows user name instead of `<your-name>`.
 
+### OCR on Windows (works from source)
+
+The built-in PaddleOCR backend works on Windows 10 and Windows 11 when ksnip_py
+runs from a source checkout (Option B above). The Model Manager installs the
+Python packages into that virtual environment and downloads the models, so no
+external script is needed. The packaged `.exe` cannot do this because it ships
+no Python interpreter; there, use an external OCR script instead.
+
+1. Start ksnip_py from the virtual environment.
+2. Open **Options → Model Manager…**.
+3. Install the components you need:
+
+   | Component | Download | What it enables |
+   | --- | --- | --- |
+   | PaddleOCR Line Models (PP-OCRv5) | ~150 MB | Plain text recognition |
+   | PaddleOCR Structure (PP-StructureV3) | ~1.8 GB | Layout analysis and tables as Markdown/HTML |
+   | PaddleOCR Formula Recognition | ~700 MB | Formulas as LaTeX (optional extra for the structure pipeline) |
+
+4. Open **Settings → OCR Text Recognition**, check **Enable OCR actions**, and
+   choose the backend:
+   - **PaddleOCR (plain text)** for text-only recognition;
+   - **PaddleOCR (Markdown tables)** or **PaddleOCR (HTML tables)** to keep the
+     document layout and tables.
+5. Open or capture an image and run **Options → OCR Text Recognition**, or
+   **Options → OCR Text Recognition (tables + Markdown)**.
+
+Notes:
+
+- Models are cached in `%USERPROFILE%\.paddlex\official_models` and reused. Each
+  installed card has an **Open folder** button next to **Reinstall** that shows
+  that folder in File Explorer.
+- The structure download is large (~1.8 GB) and Paddle reports no per-file
+  progress, so the progress bar stays still while it runs. On a slow connection
+  it takes a long time; it is not stuck.
+- If an installation fails, the card shows the reason and a **Show log** button
+  with the complete pip and Paddle output.
+- You can install the packages beforehand with
+  `python -m pip install -e ".[ocr]"`; the Model Manager still downloads the
+  model weights.
+
+Verified on Windows 10 (10.0.19045) with:
+
+| Component | Tested version |
+| --- | --- |
+| Python | 3.11.9, 64-bit |
+| PyQt6 / Qt | 6.10.2 / 6.10.0 |
+| PaddlePaddle | 3.3.1 |
+| PaddleOCR | 3.7.0 |
+| PaddleX | 3.7.2 |
+| Protobuf | 3.20.2 |
+
+The steps and screenshots for the same workflow are also in
+[Windows OCR setup](docs/WINDOWS_OCR_SETUP.md).
+
 ### Optional Windows components
 
-- **OCR:** the easiest route is the separate Windows OCR guide:
-  [Windows OCR setup](docs/WINDOWS_OCR_SETUP.md). It explains how to install
-  Python 3.12, PaddleOCR, a wrapper script, and how to select the script in
-  **Settings → OCR**.
-- **Spell checking:** Hunspell is not bundled with the Windows installer.
-  Without a Hunspell executable and dictionary on `PATH`, the application
-  simply runs without spell checking.
+- **OCR:** the built-in Model Manager described above works from a source
+  checkout. For the packaged build, or to connect an existing PaddleOCR
+  installation, use the external script route in
+  [Windows OCR setup](docs/WINDOWS_OCR_SETUP.md).
+- **Spell checking:** works on Windows from a source checkout through the bundled
+  `pyqt6-linguistic-tools` toolkit. **Options → Dictionary Download Manager…**
+  downloads a validated dictionary (Spanish, English, and 55 more languages)
+  into `%LOCALAPPDATA%\ksnip-pyqt6\dictionaries`. The packaged build and an
+  installed package do not vendor the toolkit, so spell checking there needs a
+  `hunspell` program and dictionary on `PATH`. See
+  [Spell checking](docs/SPELLCHECK.md).
 - **Qt translations:** PyQt6 supplies the Qt runtime. The application's own 41
   language catalogs are included in the repository and package.
 
@@ -566,7 +634,7 @@ exporting existing images.
 ### Windows troubleshooting
 
 - **`python` opens the Microsoft Store**
-  Use `py -3.12` instead, or reinstall Python 3.12 with **Add python.exe to
+  Use `py` instead, or reinstall Python 3.11/3.12 with **Add python.exe to
   PATH** checked.
 
 - **`running scripts is disabled on this system`**
@@ -577,15 +645,22 @@ exporting existing images.
   Activate `.venv` first, or run
   `.\.venv\Scripts\ksnip-pyqt6.exe`.
 
-- **PaddleOCR installation fails**
-  Confirm that you are using 64-bit Python 3.12, not 3.13:
+- **PaddleOCR installation fails in the Model Manager**
+  The card shows the reason and a **Show log** button. The usual causes are a
+  32-bit interpreter or Python 3.13, which has no PaddlePaddle 3.3.1 wheel:
 
   ```powershell
-  py -3.12 -c "import struct; print(struct.calcsize('P') * 8)"
+  python -c "import struct, sys; print(sys.version_info[:2], struct.calcsize('P') * 8)"
   ```
 
-  The result must be `64`. See the
+  The version must be `(3, 11)` or `(3, 12)` and the second value `64`. See the
+  log file at `%LOCALAPPDATA%\ksnip-pyqt6\logs\model-manager.log` and
   [Windows OCR setup](docs/WINDOWS_OCR_SETUP.md).
+
+- **Spell checking does nothing on Windows**
+  Install a dictionary from **Options → Dictionary Download Manager…**. Without
+  one, or from a build that does not vendor the toolkit, the application simply
+  runs without spell checking; see [Spell checking](docs/SPELLCHECK.md).
 
 - **Windows Defender or SmartScreen warns about the installer**
   The installer is not code-signed. Use **More info → Run anyway** only if you
@@ -804,7 +879,8 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 - Multiple image tabs with dirty-state tracking and dynamic window titles.
 - Recent images, containing-directory access, path copying, and Data URI copying.
 - Annotation tools for selection, pen, markers, lines, arrows, shapes, text, numbers, blur, pixelate, stickers, and crop.
-- Inline multiline text editing with re-editing and Hunspell-backed spelling suggestions.
+- Inline multiline text editing with re-editing and spell-checking suggestions
+  (system `hunspell` on Linux and macOS, the bundled toolkit on Windows).
 - Multiple selection, move, resize, duplicate, ordering, copy/paste, undo, and redo.
 - Rotate, scale, crop, and modify-canvas operations.
 - Zoom from 10% to 800% using toolbar controls, keyboard shortcuts, fit-to-window, or `Ctrl` + mouse wheel.
@@ -825,6 +901,9 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 - Complete startup, tray-menu, and OCR modeless-window parity with the C++ application.
 - Exact visual and behavioral parity across every editor control.
 - Automated GUI coverage.
+- Spell checking in the packaged Windows build: the Nuitka build does not bundle
+  `libs/pyqt6-linguistic-tools` yet, so the installed `.exe` has no spell
+  checking and no Dictionary Download Manager. The source installation does.
 
 ## Documentation
 
@@ -840,6 +919,10 @@ See [ROADMAP.md](ROADMAP.md) for the detailed implementation status and referenc
 | Startup and single-instance behavior | [Startup lifecycle parity](docs/STARTUP_LIFECYCLE_PARITY.md) |
 | Building distributions and CI workflows | [GitHub Actions and packaging guide (Spanish)](docs/GITHUB_ACTIONS_PACKAGES_ES.md) |
 | OCR installation on Debian derivatives | [PaddleOCR guide (Spanish)](docs/OCR_PADDLEOCR_ES.md) |
+| OCR on Windows (source checkout) | [Windows OCR setup](docs/WINDOWS_OCR_SETUP.md) |
+| OCR table sample and measured accuracy | [OCR samples (Spanish)](docs/ocr-samples/README.md) |
+| Spell checking and dictionary downloads | [Spell checking](docs/SPELLCHECK.md) |
+| Continuing development (handoff notes) | [AGENT_HANDOFF.md](AGENT_HANDOFF.md) |
 | OCR plugin architecture and Debian packaging rationale | [OCR plugin architecture](docs/OCR_PLUGIN_ARCHITECTURE.md) |
 | Translation review and current catalog gaps | [Translation audit](docs/TRANSLATION_AUDIT.md) |
 | Script uploader verification | [Script uploader tests (Spanish)](docs/PRUEBAS_UPLOADER_SCRIPT_ES.md) |
@@ -1174,14 +1257,20 @@ The canvas supports zoom levels from 10% to 800%:
 4. Press `Ctrl+Enter` to accept or `Esc` to cancel a new text item.
 5. Double-click an existing text item, or use `Edit text`, to edit it again.
 
-Hunspell automatically detects installed dictionaries, underlines misspelled words, and provides replacement suggestions in the context menu.
+Spell checking underlines misspelled words and offers replacement suggestions in
+the context menu. On Linux and macOS it uses the `hunspell` program and the
+dictionaries your system provides; on Windows it uses the bundled
+`pyqt6-linguistic-tools` toolkit and the dictionaries from
+**Options → Dictionary Download Manager…**. See
+[Spell checking](docs/SPELLCHECK.md).
 
 ## Optional OCR
 
 OCR is optional and does not prevent the application from starting when
-PaddleOCR is unavailable. The integrated PaddleOCR backend is validated on the
-reference Linux environment below; a script backend can also be configured in
-Settings.
+PaddleOCR is unavailable. The integrated PaddleOCR backend is validated on Linux
+(the reference environment below) and on Windows 10 from a source checkout; a
+script backend can also be configured in Settings, which is the only option in
+the frozen builds.
 
 ### Model Manager
 
@@ -1194,10 +1283,9 @@ application data directory and reused across sessions.
 | Component | Size | Description |
 | --- | --- | --- |
 | PaddleOCR Line Models | ~150 MB | Text line recognition (80+ languages) |
-| PaddleOCR Structure | ~300 MB | Layout analysis, table recognition, Markdown export |
-| PaddleOCR Formula | ~50 MB | Mathematical formula recognition (LaTeX) |
+| PaddleOCR Structure | ~1.8 GB | Layout analysis, table recognition, Markdown/HTML export |
+| PaddleOCR Formula | ~700 MB | Mathematical formula recognition (LaTeX) |
 | External OCR Script | 0 MB | User-provided script/executable |
-| Spellcheck Dictionaries | ~50 MB | Hunspell dictionaries for text annotations |
 
 Click **Install** next to any component to download and configure it. This
 works from a source checkout. The frozen Windows and macOS artifacts do not
@@ -1205,10 +1293,16 @@ bundle OCR or a Python interpreter: in those builds `sys.executable` is the
 application itself, so the pip-based installer cannot run and the dialog is
 informational. Use a source install or an external OCR script there.
 
-For a complete Windows walkthrough — installing Python 3.12 in PATH, creating a
-dedicated virtual environment, installing PaddleOCR, and connecting a `.bat`
-wrapper to **Settings → OCR → Script** — see
-[Windows OCR setup](docs/WINDOWS_OCR_SETUP.md).
+Every installed card has an **Open folder** button next to **Reinstall** that
+shows the model files in the desktop file manager (File Explorer on Windows).
+The three OCR cards open the Paddle cache, and the external script card opens
+the folder of the configured script. A failed installation shows the reason and a
+**Show log** button with the complete pip and Paddle output.
+
+Windows users should follow the step-by-step
+[OCR on Windows](#ocr-on-windows-works-from-source) section above. The separate
+[Windows OCR setup](docs/WINDOWS_OCR_SETUP.md) guide covers the external script
+route, which is the only one available in the packaged build.
 
 ### Tested Linux OCR environment
 
@@ -1250,6 +1344,9 @@ The requirements file pins Protobuf to the version currently compatible with
 PaddlePaddle. Newer Protobuf releases can make PaddleOCR fail while loading its
 generated descriptors and can then leave `paddle` partially initialized until
 the application is restarted.
+
+`requirements-ocr.txt` is also what **Options → Model Manager…** installs, so
+using either route produces the same environment.
 
 On its first use PaddleOCR downloads its models into the user's PaddleX cache,
 so the initial recognition takes longer and needs network access. Later runs
@@ -1311,13 +1408,15 @@ line examples, and support for a custom environment location are available in
 ```text
 ksnip_py/                Active PyQt6 implementation
 tests_py/                Python test suite
-tools/                   Sticker extraction and translation helper scripts
+tools/                   Sticker extraction, translation and OCR sample helpers
+libs/pyqt6-linguistic-tools/  Vendored linguistic toolkit (git submodule; Windows spell checking)
 debian/                  Native Debian package (Policy 4.7.4.1)
 artwork-sources/         Source sheets used to generate packaged sticker assets
 images/                  UI and behavior reference screenshots
 docs/                    Port documentation and parity audits
 ROADMAP.md               Detailed port status and next work blocks
 CHANGELOG.md             Release history
+AGENT_HANDOFF.md         Context for continuing development (developer notes)
 THIRD_PARTY_LICENSES.md  Licensing of bundled artwork and icons
 pyproject.toml           Python package and executable metadata
 ```
@@ -1344,8 +1443,15 @@ timeout 8s env QT_QPA_PLATFORM=offscreen python3 -m ksnip_py
 ```
 
 The suite covers the canvas, settings, capture helpers, projects, sticker
-selection, upload helpers, translation behavior, and other port infrastructure.
-A clean run is more important than the exact count.
+selection, upload helpers, translation behavior, OCR structure handling, the
+spell-check bridge, menu styling, and other port infrastructure. A clean run is
+more important than the exact count.
+
+On Windows a set of platform-specific tests fail (window geometry, `QSettings`
+round-trips, native dialog translations, symbolic-link discovery); the same
+tests also fail on a clean checkout and are not caused by a change. The exact
+list, and why `python -m unittest discover` reports fewer tests than `pytest`,
+is in [AGENT_HANDOFF.md](AGENT_HANDOFF.md#8-fallos-de-tests-esperados).
 
 ## Port status
 

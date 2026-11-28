@@ -6,6 +6,14 @@ install PaddleOCR into itself. Instead, install Python and PaddleOCR in a
 separate environment and connect them to ksnip-pyqt6 through an **external OCR
 script**.
 
+> **Running from source?** You do not need the wrapper script below. Install
+> Python 3.11 or 3.12, create the project virtual environment, and use
+> **Options → Model Manager…**, which installs the packages and downloads the
+> models into that environment. The README section
+> [OCR on Windows](../README.md#ocr-on-windows-works-from-source) is the shorter
+> path; this guide stays useful for the packaged build and for connecting an
+> existing PaddleOCR installation.
+
 > **Important — what Model Manager will show**
 >
 > In the packaged build, the **External OCR Script** card shows as installed
@@ -21,20 +29,21 @@ script**.
 ## Requirements
 
 - Windows 10 or Windows 11, 64-bit.
-- **Python 3.12.x, 64-bit**. Do not use Python 3.13: PaddlePaddle 3.3.1
-  publishes Windows wheels for Python 3.12, not 3.13.
-- About 2 GB of free disk space (Python, PaddlePaddle, dependencies and the
-  first model download).
+- **Python 3.11 or 3.12, 64-bit**. Do not use Python 3.13: PaddlePaddle 3.3.1
+  publishes Windows wheels for 3.11 and 3.12, not for 3.13.
+- About 5 GB of free disk space if you also install the structure models
+  (Python, PaddlePaddle, dependencies and the model downloads).
 - An internet connection for the first OCR run, when PaddleOCR downloads its
   models.
 - Microsoft Visual C++ Redistributable 2015–2022 (x64). Most Windows 10/11
   installations already have it; if Paddle fails with a missing `msvcp140.dll`,
   install it from Microsoft.
 
-## 1. Install Python 3.12 with PATH
+## 1. Install Python 3.11 or 3.12 with PATH
 
 1. Open <https://www.python.org/downloads/windows/>.
-2. Download **Python 3.12.x — Windows installer (64-bit)**.
+2. Download **Python 3.12.x — Windows installer (64-bit)**, or the 3.11.x
+   installer if you already use that version.
 3. Run the installer.
 4. On the first page:
    - check **Add python.exe to PATH**;
@@ -44,13 +53,13 @@ script**.
    already open) and verify:
 
 ```powershell
-py -3.12 --version
+py -0p
 python --version
 ```
 
-Both should print a Python 3.12 version. If `python` opens the Microsoft Store
-instead, see [Troubleshooting](#troubleshooting) and use `py -3.12` for the
-rest of this guide.
+`py -0p` lists the installed interpreters; `python --version` must print 3.11 or
+3.12. If `python` opens the Microsoft Store instead, see
+[Troubleshooting](#troubleshooting) and use `py` for the rest of this guide.
 
 ## 2. Create a dedicated virtual environment
 
@@ -61,14 +70,14 @@ Use a folder under your user profile; it does not need administrator rights.
 ```powershell
 $root = Join-Path $env:LOCALAPPDATA "ksnip-pyqt6"
 New-Item -ItemType Directory -Force -Path $root | Out-Null
-py -3.12 -m venv (Join-Path $root "ocr-venv")
+py -m venv (Join-Path $root "ocr-venv")
 ```
 
 ### Command Prompt (cmd.exe)
 
 ```bat
 mkdir "%LOCALAPPDATA%\ksnip-pyqt6"
-py -3.12 -m venv "%LOCALAPPDATA%\ksnip-pyqt6\ocr-venv"
+py -m venv "%LOCALAPPDATA%\ksnip-pyqt6\ocr-venv"
 ```
 
 From here on, use the virtual environment's Python directly. This avoids
@@ -106,7 +115,7 @@ This downloads several hundred megabytes. Run it once and let it finish.
 ```
 
 If `pip` stops with `No matching distribution found for paddlepaddle`, confirm
-that you are using **64-bit Python 3.12**:
+that you are using **64-bit Python 3.11 or 3.12**:
 
 ```powershell
 & $py -c "import platform, struct; print(platform.python_version(), platform.architecture(), struct.calcsize('P') * 8)"
@@ -316,7 +325,8 @@ interpreter running the application. Check the version with:
 python -c "import sys; print(sys.version)"
 ```
 
-Python 3.12 is the tested interpreter for `paddlepaddle==3.3.1` on Windows.
+Python 3.11 and 3.12 both have `paddlepaddle==3.3.1` wheels on Windows; 3.13
+does not. Python 3.11.9 is the version this guide was last verified with.
 
 ## Troubleshooting
 
@@ -324,17 +334,17 @@ Python 3.12 is the tested interpreter for `paddlepaddle==3.3.1` on Windows.
 
 - Reopen PowerShell after installing Python; PATH changes are only visible in
   new terminals.
-- Use `py -3.12` instead of `python`.
+- Use `py` instead of `python`.
 - To stop the Store alias: **Settings → Apps → Advanced app settings → App
   execution aliases**, and turn off `python.exe` and `python3.exe`.
 
 ### `No matching distribution found for paddlepaddle`
 
-- Confirm 64-bit Python 3.12, as shown in step 3.
+- Confirm 64-bit Python 3.11 or 3.12, as shown in step 3.
 - Make sure the command uses the virtual environment's `python.exe`, not a
   different Python.
 - Python 3.13 is not supported by the PaddlePaddle 3.3.1 Windows wheel; create
-  the venv with `py -3.12`.
+  the venv with `py` and a supported Python.
 
 ### `DLL load failed` or `msvcp140.dll` is missing
 
@@ -398,7 +408,7 @@ Remove-Item -Recurse -Force "$env:USERPROFILE\.paddlex"
 Remove-Item -Recurse -Force "$env:USERPROFILE\.paddleocr"
 ```
 
-3. Uninstall Python 3.12 if you no longer need it.
+3. Uninstall the Python version you installed if you no longer need it.
 
 ## Security notes
 

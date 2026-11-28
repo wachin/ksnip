@@ -238,6 +238,13 @@ que el estilo envuelto sí pinta el atajo, y que el repliegue no duplica.
    quiere soportar, es otro caso de `TOOLKIT_PLATFORMS`.
 5. **Opcional**: exponer palabras personales/ignoradas del toolkit en el editor,
    menú de tesauro, y hacer traducible el contenido del About.
+6. **Empaquetar el toolkit en el build de Windows (Nuitka)**: hoy
+   `packaging/scripts/build-windows-portable.ps1` no incluye `libs/`, así que el
+   `.exe` instalado no tiene corrección ortográfica ni gestor de diccionarios
+   (solo el checkout de fuentes). Añadir `libs/pyqt6-linguistic-tools` con
+   `--include-data-dir` (y comprobar que `linguistics.repository_root()` lo
+   encuentra en el standalone) cerraría ese hueco. Está anotado como *known gap*
+   en el README.
 
 ## 6. Verificación hecha en Windows (evidencia)
 
