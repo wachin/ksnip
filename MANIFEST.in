@@ -1,2 +1,4 @@
 # Local scratch notes kept in the repository, not part of the release.
 exclude latest-agent.md
+# Developer handoff notes, also kept out of the release artifacts.
+exclude AGENT_HANDOFF.md
