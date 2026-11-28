@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <title>Open image</title>
+  <path d="M7.2 2.8H13.6L18 7.2V20.2A1.1 1.1 0 0 1 16.9 21.3H7.2A1.1 1.1 0 0 1 6.1 20.2V3.9A1.1 1.1 0 0 1 7.2 2.8Z"
+        fill="none" stroke="#4d4d4d" stroke-width="1.9" stroke-linejoin="round"/>
+  <path d="M13.4 2.9V7.4H17.9"
+        fill="none" stroke="#4d4d4d" stroke-width="1.9" stroke-linejoin="round"/>
+  <circle cx="9.7" cy="11.8" r="1.35" fill="#4d4d4d"/>
+  <path d="M7.5 18.1 10.5 14.2 12.5 16.6 14.1 14.6 16.7 18.1Z" fill="#4d4d4d"/>
+</svg>

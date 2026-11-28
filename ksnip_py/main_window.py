@@ -277,9 +277,17 @@ class MainWindow(QMainWindow):
         return window_color.lightness() < 128
 
     def _icon_tint_colors(self) -> tuple[QColor | None, QColor]:
-        if self._use_dark_icons():
-            return None, QColor("#5c5c5c")
-        return QColor("#111214"), QColor("#cccccc")
+        """Return the (enabled, disabled) tint used for icons that come from Qt.
+
+        Enabled icons keep their own colours on purpose: forcing a single colour
+        turned the multi-colour system icons (print, print preview, quit) into
+        solid silhouettes, which looked like a black shape covering the glyph in
+        the light theme. Only the disabled state is tinted, so it matches the
+        disabled menu text.
+        """
+
+        disabled = QColor("#5c5c5c") if self._use_dark_icons() else QColor("#cccccc")
+        return None, disabled
 
     def _load_icon(self, name: str) -> QIcon:
         base_path = self._icon_base_path()
@@ -848,7 +856,7 @@ class MainWindow(QMainWindow):
         )
         self.capture_cursor_arrow_action.toggled.connect(self._set_capture_cursor_arrow)
 
-        self.open_action = QAction(self._standard_icon(QStyle.StandardPixmap.SP_DialogOpenButton), self.tr("Open"), self)
+        self.open_action = QAction(self._themed_icon("document-open", "open"), self.tr("Open"), self)
         self.open_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.open_action.setShortcut(QKeySequence.StandardKey.Open)
         self.open_action.triggered.connect(self.open_image)

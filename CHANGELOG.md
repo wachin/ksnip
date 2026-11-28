@@ -19,6 +19,17 @@
   open the Paddle cache (`~/.paddlex/official_models`, or `~/.paddleocr` when
   only the legacy folder exists) and the external script card opens the folder
   of the configured script.
+* Fixed: **Open** used the style's standard icon, which the light theme tinted to
+  a solid dark silhouette (a black blob). It now ships its own icon in both
+  themes, `icons/light/open.svg` and `icons/dark/open.svg`.
+* Fixed: Enabled icons are no longer tinted. Only the disabled state keeps the
+  theme tint, so multi-colour system icons such as Print, Print Preview and Quit
+  are readable instead of becoming flat silhouettes.
+* Fixed: The dark Wayland icon drew a white glyph on a light disc, which read as
+  a plain circle; the glyph is dark again. The dark cursor-capture icons were
+  recoloured to match the rest of the set.
+* New: `tools/render_icon_sheets.py` renders both icon sets at toolbar size on
+  their theme backgrounds, for reviewing new or edited icons.
 * Fixed: The Model Manager reports the real pip or Paddle failure, keeps a log
   at `<appdata>/ksnip-pyqt6/logs/model-manager.log` and offers a Show log
   button instead of a generic "installation failed".
