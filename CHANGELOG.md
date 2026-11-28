@@ -1,5 +1,27 @@
 # Change log
 
+## Unreleased
+
+### Spell checking, dictionary manager and menu fixes
+
+* New: Spell checking in text annotations uses the bundled
+  `pyqt6-linguistic-tools` toolkit on Windows, with verified dictionary
+  downloads from **Options → Dictionary Download Manager…**.
+* New: On Linux and macOS spell checking keeps using the system `hunspell`
+  program, even when the toolkit submodule is present.
+* New: The dictionary manager shows the toolkit About window with the project
+  credits and its own window icon.
+* Fixed: Menu shortcut labels were drawn twice under the "system" theme, where
+  the native style draws the shortcut itself and the menu repainted it. The
+  repaint now happens only when the wrapped style removed the label.
+* Fixed: The Model Manager reports the real pip or Paddle failure, keeps a log
+  at `<appdata>/ksnip-pyqt6/logs/model-manager.log` and offers a Show log
+  button instead of a generic "installation failed".
+* New: The PaddleOCR Structure card announces the real download size (~1.8 GB)
+  and installs exactly the models the OCR action loads.
+* Docs: `docs/SPELLCHECK.md`, and `docs/ocr-samples/` with a sample workbook,
+  its capture, the OCR result and measured accuracy at two resolutions.
+
 ## ksnip_py 0.2.2 OCR plugin and packaging update - 2026-11-25
 
 ### Core OCR fixes and plugin architecture

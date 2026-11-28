@@ -10,10 +10,14 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import pytest
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QAction, QColor, QIcon, QPainter, QPalette, QPixmap
+from PyQt6.QtGui import QAction, QColor, QIcon, QKeySequence, QPainter, QPalette, QPixmap
 from PyQt6.QtWidgets import QApplication, QMenu, QProxyStyle, QStyle, QStyleFactory, QStyleOptionMenuItem
 
-from ksnip_py.menu_style import SolidDisabledMenuStyle
+from ksnip_py.menu_style import (
+    SolidDisabledMenuStyle,
+    SolidMenu,
+    enabled_shortcut_color,
+)
 
 GRAY = QColor("#5c5c5c")
 TOL = 3
@@ -34,6 +38,18 @@ class _EtchedDisabledStyle(QProxyStyle):
             painter.setFont(option.font)
             painter.drawText(option.rect.adjusted(37, 1, 0, 1), int(Qt.AlignmentFlag.AlignVCenter), option.text)
             painter.restore()
+        super().drawControl(element, option, painter, widget)
+
+
+class _FloodBackgroundStyle(QProxyStyle):
+    """Base style that fills the whole item, defeating the alpha-buffer path."""
+
+    def drawControl(self, element, option, painter, widget=None):  # noqa: N802
+        if (
+            element == QStyle.ControlElement.CE_MenuItem
+            and isinstance(option, QStyleOptionMenuItem)
+        ):
+            painter.fillRect(option.rect, QColor("#1e1e1e"))
         super().drawControl(element, option, painter, widget)
 
 
@@ -122,3 +138,80 @@ def test_enabled_items_are_unchanged(app):
     for y in range(rect.top(), rect.bottom() + 1):
         for x in range(rect.left(), rect.right() + 1):
             assert ref.pixel(x, y) == new.pixel(x, y)
+
+
+def _shortcut_menu(app, menu_class, style):
+    """Render one enabled item with a shortcut and return its image and rect."""
+
+    app.setStyle(style)
+    _dark(app)
+    menu = menu_class()
+    action = QAction("Open", menu)
+    action.setShortcut(QKeySequence("Ctrl+Shift+S"))
+    menu.addAction(action)
+    menu.ensurePolished()
+    menu.resize(menu.sizeHint())
+    menu.show()
+    app.processEvents()
+    image = menu.grab().toImage()
+    rect = menu.actionGeometry(action)
+    menu.close()
+    return image, rect
+
+
+def _text_pixels(image, rect):
+    count = 0
+    for y in range(rect.top(), rect.bottom() + 1):
+        for x in range(rect.left(), rect.right() + 1):
+            if QColor(image.pixel(x, y)).lightness() > 128:
+                count += 1
+    return count
+
+
+def test_shortcut_repaint_only_happens_for_the_wrapped_style(app):
+    """The repaint is what avoids a duplicate label under the native style."""
+
+    assert enabled_shortcut_color(QStyleFactory.create("Fusion")) is None
+    assert enabled_shortcut_color(SolidDisabledMenuStyle(QStyleFactory.create("Fusion"))) is None
+    colored = SolidDisabledMenuStyle(
+        QStyleFactory.create("Fusion"), enabled_color=QColor("#111214")
+    )
+    color = enabled_shortcut_color(colored)
+    assert color is not None and color.name() == "#111214"
+
+
+@pytest.mark.parametrize("name", [n for n in ("Windows", "Fusion") if n in QStyleFactory.keys()])
+def test_native_style_draws_the_shortcut_once(app, name):
+    """SolidMenu must not add a second label when the style paints it already."""
+
+    plain, rect_plain = _shortcut_menu(app, QMenu, QStyleFactory.create(name))
+    solid, rect_solid = _shortcut_menu(app, SolidMenu, QStyleFactory.create(name))
+    assert plain.size() == solid.size() and rect_plain == rect_solid
+    assert _text_pixels(plain, rect_plain) == _text_pixels(solid, rect_solid)
+
+
+def test_wrapped_style_still_paints_the_shortcut(app):
+    """The enabled-color path relies on SolidMenu drawing the label it stripped."""
+
+    plain, rect_plain = _shortcut_menu(
+        app, QMenu, SolidDisabledMenuStyle(QStyleFactory.create("Fusion"), enabled_color=QColor("#f2f2f2"))
+    )
+    solid, rect_solid = _shortcut_menu(
+        app, SolidMenu, SolidDisabledMenuStyle(QStyleFactory.create("Fusion"), enabled_color=QColor("#f2f2f2"))
+    )
+    assert _text_pixels(plain, rect_plain) < _text_pixels(solid, rect_solid)
+
+
+def test_style_fallback_does_not_duplicate_the_shortcut(app):
+    """When the buffer cannot be recoloured the base style keeps the label."""
+
+    style = SolidDisabledMenuStyle(
+        _FloodBackgroundStyle(QStyleFactory.create("Fusion")),
+        enabled_color=QColor("#f2f2f2"),
+    )
+    plain, rect_plain = _shortcut_menu(app, QMenu, SolidDisabledMenuStyle(
+        _FloodBackgroundStyle(QStyleFactory.create("Fusion")),
+        enabled_color=QColor("#f2f2f2"),
+    ))
+    solid, rect_solid = _shortcut_menu(app, SolidMenu, style)
+    assert _text_pixels(plain, rect_plain) == _text_pixels(solid, rect_solid)

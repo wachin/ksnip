@@ -15,8 +15,15 @@ everything the item draws; that shape is filled with one solid colour and
 blitted.  Result: text, shortcut, arrow, check mark and icon are all #5c5c5c,
 with no etching, dithering or opacity, whatever the base style does.
 
-Enabled items, separators, scrollers, tear-offs, menu bars, toolbars and every
-other control are delegated untouched to the base style.
+Enabled items are delegated untouched *unless* an enabled colour is configured,
+which the light and dark themes do. In that case the same buffer-and-tint pass
+runs for them, the shortcut label is removed from the buffered item, and
+``SolidMenu`` draws it once in the enabled colour. Under the native style (the
+"system" theme) that pass does not run: the base style draws the label itself,
+so ``SolidMenu`` must not add a second copy.
+
+Separators, scrollers, tear-offs, menu bars, toolbars and every other control
+are delegated untouched to the base style.
 """
 
 from __future__ import annotations
@@ -58,6 +65,32 @@ class SolidDisabledMenuStyle(QProxyStyle):
         self._enabled_color = (
             QColor(enabled_color) if enabled_color is not None else None
         )
+        # Items whose enabled shortcut this style left in the base style's hands
+        # because the alpha buffer could not be recoloured.
+        self._native_shortcut_rects: set[tuple[int, int, int, int]] = set()
+
+    @property
+    def enabled_color(self) -> QColor | None:
+        """Colour :class:`SolidMenu` must repaint enabled shortcuts with."""
+
+        if self._enabled_color is None:
+            return None
+        return QColor(self._enabled_color)
+
+    def begin_menu_paint(self) -> None:
+        """Forget the previous paint pass, before the menu draws its items."""
+
+        self._native_shortcut_rects.clear()
+
+    def drew_native_shortcut(self, rect: QRect) -> bool:
+        """Whether the base style already drew this item's shortcut itself."""
+
+        return (
+            rect.x(),
+            rect.y(),
+            rect.width(),
+            rect.height(),
+        ) in self._native_shortcut_rects
 
     def drawControl(self, element, option, painter, widget=None):  # noqa: N802
         if (
@@ -77,6 +110,17 @@ class SolidDisabledMenuStyle(QProxyStyle):
                 option, painter, widget, color
             ):
                 return
+            # The base style keeps the shortcut in its own hands here; tell
+            # SolidMenu not to paint a second copy.
+            if (
+                color is not None
+                and option.state & QStyle.StateFlag.State_Enabled
+                and "\t" in option.text
+            ):
+                rect = option.rect
+                self._native_shortcut_rects.add(
+                    (rect.x(), rect.y(), rect.width(), rect.height())
+                )
         super().drawControl(element, option, painter, widget)
 
     def _draw_solid_item(
@@ -154,6 +198,21 @@ class SolidDisabledMenuStyle(QProxyStyle):
         return 0.0 if not data else sum(1 for b in data if b > 128) / len(data)
 
 
+def enabled_shortcut_color(style: QStyle) -> QColor | None:
+    """Return the colour :class:`SolidMenu` must repaint shortcuts with.
+
+    Only :class:`SolidDisabledMenuStyle` removes the enabled shortcut from the
+    buffered item, so only that case needs a repaint.  Any other style (the
+    native platform style used by the "system" theme, for example) draws the
+    shortcut itself from the tabbed item text; repainting it again would leave
+    two labels on top of each other.
+    """
+
+    if not isinstance(style, SolidDisabledMenuStyle):
+        return None
+    return style.enabled_color
+
+
 class SolidMenu(QMenu):
     """QMenu that paints enabled shortcut labels in the enabled text color.
 
@@ -161,13 +220,22 @@ class SolidMenu(QMenu):
     disabled-menu style removes that shortcut from its buffered item; this
     subclass draws it once in the enabled color. Disabled shortcuts stay in
     the buffered item and keep the theme's disabled gray.
+
+    The repaint only happens when :class:`SolidDisabledMenuStyle` is active with
+    an enabled color, because that is the only situation where the shortcut was
+    removed from the item. Under the native style ("system" theme on Windows)
+    the style already draws it, and a second pass duplicates the label.
     """
 
     def paintEvent(self, event):  # noqa: N802
+        style = self.style()
+        if isinstance(style, SolidDisabledMenuStyle):
+            style.begin_menu_paint()
         super().paintEvent(event)
-        color = self.palette().color(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.WindowText
-        )
+
+        color = enabled_shortcut_color(style)
+        if color is None:
+            return
         painter = QPainter(self)
         painter.setFont(self.font())
         painter.setPen(color)
@@ -188,7 +256,10 @@ class SolidMenu(QMenu):
             if not shortcut:
                 continue
             rect = self.actionGeometry(action)
-            if rect.isNull():
+            if rect.isNull() or (
+                isinstance(style, SolidDisabledMenuStyle)
+                and style.drew_native_shortcut(rect)
+            ):
                 continue
             width = metrics.horizontalAdvance(shortcut)
             x = self.width() - 10 - width
