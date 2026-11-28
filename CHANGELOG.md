@@ -22,6 +22,16 @@
 * Fixed: **Open** used the style's standard icon, which the light theme tinted to
   a solid dark silhouette (a black blob). It now ships its own icon in both
   themes, `icons/light/open.svg` and `icons/dark/open.svg`.
+* Fixed: Menu items that carry an icon were flattened to a solid silhouette by
+  the enabled-item tint, so two-colour icons such as the dictionary manager or
+  the cursor lost their colours. The base style now draws enabled items that have
+  an icon, and only icon-less items keep the tinted text and shortcut.
+* New: **Include Mouse Cursor** (`File → New Screenshot`) has its own icon in
+  both themes, `icons/*/includeCursor.svg`: a capture frame with the pointer
+  inside it.
+* New: **Dictionary Download Manager…** uses the toolkit's application icon,
+  adapted per theme as `icons/light/pyqt6_linguistic_tools.svg` and
+  `icons/dark/pyqt6_linguistic_tools.svg`.
 * Fixed: Enabled icons are no longer tinted. Only the disabled state keeps the
   theme tint, so multi-colour system icons such as Print, Print Preview and Quit
   are readable instead of becoming flat silhouettes.

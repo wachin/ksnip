@@ -102,21 +102,27 @@ class SolidDisabledMenuStyle(QProxyStyle):
             and option.rect.width() > 0
             and option.rect.height() > 0
         ):
-            if option.state & QStyle.StateFlag.State_Enabled:
-                color = self._enabled_color
-            else:
-                color = self._color
+            enabled = bool(option.state & QStyle.StateFlag.State_Enabled)
+            color = self._enabled_color if enabled else self._color
+            if color is not None and enabled and not option.icon.isNull():
+                # Tinting flattens the whole item, icon included. Let the base
+                # style draw enabled items that carry an icon, so the icon keeps
+                # its colours; the base style also draws their shortcut, which
+                # SolidMenu must not repeat.
+                if "\t" in option.text:
+                    rect = option.rect
+                    self._native_shortcut_rects.add(
+                        (rect.x(), rect.y(), rect.width(), rect.height())
+                    )
+                super().drawControl(element, option, painter, widget)
+                return
             if color is not None and self._draw_solid_item(
                 option, painter, widget, color
             ):
                 return
             # The base style keeps the shortcut in its own hands here; tell
             # SolidMenu not to paint a second copy.
-            if (
-                color is not None
-                and option.state & QStyle.StateFlag.State_Enabled
-                and "\t" in option.text
-            ):
+            if color is not None and enabled and "\t" in option.text:
                 rect = option.rect
                 self._native_shortcut_rects.add(
                     (rect.x(), rect.y(), rect.width(), rect.height())

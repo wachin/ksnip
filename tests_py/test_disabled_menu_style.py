@@ -215,3 +215,43 @@ def test_style_fallback_does_not_duplicate_the_shortcut(app):
     ))
     solid, rect_solid = _shortcut_menu(app, SolidMenu, style)
     assert _text_pixels(plain, rect_plain) == _text_pixels(solid, rect_solid)
+
+
+def test_enabled_items_with_an_icon_keep_the_icon_colours(app, tmp_path):
+    """Tinting the whole item used to flatten the icon into a silhouette."""
+
+    icon_path = tmp_path / "teal.svg"
+    icon_path.write_text(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">'
+        '<rect x="2" y="2" width="20" height="20" rx="5" fill="#0f766e"/></svg>',
+        encoding="utf-8",
+    )
+    app.setStyle(
+        SolidDisabledMenuStyle(
+            QStyleFactory.create("Fusion"), enabled_color=QColor("#111214")
+        )
+    )
+    _dark(app)
+    menu = QMenu()
+    action = QAction(QIcon(str(icon_path)), "Open", menu)
+    action.setShortcut(QKeySequence("Ctrl+O"))
+    menu.addAction(action)
+    menu.ensurePolished()
+    menu.resize(menu.sizeHint())
+    menu.show()
+    app.processEvents()
+
+    image = menu.grab().toImage()
+    rect = menu.actionGeometry(action)
+    teal = 0
+    for y in range(rect.top(), rect.bottom() + 1):
+        for x in range(rect.left(), rect.right() + 1):
+            colour = QColor(image.pixel(x, y))
+            if (
+                abs(colour.red() - 0x0F) < 26
+                and abs(colour.green() - 0x76) < 26
+                and abs(colour.blue() - 0x6E) < 26
+            ):
+                teal += 1
+    menu.close()
+    assert teal > 10, "the menu icon was flattened by the enabled item tint"

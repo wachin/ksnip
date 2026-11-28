@@ -841,7 +841,7 @@ class MainWindow(QMainWindow):
         self.new_capture_portal_action = QAction(self._load_icon("wayland"), self.tr("Portal"), self)
         self.new_capture_portal_action.setShortcutContext(Qt.ShortcutContext.ApplicationShortcut)
         self.new_capture_portal_action.triggered.connect(self.capture_portal)
-        self.capture_cursor_action = QAction(self.tr("Include Mouse Cursor"), self)
+        self.capture_cursor_action = QAction(self._load_icon("includeCursor"), self.tr("Include Mouse Cursor"), self)
         self.capture_cursor_action.setCheckable(True)
         self.capture_cursor_action.setChecked(self._setting_bool("capture/include_cursor", False))
         self.capture_cursor_action.setToolTip(
@@ -1145,7 +1145,7 @@ class MainWindow(QMainWindow):
         self.model_manager_action.triggered.connect(self.open_model_manager)
 
         self.dictionaries_action = QAction(
-            self._themed_icon("accessories-dictionary", "model_manager"),
+            self._load_icon("pyqt6_linguistic_tools"),
             self.tr("Dictionary Download Manager…"),
             self,
         )

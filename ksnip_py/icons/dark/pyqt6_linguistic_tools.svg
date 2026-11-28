@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>PyQt6 Linguistic Tools</title>
+  <defs>
+    <linearGradient id="linguisticDarkBg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#14B8A6"/>
+      <stop offset="1" stop-color="#0F766E"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#linguisticDarkBg)"/>
+  <rect x="11" y="12" width="42" height="33" rx="9" fill="#F1F5F9"/>
+  <path d="M21 44.5 21 55.5 32 44.5z" fill="#F1F5F9"/>
+  <path d="M18.5 22h27" stroke="#0F766E" stroke-width="4.2" stroke-linecap="round"/>
+  <path d="M18.5 32.5q4-3.2 8 0t8 0t8 0t8 0" fill="none" stroke="#DC2626" stroke-width="3.2" stroke-linecap="round"/>
+</svg>
