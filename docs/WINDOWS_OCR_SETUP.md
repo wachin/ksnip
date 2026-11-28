@@ -292,6 +292,8 @@ the structure step can take a long time; it is not stuck.
 Downloaded weights are cached in `%USERPROFILE%\.paddlex\official_models` and
 reused later, so retrying the same card does not download them again. A failed
 attempt keeps whatever finished, and the next attempt continues from there.
+Every installed card has an **Open folder** button that shows that cache in
+File Explorer, next to **Reinstall**.
 
 ### When a card says "Installation failed"
 

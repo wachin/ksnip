@@ -14,6 +14,11 @@
 * Fixed: Menu shortcut labels were drawn twice under the "system" theme, where
   the native style draws the shortcut itself and the menu repainted it. The
   repaint now happens only when the wrapped style removed the label.
+* New: Each installed model card has an **Open folder** button that shows the
+  model files in the desktop file manager (Explorer on Windows). The OCR cards
+  open the Paddle cache (`~/.paddlex/official_models`, or `~/.paddleocr` when
+  only the legacy folder exists) and the external script card opens the folder
+  of the configured script.
 * Fixed: The Model Manager reports the real pip or Paddle failure, keeps a log
   at `<appdata>/ksnip-pyqt6/logs/model-manager.log` and offers a Show log
   button instead of a generic "installation failed".

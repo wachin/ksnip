@@ -79,6 +79,24 @@ def _append_log(log_path: Optional[Path], text: str) -> None:
         pass
 
 
+def open_in_file_manager(path: Optional[Path]) -> bool:
+    """Open *path* in the desktop file manager (Explorer, Nautilus, Finder).
+
+    Returns whether a request was issued. A missing directory is not an error the
+    caller has to guess about: it simply returns ``False``.
+    """
+
+    if path is None:
+        return False
+    try:
+        resolved = Path(path).expanduser()
+        if not resolved.is_dir():
+            return False
+        return bool(QDesktopServices.openUrl(QUrl.fromLocalFile(str(resolved))))
+    except OSError:
+        return False
+
+
 class ModelInfo:
     """Information about a downloadable model/component."""
 
@@ -91,6 +109,7 @@ class ModelInfo:
         check_installed: Callable[[], bool],
         install_action: Callable[[Callable[[int], None], Callable[[str], None]], bool],
         category: str = "OCR",
+        folder: Optional[Callable[[], Optional[Path]]] = None,
     ):
         self.id = id
         self.name = name
@@ -99,6 +118,9 @@ class ModelInfo:
         self.check_installed = check_installed
         self.install_action = install_action
         self.category = category
+        # Where the model files live, so the card can open that folder. Resolved
+        # on every call because the folder may appear after an installation.
+        self.folder = folder
 
 
 class CheckModelsWorker(QThread):
@@ -290,6 +312,30 @@ class ModelCard(QWidget):
         self.remove_btn.setVisible(False)
         button_layout.addWidget(self.remove_btn)
 
+        self.folder_btn = QPushButton(self.tr("Open folder"))
+        self.folder_btn.setFixedWidth(120)
+        self.folder_btn.setStyleSheet("""
+            QPushButton {
+                background-color: palette(button);
+                color: palette(button-text);
+                border: 1px solid palette(mid);
+                border-radius: 5px;
+                padding: 6px 12px;
+            }
+            QPushButton:hover {
+                background-color: palette(mid);
+            }
+            QPushButton:disabled {
+                color: palette(mid);
+            }
+        """)
+        self.folder_btn.setToolTip(
+            self.tr("Show the model files in the file manager.")
+        )
+        self.folder_btn.clicked.connect(self._on_open_folder_clicked)
+        self.folder_btn.setVisible(False)
+        button_layout.addWidget(self.folder_btn)
+
         self.log_btn = QPushButton(self.tr("Show log"))
         self.log_btn.setFixedWidth(110)
         self.log_btn.setStyleSheet("""
@@ -317,6 +363,7 @@ class ModelCard(QWidget):
         """Called asynchronously when background check completes."""
         self.status_label.setToolTip("")
         self.log_btn.setVisible(False)
+        self._sync_folder_button(installed)
         if installed:
             self.install_btn.setText(self.tr("Reinstall"))
             self.remove_btn.setVisible(True)
@@ -328,6 +375,42 @@ class ModelCard(QWidget):
             self.status_label.setText(self.tr("Not installed"))
             self.status_label.setStyleSheet("color: palette(mid); font-size: 11px;")
 
+    def _folder_path(self) -> Optional[Path]:
+        """Resolve the model folder now; it may appear after an install."""
+
+        if self._model.folder is None:
+            return None
+        try:
+            return self._model.folder()
+        except Exception:  # noqa: BLE001 - a broken path must not break the card
+            return None
+
+    def _sync_folder_button(self, installed: bool) -> None:
+        """Show the folder button only when the model is installed."""
+
+        path = self._folder_path() if installed else None
+        visible = path is not None and path.is_dir()
+        self.folder_btn.setVisible(visible)
+        if not visible:
+            return
+        self.folder_btn.setToolTip(
+            self.tr("Show the model files in the file manager: %1").replace(
+                "%1", str(path)
+            )
+        )
+
+    def _on_open_folder_clicked(self) -> None:
+        path = self._folder_path()
+        if open_in_file_manager(path):
+            return
+        QMessageBox.information(
+            self,
+            self.tr("Open model folder"),
+            self.tr("The folder does not exist yet: %1").replace(
+                "%1", str(path) if path is not None else ""
+            ),
+        )
+
     def _on_install_clicked(self) -> None:
         if self._worker and self._worker.isRunning():
             return
@@ -335,6 +418,7 @@ class ModelCard(QWidget):
         self.install_btn.setEnabled(False)
         self.remove_btn.setEnabled(False)
         self.log_btn.setVisible(False)
+        self.folder_btn.setVisible(False)
         self.status_label.setToolTip("")
         self.progress_bar.setVisible(True)
         self.progress_bar.setValue(0)
@@ -383,7 +467,9 @@ class ModelCard(QWidget):
             self.status_label.setStyleSheet("color: palette(text); font-size: 11px; font-weight: bold;")
             self.install_btn.setText(self.tr("Reinstall"))
             self.remove_btn.setVisible(True)
+            self._sync_folder_button(True)
         else:
+            self.folder_btn.setVisible(False)
             message = (self._errors.get(model_id) or "").strip()
             summary = message.splitlines()[0] if message else ""
             if len(summary) > 120:
@@ -549,6 +635,7 @@ class DownloadManagerDialog(QDialog):
             check_installed=self._check_paddleocr_line,
             install_action=self._install_paddleocr_line,
             category=self.tr("OCR"),
+            folder=self._paddle_models_directory,
         ))
 
         # PaddleOCR Structure (tables + layout)
@@ -563,6 +650,7 @@ class DownloadManagerDialog(QDialog):
             check_installed=self._check_paddleocr_structure,
             install_action=self._install_paddleocr_structure,
             category=self.tr("OCR"),
+            folder=self._paddle_models_directory,
         ))
 
         # PaddleOCR Formula recognition
@@ -577,6 +665,7 @@ class DownloadManagerDialog(QDialog):
             check_installed=self._check_paddleocr_formula,
             install_action=self._install_paddleocr_formula,
             category=self.tr("OCR"),
+            folder=self._paddle_models_directory,
         ))
 
         # External OCR script
@@ -599,6 +688,7 @@ class DownloadManagerDialog(QDialog):
             check_installed=self._check_external_script,
             install_action=self._install_external_script,
             category=self.tr("OCR"),
+            folder=self._external_script_directory,
         ))
 
         return models
@@ -608,6 +698,34 @@ class DownloadManagerDialog(QDialog):
     @staticmethod
     def _is_package_installed(pkg_name: str) -> bool:
         return importlib.util.find_spec(pkg_name) is not None
+
+    @staticmethod
+    def _paddle_models_directory() -> Optional[Path]:
+        """Return the folder that holds the Paddle models, if it exists.
+
+        PaddleX keeps every downloaded model under ``~/.paddlex/official_models``;
+        older PaddleOCR releases used ``~/.paddleocr``, which is only opened when
+        the PaddleX cache is absent.
+        """
+
+        paddle_x = Path.home() / ".paddlex" / "official_models"
+        if paddle_x.is_dir():
+            return paddle_x
+        legacy = Path.home() / ".paddleocr"
+        if legacy.is_dir():
+            return legacy
+        return None
+
+    @staticmethod
+    def _external_script_directory() -> Optional[Path]:
+        """Return the folder of the configured external OCR script."""
+
+        settings = QSettings()
+        script_path = str(settings.value("ocr/script_path", "") or "")
+        if not script_path:
+            return None
+        path = Path(script_path).expanduser()
+        return path.parent if path.exists() else None
 
     def _check_paddleocr_line(self) -> bool:
         if not self._is_package_installed("paddleocr"):

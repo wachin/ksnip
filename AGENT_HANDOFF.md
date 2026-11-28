@@ -68,6 +68,12 @@ Cambios:
   `PP-OCRv5_mobile_det/rec`, `SLANeXt_wired`, `SLANet_plus`,
   `RT-DETR-L_*_table_cell_det`), para no cachear dos juegos distintos.
 - Tamaños corregidos: estructura ~1800 MB, fórmulas ~700 MB.
+- Cada tarjeta instalada muestra un botón **Open folder** junto a *Reinstall*
+  (`ModelCard.folder_btn`) que abre la carpeta en el gestor de archivos:
+  los tres modelos OCR abren el caché de Paddle
+  (`~/.paddlex/official_models`, o `~/.paddleocr` si solo existe el legado) y la
+  tarjeta del script externo abre la carpeta del script configurado. La ruta se
+  resuelve al pulsar (`ModelInfo.folder`), porque aparece tras instalar.
 - La tarjeta de diccionarios Hunspell **se eliminó** del Gestor de modelos
   (ver 2.2).
 
@@ -213,7 +219,8 @@ que el estilo envuelto sí pinta el atajo, y que el repliegue no duplica.
    - `main_window.py`: `Dictionary Download Manager…`, los dos tooltips de esa
      acción, los mensajes del gestor y el estado `Dictionaries updated`.
    - `download_manager.py`: `Show log`, `Full log`, `Installation log`,
-     `Unknown error`, los mensajes de `_fail()` y los de
+     `Unknown error`, `Open folder`, su tooltip, `Open model folder` /
+     `The folder does not exist yet: %1`, los mensajes de `_fail()` y los de
      `_install_paddle_structure()`.
    - toolkit: `About…`, `Show the project credits and license`,
      `About PyQt6 Linguistic Tools`.
