@@ -1,4 +1,12 @@
-# Handoff: trabajo hecho en Windows (2026-11-27) → continuar en Linux
+# Handoff: trabajo hecho en Windows (2026-11-27/28) → continuar en Linux
+
+> **Actualizado:** 2026-11-28. Desde la primera versión de este documento se
+> añadieron el botón **Open folder** del Gestor de modelos, la sección de OCR en
+> Windows del README, el arreglo de los atajos duplicados en el tema sistema, el
+> arreglo del tinte que aplanaba los iconos de menú, y los iconos `open`,
+> `includeCursor`, `pyqt6_linguistic_tools` y los `wayland` rediseñados.
+> Secciones nuevas o reescritas: 2.4 (final), 2.6, 2.7, 3 (reglas 6-8), 5
+> (tareas 7-8), 6, 7, 9 y 10.
 
 Este documento resume **todo** lo que se cambió en esta máquina Windows y lo que
 un agente (DeepSeek Harness) necesita saber para continuar el desarrollo en
@@ -9,7 +17,7 @@ una vez, y luego consultar secciones sueltas.
 | --- | --- |
 | Repositorio | `wachin/ksnip` (fork ksnip C++ → Python/PyQt6) |
 | Rama | `master` |
-| Último commit | `1afed43c` (fix de menús) |
+| Último commit de código | `79d63ae6` (iconos Wayland y linguistic) |
 | Versión del paquete | `ksnip-pyqt6 0.2.2` |
 | Submódulo | `libs/pyqt6-linguistic-tools` en `b513634` = **v1.1.0** |
 | Otros repos tocados | `wachin/pyqt6-linguistic-tools` (créditos, About, icono, PEP 639) |
@@ -166,9 +174,19 @@ Arreglo:
   (`_native_shortcut_rects`, `begin_menu_paint()`, `drew_native_shortcut()`),
   para que la ruta de repliegue tampoco duplique.
 
-Pruebas: `tests_py/test_disabled_menu_style.py` (9 en total; 5 nuevas) verifican
+Pruebas: `tests_py/test_disabled_menu_style.py` (10 en total, 6 nuevas) verifican
 la decisión, que con estilo nativo `SolidMenu` renderiza idéntico a un `QMenu`,
-que el estilo envuelto sí pinta el atajo, y que el repliegue no duplica.
+que el estilo envuelto sí pinta el atajo, que el repliegue no duplica, y que un
+icono de color no se aplana dentro de un menú teñido.
+
+**Segundo arreglo (iconos en menús).** El estilo envuelto tiñe los ítems
+habilitados de un solo color, y eso incluía el **icono**: todo icono de menú se
+veía como una silueta. Con los monocolor no se notaba; con la carpeta ámbar, el
+logo, el cursor o el icono del toolkit se veía una mancha negra. Ahora el estilo
+deja que el estilo base dibuje los ítems habilitados **que llevan icono** (el
+icono conserva su color) y registra ese rectángulo para que `SolidMenu` no
+repinte un segundo atajo. Los ítems sin icono mantienen el tinte del texto y el
+atajo repintado.
 
 ### 2.5 Licencia
 
@@ -186,7 +204,45 @@ que el estilo envuelto sí pinta el atajo, y que el repliegue no duplica.
   LibreOffice, `RESULTADO OCR.md` y las notas del usuario.
 - `tools/make_ocr_table_sample.py`: regenera el libro con openpyxl (ojo: openpyxl
   no calcula fórmulas; hay que abrir y guardar una vez en LibreOffice).
+- `README.md` (commit `4b7f86d9`): sección **OCR on Windows (works from source)**
+  con los pasos del Model Manager, backends, caché y tabla de versiones
+  verificadas; corrección ortográfica con el Dictionary Download Manager; tabla
+  del Model Manager con los tamaños reales y sin la fila de Hunspell; Python 3.11
+  o 3.12 (no 3.13); nota de que el build empaquetado no trae OCR ni ortografía;
+  layout del proyecto, tabla de documentación y aviso de los fallos de test
+  conocidos en Windows.
+- `docs/WINDOWS_OCR_SETUP.md`: acepta 3.11 o 3.12, comandos de venv corregidos,
+  espacio en disco ~5 GB y aviso que redirige al Model Manager si se trabaja
+  desde fuentes.
 - `CHANGELOG.md`: sección **Unreleased** con todo lo anterior.
+
+### 2.7 Iconos de acción (`ksnip_py/icons/`, `menu_style.py`)
+
+Contexto: los iconos son SVG por tema en `icons/light` (glifos `#4d4d4d`) e
+`icons/dark` (glifos `#e6e6e6`), cargados con `_load_icon(nombre)`, que además
+registra el nombre para recargarlos al cambiar de tema.
+
+- **Abrir** usaba el icono estándar de Qt (`SP_DialogOpenButton`) teñido de un
+  color, así que en el tema claro salía como una mancha negra. Ahora hay
+  `open.svg` en ambos temas (página con esquina doblada, sol y montaña) y la
+  acción usa `_themed_icon("document-open", "open")`.
+- **Incluir el ratón en el cursor** no tenía icono: se añadió `includeCursor.svg`
+  (marco de captura con el puntero dentro) en ambos temas.
+- **Dictionary Download Manager…** usa `pyqt6_linguistic_tools.svg`, basado en el
+  icono del toolkit y redibujado con el estilo del juego (burbuja monocroma con
+  el subrayado rojo), en versión clara y oscura.
+- **`_icon_tint_colors()`** devuelve `None` como color habilitado: los iconos
+  habilitados conservan sus colores y solo el estado deshabilitado se tiñe. Antes
+  el tema claro convertía en silueta los iconos de sistema (Imprimir, Vista
+  previa, Salir).
+- `icons/*/wayland.svg`: el usuario los redibujó fusionando disco y W en **un
+  solo path** por tema. No hay que volver a tocarlos.
+- `tools/render_icon_sheets.py` dibuja una hoja por tema con todos los SVG al
+  tamaño de la barra, para revisar iconos nuevos o editados.
+- `tests_py/test_app_icons.py` comprueba que ambos temas tienen **el mismo juego
+  de nombres**, que cada SVG dibuja algo y que los iconos habilitados no se
+  tiñen; `test_disabled_menu_style.py` añade la prueba de píxeles del icono de
+  color dentro de un menú.
 
 ## 3. Decisiones que no se deben revertir
 
@@ -202,6 +258,14 @@ que el estilo envuelto sí pinta el atajo, y que el repliegue no duplica.
 4. **No quitar la condición de `SolidMenu`**; sin ella vuelven los atajos
    duplicados en el tema sistema.
 5. **`LICENSE` es el único archivo de licencia.**
+6. **No reintroducir el tinte del ítem completo en menús.** Si se tiñen ítems con
+   icono, los iconos de color (carpeta, logo, cursor, toolkit) vuelven a verse
+   como siluetas negras. El estilo debe dejar esos ítems al estilo base.
+7. **Los dos temas deben tener el mismo juego de iconos**, con el mismo nombre de
+   archivo; `tests_py/test_app_icons.py` lo verifica. Un icono nuevo va en
+   `light/` **y** `dark/`.
+8. **No tocar `icons/*/wayland.svg`**: el diseño actual (un solo path por tema)
+   es deliberado del autor.
 
 ## 4. Comportamiento esperado por plataforma
 
@@ -245,6 +309,17 @@ que el estilo envuelto sí pinta el atajo, y que el repliegue no duplica.
    `--include-data-dir` (y comprobar que `linguistics.repository_root()` lo
    encuentra en el standalone) cerraría ese hueco. Está anotado como *known gap*
    en el README.
+7. **Iconos pendientes**: `Usar puntero de flecha` (en el mismo submenú de
+   captura) sigue sin icono; encajaría `captureCursor`. Además quedan iconos con
+   varios elementos sin fusionar (ver la auditoría de la sesión:
+   `copy`, `crop`, `delete`, `redo`, `undo`, `lastRect`, `fullScreen`, `saveAs`,
+   `model_manager`, `currentScreen`, `drawRect`, `open`, `panels`,
+   `uploadCloud`, `windowUnderCursor`, `activeWindow`, `clock`). Fusionar los que
+   son solo rellenos es trivial; los que tienen trazos requieren
+   *Trazo a trazado* primero.
+8. **Colores de iconos inconsistentes en el tema claro**: `model_manager` usa
+   `#000000` y `panels`/`settings`/`uploadCloud` usan `#2f2f2f`, mientras el
+   resto usa `#4d4d4d`. Unificarlos es cosmético y de bajo riesgo.
 
 ## 6. Verificación hecha en Windows (evidencia)
 
@@ -259,7 +334,11 @@ que el estilo envuelto sí pinta el atajo, y que el repliegue no duplica.
   es_EC) + `th_es_v2`.
 - **Menús**: capturas antes/después con el estilo nativo, y verificación de que
   las pruebas nuevas fallan con el comportamiento anterior.
-- **Suites**: `pytest tests_py` → 281 passed y 20 fallos preexistentes de
+- **Iconos**: capturas de `Archivo`, `Archivo → Nueva captura` y `Opciones` en
+  ambos temas; el icono del toolkit y el del cursor conservan su color dentro del
+  menú, y los atajos siguen apareciendo una sola vez. Se comprobó que la prueba
+  del icono de color **falla** con el código anterior.
+- **Suites**: `pytest tests_py` → **292 passed** y 20 fallos preexistentes de
   plataforma Windows (ver sección 8). Toolkit: 325 passed y 2 fallos
   preexistentes (`test_owned_bundle_removal_refuses_symbolic_links`,
   `test_thesaurus_validator_checks_count_offsets_and_lookup`).
@@ -284,7 +363,16 @@ b9b06d5d  chore(license): keep only LICENSE and update its references
 06b7ed04  chore(deps): update pyqt6-linguistic-tools to be2aea9
 c5a45d11  chore(deps): update pyqt6-linguistic-tools to v1.1.0
 1afed43c  fix(menus): stop drawing menu shortcuts twice under the system theme
+45f7dc9f  docs: add a handoff note for continuing development on Linux
+898f345a  feat(model-manager): let each installed model card open its model folder
+4b7f86d9  docs: document Windows OCR and spell checking in the README
+326e9d2a  fix(icons): give Open its own icon and stop flattening enabled icons
+5f14cd4b  feat(icons): add the cursor and dictionary icons, keep menu icons coloured
+79d63ae6  chore(icons): finalise the Wayland and linguistic toolkit icons
 ```
+
+Los commits posteriores a `45f7dc9f` (el handoff original) no están descritos en
+detalle allí: leer esta actualización y `CHANGELOG.md`.
 
 `pyqt6-linguistic-tools` (`main`): `6ca510d` (LICENSE) → `1eb17df` (créditos y
 About) → `be2aea9` (icono y PEP 639) → `b513634` (release 1.1.0, tag `v1.1.0`).
@@ -301,8 +389,9 @@ este trabajo. En Linux algunos deberían pasar; compara contra esta lista antes 
 culpar a un cambio nuevo.
 
 Ojo: `python -m unittest discover -s tests_py` **no** recoge los archivos de
-estilo pytest (por ejemplo `test_disabled_menu_style.py`), así que da 269 tests.
-El CI usa `pytest`, que sí los recoge.
+estilo pytest (por ejemplo `test_disabled_menu_style.py` o
+`test_app_icons.py`), así que da 269 tests. El CI usa `pytest`, que sí los
+recoge.
 
 ## 9. Trampas conocidas
 
@@ -320,6 +409,16 @@ El CI usa `pytest`, que sí los recoge.
 - En Windows de esta máquina ksnip está instalado con `pip install -e .` en el
   Python **del sistema** (3.11.9), no en `C:\D\ksnip-Dev\ksnip\.venv`, que está
   vacío. En Linux usa un venv de verdad.
+- **Iconos en menús**: el tinte del ítem habilitado aplana cualquier icono; por
+  eso el estilo deja esos ítems al estilo base. Si un icono "desaparece" o se ve
+  como una mancha en un menú, revisa primero `SolidDisabledMenuStyle`, no el SVG.
+- **`_load_icon(nombre)`** busca `icons/<nombre>.svg|png`, luego
+  `icons/light|dark/…` según el tema y al final `kimageannotator/…`. Si un icono
+  nuevo no aparece, comprueba que existe **en los dos** directorios de tema.
+- **Los SVG con gradiente** deben usar un `id` único en su archivo; Qt resuelve
+  `url(#id)` por documento y un id repetido entre iconos puede dar relleno negro.
+- Los iconos de sistema (`_standard_icon`, `_system_icon`) conservan su color
+  desde `1afed43c`/`326e9d2a`: solo se tiñe el estado deshabilitado.
 
 ## 10. Mapa de archivos nuevos
 
@@ -327,14 +426,25 @@ El CI usa `pytest`, que sí los recoge.
 AGENT_HANDOFF.md                 este documento (excluido del sdist en MANIFEST.in)
 ksnip_py/linguistics.py          puente al toolkit (nuevo)
 ksnip_py/spellcheck.py           backend doble (modificado)
-ksnip_py/menu_style.py           gate de atajos + repliegue (modificado)
-ksnip_py/download_manager.py     errores reales, tamaños, modelos (modificado)
-ksnip_py/main_window.py          acción del gestor de diccionarios (modificado)
+ksnip_py/menu_style.py           gate de atajos, iconos y repliegue (modificado)
+ksnip_py/download_manager.py     errores reales, tamaños, modelos, Open folder (modificado)
+ksnip_py/main_window.py          acciones e iconos nuevos (modificado)
 ksnip_py/app.py                  traducciones del toolkit (modificado)
+ksnip_py/icons/light/open.svg    icono Abrir (nuevo)
+ksnip_py/icons/dark/open.svg     icono Abrir (nuevo)
+ksnip_py/icons/light/includeCursor.svg    icono Incluir el ratón (nuevo)
+ksnip_py/icons/dark/includeCursor.svg     icono Incluir el ratón (nuevo)
+ksnip_py/icons/light/pyqt6_linguistic_tools.svg   icono del gestor de diccionarios (nuevo)
+ksnip_py/icons/dark/pyqt6_linguistic_tools.svg    ídem (nuevo)
+ksnip_py/icons/light/wayland.svg  rediseñado por el autor (un solo path)
+ksnip_py/icons/dark/wayland.svg   rediseñado por el autor (un solo path)
 tests_py/test_linguistics.py     pruebas del puente (nuevo)
+tests_py/test_app_icons.py       pruebas de iconos (nuevo)
+tests_py/test_model_manager_folders.py  pruebas del botón Open folder (nuevo)
+tools/make_ocr_table_sample.py   generador del libro (nuevo)
+tools/render_icon_sheets.py      hojas de contactos de iconos (nuevo)
 docs/SPELLCHECK.md               documentación de ortografía (nuevo)
 docs/ocr-samples/                libro de ejemplo + captura + resultados (nuevo)
-tools/make_ocr_table_sample.py   generador del libro (nuevo)
 libs/pyqt6-linguistic-tools/     submódulo v1.1.0 (nuevo)
 ```
 
