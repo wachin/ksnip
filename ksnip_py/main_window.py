@@ -205,6 +205,7 @@ class MainWindow(QMainWindow):
         self._tray_icon: QSystemTrayIcon | None = None
         self._allow_quit = False
         self._restoring_from_tray = False
+        self._tray_restore_state = Qt.WindowState.WindowNoState
         self._capture_delay_override_seconds: int | None = None
         self._capture_cursor_override: bool | None = None
         self._last_capture_used_portal = False
@@ -2126,8 +2127,20 @@ class MainWindow(QMainWindow):
             and self._should_minimize_to_tray()
             and self.isMinimized()
         ):
-            self.hide_to_tray(self._first_time_tray_message(self.tr("ksnip PyQt6 was minimized to the system tray.")))
+            # Hiding while the native minimize is still in flight lets Windows
+            # map the window again, so it never reaches the tray. Wait one turn
+            # of the event loop and hide only if it is still minimized.
+            QTimer.singleShot(0, self._hide_to_tray_when_settled)
         super().changeEvent(event)
+
+    def _hide_to_tray_when_settled(self) -> None:
+        if self._restoring_from_tray or not self.isMinimized():
+            return
+        self.hide_to_tray(
+            self._first_time_tray_message(
+                self.tr("ksnip PyQt6 was minimized to the system tray.")
+            )
+        )
 
     def _first_time_tray_message(self, message: str) -> str | None:
         """Return the hint message only once per installation.
@@ -3883,8 +3896,18 @@ class MainWindow(QMainWindow):
         # closes at once"). Suppress that path while restoring.
         self._restoring_from_tray = True
         try:
+            # Restore the layout the window had before hiding. Calling
+            # showNormal() unconditionally brought a maximized window back at
+            # its small normal size on Windows, because hiding drops the
+            # maximized state there.
+            state = self._tray_restore_state
             self.setWindowState(self.windowState() & ~Qt.WindowState.WindowMinimized)
-            self.showNormal()
+            if state & Qt.WindowState.WindowFullScreen:
+                self.showFullScreen()
+            elif state & Qt.WindowState.WindowMaximized:
+                self.showMaximized()
+            else:
+                self.showNormal()
             self.raise_()
             self.activateWindow()
             self.show()
@@ -3893,8 +3916,14 @@ class MainWindow(QMainWindow):
 
     def _finish_restore_from_tray(self) -> None:
         self._restoring_from_tray = False
+        self._tray_restore_state = Qt.WindowState.WindowNoState
 
     def hide_to_tray(self, message: str | None = None) -> None:
+        # Remember how the window was shown: a maximized window must come back
+        # maximized, not as a normal-size copy of itself.
+        self._tray_restore_state = self.windowState() & (
+            Qt.WindowState.WindowMaximized | Qt.WindowState.WindowFullScreen
+        )
         # Fluxbox (and some other lightweight window managers) leave a ghost
         # empty frame behind when a window is withdrawn while it is still
         # iconified. Restore the window state first, then withdraw it while
@@ -3902,6 +3931,9 @@ class MainWindow(QMainWindow):
         # flashes on screen.
         if self.isMinimized():
             self.setWindowState(self.windowState() & ~Qt.WindowState.WindowMinimized)
+        # Closing or minimizing to the tray does not reach closeEvent(), so this
+        # is where the last capture geometry has to be remembered.
+        self._persist_capture_geometry()
         self.hide()
         # Drop the minimized flag while hidden so a later restore cannot
         # replay a stale WindowStateChange that re-triggers hide_to_tray.

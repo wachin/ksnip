@@ -40,6 +40,17 @@
   recoloured to match the rest of the set.
 * New: `tools/render_icon_sheets.py` renders both icon sets at toolbar size on
   their theme backgrounds, for reviewing new or edited icons.
+* Fixed: Restoring the window from the system tray brought a maximized window
+  back at its small normal size on Windows, because the tray restore called
+  `showNormal()` unconditionally. `hide_to_tray()` now records the maximized or
+  full-screen state and `show_from_tray()` reapplies it, so the window comes back
+  exactly as it was.
+* Fixed: Minimizing to the tray could leave the window mapped: hiding while the
+  native minimize was still in flight let Windows map it again. The hide now
+  waits one event-loop turn and only runs if the window is still minimized.
+* Fixed: Closing or minimizing to the tray never reached `closeEvent()`, so
+  **Remember capture window size and position** was not saved. The geometry is
+  now persisted before the window is hidden.
 * Fixed: The Model Manager reports the real pip or Paddle failure, keeps a log
   at `<appdata>/ksnip-pyqt6/logs/model-manager.log` and offers a Show log
   button instead of a generic "installation failed".
