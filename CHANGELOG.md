@@ -40,6 +40,11 @@
   recoloured to match the rest of the set.
 * New: `tools/render_icon_sheets.py` renders both icon sets at toolbar size on
   their theme backgrounds, for reviewing new or edited icons.
+* Fixed: The **Text** tool looked broken on Windows: the inline editor lost the
+  focus to the toolbar button right after it opened (activation change), which
+  accepted an empty text and deleted the new item. The editor now ignores that
+  focus change while it is empty and takes the focus back, so typing works; its
+  tests cover the focus reasons.
 * Fixed: Restoring the window from the system tray brought a maximized window
   back at its small normal size on Windows, because the tray restore called
   `showNormal()` unconditionally. `hide_to_tray()` now records the maximized or

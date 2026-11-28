@@ -7,7 +7,7 @@ from enum import Enum
 from math import atan2, cos, degrees, hypot, radians, sin
 from pathlib import Path
 
-from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QRectF, QSize, Qt, pyqtSignal
+from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QPoint, QRect, QRectF, QSize, Qt, QTimer, pyqtSignal
 from PyQt6.QtGui import QAction, QColor, QContextMenuEvent, QFont, QFontMetrics, QIcon, QImage, QKeySequence, QMouseEvent, QPainter, QPainterPath, QPalette, QPen, QPixmap, QPolygon, QTransform, QWheelEvent
 from PyQt6.QtWidgets import QApplication, QButtonGroup, QCheckBox, QColorDialog, QDialog, QDialogButtonBox, QFormLayout, QGraphicsDropShadowEffect, QGraphicsScene, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QMenu, QPushButton, QRadioButton, QSizePolicy, QSpinBox, QVBoxLayout
 
@@ -71,6 +71,15 @@ class InlineTextEditor(SpellCheckTextEdit):
 
     def focusOutEvent(self, event) -> None:  # noqa: N802
         if event.reason() == Qt.FocusReason.PopupFocusReason or QApplication.activePopupWidget() is not None:
+            super().focusOutEvent(event)
+            return
+        if event.reason() == Qt.FocusReason.ActiveWindowFocusReason and not self.toPlainText():
+            # Windows re-activates the main window right after the click that
+            # creates the editor and gives the focus back to the toolbar button.
+            # Finishing here drops the empty text item, so the Text tool looks
+            # broken. Keep editing and take the focus again on the next turn.
+            if self.isVisible():
+                QTimer.singleShot(0, self.setFocus)
             super().focusOutEvent(event)
             return
         self._emit_accepted()
