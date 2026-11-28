@@ -3,11 +3,12 @@
 > **Actualizado:** 2026-11-28. Desde la primera versión de este documento se
 > añadieron el botón **Open folder** del Gestor de modelos, la sección de OCR en
 > Windows del README, el arreglo de los atajos duplicados en el tema sistema, el
-> arreglo del tinte que aplanaba los iconos de menú, los iconos `open`,
+> arreglo del tinte que aplanaba los iconos de menú, el arreglo de la
+> herramienta de texto en Windows, los iconos `open`,
 > `includeCursor`, `pyqt6_linguistic_tools` y los `wayland` rediseñados, y el
 > arreglo del tamaño maximizado al restaurar desde la bandeja en Windows.
-> Secciones nuevas o reescritas: 2.4 (final), 2.6, 2.7, **2.8 (nueva)**, 3
-> (reglas 6-8), 5 (tareas 7-8), 6, 7, 9 y 10.
+> Secciones nuevas o reescritas: 2.4 (final), 2.6, 2.7, **2.8 (nueva)**, **2.9
+> (nueva)**, 3 (reglas 6-10), 5 (tareas 7-8), 6, 7, 9 y 10.
 
 Este documento resume **todo** lo que se cambió en esta máquina Windows y lo que
 un agente (DeepSeek Harness) necesita saber para continuar el desarrollo en
@@ -18,7 +19,7 @@ una vez, y luego consultar secciones sueltas.
 | --- | --- |
 | Repositorio | `wachin/ksnip` (fork ksnip C++ → Python/PyQt6) |
 | Rama | `master` |
-| Último commit de código | `b3e9305f` (ventana y bandeja) |
+| Último commit de código | `02dfb6f0` (herramienta de texto) |
 | Versión del paquete | `ksnip-pyqt6 0.2.2` |
 | Submódulo | `libs/pyqt6-linguistic-tools` en `b513634` = **v1.1.0** |
 | Otros repos tocados | `wachin/pyqt6-linguistic-tools` (créditos, About, icono, PEP 639) |
@@ -272,6 +273,31 @@ escrituras, que es por lo que estas pruebas fallaban en Windows), cubren la
 restauración del maximizado, la ventana normal, el envío a la bandeja al
 minimizar y el guardado de la geometría al ocultar.
 
+### 2.9 Herramienta de texto (`ksnip_py/canvas.py`)
+
+Síntoma en Windows: la herramienta **Texto (T)** "no hacía nada". Al arrastrar
+sobre la imagen aparecía el editor un instante y desaparecía sin dejar texto.
+
+Causa: `InlineTextEditor.focusOutEvent()` aceptaba la edición ante cualquier
+pérdida de foco. En Windows, justo después del clic que crea el editor, la ventana
+se reactiva y el foco vuelve al **botón de la barra**, así que llegaba un
+`focusOut` con `ActiveWindowFocusReason`; aceptar un texto nuevo y vacío lo
+elimina (`_finish_inline_text_edit`, rama `is_new` + texto vacío → `del`).
+
+Arreglo: si el motivo es `ActiveWindowFocusReason` y el editor está vacío, se
+ignora la pérdida de foco y se vuelve a pedir el foco en el siguiente turno
+(`QTimer.singleShot(0, self.setFocus)`). Los demás motivos no cambian: clic en
+otro widget (`MouseFocusReason`) cierra y acepta, y un popup (menú de ortografía)
+no cierra.
+
+Uso verificado: arrastrar crea el texto; doble clic con la herramienta de
+selección sobre un texto lo abre con todo seleccionado; `Ctrl+Enter` acepta y
+`Esc` cancela; el texto aparece en la imagen compuesta.
+
+Pruebas: `tests_py/test_text_editor.py` (6) cubren los cuatro motivos de foco y
+la creación por arrastre y por clic; la del editor vacío **falla** con el código
+anterior.
+
 ## 3. Decisiones que no se deben revertir
 
 1. **Toolkit solo en Windows.** No "arreglar" Linux habilitando el toolkit: la
@@ -300,6 +326,9 @@ minimizar y el guardado de la geometría al ocultar.
 10. **Todo lo que abre a la bandeja debe persistir antes de `hide()`.** Cerrar y
     minimizar a la bandeja no pasan por `closeEvent()`, así que
     `_save_ui_settings()` no se ejecuta; `hide_to_tray()` guarda la geometría.
+11. **No quitar la excepción de `ActiveWindowFocusReason`** en
+    `InlineTextEditor.focusOutEvent()`: sin ella el editor de texto se cierra solo
+    en Windows y la herramienta parece rota.
 
 ## 4. Comportamiento esperado por plataforma
 
@@ -377,7 +406,11 @@ minimizar y el guardado de la geometría al ocultar.
   antes la ventana no se ocultaba y volvía a 716×467; ahora se oculta y vuelve
   maximizada a 1366×705, y la geometría queda en `window/capture_geometry`.
   También se verificó que las pruebas nuevas **fallan** con el código anterior.
-- **Suites**: `pytest tests_py` → **298 passed** y 18 fallos preexistentes de
+- **Texto**: en Windows, arrastrar con la herramienta Texto abre el editor y
+  guarda el texto; el doble clic sobre un texto lo edita con todo seleccionado;
+  `Ctrl+Enter` acepta y `Esc` cancela; el texto aparece en la imagen compuesta
+  (3.513 píxeles oscuros en la zona).
+- **Suites**: `pytest tests_py` → **304 passed** y 18 fallos preexistentes de
   plataforma Windows (ver sección 8). Toolkit: 325 passed y 2 fallos
   preexistentes (`test_owned_bundle_removal_refuses_symbolic_links`,
   `test_thesaurus_validator_checks_count_offsets_and_lookup`).
@@ -409,6 +442,7 @@ c5a45d11  chore(deps): update pyqt6-linguistic-tools to v1.1.0
 5f14cd4b  feat(icons): add the cursor and dictionary icons, keep menu icons coloured
 79d63ae6  chore(icons): finalise the Wayland and linguistic toolkit icons
 b3e9305f  fix(window): restore a maximized window from the tray and persist geometry
+02dfb6f0  fix(canvas): keep the inline text editor open on Windows
 ```
 
 Los commits posteriores a `45f7dc9f` (el handoff original) no están descritos en
@@ -473,6 +507,10 @@ recoge.
   guardado en `_tray_restore_state`, no `showNormal()`.
 - **Ocultar durante el minimizado nativo** deja la ventana mapeada otra vez; el
   ocultado tiene que ir diferido un turno (`_hide_to_tray_when_settled`).
+- **Foco del editor de texto en Windows**: al mostrarlo, la ventana se reactiva y
+  el foco vuelve al botón de la barra. Un `focusOut` acepta la edición, y aceptar
+  un texto nuevo vacío lo borra; por eso el editor ignora ese motivo mientras
+  está vacío.
 
 ## 10. Mapa de archivos nuevos
 
@@ -496,6 +534,8 @@ tests_py/test_linguistics.py     pruebas del puente (nuevo)
 tests_py/test_app_icons.py       pruebas de iconos (nuevo)
 tests_py/test_model_manager_folders.py  pruebas del botón Open folder (nuevo)
 tests_py/test_capture_geometry.py  geometría, bandeja y maximizado (reescrito)
+tests_py/test_text_editor.py     foco del editor y creación de texto (nuevo)
+ksnip_py/canvas.py               guarda de foco del editor (modificado)
 tools/make_ocr_table_sample.py   generador del libro (nuevo)
 tools/render_icon_sheets.py      hojas de contactos de iconos (nuevo)
 docs/SPELLCHECK.md               documentación de ortografía (nuevo)
