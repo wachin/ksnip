@@ -3,10 +3,11 @@
 > **Actualizado:** 2026-11-28. Desde la primera versión de este documento se
 > añadieron el botón **Open folder** del Gestor de modelos, la sección de OCR en
 > Windows del README, el arreglo de los atajos duplicados en el tema sistema, el
-> arreglo del tinte que aplanaba los iconos de menú, y los iconos `open`,
-> `includeCursor`, `pyqt6_linguistic_tools` y los `wayland` rediseñados.
-> Secciones nuevas o reescritas: 2.4 (final), 2.6, 2.7, 3 (reglas 6-8), 5
-> (tareas 7-8), 6, 7, 9 y 10.
+> arreglo del tinte que aplanaba los iconos de menú, los iconos `open`,
+> `includeCursor`, `pyqt6_linguistic_tools` y los `wayland` rediseñados, y el
+> arreglo del tamaño maximizado al restaurar desde la bandeja en Windows.
+> Secciones nuevas o reescritas: 2.4 (final), 2.6, 2.7, **2.8 (nueva)**, 3
+> (reglas 6-8), 5 (tareas 7-8), 6, 7, 9 y 10.
 
 Este documento resume **todo** lo que se cambió en esta máquina Windows y lo que
 un agente (DeepSeek Harness) necesita saber para continuar el desarrollo en
@@ -17,7 +18,7 @@ una vez, y luego consultar secciones sueltas.
 | --- | --- |
 | Repositorio | `wachin/ksnip` (fork ksnip C++ → Python/PyQt6) |
 | Rama | `master` |
-| Último commit de código | `79d63ae6` (iconos Wayland y linguistic) |
+| Último commit de código | `b3e9305f` (ventana y bandeja) |
 | Versión del paquete | `ksnip-pyqt6 0.2.2` |
 | Submódulo | `libs/pyqt6-linguistic-tools` en `b513634` = **v1.1.0** |
 | Otros repos tocados | `wachin/pyqt6-linguistic-tools` (créditos, About, icono, PEP 639) |
@@ -244,6 +245,33 @@ registra el nombre para recargarlos al cambiar de tema.
   tiñen; `test_disabled_menu_style.py` añade la prueba de píxeles del icono de
   color dentro de un menú.
 
+### 2.8 Ventana, bandeja y geometría (`ksnip_py/main_window.py`)
+
+Síntoma en Windows: tras minimizar o cerrar a la bandeja, al restaurar desde el
+icono la ventana volvía **maximizada pero en un recuadro pequeño**, y la opción
+**Recordar tamaño y posición de la ventana de captura** no se guardaba. En Linux
+no se reproducía.
+
+Tres causas y sus arreglos:
+
+- `show_from_tray()` llamaba `showNormal()` siempre, y en Windows ocultar la
+  ventana pierde el estado maximizado, así que volvía al tamaño normal. Ahora
+  `hide_to_tray()` guarda `_tray_restore_state` (maximizado/pantalla completa) y
+  `show_from_tray()` reaplica `showMaximized()` / `showFullScreen()` /
+  `showNormal()` según ese estado.
+- `changeEvent()` ocultaba a la bandeja **durante** el minimizado nativo; Windows
+  volvía a mapear la ventana. Ahora el ocultado se difiere un turno del bucle de
+  eventos (`_hide_to_tray_when_settled`) y solo actúa si sigue minimizada.
+- Cerrar o minimizar a la bandeja sale por `closeEvent()` sin llegar a
+  `_save_ui_settings()`, así que `window/capture_geometry` nunca se escribía.
+  `hide_to_tray()` llama ahora a `_persist_capture_geometry()` antes de `hide()`.
+
+Pruebas (`tests_py/test_capture_geometry.py`, 10 en total): usan un `QSettings`
+INI temporal inyectado en la ventana (sin él, Qt da `AccessError` y descarta las
+escrituras, que es por lo que estas pruebas fallaban en Windows), cubren la
+restauración del maximizado, la ventana normal, el envío a la bandeja al
+minimizar y el guardado de la geometría al ocultar.
+
 ## 3. Decisiones que no se deben revertir
 
 1. **Toolkit solo en Windows.** No "arreglar" Linux habilitando el toolkit: la
@@ -266,6 +294,12 @@ registra el nombre para recargarlos al cambiar de tema.
    `light/` **y** `dark/`.
 8. **No tocar `icons/*/wayland.svg`**: el diseño actual (un solo path por tema)
    es deliberado del autor.
+9. **Restaurar desde la bandeja respeta el estado guardado.** No volver a llamar
+   `showNormal()` sin condición en `show_from_tray()`: en Windows pierde el
+   maximizado. El estado se captura en `hide_to_tray()`.
+10. **Todo lo que abre a la bandeja debe persistir antes de `hide()`.** Cerrar y
+    minimizar a la bandeja no pasan por `closeEvent()`, así que
+    `_save_ui_settings()` no se ejecuta; `hide_to_tray()` guarda la geometría.
 
 ## 4. Comportamiento esperado por plataforma
 
@@ -338,7 +372,12 @@ registra el nombre para recargarlos al cambiar de tema.
   ambos temas; el icono del toolkit y el del cursor conservan su color dentro del
   menú, y los atajos siguen apareciendo una sola vez. Se comprobó que la prueba
   del icono de color **falla** con el código anterior.
-- **Suites**: `pytest tests_py` → **292 passed** y 20 fallos preexistentes de
+- **Ventana y bandeja**: flujo real en Windows (ventana maximizada 1366×705 →
+  minimizar a la bandeja → restaurar) comprobado antes y después del arreglo:
+  antes la ventana no se ocultaba y volvía a 716×467; ahora se oculta y vuelve
+  maximizada a 1366×705, y la geometría queda en `window/capture_geometry`.
+  También se verificó que las pruebas nuevas **fallan** con el código anterior.
+- **Suites**: `pytest tests_py` → **298 passed** y 18 fallos preexistentes de
   plataforma Windows (ver sección 8). Toolkit: 325 passed y 2 fallos
   preexistentes (`test_owned_bundle_removal_refuses_symbolic_links`,
   `test_thesaurus_validator_checks_count_offsets_and_lookup`).
@@ -369,6 +408,7 @@ c5a45d11  chore(deps): update pyqt6-linguistic-tools to v1.1.0
 326e9d2a  fix(icons): give Open its own icon and stop flattening enabled icons
 5f14cd4b  feat(icons): add the cursor and dictionary icons, keep menu icons coloured
 79d63ae6  chore(icons): finalise the Wayland and linguistic toolkit icons
+b3e9305f  fix(window): restore a maximized window from the tray and persist geometry
 ```
 
 Los commits posteriores a `45f7dc9f` (el handoff original) no están descritos en
@@ -379,14 +419,18 @@ About) → `be2aea9` (icono y PEP 639) → `b513634` (release 1.1.0, tag `v1.1.0
 
 ## 8. Fallos de tests esperados
 
-`python -m pytest tests_py -q` en Windows da **20 `failed` preexistentes**; con
-`python -m unittest discover -s tests_py` son **17 `FAIL` + 3 `ERROR`** (mismo
+`python -m pytest tests_py -q` en Windows da **18 `failed` preexistentes**; con
+`python -m unittest discover -s tests_py` son **15 `FAIL` + 3 `ERROR`** (mismo
 conjunto, distinto formato). Reparto: `test_color_picker` (10 fallos + 1 error),
-`test_capture_cursor` (3), `test_capture_geometry` (2), `test_file_dialogs` (1),
-`test_i18n` (1) y `test_ocr_structure` (2 errores). Son de plataforma (QSettings,
-geometría, rutas con `\`, traducción de diálogos nativos), **no** regresiones de
-este trabajo. En Linux algunos deberían pasar; compara contra esta lista antes de
+`test_capture_cursor` (3), `test_file_dialogs` (1), `test_i18n` (1) y
+`test_ocr_structure` (2 errores). Son de plataforma (QSettings, geometría,
+rutas con `\`, traducción de diálogos nativos), **no** regresiones de este
+trabajo. En Linux algunos deberían pasar; compara contra esta lista antes de
 culpar a un cambio nuevo.
+
+`test_capture_geometry` **sí pasa** desde `b3e9305f`: sus dos fallos venían de
+crear `QSettings` sin nombre de organización, que Qt deja en `AccessError` y
+descarta en silencio. Las pruebas usan ahora un INI temporal.
 
 Ojo: `python -m unittest discover -s tests_py` **no** recoge los archivos de
 estilo pytest (por ejemplo `test_disabled_menu_style.py` o
@@ -419,6 +463,16 @@ recoge.
   `url(#id)` por documento y un id repetido entre iconos puede dar relleno negro.
 - Los iconos de sistema (`_standard_icon`, `_system_icon`) conservan su color
   desde `1afed43c`/`326e9d2a`: solo se tiñe el estado deshabilitado.
+- **`QSettings` sin nombre de organización** devuelve `Status.AccessError` y
+  **descarta todas las escrituras**; `setValue()` seguido de `value()` da
+  `None`. El código real funciona porque `app.py` fija organización y aplicación
+  antes de crear la ventana; en pruebas hay que inyectar un `QSettings` con
+  archivo propio (INI temporal).
+- **Bandeja y estado maximizado**: ocultar la ventana pierde el maximizado en
+  Windows. Cualquier restauración desde la bandeja debe reaplicar el estado
+  guardado en `_tray_restore_state`, no `showNormal()`.
+- **Ocultar durante el minimizado nativo** deja la ventana mapeada otra vez; el
+  ocultado tiene que ir diferido un turno (`_hide_to_tray_when_settled`).
 
 ## 10. Mapa de archivos nuevos
 
@@ -441,6 +495,7 @@ ksnip_py/icons/dark/wayland.svg   rediseñado por el autor (un solo path)
 tests_py/test_linguistics.py     pruebas del puente (nuevo)
 tests_py/test_app_icons.py       pruebas de iconos (nuevo)
 tests_py/test_model_manager_folders.py  pruebas del botón Open folder (nuevo)
+tests_py/test_capture_geometry.py  geometría, bandeja y maximizado (reescrito)
 tools/make_ocr_table_sample.py   generador del libro (nuevo)
 tools/render_icon_sheets.py      hojas de contactos de iconos (nuevo)
 docs/SPELLCHECK.md               documentación de ortografía (nuevo)
