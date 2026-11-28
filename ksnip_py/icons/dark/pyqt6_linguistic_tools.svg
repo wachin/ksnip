@@ -1,14 +1,75 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <title>PyQt6 Linguistic Tools</title>
-  <defs>
-    <linearGradient id="linguisticDarkBg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#14B8A6"/>
-      <stop offset="1" stop-color="#0F766E"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 64 64"
+   width="64"
+   height="64"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="pyqt6_linguistic_tools.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview5"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="3.9296875"
+     inkscape:cx="5.8528827"
+     inkscape:cy="35.753479"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5" />
+  <title
+     id="title1">PyQt6 Linguistic Tools</title>
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linguisticDarkBg"
+       x1="0"
+       y1="0"
+       x2="64"
+       y2="64"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.89878392,0,0,0.89878392,3.2389146,3.2389146)">
+      <stop
+         offset="0"
+         stop-color="#14B8A6"
+         id="stop1"
+         style="stop-color:#e6e6e6;stop-opacity:1;" />
+      <stop
+         offset="1"
+         stop-color="#0F766E"
+         id="stop2" />
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="url(#linguisticDarkBg)"/>
-  <rect x="11" y="12" width="42" height="33" rx="9" fill="#F1F5F9"/>
-  <path d="M21 44.5 21 55.5 32 44.5z" fill="#F1F5F9"/>
-  <path d="M18.5 22h27" stroke="#0F766E" stroke-width="4.2" stroke-linecap="round"/>
-  <path d="M18.5 32.5q4-3.2 8 0t8 0t8 0t8 0" fill="none" stroke="#DC2626" stroke-width="3.2" stroke-linecap="round"/>
+  <path
+     id="rect2"
+     style="fill:#e6e6e6;stroke-width:0.898784;fill-opacity:1;stroke:none"
+     d="M 15.822266 3.2382812 C 8.8512978 3.2382812 3.2382812 8.8512978 3.2382812 15.822266 L 3.2382812 48.177734 C 3.2382812 55.148702 8.8512978 60.761719 15.822266 60.761719 L 48.177734 60.761719 C 55.148702 60.761719 60.761719 55.148702 60.761719 48.177734 L 60.761719 15.822266 C 60.761719 8.8512978 55.148702 3.2382812 48.177734 3.2382812 L 15.822266 3.2382812 z M 20 12 L 44 12 C 48.986 12 53 16.014 53 21 L 53 36 C 53 40.986 48.986 45 44 45 L 31.5 45 L 21 55.5 L 21 45 L 20 45 C 15.014 45 11 40.986 11 36 L 11 21 C 11 16.014 15.014 12 20 12 z " />
+  <g
+     id="g5" />
+  <path
+     d="M18.5 22h27"
+     stroke="#0F766E"
+     stroke-width="4.2"
+     stroke-linecap="round"
+     id="path4"
+     style="stroke:#e6e6e6;stroke-opacity:1" />
+  <path
+     d="M18.5 32.5q4-3.2 8 0t8 0t8 0t8 0"
+     fill="none"
+     stroke="#DC2626"
+     stroke-width="3.2"
+     stroke-linecap="round"
+     id="path5" />
 </svg>
